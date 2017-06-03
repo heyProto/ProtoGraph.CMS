@@ -32,6 +32,19 @@ class Account < ApplicationRecord
 
     #SCOPE
     #OTHER
+
+    def template_cards
+        TemplateCard.where("account_id = ? OR is_public = true", self.id)
+    end
+
+    def template_data
+        TemplateDatum.where("account_id = ? OR is_public = true", self.id)
+    end
+
+    def template_streams
+        TemplateStream.where("account_id = ? OR is_public = true", self.id)
+    end
+
     def create_permission(uid)
         Permission.create(user_id: uid, account_id: self.id, created_by: uid, updated_by: uid)
     end

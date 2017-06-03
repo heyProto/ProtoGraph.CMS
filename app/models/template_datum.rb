@@ -12,6 +12,7 @@
 #  status             :string(255)
 #  api_key            :string(255)
 #  publish_count      :integer
+#  is_public          :boolean
 #  created_by         :integer
 #  updated_by         :integer
 #  created_at         :datetime         not null
@@ -31,8 +32,8 @@ class TemplateDatum < ApplicationRecord
     belongs_to :creator, class_name: "User", foreign_key: "created_by"
     belongs_to :updator, class_name: "User", foreign_key: "updated_by"
     has_many :template_cards
-    has_one :sample_json, as: :attachable, ->{where(genre: "sample_json")}
-    has_one :xsd, as: :attachable, ->{where(genre: "xsd")}
+    has_one :sample_json, ->{where(genre: "sample_json")}, as: :attachable
+    has_one :xsd, ->{where(genre: "xsd")}, as: :attachable
 
     #ACCESSORS
     #VALIDATIONS

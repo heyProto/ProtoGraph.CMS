@@ -12,6 +12,7 @@
 #  is_current_version :boolean
 #  status             :string(255)
 #  publish_count      :integer
+#  is_public          :boolean
 #  created_by         :integer
 #  updated_by         :integer
 #  created_at         :datetime         not null
@@ -33,11 +34,11 @@ class TemplateCard < ApplicationRecord
     belongs_to :template_datum
     has_many :template_stream_cards
     has_many :template_streams, through: :template_stream_cards
-    has_one :html, as: :attachable, ->{where(genre: "html")}
-    has_one :css, as: :attachable, ->{where(genre: "css")}
-    has_one :js, as: :attachable, ->{where(genre: "js")}
-    has_one :config, as: :attachable, ->{where(genre: "config")}
-    has_many :images, as: :attachable, ->{where(genre: "images")}
+    has_one :html, ->{where(genre: "html")}, as: :attachable
+    has_one :css, ->{where(genre: "css")}, as: :attachable
+    has_one :js, ->{where(genre: "js")}, as: :attachable
+    has_one :config, ->{where(genre: "config")}, as: :attachable
+    has_many :images, ->{where(genre: "images")}, as: :attachable
 
 
     #ACCESSORS
