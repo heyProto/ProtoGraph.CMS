@@ -5,7 +5,6 @@
 #  id                     :integer          not null, primary key
 #  name                   :string(255)      default(""), not null
 #  email                  :string(255)      default(""), not null
-#  is_pykih_admin         :boolean          default("0")
 #  access_token           :string(255)
 #  encrypted_password     :string(255)      default(""), not null
 #  reset_password_token   :string(255)

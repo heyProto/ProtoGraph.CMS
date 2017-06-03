@@ -182,7 +182,6 @@ ActiveRecord::Schema.define(version: 20170603142706) do
   create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "name", default: "", null: false
     t.string "email", default: "", null: false
-    t.boolean "is_pykih_admin", default: false
     t.string "access_token"
     t.string "encrypted_password", default: "", null: false
     t.string "reset_password_token"

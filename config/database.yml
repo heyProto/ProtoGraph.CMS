@@ -1,6 +1,6 @@
 development:
   adapter: mysql2
-  database: comma_dev
+  database: pykih_publishing_dev
   username: developer
   password: developer
   host: localhost
