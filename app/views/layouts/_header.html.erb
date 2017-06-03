@@ -1,0 +1,57 @@
+<% if user_signed_in? %>
+<div class="ui menu clear" style="border-bottom: 1px lightgray solid">
+  <div class="ui dropdown item">
+    <div class="text">
+      <% if @on_an_account_page %>
+      <img class="ui avatar image" src="https://semantic-ui.com/images/wireframe/square-image.png">
+      <span><%= @account.username %></span>
+      <% else %>
+      <span>Jump to Account</span>
+      <% end %>
+    </div>
+    <i class="dropdown icon"></i>
+    <div class="menu">
+      <% if !@on_an_account_page or @accounts.count > 1 %>
+        <% @accounts.each do |account| %>
+          <%= link_to account.username, account_path(account), class: "item" %>
+        <% end %>
+        <div class="ui divider"></div>
+      <% end %>
+      <%= link_to 'Add Account', new_account_path, class: "item" %>
+    </div>
+  </div>
+  <div class="right menu">
+    <% if @on_an_account_page %>
+        <%= link_to "Sourcing", nil, class: @sourcing ? "item active" : "item" %>
+      <div class="ui dropdown item">
+      <div class="text"><i class="settings icon"></i></div>
+      <i class="dropdown icon"></i>
+      <div class="menu">
+        <%= link_to "Account Settings", account_path(@account), class: @account_settings ? "item active" : "item" %>
+        <%= link_to "Template Designer", nil, class: @template_designer ? "item active" : "item" %>
+      </div>
+    </div>
+    <% end %>
+    <div class="ui dropdown item">
+      <div class="text">
+        <span><%= current_user.email %></span>
+      </div>
+      <i class="dropdown icon"></i>
+      <div class="menu">
+        <%= link_to 'Change Profile', edit_user_registration_path(@account), class: "item" %>
+        <%= link_to "Sign Out", destroy_user_session_path, class: "item" %>
+      </div>
+    </div>
+  </div>
+</div>
+<% else %>
+<div class="ui secondary menu" style="border-bottom: 1px lightgray solid">
+  <%= link_to "Haiku Publishing", root_url, class: "header item" %>
+  <div class="right menu">
+    <%- if controller_name != 'sessions' %>
+    <%= link_to "Get in", new_session_path(resource_name), class: "item" %>
+    <% end -%>
+  </div>
+</div>
+<% end %>
+<br/>

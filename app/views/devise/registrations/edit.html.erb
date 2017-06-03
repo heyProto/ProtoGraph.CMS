@@ -1,0 +1,24 @@
+<div class="sixteen wide column">
+  <h2 class="ui header">
+    Change Password
+  </h2>
+  <br/>
+  <%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
+  <%= f.error_notification %>
+  <%= f.input :email %>
+
+  <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
+  <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
+  <% end %>
+
+  <%= f.input :password, required: true, autocomplete: "off", placeholder: "6 characters minimum." %>
+  <i>(leave blank if you don't want to change it)</i>
+  <br /><br />
+
+  <%= f.input :password_confirmation, autocomplete: "off" %>
+  <%= f.input :current_password %>
+
+  <%= f.button :submit, value: "Update", class: 'ui button' %>
+  <% end %>
+</div>
+</div>

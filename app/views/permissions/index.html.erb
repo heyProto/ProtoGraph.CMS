@@ -1,0 +1,55 @@
+<div class="sixteen wide column">
+  <h2 class="ui header">
+    Account Settings
+  </h2>
+  <%= render partial: "accounts/header" %>
+  <div style="text-align: right;">
+    <span id='invite_members'><a>Invite new members</a></span>
+    <% if @pending_invites_count != 0 %>
+        &nbsp;&nbsp; | &nbsp;&nbsp;
+        <span id='pending_invitations'><a>Pending Invitations (<%=@pending_invites_count%>)</a></span>
+    <% end %>
+  </div>
+  <br/>
+  <table class="ui very basic table">
+  <thead>
+    <tr>
+      <th>User</th>
+      <th>Invited by</th>
+      <th>Member since</th>
+      <th>Updated by</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @permissions.each do |permission| %>
+      <tr>
+        <td><%= permission.user.name %></td>
+        <td><%= permission.creator.name %></td>
+        <td><%= time_ago_in_words(permission.created_at) %></td>
+        <td><%= permission.updator.name %></td>
+        <td>
+            <% if current_user.id != permission.user_id %>
+              <%= link_to "<i class='trash outline icon'></i>".html_safe, account_permission_path(@account, permission), method: :delete, data: { confirm: 'Are you sure?' } %>
+            <% end %>
+        </td>
+      </tr>
+    <% end %>
+
+  </tbody>
+</table>
+</div>
+</div>
+
+
+<%= render partial: "permission_invites/form" %>
+<%= render partial: "permission_invites/index" %>
+
+
+
+<script>
+    $('.ui.modal#platform_modal')
+        .modal('attach events', '#invite_members', 'show');
+    $('.ui.modal#platform_modal_2')
+        .modal('attach events', '#pending_invitations', 'show');
+</script>

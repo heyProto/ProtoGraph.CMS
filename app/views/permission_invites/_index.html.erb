@@ -1,0 +1,28 @@
+<div class="ui modal large" id='platform_modal_2'>
+  <i class="close icon"></i>
+  <div class="header">
+    Pending Invitations
+  </div>
+  <div class="image content">
+    <table class="ui very basic table">
+      <thead>
+        <tr>
+          <th>Email</th>
+          <th>Invited by</th>
+          <th>Invited</th>
+          <th colspan="1"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @permission_invites.each do |permission_invite| %>
+        <tr>
+          <td><%= permission_invite.email %></td>
+          <td><%= permission_invite.creator.name %></td>
+          <td><%= time_ago_in_words (permission_invite.creator.created_at) %></td>
+          <td><%= link_to "<i class='trash outline icon'></i>".html_safe, account_permission_invite_path(@account, permission_invite), method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>

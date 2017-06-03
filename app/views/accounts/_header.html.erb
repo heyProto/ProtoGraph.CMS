@@ -1,0 +1,4 @@
+<div class="ui secondary pointing menu">
+  <%= link_to "People (#{@people_count})", account_permissions_path(@account), class: (controller_name == "permissions" ? "active item" : "item") %>
+  <%= link_to "Authentications", account_authentication_path(@account), class: (controller_name == "authentications" ? "active item" : "item") %>
+</div>

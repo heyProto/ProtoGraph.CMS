@@ -1,0 +1,24 @@
+<div class="ui one column centered grid">
+  <div class="column">
+      <div class="ui card">
+  <div class="content">
+    <div class="header">Sign Up</div>
+  </div>
+  <div class="content">
+    <%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+      <%= f.error_notification %>
+
+      <%= f.input :name, autofocus: true, required: true, placeholder: "What your friends call you?" %>
+      <%= f.input :username, required: true, placeholder: "What is your twitter username?"  %>
+      <%= f.input :email, required: true %>
+      <%= f.input :password, required: true, autocomplete: "off", required: true, placeholder: "6 characters minimum." %>
+      <%= f.input :password_confirmation, autocomplete: "off", required: true %>
+      <%= f.button :submit, value: "Sign up", class: 'ui button' %>
+    <% end %>
+  </div>
+  <div class="extra content">
+    <%= render "devise/shared/links" %>
+  </div>
+</div>
+  </div>
+</div>

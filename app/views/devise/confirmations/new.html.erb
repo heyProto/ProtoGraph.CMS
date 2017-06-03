@@ -1,0 +1,19 @@
+<div class="ui one column centered grid">
+  <div class="column">
+    <div class="ui card">
+      <div class="content">
+        <div class="header">Resend confirmation instructions</div>
+      </div>
+      <div class="content">
+        <%= simple_form_for(resource, as: resource_name, url: confirmation_path(resource_name), html: { method: :post }) do |f| %>
+          <%= f.error_notification %>
+          <%= f.input :email, autofocus: true, value: (resource.pending_reconfirmation? ? resource.unconfirmed_email : resource.email) %>
+          <%= f.submit "Resend confirmation instructions", class: 'ui button' %>
+        <% end %>
+      </div>
+      <div class="extra content">
+        <%= render "devise/shared/links" %>
+      </div>
+    </div>
+  </div>
+</div>
