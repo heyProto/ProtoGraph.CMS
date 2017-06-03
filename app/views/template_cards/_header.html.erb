@@ -1,6 +1,15 @@
 <div class="sixteen wide column">
-      <h2 class="ui header">
+    <h2 class="ui header">
         Templates
+        <span style="float: right;">
+            <% if action_name == "index" %>
+                <% if controller_name == "template_data" %>
+                    <%= link_to "New Data Template", new_account_template_datum_path(@account), class: "ui basic button" %>
+                <% elsif controller_name == "template_streams" %>
+                    <%= link_to "New Stream Template", new_account_template_stream_path(@account), class: "ui basic button" %>
+                <% end %>
+            <% end %>
+        </span>
     </h2>
     <div class="ui secondary pointing menu">
       <%= link_to "Data", account_template_data_path(@account), class: (controller_name == "template_data" ? "active item" : "item") %>

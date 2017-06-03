@@ -37,6 +37,11 @@ class ServicesAttachable < ApplicationRecord
 
     #SCOPE
     #OTHER
+
+    def self.create_shell_object(o, gen)
+        ServicesAttachable.create(attachable_id: o.id, attachable_type: o.class.to_s, genre: gen, account_id: o.account_id, created_by: o.created_by, updated_by: o.updated_by)
+    end
+
     #PRIVATE
     private
 

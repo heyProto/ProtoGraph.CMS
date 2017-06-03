@@ -22,7 +22,7 @@ class TemplateDataController < ApplicationController
     @template_datum.created_by = current_user.id
     @template_datum.updated_by = current_user.id
     if @template_datum.save
-      redirect_to @template_datum, notice: t("cs")
+      redirect_to [@account, @template_datum], notice: t("cs")
     else
       render :new
     end

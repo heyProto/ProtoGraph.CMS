@@ -56,15 +56,15 @@ class TemplateCard < ApplicationRecord
 
     #SCOPE
     #OTHER
+    def slug_candidates
+        ["#{self.name}-#{self.version.to_s}"]
+    end
+
     #PRIVATE
     private
 
-    def slug_candidates
-        ["#{self.name}-#{self.version}"]
-    end
-
     def should_generate_new_friendly_id?
-        slug.blank? || version_changed?
+        slug.blank? || name_changed? || version_changed?
     end
 
     def before_create_set
@@ -76,10 +76,10 @@ class TemplateCard < ApplicationRecord
     end
 
     def after_create_set
-        ServicesAttachable.create(attachable_id: self.id, attachable_type: "TemplateStream", genre: "html", account_id: self.account_id, created_by: self.created_by, updated_by: self.updated_by)
-        ServicesAttachable.create(attachable_id: self.id, attachable_type: "TemplateStream", genre: "js", account_id: self.account_id, created_by: self.created_by, updated_by: self.updated_by)
-        ServicesAttachable.create(attachable_id: self.id, attachable_type: "TemplateStream", genre: "css", account_id: self.account_id, created_by: self.created_by, updated_by: self.updated_by)
-        ServicesAttachable.create(attachable_id: self.id, attachable_type: "TemplateStream", genre: "config", account_id: self.account_id, created_by: self.created_by, updated_by: self.updated_by)
+        ServicesAttachable.create_shell_object(self, "html")
+        ServicesAttachable.create_shell_object(self, "js")
+        ServicesAttachable.create_shell_object(self, "css")
+        ServicesAttachable.create_shell_object(self, "config")
         true
     end
 

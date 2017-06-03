@@ -39,7 +39,6 @@ class TemplateDatum < ApplicationRecord
     #VALIDATIONS
     validates :account_id, presence: true
     validates :name, presence: true
-    validates :version, presence: true
     validates :created_by, presence: true
     validates :updated_by, presence: true
 
@@ -49,19 +48,20 @@ class TemplateDatum < ApplicationRecord
 
     #SCOPE
     #OTHER
+    def slug_candidates
+        ["#{self.name}-#{self.version.to_s}"]
+    end
+
     #PRIVATE
     private
 
-    def slug_candidates
-        ["#{self.name}-#{self.version}"]
-    end
-
     def should_generate_new_friendly_id?
-        slug.blank? ||  name_changed?
+        slug.blank? || name_changed? || version_changed?
     end
 
     def before_create_set
         self.publish_count = 0
+        self.version = 0.1
         self.api_key = SecureRandom.hex(24)
         self.is_current_version = false if self.is_current_version.blank?
         self.is_public = false if self.is_public.blank?
@@ -70,8 +70,8 @@ class TemplateDatum < ApplicationRecord
     end
 
     def after_create_set
-        ServicesAttachable.create(attachable_id: self.id, attachable_type: "TemplateStream", genre: "sample_json", account_id: self.account_id, created_by: self.created_by, updated_by: self.updated_by)
-        ServicesAttachable.create(attachable_id: self.id, attachable_type: "TemplateStream", genre: "xsd", account_id: self.account_id, created_by: self.created_by, updated_by: self.updated_by)
+        ServicesAttachable.create_shell_object(self, "sample_json")
+        ServicesAttachable.create_shell_object(self, "xsd")
         true
     end
 

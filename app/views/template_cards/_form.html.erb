@@ -1,8 +1,8 @@
-<%= simple_form_for(@template_card) do |f| %>
+<%= simple_form_for([@account, @template_card]) do |f| %>
   <%= f.error_notification %>
 
   <div class="form-inputs">
-    <%= f.input :account_id %>
+    <%= f.input :account_id, as: :hidden, input_html: {value: @account.id} %>
     <%= f.input :template_datum_id %>
     <%= f.input :name %>
     <%= f.input :description %>

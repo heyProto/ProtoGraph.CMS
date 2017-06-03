@@ -6,6 +6,10 @@
 
 }
 
+a.orange {
+    color: #EF6237;
+}
+
 .ui.menu.clear .item:before{
         width: 0px !important;
 }
