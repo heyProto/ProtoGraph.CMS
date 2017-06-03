@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
 
+  resources :datacast_accounts
+  resources :datacasts
   devise_for :users, controllers: { registrations: 'registrations' } do
       #get 'sign_in', to: 'devise/sessions#new'
       get 'sign_out', to: 'devise/sessions#destroy'

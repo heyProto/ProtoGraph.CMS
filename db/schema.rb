@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170603115813) do
+ActiveRecord::Schema.define(version: 20170603142706) do
 
   create_table "accounts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "username"
@@ -36,6 +36,35 @@ ActiveRecord::Schema.define(version: 20170603115813) do
     t.integer "updated_by"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "datacast_accounts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.integer "datacast_id"
+    t.integer "account_id"
+    t.boolean "is_active"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "datacasts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string "slug"
+    t.integer "template_datum_id"
+    t.string "external_identifier"
+    t.string "status"
+    t.datetime "data_timestamp"
+    t.datetime "last_updated_at"
+    t.string "last_data_hash"
+    t.integer "count_publish"
+    t.integer "count_duplicate_calls"
+    t.integer "count_errors"
+    t.string "input_source"
+    t.text "error_messages"
+    t.text "data"
+    t.integer "created_by"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["external_identifier"], name: "index_datacasts_on_external_identifier"
+    t.index ["slug"], name: "index_datacasts_on_slug", unique: true
   end
 
   create_table "friendly_id_slugs", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|

@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Datacast:</strong>
+  <%= @datacast_account.datacast_id %>
+</p>
+
+<p>
+  <strong>Account:</strong>
+  <%= @datacast_account.account_id %>
+</p>
+
+<p>
+  <strong>Is active:</strong>
+  <%= @datacast_account.is_active %>
+</p>
+
+<%= link_to 'Edit', edit_datacast_account_path(@datacast_account) %> |
+<%= link_to 'Back', datacast_accounts_path %>

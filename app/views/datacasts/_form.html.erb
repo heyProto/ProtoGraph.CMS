@@ -1,0 +1,24 @@
+<%= simple_form_for(@datacast) do |f| %>
+  <%= f.error_notification %>
+
+  <div class="form-inputs">
+    <%= f.input :slug %>
+    <%= f.input :template_datum_id %>
+    <%= f.input :external_identifier %>
+    <%= f.input :status %>
+    <%= f.input :data_timestamp %>
+    <%= f.input :last_updated_at %>
+    <%= f.input :last_data_hash %>
+    <%= f.input :count_publish %>
+    <%= f.input :count_duplicate_calls %>
+    <%= f.input :count_errors %>
+    <%= f.input :input_source %>
+    <%= f.input :error_messages %>
+    <%= f.input :data %>
+    <%= f.input :created_by %>
+  </div>
+
+  <div class="form-actions">
+    <%= f.button :submit, class: "ui button" %>
+  </div>
+<% end %>

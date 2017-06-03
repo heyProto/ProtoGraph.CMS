@@ -1,12 +1,10 @@
-<%= simple_form_for(@template_datum) do |f| %>
+<%= simple_form_for(@datacast_account) do |f| %>
   <%= f.error_notification %>
 
   <div class="form-inputs">
+    <%= f.input :datacast_id %>
     <%= f.input :account_id %>
-    <%= f.input :name %>
-    <%= f.input :description %>
-    <%= f.input :version %>
-    <%= f.input :status %>
+    <%= f.input :is_active %>
   </div>
 
   <div class="form-actions">
