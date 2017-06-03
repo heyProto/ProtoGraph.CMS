@@ -54,6 +54,10 @@ class User < ApplicationRecord
         Permission.where(user_id: self.id, account_id: accid).first
     end
 
+    def is_admin_from_pykih
+        ["ritvvij.parrikh@pykih.com", "rp@pykih.com", "ab@pykih.com", "dhara.shah@pykih.com"].index(self.email).present? ? true : false
+    end
+
     #PRIVATE
     private
 

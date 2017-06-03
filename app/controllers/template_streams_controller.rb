@@ -4,7 +4,7 @@ class TemplateStreamsController < ApplicationController
   before_action :set_template_stream, only: [:show, :edit, :update, :destroy]
 
   def index
-    @template_streams = TemplateStream.all
+    @template_streams = @account.template_streams
   end
 
   def show
@@ -18,6 +18,8 @@ class TemplateStreamsController < ApplicationController
   end
 
   def create
+    @template_stream.created_by = current_user.id
+    @template_stream.updated_by = current_user.id
     @template_stream = TemplateStream.new(template_stream_params)
     if @template_stream.save
       redirect_to @template_stream, notice: t("cs")
@@ -27,6 +29,7 @@ class TemplateStreamsController < ApplicationController
   end
 
   def update
+    @template_stream.updated_by = current_user.id
     respond_to do |format|
       if @template_stream.update(template_stream_params)
         format.html { redirect_to @template_stream, notice: t("us") }

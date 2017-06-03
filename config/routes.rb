@@ -14,10 +14,11 @@ Rails.application.routes.draw do
     resources :permission_invites
     get '/authentications', to: 'authentications#index', as: 'authentication'
     resources :services_attachables, only: [:destroy]
-    resources :template_stream_cards
+    resources :template_streams do
+        resources :template_stream_cards
+    end
     resources :template_data
     resources :template_cards
-    resources :template_stream_cards
   end
 
   root 'static_pages#index'

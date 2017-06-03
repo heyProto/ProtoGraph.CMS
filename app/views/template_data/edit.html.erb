@@ -4,3 +4,6 @@
 
 <%= link_to 'Show', @template_datum %> |
 <%= link_to 'Back', template_data_path %>
+
+<td><%= link_to 'Edit', edit_template_datum_path(template_datum) %></td>
+        <td><%= link_to 'Destroy', template_datum, method: :delete, data: { confirm: 'Are you sure?' } %></td>

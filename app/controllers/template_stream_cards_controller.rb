@@ -8,6 +8,8 @@ class TemplateStreamCardsController < ApplicationController
   end
 
   def create
+    @template_stream_card.created_by = current_user.id
+    @template_stream_card.updated_by = current_user.id
     @template_stream_card = TemplateStreamCard.new(template_stream_card_params)
     if @template_stream_card.save
       redirect_to @template_stream_card, notice: t("cs")
@@ -17,6 +19,7 @@ class TemplateStreamCardsController < ApplicationController
   end
 
   def update
+    @template_stream_card.updated_by = current_user.id
     respond_to do |format|
       if @template_stream_card.update(template_stream_card_params)
         format.html { redirect_to @template_stream_card, notice: t("us") }

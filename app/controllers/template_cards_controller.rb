@@ -4,7 +4,7 @@ class TemplateCardsController < ApplicationController
   before_action :set_template_card, only: [:show, :edit, :update, :destroy]
 
   def index
-    @template_cards = TemplateCard.all
+    @template_cards = @account.template_cards
   end
 
   def show
@@ -19,6 +19,8 @@ class TemplateCardsController < ApplicationController
 
   def create
     @template_card = TemplateCard.new(template_card_params)
+    @template_card.created_by = current_user.id
+    @template_card.updated_by = current_user.id
     if @template_card.save
       redirect_to @template_card, notice: t("cs")
     else
@@ -27,6 +29,7 @@ class TemplateCardsController < ApplicationController
   end
 
   def update
+    @template_card.updated_by = current_user.id
     respond_to do |format|
       if @template_card.update(template_card_params)
         format.html { redirect_to @template_card, notice: t("us") }
@@ -40,10 +43,7 @@ class TemplateCardsController < ApplicationController
 
   def destroy
     @template_card.destroy
-    respond_to do |format|
-      format.html { redirect_to template_cards_url, notice: t("ds")
-      format.json { head :no_content }
-    end
+    redirect_to template_cards_url, notice: t("ds")
   end
 
   private

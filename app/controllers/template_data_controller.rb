@@ -4,7 +4,7 @@ class TemplateDataController < ApplicationController
   before_action :set_template_datum, only: [:show, :edit, :update, :destroy]
 
   def index
-    @template_data = TemplateDatum.all
+    @template_data = @account.template_data
   end
 
   def show
@@ -19,6 +19,8 @@ class TemplateDataController < ApplicationController
 
   def create
     @template_datum = TemplateDatum.new(template_datum_params)
+    @template_datum.created_by = current_user.id
+    @template_datum.updated_by = current_user.id
     if @template_datum.save
       redirect_to @template_datum, notice: t("cs")
     else
@@ -27,6 +29,7 @@ class TemplateDataController < ApplicationController
   end
 
   def update
+    @template_datum.updated_by = current_user.id
     respond_to do |format|
       if @template_datum.update(template_datum_params)
         format.html { redirect_to @template_datum, notice: t("us") }
@@ -40,10 +43,7 @@ class TemplateDataController < ApplicationController
 
   def destroy
     @template_datum.destroy
-    respond_to do |format|
-      format.html { redirect_to template_data_url, notice: t("ds")
-      format.json { head :no_content }
-    end
+    redirect_to template_data_url, notice: t("ds")
   end
 
   private

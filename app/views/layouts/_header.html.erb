@@ -22,13 +22,15 @@
   </div>
   <div class="right menu">
     <% if @on_an_account_page %>
-        <%= link_to "Sourcing", nil, class: @sourcing ? "item active" : "item" %>
+        <% link_to "Sourcing", nil, class: @sourcing ? "item active" : "item" %>
       <div class="ui dropdown item">
       <div class="text"><i class="settings icon"></i></div>
       <i class="dropdown icon"></i>
       <div class="menu">
-        <%= link_to "Account Settings", account_path(@account), class: @account_settings ? "item active" : "item" %>
-        <%= link_to "Template Designer", nil, class: @template_designer ? "item active" : "item" %>
+        <%= link_to "Invite Members", account_path(@account), class: @account_settings ? "item active" : "item" %>
+        <% if current_user.is_admin_from_pykih %>
+          <%= link_to "Template Designer", account_template_cards_path(@account), class: @template_designer ? "item active" : "item" %>
+        <% end %>
       </div>
     </div>
     <% end %>
