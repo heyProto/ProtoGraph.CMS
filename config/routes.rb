@@ -13,9 +13,23 @@ Rails.application.routes.draw do
     resources :permissions
     resources :permission_invites
     get '/authentications', to: 'authentications#index', as: 'authentication'
+    resources :services_attachables, only: [:destroy]
+    resources :template_stream_cards
+    resources :template_data
+    resources :template_cards
+    resources :template_stream_cards
   end
 
   root 'static_pages#index'
 
-  # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
+        # resources :thrreads do
+        #   resources :thrread_files, only: [:update]
+        # end
+        # resources :cards do
+        #   resources :card_files, only: [:update]
+        # end
+        # resources :assets do
+        #   resources :asset_files, only: [:update]
+        # end
+
 end

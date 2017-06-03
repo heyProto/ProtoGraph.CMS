@@ -1,0 +1,47 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Template Data</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Account</th>
+      <th>Name</th>
+      <th>Description</th>
+      <th>Slug</th>
+      <th>Version</th>
+      <th>Is current version</th>
+      <th>Status</th>
+      <th>Api key</th>
+      <th>Publish count</th>
+      <th>Created by</th>
+      <th>Updated by</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @template_data.each do |template_datum| %>
+      <tr>
+        <td><%= template_datum.account_id %></td>
+        <td><%= template_datum.name %></td>
+        <td><%= template_datum.description %></td>
+        <td><%= template_datum.slug %></td>
+        <td><%= template_datum.version %></td>
+        <td><%= template_datum.is_current_version %></td>
+        <td><%= template_datum.status %></td>
+        <td><%= template_datum.api_key %></td>
+        <td><%= template_datum.publish_count %></td>
+        <td><%= template_datum.created_by %></td>
+        <td><%= template_datum.updated_by %></td>
+        <td><%= link_to 'Show', template_datum %></td>
+        <td><%= link_to 'Edit', edit_template_datum_path(template_datum) %></td>
+        <td><%= link_to 'Destroy', template_datum, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Template Datum', new_template_datum_path %>

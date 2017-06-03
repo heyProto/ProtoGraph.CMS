@@ -1,0 +1,54 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Account:</strong>
+  <%= @template_stream.account_id %>
+</p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @template_stream.name %>
+</p>
+
+<p>
+  <strong>Description:</strong>
+  <%= @template_stream.description %>
+</p>
+
+<p>
+  <strong>Slug:</strong>
+  <%= @template_stream.slug %>
+</p>
+
+<p>
+  <strong>Version:</strong>
+  <%= @template_stream.version %>
+</p>
+
+<p>
+  <strong>Is current version:</strong>
+  <%= @template_stream.is_current_version %>
+</p>
+
+<p>
+  <strong>Status:</strong>
+  <%= @template_stream.status %>
+</p>
+
+<p>
+  <strong>Publish count:</strong>
+  <%= @template_stream.publish_count %>
+</p>
+
+<p>
+  <strong>Created by:</strong>
+  <%= @template_stream.created_by %>
+</p>
+
+<p>
+  <strong>Updated by:</strong>
+  <%= @template_stream.updated_by %>
+</p>
+
+<%= link_to 'Edit', edit_template_stream_path(@template_stream) %> |
+<%= link_to 'Back', template_streams_path %>

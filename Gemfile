@@ -14,10 +14,10 @@ gem 'puma', '~> 3.7'
 
 #CORE INFRASTRUCTURE
 gem 'friendly_id', '~> 5.1.0'
-gem 'simple_form', '~> 3.2', '>= 3.2.1'
 gem 'dotenv'
 gem 'dotenv-rails'
 gem 'rest-client'
+gem 'best_in_place', '~> 3.0.1'
 
 #AUTHENTICATION
 gem 'devise'
@@ -26,7 +26,12 @@ gem 'omniauth-instagram'
 gem 'omniauth-facebook'
 gem 'omniauth-twitter'
 
+#UPLOADERS
+gem 'carrierwave', '~> 1.0'
+gem 'carrierwave-aws'
+
 #VIEWS
+gem 'simple_form', '~> 3.2', '>= 3.2.1'
 gem 'sass-rails', '~> 5.0'
 gem 'uglifier', '>= 1.3.0'
 gem 'coffee-rails', '~> 4.2'

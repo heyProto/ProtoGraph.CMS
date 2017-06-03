@@ -1,0 +1,47 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Template Cards</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Account</th>
+      <th>Template datum</th>
+      <th>Name</th>
+      <th>Description</th>
+      <th>Slug</th>
+      <th>Version</th>
+      <th>Is current version</th>
+      <th>Status</th>
+      <th>Publish count</th>
+      <th>Created by</th>
+      <th>Updated by</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @template_cards.each do |template_card| %>
+      <tr>
+        <td><%= template_card.account_id %></td>
+        <td><%= template_card.template_datum_id %></td>
+        <td><%= template_card.name %></td>
+        <td><%= template_card.description %></td>
+        <td><%= template_card.slug %></td>
+        <td><%= template_card.version %></td>
+        <td><%= template_card.is_current_version %></td>
+        <td><%= template_card.status %></td>
+        <td><%= template_card.publish_count %></td>
+        <td><%= template_card.created_by %></td>
+        <td><%= template_card.updated_by %></td>
+        <td><%= link_to 'Show', template_card %></td>
+        <td><%= link_to 'Edit', edit_template_card_path(template_card) %></td>
+        <td><%= link_to 'Destroy', template_card, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Template Card', new_template_card_path %>

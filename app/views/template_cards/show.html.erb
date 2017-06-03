@@ -1,0 +1,59 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Account:</strong>
+  <%= @template_card.account_id %>
+</p>
+
+<p>
+  <strong>Template datum:</strong>
+  <%= @template_card.template_datum_id %>
+</p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @template_card.name %>
+</p>
+
+<p>
+  <strong>Description:</strong>
+  <%= @template_card.description %>
+</p>
+
+<p>
+  <strong>Slug:</strong>
+  <%= @template_card.slug %>
+</p>
+
+<p>
+  <strong>Version:</strong>
+  <%= @template_card.version %>
+</p>
+
+<p>
+  <strong>Is current version:</strong>
+  <%= @template_card.is_current_version %>
+</p>
+
+<p>
+  <strong>Status:</strong>
+  <%= @template_card.status %>
+</p>
+
+<p>
+  <strong>Publish count:</strong>
+  <%= @template_card.publish_count %>
+</p>
+
+<p>
+  <strong>Created by:</strong>
+  <%= @template_card.created_by %>
+</p>
+
+<p>
+  <strong>Updated by:</strong>
+  <%= @template_card.updated_by %>
+</p>
+
+<%= link_to 'Edit', edit_template_card_path(@template_card) %> |
+<%= link_to 'Back', template_cards_path %>

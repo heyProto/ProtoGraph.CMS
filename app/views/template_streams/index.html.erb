@@ -1,0 +1,45 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Template Streams</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Account</th>
+      <th>Name</th>
+      <th>Description</th>
+      <th>Slug</th>
+      <th>Version</th>
+      <th>Is current version</th>
+      <th>Status</th>
+      <th>Publish count</th>
+      <th>Created by</th>
+      <th>Updated by</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @template_streams.each do |template_stream| %>
+      <tr>
+        <td><%= template_stream.account_id %></td>
+        <td><%= template_stream.name %></td>
+        <td><%= template_stream.description %></td>
+        <td><%= template_stream.slug %></td>
+        <td><%= template_stream.version %></td>
+        <td><%= template_stream.is_current_version %></td>
+        <td><%= template_stream.status %></td>
+        <td><%= template_stream.publish_count %></td>
+        <td><%= template_stream.created_by %></td>
+        <td><%= template_stream.updated_by %></td>
+        <td><%= link_to 'Show', template_stream %></td>
+        <td><%= link_to 'Edit', edit_template_stream_path(template_stream) %></td>
+        <td><%= link_to 'Destroy', template_stream, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Template Stream', new_template_stream_path %>

@@ -1,0 +1,39 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Account:</strong>
+  <%= @template_stream_card.account_id %>
+</p>
+
+<p>
+  <strong>Template card:</strong>
+  <%= @template_stream_card.template_card_id %>
+</p>
+
+<p>
+  <strong>Template stream:</strong>
+  <%= @template_stream_card.template_stream_id %>
+</p>
+
+<p>
+  <strong>Is mandatory:</strong>
+  <%= @template_stream_card.is_mandatory %>
+</p>
+
+<p>
+  <strong>Position:</strong>
+  <%= @template_stream_card.position %>
+</p>
+
+<p>
+  <strong>Created by:</strong>
+  <%= @template_stream_card.created_by %>
+</p>
+
+<p>
+  <strong>Updated by:</strong>
+  <%= @template_stream_card.updated_by %>
+</p>
+
+<%= link_to 'Edit', edit_template_stream_card_path(@template_stream_card) %> |
+<%= link_to 'Back', template_stream_cards_path %>

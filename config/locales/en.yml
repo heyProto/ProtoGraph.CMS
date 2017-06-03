@@ -40,3 +40,7 @@ en:
     add: "Successfully added to account."
     invite: "Sent invitation email."
     removed: "Removed from account."
+  changed:
+    public: "Made public."
+    private: "Made private."
+

@@ -1,0 +1,20 @@
+<%= simple_form_for(@services_attachable) do |f| %>
+  <%= f.error_notification %>
+
+  <div class="form-inputs">
+    <%= f.input :account_id %>
+    <%= f.input :attachable_id %>
+    <%= f.input :attachable_type %>
+    <%= f.input :genre %>
+    <%= f.input :file_url %>
+    <%= f.input :original_file_name %>
+    <%= f.input :file_type %>
+    <%= f.input :s3_bucket %>
+    <%= f.input :created_by %>
+    <%= f.input :updated_by %>
+  </div>
+
+  <div class="form-actions">
+    <%= f.button :submit, class: "ui button" %>
+  </div>
+<% end %>

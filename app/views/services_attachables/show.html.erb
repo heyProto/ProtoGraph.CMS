@@ -1,0 +1,54 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Account:</strong>
+  <%= @services_attachable.account_id %>
+</p>
+
+<p>
+  <strong>Attachable:</strong>
+  <%= @services_attachable.attachable_id %>
+</p>
+
+<p>
+  <strong>Attachable type:</strong>
+  <%= @services_attachable.attachable_type %>
+</p>
+
+<p>
+  <strong>Genre:</strong>
+  <%= @services_attachable.genre %>
+</p>
+
+<p>
+  <strong>File url:</strong>
+  <%= @services_attachable.file_url %>
+</p>
+
+<p>
+  <strong>Original file name:</strong>
+  <%= @services_attachable.original_file_name %>
+</p>
+
+<p>
+  <strong>File type:</strong>
+  <%= @services_attachable.file_type %>
+</p>
+
+<p>
+  <strong>S3 bucket:</strong>
+  <%= @services_attachable.s3_bucket %>
+</p>
+
+<p>
+  <strong>Created by:</strong>
+  <%= @services_attachable.created_by %>
+</p>
+
+<p>
+  <strong>Updated by:</strong>
+  <%= @services_attachable.updated_by %>
+</p>
+
+<%= link_to 'Edit', edit_services_attachable_path(@services_attachable) %> |
+<%= link_to 'Back', services_attachables_path %>
