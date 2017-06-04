@@ -4,7 +4,7 @@
   </h1>
   <br/>
   <%= simple_form_for @account do |f| %>
-  <%= f.input :username, id: :account_username %>
+  <%= f.input :username, id: :account_username, hint: "Choose wisely. You cannot change it later." %>
   <%= f.submit class: 'ui button'%>
   <% end %>
 </div>

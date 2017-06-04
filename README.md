@@ -1,4 +1,26 @@
-1. Best In Place - Description, Name
+Accounts Switch
+
+---
+
+1. Best In Place - Description
+- Style the description
+
+Change
+- Account.gravatar_email
+- Account.domain
+- TemplateCard.description
+- TemplateCard.is_public
+- TemplateStream.description
+- TemplateStream.is_public
+- TemplateData.description
+- TemplateData.is_public
+- TemplateStreamCard.is_mandatory
+- TemplateStreamCard.position
+- User.name
+
+Show the access_token
+
+Admin / users --- show devise
 
 3. Make Public
 - Show Public / Private everywhere
@@ -12,8 +34,6 @@
 - If it is ready, then show a button to change status
 - If
 - Color code status
-
-Accounts Switch
 
 Associate a domain with an account
 Permissions whether we want this to be added

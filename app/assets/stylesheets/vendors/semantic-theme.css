@@ -12,6 +12,8 @@ table.ui.table > thead > tr > th{
     border-bottom: 1px dotted #F5EFE6;
 }
 
+.hint{font-size: 11px; color: gray; font-style: italic;}
+
 a.orange {
     color: #ff5722;
 }
