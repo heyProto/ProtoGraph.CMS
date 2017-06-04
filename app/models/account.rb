@@ -24,6 +24,8 @@ class Account < ApplicationRecord
     has_many :users, through: :permissions
     has_many :permission_invites
     has_many :authentications
+    has_many :datacast_accounts
+    has_many :datacasts, through: :datacast_accounts
 
     #ACCESSORS
     #VALIDATIONS

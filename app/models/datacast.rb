@@ -22,4 +22,24 @@
 #
 
 class Datacast < ApplicationRecord
+
+    #CONSTANTS
+    #CUSTOM TABLES
+    #GEMS
+    #ASSOCIATIONS
+    belongs_to :template_datum
+    belongs_to :creator, class_name: "User", foreign_key: "created_by"
+    has_many :datacast_accounts
+    has_many :accounts, through: :datacast_accounts
+
+    #ACCESSORS
+    #VALIDATIONS
+    validates :account_id, presence: true
+
+    #CALLBACKS
+    #SCOPE
+    #OTHER
+    #PRIVATE
+    private
+
 end

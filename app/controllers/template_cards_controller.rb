@@ -1,7 +1,7 @@
 class TemplateCardsController < ApplicationController
 
   before_action :authenticate_user!, :sudo_pykih_admin
-  before_action :set_template_card, only: [:show, :edit, :update, :destroy]
+  before_action :set_template_card, only: [:show, :edit, :update, :destroy, :flip_public_private]
 
   def index
     @template_cards = @account.template_cards
@@ -9,6 +9,25 @@ class TemplateCardsController < ApplicationController
 
   def show
     @template_datum = @template_card.template_datum
+  end
+
+  def flip_public_private
+    if @template_card.is_public
+      if @template_card.can_make_private?
+        @template_card.update_attributes(is_public: false)
+        notice = "Successfully done."
+      else
+        notice = "Failed. Some other account is using this card."
+      end
+    else
+      if @template_card.can_make_public?
+        @template_card.update_attributes(is_public: true)
+        notice = "Successfully done."
+      else
+        notice = "Failed. Make sure card is published and associated data is public."
+      end
+    end
+    redirect_to account_template_card_path(@account, @template_card), notice: notice
   end
 
   def new
@@ -55,6 +74,6 @@ class TemplateCardsController < ApplicationController
     end
 
     def template_card_params
-      params.require(:template_card).permit(:account_id, :template_datum_id, :name, :description, :slug, :status, :publish_count, :created_by, :updated_by)
+      params.require(:template_card).permit(:account_id, :template_datum_id, :name, :description, :slug, :status, :publish_count, :created_by, :updated_by, :is_public)
     end
 end

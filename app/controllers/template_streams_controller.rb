@@ -1,13 +1,16 @@
 class TemplateStreamsController < ApplicationController
 
   before_action :authenticate_user!, :sudo_pykih_admin
-  before_action :set_template_stream, only: [:show, :edit, :update, :destroy]
+  before_action :set_template_stream, only: [:show, :edit, :update, :destroy, :flip_public_private]
 
   def index
     @template_streams = @account.template_streams
   end
 
   def show
+  end
+
+  def flip_public_private
   end
 
   def new
@@ -55,6 +58,6 @@ class TemplateStreamsController < ApplicationController
     end
 
     def template_stream_params
-      params.require(:template_stream).permit(:account_id, :name, :description, :slug, :status, :publish_count, :created_by, :updated_by)
+      params.require(:template_stream).permit(:account_id, :name, :description, :slug, :status, :publish_count, :created_by, :updated_by, :is_public)
     end
 end

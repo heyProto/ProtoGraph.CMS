@@ -1,7 +1,7 @@
 class TemplateDataController < ApplicationController
 
   before_action :authenticate_user!, :sudo_pykih_admin
-  before_action :set_template_datum, only: [:show, :edit, :update, :destroy]
+  before_action :set_template_datum, only: [:show, :edit, :update, :destroy, :flip_public_private]
 
   def index
     @template_data = @account.template_data
@@ -9,6 +9,25 @@ class TemplateDataController < ApplicationController
 
   def show
     @template_cards = @template_datum.template_cards
+  end
+
+  def flip_public_private
+    if @template_datum.is_public
+      if @template_datum.can_make_private?
+        @template_datum.update_attributes(is_public: false)
+        notice = "Successfully done."
+      else
+        notice = "Failed. Some other account is using a card associated with this data."
+      end
+    else
+      if @template_datum.can_make_public?
+        @template_datum.update_attributes(is_public: true)
+        notice = "Successfully done."
+      else
+        notice = "Failed. Make sure data is published."
+      end
+    end
+    redirect_to account_template_datum_path(@account, @template_datum), notice: notice
   end
 
   def new
@@ -51,6 +70,6 @@ class TemplateDataController < ApplicationController
     end
 
     def template_datum_params
-      params.require(:template_datum).permit(:account_id, :name, :description, :slug, :status, :api_key, :publish_count, :created_by, :updated_by)
+      params.require(:template_datum).permit(:account_id, :name, :description, :slug, :status, :api_key, :publish_count, :created_by, :updated_by, :is_public)
     end
 end

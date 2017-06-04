@@ -20,6 +20,8 @@
 class TemplateCard < ApplicationRecord
 
     #CONSTANTS
+    STATUS = ["Draft", "Ready to Publish", "Published", "Deactivated"]
+
     #CUSTOM TABLES
     #GEMS
     extend FriendlyId
@@ -62,15 +64,27 @@ class TemplateCard < ApplicationRecord
     end
 
     def can_delete?
+        self.cards.first.present? ? false : true
     end
 
-    def can_publish?
+    def can_ready_to_publish?
+        if self.template_datum.status == "Published" and
+           self.html.present? and
+           self.css.present? and
+           self.js.present? and
+           self.config.present? and
+           self.description.present?
+                return true
+        end
+        return false
     end
 
     def can_make_public?
+        (self.status == "Published" and self.template_datum.is_public) ? true : false
     end
 
     def can_make_private?
+        self.cards.where("account_id != ?", self.account_id).first.present? ? false : true
     end
 
     #PRIVATE

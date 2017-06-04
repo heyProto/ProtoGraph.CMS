@@ -30,6 +30,7 @@ class TemplateDatum < ApplicationRecord
     belongs_to :creator, class_name: "User", foreign_key: "created_by"
     belongs_to :updator, class_name: "User", foreign_key: "updated_by"
     has_many :template_cards
+    has_many :datacasts
     has_one :sample_json, ->{where(genre: "sample_json")}, as: :attachable
     has_one :xsd, ->{where(genre: "xsd")}, as: :attachable
 
@@ -55,15 +56,23 @@ class TemplateDatum < ApplicationRecord
     end
 
     def can_delete?
+        self.datacasts.first.present? ? false : true
     end
 
-    def can_publish?
+    def can_ready_to_publish?
+        if self.xsd.present? and self.sample_json.present?
+            return true
+        end
+        return false
     end
 
     def can_make_public?
+        self.status == "Published" ? true : false
     end
 
     def can_make_private?
+        true
+        #self.cards.where("account_id != ?", self.account_id).first.present? ? false : true
     end
 
     #PRIVATE

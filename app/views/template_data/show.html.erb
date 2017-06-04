@@ -40,3 +40,9 @@
         <div style="float: right;""><%= link_to 'Destroy', [@account, @template_datum], method: :delete, data: { confirm: 'Are you sure?' }, class: "ui red basic button" %></div>
     </div>
 </div>
+
+<% if @template_datum.is_public %>
+  <%= link_to "Make private", flip_public_private_account_template_datum_path(@account, @template_datum) %>
+<% elsif @template_datum.status == "Published" or 1 == 1 %>
+  <%= link_to "Make public", flip_public_private_account_template_datum_path(@account, @template_datum) %>
+<% end %>
