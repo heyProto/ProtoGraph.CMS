@@ -29,7 +29,7 @@
 <div class="five wide column">
     <div  style="margin-left: 40px;">
         <h4>What is this Template Data about?</h4>
-        <%= best_in_place @template_datum, :description,url: account_template_datum_path(@account, @template_datum) ,:as => :input, :place_holder => "No description added yet." %>
+        <%= best_in_place @template_datum, :description,url: account_template_datum_path(@account, @template_datum) ,:as => :textarea, :place_holder => "No description added yet." %>
         <br/>
         <h4>Send data via APIs</h4>
         <p>
