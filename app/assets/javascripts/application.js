@@ -13,9 +13,9 @@
 //= require rails-ujs
 //= ./vendors/jquery.min.js
 //= ./vendors/semantic.min.js
-//= require best_in_place
 //= require turbolinks
 //= require_tree .
+//= require best_in_place
 
 $(document).on('turbolinks:load', function (e) {
   $('.ui.dropdown').dropdown();
