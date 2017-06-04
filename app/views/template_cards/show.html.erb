@@ -23,7 +23,7 @@
 <div class="five wide column">
     <div  style="margin-left: 40px;">
         <h4>What is this Template Card about?</h4>
-        <%= @template_card.description %>
+        <%= best_in_place @template_card, :description,url: account_template_card_path(@account, @template_card) ,:as => :input, :place_holder => "No description added yet." %>
         <br/>
         <div style="float: right;""><%= link_to 'Destroy', [@account, @template_card], method: :delete, data: { confirm: 'Are you sure?' }, class: "ui red basic button" %></div>
     </div>

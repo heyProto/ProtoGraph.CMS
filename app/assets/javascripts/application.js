@@ -13,6 +13,7 @@
 //= require rails-ujs
 //= ./vendors/jquery.min.js
 //= ./vendors/semantic.min.js
+//= require best_in_place
 //= require turbolinks
 //= require_tree .
 
