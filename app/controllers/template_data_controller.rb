@@ -30,11 +30,11 @@ class TemplateDataController < ApplicationController
     @template_datum.updated_by = current_user.id
     respond_to do |format|
       if @template_datum.update(template_datum_params)
-        format.js{ respond_with_bip(@template_datum) }
-        format.json { render :show, status: :ok, location: @template_datum }
+        format.js {respond_with_bip(@template_datum) }
+        format.json { respond_with_bip(@template_datum) }
       else
         format.js {respond_with_bip(@template_datum)}
-        format.json { render json: @template_datum.errors, status: :unprocessable_entity }
+        format.json {respond_with_bip(@template_datum)}
       end
     end
   end

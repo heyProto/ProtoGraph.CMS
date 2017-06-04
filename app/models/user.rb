@@ -70,7 +70,7 @@ class User < ApplicationRecord
     end
 
     def after_create_set
-        a = Account.create(username: self.username)
+        a = Account.create(username: self.username) #TODO RItvvij: Add Domain
         a.create_permission(self.id)
         true
     end
