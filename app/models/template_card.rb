@@ -61,6 +61,18 @@ class TemplateCard < ApplicationRecord
         0.1
     end
 
+    def can_delete?
+    end
+
+    def can_publish?
+    end
+
+    def can_make_public?
+    end
+
+    def can_make_private?
+    end
+
     #PRIVATE
     private
 

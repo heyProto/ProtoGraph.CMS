@@ -1,14 +1,33 @@
+def can_delete?
+end
+
+def can_publish?
+end
+
+def can_make_public?
+end
+
+def can_make_private?
+end
+
+def can_delete?
+end
+
+def can_publish?
+end
+
+def can_make_public?
+end
+
+def can_make_private?
+end
+
 Change
-- TemplateCard.description
 - TemplateCard.is_public
-- TemplateStream.description
 - TemplateStream.is_public
-- TemplateData.description
 - TemplateData.is_public
 - TemplateStreamCard.is_mandatory
 - TemplateStreamCard.position
-
-Roles in accounts
 
 3. Make Public
 - Show Public / Private everywhere
@@ -44,3 +63,5 @@ Cards to create
 - Explainer
 
 Admin pages
+
+Roles in accounts
