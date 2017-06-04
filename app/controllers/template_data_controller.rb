@@ -12,35 +12,11 @@ class TemplateDataController < ApplicationController
   end
 
   def flip_public_private
-    if @template_datum.is_public
-      if @template_datum.can_make_private?
-        @template_datum.update_attributes(is_public: false)
-        notice = "Successfully done."
-      else
-        notice = "Failed. Some other account is using a card associated with this data."
-      end
-    else
-      if @template_datum.can_make_public?
-        @template_datum.update_attributes(is_public: true)
-        notice = "Successfully done."
-      else
-        notice = "Failed. Make sure data is published."
-      end
-    end
-    redirect_to account_template_datum_path(@account, @template_datum), notice: notice
+    redirect_to account_template_datum_path(@account, @template_datum), notice: @template_datum.flip_public_private
   end
 
   def move_to_next_status
-    if @template_datum.can_ready_to_publish?
-      @template_datum.update_attributes(status: "Ready to Publish")
-      notice = "Successfully updated."
-    elsif @template_datum.status == "Ready to Publish"
-      @template_datum.update_attributes(status: "Published")
-      notice = "Successfully updated."
-    else
-      notice = "Failed."
-    end
-    redirect_to account_template_datum_path(@account, @template_datum), notice: notice
+    redirect_to account_template_datum_path(@account, @template_datum), notice: move_to_next_status
   end
 
   def new

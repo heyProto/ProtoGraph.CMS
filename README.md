@@ -1,6 +1,3 @@
-- TemplateCard > Delete or Deactivate
-- TemplateDatum > Delete or Deactivate
-
 Dependent Destroy
 - PermissionInvite can be deleted
 - Permission can be deactivated

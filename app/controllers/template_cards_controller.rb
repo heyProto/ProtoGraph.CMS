@@ -11,41 +11,17 @@ class TemplateCardsController < ApplicationController
     @template_datum = @template_card.template_datum
   end
 
-  def flip_public_private
-    if @template_card.is_public
-      if @template_card.can_make_private?
-        @template_card.update_attributes(is_public: false)
-        notice = "Successfully done."
-      else
-        notice = "Failed. Some other account is using this card."
-      end
-    else
-      if @template_card.can_make_public?
-        @template_card.update_attributes(is_public: true)
-        notice = "Successfully done."
-      else
-        notice = "Failed. Make sure card is published and associated data is public."
-      end
-    end
-    redirect_to account_template_card_path(@account, @template_card), notice: notice
-  end
-
   def new
     @template_datum = TemplateDatum.friendly.find(params[:template_datum_id])
     @template_card = TemplateCard.new
   end
 
+  def flip_public_private
+    redirect_to account_template_card_path(@account, @template_card), notice: @template_card.flip_public_private
+  end
+
   def move_to_next_status
-    if @template_card.can_ready_to_publish?
-      @template_card.update_attributes(status: "Ready to Publish")
-      notice = "Successfully updated."
-    elsif @template_card.status == "Ready to Publish"
-      @template_card.update_attributes(status: "Published")
-      notice = "Successfully updated."
-    else
-      notice = "Failed."
-    end
-    redirect_to account_template_card_path(@account, @template_card), notice: notice
+    redirect_to account_template_card_path(@account, @template_card), notice: move_to_next_status
   end
 
   def create

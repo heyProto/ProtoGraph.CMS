@@ -63,20 +63,34 @@ class TemplateDatum < ApplicationRecord
         self.datacasts.first.present? ? false : true
     end
 
-    def can_ready_to_publish?
-        if self.xsd.present? and self.sample_json.present?
-            return true
+    def flip_public_private
+        if self.is_public
+            if self.can_make_private?
+                self.update_attributes(is_public: false)
+                return "Successfully done."
+            else
+                return "Failed. Some other account is using a card associated with this data."
+            end
+        else
+            if self.can_make_public?
+                self.update_attributes(is_public: true)
+                return "Successfully done."
+            else
+                return "Failed. Make sure data is published."
+            end
         end
-        return false
     end
 
-    def can_make_public?
-        self.status == "Published" ? true : false
-    end
-
-    def can_make_private?
-        true
-        #self.cards.where("account_id != ?", self.account_id).first.present? ? false : true
+    def move_to_next_status
+        if self.can_ready_to_publish?
+            self.update_attributes(status: "Ready to Publish")
+            return "Successfully updated."
+        elsif self.status == "Ready to Publish"
+            self.update_attributes(status: "Published")
+            return "Successfully updated."
+        else
+            return "Failed"
+        end
     end
 
     #PRIVATE
@@ -98,6 +112,22 @@ class TemplateDatum < ApplicationRecord
         ServicesAttachable.create_shell_object(self, "sample_json")
         ServicesAttachable.create_shell_object(self, "xsd")
         true
+    end
+
+    def can_make_public?
+        self.status == "Published" ? true : false
+    end
+
+    def can_make_private?
+        true
+        #self.cards.where("account_id != ?", self.account_id).first.present? ? false : true
+    end
+
+    def can_ready_to_publish?
+        if self.xsd.present? and self.sample_json.present?
+            return true
+        end
+        return false
     end
 
 end

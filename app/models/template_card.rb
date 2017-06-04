@@ -71,25 +71,36 @@ class TemplateCard < ApplicationRecord
         self.cards.first.present? ? false : true
     end
 
-    def can_ready_to_publish?
-        if self.template_datum.status == "Published" and
-           self.html.present? and
-           self.css.present? and
-           self.js.present? and
-           self.config.present? and
-           self.description.present?
-                return true
+    def flip_public_private
+        if self.is_public
+            if self.can_make_private?
+                self.update_attributes(is_public: false)
+                return "Successfully done."
+            else
+                return "Failed. Some other account is using this card."
+            end
+        else
+            if self.can_make_public?
+                self.update_attributes(is_public: true)
+                return "Successfully done."
+            else
+                return "Failed. Make sure card is published and associated data is public."
+            end
         end
-        return false
     end
 
-    def can_make_public?
-        (self.status == "Published" and self.template_datum.is_public) ? true : false
+    def move_to_next_status
+        if self.can_ready_to_publish?
+            self.update_attributes(status: "Ready to Publish")
+            return "Successfully updated."
+        elsif self.status == "Ready to Publish"
+            self.update_attributes(status: "Published")
+            return "Successfully updated."
+        else
+            return "Failed"
+        end
     end
 
-    def can_make_private?
-        self.cards.where("account_id != ?", self.account_id).first.present? ? false : true
-    end
 
     #PRIVATE
     private
@@ -113,5 +124,24 @@ class TemplateCard < ApplicationRecord
         true
     end
 
+    def can_make_private?
+        self.cards.where("account_id != ?", self.account_id).first.present? ? false : true
+    end
+
+    def can_make_public?
+        (self.status == "Published" and self.template_datum.is_public) ? true : false
+    end
+
+    def can_ready_to_publish?
+        if self.template_datum.status == "Published" and
+           self.html.present? and
+           self.css.present? and
+           self.js.present? and
+           self.config.present? and
+           self.description.present?
+                return true
+        end
+        return false
+    end
 
 end
