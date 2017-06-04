@@ -1,11 +1,12 @@
 <div class="twelve wide column">
   <h1 class="ui header">
-    Change Password
+    Profile & account
   </h1>
   <br/>
 
   <%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
   <%= f.error_notification %>
+  <%= f.input :name %>
   <%= f.input :email %>
 
   <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
@@ -21,11 +22,12 @@
 
   <%= f.button :submit, value: "Update", class: 'ui button' %>
   <% end %>
+  <h4>Your API Access Token</h4>
+  <p><%= current_user.access_token %> </p>
 </div>
 <div class="four wide column">
   <%= image_tag avatar_url(current_user.email, 200), class: "ui medium circular image" %>
   <br/>
   <p>To change the profile image, register with <a href="http://gravatar.com/" target="_blank">gravatar.com</a> with email ID <%= current_user.email %></p>
 </div>
-
 

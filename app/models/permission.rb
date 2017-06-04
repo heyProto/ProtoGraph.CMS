@@ -14,6 +14,8 @@
 class Permission < ApplicationRecord
 
     #CONSTANTS
+    ROLES = ["Administrator", "Editor", "Author", "Contributor", "Planner", "Support"]
+
     #CUSTOM TABLES
     #GEMS
     #ASSOCIATIONS

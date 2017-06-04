@@ -11,13 +11,10 @@ class AccountsController < ApplicationController
   end
 
   def update
-    @account.updated_by = current_user.id
-    respond_to do |format|
-      if @account.update(account_params)
-        format.html { redirect_to edit_account_path(@account), notice: t("us") }
-      else
-        format.html { render :edit }
-      end
+    if @account.update(account_params)
+      redirect_to edit_account_path(@account), notice: t("us")
+    else
+      render :edit
     end
   end
 

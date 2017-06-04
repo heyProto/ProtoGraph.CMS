@@ -1,9 +1,3 @@
-Edit account page
-- Account.gravatar_email
-- Account.domain
-
-----------------------------------------------------------------
-
 1. Best In Place - Description
 - Style the description
 
@@ -16,11 +10,8 @@ Change
 - TemplateData.is_public
 - TemplateStreamCard.is_mandatory
 - TemplateStreamCard.position
-- User.name
 
-Show the access_token
-
-Admin / users --- show devise
+Roles in accounts
 
 3. Make Public
 - Show Public / Private everywhere

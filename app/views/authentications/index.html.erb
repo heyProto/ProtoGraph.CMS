@@ -11,7 +11,7 @@
 
   <div class="center aligned one column row">
     <div class="center column">
-      <%= link_to '<i class="facebook icon"></i> Facebook'.html_safe, oauth_path({provider: :facebook, account_id: @account.id, current_user_id: current_user.id}), class: "ui facebook button #{@fb_auth.present? ?  'disabled' : ''}" %>
+      <%= link_to '<i class="facebook icon"></i> Facebook'.html_safe, oauth_path({provider: :facebook, account_id: @account.id, current_user_id: current_user.id}), class: "ui facebook button #{@fb_auth.present? ?  'disabled' : ''}", style:'color: white;' %>
 
       <%= link_to '<i class="twitter icon"></i> Twitter'.html_safe, oauth_path({provider: :twitter, account_id: @account.id, current_user_id: current_user.id }), class: "ui twitter button #{@tw_auth.present? ?  'disabled' : ''}" %>
 

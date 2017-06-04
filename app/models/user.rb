@@ -66,7 +66,7 @@ class User < ApplicationRecord
     end
 
     def before_create_set
-        self.access_token = SecureRandom.hex(12)
+        self.access_token = SecureRandom.hex(24)
     end
 
     def after_create_set

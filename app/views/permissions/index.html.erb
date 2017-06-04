@@ -14,6 +14,8 @@
       <th>User</th>
       <th>Invited by</th>
       <th>Member since</th>
+      <th>Last signed in</th>
+      <th>Number of Sign Ins</th>
       <th>Updated by</th>
       <th></th>
     </tr>
@@ -24,6 +26,8 @@
         <td><%= permission.user.name %></td>
         <td><%= permission.creator.name %></td>
         <td><%= time_ago_in_words(permission.created_at) %></td>
+        <td><%= time_ago_in_words(permission.user.current_sign_in_at) %></td>
+        <td><%= permission.user.sign_in_count %></td>
         <td><%= permission.updator.name %></td>
         <td>
             <% if current_user.id != permission.user_id %>
