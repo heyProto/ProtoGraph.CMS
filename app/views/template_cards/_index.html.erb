@@ -11,7 +11,9 @@
   <tbody>
     <% @template_cards.each do |template_card| %>
       <tr>
-        <td><%= link_to template_card.name, account_template_card_path(@account, template_card) %></td>
+        <td>
+          <%= link_to show_lock(template_card.is_public, template_card.name).html_safe, account_template_card_path(@account, template_card) %>
+        </td>
         <td><%= template_card.status %></td>
         <td><%= template_card.publish_count %></td>
         <td><%= template_card.updator.name %></td>

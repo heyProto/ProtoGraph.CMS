@@ -1,6 +1,3 @@
-3. Make Public
-- Show Public / Private everywhere
-
 3. Status
 - If it is ready, then show a button to change status
 - If

@@ -3,18 +3,18 @@
       <a class="section"><%= link_to "Template Data", account_template_data_path(@account) %></a>
   </div>
   <h1 class="ui header" style="margin-top: 15px;">
-      <%= @template_datum.name %>
-      <a class="ui grey circular label"><%= @template_datum.publish_count %></a>
-      <div style="float: right;">
-          <p style="font-size: 0.7em; margin-bottom: 0px;"><%= @template_datum.status %></p>
-          <p style="font-size: 0.5em; font-weight: 400; color: gray; margin-bottom: 10px;">
+      <%= show_lock(@template_datum.is_public, @template_datum.name).html_safe %>
+  </h1>
+  <div class="ui divider"></div>
+  <a class="ui grey circular label"><%= @template_datum.publish_count %></a>
+  <div style="float: right;">
+          <p style="margin-bottom: 0px;"><%= @template_datum.status %></p>
+          <p style="font-weight: 400; color: gray; margin-bottom: 10px;">
             Last updated by
             <%= @template_datum.updator.name %>
             <%= time_ago_in_words @template_datum.updated_at %>
           </p>
       </div>
-  </h1>
-  <div class="ui divider"></div>
 </div>
 <div class="eleven wide column">
     <div class="ui dividing right rail"></div>

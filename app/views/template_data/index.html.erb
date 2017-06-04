@@ -14,7 +14,9 @@
   <tbody>
     <% @template_data.each do |template_datum| %>
       <tr>
-        <td><%= link_to template_datum.name, account_template_datum_path(@account, template_datum) %></td>
+        <td>
+          <%= link_to show_lock(template_datum.is_public, template_datum.name).html_safe, account_template_datum_path(@account, template_datum) %>
+        </td>
         <td><%= template_datum.status %></td>
         <td><%= template_datum.publish_count %></td>
         <td><%= template_datum.updator.name %></td>
