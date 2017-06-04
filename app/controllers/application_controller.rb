@@ -3,6 +3,10 @@ class ApplicationController < ActionController::Base
 
   before_action :sudo
 
+  def sudo_pykih_admin
+    redirect_to root_url, notice: "Permission denied." if !current_user.is_admin_from_pykih
+  end
+
   private
 
   def sudo

@@ -45,3 +45,5 @@ Cards to create
 - Image
 - Video
 - Explainer
+
+Admin pages

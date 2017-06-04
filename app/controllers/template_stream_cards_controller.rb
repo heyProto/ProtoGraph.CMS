@@ -1,6 +1,6 @@
 class TemplateStreamCardsController < ApplicationController
 
-  before_action :authenticate_user!
+  before_action :authenticate_user!, :sudo_pykih_admin
   before_action :set_template_stream_card, only: [:show, :edit, :update, :destroy]
 
   def new

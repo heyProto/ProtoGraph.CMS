@@ -1,6 +1,6 @@
 class TemplateDataController < ApplicationController
 
-  before_action :authenticate_user!
+  before_action :authenticate_user!, :sudo_pykih_admin
   before_action :set_template_datum, only: [:show, :edit, :update, :destroy]
 
   def index
@@ -30,13 +30,17 @@ class TemplateDataController < ApplicationController
     @template_datum.updated_by = current_user.id
     respond_to do |format|
       if @template_datum.update(template_datum_params)
-        format.html { redirect_to @template_datum, notice: t("us") }
         format.js{ respond_with_bip(@template_datum) }
+
+
         format.json { render :show, status: :ok, location: @template_datum }
+
       else
-        format.html { render :edit }
         format.js {respond_with_bip(@template_datum)}
+
+
         format.json { render json: @template_datum.errors, status: :unprocessable_entity }
+
       end
     end
   end
