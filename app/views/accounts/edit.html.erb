@@ -1,0 +1,22 @@
+
+
+<div class="twelve wide column">
+  <%= render partial: "accounts/header" %>
+  <%= simple_form_for(@account) do |f| %>
+  <%= f.error_notification %>
+
+  <div class="form-inputs">
+    <%= f.input :gravatar_email %>
+    <%= f.input :domain %>
+  </div>
+
+  <div class="form-actions">
+    <%= f.button :submit, class: "ui button" %>
+  </div>
+<% end %>
+</div>
+<div class="four wide column">
+  <%= image_tag avatar_url(@account.gravatar_email, 200), class: "ui medium circular image" %>
+  <br/>
+  <p>To change the profile image, register with <a href="http://gravatar.com/" target="_blank">gravatar.com</a> with email ID <%= @account.gravatar_email %></p>
+</div>

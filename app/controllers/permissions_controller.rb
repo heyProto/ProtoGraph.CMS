@@ -16,7 +16,7 @@ class PermissionsController < ApplicationController
   def destroy
     @permission = Permission.find(params[:id])
     @permission.destroy
-    redirect_to account_path(@account), notice: t("ds")
+    redirect_to account_permissions_path(@account), notice: t("ds")
   end
 
   private

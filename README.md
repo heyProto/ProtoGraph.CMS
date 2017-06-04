@@ -1,9 +1,13 @@
+Edit account page
+- Account.gravatar_email
+- Account.domain
+
+----------------------------------------------------------------
+
 1. Best In Place - Description
 - Style the description
 
 Change
-- Account.gravatar_email
-- Account.domain
 - TemplateCard.description
 - TemplateCard.is_public
 - TemplateStream.description

@@ -11,7 +11,7 @@
         <tr>
             <td class="collapsing"><%= image_tag avatar_url(account.gravatar_email), class: "ui avatar image" %>
             </td>
-            <td><%= link_to account.username, account_path(account), class: "item" %>
+            <td><%= link_to account.username, edit_account_path(account), class: "item" %>
             </td>
         </tr>
         <% end %>
@@ -22,6 +22,7 @@
     <br/>
   <%= simple_form_for @account do |f| %>
   <%= f.input :username, id: :account_username, hint: "Choose wisely. You cannot change it later." %>
+  <%= f.input :gravatar_email, hint: "We use it only for showing your Gravatar avatar" %>
   <%= f.submit class: 'ui button'%>
   <% end %>
 </div>
