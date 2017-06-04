@@ -36,6 +36,7 @@
         t.string :username
         t.string :slug
         t.string :domain
+        t.string :gravatar_email
 
         t.timestamps
       end
