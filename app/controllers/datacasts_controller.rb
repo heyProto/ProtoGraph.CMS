@@ -43,9 +43,11 @@ class DatacastsController < ApplicationController
     respond_to do |format|
       if @datacast.update(datacast_params)
         format.html { redirect_to @datacast, notice: 'Datacast was successfully updated.' }
+        format.js{ respond_with_bip(@datacast) }
         format.json { render :show, status: :ok, location: @datacast }
       else
         format.html { render :edit }
+        format.js {respond_with_bip(@datacast)}
         format.json { render json: @datacast.errors, status: :unprocessable_entity }
       end
     end

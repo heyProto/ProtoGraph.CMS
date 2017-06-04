@@ -23,9 +23,11 @@ class TemplateStreamCardsController < ApplicationController
     respond_to do |format|
       if @template_stream_card.update(template_stream_card_params)
         format.html { redirect_to @template_stream_card, notice: t("us") }
+        format.js{ respond_with_bip(@template_stream_card) }
         format.json { render :show, status: :ok, location: @template_stream_card }
       else
         format.html { render :edit }
+        format.js {respond_with_bip(@template_stream_card)}
         format.json { render json: @template_stream_card.errors, status: :unprocessable_entity }
       end
     end

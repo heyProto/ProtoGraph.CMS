@@ -43,9 +43,11 @@ class DatacastAccountsController < ApplicationController
     respond_to do |format|
       if @datacast_account.update(datacast_account_params)
         format.html { redirect_to @datacast_account, notice: 'Datacast account was successfully updated.' }
+        format.js{ respond_with_bip(@datacast_account) }
         format.json { render :show, status: :ok, location: @datacast_account }
       else
         format.html { render :edit }
+        format.js {respond_with_bip(@datacast_account)}
         format.json { render json: @datacast_account.errors, status: :unprocessable_entity }
       end
     end

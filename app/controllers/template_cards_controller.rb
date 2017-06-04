@@ -33,9 +33,11 @@ class TemplateCardsController < ApplicationController
     respond_to do |format|
       if @template_card.update(template_card_params)
         format.html { redirect_to @template_card, notice: t("us") }
+        format.js{ respond_with_bip(@template_card) }
         format.json { render :show, status: :ok, location: @template_card }
       else
         format.html { render :edit }
+        format.js {respond_with_bip(@template_card)}
         format.json { render json: @template_card.errors, status: :unprocessable_entity }
       end
     end

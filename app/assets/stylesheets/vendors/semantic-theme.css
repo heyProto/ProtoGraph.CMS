@@ -10,6 +10,11 @@ table.ui.table > thead > tr > th{
 
 }
 
+.best_in_place{
+    border-bottom: 1px dotted lightgray;
+}
+
+
 a.orange {
     color: #EF6237;
 }

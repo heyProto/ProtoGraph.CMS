@@ -33,9 +33,11 @@ class TemplateStreamsController < ApplicationController
     respond_to do |format|
       if @template_stream.update(template_stream_params)
         format.html { redirect_to @template_stream, notice: t("us") }
+        format.js{ respond_with_bip(@template_stream) }
         format.json { render :show, status: :ok, location: @template_stream }
       else
         format.html { render :edit }
+        format.js {respond_with_bip(@template_stream)}
         format.json { render json: @template_stream.errors, status: :unprocessable_entity }
       end
     end

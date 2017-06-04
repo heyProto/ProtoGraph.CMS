@@ -22,4 +22,5 @@ $(document).on('turbolinks:load', function (e) {
   $('.ui.radio.checkbox').checkbox();
   $('select.dropdown').dropdown();
   $('.ui.accordion').accordion();
+  $(".best_in_place").best_in_place();
 });
