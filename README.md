@@ -1,6 +1,3 @@
-1. Best In Place - Description
-- Style the description
-
 Change
 - TemplateCard.description
 - TemplateCard.is_public
