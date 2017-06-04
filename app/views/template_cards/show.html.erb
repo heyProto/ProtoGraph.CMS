@@ -36,6 +36,6 @@
   <%= link_to "Make public", flip_public_private_account_template_card_path(@account, @template_card) %>
 <% end %>
 
-<% if @template_card.next_status.present? %>
-  <%= link_to ("Change status to " + @template_card.next_status), move_to_next_status_account_template_card_path(@account, @template_card) %>
+<% if next_status(@template_card.status).present? %>
+  <%= link_to ("Change status to " + next_status(@template_card.status)), move_to_next_status_account_template_card_path(@account, @template_card) %>
 <% end %>

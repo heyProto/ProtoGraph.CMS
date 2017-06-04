@@ -21,7 +21,7 @@ class TemplateCardsController < ApplicationController
   end
 
   def move_to_next_status
-    redirect_to account_template_card_path(@account, @template_card), notice: move_to_next_status
+    redirect_to account_template_card_path(@account, @template_card), notice: @template_card.move_to_next_status
   end
 
   def create
@@ -53,7 +53,7 @@ class TemplateCardsController < ApplicationController
   end
 
   def destroy
-    if @template_card.can_delete?
+    if !@template_card.cards.first.present?
       @template_card.destroy
       redirect_to account_template_cards_path(@account), notice: t("ds")
     else

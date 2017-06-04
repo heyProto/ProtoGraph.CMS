@@ -16,7 +16,7 @@ class TemplateDataController < ApplicationController
   end
 
   def move_to_next_status
-    redirect_to account_template_datum_path(@account, @template_datum), notice: move_to_next_status
+    redirect_to account_template_datum_path(@account, @template_datum), notice: @template_datum.move_to_next_status
   end
 
   def new
@@ -54,7 +54,7 @@ class TemplateDataController < ApplicationController
   end
 
   def destroy
-    if @template_datum.can_delete?
+    if !@template_datum.datacasts.first.present?
       @template_datum.destroy
       redirect_to account_template_data_path(@account), notice: t("ds")
     else

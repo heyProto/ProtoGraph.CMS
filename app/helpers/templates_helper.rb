@@ -8,4 +8,8 @@ module TemplatesHelper
         end
     end
 
+    def next_status(s)
+        s == "Draft" ? "Ready to Publish" : s == "Ready to Publish" ? "Published" : nil
+    end
+
 end
