@@ -7,7 +7,7 @@
     <% end %>
     <div class="right menu">
       <div class="ui dropdown item">
-        <img class="ui avatar image" src="http://www.semantic-ui.com/images/wireframe/square-image.png">
+        <%= image_tag avatar_url(current_user.email), class: "ui avatar image" %>
         <div class="menu">
           <%= link_to 'Add Account', new_account_path, class: "item" %>
           <div class="divider"></div>
@@ -19,7 +19,7 @@
           <div class="ui dropdown item">
             <div class="text">
               <% if @on_an_account_page %>
-                <img class="ui avatar image" src="http://www.semantic-ui.com/images/wireframe/square-image.png">
+                <%= image_tag avatar_url(@account.gravatar_email), class: "ui avatar image" %>
               <% end %>
             </div>
             <div class="menu">

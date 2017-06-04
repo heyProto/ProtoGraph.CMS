@@ -2,12 +2,13 @@
 #
 # Table name: accounts
 #
-#  id         :integer          not null, primary key
-#  username   :string(255)
-#  slug       :string(255)
-#  created_at :datetime         not null
-#  updated_at :datetime         not null
-#  domain     :string(255)
+#  id             :integer          not null, primary key
+#  username       :string(255)
+#  slug           :string(255)
+#  created_at     :datetime         not null
+#  updated_at     :datetime         not null
+#  domain         :string(255)
+#  gravatar_email :string(255)
 #
 
 class Account < ApplicationRecord

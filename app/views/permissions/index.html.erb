@@ -1,4 +1,4 @@
-<div class="sixteen wide column">
+<div class="twelve wide column">
   <%= render partial: "accounts/header" %>
   <div style="text-align: right;">
     <span id='invite_members'><a>Invite new members</a></span>
@@ -36,7 +36,14 @@
   </tbody>
 </table>
 </div>
+<div class="four wide column">
+  <%= image_tag avatar_url(@account.gravatar_email, 200), class: "ui medium circular image" %>
+  <br/>
+  <p>To change the profile image, register with <a href="http://gravatar.com/" target="_blank">gravatar.com</a> with email ID <%= @account.gravatar_email %></p>
 </div>
+
+
+
 
 
 <%= render partial: "permission_invites/form" %>

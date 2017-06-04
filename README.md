@@ -13,20 +13,16 @@
 - If
 - Color code status
 
-4. Upload forms
-- Decide CDN Folder Name Structures
-
-Upload image for
-- Avatar
-- Account
+Accounts Switch
 
 Associate a domain with an account
 Permissions whether we want this to be added
 Anyone who signs up with this domain then gets added to that account
 
-Once someone signs up then immediately then they need to upload avatar
-
 Dependent Destroy
+
+4. Upload forms
+- Decide CDN Folder Name Structures
 
 Streams to create
 - One card stream
