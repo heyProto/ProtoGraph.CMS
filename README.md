@@ -1,8 +1,3 @@
-3. Status
-- If it is ready, then show a button to change status
-- If
-- Color code status
-
 Dependent Destroy
 - PermissionInvite can be deleted
 - Permission can be deactivated

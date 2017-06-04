@@ -1,7 +1,7 @@
 class TemplateDataController < ApplicationController
 
   before_action :authenticate_user!, :sudo_pykih_admin
-  before_action :set_template_datum, only: [:show, :edit, :update, :destroy, :flip_public_private]
+  before_action :set_template_datum, only: [:show, :edit, :update, :destroy, :flip_public_private, :move_to_next_status]
 
   def index
     @template_data = @account.template_data
@@ -30,6 +30,19 @@ class TemplateDataController < ApplicationController
     redirect_to account_template_datum_path(@account, @template_datum), notice: notice
   end
 
+  def move_to_next_status
+    if @template_datum.can_ready_to_publish?
+      @template_datum.update_attributes(status: "Ready to Publish")
+      notice = "Successfully updated."
+    elsif @template_datum.status == "Ready to Publish"
+      @template_datum.update_attributes(status: "Published")
+      notice = "Successfully updated."
+    else
+      notice = "Failed."
+    end
+    redirect_to account_template_datum_path(@account, @template_datum), notice: notice
+  end
+
   def new
     @template_datum = TemplateDatum.new
   end
@@ -46,6 +59,7 @@ class TemplateDataController < ApplicationController
   end
 
   def update
+    @template_datum.status = "Draft"
     @template_datum.updated_by = current_user.id
     respond_to do |format|
       if @template_datum.update(template_datum_params)

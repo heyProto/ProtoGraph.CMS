@@ -55,6 +55,10 @@ class TemplateDatum < ApplicationRecord
         0.1
     end
 
+    def next_status
+        self.status == "Draft" ? "Ready to Publish" : self.status == "Ready to Publish" ? "Published" : nil
+    end
+
     def can_delete?
         self.datacasts.first.present? ? false : true
     end

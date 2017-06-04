@@ -46,3 +46,7 @@
 <% elsif @template_datum.status == "Published" or 1 == 1 %>
   <%= link_to "Make public", flip_public_private_account_template_datum_path(@account, @template_datum) %>
 <% end %>
+
+<% if @template_datum.next_status.present? %>
+  <%= link_to ("Change status to " + @template_datum.next_status), move_to_next_status_account_template_datum_path(@account, @template_datum) %>
+<% end %>

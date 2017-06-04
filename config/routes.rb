@@ -17,15 +17,15 @@ Rails.application.routes.draw do
     get '/authentications', to: 'authentications#index', as: 'authentication'
     resources :services_attachables, only: [:destroy]
     resources :template_streams do
-        get 'flip_public_private', on: :member
+        get 'flip_public_private', 'move_to_next_status', on: :member
         resources :template_stream_cards
     end
     resources :template_data do
-      get 'flip_public_private', on: :member
+      get 'flip_public_private', 'move_to_next_status', on: :member
       resources :template_cards, only: [:new]
     end
     resources :template_cards do
-      get 'flip_public_private', on: :member
+      get 'flip_public_private', 'move_to_next_status', on: :member
     end
   end
 

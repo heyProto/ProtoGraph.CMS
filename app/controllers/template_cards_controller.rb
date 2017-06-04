@@ -1,7 +1,7 @@
 class TemplateCardsController < ApplicationController
 
   before_action :authenticate_user!, :sudo_pykih_admin
-  before_action :set_template_card, only: [:show, :edit, :update, :destroy, :flip_public_private]
+  before_action :set_template_card, only: [:show, :edit, :update, :destroy, :flip_public_private, :move_to_next_status]
 
   def index
     @template_cards = @account.template_cards
@@ -35,6 +35,19 @@ class TemplateCardsController < ApplicationController
     @template_card = TemplateCard.new
   end
 
+  def move_to_next_status
+    if @template_card.can_ready_to_publish?
+      @template_card.update_attributes(status: "Ready to Publish")
+      notice = "Successfully updated."
+    elsif @template_card.status == "Ready to Publish"
+      @template_card.update_attributes(status: "Published")
+      notice = "Successfully updated."
+    else
+      notice = "Failed."
+    end
+    redirect_to account_template_card_path(@account, @template_card), notice: notice
+  end
+
   def create
     @template_card = TemplateCard.new(template_card_params)
     @template_card.created_by = current_user.id
@@ -48,6 +61,7 @@ class TemplateCardsController < ApplicationController
   end
 
   def update
+    @template_card.status = "Draft"
     @template_card.updated_by = current_user.id
     respond_to do |format|
       if @template_card.update(template_card_params)
