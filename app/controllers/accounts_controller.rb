@@ -23,7 +23,7 @@ class AccountsController < ApplicationController
   private
 
     def account_params
-      params.require(:account).permit(:username, :slug)
+      params.require(:account).permit(:username, :slug, :domain)
     end
 
 end

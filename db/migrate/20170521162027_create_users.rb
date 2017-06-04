@@ -35,11 +35,13 @@
       create_table :accounts do |t|
         t.string :username
         t.string :slug
+        t.string :domain
 
         t.timestamps
       end
       add_index :accounts, :username, unique: true
       add_index :accounts, :slug, unique: true
+      add_index :accounts, :domain
 
       create_table :users do |t|
         ## Database authenticatable

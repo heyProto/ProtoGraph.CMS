@@ -1,5 +1,5 @@
 <div class="sixteen wide column">
-    <h2 class="ui header">
+    <h1 class="ui header">
         Templates
         <span style="float: right;">
             <% if action_name == "index" %>
@@ -10,7 +10,7 @@
                 <% end %>
             <% end %>
         </span>
-    </h2>
+    </h1>
     <div class="ui secondary pointing menu">
       <%= link_to "Data", account_template_data_path(@account), class: (controller_name == "template_data" ? "active item" : "item") %>
       <%= link_to "Cards", account_template_cards_path(@account), class: (controller_name == "template_cards" ? "active item" : "item") %>

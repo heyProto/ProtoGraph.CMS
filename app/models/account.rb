@@ -7,6 +7,7 @@
 #  slug       :string(255)
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
+#  domain     :string(255)
 #
 
 class Account < ApplicationRecord
@@ -26,6 +27,8 @@ class Account < ApplicationRecord
     #ACCESSORS
     #VALIDATIONS
     validates :username, presence: true, uniqueness: { case_sensitive: false }, length: { in: 3..24 }, format: { with: /\A[a-z0-9_]{4,16}\z/ }
+    validates :domain, format: {:with => /[a-zA-Z0-9][a-zA-Z0-9-]{1,61}[a-zA-Z0-9]\.[a-zA-Z]{2,}/ }, allow_blank: true, length: { in: 3..240 }
+
 
     #CALLBACKS
     before_create :before_create_set

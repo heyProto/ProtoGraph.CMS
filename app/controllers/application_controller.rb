@@ -1,16 +1,9 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
 
-  before_action :sudo, :tabs
+  before_action :sudo
 
   private
-
-  def tabs
-    @sourcing = false #src
-    @production = false #prd
-    @template_designer = false #crd
-    @account_settings = true #acc
-  end
 
   def sudo
   	if user_signed_in?

@@ -2,7 +2,7 @@
   <div class="ui breadcrumb">
       <a class="section"><%= link_to "Template Card", account_template_cards_path(@account) %></a>
   </div>
-  <h2 class="ui header" style="margin-top: 15px;">
+  <h1 class="ui header" style="margin-top: 15px;">
       <%= @template_card.name %>
       <a class="ui grey circular label"><%= @template_card.publish_count %></a>
       <div style="float: right;">
@@ -13,7 +13,7 @@
             <%= time_ago_in_words @template_card.updated_at %>
           </p>
       </div>
-  </h2>
+  </h1>
   <div class="ui divider"></div>
 </div>
 <div class="eleven wide column">
