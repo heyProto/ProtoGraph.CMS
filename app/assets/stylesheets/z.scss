@@ -7,11 +7,16 @@ body {
 }
 
 .orange {
-    color: #EF6237;
+    color: #ff5722;
 }
 
-a, a:hover{
-    color: #EF6237 !important;
+a{
+    color: #0088c9 !important;
+}
+
+a:hover{
+    color: #ff5722 !important;
+    border-bottom: 1px #ff5722 dotted;
 }
 
 div {

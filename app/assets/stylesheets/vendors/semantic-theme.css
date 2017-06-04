@@ -6,17 +6,14 @@ table.ui.table > thead > tr > th{
     border: 0px !important;
     box-shadow: none !important;
     border-radius: 0px !important;
-
-
 }
 
 .best_in_place{
-    border-bottom: 1px dotted lightgray;
+    border-bottom: 1px dotted #F5EFE6;
 }
 
-
 a.orange {
-    color: #EF6237;
+    color: #ff5722;
 }
 
 .ui.menu.clear .item:before{

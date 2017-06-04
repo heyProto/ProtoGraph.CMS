@@ -5,8 +5,6 @@
         t.string :name
         t.text :description
         t.string :slug
-        t.float :version
-        t.boolean :is_current_version
         t.string :status
         t.string :api_key
         t.integer :publish_count
@@ -25,8 +23,6 @@
         t.string :name
         t.text :description
         t.string :slug
-        t.float :version
-        t.boolean :is_current_version
         t.string :status
         t.integer :publish_count
         t.boolean :is_public
@@ -41,8 +37,6 @@
         t.string :name
         t.text :description
         t.string :slug
-        t.float :version
-        t.boolean :is_current_version
         t.string :status
         t.integer :publish_count
         t.boolean :is_public

@@ -53,6 +53,6 @@ class TemplateDataController < ApplicationController
     end
 
     def template_datum_params
-      params.require(:template_datum).permit(:account_id, :name, :description, :slug, :version, :is_current_version, :status, :api_key, :publish_count, :created_by, :updated_by)
+      params.require(:template_datum).permit(:account_id, :name, :description, :slug, :status, :api_key, :publish_count, :created_by, :updated_by)
     end
 end

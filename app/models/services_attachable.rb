@@ -5,7 +5,7 @@
 #  id                 :integer          not null, primary key
 #  account_id         :integer
 #  attachable_id      :integer
-#  attachable_type    :integer
+#  attachable_type    :string(255)
 #  genre              :string(255)
 #  file_url           :text(65535)
 #  original_file_name :text(65535)

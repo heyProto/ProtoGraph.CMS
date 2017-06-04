@@ -55,6 +55,6 @@ class TemplateStreamsController < ApplicationController
     end
 
     def template_stream_params
-      params.require(:template_stream).permit(:account_id, :name, :description, :slug, :version, :is_current_version, :status, :publish_count, :created_by, :updated_by)
+      params.require(:template_stream).permit(:account_id, :name, :description, :slug, :status, :publish_count, :created_by, :updated_by)
     end
 end

@@ -2,21 +2,19 @@
 #
 # Table name: template_cards
 #
-#  id                 :integer          not null, primary key
-#  account_id         :integer
-#  template_datum_id  :integer
-#  name               :string(255)
-#  description        :text(65535)
-#  slug               :string(255)
-#  version            :float(24)
-#  is_current_version :boolean
-#  status             :string(255)
-#  publish_count      :integer
-#  is_public          :boolean
-#  created_by         :integer
-#  updated_by         :integer
-#  created_at         :datetime         not null
-#  updated_at         :datetime         not null
+#  id                :integer          not null, primary key
+#  account_id        :integer
+#  template_datum_id :integer
+#  name              :string(255)
+#  description       :text(65535)
+#  slug              :string(255)
+#  status            :string(255)
+#  publish_count     :integer
+#  is_public         :boolean
+#  created_by        :integer
+#  updated_by        :integer
+#  created_at        :datetime         not null
+#  updated_at        :datetime         not null
 #
 
 class TemplateCard < ApplicationRecord
@@ -56,19 +54,22 @@ class TemplateCard < ApplicationRecord
     #SCOPE
     #OTHER
     def slug_candidates
-        ["#{self.name}-#{self.version.to_s}"]
+        ["#{self.name}-#{self.version}"]
+    end
+
+    def version
+        0.1
     end
 
     #PRIVATE
     private
 
     def should_generate_new_friendly_id?
-        slug.blank? || name_changed? || version_changed?
+        slug.blank? || name_changed?
     end
 
     def before_create_set
         self.publish_count = 0
-        self.is_current_version = false if self.is_current_version.blank?
         self.is_public = false if self.is_public.blank?
         self.status = "Draft"
         true

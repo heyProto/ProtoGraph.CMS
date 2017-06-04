@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170603142706) do
+ActiveRecord::Schema.define(version: 20170604060843) do
 
   create_table "accounts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "username"
@@ -119,8 +119,6 @@ ActiveRecord::Schema.define(version: 20170603142706) do
     t.string "name"
     t.text "description"
     t.string "slug"
-    t.float "version", limit: 24
-    t.boolean "is_current_version"
     t.string "status"
     t.integer "publish_count"
     t.boolean "is_public"
@@ -136,8 +134,6 @@ ActiveRecord::Schema.define(version: 20170603142706) do
     t.string "name"
     t.text "description"
     t.string "slug"
-    t.float "version", limit: 24
-    t.boolean "is_current_version"
     t.string "status"
     t.string "api_key"
     t.integer "publish_count"
@@ -167,8 +163,6 @@ ActiveRecord::Schema.define(version: 20170603142706) do
     t.string "name"
     t.text "description"
     t.string "slug"
-    t.float "version", limit: 24
-    t.boolean "is_current_version"
     t.string "status"
     t.integer "publish_count"
     t.boolean "is_public"
