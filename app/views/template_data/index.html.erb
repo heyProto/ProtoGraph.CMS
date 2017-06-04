@@ -4,10 +4,10 @@
   <thead>
     <tr>
       <th>Name</th>
-      <th>Version</th>
-      <th>Status</th>
-      <th>Publish count</th>
-      <th>Updated by</th>
+      <th class="collapsing">Status</th>
+      <th class="collapsing">Publish count</th>
+      <th class="collapsing">Updated by</th>
+      <th class="collapsing">Updated at</th>
     </tr>
   </thead>
 
@@ -15,10 +15,10 @@
     <% @template_data.each do |template_datum| %>
       <tr>
         <td><%= link_to template_datum.name, account_template_datum_path(@account, template_datum) %></td>
-        <td><%= template_datum.version %></td>
         <td><%= template_datum.status %></td>
         <td><%= template_datum.publish_count %></td>
-        <td><%= template_datum.updated_by %></td>
+        <td><%= template_datum.updator.name %></td>
+        <td><%= time_ago_in_words(template_datum.updated_at) %></td>
       </tr>
     <% end %>
   </tbody>

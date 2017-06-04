@@ -1,3 +1,7 @@
+table.ui.table > thead > tr > th{
+    font-weight: 400;
+}
+
 .ui.menu.clear{
     border: 0px !important;
     box-shadow: none !important;

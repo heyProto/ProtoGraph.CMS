@@ -8,13 +8,12 @@ class TemplateCardsController < ApplicationController
   end
 
   def show
+    @template_datum = @template_card.template_datum
   end
 
   def new
+    @template_datum = TemplateDatum.friendly.find(params[:template_datum_id])
     @template_card = TemplateCard.new
-  end
-
-  def edit
   end
 
   def create
@@ -22,7 +21,7 @@ class TemplateCardsController < ApplicationController
     @template_card.created_by = current_user.id
     @template_card.updated_by = current_user.id
     if @template_card.save
-      redirect_to @template_card, notice: t("cs")
+      redirect_to account_template_datum_path(@account, @template_card.template_datum), notice: t("cs")
     else
       render :new
     end

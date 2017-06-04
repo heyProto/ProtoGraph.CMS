@@ -28,7 +28,7 @@ class ServicesAttachable < ApplicationRecord
     belongs_to :account
     belongs_to :creator, class_name: "User", foreign_key: "created_by"
     belongs_to :updator, class_name: "User", foreign_key: "updated_by"
-    belongs_to :attachable, polymorphic: true
+    #belongs_to :attachable, polymorphic: true
 
     #ACCESSORS
     #VALIDATIONS

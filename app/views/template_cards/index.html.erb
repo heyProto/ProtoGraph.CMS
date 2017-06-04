@@ -1,26 +1,5 @@
 <%= render partial: "template_cards/header" %>
 <div class="sixteen wide column">
-  <table class="ui very basic table">
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Version</th>
-      <th>Status</th>
-      <th>Publish count</th>
-      <th>Updated by</th>
-    </tr>
-  </thead>
-  <tbody>
-    <% @template_cards.each do |template_card| %>
-      <tr>
-        <td><%= link_to template_card.name, nil %></td>
-        <td><%= template_card.version %></td>
-        <td><%= template_card.status %></td>
-        <td><%= template_card.publish_count %></td>
-        <td><%= template_card.updated_by %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+  <%= render partial: "template_cards/index" %>
 </div>
 </div>

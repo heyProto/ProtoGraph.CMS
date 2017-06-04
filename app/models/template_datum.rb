@@ -38,7 +38,7 @@ class TemplateDatum < ApplicationRecord
     #ACCESSORS
     #VALIDATIONS
     validates :account_id, presence: true
-    validates :name, presence: true
+    validates :name, presence: true, uniqueness: {scope: :account, case_sensitive: false }
     validates :created_by, presence: true
     validates :updated_by, presence: true
 

@@ -10,6 +10,10 @@ body {
     color: #EF6237;
 }
 
+a, a:hover{
+    color: #EF6237 !important;
+}
+
 div {
     &.field,
     &.actions {

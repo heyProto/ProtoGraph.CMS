@@ -19,7 +19,9 @@ Rails.application.routes.draw do
     resources :template_streams do
         resources :template_stream_cards
     end
-    resources :template_data
+    resources :template_data do
+      resources :template_cards, only: [:new]
+    end
     resources :template_cards
   end
 

@@ -40,7 +40,8 @@
   </div>
   <% else %>
   <div class="ui secondary menu" style="border-bottom: 1px lightgray solid">
-    <%= link_to "Haiku Publishing", root_url, class: "header item" %>
+
+    <%= link_to image_tag("logo.png"), root_url, class: "item" %>
     <div class="right menu">
       <%- if controller_name != 'sessions' %>
       <%= link_to "Get in", new_session_path(resource_name), class: "item" %>

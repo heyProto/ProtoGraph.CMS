@@ -68,7 +68,7 @@
       create_table :services_attachables do |t|
         t.integer :account_id
         t.integer :attachable_id
-        t.integer :attachable_type
+        t.string :attachable_type
         t.string :genre
         t.text :file_url
         t.text :original_file_name

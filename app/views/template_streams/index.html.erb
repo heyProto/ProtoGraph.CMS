@@ -4,7 +4,6 @@
   <thead>
     <tr>
       <th>Name</th>
-      <th>Version</th>
       <th>Status</th>
       <th>Publish count</th>
       <th>Updated by</th>
@@ -15,10 +14,9 @@
     <% @template_streams.each do |template_stream| %>
       <tr>
         <td><%= link_to template_stream.name, account_template_stream_path(@account, template_stream) %></td>
-        <td><%= template_stream.version %></td>
         <td><%= template_stream.status %></td>
         <td><%= template_stream.publish_count %></td>
-        <td><%= template_stream.updated_by %></td>
+        <td><%= template_stream.updator.name %></td>
       </tr>
     <% end %>
   </tbody>

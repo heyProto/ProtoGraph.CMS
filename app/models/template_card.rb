@@ -45,8 +45,7 @@ class TemplateCard < ApplicationRecord
     #VALIDATIONS
     validates :account_id, presence: true
     validates :template_datum_id, presence: true
-    validates :name, presence: true
-    validates :version, presence: true
+    validates :name, presence: true, uniqueness: {scope: :account, case_sensitive: false }
     validates :created_by, presence: true
     validates :updated_by, presence: true
 

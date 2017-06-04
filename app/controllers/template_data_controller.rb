@@ -8,13 +8,11 @@ class TemplateDataController < ApplicationController
   end
 
   def show
+    @template_cards = @template_datum.template_cards
   end
 
   def new
     @template_datum = TemplateDatum.new
-  end
-
-  def edit
   end
 
   def create
