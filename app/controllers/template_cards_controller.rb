@@ -23,6 +23,7 @@ class TemplateCardsController < ApplicationController
     if @template_card.save
       redirect_to account_template_datum_path(@account, @template_card.template_datum), notice: t("cs")
     else
+      @template_datum = @template_card.template_datum
       render :new
     end
   end
