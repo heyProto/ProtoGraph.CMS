@@ -8,6 +8,10 @@ table.ui.table > thead > tr > th{
     border-radius: 0px !important;
 }
 
+.menu > .divider{
+    margin: 0px !important;
+}
+
 .best_in_place{
     border-bottom: 1px dotted #F5EFE6;
 }

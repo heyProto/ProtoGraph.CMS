@@ -1,0 +1,30 @@
+<div class="sixteen wide column">
+  <h1 class="ui header">
+    My accounts
+  </h1>
+  <br/>
+</div>
+<div class="twelve wide column">
+  <table class="ui very basic table">
+    <tbody>
+        <% @accounts.each do |account| %>
+        <tr>
+            <td class="collapsing"><%= image_tag avatar_url(account.gravatar_email), class: "ui avatar image" %>
+            </td>
+            <td><%= link_to account.username, account_path(account), class: "item" %>
+            </td>
+        </tr>
+        <% end %>
+    </tbody>
+  </table>
+</div>
+<div class="four wide column">
+    <br/>
+  <%= simple_form_for @account do |f| %>
+  <%= f.input :username, id: :account_username, hint: "Choose wisely. You cannot change it later." %>
+  <%= f.submit class: 'ui button'%>
+  <% end %>
+</div>
+
+
+

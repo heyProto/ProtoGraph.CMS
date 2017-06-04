@@ -1,7 +1,3 @@
-Accounts Switch
-
----
-
 1. Best In Place - Description
 - Style the description
 

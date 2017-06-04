@@ -7,7 +7,6 @@ class ApplicationController < ActionController::Base
 
   def sudo
   	if user_signed_in?
-  		@accounts = current_user.accounts
   		if params[:account_id].present?
   			@account = Account.friendly.find(params[:account_id])
   		elsif controller_name == "accounts" and params[:id].present?

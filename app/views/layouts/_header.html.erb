@@ -6,17 +6,17 @@
         <div class="item"><%= @account.username %></div>
     <% end %>
     <div class="right menu">
-      <div class="ui dropdown item">
+      <div class="ui dropdown pointing item">
         <%= image_tag avatar_url(current_user.email), class: "ui avatar image" %>
         <div class="menu">
-          <%= link_to 'Add Account', new_account_path, class: "item" %>
+          <%= link_to 'My accounts', accounts_path, class: "item" %>
           <div class="divider"></div>
           <%= link_to 'Profile', edit_user_registration_path(@account), class: "item" %>
-          <%= link_to "Sign Out", destroy_user_session_path, class: "item" %>
+          <%= link_to "Sign out", destroy_user_session_path, class: "item" %>
         </div>
       </div>
       <% if @on_an_account_page %>
-          <div class="ui dropdown item">
+          <div class="ui dropdown pointing item">
             <div class="text">
               <% if @on_an_account_page %>
                 <%= image_tag avatar_url(@account.gravatar_email), class: "ui avatar image" %>
@@ -24,14 +24,8 @@
             </div>
             <div class="menu">
               <%= link_to "Settings", account_path(@account), class: "item" %>
-                <% if current_user.is_admin_from_pykih %>
-                  <%= link_to "Templates", account_template_cards_path(@account), class: "item" %>
-                <% end %>
-              <% if !@on_an_account_page or @accounts.count > 1 %>
-                <% @accounts.each do |account| %>
-                  <%= link_to account.username, account_path(account), class: "item" %>
-                <% end %>
-                <div class="ui divider"></div>
+              <% if current_user.is_admin_from_pykih %>
+                <%= link_to "Templates", account_template_cards_path(@account), class: "item" %>
               <% end %>
             </div>
       <% end %>

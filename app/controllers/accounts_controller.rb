@@ -6,7 +6,8 @@ class AccountsController < ApplicationController
     redirect_to account_permissions_path(@account)
   end
 
-  def new
+  def index
+    @accounts = current_user.accounts
     @account = Account.new
   end
 
@@ -16,7 +17,8 @@ class AccountsController < ApplicationController
       @account.create_permission(current_user.id)
       redirect_to @account, notice: t("cs")
     else
-      render :new
+      @accounts = current_user.accounts
+      render :index
     end
   end
 
