@@ -1,9 +1,12 @@
+- TemplateCard > Delete or Deactivate
+- TemplateDatum > Delete or Deactivate
+
 Dependent Destroy
 - PermissionInvite can be deleted
 - Permission can be deactivated
 - User cannot be deleted
 - Account cannot be deleted. Deactivated.
-- Authentications can be Deactivated.
+- Authentications can be deleted.
 
 ----
 

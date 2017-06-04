@@ -77,6 +77,16 @@ class TemplateDataController < ApplicationController
     redirect_to template_data_url, notice: t("ds")
   end
 
+  def destroy
+    if @template_datum.can_delete?
+      @template_datum.destroy
+      redirect_to account_template_data_path(@account), notice: t("ds")
+    else
+      @template_datum.update_attributes(status: "Deactivated")
+      redirect_to account_template_datum_path(@account, @template_datum), notice: t("ds")
+    end
+  end
+
   private
 
     def set_template_datum

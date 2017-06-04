@@ -77,8 +77,13 @@ class TemplateCardsController < ApplicationController
   end
 
   def destroy
-    @template_card.destroy
-    redirect_to template_cards_url, notice: t("ds")
+    if @template_card.can_delete?
+      @template_card.destroy
+      redirect_to account_template_cards_path(@account), notice: t("ds")
+    else
+      @template_card.update_attributes(status: "Deactivated")
+      redirect_to account_template_card_path(@account, @template_card), notice: t("ds")
+    end
   end
 
   private
