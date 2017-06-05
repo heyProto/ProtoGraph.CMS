@@ -8,15 +8,16 @@
 #  domain         :string(255)
 #  gravatar_email :string(255)
 #  status         :string(255)
+#  sign_up_mode   :string(255)
 #  created_at     :datetime         not null
 #  updated_at     :datetime         not null
 #
 
-
-
 class Account < ApplicationRecord
 
     #CONSTANTS
+    SIGN_UP_MODES = ["Invitation only", "Any email from your domain"]
+
     #CUSTOM TABLES
     #GEMS
     extend FriendlyId
@@ -63,6 +64,7 @@ class Account < ApplicationRecord
 
     def before_create_set
         self.slug = self.username
+        self.sign_up_mode = "Invitation only"
         true
     end
 

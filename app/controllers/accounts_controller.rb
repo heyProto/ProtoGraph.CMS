@@ -8,9 +8,15 @@ class AccountsController < ApplicationController
     @account = Account.new
   end
 
+  def show
+  end
+
   def edit
     @people_count = @account.users.count
     @pending_invites_count = @account.permission_invites.count
+    @fb_auth = @account.authentications.fb_auth.first
+    @tw_auth = @account.authentications.tw_auth.first
+    @insta_auth = @account.authentications.insta_auth.first
   end
 
   def update

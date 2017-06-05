@@ -2,18 +2,21 @@
 #
 # Table name: template_streams
 #
-#  id            :integer          not null, primary key
-#  account_id    :integer
-#  name          :string(255)
-#  description   :text(65535)
-#  slug          :string(255)
-#  status        :string(255)
-#  publish_count :integer
-#  is_public     :boolean
-#  created_by    :integer
-#  updated_by    :integer
-#  created_at    :datetime         not null
-#  updated_at    :datetime         not null
+#  id                  :integer          not null, primary key
+#  account_id          :integer
+#  name                :string(255)
+#  description         :text(65535)
+#  slug                :string(255)
+#  global_slug         :string(255)
+#  version             :float(24)
+#  previous_version_id :integer
+#  status              :string(255)
+#  publish_count       :integer
+#  is_public           :boolean
+#  created_by          :integer
+#  updated_by          :integer
+#  created_at          :datetime         not null
+#  updated_at          :datetime         not null
 #
 
 class TemplateStream < ApplicationRecord

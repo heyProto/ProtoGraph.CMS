@@ -26,18 +26,6 @@ a.orange {
         width: 0px !important;
 }
 
-.ui.dropdown.item.orange {
-    background: #EF6237;
-    color: white;
-    font-weight: bold;
-}
-
-input.ui.primary.button {
-    background: #EF6237;
-    color: #FDF0EB;
-    border: 1px solid #FFD1BF;
-}
-
 h5{
     color: gray;
     font-weight: 100 !important;

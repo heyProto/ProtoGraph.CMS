@@ -6,6 +6,7 @@
 #  user_id       :integer
 #  account_id    :integer
 #  ref_role_slug :string(255)
+#  status        :string(255)
 #  created_by    :integer
 #  updated_by    :integer
 #  created_at    :datetime         not null

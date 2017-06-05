@@ -4,7 +4,7 @@ class PermissionsController < ApplicationController
   before_action :set_permission, only: [:change_role, :destroy]
 
   def index
-    @permissions = @account.permissions.includes(:user)
+    @permissions = @account.permissions.includes(:user).page params[:page]
     @permission_invite = PermissionInvite.new
     @permission_invites = @account.permission_invites
     @people_count = @account.users.count

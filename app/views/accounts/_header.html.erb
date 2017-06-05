@@ -4,5 +4,4 @@
 <div class="ui secondary pointing menu">
   <%= link_to "Settings", edit_account_path(@account), class: (controller_name == "accounts" ? "active item" : "item") %>
   <%= link_to "Team Members (#{@people_count})", account_permissions_path(@account), class: (controller_name == "permissions" ? "active item" : "item") %>
-  <%= link_to "Apps & integrations", account_authentication_path(@account), class: (controller_name == "authentications" ? "active item" : "item") %>
 </div>

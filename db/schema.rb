@@ -18,6 +18,7 @@ ActiveRecord::Schema.define(version: 20170521162027) do
     t.string "domain"
     t.string "gravatar_email"
     t.string "status"
+    t.string "sign_up_mode"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["domain"], name: "index_accounts_on_domain"
@@ -97,6 +98,7 @@ ActiveRecord::Schema.define(version: 20170521162027) do
     t.integer "user_id"
     t.integer "account_id"
     t.string "ref_role_slug"
+    t.string "status"
     t.integer "created_by"
     t.integer "updated_by"
     t.datetime "created_at", null: false
@@ -136,6 +138,9 @@ ActiveRecord::Schema.define(version: 20170521162027) do
     t.string "name"
     t.text "description"
     t.string "slug"
+    t.string "global_slug"
+    t.float "version", limit: 24
+    t.integer "previous_version_id"
     t.string "status"
     t.integer "publish_count"
     t.boolean "is_public"
@@ -151,6 +156,9 @@ ActiveRecord::Schema.define(version: 20170521162027) do
     t.string "name"
     t.text "description"
     t.string "slug"
+    t.string "global_slug"
+    t.float "version", limit: 24
+    t.integer "previous_version_id"
     t.string "status"
     t.string "api_key"
     t.integer "publish_count"
@@ -180,6 +188,9 @@ ActiveRecord::Schema.define(version: 20170521162027) do
     t.string "name"
     t.text "description"
     t.string "slug"
+    t.string "global_slug"
+    t.float "version", limit: 24
+    t.integer "previous_version_id"
     t.string "status"
     t.integer "publish_count"
     t.boolean "is_public"

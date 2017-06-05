@@ -1,22 +1,69 @@
-
-
-<div class="twelve wide column">
+<div class="nine wide column">
   <%= render partial: "accounts/header" %>
-  <%= simple_form_for(@account) do |f| %>
-  <%= f.error_notification %>
-
-  <div class="form-inputs">
-    <%= f.input :gravatar_email %>
-    <%= f.input :domain %>
-  </div>
-
-  <div class="form-actions">
-    <%= f.button :submit, class: "ui button" %>
-  </div>
-<% end %>
-</div>
-<div class="four wide column">
-  <%= image_tag avatar_url(@account.gravatar_email, 200), class: "ui medium circular image" %>
   <br/>
-  <p>To change the profile image, register with <a href="http://gravatar.com/" target="_blank">gravatar.com</a> with email ID <%= @account.gravatar_email %></p>
+  <%= simple_form_for @account do |f| %>
+  <%= f.error_notification %>
+  <div class="form-inputs">
+    <div class="ui message">
+      <h3>How do you want members to sign up?</h3>
+      <p class="hint">Choose to make your team signup process invitation only, or allow anyone with a certain email address format to sign up.</p>
+      <%= f.input :sign_up_mode, as: :select, collection: Account::SIGN_UP_MODES.map{|z| [z, z]}, label: false, include_blank: false %>
+      <%= f.input :domain, placeholder: "E.g. google.com. Don't use common domains like gmail, outlook, yahoo, etc." %>
+    </div>
+    <br/>
+    <div class="ui message">
+      <h3>Avatar</h3>
+      <p class="hint">This works like a user icon. It is square and should be at least 60 × 60px in size. We use <a href="http://gravatar.com/" target="_blank">Gravatar.com</a> for display pictures. Register with Gravatar with an email ID and enter it below.</p>
+      <%= f.input :gravatar_email, label: false %>
+      <%= image_tag avatar_url(@account.gravatar_email, 200), class: "ui small circular image" %>
+    </div>
+    <div class="form-actions">
+      <br/>
+      <%= f.button :submit, class: "ui button" %>
+    </div>
+    <br/>
+    <br/>
+    <div class="ui message">
+      <h3>Social</h3>
+      <p class="hint">Access to your social media accounts will be used for helping you distribute content to these channels.</p>
+      <table class="ui very basic table">
+        <tr>
+          <td style="color: gray;" class="collapsing">
+            <i class='facebook f icon'></i>
+            facebook.com/<u style="color: black;"><%= @fb_auth.present? ? @fb_auth.uid : "_____________" %></u>
+          </td>
+          <td style="float: right; width: 150px;">
+            <% if @fb_auth.blank? %>
+            <%= link_to "Integrate", oauth_path({provider: :facebook, account_id: @account.id, current_user_id: current_user.id }) %>
+            <% end %>
+          </td>
+        </tr>
+        <tr>
+          <td style="color: gray;" class="collapsing">
+            <i class='twitter icon'></i>
+            twitter.com/<u style="color: black;"><%= @tw_auth.present? ? @tw_auth.uid : "_____________" %></u>
+          </td>
+          <td style="float: right; width: 150px;">
+            <% if @tw_auth.blank? %>
+            <%= link_to "Integrate", oauth_path({provider: :twitter, account_id: @account.id, current_user_id: current_user.id}) %>
+            <% end %>
+          </td>
+        </tr>
+        <tr>
+          <td style="color: gray;" class="collapsing">
+            <i class='instagram icon'></i>
+            instagram.com/<u style="color: black;"><%= @insta_auth.present? ? @insta_auth.uid : "_____________" %></u>
+          </td>
+          <td style="float: right; width: 150px;">
+            <% if @insta_auth.blank? %>
+            <%= link_to "Integrate", oauth_path({provider: :instagram, account_id: @account.id, current_user_id: current_user.id}) %>
+            <% end %>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </div>
+  <% end %>
+  <br/>
+  <br/>
 </div>

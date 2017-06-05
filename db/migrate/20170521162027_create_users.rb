@@ -30,6 +30,7 @@ class CreateUsers < ActiveRecord::Migration[5.1]
       t.integer :user_id
       t.integer :account_id
       t.string :ref_role_slug
+      t.string :status
       t.integer :created_by
       t.integer :updated_by
 
@@ -52,6 +53,7 @@ class CreateUsers < ActiveRecord::Migration[5.1]
       t.string :domain
       t.string :gravatar_email
       t.string :status
+      t.string :sign_up_mode
 
       t.timestamps
     end
@@ -114,6 +116,7 @@ class CreateUsers < ActiveRecord::Migration[5.1]
       t.string :name
       t.text :description
       t.string :slug
+      t.string :global_slug
       t.float :version
       t.integer :previous_version_id
       t.string :status
@@ -134,6 +137,7 @@ class CreateUsers < ActiveRecord::Migration[5.1]
       t.string :name
       t.text :description
       t.string :slug
+      t.string :global_slug
       t.float :version
       t.integer :previous_version_id
       t.string :status
@@ -150,6 +154,7 @@ class CreateUsers < ActiveRecord::Migration[5.1]
       t.string :name
       t.text :description
       t.string :slug
+      t.string :global_slug
       t.float :version
       t.integer :previous_version_id
       t.string :status

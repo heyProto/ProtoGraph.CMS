@@ -18,6 +18,7 @@ gem 'dotenv'
 gem 'dotenv-rails'
 gem 'rest-client'
 gem 'best_in_place', '~> 3.0.1'
+gem 'kaminari'
 
 #AUTHENTICATION
 gem 'devise'

@@ -30,6 +30,7 @@
             <div class="ui dropdown item">
             <div class="text">
               <%= permission.ref_role_slug %>
+              <i class="dropdown icon"></i>
             </div>
             <div class="menu">
                 <% RefRole.pluck(:slug).uniq.each do |r| %>
@@ -54,6 +55,7 @@
         </td>
       </tr>
     <% end %>
+    <%= paginate @permissions %>
 
   </tbody>
 </table>
