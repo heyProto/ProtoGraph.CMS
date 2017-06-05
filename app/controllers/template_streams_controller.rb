@@ -1,23 +1,26 @@
 class TemplateStreamsController < ApplicationController
 
-  before_action :authenticate_user!, :sudo_pykih_admin
-  before_action :set_template_stream, only: [:show, :edit, :update, :destroy, :flip_public_private]
+  before_action :authenticate_user!, :sudo_role_can_template_designer
+  before_action :set_template_stream, only: [:show, :edit, :update, :destroy, :flip_public_private, :move_to_next_status]
 
   def index
     @template_streams = @account.template_streams
   end
 
   def show
+    @template_cards = @template_stream.template_cards
   end
 
   def flip_public_private
+    redirect_to account_template_stream_path(@account, @template_stream), notice: @template_stream.flip_public_private
+  end
+
+  def move_to_next_status
+    redirect_to account_template_stream_path(@account, @template_stream), notice: @template_stream.move_to_next_status
   end
 
   def new
     @template_stream = TemplateStream.new
-  end
-
-  def edit
   end
 
   def create
@@ -32,23 +35,27 @@ class TemplateStreamsController < ApplicationController
   end
 
   def update
+    @template_stream.status = "Draft"
     @template_stream.updated_by = current_user.id
     respond_to do |format|
       if @template_stream.update(template_stream_params)
-        format.html { redirect_to @template_stream, notice: t("us") }
-        format.js{ respond_with_bip(@template_stream) }
-        format.json { render :show, status: :ok, location: @template_stream }
+        format.js {respond_with_bip(@template_stream) }
+        format.json { respond_with_bip(@template_stream) }
       else
-        format.html { render :edit }
-        format.js {respond_with_bip(@template_stream)}
-        format.json { render json: @template_stream.errors, status: :unprocessable_entity }
+        format.js {respond_with_bip(@template_stream) }
+        format.json { respond_with_bip(@template_stream) }
       end
     end
   end
 
   def destroy
-    @template_stream.destroy
-    redirect_to template_streams_url, notice: t("ds")
+    if !@template_stream.streams.first.present?
+      @template_stream.destroy
+      redirect_to account_template_streams_path(@account), notice: t("ds")
+    else
+      @template_stream.update_attributes(status: "Deactivated")
+      redirect_to account_template_stream_path(@account, @template_stream), notice: t("ds")
+    end
   end
 
   private

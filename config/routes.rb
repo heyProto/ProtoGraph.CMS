@@ -12,7 +12,9 @@ Rails.application.routes.draw do
   get '/auth/failure', to: 'authentications#failure'
 
   resources :accounts do
-    resources :permissions
+    resources :permissions do
+      get "change_role", on: :member
+    end
     resources :permission_invites
     get '/authentications', to: 'authentications#index', as: 'authentication'
     resources :services_attachables, only: [:destroy]

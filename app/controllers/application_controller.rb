@@ -7,6 +7,14 @@ class ApplicationController < ActionController::Base
     redirect_to root_url, notice: "Permission denied." if !current_user.is_admin_from_pykih
   end
 
+  def sudo_role_can_account_settings
+    redirect_to root_url, notice: "Permission denied" if !@role.can_account_settings
+  end
+
+  def sudo_role_can_template_designer
+    redirect_to root_url, notice: "Permission denied" if (!@role.can_template_design_do and !@role.can_template_design_publish)
+  end
+
   private
 
   def sudo
@@ -19,10 +27,10 @@ class ApplicationController < ActionController::Base
   		@on_an_account_page = (@account.present? and @account.id.present?)
       if @on_an_account_page
         @permission = current_user.permission_object(@account.id)
-        @people_count = @account.users.count
-        @pending_invites_count = @account.permission_invites.count
         if @permission.blank?
           redirect_to root_url, notice: "Permission denied."
+        else
+          @role = @permission.ref_role
         end
       end
   	end

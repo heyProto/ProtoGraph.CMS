@@ -32,7 +32,7 @@ class TemplateCard < ApplicationRecord
     belongs_to :creator, class_name: "User", foreign_key: "created_by"
     belongs_to :updator, class_name: "User", foreign_key: "updated_by"
     belongs_to :template_datum
-    has_many :template_stream_cards
+    has_many :template_stream_cards, dependent: :destroy
     has_many :template_streams, through: :template_stream_cards
     has_one :html, ->{where(genre: "html")}, as: :attachable
     has_one :css, ->{where(genre: "css")}, as: :attachable

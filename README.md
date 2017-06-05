@@ -1,29 +1,42 @@
-Dependent Destroy
-- PermissionInvite can be deleted
+4. Roles
+- Add dropdown icon to CHANGE OF ROLE
 - Permission can be deactivated
-- User cannot be deleted
+5. Authentications can be deleted.
+
+------
+
+1. TemplateStreams Functionality
+- Index
+- Show
+- New
+- Public?
+- Status Change
+
+2. Show of TemplateStreams
+- Attach Cards
+- can_delete? of TemplateStreamCards
+
+3. Delete or Deactivate button on
+- TemplateData
+- TemplateCard
+- TempalteStream
+
+6. Bring back concept of versions back in Templates
+- rails g migration AddCols version:float previous_version_id:integer
+- Change slug
+
+Dependent Destroy
 - Account cannot be deleted. Deactivated.
-- Authentications can be deleted.
-
-----
-
-Shopping site for cards
-
-----
-
-CRUD for Streams
-- TemplateStream.is_public
-- TemplateStreamCard.is_mandatory
-- TemplateStreamCard.position
-
-----
-
-Roles in accounts
 
 ----
 
 4. Upload forms
 - Decide CDN Folder Name Structures
+- Upload images
+
+Shopping site for cards
+
+----
 
 Streams to create
 - One card stream
@@ -36,10 +49,22 @@ Cards to create
 - Video - YouTube link
 - Explainer
 
-Admin pages
-
-
-
 Associate a domain with an account
 Permissions whether we want this to be added
 Anyone who signs up with this domain then gets added to that account
+
+Streamline sign up / sign in - Can it become oAuth?
+
+Search Engine
+TemplateCards -- platforms, sizes
+
+Admin pages
+
+Multiple email ID support
+
+rails g scaffold user_emails user_id:integer email:string token:string confirmation_sent_at:datetime accepted_at:datetime
+
+Public Activity
+
+Create Account Show page
+Test out roles scoping

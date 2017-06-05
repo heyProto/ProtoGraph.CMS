@@ -10,15 +10,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170604072617) do
+ActiveRecord::Schema.define(version: 20170521162027) do
 
   create_table "accounts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "username"
     t.string "slug"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
     t.string "domain"
     t.string "gravatar_email"
+    t.string "status"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["domain"], name: "index_accounts_on_domain"
     t.index ["slug"], name: "index_accounts_on_slug", unique: true
     t.index ["username"], name: "index_accounts_on_username", unique: true
   end
@@ -84,6 +86,7 @@ ActiveRecord::Schema.define(version: 20170604072617) do
   create_table "permission_invites", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer "account_id"
     t.string "email"
+    t.string "ref_role_slug"
     t.integer "created_by"
     t.integer "updated_by"
     t.datetime "created_at", null: false
@@ -93,10 +96,22 @@ ActiveRecord::Schema.define(version: 20170604072617) do
   create_table "permissions", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer "user_id"
     t.integer "account_id"
+    t.string "ref_role_slug"
     t.integer "created_by"
     t.integer "updated_by"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "ref_roles", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string "name"
+    t.string "slug"
+    t.boolean "can_account_settings"
+    t.boolean "can_template_design_do"
+    t.boolean "can_template_design_publish"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["slug"], name: "index_ref_roles_on_slug", unique: true
   end
 
   create_table "services_attachables", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|

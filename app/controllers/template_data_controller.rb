@@ -1,6 +1,6 @@
 class TemplateDataController < ApplicationController
 
-  before_action :authenticate_user!, :sudo_pykih_admin
+  before_action :authenticate_user!, :sudo_role_can_template_designer
   before_action :set_template_datum, only: [:show, :edit, :update, :destroy, :flip_public_private, :move_to_next_status]
 
   def index
@@ -46,11 +46,6 @@ class TemplateDataController < ApplicationController
         format.json {respond_with_bip(@template_datum)}
       end
     end
-  end
-
-  def destroy
-    @template_datum.destroy
-    redirect_to template_data_url, notice: t("ds")
   end
 
   def destroy

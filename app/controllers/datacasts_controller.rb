@@ -1,4 +1,6 @@
 class DatacastsController < ApplicationController
+
+  before_action :authenticate_user!
   before_action :set_datacast, only: [:show, :edit, :update, :destroy]
 
   # GET /datacasts

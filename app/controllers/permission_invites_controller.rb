@@ -1,6 +1,6 @@
 class PermissionInvitesController < ApplicationController
 
-  before_action :authenticate_user!
+  before_action :authenticate_user!, :sudo_role_can_account_settings
   before_action :set_permission_invite, only: [:show, :edit, :update, :destroy]
 
   def create
@@ -14,6 +14,8 @@ class PermissionInvitesController < ApplicationController
         PermissionInvites.invite(current_user, @account, @permission_invite.email).deliver
         redirect_to account_permissions_url(@account), notice: t("permission_invite.invite")
       else
+        @permissions = @account.permissions.includes(:user)
+        @permission_invites = @account.permission_invites
         @people_count = @account.users.count
         @pending_invites_count = @account.permission_invites.count
         @permission_invites = @account.permission_invites
@@ -34,6 +36,6 @@ class PermissionInvitesController < ApplicationController
     end
 
     def permission_invite_params
-      params.require(:permission_invite).permit(:account_id, :email, :created_by, :updated_by)
+      params.require(:permission_invite).permit(:account_id, :email, :ref_role_slug, :created_by, :updated_by)
     end
 end

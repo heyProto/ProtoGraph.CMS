@@ -1,10 +1,14 @@
 class AuthenticationsController < ApplicationController
 
+  before_action :authenticate_user!, :sudo_role_can_account_settings, only: :index
+
   def index
     @authentications = @account.authentications
     @fb_auth = @authentications.fb_auth
     @tw_auth = @authentications.tw_auth
     @insta_auth = @authentications.insta_auth
+    @people_count = @account.users.count
+    @pending_invites_count = @account.permission_invites.count
   end
 
   def create

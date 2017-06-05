@@ -2,13 +2,14 @@
 #
 # Table name: permission_invites
 #
-#  id         :integer          not null, primary key
-#  account_id :integer
-#  email      :string(255)
-#  created_by :integer
-#  updated_by :integer
-#  created_at :datetime         not null
-#  updated_at :datetime         not null
+#  id            :integer          not null, primary key
+#  account_id    :integer
+#  email         :string(255)
+#  ref_role_slug :string(255)
+#  created_by    :integer
+#  updated_by    :integer
+#  created_at    :datetime         not null
+#  updated_at    :datetime         not null
 #
 
 class PermissionInvite < ApplicationRecord
@@ -20,11 +21,13 @@ class PermissionInvite < ApplicationRecord
     belongs_to :account
     belongs_to :creator, class_name: "User", foreign_key: "created_by"
     belongs_to :updator, class_name: "User", foreign_key: "updated_by"
+    belongs_to :ref_role, class_name: "RefRole", foreign_key: "ref_role_slug", primary_key: "slug"
 
     #ACCESSORS
     #VALIDATIONS
     validates :account_id, presence: true
     validates :email, presence: true, format: { with: /\A[^@\s]+@([^@.\s]+\.)+[^@.\s]+\z/ }
+    validates :ref_role_slug, presence: true
     validate  :is_unique_row?, on: :create
 
     #CALLBACKS

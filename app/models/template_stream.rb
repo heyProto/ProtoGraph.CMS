@@ -28,7 +28,7 @@ class TemplateStream < ApplicationRecord
     belongs_to :account
     belongs_to :creator, class_name: "User", foreign_key: "created_by"
     belongs_to :updator, class_name: "User", foreign_key: "updated_by"
-    has_many :template_stream_cards
+    has_many :template_stream_cards, dependent: :destroy
     has_many :template_cards, through: :template_stream_cards
     has_one :html, ->{where(genre: "html")}, as: :attachable
     has_one :css, ->{where(genre: "css")}, as: :attachable
@@ -56,18 +56,6 @@ class TemplateStream < ApplicationRecord
         0.1
     end
 
-    def can_delete?
-    end
-
-    def can_publish?
-    end
-
-    def can_make_public?
-    end
-
-    def can_make_private?
-    end
-
     #PRIVATE
     private
 
@@ -88,6 +76,21 @@ class TemplateStream < ApplicationRecord
         ServicesAttachable.create_shell_object(self, "css")
         ServicesAttachable.create_shell_object(self, "config")
         true
+    end
+
+    def can_ready_to_publish?
+        if self.html.present? and
+           self.css.present? and
+           self.js.present? and
+           self.config.present? and
+           self.description.present?
+                return true
+        end
+        return false
+    end
+
+    def can_make_public?
+       self.status == "Published" ? true : false
     end
 
 end

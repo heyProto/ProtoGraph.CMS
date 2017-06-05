@@ -5,11 +5,14 @@
 #  id             :integer          not null, primary key
 #  username       :string(255)
 #  slug           :string(255)
-#  created_at     :datetime         not null
-#  updated_at     :datetime         not null
 #  domain         :string(255)
 #  gravatar_email :string(255)
+#  status         :string(255)
+#  created_at     :datetime         not null
+#  updated_at     :datetime         not null
 #
+
+
 
 class Account < ApplicationRecord
 
@@ -31,8 +34,7 @@ class Account < ApplicationRecord
     #VALIDATIONS
     validates :username, presence: true, uniqueness: { case_sensitive: false }, length: { in: 3..24 }, format: { with: /\A[a-z0-9_]{4,16}\z/ }
     validates :domain, format: {:with => /[a-zA-Z0-9][a-zA-Z0-9-]{1,61}[a-zA-Z0-9]\.[a-zA-Z]{2,}/ }, allow_blank: true, allow_nil: true, length: { in: 3..240 }
-    validates :gravatar_email, format: { with: /\A[^@\s]+@([^@.\s]+\.)+[^@.\s]+\z/ }
-
+    validates :gravatar_email, format: { with: /\A[^@\s]+@([^@.\s]+\.)+[^@.\s]+\z/ }, allow_blank: true, allow_nil: true
 
     #CALLBACKS
     before_create :before_create_set
@@ -52,8 +54,8 @@ class Account < ApplicationRecord
         TemplateStream.where("account_id = ? OR is_public = true", self.id)
     end
 
-    def create_permission(uid)
-        Permission.create(user_id: uid, account_id: self.id, created_by: uid, updated_by: uid)
+    def create_permission(uid, r)
+        Permission.create(user_id: uid, account_id: self.id, created_by: uid, updated_by: uid, ref_role_slug: r)
     end
 
     #PRIVATE
@@ -63,6 +65,5 @@ class Account < ApplicationRecord
         self.slug = self.username
         true
     end
-
 
 end

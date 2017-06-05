@@ -12,6 +12,7 @@
   <thead>
     <tr>
       <th>User</th>
+      <th>Role</th>
       <th>Invited by</th>
       <th>Member since</th>
       <th>Last signed in</th>
@@ -24,6 +25,23 @@
     <% @permissions.each do |permission| %>
       <tr>
         <td><%= permission.user.name %></td>
+        <td>
+          <% if permission.ref_role_slug != "owner" %>
+            <div class="ui dropdown item">
+            <div class="text">
+              <%= permission.ref_role_slug %>
+            </div>
+            <div class="menu">
+                <% RefRole.pluck(:slug).uniq.each do |r| %>
+                  <% if permission.ref_role_slug != r %>
+                    <%= link_to r, change_role_account_permission_path(@account, permission, r: r), class: "item" %>
+                  <% end %>
+                <% end %>
+            </div>
+          <% else %>
+            <%= permission.ref_role_slug %>
+          <% end %>
+        </td>
         <td><%= permission.creator.name %></td>
         <td><%= time_ago_in_words(permission.created_at) %></td>
         <td><%= time_ago_in_words(permission.user.current_sign_in_at) %></td>
