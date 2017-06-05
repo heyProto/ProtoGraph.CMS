@@ -37,6 +37,10 @@ Improve UI of Template Designer
 
 Write clean documentation
 
+Editors can review submissions, add stories, edit and publish submitted drafts, and remove any stories from this publication.
+
+Writers can submit their stories and remove them from this publication.
+
 ------------------------------------------------------------------------------------
 
 Shopping site for cards
