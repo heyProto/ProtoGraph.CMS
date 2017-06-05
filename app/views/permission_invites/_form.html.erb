@@ -4,24 +4,24 @@
     Invite members
   </div>
   <div class="image content">
-    <%= simple_form_for [@account, @permission_invite] do |f| %>
-    <% if @permission_invite.errors.any? %>
-    <div id="error_explanation" class="ui error message">
-      <div class="header">
-        <%= pluralize(@permission_invite.errors.count, "error") %> prohibited this permission_invite from being saved:
+      <%= simple_form_for [@account, @permission_invite] do |f| %>
+      <% if @permission_invite.errors.any? %>
+      <div id="error_explanation" class="ui error message">
+        <div class="header">
+          <%= pluralize(@permission_invite.errors.count, "error") %> prohibited this permission_invite from being saved:
+        </div>
+        <% @permission_invite.errors.full_messages.each do |message| %>
+        <p><%= message %></p>
+        <% end %>
       </div>
-      <% @permission_invite.errors.full_messages.each do |message| %>
-      <p><%= message %></p>
       <% end %>
-    </div>
-    <% end %>
-    <%= f.hidden_field :account_id, value: @account.id %>
-    <%= f.hidden_field :created_by, value: current_user.id %>
-    <%= f.hidden_field :updated_by, value: current_user.id %>
+      <%= f.hidden_field :account_id, value: @account.id %>
+      <%= f.hidden_field :created_by, value: current_user.id %>
+      <%= f.hidden_field :updated_by, value: current_user.id %>
 
-    <%= f.input :email, id: :permission_invite_email, required: true, autofocus: true %>
-    <%= f.input :ref_role_slug, as: :select, label: "Role", collection: RefRole.pluck(:slug).uniq.map{|z| [z.titleize, z]}, include_blank: false %>
-    <%= f.submit "Invite", class: 'ui button' %>
-    <% end %>
+      <%= f.input :email, id: :permission_invite_email, required: true, autofocus: true %>
+      <%= f.input :ref_role_slug, as: :select, label: "Role", collection: RefRole.pluck(:slug).uniq.map{|z| [z.titleize, z]}, include_blank: false %>
+      <%= f.submit "Invite", class: 'ui button' %>
+      <% end %>
   </div>
 </div>

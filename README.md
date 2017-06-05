@@ -1,10 +1,5 @@
 * Add a Pykih user in all accounts. Hide him.
 
-
-
-Permission can be deactivated.
-Change global sudos to check only for ACTIVATED permissions.
-
 ------------------------------------------------------------------------------------
 
 - Set a global_slug in each template. Same method to remove spaces from username.
@@ -34,10 +29,6 @@ Improve UI of Template Designer
 ------------------------------------------------------------------------------------
 
 Write clean documentation
-
-Editors can review submissions, add stories, edit and publish submitted drafts, and remove any stories from this publication.
-
-Writers can submit their stories and remove them from this publication.
 
 ------------------------------------------------------------------------------------
 

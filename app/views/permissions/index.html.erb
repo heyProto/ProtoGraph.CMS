@@ -48,7 +48,17 @@
       </div>
     <% end %>
     <%= paginate @permissions %>
+    <div class="ui dividing right rail" style="min-height: 339px;"></div>
   </div>
+</div>
+<div class="seven wide column" style="padding-left: 90px;">
+
+
+
+    <p><b>Owners</b> have permission to do anything.</p>
+      <p><b>Editors</b> can review submissions, add stories, edit and publish submitted drafts, and remove any stories from this publication.</p>
+      <p><b>Developers</b> can design and upload HTML, CSS, JS, XSD and JSON files for template data and template cards.</p>
+      <p><b>Writers</b> can submit their stories and remove them from this publication.</p>
 </div>
 <%= render partial: "permission_invites/form" %>
 <script>
