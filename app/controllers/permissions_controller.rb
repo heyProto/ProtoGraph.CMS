@@ -19,8 +19,7 @@ class PermissionsController < ApplicationController
   end
 
   def destroy
-
-    @permission.destroy
+    @permission.update_attributes(status: "Deactivated")
     redirect_to account_permissions_path(@account), notice: t("ds")
   end
 

@@ -10,34 +10,42 @@
   <br/>
   <div class="ui very relaxed list" style="width: 100% !important;">
     <% @permissions.each do |permission| %>
-        <div class="item">
-          <img class="ui avatar image" src=<%=avatar_url(permission.user.email)%>>
-          <div class="content">
-            <div class="header">
-              <%= permission.user.name %>
-              <span style="float: right;">
-                <% if permission.ref_role_slug != "owner" %>
+      <div class="item">
+        <img class="ui avatar image" src=<%=avatar_url(permission.user.email)%>>
+        <div class="content">
+          <div class="header" style="<%= permission.status == "Deactivated" ? "color: gray;" : nil%>">
+            <%= permission.user.name %>
+            <% if permission.status == "Deactivated" %>
+                <i style="font-weight: 200; color: gray;">(Deactivated)</i>
+            <% end %>
+            <span style="float: right; font-weight: 400;">
+              <% if permission.ref_role_slug != "owner" and permission.status != "Deactivated" %>
                 <div class="ui dropdown item">
                   <div class="text">
-                    <%= permission.ref_role_slug.titleize %>
                     <i class="dropdown icon"></i>
+                    <%= permission.ref_role_slug.titleize %>
                   </div>
                   <div class="menu">
                     <% RefRole.pluck(:slug).uniq.each do |r| %>
                     <% if permission.ref_role_slug != r %>
-                    <%= link_to r, change_role_account_permission_path(@account, permission, r: r), class: "item" %>
+                    <%= link_to r.titleize, change_role_account_permission_path(@account, permission, r: r), class: "item" %>
                     <% end %>
                     <% end %>
                   </div>
-                  <% else %>
-                  <%= permission.ref_role_slug.titleize %>
-                  <% end %>
-                </span>
-              </div>
-              <div class="description">Last seen <%= time_ago_in_words(permission.user.current_sign_in_at) %> ago.</div>
+                </div>
+              <% else %>
+                <%= permission.ref_role_slug.titleize %>
+              <% end %>
+            </span>
+            <div class="description" style="<%= permission.status == "Deactivated" ? "color: gray;font-weight: 400;" : "font-weight: 400;"%>">
+              Last seen <%= time_ago_in_words(permission.user.current_sign_in_at) %> ago.
+              <% if current_user.id != permission.user_id and permission.status != "Deactivated" %>
+                  <%= link_to "<i class='trash outline icon'></i>".html_safe, account_permission_path(@account,   permission), method: :delete, data: { confirm: 'Are you sure?' } %>
+              <% end %>
             </div>
           </div>
         </div>
+      </div>
     <% end %>
     <%= paginate @permissions %>
   </div>
@@ -47,6 +55,3 @@
   $('.ui.modal#platform_modal')
   .modal('attach events', '#invite_members', 'show');
 </script>
-
-<% #if current_user.id != permission.user_id %>
-  <% #link_to "<i class='trash outline icon'></i>".html_safe, account_permission_path(@account, permission), method: :delete, data: { confirm: 'Are you sure?' } %>

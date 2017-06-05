@@ -10,6 +10,9 @@
       <div class="content">
         <div class="header">
           <%= link_to account.username, account_path(account) %>
+          <span style="float: right; font-weight: 400;">
+              <%= current_user.permission_object(account.id).ref_role_slug.titleize %>
+          </span>
         </div>
       </div>
     </div>
@@ -20,7 +23,6 @@
   <br/>
   <%= simple_form_for @account do |f| %>
   <%= f.input :username, id: :account_username, hint: "Choose wisely. You cannot change it later." %>
-  <%= f.input :gravatar_email, hint: "We use it only for showing your Gravatar avatar" %>
   <%= f.submit class: 'ui button'%>
   <% end %>
 </div>

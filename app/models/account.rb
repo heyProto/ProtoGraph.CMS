@@ -24,7 +24,7 @@ class Account < ApplicationRecord
     friendly_id :username, use: :slugged
 
     #ASSOCIATIONS
-    has_many :permissions
+    has_many :permissions, ->{where(status: "Active")}
     has_many :users, through: :permissions
     has_many :permission_invites
     has_many :authentications
@@ -56,10 +56,6 @@ class Account < ApplicationRecord
 
     def template_streams
         TemplateStream.where("account_id = ? OR is_public = true", self.id)
-    end
-
-    def create_permission(uid, r)
-        Permission.create(user_id: uid, account_id: self.id, created_by: uid, updated_by: uid, ref_role_slug: r)
     end
 
     #PRIVATE

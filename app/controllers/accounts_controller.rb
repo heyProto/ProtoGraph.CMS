@@ -32,7 +32,7 @@ class AccountsController < ApplicationController
   def create
     @account = Account.new(account_params)
     if @account.save
-      @account.create_permission(current_user.id, "owner")
+      current_user.create_permission(@account.id, "owner")
       redirect_to @account, notice: t("cs")
     else
       @accounts = current_user.accounts

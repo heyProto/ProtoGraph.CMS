@@ -1,6 +1,6 @@
 * Add a Pykih user in all accounts. Hide him.
 
-Test out roles scoping
+
 
 Permission can be deactivated.
 Change global sudos to check only for ACTIVATED permissions.

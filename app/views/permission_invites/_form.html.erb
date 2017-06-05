@@ -20,7 +20,7 @@
     <%= f.hidden_field :updated_by, value: current_user.id %>
 
     <%= f.input :email, id: :permission_invite_email, required: true, autofocus: true %>
-    <%= f.input :ref_role_slug, as: :select, label: "Role", collection: RefRole.pluck(:slug).uniq.map{|z| [z, z]}, include_blank: false %>
+    <%= f.input :ref_role_slug, as: :select, label: "Role", collection: RefRole.pluck(:slug).uniq.map{|z| [z.titleize, z]}, include_blank: false %>
     <%= f.submit "Invite", class: 'ui button' %>
     <% end %>
   </div>

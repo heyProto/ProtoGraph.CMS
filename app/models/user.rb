@@ -31,7 +31,7 @@ class User < ApplicationRecord
     devise :database_authenticatable, :registerable, :confirmable, :recoverable, :rememberable, :trackable, :validatable #, :omniauthable
 
     #ASSOCIATIONS
-    has_many :permissions
+    has_many :permissions, ->{where(status: "Active")}
     has_many :accounts, through: :permissions
 
     #ACCESSORS
@@ -50,12 +50,21 @@ class User < ApplicationRecord
     #SCOPE
     #OTHER
 
-    def permission_object(accid)
-        Permission.where(user_id: self.id, account_id: accid).first
+    def permission_object(accid, s="Active")
+        Permission.where(user_id: self.id, account_id: accid, status: s).first
     end
 
     def is_admin_from_pykih
         ["ritvvij.parrikh@pykih.com", "rp@pykih.com", "ab@pykih.com", "dhara.shah@pykih.com"].index(self.email).present? ? true : false
+    end
+
+    def create_permission(accid, r)
+        p = Permission.where(user_id: self.id, account_id: accid).first
+        if p.present?
+            p.update_attributes(status: "Active", ref_role_slug: r, updated_by: self.id)
+        else
+            Permission.create(user_id: self.id, account_id: accid, created_by: self.id, updated_by: self.id, ref_role_slug: r)
+        end
     end
 
     #PRIVATE
@@ -71,7 +80,7 @@ class User < ApplicationRecord
 
     def after_create_set
         a = Account.create(username: self.username)
-        a.create_permission(self.id, "owner")
+        self.create_permission(a.id, "owner")
     end
 
 end
