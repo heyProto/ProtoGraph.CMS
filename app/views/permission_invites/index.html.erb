@@ -1,0 +1,37 @@
+<div class="nine wide column">
+  <%= render partial: "accounts/header" %>
+  <div style="text-align: right;">
+    <span id='invite_members'><a>Invite people</a></span>
+    <% if @pending_invites_count != 0 %>
+    &nbsp;&nbsp; | &nbsp;&nbsp;
+    <%= link_to "Pending Invitations (#{@pending_invites_count})".html_safe, account_permission_invites_path(@account) %>
+    <% end %>
+  </div>
+  <br/>
+  <div class="ui very relaxed list" style="width: 100% !important;">
+      <% @permission_invites.each do |permission_invite| %>
+        <div class="item">
+          <img class="ui avatar image" src=<%=avatar_url(permission_invite.email)%>>
+          <div class="content">
+            <div class="header">
+              <%= permission_invite.email %>
+              <span style="float: right;">
+                <%= permission_invite.ref_role_slug.titleize %>
+                <%= link_to "<i class='trash outline icon'></i>".html_safe, account_permission_invite_path(@account, permission_invite), method: :delete, data: { confirm: 'Are you sure?' } %>
+              </span>
+            </div>
+            <div class="description">Invited by <%= permission_invite.creator.name %> <%= time_ago_in_words (permission_invite.creator.created_at) %>.</div>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>
+<%= render partial: "permission_invites/form" %>
+<script>
+  $('.ui.modal#platform_modal')
+  .modal('attach events', '#invite_members', 'show');
+</script>
+
+<% #if current_user.id != permission.user_id %>
+  <% #link_to "<i class='trash outline icon'></i>".html_safe, account_permission_path(@account, permission), method: :delete, data: { confirm: 'Are you sure?' } %>

@@ -13,7 +13,7 @@
     <br/>
     <div class="ui message">
       <h3>Avatar</h3>
-      <p class="hint">This works like a user icon. It is square and should be at least 60 × 60px in size. We use <a href="http://gravatar.com/" target="_blank">Gravatar.com</a> for display pictures. Register with Gravatar with an email ID and enter it below.</p>
+      <p class="hint">This works like a user icon. We use <a href="http://gravatar.com/" target="_blank">Gravatar.com</a> for display pictures. Register with Gravatar with an email ID and enter it below.</p>
       <%= f.input :gravatar_email, label: false %>
       <%= image_tag avatar_url(@account.gravatar_email, 200), class: "ui small circular image" %>
     </div>

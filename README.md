@@ -1,7 +1,5 @@
 * Add a Pykih user in all accounts. Hide him.
 
-* Authentications can be deleted
-
 - Registrations > If someone signs up with an email ID that matches XYZ then it will automatically add him to that platform.
 
 Test out roles scoping

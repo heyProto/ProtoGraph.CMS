@@ -12,6 +12,17 @@ table.ui.table > thead > tr > th{
     margin: 0px !important;
 }
 
+.ui.very.relaxed.list{
+    width: 100% !important;
+    font-size: 1.1em !important;
+    line-height: inherit !important;
+    letter-spacing: inherit !important;
+}
+
+.ui.very.relaxed.list > .item > .content{
+    width: 90% !important;
+}
+
 .best_in_place{
     border-bottom: 1px dotted #F5EFE6;
 }
