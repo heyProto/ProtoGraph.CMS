@@ -3,7 +3,7 @@
   <div class="ui menu clear" style="border-bottom: 1px lightgray solid">
     <div class="item"><%= image_tag "logo.png" %></div>
     <% if @on_an_account_page %>
-        <div class="item"><%= @account.username %></div>
+        <div class="item"><%= link_to @account.username, account_path(@account), style: "color: black !important;" %></div>
     <% end %>
     <div class="right menu">
       <div class="ui dropdown pointing item">

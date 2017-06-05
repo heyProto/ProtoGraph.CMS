@@ -1,7 +1,3 @@
-* Add a Pykih user in all accounts. Hide him.
-
-------------------------------------------------------------------------------------
-
 - Set a global_slug in each template. Same method to remove spaces from username.
 
 - Move SHOW page to EDIT page.
@@ -56,6 +52,6 @@ Admin pages
 
 Public Activity
 
-Multiple email ID support
+Multiple email ID support -- rails g scaffold user_emails user_id:integer email:string token:string confirmation_sent_at:datetime accepted_at:datetime
 
-rails g scaffold user_emails user_id:integer email:string token:string confirmation_sent_at:datetime accepted_at:datetime
+* Add a Pykih user in all accounts. Hide him.
