@@ -1,17 +1,9 @@
 4. Roles
 - Add dropdown icon to CHANGE OF ROLE
-- Permission can be deactivated
 5. Authentications can be deleted.
 - Add one pykih user to all ACCOUNTS
 
 ------
-
-1. TemplateStreams Functionality
-- Index
-- Show
-- New
-- Public?
-- Status Change
 
 2. Show of TemplateStreams
 - Attach Cards
@@ -22,12 +14,11 @@
 - TemplateCard
 - TempalteStream
 
-6. Bring back concept of versions back in Templates
-- rails g migration AddCols version:float previous_version_id:integer
-- Change slug
+Reintroduce Edit pages for Templates
 
 Dependent Destroy
 - Account cannot be deleted. Deactivated.
+- Permission can be deactivated.
 
 ----
 

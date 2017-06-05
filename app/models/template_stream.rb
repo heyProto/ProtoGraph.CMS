@@ -49,11 +49,7 @@ class TemplateStream < ApplicationRecord
     #SCOPE
     #OTHER
     def slug_candidates
-        ["#{self.name}-#{self.version}"]
-    end
-
-    def version
-        0.1
+        ["#{self.name}-#{self.version.to_s}"]
     end
 
     #PRIVATE
@@ -65,6 +61,7 @@ class TemplateStream < ApplicationRecord
 
     def before_create_set
         self.publish_count = 0
+        self.version = 0.1
         self.is_public = false if self.is_public.blank?
         self.status = "Draft"
         true

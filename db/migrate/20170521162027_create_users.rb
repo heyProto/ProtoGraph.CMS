@@ -114,6 +114,8 @@ class CreateUsers < ActiveRecord::Migration[5.1]
       t.string :name
       t.text :description
       t.string :slug
+      t.float :version
+      t.integer :previous_version_id
       t.string :status
       t.string :api_key
       t.integer :publish_count
@@ -132,6 +134,8 @@ class CreateUsers < ActiveRecord::Migration[5.1]
       t.string :name
       t.text :description
       t.string :slug
+      t.float :version
+      t.integer :previous_version_id
       t.string :status
       t.integer :publish_count
       t.boolean :is_public
@@ -146,6 +150,8 @@ class CreateUsers < ActiveRecord::Migration[5.1]
       t.string :name
       t.text :description
       t.string :slug
+      t.float :version
+      t.integer :previous_version_id
       t.string :status
       t.integer :publish_count
       t.boolean :is_public
