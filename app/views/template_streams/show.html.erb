@@ -1,44 +1,41 @@
-<p id="notice"><%= notice %></p>
+<div class="sixteen wide column">
+  <div class="ui breadcrumb">
+      <a class="section"><%= link_to "Pre-defined Stream Templates", account_template_streams_path(@account) %></a>
+  </div>
+  <h1 class="ui header" style="margin-top: 15px;">
+      <%= show_lock(@template_stream.is_public, @template_stream.name).html_safe %>
+  </h1>
+  <div class="ui divider"></div>
+  <a class="ui grey circular label"><%= @template_stream.publish_count %></a>
+      <div style="float: right;">
+          <p style="font-size: 0.7em; margin-bottom: 0px;"><%= @template_stream.status %></p>
+          <p style="font-size: 0.5em; font-weight: 400; color: gray; margin-bottom: 10px;">
+            Last updated by
+            <%= @template_stream.updator.name %>
+            <%= time_ago_in_words @template_stream.updated_at %>
+          </p>
+      </div>
 
-<p>
-  <strong>Account:</strong>
-  <%= @template_stream.account_id %>
-</p>
+</div>
+<div class="eleven wide column">
+    <div class="ui dividing right rail"></div>
 
-<p>
-  <strong>Name:</strong>
-  <%= @template_stream.name %>
-</p>
+</div>
+<div class="five wide column">
+    <div  style="margin-left: 40px;">
+        <h4>What is this Template Stream about?</h4>
+        <%= best_in_place @template_stream, :description,url: account_template_stream_path(@account, @template_stream) ,:as => :textarea, :place_holder => "No description added yet." %>
+        <br/>
+        <div style="float: right;""><%= link_to 'Destroy', [@account, @template_stream], method: :delete, data: { confirm: 'Are you sure?' }, class: "ui red basic button" %></div>
+    </div>
+</div>
 
-<p>
-  <strong>Description:</strong>
-  <%= @template_stream.description %>
-</p>
+<% if @template_stream.is_public %>
+  <%= link_to "Make private", flip_public_private_account_template_stream_path(@account, @template_stream) %>
+<% elsif @template_stream.status == "Published" or 1 == 1 %>
+  <%= link_to "Make public", flip_public_private_account_template_stream_path(@account, @template_stream) %>
+<% end %>
 
-<p>
-  <strong>Slug:</strong>
-  <%= @template_stream.slug %>
-</p>
-
-<p>
-  <strong>Status:</strong>
-  <%= @template_stream.status %>
-</p>
-
-<p>
-  <strong>Publish count:</strong>
-  <%= @template_stream.publish_count %>
-</p>
-
-<p>
-  <strong>Created by:</strong>
-  <%= @template_stream.created_by %>
-</p>
-
-<p>
-  <strong>Updated by:</strong>
-  <%= @template_stream.updated_by %>
-</p>
-
-<%= link_to 'Edit', edit_template_stream_path(@template_stream) %> |
-<%= link_to 'Back', template_streams_path %>
+<% if next_status(@template_stream.status).present? %>
+  <%= link_to ("Change status to " + next_status(@template_stream.status)), move_to_next_status_account_template_stream_path(@account, @template_stream) %>
+<% end %>

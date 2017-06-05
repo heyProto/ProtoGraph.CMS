@@ -5,15 +5,15 @@
             <% if action_name == "index" %>
                 <% if controller_name == "template_data" %>
                     <%= link_to "New Data Template", new_account_template_datum_path(@account), class: "ui basic button" %>
-                <% elsif controller_name == "template_streams" %>
+                <% elsif controller_name == "template_streams" and current_user.is_admin_from_pykih %>
                     <%= link_to "New Stream Template", new_account_template_stream_path(@account), class: "ui basic button" %>
                 <% end %>
             <% end %>
         </span>
     </h1>
     <div class="ui secondary pointing menu">
-      <%= link_to "Data", account_template_data_path(@account), class: (controller_name == "template_data" ? "active item" : "item") %>
-      <%= link_to "Cards", account_template_cards_path(@account), class: (controller_name == "template_cards" ? "active item" : "item") %>
-      <%= link_to "Streams", account_template_streams_path(@account), class: (controller_name == "template_streams" ? "active item" : "item") %>
+      <%= link_to "Data Templates", account_template_data_path(@account), class: (controller_name == "template_data" ? "active item" : "item") %>
+      <%= link_to "Card Templates", account_template_cards_path(@account), class: (controller_name == "template_cards" ? "active item" : "item") %>
+      <%= link_to "Pre-defined Stream Templates", account_template_streams_path(@account), class: (controller_name == "template_streams" ? "active item" : "item") %>
     </div>
 </div>

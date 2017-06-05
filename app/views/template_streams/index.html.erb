@@ -4,9 +4,10 @@
   <thead>
     <tr>
       <th>Name</th>
-      <th>Status</th>
-      <th>Publish count</th>
-      <th>Updated by</th>
+      <th class="collapsing">Status</th>
+      <th class="collapsing">Publish count</th>
+      <th class="collapsing">Updated by</th>
+      <th class="collapsing">Updated at</th>
     </tr>
   </thead>
 
@@ -17,6 +18,7 @@
         <td><%= template_stream.status %></td>
         <td><%= template_stream.publish_count %></td>
         <td><%= template_stream.updator.name %></td>
+        <td><%= time_ago_in_words template_stream.updated_at %> </td>
       </tr>
     <% end %>
   </tbody>

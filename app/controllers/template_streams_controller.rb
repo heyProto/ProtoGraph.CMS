@@ -1,6 +1,7 @@
 class TemplateStreamsController < ApplicationController
 
   before_action :authenticate_user!, :sudo_role_can_template_designer
+  before_action :sudo_pykih_admin, except: [:index, :show]
   before_action :set_template_stream, only: [:show, :edit, :update, :destroy, :flip_public_private, :move_to_next_status]
 
   def index
@@ -24,11 +25,11 @@ class TemplateStreamsController < ApplicationController
   end
 
   def create
+    @template_stream = TemplateStream.new(template_stream_params)
     @template_stream.created_by = current_user.id
     @template_stream.updated_by = current_user.id
-    @template_stream = TemplateStream.new(template_stream_params)
     if @template_stream.save
-      redirect_to @template_stream, notice: t("cs")
+      redirect_to [@account, @template_stream], notice: t("cs")
     else
       render :new
     end

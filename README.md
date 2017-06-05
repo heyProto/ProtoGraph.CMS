@@ -2,6 +2,7 @@
 - Add dropdown icon to CHANGE OF ROLE
 - Permission can be deactivated
 5. Authentications can be deleted.
+- Add one pykih user to all ACCOUNTS
 
 ------
 
