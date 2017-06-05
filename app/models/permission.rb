@@ -33,6 +33,8 @@ class Permission < ApplicationRecord
     validate  :is_unique_row?, on: :create
 
     #CALLBACKS
+    before_create :before_create_set
+
     #SCOPE
     #OTHER
     #PRIVATE
@@ -40,6 +42,11 @@ class Permission < ApplicationRecord
 
     def is_unique_row?
         errors.add(:user_id, "already invited.") if Permission.where(account_id: self.account_id, user_id: self.user_id).first.present?
+        true
+    end
+
+    def before_create_set
+        self.status = "Active"
         true
     end
 

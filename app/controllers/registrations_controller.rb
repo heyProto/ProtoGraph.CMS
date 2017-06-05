@@ -10,6 +10,15 @@ class RegistrationsController < Devise::RegistrationsController
       		p.destroy
       	end
       end
+      if resource.email.present?
+        d = resource.email.split("@").last
+        if d.present?
+            a = Account.where(domain: d, sign_up_mode: "Any email from your domain").first
+            if a.present?
+                Permission.create(user_id: resource.id, account_id: a.id, created_by: resource.id, updated_by: resource.id, ref_role_slug: "writer")
+            end
+        end
+      end
     end
   end
 

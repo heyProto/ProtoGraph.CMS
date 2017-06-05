@@ -16,8 +16,10 @@ class AuthenticationsController < ApplicationController
     redirect_to edit_account_path(id: account_id), alert: "Authentication Error: #{params['error_description']}"
   end
 
-  #TODO - Authentications can be destroyed.
-  #def destroy
-  #end
+  def destroy
+    @authentication = Authentication.find(params[:id])
+    @authentication.destroy
+    redirect_to edit_account_path(@account), notice: "Successfully deleted."
+  end
 
 end

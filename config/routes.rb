@@ -1,9 +1,6 @@
 Rails.application.routes.draw do
 
-  resources :datacast_accounts
-  resources :datacasts
   devise_for :users, controllers: { registrations: 'registrations' } do
-      #get 'sign_in', to: 'devise/sessions#new'
       get 'sign_out', to: 'devise/sessions#destroy'
   end
 
@@ -16,7 +13,7 @@ Rails.application.routes.draw do
       get "change_role", on: :member
     end
     resources :permission_invites
-    get '/authentications', to: 'authentications#index', as: 'authentication'
+    resources :authentications
     resources :services_attachables, only: [:destroy]
     resources :template_streams do
         get 'flip_public_private', 'move_to_next_status', on: :member
@@ -30,6 +27,9 @@ Rails.application.routes.draw do
       get 'flip_public_private', 'move_to_next_status', on: :member
     end
   end
+
+  resources :datacast_accounts
+  resources :datacasts
 
   root 'static_pages#index'
 

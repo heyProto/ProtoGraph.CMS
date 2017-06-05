@@ -45,6 +45,11 @@ class RefRole < ApplicationRecord
                         can_account_settings: false,
                         can_template_design_do: true,
                         can_template_design_publish: false)
+
+        RefRole.create(name: "Writer", slug: "writer",
+                        can_account_settings: false,
+                        can_template_design_do: false,
+                        can_template_design_publish: false)
     end
 
     #PRIVATE
