@@ -1,5 +1,5 @@
 <%= render partial: "template_cards/header" %>
-<div class="sixteen wide column">
+<div class="nine wide column">
   <table class="ui very basic table">
   <thead>
     <tr>
@@ -23,5 +23,18 @@
     <% end %>
   </tbody>
 </table>
+<div class="ui dividing right rail" style="min-height: 339px;"></div>
+</div>
 
+<div class="seven wide column" style="padding-left: 90px;">
+    <p>A Stream ties cards together into an experience that is appropriate for the usecase. Example - Question/Answer cards can be tied together into a Quiz.
+    <br/><br/>
+    <b>StreamKit</b> is a Javascript SDK that developers can use to write their own cards. StreamKit provides:</p>
+    <ul>
+      <li style="margin: 0px 0px 10px 0px;">Layout i.e. how will your collection of cards look together. Example — Gallery, Page, Flash Cards, Card Stack, etc.</li>
+      <li style="margin: 0px 0px 10px 0px;">Functions that help you interact with the cards within your stream. Example — Add or remove a card, Navigate across cards, Open card in full screen mode, Changing of URL, etc.</li>
+      <li style="margin: 0px 0px 10px 0px;">Visual Interactions Example - Loading animations, Swipe a card, Flip a card, etc. You can either our visual interactions or code your own using Functions.</li>
+      <li style="margin: 0px 0px 10px 0px;">A pre-defined list of sizes that your card code must adhere to. Based on size of the screen, StreamKit will automatically resize your card.</li>
+      <li style="margin: 0px 0px 10px 0px;">Containment of errors. In case, there is an error within the code of a card, then StreamKit will contain the look and feel impact of that error within the card area itself and not crash the entire page.</li>
+    </ul>
 </div>
