@@ -54,12 +54,15 @@
 <% end %>
 
 
-<div class="four wide column"%>
-  <div class="ui mini left fixed vertical menu">
+<div class="six wide column"%>
+  <div class="ui left fixed vertical pointing menu" style="background: #F0F0F0;">
     <% @siblings.each do |s| %>
-        <a class="<%= s.id == @template_datum.id ? "active orange item" : "item" %>" href=<%= account_template_datum_path(@account, s) %>>
-            <%= s.version.to_s %>
-            <div class="ui label"><%= s.status %></div>
+        <a class="<%= s.id == @template_datum.id ? "active item" : "item" %>" href=<%= account_template_datum_path(@account, s) %>>
+            <h4 class="ui header">
+              <%= s.version.to_s %>
+              <div class="ui label"><%= s.status %></div>
+            </h4>
+            <p style="color: black; font-size: 12px; font-weight: 400;">Check out our new promotions</p>
         </a>
     <% end %>
     <%= link_to "Create Version", create_version_account_template_datum_path(@account, @template_datum), class: "item" %>

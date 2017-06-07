@@ -22,7 +22,9 @@ Rails.application.routes.draw do
     resources :template_data do
       get 'flip_public_private', 'move_to_next_status', on: :member
       get "/new/version", to: "template_data#new", on: :member, as: :create_version
-      resources :template_cards, only: [:new]
+      resources :template_cards, only: [:new] do
+        get "/new/version", to: "template_cards#new", on: :member, as: :create_version
+      end
     end
     resources :template_cards do
       get 'flip_public_private', 'move_to_next_status', on: :member
