@@ -27,10 +27,6 @@ gem 'omniauth-instagram'
 gem 'omniauth-facebook'
 gem 'omniauth-twitter'
 
-#UPLOADERS
-gem 'carrierwave', '~> 1.0'
-gem 'carrierwave-aws'
-
 #VIEWS
 gem 'simple_form', '~> 3.2', '>= 3.2.1'
 gem 'sass-rails', '~> 5.0'

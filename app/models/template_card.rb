@@ -39,11 +39,11 @@ class TemplateCard < ApplicationRecord
     belongs_to :template_datum
     has_many :template_stream_cards, dependent: :destroy
     has_many :template_streams, through: :template_stream_cards
-    has_one :html, ->{where(genre: "html")}, as: :attachable
-    has_one :css, ->{where(genre: "css")}, as: :attachable
-    has_one :js, ->{where(genre: "js")}, as: :attachable
-    has_one :config, ->{where(genre: "config")}, as: :attachable
-    has_many :images, ->{where(genre: "images")}, as: :attachable
+    has_one :html, ->{where(genre: "html", attachable_type: "TemplateCard")}, class_name: "ServicesAttachable", foreign_key: "attachable_id"
+    has_one :css, ->{where(genre: "css", attachable_type: "TemplateCard")}, class_name: "ServicesAttachable", foreign_key: "attachable_id"
+    has_one :js, ->{where(genre: "js", attachable_type: "TemplateCard")}, class_name: "ServicesAttachable", foreign_key: "attachable_id"
+    has_one :config, ->{where(genre: "config", attachable_type: "TemplateCard")}, class_name: "ServicesAttachable", foreign_key: "attachable_id"
+    has_many :images, ->{where(genre: "images", attachable_type: "TemplateCard")}, class_name: "ServicesAttachable", foreign_key: "attachable_id"
 
 
     #ACCESSORS
