@@ -54,7 +54,7 @@
 <% end %>
 
 
-<div class="six wide column"%>
+<div class="column"%>
   <div class="ui left fixed vertical pointing menu" style="background: #F0F0F0;">
     <% @siblings.each do |s| %>
         <a class="<%= s.id == @template_datum.id ? "active item" : "item" %>" href=<%= account_template_datum_path(@account, s) %>>
