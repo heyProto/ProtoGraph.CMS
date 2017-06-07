@@ -20,15 +20,16 @@
 class ServicesAttachable < ApplicationRecord
 
     #CONSTANTS
+    EXTENSION_WHITELIST = %w(xml xsd html js css jpg jpeg png json)
     #CUSTOM TABLES
     #GEMS
-    mount_uploader :file_url, ServiceAttachableUploader
+
 
     #ASSOCIATIONS
     belongs_to :account
     belongs_to :creator, class_name: "User", foreign_key: "created_by"
     belongs_to :updator, class_name: "User", foreign_key: "updated_by"
-    #belongs_to :attachable, polymorphic: true
+    belongs_to :attachable, polymorphic: true
 
     #ACCESSORS
     #VALIDATIONS

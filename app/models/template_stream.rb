@@ -35,10 +35,10 @@ class TemplateStream < ApplicationRecord
     belongs_to :updator, class_name: "User", foreign_key: "updated_by"
     has_many :template_stream_cards, dependent: :destroy
     has_many :template_cards, through: :template_stream_cards
-    has_one :html, ->{where(genre: "html")}, as: :attachable
-    has_one :css, ->{where(genre: "css")}, as: :attachable
-    has_one :js, ->{where(genre: "js")}, as: :attachable
-    has_one :config, ->{where(genre: "config")}, as: :attachable
+    has_one :html, ->{where(genre: "html", attachable_type: "TemplateStream")}, class_name: "ServicesAttachable", foreign_key: "attachable_id"
+    has_one :css, ->{where(genre: "css", attachable_type: "TemplateStream")}, class_name: "ServicesAttachable", foreign_key: "attachable_id"
+    has_one :js, ->{where(genre: "js", attachable_type: "TemplateStream")}, class_name: "ServicesAttachable", foreign_key: "attachable_id"
+    has_one :config, ->{where(genre: "config", attachable_type: "TemplateStream")}, class_name: "ServicesAttachable", foreign_key: "attachable_id"
 
     #ACCESSORS
     attr_accessor :previous_version_id
