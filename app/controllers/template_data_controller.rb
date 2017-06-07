@@ -9,6 +9,8 @@ class TemplateDataController < ApplicationController
 
   def show
     @template_cards = @template_datum.template_cards
+    @parent = @template_datum.parent
+    @siblings = @template_datum.siblings.order("version DESC")
   end
 
   def flip_public_private

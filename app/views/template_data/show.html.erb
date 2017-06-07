@@ -6,6 +6,8 @@
       <%= show_lock(@template_datum.is_public, @template_datum.name).html_safe %>
   </h1>
   <div class="ui divider"></div>
+</div>
+<div class="sixteen wide column">
   <a class="ui grey circular label"><%= @template_datum.publish_count %></a>
   <div style="float: right;">
           <p style="margin-bottom: 0px;"><%= @template_datum.status %></p>
@@ -51,4 +53,15 @@
   <%= link_to ("Change status to " + next_status(@template_datum.status)), move_to_next_status_account_template_datum_path(@account, @template_datum) %>
 <% end %>
 
-<%= link_to "Create Version", create_version_account_template_datum_path(@account, @template_datum) %>
+
+<div class="four wide column"%>
+  <div class="ui mini left fixed vertical menu">
+    <% @siblings.each do |s| %>
+        <a class="<%= s.id == @template_datum.id ? "active orange item" : "item" %>" href=<%= account_template_datum_path(@account, s) %>>
+            <%= s.version.to_s %>
+            <div class="ui label"><%= s.status %></div>
+        </a>
+    <% end %>
+    <%= link_to "Create Version", create_version_account_template_datum_path(@account, @template_datum), class: "item" %>
+</div>
+</div>

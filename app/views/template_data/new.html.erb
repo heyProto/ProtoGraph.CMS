@@ -23,7 +23,7 @@
         </div>
         <div class="form-actions">
             <br/>
-            <%= f.button :submit, "Add", class: "ui button" %>
+            <%= f.button :submit, @prev_version.present? ? "Create a version" : "Add a new template data", class: "ui button" %>
         </div>
     <% end %>
 </div>
