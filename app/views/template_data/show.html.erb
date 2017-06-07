@@ -1,6 +1,6 @@
 <div class="nine wide column">
     <div class="ui breadcrumb">
-      <a class="section"><%= link_to "Data Templates", account_template_data_path(@account) %></a>
+      <a class="section"><%= link_to "Datacast JSON Schemas", account_template_data_path(@account) %></a>
     </div>
     <h1 class="ui header" style="margin-top: 15px;">
         <%= show_lock(@template_datum.is_public, @template_datum.name + " - "+@template_datum.version.to_s).html_safe %>
@@ -13,26 +13,26 @@
     </p>
     <br/>
     <div class="ui message">
-      <h3>Upload mandatory code</h3>
+      <h4>Upload mandatory code</h4>
       <!-- TODO AMIT -->
       <% # render partial: "services_attachables/form", locals: {services_attachable: @sample_json} %>
     </div>
     <br/>
     <div class="ui message">
-      <h3>
+      <h4>
         Associated card templates
         <div style="float: right; font-size: 0.8em; font-weight: 400;">
             <%= link_to "New card template", new_account_template_datum_template_card_path(@account, @template_datum) %>
         </div>
-      </h3>
+      </h4>
       <br/>
       <%= render partial: "template_cards/index" %>
     </div>
     <br/>
     <div class="ui message">
-      <h3>
+      <h4>
         Push data via APIs
-      </h3>
+      </h4>
       <table class="ui very basic table">
         <tr>
             <td>My API Key</td>
@@ -78,9 +78,12 @@
         <a class="<%= s.id == @template_datum.id ? "active item" : "item" %>" href=<%= account_template_datum_path(@account, s) %>>
             <h4 class="ui header">
               <%= s.version.to_s %>
-              <div class="ui label"><%= s.status %></div>
+              <div class="ui label"><%= s.status %>
+                <% if s.is_current_version %>
+                  <i class="checkmark icon" style="color: green;"></i>
+                <% end %>
+              </div>
             </h4>
-            <p style="color: black; font-size: 12px; font-weight: 400;">Check out our new promotions</p>
         </a>
     <% end %>
     <%= link_to "Create Version", create_version_account_template_datum_path(@account, @template_datum), class: "item" %>

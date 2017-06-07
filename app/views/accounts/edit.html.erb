@@ -5,14 +5,14 @@
   <%= f.error_notification %>
   <div class="form-inputs">
     <div class="ui message">
-      <h3>How do you want members to sign up?</h3>
+      <h4>How do you want members to sign up?</h4>
       <p class="hint">Choose to make your team signup process invitation only, or allow anyone with a certain email address format to sign up.</p>
       <%= f.input :sign_up_mode, as: :select, collection: Account::SIGN_UP_MODES.map{|z| [z, z]}, label: false, include_blank: false %>
       <%= f.input :domain, placeholder: "E.g. google.com. Don't use common domains like gmail, outlook, yahoo, etc." %>
     </div>
     <br/>
     <div class="ui message">
-      <h3>Avatar</h3>
+      <h4>Avatar</h4>
       <p class="hint">This works like a user icon. We use <a href="http://gravatar.com/" target="_blank">Gravatar.com</a> for display pictures. Register with Gravatar with an email ID and enter it below.</p>
       <%= f.input :gravatar_email, label: false %>
       <%= image_tag avatar_url(@account.gravatar_email, 200), class: "ui small circular image" %>
@@ -24,7 +24,7 @@
     <br/>
     <br/>
     <div class="ui message">
-      <h3>Social</h3>
+      <h4>Social</h4>
       <p class="hint">Access to your social media accounts will be used for helping you distribute content to these channels.</p>
       <table class="ui very basic table">
         <tr>
