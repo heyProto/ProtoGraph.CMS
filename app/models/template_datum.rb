@@ -58,7 +58,7 @@ class TemplateDatum < ApplicationRecord
         ["#{self.name}-#{self.version.to_s}"]
     end
 
-    def parent #TODO RITVIJ rename to current_version
+    def current_version
         TemplateDatum.where(global_slug: self.global_slug, is_current_version: true).first
     end
 

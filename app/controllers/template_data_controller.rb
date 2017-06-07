@@ -9,7 +9,7 @@ class TemplateDataController < ApplicationController
 
   def show
     @template_cards = @template_datum.template_cards
-    @parent = @template_datum.parent
+    @current_version = @template_datum.current_version
     @siblings = @template_datum.siblings.order("version DESC")
     #@sample_json = @template_datum.sample_json # TODO AMIT
     #@xsd = @template_datum.xsd
