@@ -1,29 +1,18 @@
-TODO AMIT
+<div>
+  <% if services_attachable.file_url.present? %>
+    <%= link_to services_attachable.original_file_name, services_attachable.file_url, target: "_black" %>
+    <!-- Todo Create the delete file functionality -->
+  <% else %>
+    <%= simple_form_for(services_attachable, url: upload_file_account_services_attachable_path(@account, services_attachable), method: :put) do |f| %>
+      <%= f.error_notification %>
 
-If file object does not have file then it shows <i class="minus square outline icon"></i>
- with dark red and file upload form
+      <div class="form-inputs">
+        <%= f.input :binary_file, as: :file %>
+      </div>
 
-If file object does have fiel then it shows <i class="checkmark box icon"></i> with green color and link to file with delete link
-
-When you press delete link it only removes the file, does not delete the object
-
-<%= simple_form_for(@services_attachable) do |f| %>
-  <%= f.error_notification %>
-
-  <div class="form-inputs">
-    <%= f.input :account_id %>
-    <%= f.input :attachable_id %>
-    <%= f.input :attachable_type %>
-    <%= f.input :genre %>
-    <%= f.input :file_url %>
-    <%= f.input :original_file_name %>
-    <%= f.input :file_type %>
-    <%= f.input :s3_bucket %>
-    <%= f.input :created_by %>
-    <%= f.input :updated_by %>
-  </div>
-
-  <div class="form-actions">
-    <%= f.button :submit, class: "ui button" %>
-  </div>
-<% end %>
+      <div class="form-actions">
+        <%= f.button :submit, "Upload" ,class: "ui button" %>
+      </div>
+    <% end %>
+  <% end %>
+<div>

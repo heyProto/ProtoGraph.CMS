@@ -30,7 +30,7 @@
     <div class="ui message">
       <h4>Upload mandatory code</h4>
       <!-- TODO AMIT -->
-      <% render partial: "services_attachables/form", locals: {services_attachable: @sample_json} %>
+      <%= render partial: "services_attachables/form", locals: {services_attachable: @sample_json} %>
     </div>
     <br/>
     <div class="ui message">
@@ -83,7 +83,7 @@
 
 
 
-<div class="column"%>
+<!-- <div class="column"%>
   <div class="ui left fixed vertical pointing menu" style="background: #F8F8F9;">
     <% @siblings.each do |s| %>
         <a class="<%= s.id == @template_datum.id ? "active item" : "item" %>" href=<%= account_template_datum_path(@account, s) %>>
@@ -98,5 +98,5 @@
         </a>
     <% end %>
     <%= link_to "Create Version", create_version_account_template_datum_path(@account, @template_datum), class: "item" %>
-</div>
+</div> -->
 </div>

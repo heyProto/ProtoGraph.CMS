@@ -14,7 +14,11 @@ Rails.application.routes.draw do
     end
     resources :permission_invites
     resources :authentications
-    resources :services_attachables, only: [:destroy]
+    resources :services_attachables, only: [:destroy] do
+      put "upload_file", on: :member
+      delete "file", on: :member
+    end
+
     resources :template_streams do
         get 'flip_public_private', 'move_to_next_status', on: :member
         resources :template_stream_cards

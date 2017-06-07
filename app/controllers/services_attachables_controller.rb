@@ -1,58 +1,23 @@
 class ServicesAttachablesController < ApplicationController
-  before_action :set_services_attachable, only: [:show, :edit, :update, :destroy]
+  before_action :set_services_attachable, only: [:upload_file, :destroy]
 
-  # GET /services_attachables
-  # GET /services_attachables.json
-  def index
-    @services_attachables = ServicesAttachable.all
-  end
+  def upload_file
 
-  # GET /services_attachables/1
-  # GET /services_attachables/1.json
-  def show
-  end
-
-  # GET /services_attachables/new
-  def new
-    @services_attachable = ServicesAttachable.new
-  end
-
-  # GET /services_attachables/1/edit
-  def edit
-  end
-
-  # POST /services_attachables
-  # POST /services_attachables.json
-  def create
-    @services_attachable = ServicesAttachable.new(services_attachable_params)
-
-    respond_to do |format|
-      if @services_attachable.save
-        format.html { redirect_to @services_attachable, notice: 'Services attachable was successfully created.' }
-        format.json { render :show, status: :created, location: @services_attachable }
-      else
-        format.html { render :new }
-        format.json { render json: @services_attachable.errors, status: :unprocessable_entity }
-      end
+    if services_attachable_params.has_key?(:binary_file)
+      binary_file = services_attachable_params[:binary_file]
+      encoded_file = Base64.encode64(File.read(binary_file.tempfile))
+      content_type = binary_file.content_type
+      original_file_name = binary_file.original_filename
+      key = "files/#{@account.slug}/#{@services_attachable.attachable.global_slug}/#{@services_attachable.genre}/#{original_file_name}"
+      resp = Api::Haiku::Utility.upload_to_cdn(encoded_file, key, content_type)
+      s3_url = resp.first["s3_endpoint"]
+      @services_attachable.update_attributes(file_url: s3_url, original_file_name: original_file_name)
+      redirect_back(fallback_location: root_path, notice: t("us"))
+    else
+      redirect_back(fallback_location: root_path, alert: t("param.required", param: "file"))
     end
   end
 
-  # PATCH/PUT /services_attachables/1
-  # PATCH/PUT /services_attachables/1.json
-  def update
-    respond_to do |format|
-      if @services_attachable.update(services_attachable_params)
-        format.html { redirect_to @services_attachable, notice: 'Services attachable was successfully updated.' }
-        format.json { render :show, status: :ok, location: @services_attachable }
-      else
-        format.html { render :edit }
-        format.json { render json: @services_attachable.errors, status: :unprocessable_entity }
-      end
-    end
-  end
-
-  # DELETE /services_attachables/1
-  # DELETE /services_attachables/1.json
   def destroy
     @services_attachable.destroy
     respond_to do |format|
@@ -69,6 +34,6 @@ class ServicesAttachablesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def services_attachable_params
-      params.require(:services_attachable).permit(:account_id, :attachable_id, :attachable_type, :genre, :file_url, :original_file_name, :file_type, :s3_bucket, :created_by, :updated_by)
+      params.require(:services_attachable).permit(:account_id, :attachable_id, :attachable_type, :genre, :file_url, :original_file_name, :file_type, :s3_bucket, :created_by, :updated_by, :binary_file)
     end
 end

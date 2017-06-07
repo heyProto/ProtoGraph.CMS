@@ -43,4 +43,6 @@ en:
   changed:
     public: "Made public."
     private: "Made private."
+  param:
+    required: "%{param} is required to continue."
 

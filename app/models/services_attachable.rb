@@ -32,6 +32,7 @@ class ServicesAttachable < ApplicationRecord
     belongs_to :attachable, polymorphic: true
 
     #ACCESSORS
+    attr_accessor :binary_file
     #VALIDATIONS
     #CALLBACKS
     before_save :before_save_set
@@ -48,9 +49,7 @@ class ServicesAttachable < ApplicationRecord
 
     def before_save_set
         if self.file_url_changed? and self.file_url.present?
-            self.original_file_name = self.file_url.file.methods.include?(:original_filename) ? self.file_url.file.original_filename : nil
             self.s3_bucket = ENV.fetch("AWS_S3_BUCKET")
-            true
         end
     end
 
