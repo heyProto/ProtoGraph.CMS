@@ -1,6 +1,6 @@
 <div class="nine wide column">
     <div class="ui breadcrumb">
-      <a class="section"><%= link_to "Datacast JSON Schemas", account_template_data_path(@account) %></a>
+      <a class="section"><%= link_to "Datacast Schemas", account_template_data_path(@account) %></a>
     </div>
     <h1 class="ui header" style="margin-top: 15px;">
         <%= show_lock(@template_datum.is_public, @template_datum.name + " - "+@template_datum.version.to_s).html_safe %>
@@ -11,6 +11,21 @@
       <%= @template_datum.updator.name %>
       <%= time_ago_in_words @template_datum.updated_at %>
     </p>
+    <br/>
+    <div class="ui message">
+      <%= simple_form_for [@account, @template_datum] do |f| %>
+        <%= f.error_notification %>
+        <div class="form-inputs">
+            <%= f.input :elevator_pitch, label: "Describe the schema in 140 characters." %>
+            <%= f.input :description, as: :text, label: "Describe in detail.", input_html: {rows: 3} %>
+            <%= f.input :change_log, as: :text, label: "What changed in this version?", placeholder: "Change log", input_html: {rows: 3} %>
+        </div>
+        <div class="form-actions">
+            <br/>
+            <%= f.button :submit, "Update", class: "ui button" %>
+        </div>
+      <% end %>
+    </div>
     <br/>
     <div class="ui message">
       <h4>Upload mandatory code</h4>
@@ -52,10 +67,6 @@
     <p style="margin-bottom: 0px;"><%= @template_datum.status %></p>
     <a class="ui grey circular label"><%= @template_datum.publish_count %></a>
     <div  style="margin-left: 40px;">
-        <h4>What is this Template Data about?</h4>
-        <%= best_in_place @template_datum, :description,url: account_template_datum_path(@account, @template_datum) ,:as => :textarea, :place_holder => "No description added yet." %>
-        <br/>
-        <br/>
         <div style="float: right;""><%= link_to 'Destroy', [@account, @template_datum], method: :delete, data: { confirm: 'Are you sure?' }, class: "ui red basic button" %></div>
     </div>
     <% if @template_datum.is_public %>
@@ -73,7 +84,7 @@
 
 
 <div class="column"%>
-  <div class="ui left fixed vertical pointing menu" style="background: #F0F0F0;">
+  <div class="ui left fixed vertical pointing menu" style="background: #F8F8F9;">
     <% @siblings.each do |s| %>
         <a class="<%= s.id == @template_datum.id ? "active item" : "item" %>" href=<%= account_template_datum_path(@account, s) %>>
             <h4 class="ui header">
