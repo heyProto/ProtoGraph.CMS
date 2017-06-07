@@ -1,6 +1,6 @@
 <div class="nine wide column">
   <h1 class="ui header">
-    Your accounts
+    Your teams
   </h1>
   <br/>
   <div class="ui very relaxed list" style="width: 100% !important;">
@@ -23,6 +23,6 @@
   <br/>
   <%= simple_form_for @account do |f| %>
   <%= f.input :username, id: :account_username, hint: "Choose wisely. You cannot change it later." %>
-  <%= f.submit class: 'ui button'%>
+  <%= f.submit "Create new Team", class: 'ui button' %>
   <% end %>
 </div>

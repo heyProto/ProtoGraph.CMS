@@ -3,9 +3,15 @@
       <a class="section"><%= link_to "Data Templates", account_template_data_path(@account) %></a>
     </div>
     <h1 class="ui header" style="margin-top: 15px;">
-        <%= show_lock(@template_datum.is_public, @template_datum.name).html_safe %>
+        <%= show_lock(@template_datum.is_public, @template_datum.name + " - "+@template_datum.version.to_s).html_safe %>
     </h1>
     <div class="ui divider"></div>
+    <p style="font-weight: 400; color: gray; margin-bottom: 10px;">
+      Last updated by
+      <%= @template_datum.updator.name %>
+      <%= time_ago_in_words @template_datum.updated_at %>
+    </p>
+    <br/>
     <div class="ui message">
       <h3>Upload mandatory code</h3>
       <!-- TODO AMIT -->
@@ -15,45 +21,52 @@
     <div class="ui message">
       <h3>
         Associated card templates
-        <div style="float: right; font-size: 0.8em;">
+        <div style="float: right; font-size: 0.8em; font-weight: 400;">
             <%= link_to "New card template", new_account_template_datum_template_card_path(@account, @template_datum) %>
         </div>
       </h3>
       <br/>
       <%= render partial: "template_cards/index" %>
     </div>
+    <br/>
+    <div class="ui message">
+      <h3>
+        Push data via APIs
+      </h3>
+      <table class="ui very basic table">
+        <tr>
+            <td>My API Key</td>
+            <td>:</td>
+            <td><%= current_user.access_token %></td>
+        </tr>
+        <tr>
+            <td>Datacast Token:</td>
+            <td>:</td>
+            <td><%= @template_datum.api_key %></td>
+        </tr>
+      </table>
+    </div>
+    <div class="ui dividing right rail" style="min-height: 339px;"></div>
 </div>
 <div class="seven wide column">
+    <p style="margin-bottom: 0px;"><%= @template_datum.status %></p>
     <a class="ui grey circular label"><%= @template_datum.publish_count %></a>
-  <div style="float: right;">
-          <p style="margin-bottom: 0px;"><%= @template_datum.status %></p>
-          <p style="font-weight: 400; color: gray; margin-bottom: 10px;">
-            Last updated by
-            <%= @template_datum.updator.name %>
-            <%= time_ago_in_words @template_datum.updated_at %>
-          </p>
-      </div>
     <div  style="margin-left: 40px;">
         <h4>What is this Template Data about?</h4>
         <%= best_in_place @template_datum, :description,url: account_template_datum_path(@account, @template_datum) ,:as => :textarea, :place_holder => "No description added yet." %>
         <br/>
-        <h4>Send data via APIs</h4>
-        <p>
-          https://api.pub.pykih.com/apis/v1/datacasts?token=
-          <%= @template_datum.api_key %>
-        </p>
         <br/>
         <div style="float: right;""><%= link_to 'Destroy', [@account, @template_datum], method: :delete, data: { confirm: 'Are you sure?' }, class: "ui red basic button" %></div>
     </div>
     <% if @template_datum.is_public %>
-  <%= link_to "Make private", flip_public_private_account_template_datum_path(@account, @template_datum) %>
-<% elsif @template_datum.status == "Published" or 1 == 1 %>
-  <%= link_to "Make public", flip_public_private_account_template_datum_path(@account, @template_datum) %>
-<% end %>
+      <%= link_to "Make private", flip_public_private_account_template_datum_path(@account, @template_datum) %>
+    <% elsif @template_datum.status == "Published" or 1 == 1 %>
+      <%= link_to "Make public", flip_public_private_account_template_datum_path(@account, @template_datum) %>
+    <% end %>
 
-<% if next_status(@template_datum.status).present? %>
-  <%= link_to ("Change status to " + next_status(@template_datum.status)), move_to_next_status_account_template_datum_path(@account, @template_datum) %>
-<% end %>
+    <% if next_status(@template_datum.status).present? %>
+        <%= link_to ("Change status to " + next_status(@template_datum.status)), move_to_next_status_account_template_datum_path(@account, @template_datum) %>
+    <% end %>
 </div>
 
 
