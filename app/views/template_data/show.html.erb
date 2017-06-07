@@ -1,14 +1,30 @@
-<div class="sixteen wide column">
-  <div class="ui breadcrumb">
+<div class="nine wide column">
+    <div class="ui breadcrumb">
       <a class="section"><%= link_to "Data Templates", account_template_data_path(@account) %></a>
-  </div>
-  <h1 class="ui header" style="margin-top: 15px;">
-      <%= show_lock(@template_datum.is_public, @template_datum.name).html_safe %>
-  </h1>
-  <div class="ui divider"></div>
+    </div>
+    <h1 class="ui header" style="margin-top: 15px;">
+        <%= show_lock(@template_datum.is_public, @template_datum.name).html_safe %>
+    </h1>
+    <div class="ui divider"></div>
+    <div class="ui message">
+      <h3>Upload mandatory code</h3>
+      <!-- TODO AMIT -->
+      <% # render partial: "services_attachables/form", locals: {services_attachable: @sample_json} %>
+    </div>
+    <br/>
+    <div class="ui message">
+      <h3>
+        Associated card templates
+        <div style="float: right; font-size: 0.8em;">
+            <%= link_to "New card template", new_account_template_datum_template_card_path(@account, @template_datum) %>
+        </div>
+      </h3>
+      <br/>
+      <%= render partial: "template_cards/index" %>
+    </div>
 </div>
-<div class="sixteen wide column">
-  <a class="ui grey circular label"><%= @template_datum.publish_count %></a>
+<div class="seven wide column">
+    <a class="ui grey circular label"><%= @template_datum.publish_count %></a>
   <div style="float: right;">
           <p style="margin-bottom: 0px;"><%= @template_datum.status %></p>
           <p style="font-weight: 400; color: gray; margin-bottom: 10px;">
@@ -17,18 +33,6 @@
             <%= time_ago_in_words @template_datum.updated_at %>
           </p>
       </div>
-</div>
-<div class="eleven wide column">
-    <div class="ui dividing right rail"></div>
-    <h3 style="margin-bottom: 20px;">
-        Associated Card Templates
-        <div style="float: right; font-size: 0.8em;">
-            <%= link_to "New card template", new_account_template_datum_template_card_path(@account, @template_datum) %>
-        </div>
-    </h3>
-    <%= render partial: "template_cards/index" %>
-</div>
-<div class="five wide column">
     <div  style="margin-left: 40px;">
         <h4>What is this Template Data about?</h4>
         <%= best_in_place @template_datum, :description,url: account_template_datum_path(@account, @template_datum) ,:as => :textarea, :place_holder => "No description added yet." %>
@@ -41,9 +45,7 @@
         <br/>
         <div style="float: right;""><%= link_to 'Destroy', [@account, @template_datum], method: :delete, data: { confirm: 'Are you sure?' }, class: "ui red basic button" %></div>
     </div>
-</div>
-
-<% if @template_datum.is_public %>
+    <% if @template_datum.is_public %>
   <%= link_to "Make private", flip_public_private_account_template_datum_path(@account, @template_datum) %>
 <% elsif @template_datum.status == "Published" or 1 == 1 %>
   <%= link_to "Make public", flip_public_private_account_template_datum_path(@account, @template_datum) %>
@@ -52,6 +54,9 @@
 <% if next_status(@template_datum.status).present? %>
   <%= link_to ("Change status to " + next_status(@template_datum.status)), move_to_next_status_account_template_datum_path(@account, @template_datum) %>
 <% end %>
+</div>
+
+
 
 
 <div class="column"%>

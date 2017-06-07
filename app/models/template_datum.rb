@@ -36,8 +36,8 @@ class TemplateDatum < ApplicationRecord
     belongs_to :updator, class_name: "User", foreign_key: "updated_by"
     has_many :template_cards
     has_many :datacasts
-    has_one :sample_json, ->{where(genre: "sample_json")}, as: :attachable
-    has_one :xsd, ->{where(genre: "xsd")}, as: :attachable
+    has_one :sample_json, ->{where(genre: "sample_json")}, as: :attachable  # TODO AMIT something is failing when I call .sample_json or .xsd
+    has_one :xsd, ->{where(genre: "xsd")}, as: :attachable  # TODO AMIT change to json
 
     #ACCESSORS
     attr_accessor :previous_version_id
@@ -58,7 +58,7 @@ class TemplateDatum < ApplicationRecord
         ["#{self.name}-#{self.version.to_s}"]
     end
 
-    def parent
+    def parent #TODO RITVIJ rename to current_version
         TemplateDatum.where(global_slug: self.global_slug, is_current_version: true).first
     end
 
@@ -132,7 +132,7 @@ class TemplateDatum < ApplicationRecord
     end
 
     def can_ready_to_publish?
-        if self.xsd.present? and self.sample_json.present?
+        if self.xsd.present? and self.sample_json.present? # TODO AMIT change to upload files
             return true
         end
         return false

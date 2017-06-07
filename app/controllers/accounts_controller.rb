@@ -3,6 +3,7 @@ class AccountsController < ApplicationController
   before_action :authenticate_user!
   before_action :sudo_role_can_account_settings, only: [:edit, :update]
 
+  #Your Accounts - Switch Accounts
   def index
     @accounts = current_user.accounts
     @account = Account.new

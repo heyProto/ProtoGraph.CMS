@@ -11,6 +11,8 @@ class TemplateDataController < ApplicationController
     @template_cards = @template_datum.template_cards
     @parent = @template_datum.parent
     @siblings = @template_datum.siblings.order("version DESC")
+    #@sample_json = @template_datum.sample_json # TODO AMIT
+    #@xsd = @template_datum.xsd
   end
 
   def flip_public_private
