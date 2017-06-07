@@ -1,5 +1,8 @@
 - Set a global_slug in each template. Same method to remove spaces from username.
 
+Create VERSIONS
+- Carry forward proprerties.
+
 - Move SHOW page to EDIT page.
 --- TS
 --- TC

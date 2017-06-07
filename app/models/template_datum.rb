@@ -2,22 +2,24 @@
 #
 # Table name: template_data
 #
-#  id                  :integer          not null, primary key
-#  account_id          :integer
-#  name                :string(255)
-#  description         :text(65535)
-#  slug                :string(255)
-#  global_slug         :string(255)
-#  version             :float(24)
-#  previous_version_id :integer
-#  status              :string(255)
-#  api_key             :string(255)
-#  publish_count       :integer
-#  is_public           :boolean
-#  created_by          :integer
-#  updated_by          :integer
-#  created_at          :datetime         not null
-#  updated_at          :datetime         not null
+#  id                 :integer          not null, primary key
+#  account_id         :integer
+#  name               :string(255)
+#  elevator_pitch     :string(255)
+#  description        :text(65535)
+#  slug               :string(255)
+#  global_slug        :string(255)
+#  version            :float(24)
+#  is_current_version :boolean
+#  change_log         :text(65535)
+#  status             :string(255)
+#  api_key            :string(255)
+#  publish_count      :integer
+#  is_public          :boolean
+#  created_by         :integer
+#  updated_by         :integer
+#  created_at         :datetime         not null
+#  updated_at         :datetime         not null
 #
 
 class TemplateDatum < ApplicationRecord
@@ -38,9 +40,11 @@ class TemplateDatum < ApplicationRecord
     has_one :xsd, ->{where(genre: "xsd")}, as: :attachable
 
     #ACCESSORS
+    attr_accessor :previous_version_id
+
     #VALIDATIONS
     validates :account_id, presence: true
-    validates :name, presence: true, uniqueness: {scope: :account, case_sensitive: false }
+    validates :name, presence: true
     validates :created_by, presence: true
     validates :updated_by, presence: true
 
@@ -52,6 +56,14 @@ class TemplateDatum < ApplicationRecord
     #OTHER
     def slug_candidates
         ["#{self.name}-#{self.version.to_s}"]
+    end
+
+    def parent
+        TemplateDatum.where(global_slug: self.global_slug, is_current_version: true).first
+    end
+
+    def siblings
+        TemplateDatum.where(global_slug: self.global_slug)
     end
 
     def flip_public_private
@@ -92,11 +104,15 @@ class TemplateDatum < ApplicationRecord
     end
 
     def before_create_set
-        self.publish_count = 0
-        self.version = 0.1
-        self.api_key = SecureRandom.hex(24)
-        self.is_public = false if self.is_public.blank?
         self.status = "Draft"
+        self.publish_count = 0
+        if self.global_slug.blank?
+            self.version = 0.1
+            self.is_public = false
+            self.api_key = SecureRandom.hex(24)
+            self.global_slug = self.name.gsub(" ", "-").downcase #TODO AMIT is there a better way to sluggify?
+            self.is_current_version = true
+        end
         true
     end
 

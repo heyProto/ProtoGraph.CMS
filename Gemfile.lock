@@ -42,6 +42,7 @@ GEM
       activerecord (>= 3.2, < 6.0)
       rake (>= 10.4, < 13.0)
     arel (8.0.0)
+    awesome_print (1.7.0)
     aws-sdk (2.9.29)
       aws-sdk-resources (= 2.9.29)
     aws-sdk-core (2.9.29)
@@ -258,6 +259,7 @@ PLATFORMS
 
 DEPENDENCIES
   annotate
+  awesome_print
   best_in_place (~> 3.0.1)
   byebug
   carrierwave (~> 1.0)

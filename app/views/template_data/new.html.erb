@@ -1,11 +1,25 @@
 <%= render partial: "template_cards/header" %>
-<div class="sixteen wide column">
+<div class="nine wide column">
     <%= simple_form_for([@account, @template_datum]) do |f| %>
         <%= f.error_notification %>
         <div class="form-inputs">
             <%= f.input :account_id, as: :hidden, input_html: {value: @account.id} %>
-            <%= f.input :name, hint: "Choose wisely. You cannot change it later." %>
-            <%= f.input :description %>
+            <% if @prev_version.present? %>
+                <%= f.input :name, input_html: {value: @prev_version.name}, as: :hidden %>
+                <%= f.input :global_slug, input_html: {value: @prev_version.global_slug}, as: :hidden %>
+                <%= f.input :version, hint: "Choose a version number that you have not used previously. You cannot change it later." %>
+                <%= f.input :change_log, hint: "What do you plan to achieve in this version?" %>
+                <%= f.input :previous_version_id, as: :hidden, input_html: {value: @prev_version.id} %>
+                <%= f.input :is_public, input_html: {value: @prev_version.is_public}, as: :hidden %>
+                <%= f.input :api_key, input_html: {value: @prev_version.api_key}, as: :hidden %>
+                <%= f.input :description, input_html: {value: @prev_version.description}, as: :hidden %>
+                <%= f.input :elevator_pitch, input_html: {value: @prev_version.elevator_pitch}, as: :hidden %>
+            <% else %>
+                <%= f.input :name, hint: "Choose wisely. You cannot change it later." %>
+                <%= f.input :version, input_html: {value: 0.1}, as: :hidden %>
+                <%= f.input :elevator_pitch, hint: "Explain in 140 characters what this template is about." %>
+            <% end %>
+
         </div>
         <div class="form-actions">
             <br/>

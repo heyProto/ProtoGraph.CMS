@@ -66,6 +66,6 @@ class TemplateStreamsController < ApplicationController
     end
 
     def template_stream_params
-      params.require(:template_stream).permit(:account_id, :name, :description, :slug, :status, :publish_count, :created_by, :updated_by, :is_public)
+      params.require(:template_stream).permit(:account_id, :name, :description, :slug, :status, :publish_count, :created_by, :updated_by, :is_public, :global_slug, :elevator_pitch, :version, :is_current_version, :change_log)
     end
 end

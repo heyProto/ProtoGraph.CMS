@@ -2,22 +2,24 @@
 #
 # Table name: template_cards
 #
-#  id                  :integer          not null, primary key
-#  account_id          :integer
-#  template_datum_id   :integer
-#  name                :string(255)
-#  description         :text(65535)
-#  slug                :string(255)
-#  global_slug         :string(255)
-#  version             :float(24)
-#  previous_version_id :integer
-#  status              :string(255)
-#  publish_count       :integer
-#  is_public           :boolean
-#  created_by          :integer
-#  updated_by          :integer
-#  created_at          :datetime         not null
-#  updated_at          :datetime         not null
+#  id                 :integer          not null, primary key
+#  account_id         :integer
+#  template_datum_id  :integer
+#  name               :string(255)
+#  elevator_pitch     :string(255)
+#  description        :text(65535)
+#  slug               :string(255)
+#  global_slug        :string(255)
+#  version            :float(24)
+#  is_current_version :boolean
+#  change_log         :text(65535)
+#  status             :string(255)
+#  publish_count      :integer
+#  is_public          :boolean
+#  created_by         :integer
+#  updated_by         :integer
+#  created_at         :datetime         not null
+#  updated_at         :datetime         not null
 #
 
 class TemplateCard < ApplicationRecord
@@ -45,10 +47,12 @@ class TemplateCard < ApplicationRecord
 
 
     #ACCESSORS
+    attr_accessor :previous_version_id
+
     #VALIDATIONS
     validates :account_id, presence: true
     validates :template_datum_id, presence: true
-    validates :name, presence: true, uniqueness: {scope: :account, case_sensitive: false }
+    validates :name, presence: true
     validates :created_by, presence: true
     validates :updated_by, presence: true
 
@@ -60,6 +64,14 @@ class TemplateCard < ApplicationRecord
     #OTHER
     def slug_candidates
         ["#{self.name}-#{self.version.to_s}"]
+    end
+
+    def parent
+        TemplateCard.where(global_slug: self.global_slug, is_current_version: true).first
+    end
+
+    def siblings
+        TemplateCard.where(global_slug: self.global_slug)
     end
 
     def flip_public_private
@@ -101,10 +113,18 @@ class TemplateCard < ApplicationRecord
     end
 
     def before_create_set
-        self.publish_count = 0
-        self.version = 0.1
-        self.is_public = false if self.is_public.blank?
         self.status = "Draft"
+        self.publish_count = 0
+        if self.global_slug.blank?
+            self.version = 0.1
+            self.is_public = false
+            self.global_slug = self.name.gsub(" ", "-").downcase #TODO AMIT is there a better way to sluggify?
+            self.is_current_version = true
+        else
+            self.is_public = self.parent.is_public
+            self.description = self.parent.description
+            self.elevator_pitch = self.parent.elevator_pitch
+        end
         true
     end
 

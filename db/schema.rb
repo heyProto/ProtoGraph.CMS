@@ -136,11 +136,13 @@ ActiveRecord::Schema.define(version: 20170521162027) do
     t.integer "account_id"
     t.integer "template_datum_id"
     t.string "name"
+    t.string "elevator_pitch"
     t.text "description"
     t.string "slug"
     t.string "global_slug"
     t.float "version", limit: 24
-    t.integer "previous_version_id"
+    t.boolean "is_current_version"
+    t.text "change_log"
     t.string "status"
     t.integer "publish_count"
     t.boolean "is_public"
@@ -154,11 +156,13 @@ ActiveRecord::Schema.define(version: 20170521162027) do
   create_table "template_data", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer "account_id"
     t.string "name"
+    t.string "elevator_pitch"
     t.text "description"
     t.string "slug"
     t.string "global_slug"
     t.float "version", limit: 24
-    t.integer "previous_version_id"
+    t.boolean "is_current_version"
+    t.text "change_log"
     t.string "status"
     t.string "api_key"
     t.integer "publish_count"
@@ -167,7 +171,7 @@ ActiveRecord::Schema.define(version: 20170521162027) do
     t.integer "updated_by"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["api_key"], name: "index_template_data_on_api_key", unique: true
+    t.index ["api_key"], name: "index_template_data_on_api_key"
     t.index ["slug"], name: "index_template_data_on_slug", unique: true
   end
 
@@ -186,11 +190,13 @@ ActiveRecord::Schema.define(version: 20170521162027) do
   create_table "template_streams", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer "account_id"
     t.string "name"
+    t.string "elevator_pitch"
     t.text "description"
     t.string "slug"
     t.string "global_slug"
     t.float "version", limit: 24
-    t.integer "previous_version_id"
+    t.boolean "is_current_version"
+    t.text "change_log"
     t.string "status"
     t.integer "publish_count"
     t.boolean "is_public"

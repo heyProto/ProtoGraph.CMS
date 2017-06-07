@@ -69,6 +69,6 @@ class TemplateCardsController < ApplicationController
     end
 
     def template_card_params
-      params.require(:template_card).permit(:account_id, :template_datum_id, :name, :description, :slug, :status, :publish_count, :created_by, :updated_by, :is_public)
+      params.require(:template_card).permit(:account_id, :template_datum_id, :name, :description, :slug, :status, :publish_count, :created_by, :updated_by, :is_public, :global_slug, :elevator_pitch, :version, :is_current_version, :change_log)
     end
 end

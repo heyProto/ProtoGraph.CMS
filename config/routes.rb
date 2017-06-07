@@ -21,6 +21,7 @@ Rails.application.routes.draw do
     end
     resources :template_data do
       get 'flip_public_private', 'move_to_next_status', on: :member
+      get "/new/version", to: "template_data#new", on: :member, as: :create_version
       resources :template_cards, only: [:new]
     end
     resources :template_cards do

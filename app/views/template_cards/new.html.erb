@@ -1,12 +1,12 @@
 <%= render partial: "template_cards/header" %>
-<div class="sixteen wide column">
+<div class="nine wide column">
     <%= simple_form_for([@account, @template_card]) do |f| %>
         <%= f.error_notification %>
         <div class="form-inputs">
             <%= f.input :account_id, as: :hidden, input_html: {value: @account.id} %>
             <%= f.input :template_datum_id, as: :hidden, input_html: {value: @template_datum.id} %>
             <%= f.input :name, hint: "Choose wisely. You cannot change it later." %>
-            <%= f.input :description %>
+            <%= f.input :elevator_pitch, hint: "Explain in 140 characters what this template is about." %>
         </div>
         <div class="form-actions">
             <br/>

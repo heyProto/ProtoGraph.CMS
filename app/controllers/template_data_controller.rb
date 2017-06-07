@@ -4,7 +4,7 @@ class TemplateDataController < ApplicationController
   before_action :set_template_datum, only: [:show, :edit, :update, :destroy, :flip_public_private, :move_to_next_status]
 
   def index
-    @template_data = @account.template_data
+    @template_data = @account.template_data.where(is_current_version: true)
   end
 
   def show
@@ -21,10 +21,12 @@ class TemplateDataController < ApplicationController
 
   def new
     @template_datum = TemplateDatum.new
+    @prev_version = TemplateDatum.friendly.find(params[:id]) if params[:id].present?
   end
 
   def create
     @template_datum = TemplateDatum.new(template_datum_params)
+    @prev_version = TemplateDatum.friendly.find {@template_datum.previous_version_id} if @template_datum.previous_version_id.present?
     @template_datum.created_by = current_user.id
     @template_datum.updated_by = current_user.id
     if @template_datum.save
@@ -65,6 +67,6 @@ class TemplateDataController < ApplicationController
     end
 
     def template_datum_params
-      params.require(:template_datum).permit(:account_id, :name, :description, :slug, :status, :api_key, :publish_count, :created_by, :updated_by, :is_public)
+      params.require(:template_datum).permit(:account_id, :name, :description, :slug, :status, :api_key, :publish_count, :created_by, :updated_by, :is_public, :global_slug, :elevator_pitch, :version, :is_current_version, :change_log)
     end
 end
