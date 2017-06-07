@@ -1,5 +1,5 @@
-<%= render partial: "template_cards/header" %>
 <div class="nine wide column">
+  <%= render partial: "template_cards/header" %>
   <table class="ui very basic table">
   <thead>
     <tr>
@@ -27,6 +27,9 @@
 </div>
 
 <div class="seven wide column" style="padding-left: 90px;">
+    <%= link_to "New Stream Template", new_account_template_stream_path(@account), class: "ui basic button" %>
+    <br/>
+    <br/>
     <p>A Stream ties cards together into an experience that is appropriate for the usecase. Example - Question/Answer cards can be tied together into a Quiz.</p>
     <p>In simple words, Stream = Collection of Cards</p>
     <p><b>StreamKit</b> is a Javascript SDK that developers can use to write their own cards. StreamKit provides:</p>

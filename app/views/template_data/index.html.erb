@@ -1,5 +1,5 @@
-<%= render partial: "template_cards/header" %>
 <div class="nine wide column">
+  <%= render partial: "template_cards/header" %>
   <table class="ui very basic table">
   <thead>
     <tr>
@@ -25,7 +25,14 @@
     <% end %>
   </tbody>
 </table>
-
 <div class="ui dividing right rail" style="min-height: 339px;"></div>
-
+</div>
+<div class="seven wide column" style="padding-left: 90px;">
+    <%= link_to "New Data Template", new_account_template_datum_path(@account), class: "ui basic button" %>
+    <br/>
+    <br/>
+    <p>Every piece of content (without the styling) in this system is available over an API end point in JSON format. Each of these JSON objects are called as <b>Datacasts</b>.</p>
+    <p>You can define a JSON Schema for each type of data example stock price, paragraph, image, image and a quote, tweet, etc.</p>
+    <p>Once you have defined a JSON Schema, you can programatically push content into the system. Usecases of this include weather cards, stock price cards, explainers from NGO partners, etc.</p>
+    <p></p>
 </div>
