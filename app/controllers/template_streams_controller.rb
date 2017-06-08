@@ -22,6 +22,11 @@ class TemplateStreamsController < ApplicationController
 
   def new
     @template_stream = TemplateStream.new
+    @prev_version = TemplateStream.friendly.find(params[:id]) if params[:id].present?
+    if @prev_version.present?
+      @template_stream.previous_version_id = params[:id]
+      @template_stream.deep_copy
+    end
   end
 
   def create
@@ -66,6 +71,6 @@ class TemplateStreamsController < ApplicationController
     end
 
     def template_stream_params
-      params.require(:template_stream).permit(:account_id, :name, :description, :slug, :status, :publish_count, :created_by, :updated_by, :is_public, :global_slug, :elevator_pitch, :version, :is_current_version, :change_log)
+      params.require(:template_stream).permit(:account_id, :name, :elevator_pitch, :description, :global_slug, :is_current_version, :version_series, :previous_version_id, :version_genre, :version, :change_log, :status, :publish_count, :is_public, :created_by, :updated_by)
     end
 end

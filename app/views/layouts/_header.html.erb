@@ -1,6 +1,6 @@
 <div style="width: 1030px; margin-left: auto; margin-right: auto;">
     <% if user_signed_in? %>
-  <div class="ui menu clear" style="border-bottom: 1px lightgray solid">
+  <div class="ui menu clear"  style="border-bottom: 1px lightgray solid">
     <div class="item"><%= image_tag "logo.png" %></div>
     <% if @on_an_account_page %>
         <div class="item"><%= link_to @account.username, account_path(@account), style: "color: black !important;" %></div>
@@ -36,7 +36,6 @@
   </div>
   <% else %>
   <div class="ui secondary menu" style="border-bottom: 1px lightgray solid">
-
     <%= link_to image_tag("logo.png"), root_url, class: "item" %>
     <div class="right menu">
       <%- if controller_name != 'sessions' %>
@@ -44,6 +43,7 @@
       <% end -%>
     </div>
   </div>
+  <h1 style="text-align: center;">CardExchange</h1>
   <% end %>
   <br/>
   <% if notice.present? %>

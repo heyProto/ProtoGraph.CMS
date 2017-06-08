@@ -2,24 +2,27 @@
 #
 # Table name: template_cards
 #
-#  id                 :integer          not null, primary key
-#  account_id         :integer
-#  template_datum_id  :integer
-#  name               :string(255)
-#  elevator_pitch     :string(255)
-#  description        :text(65535)
-#  slug               :string(255)
-#  global_slug        :string(255)
-#  version            :float(24)
-#  is_current_version :boolean
-#  change_log         :text(65535)
-#  status             :string(255)
-#  publish_count      :integer
-#  is_public          :boolean
-#  created_by         :integer
-#  updated_by         :integer
-#  created_at         :datetime         not null
-#  updated_at         :datetime         not null
+#  id                  :integer          not null, primary key
+#  account_id          :integer
+#  name                :string(255)
+#  elevator_pitch      :string(255)
+#  description         :text(65535)
+#  global_slug         :string(255)
+#  is_current_version  :boolean
+#  slug                :string(255)
+#  version_series      :string(255)
+#  previous_version_id :integer
+#  version_genre       :string(255)
+#  version             :string(255)
+#  change_log          :text(65535)
+#  status              :string(255)
+#  publish_count       :integer
+#  is_public           :boolean
+#  created_by          :integer
+#  updated_by          :integer
+#  template_datum_id   :integer
+#  created_at          :datetime         not null
+#  updated_at          :datetime         not null
 #
 
 class TemplateCard < ApplicationRecord
@@ -70,6 +73,10 @@ class TemplateCard < ApplicationRecord
         TemplateCard.where(global_slug: self.global_slug, is_current_version: true).first
     end
 
+    def previous
+       TemplateCard.where(global_slug: self.global_slug, id: self.previous_version_id).first
+    end
+
     def siblings
         TemplateCard.where(global_slug: self.global_slug)
     end
@@ -104,6 +111,17 @@ class TemplateCard < ApplicationRecord
         end
     end
 
+    def deep_copy
+        self.account_id = self.previous.account_id
+        self.name = self.previous.name
+        self.global_slug = self.previous.global_slug
+        self.is_current_version = false
+        self.is_public = self.previous.is_public
+        self.version_series = self.version_genre != "major" ? self.previous.version_series + 1 : self.previous.version_series
+        self.description = self.previous.description
+        self.elevator_pitch = self.previous.elevator_pitch
+    end
+
 
     #PRIVATE
     private
@@ -115,15 +133,14 @@ class TemplateCard < ApplicationRecord
     def before_create_set
         self.status = "Draft"
         self.publish_count = 0
-        if self.global_slug.blank?
-            self.version = 0.1
-            self.is_public = false
+        if self.previous_version_id.blank?
             self.global_slug = self.name.gsub(" ", "-").downcase #TODO AMIT is there a better way to sluggify?
             self.is_current_version = true
-        else
-            self.is_public = self.parent.is_public
-            self.description = self.parent.description
-            self.elevator_pitch = self.parent.elevator_pitch
+            self.version_series = "0"
+            self.previous_version_id = nil
+            self.version_genre = "major"
+            self.version = "0.1.0"
+            self.is_public = false
         end
         true
     end

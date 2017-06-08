@@ -82,7 +82,9 @@
 
 
 
-
+<%= link_to "Create Bug Version", create_version_account_template_datum_path(@account, @template_datum, version_genre: "bug"), class: "item" %>
+<%= link_to "Create Major Version", create_version_account_template_datum_path(@account, @template_datum, version_genre: "major"), class: "item" %>
+<%= link_to "Create Minor Version", create_version_account_template_datum_path(@account, @template_datum, version_genre: "minor"), class: "item" %>
 <!-- <div class="column"%>
   <div class="ui left fixed vertical pointing menu" style="background: #F8F8F9;">
     <% @siblings.each do |s| %>
@@ -97,6 +99,6 @@
             </h4>
         </a>
     <% end %>
-    <%= link_to "Create Version", create_version_account_template_datum_path(@account, @template_datum), class: "item" %>
+
 </div> -->
 </div>
