@@ -1,148 +1,150 @@
 <div class="eleven wide column">
-    <div class="ui breadcrumb">
-      <a class="section"><%= link_to "Datacast Schemas", account_template_data_path(@account) %></a>
-    </div>
-    <h1 class="ui header" style="margin-top: 15px;">
-        <%= show_lock(@template_datum.is_public, @template_datum.name + " - "+@template_datum.version.to_s).html_safe %>
-    </h1>
-    <div class="ui divider"></div>
-    <p style="font-weight: 400; color: gray; margin-bottom: 10px;">
-      Last updated by
-      <%= @template_datum.updator.name %>
-      <%= time_ago_in_words @template_datum.updated_at %>
-    </p>
+  <div class="ui breadcrumb">
+    <a class="section"><%= link_to "Datacast Schemas", account_template_data_path(@account) %></a>
+  </div>
+  <h1 class="ui header" style="margin-top: 15px;">
+    <%= show_lock(@template_datum.is_public, @template_datum.name + " - "+@template_datum.version.to_s).html_safe %>
+  </h1>
+  <div class="ui divider"></div>
+  <p style="font-weight: 400; color: gray; margin-bottom: 10px;">
+    Last updated by
+    <%= @template_datum.updator.name %>
+    <%= time_ago_in_words @template_datum.updated_at %>
+  </p>
 
-    <div class="ui mini ordered steps">
-      <div class="completed step">
-        <div class="content">
-          <div class="title">Draft</div>
-          <div class="description">Fill up the details. Upload code.</div>
-        </div>
-      </div>
-      <div class="active step">
-        <div class="content">
-          <div class="title">Ready to Publish</div>
-          <div class="description">Verify. Review. Test.</div>
-        </div>
-      </div>
-      <div class="active step">
-        <div class="content">
-          <div class="title">Published</div>
-          <div class="description">Went live.</div>
-        </div>
+  <div class="ui mini ordered steps">
+    <div class="completed step">
+      <div class="content">
+        <div class="title">Draft</div>
+        <div class="description">Fill up the details. Upload code.</div>
       </div>
     </div>
-
-
-    <br/>
-    <div class="ui message">
-      <h3>What is this data template all about?</h3><br/>
-      <%= simple_form_for [@account, @template_datum] do |f| %>
-        <%= f.error_notification %>
-        <div class="form-inputs">
-            <%= f.input :elevator_pitch, label: "Describe the schema in 140 characters." %>
-            <%= f.input :description, as: :text, label: "Describe in detail.", input_html: {rows: 3} %>
-            <%= f.input :change_log, as: :text, label: "What changed in this version?", placeholder: "Change log", input_html: {rows: 3} %>
-        </div>
-        <div class="form-actions">
-            <br/>
-            <%= f.button :submit, "Update", class: "ui button" %>
-        </div>
-      <% end %>
+    <div class="active step">
+      <div class="content">
+        <div class="title">Ready to Publish</div>
+        <div class="description">Verify. Review. Test.</div>
+      </div>
     </div>
-    <br/>
-    <div class="ui message">
-      <h3>Upload mandatory code</h3><br/>
-      <%= render partial: "services_attachables/form", locals: {services_attachable: @json_schema, label: "Schema definition file", hint: "Format: .json"} %>
-      <%= render partial: "services_attachables/form", locals: {services_attachable: @sample_json, label: "Sample JSON for demo", hint: "Format: .json"} %>
+    <div class="active step">
+      <div class="content">
+        <div class="title">Published</div>
+        <div class="description">Went live.</div>
+      </div>
     </div>
+  </div>
+
+  <br/>
+  <% if @template_datum.status == "Published" %>
+  <div class="ui message">
+    <h3>
+      Associated card templates
+      <div style="float: right; font-size: 0.8em; font-weight: 400;">
+        <%= link_to "New card template", new_account_template_datum_template_card_path(@account, @template_datum) %>
+      </div>
+    </h3>
     <br/>
-    <div class="ui message">
-      <h3>
-        Associated card templates
-        <div style="float: right; font-size: 0.8em; font-weight: 400;">
-            <%= link_to "New card template", new_account_template_datum_template_card_path(@account, @template_datum) %>
-        </div>
-      </h3>
+    <%= render partial: "template_cards/index" %>
+  </div>
+  <br/>
+
+  <div class="ui message">
+    <h3>
+      Push data via APIs
+    </h3><br/>
+    <table class="ui very basic table">
+      <tr>
+        <td>My API Key</td>
+        <td>:</td>
+        <td><%= current_user.access_token %></td>
+      </tr>
+      <tr>
+        <td>Datacast Token:</td>
+        <td>:</td>
+        <td><%= @template_datum.api_key %></td>
+      </tr>
+    </table>
+  </div>
+  <% end %>
+  <br/>
+  <div class="ui message">
+    <h3>What is this data template all about?</h3><br/>
+    <%= simple_form_for [@account, @template_datum] do |f| %>
+    <%= f.error_notification %>
+    <div class="form-inputs">
+      <%= f.input :elevator_pitch, label: "Describe the schema in 140 characters.", disabled: @template_datum.status == "Published" %>
+      <%= f.input :description, as: :text, label: "Describe in detail.", input_html: {rows: 3}, disabled: @template_datum.status == "Published" %>
+      <%= f.input :change_log, as: :text, label: "What changed in this version?", placeholder: "Change log", input_html: {rows: 3}, disabled: @template_datum.status == "Published" %>
+    </div>
+    <div class="form-actions">
       <br/>
-      <%= render partial: "template_cards/index" %>
+      <%= f.button :submit, "Update", class: "ui button" %>
     </div>
-    <br/>
-    <div class="ui message">
-      <h3>
-        Push data via APIs
-      </h3><br/>
-      <table class="ui very basic table">
-        <tr>
-            <td>My API Key</td>
-            <td>:</td>
-            <td><%= current_user.access_token %></td>
-        </tr>
-        <tr>
-            <td>Datacast Token:</td>
-            <td>:</td>
-            <td><%= @template_datum.api_key %></td>
-        </tr>
-      </table>
-    </div>
-    <div class="ui dividing right rail" style="min-height: 339px;"></div>
+    <% end %>
+  </div>
+  <br/>
+  <div class="ui message">
+    <h3>Upload mandatory code</h3><br/>
+    <%= render partial: "services_attachables/form", locals: {services_attachable: @json_schema, label: "Schema definition file", hint: "Format: .json", can_delete: (@template_datum.status != "Published")} %>
+    <%= render partial: "services_attachables/form", locals: {services_attachable: @sample_json, label: "Sample JSON for demo", hint: "Format: .json", can_delete: (@template_datum.status != "Published")} %>
+  </div>
+  <br/>
+  <a class="ui grey circular label"><%= @template_datum.publish_count %></a>
+  <div  style="margin-left: 40px;">
+    <div style="float: right;""><%= link_to 'Destroy', [@account, @template_datum], method: :delete, data: { confirm: 'Are you sure?' }, class: "ui red basic button" %></div>
+  </div>
+  <% if @template_datum.is_public %>
+  <%= link_to "Make private", flip_public_private_account_template_datum_path(@account, @template_datum) %>
+  <% elsif @template_datum.status == "Published" %>
+  <%= link_to "Make public", flip_public_private_account_template_datum_path(@account, @template_datum) %>
+  <% end %>
+
+  <% if next_status(@template_datum.status).present? %>
+  <%= link_to ("Change status to " + next_status(@template_datum.status)), move_to_next_status_account_template_datum_path(@account, @template_datum) %>
+  <% end %>
+
+  <div class="ui dividing right rail" style="min-height: 339px;"></div>
 </div>
 <div class="five wide column" style="padding-left: 90px;">
-    <p style="margin-bottom: 0px;"><%= @template_datum.status %></p>
-    <a class="ui grey circular label"><%= @template_datum.publish_count %></a>
-    <div  style="margin-left: 40px;">
-        <div style="float: right;""><%= link_to 'Destroy', [@account, @template_datum], method: :delete, data: { confirm: 'Are you sure?' }, class: "ui red basic button" %></div>
-    </div>
-    <% if @template_datum.is_public %>
-      <%= link_to "Make private", flip_public_private_account_template_datum_path(@account, @template_datum) %>
-    <% elsif @template_datum.status == "Published" %>
-      <%= link_to "Make public", flip_public_private_account_template_datum_path(@account, @template_datum) %>
-    <% end %>
-
-    <% if next_status(@template_datum.status).present? %>
-        <%= link_to ("Change status to " + next_status(@template_datum.status)), move_to_next_status_account_template_datum_path(@account, @template_datum) %>
-    <% end %>
-    <h3>Versions</h3>
-    <div class="ui list">
-      <%= link_to "Create Bug Version", create_version_account_template_datum_path(@account, @template_datum, version_genre: "bug"), class: "item" %>
-      <%= link_to "Create Major Version", create_version_account_template_datum_path(@account, @template_datum, version_genre: "major"), class: "item" %>
-      <%= link_to "Create Minor Version", create_version_account_template_datum_path(@account, @template_datum, version_genre: "minor"), class: "item" %>
-      <br/>
-      <% last_series = nil %>
-      <% @siblings.each do |s| %>
-          <% if last_series != s.version_series %>
-              <div class="item" style="margin-bottom: 5px;">
-                  <i class="folder icon"></i>
-                  <div class="content">
-                      <div class="header">
-                          SERIES: <%= s.version_series %>
-                      </div>
-                  </div>
-              </div>
-          <% end %>
-          <div class="item" style="margin-left: 20px; ">
-            <div class="content">
-                <div class="header">
-                    <a href=<%= account_template_datum_path(@account, s) %>>
-                        <% if s.is_current_version %>
-                          <i class="checkmark icon" style="color: green; padding-top: 5px; font-size: 15px;"></i>
-                        <% elsif s.version_genre == "bug" %>
-                            <i class="bug icon" style="padding-top: 5px;"></i>
-                        <% elsif s.version_genre == "major" %>
-                            <i class="cubes icon" style="padding-top: 5px;"></i>
-                        <% elsif s.version_genre == "minor" %>
-                            <i class="cube icon" style="padding-top: 5px;"></i>
-                        <% end %>
-                        <%= s.version.to_s %>
-                        <div class="ui label"><%= s.status %></div>
-                    </a>
-                </div>
-            </div>
-          </div>
-          <% last_series = s.version_series %>
-      <% end %>
+  <div class="ui list">
+    <%= link_to "Create Bug Version", create_version_account_template_datum_path(@account, @template_datum, version_genre: "bug"), class: "item" %>
+    <%= link_to "Create Major Version", create_version_account_template_datum_path(@account, @template_datum, version_genre: "major"), class: "item" %>
+    <%= link_to "Create Minor Version", create_version_account_template_datum_path(@account, @template_datum, version_genre: "minor"), class: "item" %>
+    <br/>
+    <% last_series = nil %>
+    <% @siblings.each do |s| %>
+    <% if last_series != s.version_series %>
+    <div class="item" style="margin-bottom: 5px;">
+      <i class="folder icon"></i>
+      <div class="content">
+        <div class="header">
+          SERIES: <%= s.version_series %>
+        </div>
       </div>
     </div>
+    <% end %>
+    <div class="item" style="margin-left: 20px; ">
+      <div class="content">
+        <div class="header">
+          <a href=<%= account_template_datum_path(@account, s) %> style="<%= s.id == @template_datum.id ? "color: orange !important;" : "" %>">
+            <% if s.is_current_version %>
+            <i class="checkmark icon" style="color: green; padding-top: 5px; font-size: 15px;"></i>
+            <% elsif s.version_genre == "bug" %>
+            <i class="bug icon" style="padding-top: 5px;"></i>
+            <% elsif s.version_genre == "major" %>
+            <i class="cubes icon" style="padding-top: 5px;"></i>
+            <% elsif s.version_genre == "minor" %>
+            <i class="cube icon" style="padding-top: 5px;"></i>
+            <% end %>
+            <%= s.version.to_s %>
+            <div class="ui label"><%= s.status %></div>
+          </a>
+        </div>
+      </div>
+    </div>
+    <% last_series = s.version_series %>
+    <% end %>
+  </div>
+</div>
 </div>
 
 <script type="text/javascript">

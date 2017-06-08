@@ -21,8 +21,12 @@
       <% if services_attachable.file_url.present? %>
         <%= link_to truncate(services_attachable.file_url, length: 40), services_attachable.file_url, target: "_black" %>
         &nbsp &nbsp
-        </div><div class='one wide column' >
-        <%= link_to "<i class='remove circle outline icon red'></i>".html_safe, file_account_services_attachable_path(@account, services_attachable),method: :delete %>
+        </div>
+        <div class='one wide column' >
+
+        <% if can_delete %>
+            <%= link_to "<i class='remove circle outline icon red'></i>".html_safe, file_account_services_attachable_path(@account, services_attachable),method: :delete %>
+        <% end %>
       <% else %>
         <div style="text-align: right;">
             <%= simple_form_for(services_attachable, url: upload_file_account_services_attachable_path(@account, services_attachable), method: :put) do |f| %>
