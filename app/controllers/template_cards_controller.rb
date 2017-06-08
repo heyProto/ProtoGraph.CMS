@@ -13,7 +13,9 @@ class TemplateCardsController < ApplicationController
 
   def new
     @template_datum = TemplateDatum.friendly.find(params[:template_datum_id])
-    @template_card = TemplateCard.new
+    @template_datum = TemplateCard.new
+    @prev_version = TemplateCard.friendly.find(params[:id]) if params[:id].present?
+    @version_genre = params[:version_genre]
   end
 
   def flip_public_private
@@ -26,12 +28,17 @@ class TemplateCardsController < ApplicationController
 
   def create
     @template_card = TemplateCard.new(template_card_params)
+    if @template_card.previous_version_id.present?
+      @template_card.deep_copy_across_versions
+    end
     @template_card.created_by = current_user.id
     @template_card.updated_by = current_user.id
     if @template_card.save
       redirect_to account_template_datum_path(@account, @template_card.template_datum), notice: t("cs")
     else
       @template_datum = @template_card.template_datum
+      @prev_version = @template_card.previous
+      @version_genre = @template_card.version_genre
       render :new
     end
   end
@@ -69,6 +76,6 @@ class TemplateCardsController < ApplicationController
     end
 
     def template_card_params
-      params.require(:template_card).permit(:account_id, :template_datum_id, :name, :description, :slug, :status, :publish_count, :created_by, :updated_by, :is_public, :global_slug, :elevator_pitch, :version, :is_current_version, :change_log)
+      params.require(:template_card).permit(:account_id, :name, :elevator_pitch, :description, :global_slug, :is_current_version, :version_series, :previous_version_id, :version_genre, :version, :change_log, :status, :publish_count, :is_public, :created_by, :updated_by, :template_datum_id)
     end
 end

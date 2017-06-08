@@ -1,5 +1,7 @@
 class TemplateDataController < ApplicationController
 
+  require 'version'
+
   before_action :authenticate_user!, :sudo_role_can_template_designer
   before_action :set_template_datum, only: [:show, :edit, :update, :destroy, :flip_public_private, :move_to_next_status]
 
@@ -26,16 +28,21 @@ class TemplateDataController < ApplicationController
   def new
     @template_datum = TemplateDatum.new
     @prev_version = TemplateDatum.friendly.find(params[:id]) if params[:id].present?
+    @version_genre = params[:version_genre]
   end
 
   def create
     @template_datum = TemplateDatum.new(template_datum_params)
-    @prev_version = TemplateDatum.friendly.find {@template_datum.previous_version_id} if @template_datum.previous_version_id.present?
+    if @template_datum.previous_version_id.present?
+      @template_datum.deep_copy_across_versions
+    end
     @template_datum.created_by = current_user.id
     @template_datum.updated_by = current_user.id
     if @template_datum.save
       redirect_to [@account, @template_datum], notice: t("cs")
     else
+      @prev_version = @template_datum.previous
+      @version_genre = @template_datum.version_genre
       render :new
     end
   end
@@ -45,11 +52,14 @@ class TemplateDataController < ApplicationController
     @template_datum.updated_by = current_user.id
     respond_to do |format|
       if @template_datum.update(template_datum_params)
-        format.js {respond_with_bip(@template_datum) }
-        format.json { respond_with_bip(@template_datum) }
+        format.html { redirect_to [@account, @template_datum], notice: t("us") }
       else
-        format.js {respond_with_bip(@template_datum)}
-        format.json {respond_with_bip(@template_datum)}
+        @template_cards = @template_datum.template_cards
+        @current_version = @template_datum.current_version
+        @siblings = @template_datum.siblings.order("version DESC")
+        @sample_json = @template_datum.sample_json
+        @json_schema = @template_datum.json_schema
+        format.html { render :show }
       end
     end
   end
@@ -71,6 +81,6 @@ class TemplateDataController < ApplicationController
     end
 
     def template_datum_params
-      params.require(:template_datum).permit(:account_id, :name, :description, :slug, :status, :api_key, :publish_count, :created_by, :updated_by, :is_public, :global_slug, :elevator_pitch, :version, :is_current_version, :change_log)
+      params.require(:template_datum).permit(:account_id, :name, :elevator_pitch, :description, :global_slug, :is_current_version, :version_series, :previous_version_id, :version_genre, :version, :change_log, :status, :publish_count, :is_public, :created_by, :updated_by, :api_key)
     end
 end

@@ -83,10 +83,7 @@
     <% end %>
 </div>
 
-
-
-
-<!-- <div class="column"%>
+<div class="column"%>
   <div class="ui left fixed vertical pointing menu" style="background: #F8F8F9;">
     <% @siblings.each do |s| %>
         <a class="<%= s.id == @template_datum.id ? "active item" : "item" %>" href=<%= account_template_datum_path(@account, s) %>>
@@ -100,8 +97,11 @@
             </h4>
         </a>
     <% end %>
-    <%= link_to "Create Version", create_version_account_template_datum_path(@account, @template_datum), class: "item" %>
-</div> -->
+    <%= link_to "Create Bug Version", create_version_account_template_datum_path(@account, @template_datum, version_genre: "bug"), class: "item" %>
+    <%= link_to "Create Major Version", create_version_account_template_datum_path(@account, @template_datum, version_genre: "major"), class: "item" %>
+    <%= link_to "Create Minor Version", create_version_account_template_datum_path(@account, @template_datum, version_genre: "minor"), class: "item" %>
+
+  </div>
 </div>
 
 <script type="text/javascript">
@@ -109,7 +109,6 @@
     $("input:file").on('change', function() {
       $(this).parents('form').submit();
     });
-
 
     $(".browse_file").on('click', function(event){
       $(this).siblings('div.file').children("input").click();
