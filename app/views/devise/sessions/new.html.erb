@@ -1,11 +1,6 @@
-<div class="ui one column centered grid">
+<div class="ui two column centered grid">
   <div class="column">
-    <div class="ui card">
-      <div class="content">
-        <div class="header">Login</div>
-      </div>
-      <div class="content">
-        <%= simple_form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+      <%= simple_form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
           <%= f.error_notification %>
           <%= f.input :email, autofocus: true, placeholder: 'Email', required: true %>
           <%= f.input :password, autocomplete: "off", placeholder: 'Password', required: true  %>
@@ -18,10 +13,8 @@
           <% end -%>
           <%= f.button :submit, value: "Log in", class: 'ui button' %>
         <% end %>
-      </div>
-      <div class="extra content">
+        <br/>
         <%= render "devise/shared/links" %>
-      </div>
-    </div>
+
   </div>
 </div>

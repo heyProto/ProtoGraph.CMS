@@ -35,15 +35,11 @@
     </div>
   </div>
   <% else %>
-  <div class="ui secondary menu" style="border-bottom: 1px lightgray solid">
-    <%= link_to image_tag("logo.png"), root_url, class: "item" %>
-    <div class="right menu">
-      <%- if controller_name != 'sessions' %>
-      <%= link_to "Get in", new_session_path(resource_name), class: "item" %>
-      <% end -%>
-    </div>
-  </div>
-  <h1 style="text-align: center;">CardExchange</h1>
+      <h2 class="ui center aligned icon header">
+        <br/>
+        <%= link_to image_tag("logo.png"), root_url %><br/>
+        CardExchange
+      </h2>
   <% end %>
   <br/>
   <% if notice.present? %>

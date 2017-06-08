@@ -1,19 +1,11 @@
-<div class="ui one column centered grid">
+<div class="ui two column centered grid">
   <div class="column">
-    <div class="ui card">
-      <div class="content">
-        <div class="header">Forgot your password?</div>
-      </div>
-      <div class="content">
-        <%= simple_form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f| %>
+      <%= simple_form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f| %>
           <%= f.error_notification %>
           <%= f.input :email, autofocus: true %>
           <%= f.submit "Send me reset password instructions", class: 'ui button' %>
         <% end %>
-      </div>
-      <div class="extra content">
+        <br/>
         <%= render "devise/shared/links" %>
-      </div>
-    </div>
-  </div>
+</div>
 </div>
