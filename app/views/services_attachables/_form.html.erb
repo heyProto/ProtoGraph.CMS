@@ -1,6 +1,8 @@
 <div>
   <% if services_attachable.file_url.present? %>
     <%= link_to services_attachable.original_file_name, services_attachable.file_url, target: "_black" %>
+
+    <i class="checkmark box icon green"></i>
     <!-- Todo Create the delete file functionality -->
   <% else %>
     <%= simple_form_for(services_attachable, url: upload_file_account_services_attachable_path(@account, services_attachable), method: :put) do |f| %>
