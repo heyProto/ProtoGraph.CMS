@@ -28,9 +28,12 @@
     </div>
     <br/>
     <div class="ui message">
-      <h4>Upload mandatory code</h4>
-      <!-- TODO AMIT -->
-      <%= render partial: "services_attachables/form", locals: {services_attachable: @sample_json} %>
+      <div class="ui segment">
+        <h4>Upload mandatory code</h4>
+        <%= render partial: "services_attachables/form", locals: {services_attachable: @json_schema, label: "Schema JSON", hint: "Schema definition file"} %>
+        <div class="ui divider"></div>
+        <%= render partial: "services_attachables/form", locals: {services_attachable: @sample_json, label: "Sample JSON", hint: "Sample data file"} %>
+      </div>
     </div>
     <br/>
     <div class="ui message">
@@ -100,3 +103,17 @@
     <%= link_to "Create Version", create_version_account_template_datum_path(@account, @template_datum), class: "item" %>
 </div> -->
 </div>
+
+<script type="text/javascript">
+  $(document).on('turbolinks:load', function (e) {
+    $("input:file").on('change', function() {
+      $(this).parents('form').submit();
+    });
+
+
+    $(".browse_file").on('click', function(event){
+      $(this).siblings('div.file').children("input").click();
+      event.preventDefault();
+    });
+  });
+</script>

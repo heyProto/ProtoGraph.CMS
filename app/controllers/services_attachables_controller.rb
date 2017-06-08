@@ -1,8 +1,7 @@
 class ServicesAttachablesController < ApplicationController
-  before_action :set_services_attachable, only: [:upload_file, :destroy]
+  before_action :set_services_attachable, only: [:upload_file, :file, :destroy]
 
   def upload_file
-
     if services_attachable_params.has_key?(:binary_file)
       binary_file = services_attachable_params[:binary_file]
       encoded_file = Base64.encode64(File.read(binary_file.tempfile))
@@ -11,12 +10,20 @@ class ServicesAttachablesController < ApplicationController
       key = "files/#{@account.slug}/#{@services_attachable.attachable.global_slug}/#{@services_attachable.genre}/#{original_file_name}"
       resp = Api::Haiku::Utility.upload_to_cdn(encoded_file, key, content_type)
       s3_url = resp.first["s3_endpoint"]
-      @services_attachable.update_attributes(file_url: s3_url, original_file_name: original_file_name)
+      @services_attachable.update_attributes(file_url: s3_url, original_file_name: original_file_name, updated_by: current_user.id)
       redirect_back(fallback_location: root_path, notice: t("us"))
     else
       redirect_back(fallback_location: root_path, alert: t("param.required", param: "file"))
     end
   end
+
+  def file
+    Api::Haiku::Utility.remove_from_cdn(@services_attachable.file_url)
+    @services_attachable.update_attributes(file_url: nil, original_file_name: nil, updated_by: current_user.id)
+    redirect_back(fallback_location: root_path, notice: t("removed_file"))
+  end
+
+
 
   def destroy
     @services_attachable.destroy

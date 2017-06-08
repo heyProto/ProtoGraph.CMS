@@ -36,6 +36,7 @@ en:
   df: "Failed to delete."
   us: "Successfully updated."
   uf: "Failed to update."
+  removed_file: "File removed from the cdn."
   permission_invite:
     add: "Successfully added to account."
     invite: "Sent invitation email."
