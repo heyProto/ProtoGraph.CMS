@@ -11,6 +11,29 @@
       <%= @template_datum.updator.name %>
       <%= time_ago_in_words @template_datum.updated_at %>
     </p>
+
+    <div class="ui mini ordered steps">
+      <div class="completed step">
+        <div class="content">
+          <div class="title">Draft</div>
+          <div class="description">Fill up the details. Upload code.</div>
+        </div>
+      </div>
+      <div class="active step">
+        <div class="content">
+          <div class="title">Ready to Publish</div>
+          <div class="description">Verify. Review. Test.</div>
+        </div>
+      </div>
+      <div class="active step">
+        <div class="content">
+          <div class="title">Published</div>
+          <div class="description">Went live.</div>
+        </div>
+      </div>
+    </div>
+
+
     <br/>
     <div class="ui message">
       <h3>What is this data template all about?</h3><br/>
@@ -72,7 +95,7 @@
     </div>
     <% if @template_datum.is_public %>
       <%= link_to "Make private", flip_public_private_account_template_datum_path(@account, @template_datum) %>
-    <% elsif @template_datum.status == "Published" or 1 == 1 %>
+    <% elsif @template_datum.status == "Published" %>
       <%= link_to "Make public", flip_public_private_account_template_datum_path(@account, @template_datum) %>
     <% end %>
 
