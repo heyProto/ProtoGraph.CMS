@@ -111,15 +111,24 @@ class TemplateCard < ApplicationRecord
         end
     end
 
-    def deep_copy
-        self.account_id = self.previous.account_id
-        self.name = self.previous.name
-        self.global_slug = self.previous.global_slug
-        self.is_current_version = false
-        self.is_public = self.previous.is_public
-        self.version_series = self.version_genre != "major" ? self.previous.version_series + 1 : self.previous.version_series
-        self.description = self.previous.description
-        self.elevator_pitch = self.previous.elevator_pitch
+    def deep_copy_across_versions
+        p                           = self.previous
+        v                           = p.version.to_s.to_version
+        if self.version_genre == "major"
+            self.version            = v.bump!(:major).to_s
+        elsif self.version_genre == "minor"
+            self.version            = v.bump!(:minor).to_s
+        elsif self.version_genre == "bug"
+            self.version            = v.bump!.to_s
+        end
+        self.account_id             = p.account_id
+        self.name                   = p.name
+        self.global_slug            = p.global_slug
+        self.is_current_version     = false
+        self.is_public              = p.is_public
+        self.version_series         = self.version.to_s.to_version.to_a[0]
+        self.description            = p.description
+        self.elevator_pitch         = p.elevator_pitch
     end
 
 

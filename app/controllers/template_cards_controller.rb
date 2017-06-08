@@ -13,12 +13,9 @@ class TemplateCardsController < ApplicationController
 
   def new
     @template_datum = TemplateDatum.friendly.find(params[:template_datum_id])
-    @template_card = TemplateCard.new
+    @template_datum = TemplateCard.new
     @prev_version = TemplateCard.friendly.find(params[:id]) if params[:id].present?
-    if @prev_version.present?
-      @template_card.previous_version_id = params[:id]
-      @template_card.deep_copy
-    end
+    @version_genre = params[:version_genre]
   end
 
   def flip_public_private
@@ -31,12 +28,17 @@ class TemplateCardsController < ApplicationController
 
   def create
     @template_card = TemplateCard.new(template_card_params)
+    if @template_card.previous_version_id.present?
+      @template_card.deep_copy_across_versions
+    end
     @template_card.created_by = current_user.id
     @template_card.updated_by = current_user.id
     if @template_card.save
       redirect_to account_template_datum_path(@account, @template_card.template_datum), notice: t("cs")
     else
       @template_datum = @template_card.template_datum
+      @prev_version = @template_card.previous
+      @version_genre = @template_card.version_genre
       render :new
     end
   end
