@@ -28,7 +28,7 @@
           <%= f.error_notification %>
 
           <div class="form-actions">
-            <%= f.input :binary_file, as: :file, label: false, input_html: {"style": "display: none"} %>
+            <%= f.input :binary_file, as: :file, label: false, input_html: {"style": "display: none", accept: content_types} %>
             <%= link_to "Browse", "#", class: "browse_file" %>
           </div>
         <% end %>

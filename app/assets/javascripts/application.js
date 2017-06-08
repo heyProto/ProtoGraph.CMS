@@ -11,8 +11,10 @@
 // about supported directives.
 //
 //= require rails-ujs
-//= ./vendors/jquery.min.js
-//= ./vendors/semantic.min.js
+//= require ./vendors/jquery.min.js
+//= require ./vendors/semantic.min.js
+//= require ./vendors/jquery.noty.packaged.min.js
+//= require_tree ./app
 //= require turbolinks
 //= require_tree .
 //= require best_in_place

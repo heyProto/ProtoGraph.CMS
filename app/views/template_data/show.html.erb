@@ -30,9 +30,9 @@
     <div class="ui message">
       <div class="ui segment">
         <h4>Upload mandatory code</h4>
-        <%= render partial: "services_attachables/form", locals: {services_attachable: @json_schema, label: "Schema JSON", hint: "Schema definition file"} %>
+        <%= render partial: "services_attachables/form", locals: {services_attachable: @json_schema, label: "Schema JSON", hint: "Schema definition file", content_types: "application/json"} %>
         <div class="ui divider"></div>
-        <%= render partial: "services_attachables/form", locals: {services_attachable: @sample_json, label: "Sample JSON", hint: "Sample data file"} %>
+        <%= render partial: "services_attachables/form", locals: {services_attachable: @sample_json, label: "Sample JSON", hint: "Sample data file", content_types: 'application/json'} %>
       </div>
     </div>
     <br/>
@@ -107,7 +107,12 @@
 <script type="text/javascript">
   $(document).on('turbolinks:load', function (e) {
     $("input:file").on('change', function() {
-      $(this).parents('form').submit();
+      if (validate_file($(this)[0].files[0].type, $(this).attr("accept"))) {
+        $(this).parents('form').submit();
+      } else {
+        generate_notify({text: `Invalid file type.`, notify: "error"})
+        return false;
+      }
     });
 
     $(".browse_file").on('click', function(event){
@@ -115,4 +120,8 @@
       event.preventDefault();
     });
   });
+
+  var validate_file = function(file_type, accepted_type) {
+    return (accepted_type.split(",").indexOf(file_type) >= 0)
+  }
 </script>
