@@ -2,16 +2,16 @@
   <div class="ui grid">
     <div class="one wide column">
       <% if services_attachable.file_url.present? %>
-        <i class="checkmark box icon green"></i>
+        <i class="checkmark box icon green" style="font-size: 1.5em;"></i>
       <% else %>
-        <i class="minus square outline icon red"></i>
+        <i class="square outline icon red" style="font-size: 1.5em;"></i>
       <% end %>
     </div>
     <div class="five wide column">
-      <label><strong><%= label %></strong></label>
+      <label><%= label %></label>
       <div class='hint'>
         <% if services_attachable.file_url.present? %>
-          Last updated by <%= services_attachable.updator.name %> <%= time_ago_in_words(services_attachable.updated_at) %> ago.
+          By <%= truncate(services_attachable.updator.name, length: 10) %> <%= time_ago_in_words(services_attachable.updated_at) %>
         <% else %>
           <%= hint %>
         <% end %>
@@ -19,19 +19,20 @@
     </div>
     <div class="eight wide column" style='word-wrap: break-word;'>
       <% if services_attachable.file_url.present? %>
-        <%= link_to services_attachable.file_url, services_attachable.file_url, target: "_black" %>
+        <%= link_to truncate(services_attachable.file_url, length: 40), services_attachable.file_url, target: "_black" %>
         &nbsp &nbsp
         </div><div class='one wide column' >
         <%= link_to "<i class='remove circle outline icon red'></i>".html_safe, file_account_services_attachable_path(@account, services_attachable),method: :delete %>
       <% else %>
-        <%= simple_form_for(services_attachable, url: upload_file_account_services_attachable_path(@account, services_attachable), method: :put) do |f| %>
-          <%= f.error_notification %>
-
-          <div class="form-actions">
-            <%= f.input :binary_file, as: :file, label: false, input_html: {"style": "display: none"} %>
-            <%= link_to "Browse", "#", class: "browse_file" %>
-          </div>
-        <% end %>
+        <div style="text-align: right;">
+            <%= simple_form_for(services_attachable, url: upload_file_account_services_attachable_path(@account, services_attachable), method: :put) do |f| %>
+            <%= f.error_notification %>
+            <div class="form-actions" >
+              <%= f.input :binary_file, as: :file, label: false, input_html: {style: "display: none;"} %>
+              <%= link_to "Browse", "#", class: "browse_file" %>
+            </div>
+          <% end %>
+        </div>
       <% end %>
     </div>
   </div>

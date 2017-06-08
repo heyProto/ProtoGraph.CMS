@@ -78,7 +78,7 @@ class TemplateCard < ApplicationRecord
     end
 
     def siblings
-        TemplateCard.where(global_slug: self.global_slug)
+        TemplateCard.where(global_slug: self.global_slug).order("version DESC")
     end
 
     def flip_public_private

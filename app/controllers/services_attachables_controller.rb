@@ -23,8 +23,6 @@ class ServicesAttachablesController < ApplicationController
     redirect_back(fallback_location: root_path, notice: t("removed_file"))
   end
 
-
-
   def destroy
     @services_attachable.destroy
     respond_to do |format|

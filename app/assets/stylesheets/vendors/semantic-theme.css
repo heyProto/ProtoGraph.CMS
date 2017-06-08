@@ -39,6 +39,12 @@ a.orange {
     color: #ff5722;
 }
 
+.ui.form .field>label{
+    font-weight: 400 !important;
+    font-size: 0.81em !important;
+    color: black !important;
+}
+
 .ui.menu.clear .item:before{
         width: 0px !important;
 }

@@ -69,7 +69,7 @@ class TemplateDatum < ApplicationRecord
     end
 
     def siblings
-        TemplateDatum.where(global_slug: self.global_slug)
+        TemplateDatum.where(global_slug: self.global_slug).order("version DESC")
     end
 
     def flip_public_private

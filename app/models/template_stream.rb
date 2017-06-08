@@ -71,7 +71,7 @@ class TemplateStream < ApplicationRecord
     end
 
     def siblings
-        TemplateStream.where(global_slug: self.global_slug)
+        TemplateStream.where(global_slug: self.global_slug).order("version DESC")
     end
 
     def deep_copy_across_versions
