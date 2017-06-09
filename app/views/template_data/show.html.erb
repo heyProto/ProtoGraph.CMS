@@ -68,7 +68,15 @@
     </div>
   </h3>
   <br/>
+
   <%= render partial: "template_cards/index" %>
+
+
+
+    <h3>Upload mandatory code</h3><br/>
+    <%= render partial: "services_attachables/form", locals: {services_attachable: @json_schema, label: "Schema definition file", hint: "Format: .json", can_delete: (@template_datum.status != "Published"), content_types: "application/json"} %>
+    <%= render partial: "services_attachables/form", locals: {services_attachable: @sample_json, label: "Sample JSON for demo", hint: "Format: .json", can_delete: (@template_datum.status != "Published"), content_types: "application/json"} %>
+
 
   <br/>
 
@@ -152,7 +160,12 @@
 <script type="text/javascript">
   $(document).on('turbolinks:load', function (e) {
     $("input:file").on('change', function() {
-      $(this).parents('form').submit();
+      if (validate_file($(this)[0].files[0].type, $(this).attr("accept"))) {
+        $(this).parents('form').submit();
+      } else {
+        generate_notify({text: `Invalid file type.`, notify: "error"})
+        return false;
+      }
     });
 
     $(".browse_file").on('click', function(event){
@@ -160,6 +173,7 @@
       event.preventDefault();
     });
   });
+  var validate_file = function(file_type, accepted_type) {
+    return (accepted_type.split(",").indexOf(file_type) >= 0)
+  }
 </script>
-
-<% #link_to ("Change status to " + next_status(@template_datum.status)), move_to_next_status_account_template_datum_path(@account, @template_datum) %>
