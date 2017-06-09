@@ -14,14 +14,14 @@
     </div>
     <div class="<%= @template.status == "Published" ? "active completed step" : @template.can_ready_to_publish? ? "active step" : "step"%>">
       <div class="content">
-        <div class="title">Ready to Publish</div>
+        <div class="title">Publish</div>
         <div class="description">Verify. Review. Test.</div>
       </div>
     </div>
-    <div class=" step">
+    <div class="<%= @template.status != "Published" ? "step" : (@template.status == "Published" and !@template.is_connected?) ? "active step" : "active completed step"%>">
       <div class="content">
-        <div class="title">Published</div>
-        <div class="description">Went live.</div>
+        <div class="title">Connect</div>
+        <div class="description">Go live. Use.</div>
       </div>
     </div>
   </div>

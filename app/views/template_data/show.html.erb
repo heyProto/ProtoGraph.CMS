@@ -1,9 +1,12 @@
-<%= render partial: "template_cards/header_show" %>
+<%= render partial: "templates/header_show" %>
 <div class="eleven wide column">
   <h3>
-    <a class="<%= @template.can_ready_to_publish? ? "ui green ribbon label" : "ui blue ribbon label" %>">Step #1</a>
+    <a class="<%= @template.can_ready_to_publish? ? "ui green ribbon label" : "ui blue ribbon label" %>">
+      Step #1
+    </a>
     What is this template all about?
-  </h3><br/>
+  </h3>
+  <br/>
   <%= simple_form_for [@account, @template] do |f| %>
     <%= f.error_notification %>
     <div class="form-inputs">
@@ -19,57 +22,82 @@
   <br/>
   <div class="ui divider"></div>
   <h3>
-    <a class="<%= @template.can_ready_to_publish? ? "ui green ribbon label" : "ui blue ribbon label" %>">Step #2</a>
+    <a class="<%= @template.can_ready_to_publish? ? "ui green ribbon label" : "ui blue ribbon label" %>">
+      Step #2
+    </a>
     Upload mandatory code
-  </h3><br/>
+  </h3>
+  <br/>
   <%= render partial: "services_attachables/form", locals: {services_attachable: @json_schema, label: "Schema definition file", hint: "Format: .json", can_delete: (@template_datum.status != "Published"), content_types: "application/json"} %>
   <%= render partial: "services_attachables/form", locals: {services_attachable: @sample_json, label: "Sample JSON for demo", hint: "Format: .json", can_delete: (@template_datum.status != "Published"), content_types: "application/json"} %>
   <br/>
-  <% if @template_datum.status == "Draft" and @template_datum.can_ready_to_publish? %>
-  <div class="ui divider"></div>
-  <h3>Step #3 </h3><br/>
-  <%= link_to "Submit for review", move_to_next_status_account_template_datum_path(@account, @template_datum), class: "ui primary button", style: "color: white !important;" %>
-  <br/>
-  <% elsif @template_datum.status == "Ready to Publish" %>
-  <div class="ui divider"></div>
-  <h3>Step #4 </h3><br/>
-  <%= link_to "Publish", move_to_next_status_account_template_datum_path(@account, @template_datum), class: "ui primary button", style: "color: white !important;" %>
-  <br/>
-  <% elsif @template_datum.status == "Published" %>
-  <div class="ui divider"></div>
-  <h3>
-    Step #3 - Associated card templates
-    <div style="float: right; font-size: 0.8em; font-weight: 400;">
-      <%= link_to "New card template", new_account_template_datum_template_card_path(@account, @template_datum) %>
-    </div>
-  </h3>
-  <br/>
-  <%= render partial: "template_cards/index" %>
-  <br/>
-  <h3>
-    Step #4 - Push data via APIs
-  </h3><br/>
-  <table class="ui very basic table">
-    <tr>
-      <td>My API Key</td>
-      <td>:</td>
-      <td><%= current_user.access_token %></td>
-    </tr>
-    <tr>
-      <td>Datacast Token:</td>
-      <td>:</td>
-      <td><%= @template_datum.api_key %></td>
-    </tr>
-  </table>
-
+  <% if @template_datum.can_ready_to_publish? %>
+    <div class="ui divider"></div>
+    <h3>
+      <a class="<%= @template_datum.status != "Draft" ? "ui green ribbon label" : "ui blue ribbon label" %>">Step #3</a>
+      Submit the template to Editor for review
+    </h3>
+    <br/>
+    <% if @template_datum.status == "Draft" %>
+        <%= link_to "Submit for review", move_to_next_status_account_template_datum_path(@account, @template_datum), class: "ui primary button", style: "color: white !important;" %>
+    <% else %>
+        <i class="checkmark box icon green" style="font-size: 1.5em;"></i>
+    <% end %>
+    <br/>
   <% end %>
-  <br/>
+  <% if @template_datum.status != "Draft" %>
+    <div class="ui divider"></div>
+    <h3>
+      <a class="<%= @template_datum.status != "Draft" ? "ui green ribbon label" : "ui blue ribbon label" %>">Step #4</a>
+      Publish the Datacast
+    </h3>
+    <br/>
+    <% if @template_datum.status == "Ready to Publish" %>
+        <%= link_to "Publish", move_to_next_status_account_template_datum_path(@account, @template_datum), class: "ui primary button", style: "color: white !important;" %>
+    <% else %>
+        <i class="checkmark box icon green" style="font-size: 1.5em;"></i>
+    <% end %>
+    <br/>
+  <% end %>
   <% if @template_datum.status == "Published" %>
-  <%= link_to "Make public", flip_public_private_account_template_datum_path(@account, @template_datum) %>
+      <div class="ui divider"></div>
+      <h3>
+        Push data with APIs
+      </h3>
+      <br/>
+      <table class="ui very basic table">
+        <tr>
+          <td>My API Key</td>
+          <td>:</td>
+          <td><%= current_user.access_token %></td>
+        </tr>
+        <tr>
+          <td>Datacast Token:</td>
+          <td>:</td>
+          <td><%= @template_datum.api_key %></td>
+        </tr>
+      </table>
+      <br/>
+      <div class="ui divider"></div>
+      <h3>
+        <a class="<%= @template.status != "Draft" ? "ui green ribbon label" : "ui blue ribbon label" %>">Step #5</a>
+        Connect card templates
+      </h3>
+      <div style="float: right; font-size: 0.8em; font-weight: 400;">
+          <%= link_to "New card template", new_account_template_datum_template_card_path(@account, @template_datum) %>
+      </div>
+      <br/>
+      <%= render partial: "template_cards/index" %>
+      <br/>
+  <% end %>
+  <br/>
+  <% if @template.status == "Published" %>
+      <div class="ui divider"></div>
+      <%= link_to "Make public", flip_public_private_account_template_datum_path(@account, @template_datum), class: "ui button" %>
   <% end %>
   <div class="ui divider"></div>
   <br/>
-  <% if @template_datum.status != "Published" %>
+  <% if @template.status != "Published" %>
   <%= link_to 'Destroy', [@account, @template_datum], method: :delete, data: { confirm: 'Are you sure?' }, class: "ui red basic button" %>
   <% end %>
   <br/><br/><br/><br/>
@@ -82,10 +110,10 @@
     <%= time_ago_in_words @template_datum.updated_at %>
   </p>
   <div class="ui list">
-    <% if @template_datum.status == "published" %>
-    <%= link_to "Create Bug Version", create_version_account_template_datum_path(@account, @template_datum, version_genre: "bug"), class: "item" %>
-    <%= link_to "Create Major Version", create_version_account_template_datum_path(@account, @template_datum, version_genre: "major"), class: "item" %>
-    <%= link_to "Create Minor Version", create_version_account_template_datum_path(@account, @template_datum, version_genre: "minor"), class: "item" %>
+    <% if @template.status == "Published" %>
+    <%= link_to "Create Bug Version", create_version_account_template_datum_path(@account, @template, version_genre: "bug"), class: "item" %>
+    <%= link_to "Create Major Version", create_version_account_template_datum_path(@account, @template, version_genre: "major"), class: "item" %>
+    <%= link_to "Create Minor Version", create_version_account_template_datum_path(@account, @template, version_genre: "minor"), class: "item" %>
     <br/>
     <% end %>
 

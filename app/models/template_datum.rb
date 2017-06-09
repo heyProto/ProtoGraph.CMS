@@ -91,7 +91,7 @@ class TemplateDatum < ApplicationRecord
     end
 
     def move_to_next_status
-        if self.can_ready_to_publish?
+        if self.can_ready_to_publish? and self.status == "Draft"
             self.update_attributes(status: "Ready to Publish")
             return "Successfully updated."
         elsif self.status == "Ready to Publish"
@@ -137,6 +137,10 @@ class TemplateDatum < ApplicationRecord
     def can_make_private?
         true
         #self.cards.where("account_id != ?", self.account_id).first.present? ? false : true
+    end
+
+    def is_connected?
+        self.template_cards.where(status: "Published").first.present? ? true : false
     end
 
     #PRIVATE

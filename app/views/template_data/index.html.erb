@@ -1,5 +1,5 @@
 <div class="ten wide column">
-  <%= render partial: "template_cards/header" %>
+  <%= render partial: "templates/header_index" %>
   <table class="ui very basic table">
   <thead>
     <tr>
@@ -28,7 +28,7 @@
 <div class="ui dividing right rail" style="min-height: 339px;"></div>
 </div>
 <div class="six wide column" style="padding-left: 90px;">
-    <%= link_to "New Data Template", new_account_template_datum_path(@account), class: "ui basic button" %>
+    <%= link_to "New Datacast Template", new_account_template_datum_path(@account), class: "ui basic blue button" %>
     <br/>
     <br/>
     <p><span style="background-color: rgb(255, 253, 177);">Every piece of content (without the styling)</span> in this system is called as a <b>Datacasts</b> and is available over an API end point in JSON format.</p>

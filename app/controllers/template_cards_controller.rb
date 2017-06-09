@@ -13,7 +13,7 @@ class TemplateCardsController < ApplicationController
 
   def new
     @template_datum = TemplateDatum.friendly.find(params[:template_datum_id])
-    @template_datum = TemplateCard.new
+    @template_card = TemplateCard.new
     @prev_version = TemplateCard.friendly.find(params[:id]) if params[:id].present?
     @version_genre = params[:version_genre]
   end

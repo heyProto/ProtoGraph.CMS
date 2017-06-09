@@ -1,5 +1,5 @@
 <div class="ten wide column">
-  <%= render partial: "template_cards/header" %>
+  <%= render partial: "templates/header_index" %>
   <table class="ui very basic table">
   <thead>
     <tr>
@@ -27,7 +27,7 @@
 </div>
 
 <div class="six wide column" style="padding-left: 90px;">
-    <%= link_to "New Stream Template", new_account_template_stream_path(@account), class: "ui basic button" %>
+    <%= link_to "New Stream Template", new_account_template_stream_path(@account), class: "ui basic blue button" %>
     <br/>
     <br/>
     <p>A Stream ties cards together into an experience that is appropriate for the usecase. Example - Question/Answer cards can be tied together into a Quiz.</p>
