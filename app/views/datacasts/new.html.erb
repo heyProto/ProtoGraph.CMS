@@ -1,5 +1,13 @@
-<h1>New Datacast</h1>
+<%= simple_form_for([@account, @datacast]) do |f| %>
 
-<%= render 'form', datacast: @datacast %>
+  <div class="form-inputs">
+    <%= f.association :template_datum, include_blank: false, label: "Template Data" %>
+    <%= f.input :external_identifier, as: :string %>
+    <%= f.input :input_source,as: :hidden ,input_html: {value: "form"}  %>
+    <%= f.input :json_data, as: :hidden %>
+  </div>
 
-<%= link_to 'Back', datacasts_path %>
+  <div class="form-actions">
+    <%= f.button :submit, class: "ui button" %>
+  </div>
+<% end %>

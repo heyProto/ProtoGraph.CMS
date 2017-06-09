@@ -223,7 +223,7 @@ class CreateUsers < ActiveRecord::Migration[5.1]
       t.integer :count_errors
       t.string :input_source
       t.text :error_messages
-      t.text :data
+      t.text :cdn_url
       t.integer :created_by
 
       t.timestamps

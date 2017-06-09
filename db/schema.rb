@@ -64,7 +64,7 @@ ActiveRecord::Schema.define(version: 20170521162027) do
     t.integer "count_errors"
     t.string "input_source"
     t.text "error_messages"
-    t.text "data"
+    t.text "cdn_url"
     t.integer "created_by"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

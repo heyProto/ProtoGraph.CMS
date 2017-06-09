@@ -15,7 +15,7 @@
 #  count_errors          :integer
 #  input_source          :string(255)
 #  error_messages        :text(65535)
-#  data                  :text(65535)
+#  cdn_url               :text(65535)
 #  created_by            :integer
 #  created_at            :datetime         not null
 #  updated_at            :datetime         not null
@@ -33,6 +33,7 @@ class Datacast < ApplicationRecord
     has_many :accounts, through: :datacast_accounts
 
     #ACCESSORS
+    attr_accessor :json_data
     #VALIDATIONS
     validates :account_id, presence: true
 
