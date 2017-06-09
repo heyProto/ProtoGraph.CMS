@@ -31,35 +31,35 @@
   <%= render partial: "services_attachables/form", locals: {services_attachable: @json_schema, label: "Schema definition file", hint: "Format: .json", can_delete: (@template_datum.status != "Published"), content_types: "application/json"} %>
   <%= render partial: "services_attachables/form", locals: {services_attachable: @sample_json, label: "Sample JSON for demo", hint: "Format: .json", can_delete: (@template_datum.status != "Published"), content_types: "application/json"} %>
   <br/>
-  <% if @template_datum.can_ready_to_publish? %>
+  <% if @template.can_ready_to_publish? %>
     <div class="ui divider"></div>
     <h3>
-      <a class="<%= @template_datum.status != "Draft" ? "ui green ribbon label" : "ui blue ribbon label" %>">Step #3</a>
+      <a class="<%= @template.status != "Draft" ? "ui green ribbon label" : "ui blue ribbon label" %>">Step #3</a>
       Submit the template to Editor for review
     </h3>
     <br/>
-    <% if @template_datum.status == "Draft" %>
+    <% if @template.status == "Draft" %>
         <%= link_to "Submit for review", move_to_next_status_account_template_datum_path(@account, @template_datum), class: "ui primary button", style: "color: white !important;" %>
     <% else %>
         <i class="checkmark box icon green" style="font-size: 1.5em;"></i>
     <% end %>
     <br/>
   <% end %>
-  <% if @template_datum.status != "Draft" %>
+  <% if @template.status != "Draft" %>
     <div class="ui divider"></div>
     <h3>
-      <a class="<%= @template_datum.status != "Draft" ? "ui green ribbon label" : "ui blue ribbon label" %>">Step #4</a>
+      <a class="<%= @template.status != "Draft" ? "ui green ribbon label" : "ui blue ribbon label" %>">Step #4</a>
       Publish the Datacast
     </h3>
     <br/>
-    <% if @template_datum.status == "Ready to Publish" %>
-        <%= link_to "Publish", move_to_next_status_account_template_datum_path(@account, @template_datum), class: "ui primary button", style: "color: white !important;" %>
+    <% if @template.status == "Ready to Publish" %>
+        <%= link_to "Publish", move_to_next_status_account_template_datum_path(@account, @template), class: "ui primary button", style: "color: white !important;" %>
     <% else %>
         <i class="checkmark box icon green" style="font-size: 1.5em;"></i>
     <% end %>
     <br/>
   <% end %>
-  <% if @template_datum.status == "Published" %>
+  <% if @template.status == "Published" %>
       <div class="ui divider"></div>
       <h3>
         Push data with APIs
@@ -74,7 +74,7 @@
         <tr>
           <td>Datacast Token:</td>
           <td>:</td>
-          <td><%= @template_datum.api_key %></td>
+          <td><%= @template.api_key %></td>
         </tr>
       </table>
       <br/>
