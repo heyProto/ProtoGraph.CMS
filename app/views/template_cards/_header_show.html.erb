@@ -1,0 +1,28 @@
+<div class="sixteen wide column">
+  <div class="ui breadcrumb">
+    <a class="section"><%= link_to "Template Designer", account_template_data_path(@account) %></a>
+  </div>
+  <h1 class="ui header" style="margin-top: 0px;">
+    <%= show_lock(@template.is_public, @template.name + " - "+@template.version.to_s).html_safe %>
+  </h1>
+  <div class="ui mini three ordered steps">
+    <div class="<%= @template.can_ready_to_publish? ? "active completed step" : "active step"%>">
+      <div class="content">
+        <div class="title">Draft</div>
+        <div class="description">Fill up the details.</div>
+      </div>
+    </div>
+    <div class="<%= @template.status == "Published" ? "active completed step" : @template.can_ready_to_publish? ? "active step" : "step"%>">
+      <div class="content">
+        <div class="title">Ready to Publish</div>
+        <div class="description">Verify. Review. Test.</div>
+      </div>
+    </div>
+    <div class=" step">
+      <div class="content">
+        <div class="title">Published</div>
+        <div class="description">Went live.</div>
+      </div>
+    </div>
+  </div>
+</div>
