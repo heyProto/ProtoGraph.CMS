@@ -10,6 +10,7 @@ class TemplateDataController < ApplicationController
   end
 
   def show
+    @template = @template_datum
     @template_cards = @template_datum.template_cards
     @current_version = @template_datum.current_version
     @siblings = @template_datum.siblings.order("version DESC")
