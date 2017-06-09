@@ -1,25 +1,6 @@
 <%= render partial: "templates/header_show" %>
 <div class="eleven wide column">
-  <h3>
-    <a class="<%= @template.can_ready_to_publish? ? "ui green ribbon label" : "ui blue ribbon label" %>">
-      Step #1
-    </a>
-    What is this template all about?
-  </h3>
-  <br/>
-  <%= simple_form_for [@account, @template] do |f| %>
-    <%= f.error_notification %>
-    <div class="form-inputs">
-      <%= f.input :elevator_pitch, label: "Describe in 140 characters.", disabled: @template.status == "Published" %>
-      <%= f.input :description, as: :text, label: "Describe in detail.", input_html: {rows: 3}, disabled: @template.status == "Published" %>
-      <%= f.input :change_log, as: :text, label: "What changed in this version?", placeholder: "Change log", input_html: {rows: 3}, disabled: @template.status == "Published" %>
-    </div>
-    <div class="form-actions">
-      <br/>
-      <%= f.button :submit, "Update", class: "ui basic button" %>
-    </div>
-  <% end %>
-  <br/>
+  <%= render partial: "templates/publish_steps", locals: {template: @template} %>
   <div class="ui divider"></div>
   <h3>
     <a class="<%= @template.can_ready_to_publish? ? "ui green ribbon label" : "ui blue ribbon label" %>">
@@ -32,7 +13,7 @@
 
   <%= render partial: "services_attachables/form", locals: {services_attachable: @css, label: "Styling for the cards.", hint: "Format: .css", can_delete: (@template.status != "Published"), content_types: "text/css"} %>
 
-  <%= render partial: "services_attachables/form", locals: {services_attachable: @js, label: "The script with logic.", hint: "Format: .js", can_delete: (@template.status != "Published"), content_types: "application/javascript"} %>
+  <%= render partial: "services_attachables/form", locals: {services_attachable: @js, label: "The script with logic.", hint: "Format: .js", can_delete: (@template.status != "Published"), content_types: "text/javascript"} %>
 
   <%= render partial: "services_attachables/form", locals: {services_attachable: @config, label: "The configuration file to integrate with stream.", hint: "Format: .json", can_delete: (@template.status != "Published"), content_types: "application/json"} %>
 
@@ -40,7 +21,7 @@
   <%= render partial: "services_attachables/form", locals: {services_attachable: @image, label: "The sprite image.", hint: "Format: .png, .jpg, .jpeg", can_delete: (@template.status != "Published"), content_types: "image/png, image/jpg, image/jpeg"} %>
 
 
-  <%= render partial: "services_attachables/form", locals: {services_attachable: @image, label: "The logo for the card.", hint: "Format: .png, .jpg, .jpeg", can_delete: (@template.status != "Published"), content_types: "image/png, image/jpg, image/jpeg"} %>
+  <%= render partial: "services_attachables/form", locals: {services_attachable: @logo, label: "The logo for the card.", hint: "Format: .png, .jpg, .jpeg", can_delete: (@template.status != "Published"), content_types: "image/png, image/jpg, image/jpeg"} %>
 
   <br/>
   <% if @template.can_ready_to_publish? %>
@@ -51,7 +32,7 @@
     </h3>
     <br/>
     <% if @template.status == "Draft" %>
-        <%= link_to "Submit for review", move_to_next_status_account_template_datum_path(@account, @template_datum), class: "ui primary button", style: "color: white !important;" %>
+        <%= link_to "Submit for review", move_to_next_status_account_template_card_path(@account, @template), class: "ui primary button", style: "color: white !important;" %>
     <% else %>
         <i class="checkmark box icon green" style="font-size: 1.5em;"></i>
     <% end %>
@@ -65,7 +46,7 @@
     </h3>
     <br/>
     <% if @template.status == "Ready to Publish" %>
-        <%= link_to "Publish", move_to_next_status_account_template_datum_path(@account, @template), class: "ui primary button", style: "color: white !important;" %>
+        <%= link_to "Publish", move_to_next_status_account_template_card_path(@account, @template), class: "ui primary button", style: "color: white !important;" %>
     <% else %>
         <i class="checkmark box icon green" style="font-size: 1.5em;"></i>
     <% end %>
@@ -75,59 +56,13 @@
   <div class="ui divider"></div>
   <br/>
   <% if @template.status != "Published" %>
-  <%= link_to 'Destroy', [@account, @template_datum], method: :delete, data: { confirm: 'Are you sure?' }, class: "ui red basic button" %>
+  <%= link_to 'Destroy', [@account, @template_card], method: :delete, data: { confirm: 'Are you sure?' }, class: "ui red basic button" %>
   <% end %>
   <br/><br/><br/><br/>
   <div class="ui dividing right rail" style="min-height: 339px;"></div>
 </div>
 <div class="five wide column" style="padding-left: 90px;">
-  <p style="font-weight: 400; color: gray; margin-bottom: 30px;">
-    Last updated by
-    <%= @template_datum.updator.name %>
-    <%= time_ago_in_words @template_datum.updated_at %>
-  </p>
-  <div class="ui list">
-    <% if @template.status == "Published" %>
-      <%= link_to "Create Bug Version", create_version_account_template_datum_path(@account, @template, version_genre: "bug"), class: "item" %>
-      <%= link_to "Create Major Version", create_version_account_template_datum_path(@account, @template, version_genre: "major"), class: "item" %>
-      <%= link_to "Create Minor Version", create_version_account_template_datum_path(@account, @template, version_genre: "minor"), class: "item" %>
-      <br/>
-    <% end %>
-
-    <% last_series = nil %>
-    <% @siblings.each do |s| %>
-    <% if last_series != s.version_series %>
-    <div class="item" style="margin-bottom: 5px;">
-      <i class="folder icon"></i>
-      <div class="content">
-        <div class="header">
-          SERIES: <%= s.version_series %>
-        </div>
-      </div>
-    </div>
-    <% end %>
-    <div class="item" style="margin-left: 20px; ">
-      <div class="content">
-        <div class="header">
-          <a href=<%= account_template_datum_path(@account, s) %> style="<%= s.id == @template_datum.id ? "color: orange !important;" : "" %>">
-            <% if s.is_current_version %>
-            <i class="checkmark icon" style="color: green; padding-top: 5px; font-size: 15px;"></i>
-            <% elsif s.version_genre == "bug" %>
-            <i class="bug icon" style="padding-top: 5px;"></i>
-            <% elsif s.version_genre == "major" %>
-            <i class="cubes icon" style="padding-top: 5px;"></i>
-            <% elsif s.version_genre == "minor" %>
-            <i class="cube icon" style="padding-top: 5px;"></i>
-            <% end %>
-            <%= s.version.to_s %>
-            <div class="ui label"><%= s.status %></div>
-          </a>
-        </div>
-      </div>
-    </div>
-    <% last_series = s.version_series %>
-    <% end %>
-  </div>
+  <%= render partial: "templates/versions", locals: {template: @template, url: {"bug": create_version_account_template_datum_template_card_path(@account, @template.template_datum, @template, version_genre: "bug"), "major": create_version_account_template_datum_template_card_path(@account, @template.template_datum, @template, version_genre: "major"), "minor": create_version_account_template_datum_template_card_path(@account,@template.template_datum,@template, version_genre: "minor")}, siblings: @siblings} %>
 </div>
 </div>
 

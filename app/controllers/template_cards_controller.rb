@@ -54,17 +54,21 @@ class TemplateCardsController < ApplicationController
   def update
     @template_card.status = "Draft"
     @template_card.updated_by = current_user.id
-    respond_to do |format|
-      if @template_card.update(template_card_params)
-        format.html { redirect_to @template_card, notice: t("us") }
-        format.js{ respond_with_bip(@template_card) }
-        format.json { render :show, status: :ok, location: @template_card }
-      else
-        format.html { render :edit }
-        format.js {respond_with_bip(@template_card)}
-        format.json { render json: @template_card.errors, status: :unprocessable_entity }
-      end
+    if @template_card.update(template_card_params)
+      redirect_to account_template_card_path(@account, @template_card), notice: t("us")
+    else
+      @template = @template_card
+      @template_datum = @template_card.template_datum
+      @siblings = @template_datum.siblings.order("version DESC")
+      @html = @template.html
+      @css = @template.css
+      @js = @template.js
+      @config = @template.config
+      @image = @template.image
+      @logo = @template.logo
+      render "show"
     end
+
   end
 
   def destroy
