@@ -123,6 +123,22 @@ class TemplateDatum < ApplicationRecord
         self.api_key                = p.api_key
     end
 
+    def can_ready_to_publish?
+        if self.json_schema.file_url.present? and self.sample_json.file_url.present? and self.elevator_pitch.present? and self.description.present? and self.change_log.present?
+            return true
+        end
+        return false
+    end
+
+    def can_make_public?
+        self.status == "Published" ? true : false
+    end
+
+    def can_make_private?
+        true
+        #self.cards.where("account_id != ?", self.account_id).first.present? ? false : true
+    end
+
     #PRIVATE
     private
 
@@ -150,22 +166,6 @@ class TemplateDatum < ApplicationRecord
         ServicesAttachable.create_shell_object(self, "sample_json")
         ServicesAttachable.create_shell_object(self, "json_schema")
         true
-    end
-
-    def can_make_public?
-        self.status == "Published" ? true : false
-    end
-
-    def can_make_private?
-        true
-        #self.cards.where("account_id != ?", self.account_id).first.present? ? false : true
-    end
-
-    def can_ready_to_publish?
-        if self.xsd.present? and self.sample_json.present? # TODO AMIT change to upload files
-            return true
-        end
-        return false
     end
 
 end

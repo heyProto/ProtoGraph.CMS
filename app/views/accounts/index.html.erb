@@ -9,10 +9,11 @@
       <%= image_tag avatar_url(account.gravatar_email), class: "ui avatar image" %>
       <div class="content">
         <div class="header">
-          <%= link_to account.username, account_path(account) %>
-          <span style="float: right; font-weight: 400;">
+          <h3><%= link_to account.username, account_path(account) %>
+          <span style="float: right; font-weight: 400; font-size: 13px;">
               <%= current_user.permission_object(account.id).ref_role_slug.titleize %>
           </span>
+          </h3>
         </div>
       </div>
     </div>

@@ -1,6 +1,7 @@
 <div class="sixteen wide column">
   <div class="ui breadcrumb">
-      <a class="section"><%= link_to "Card Templates", account_template_cards_path(@account) %></a>
+      <a class="section"><%= link_to "Template Designer", account_template_cards_path(@account) %></a>
+      <div class="section">/</div>
   </div>
   <h1 class="ui header" style="margin-top: 15px;">
       <%= show_lock(@template_card.is_public, @template_card.name).html_safe %>
