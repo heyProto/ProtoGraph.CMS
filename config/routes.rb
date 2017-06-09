@@ -33,21 +33,12 @@ Rails.application.routes.draw do
     resources :template_cards do
       get 'flip_public_private', 'move_to_next_status', on: :member
     end
+
+    resources :datacasts
   end
 
-  resources :datacast_accounts
-  resources :datacasts
+  # resources :datacast_accounts
 
   root 'static_pages#index'
-
-        # resources :thrreads do
-        #   resources :thrread_files, only: [:update]
-        # end
-        # resources :cards do
-        #   resources :card_files, only: [:update]
-        # end
-        # resources :assets do
-        #   resources :asset_files, only: [:update]
-        # end
 
 end

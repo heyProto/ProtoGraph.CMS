@@ -39,6 +39,7 @@ class Datacast < ApplicationRecord
     #CALLBACKS
     #SCOPE
     #OTHER
+    #Todo AMIT - Add taggable model for searching.
     #PRIVATE
     private
 
