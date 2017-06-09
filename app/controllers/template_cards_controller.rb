@@ -10,6 +10,13 @@ class TemplateCardsController < ApplicationController
   def show
     @template = @template_card
     @template_datum = @template_card.template_datum
+    @siblings = @template_datum.siblings.order("version DESC")
+    @html = @template.html
+    @css = @template.css
+    @js = @template.js
+    @config = @template.config
+    @image = @template.image
+    @logo = @template.logo
   end
 
   def new

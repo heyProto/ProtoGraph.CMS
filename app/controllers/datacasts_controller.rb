@@ -27,14 +27,17 @@ class DatacastsController < ApplicationController
   # POST /datacasts
   # POST /datacasts.json
   def create
-    sssssss
     @datacast = Datacast.new(datacast_params)
     respond_to do |format|
       if @datacast.save
-        format.html { redirect_to @datacast, notice: 'Datacast was successfully created.' }
-        format.json { render :show, status: :created, location: @datacast }
+        encoded_file = Base64.encode64(File.read(binary_file.tempfile))
+        content_type = binary_file.content_type
+        key = "files/#{@account.slug}/datacasts/#{@datacast.external_identifier}.json"
+        resp = Api::Haiku::Utility.upload_to_cdn(encoded_file, key, content_type)
+        s3_url = resp.first["s3_endpoint"]
+        @datacast.update_attributes(cdn_url: s3_url)
+        format.json { render json: {datacast: @datacast}, status: 200}
       else
-        format.html { render :new }
         format.json { render json: @datacast.errors, status: :unprocessable_entity }
       end
     end

@@ -14,7 +14,7 @@
 //= require ./vendors/jquery.min.js
 //= require ./vendors/semantic.min.js
 //= require ./vendors/jquery.noty.packaged.min.js
-//= require_tree ./app
+//= require ./app/notiy
 //= require turbolinks
 //= require_tree .
 //= require best_in_place

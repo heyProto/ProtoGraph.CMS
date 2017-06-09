@@ -46,7 +46,8 @@ class TemplateCard < ApplicationRecord
     has_one :css, ->{where(genre: "css", attachable_type: "TemplateCard")}, class_name: "ServicesAttachable", foreign_key: "attachable_id"
     has_one :js, ->{where(genre: "js", attachable_type: "TemplateCard")}, class_name: "ServicesAttachable", foreign_key: "attachable_id"
     has_one :config, ->{where(genre: "config", attachable_type: "TemplateCard")}, class_name: "ServicesAttachable", foreign_key: "attachable_id"
-    has_many :images, ->{where(genre: "images", attachable_type: "TemplateCard")}, class_name: "ServicesAttachable", foreign_key: "attachable_id"
+    has_one :image, ->{where(genre: "image", attachable_type: "TemplateCard")}, class_name: "ServicesAttachable", foreign_key: "attachable_id"
+    has_one :logo, ->{where(genre: "logo", attachable_type: "TemplateCard")}, class_name: "ServicesAttachable", foreign_key: "attachable_id"
 
 
     #ACCESSORS
@@ -131,6 +132,27 @@ class TemplateCard < ApplicationRecord
         self.elevator_pitch         = p.elevator_pitch
     end
 
+    def can_make_private?
+        self.cards.where("account_id != ?", self.account_id).first.present? ? false : true
+    end
+
+    def can_make_public?
+        (self.status == "Published" and self.template_datum.is_public) ? true : false
+    end
+
+    def can_ready_to_publish?
+        if self.template_datum.status == "Published" and
+           self.html.present? and
+           self.css.present? and
+           self.js.present? and
+           self.config.present? and
+           self.description.present?
+                return true
+        end
+        return false
+    end
+
+
 
     #PRIVATE
     private
@@ -159,27 +181,8 @@ class TemplateCard < ApplicationRecord
         ServicesAttachable.create_shell_object(self, "js")
         ServicesAttachable.create_shell_object(self, "css")
         ServicesAttachable.create_shell_object(self, "config")
+        ServicesAttachable.create_shell_object(self, "logo")
+        ServicesAttachable.create_shell_object(self, "image")
         true
     end
-
-    def can_make_private?
-        self.cards.where("account_id != ?", self.account_id).first.present? ? false : true
-    end
-
-    def can_make_public?
-        (self.status == "Published" and self.template_datum.is_public) ? true : false
-    end
-
-    def can_ready_to_publish?
-        if self.template_datum.status == "Published" and
-           self.html.present? and
-           self.css.present? and
-           self.js.present? and
-           self.config.present? and
-           self.description.present?
-                return true
-        end
-        return false
-    end
-
 end

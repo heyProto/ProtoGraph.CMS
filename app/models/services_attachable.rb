@@ -20,7 +20,7 @@
 class ServicesAttachable < ApplicationRecord
 
     #CONSTANTS
-    EXTENSION_WHITELIST = %w(xml xsd html js css jpg jpeg png json)
+    EXTENSION_WHITELIST = %w(html js css jpg jpeg png json)
     #CUSTOM TABLES
     #GEMS
 
