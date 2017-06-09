@@ -27,6 +27,8 @@
 
 class TemplateCard < ApplicationRecord
 
+    include Associable
+    include Versionable
     #CONSTANTS
     STATUS = ["Draft", "Ready to Publish", "Published", "Deactivated"]
 
@@ -36,9 +38,6 @@ class TemplateCard < ApplicationRecord
     friendly_id :slug_candidates, use: :scoped, scope: [:account_id]
 
     #ASSOCIATIONS
-    belongs_to :account
-    belongs_to :creator, class_name: "User", foreign_key: "created_by"
-    belongs_to :updator, class_name: "User", foreign_key: "updated_by"
     belongs_to :template_datum
     has_many :template_stream_cards, dependent: :destroy
     has_many :template_streams, through: :template_stream_cards
@@ -70,48 +69,6 @@ class TemplateCard < ApplicationRecord
         ["#{self.name}-#{self.version.to_s}"]
     end
 
-    def parent
-        TemplateCard.where(global_slug: self.global_slug, is_current_version: true).first
-    end
-
-    def previous
-       TemplateCard.where(global_slug: self.global_slug, id: self.previous_version_id).first
-    end
-
-    def siblings
-        TemplateCard.where(global_slug: self.global_slug).order("version DESC")
-    end
-
-    def flip_public_private
-        if self.is_public
-            if self.can_make_private?
-                self.update_attributes(is_public: false)
-                return "Successfully done."
-            else
-                return "Failed. Some other account is using this card."
-            end
-        else
-            if self.can_make_public?
-                self.update_attributes(is_public: true)
-                return "Successfully done."
-            else
-                return "Failed. Make sure card is published and associated data is public."
-            end
-        end
-    end
-
-    def move_to_next_status
-        if self.can_ready_to_publish?
-            self.update_attributes(status: "Ready to Publish")
-            return "Successfully updated."
-        elsif self.status == "Ready to Publish"
-            self.update_attributes(status: "Published")
-            return "Successfully updated."
-        else
-            return "Failed"
-        end
-    end
-
     def deep_copy_across_versions
         p                           = self.previous
         v                           = p.version.to_s.to_version
@@ -132,26 +89,23 @@ class TemplateCard < ApplicationRecord
         self.elevator_pitch         = p.elevator_pitch
     end
 
-    def can_make_private?
-        self.cards.where("account_id != ?", self.account_id).first.present? ? false : true
-    end
-
     def can_make_public?
         (self.status == "Published" and self.template_datum.is_public) ? true : false
     end
 
     def can_ready_to_publish?
         if self.template_datum.status == "Published" and
-           self.html.present? and
-           self.css.present? and
-           self.js.present? and
-           self.config.present? and
+           self.html.file_url.present? and
+           self.css.file_url.present? and
+           self.js.file_url.present? and
+           self.config.file_url.present? and
+           self.logo.file_url.present?  and
+           self.image.file_url.present? and
            self.description.present?
                 return true
         end
         return false
     end
-
 
 
     #PRIVATE
