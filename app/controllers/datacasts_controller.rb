@@ -6,7 +6,8 @@ class DatacastsController < ApplicationController
   # GET /datacasts
   # GET /datacasts.json
   def index
-    @datacasts = Datacast.all
+    #@datacasts = Datacast.all
+    redirect_to new_account_datacast_path(@account)
   end
 
   # GET /datacasts/1
@@ -26,8 +27,8 @@ class DatacastsController < ApplicationController
   # POST /datacasts
   # POST /datacasts.json
   def create
+    sssssss
     @datacast = Datacast.new(datacast_params)
-
     respond_to do |format|
       if @datacast.save
         format.html { redirect_to @datacast, notice: 'Datacast was successfully created.' }
@@ -73,6 +74,6 @@ class DatacastsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def datacast_params
-      params.require(:datacast).permit(:slug, :template_datum_id, :external_identifier, :status, :data_timestamp, :last_updated_at, :last_data_hash, :count_publish, :count_duplicate_calls, :count_errors, :input_source, :error_messages, :data, :created_by)
+      params.require(:datacast).permit(:slug, :template_datum_id, :external_identifier, :status, :data_timestamp, :last_updated_at, :last_data_hash, :count_publish, :count_duplicate_calls, :count_errors, :input_source, :error_messages, :json_data, :created_by)
     end
 end
