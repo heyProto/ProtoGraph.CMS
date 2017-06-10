@@ -27,15 +27,15 @@
 class TemplateStream < ApplicationRecord
 
     #CONSTANTS
+    include Associable
+    include Versionable
+
     #CUSTOM TABLES
     #GEMS
     extend FriendlyId
     friendly_id :slug_candidates, use: :scoped, scope: [:account_id]
 
     #ASSOCIATIONS
-    belongs_to :account
-    belongs_to :creator, class_name: "User", foreign_key: "created_by"
-    belongs_to :updator, class_name: "User", foreign_key: "updated_by"
     has_many :template_stream_cards, dependent: :destroy
     has_many :template_cards, through: :template_stream_cards
     has_one :html, ->{where(genre: "html", attachable_type: "TemplateStream")}, class_name: "ServicesAttachable", foreign_key: "attachable_id"
@@ -62,18 +62,6 @@ class TemplateStream < ApplicationRecord
         ["#{self.name}-#{self.version.to_s}"]
     end
 
-    def parent
-        TemplateStream.where(global_slug: self.global_slug, is_current_version: true).first
-    end
-
-    def previous
-       TemplateStream.where(global_slug: self.global_slug, id: self.previous_version_id).first
-    end
-
-    def siblings
-        TemplateStream.where(global_slug: self.global_slug).order("version DESC")
-    end
-
     def deep_copy_across_versions
         p                           = self.previous
         v                           = p.version.to_s.to_version
@@ -92,6 +80,18 @@ class TemplateStream < ApplicationRecord
         self.version_series         = self.version.to_s.to_version.to_a[0]
         self.description            = p.description
         self.elevator_pitch         = p.elevator_pitch
+    end
+
+
+    def can_ready_to_publish?
+        if self.html.file_url.present? and
+           self.css.file_url.present? and
+           self.js.file_url.present? and
+           self.config.file_url.present? and
+           self.description.present?
+                return true
+        end
+        return false
     end
 
     #PRIVATE
@@ -122,21 +122,6 @@ class TemplateStream < ApplicationRecord
         ServicesAttachable.create_shell_object(self, "css")
         ServicesAttachable.create_shell_object(self, "config")
         true
-    end
-
-    def can_ready_to_publish?
-        if self.html.present? and
-           self.css.present? and
-           self.js.present? and
-           self.config.present? and
-           self.description.present?
-                return true
-        end
-        return false
-    end
-
-    def can_make_public?
-       self.status == "Published" ? true : false
     end
 
 end

@@ -1,42 +1,63 @@
-<div class="sixteen wide column">
-  <div class="ui breadcrumb">
-      <a class="section"><%= link_to "Template Designer", account_template_data_path(@account) %></a>
-      <div class="section">/</div>
-  </div>
-  <h1 class="ui header" style="margin-top: 15px;">
-      <%= show_lock(@template_stream.is_public, @template_stream.name).html_safe %>
-  </h1>
-  <div class="ui divider"></div>
-  <a class="ui grey circular label"><%= @template_stream.publish_count %></a>
-      <div style="float: right;">
-          <p style="font-size: 0.7em; margin-bottom: 0px;"><%= @template_stream.status %></p>
-          <p style="font-size: 0.5em; font-weight: 400; color: gray; margin-bottom: 10px;">
-            Last updated by
-            <%= @template_stream.updator.name %>
-            <%= time_ago_in_words @template_stream.updated_at %>
-          </p>
-      </div>
-
-</div>
+<%= render partial: "templates/header_show" %>
 <div class="eleven wide column">
-    <div class="ui dividing right rail"></div>
+  <%= render partial: "templates/publish_steps", locals: {template: @template} %>
+  <div class="ui divider"></div>
+  <h3>
+    <a class="<%= @template.can_ready_to_publish? ? "ui green ribbon label" : "ui blue ribbon label" %>">
+      Step #2
+    </a>
+    Upload mandatory code
+  </h3>
+  <br/>
+  <%= render partial: "services_attachables/form", locals: {services_attachable: @html, label: "Html file required.", hint: "Format: .html", can_delete: (@template.status != "Published"), content_types: "text/html"} %>
 
+  <%= render partial: "services_attachables/form", locals: {services_attachable: @css, label: "Styling for the cards.", hint: "Format: .css", can_delete: (@template.status != "Published"), content_types: "text/css"} %>
+
+  <%= render partial: "services_attachables/form", locals: {services_attachable: @js, label: "The script with logic.", hint: "Format: .js", can_delete: (@template.status != "Published"), content_types: "text/javascript"} %>
+
+  <%= render partial: "services_attachables/form", locals: {services_attachable: @config, label: "The configuration file to integrate with stream.", hint: "Format: .json", can_delete: (@template.status != "Published"), content_types: "application/json"} %>
+
+  <br/>
+  <% if @template.can_ready_to_publish? %>
+    <div class="ui divider"></div>
+    <h3>
+      <a class="<%= @template.status != "Draft" ? "ui green ribbon label" : "ui blue ribbon label" %>">Step #3</a>
+      Submit the template to Editor for review
+    </h3>
+    <br/>
+    <% if @template.status == "Draft" %>
+        <%= link_to "Submit for review", move_to_next_status_account_template_stream_path(@account, @template), class: "ui primary button", style: "color: white !important;" %>
+    <% else %>
+        <i class="checkmark box icon green" style="font-size: 1.5em;"></i>
+    <% end %>
+    <br/>
+  <% end %>
+  <% if @template.status != "Draft" %>
+    <div class="ui divider"></div>
+    <h3>
+      <a class="<%= @template.status != "Draft" ? "ui green ribbon label" : "ui blue ribbon label" %>">Step #4</a>
+      Publish the Datacast
+    </h3>
+    <br/>
+    <% if @template.status == "Ready to Publish" %>
+        <%= link_to "Publish", move_to_next_status_account_template_stream_path(@account, @template), class: "ui primary button", style: "color: white !important;" %>
+    <% else %>
+        <i class="checkmark box icon green" style="font-size: 1.5em;"></i>
+    <% end %>
+    <br/>
+  <% end %>
+  <br/>
+  <div class="ui divider"></div>
+  <br/>
+  <% if @template.status != "Published" %>
+  <%= link_to 'Destroy', [@account, @template_stream], method: :delete, data: { confirm: 'Are you sure?' }, class: "ui red basic button" %>
+  <% end %>
+  <br/><br/><br/><br/>
+  <div class="ui dividing right rail" style="min-height: 339px;"></div>
 </div>
-<div class="five wide column">
-    <div  style="margin-left: 40px;">
-        <h4>What is this Template Stream about?</h4>
-        <%= best_in_place @template_stream, :description,url: account_template_stream_path(@account, @template_stream) ,:as => :textarea, :place_holder => "No description added yet." %>
-        <br/>
-        <div style="float: right;""><%= link_to 'Destroy', [@account, @template_stream], method: :delete, data: { confirm: 'Are you sure?' }, class: "ui red basic button" %></div>
-    </div>
+<div class="five wide column" style="padding-left: 90px;">
+  <%= render partial: "templates/versions", locals: {template: @template, url: {"bug": create_version_account_template_stream_path(@account, @template, version_genre: "bug"), "major": create_version_account_template_stream_path(@account, @template, version_genre: "major"), "minor": create_version_account_template_stream_path(@account,@template, version_genre: "minor")}, siblings: @siblings} %>
+</div>
 </div>
 
-<% if @template_stream.is_public %>
-  <%= link_to "Make private", flip_public_private_account_template_stream_path(@account, @template_stream) %>
-<% elsif @template_stream.status == "Published" or 1 == 1 %>
-  <%= link_to "Make public", flip_public_private_account_template_stream_path(@account, @template_stream) %>
-<% end %>
-
-<% if next_status(@template_stream.status).present? %>
-  <%= link_to ("Change status to " + next_status(@template_stream.status)), move_to_next_status_account_template_stream_path(@account, @template_stream) %>
-<% end %>
+<%= javascript_include_tag "app/file_uploader.js" %>

@@ -21,6 +21,7 @@ Rails.application.routes.draw do
 
     resources :template_streams do
         get 'flip_public_private', 'move_to_next_status', on: :member
+        get "/new/:version_genre/version", to: "template_steam#new", on: :member, as: :create_version
         resources :template_stream_cards
     end
     resources :template_data do

@@ -10,7 +10,7 @@ class TemplateCardsController < ApplicationController
   def show
     @template = @template_card
     @template_datum = @template_card.template_datum
-    @siblings = @template_datum.siblings.order("version DESC")
+    @siblings = @template_card.siblings.order("version DESC")
     @html = @template.html
     @css = @template.css
     @js = @template.js
