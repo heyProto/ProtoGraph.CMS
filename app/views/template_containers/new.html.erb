@@ -10,14 +10,13 @@
                 <%= f.input :version_genre, as: :hidden, input_html: {value: @version_genre} %>
             <% else %>
                 <%= f.input :name, hint: "Choose wisely. You cannot change it later." %>
-                <%= f.input :version, as: :hidden, input_html: {value: "0.1.0"} %>
                 <%= f.input :elevator_pitch, hint: "Explain in 140 characters what this template is about." %>
+                <%= f.input :version, as: :hidden, input_html: {value: "0.1.0"} %>
             <% end %>
 
             <!--
                 TODO AMIT - Restrict elevator pitch to 140 chars in the UI
             -->
-
         </div>
         <div class="form-actions">
             <br/>

@@ -19,6 +19,12 @@ Rails.application.routes.draw do
       delete "file", on: :member
     end
 
+    resources :template_containers do
+        get 'flip_public_private', 'move_to_next_status', on: :member
+        get "/new/:version_genre/version", to: "template_containers#new", on: :member, as: :create_version
+    end
+
+
     resources :template_streams do
         get 'flip_public_private', 'move_to_next_status', on: :member
         get "/new/:version_genre/version", to: "template_steam#new", on: :member, as: :create_version
