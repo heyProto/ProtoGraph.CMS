@@ -5,8 +5,6 @@
 <div class="ui secondary pointing menu">
   <%= link_to "Datacasts", account_template_data_path(@account), class: (controller_name == "template_data" ? "active item" : "item") %>
   <%= link_to "Cards", account_template_cards_path(@account), class: (controller_name == "template_cards" ? "active item" : "item") %>
-  <%= link_to "StreamKit", account_template_streams_path(@account), class: (controller_name == "template_streams" ? "active item" : "item") %>
-  <%= link_to "Container", account_template_containers_path(@account), class: (controller_name == "template_containers" ? "active item" : "item") %>
   <%= link_to "ScreenKit", nil, class: "item" %>
 </div>
 <br/>

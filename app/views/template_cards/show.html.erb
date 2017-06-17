@@ -15,7 +15,7 @@
 
   <%= render partial: "services_attachables/form", locals: {services_attachable: @js, label: "The script with logic.", hint: "Format: .js", can_delete: (@template.status != "Published"), content_types: "text/javascript"} %>
 
-  <%= render partial: "services_attachables/form", locals: {services_attachable: @config, label: "The configuration file to integrate with stream.", hint: "Format: .json", can_delete: (@template.status != "Published"), content_types: "application/json"} %>
+  <%= render partial: "services_attachables/form", locals: {services_attachable: @config, label: "The configuration file to integrate.", hint: "Format: .json", can_delete: (@template.status != "Published"), content_types: "application/json"} %>
 
 
   <%= render partial: "services_attachables/form", locals: {services_attachable: @image, label: "The sprite image.", hint: "Format: .png, .jpg, .jpeg", can_delete: (@template.status != "Published"), content_types: "image/png, image/jpg, image/jpeg"} %>

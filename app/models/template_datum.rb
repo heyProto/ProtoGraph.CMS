@@ -42,8 +42,8 @@ class TemplateDatum < ApplicationRecord
     belongs_to :updator, class_name: "User", foreign_key: "updated_by"
     has_many :template_cards
     has_many :datacasts
-    has_one :sample_json, ->{where(genre: "sample_json", attachable_type: "TemplateDatum")}, class_name: 'ServicesAttachable', foreign_key: "attachable_id"
-    has_one :json_schema, ->{where(genre: "json_schema",attachable_type: "TemplateDatum")}, class_name: 'ServicesAttachable', foreign_key: "attachable_id" # TODO AMIT change to json
+    # has_one :sample_json, ->{where(genre: "sample_json", attachable_type: "TemplateDatum")}, class_name: 'ServicesAttachable', foreign_key: "attachable_id"
+    # has_one :json_schema, ->{where(genre: "json_schema",attachable_type: "TemplateDatum")}, class_name: 'ServicesAttachable', foreign_key: "attachable_id" # TODO AMIT change to json
 
     #ACCESSORS
     #VALIDATIONS
@@ -122,8 +122,8 @@ class TemplateDatum < ApplicationRecord
     end
 
     def after_create_set
-        ServicesAttachable.create_shell_object(self, "sample_json")
-        ServicesAttachable.create_shell_object(self, "json_schema")
+        # ServicesAttachable.create_shell_object(self, "sample_json")
+        # ServicesAttachable.create_shell_object(self, "json_schema")
         true
     end
 

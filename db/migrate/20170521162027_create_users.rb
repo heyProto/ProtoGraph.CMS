@@ -159,56 +159,7 @@ class CreateUsers < ActiveRecord::Migration[5.1]
       t.timestamps
     end
     add_index :template_cards, :slug, unique: true
-    create_table :template_streams do |t|
-      t.integer :account_id
-      t.string :name
-      t.string :elevator_pitch
-      t.text :description
-      t.string :global_slug
-      t.boolean :is_current_version
-      t.string :slug
-      t.string :version_series
-      t.integer :previous_version_id
-      t.string :version_genre
-      t.string :version
-      t.text :change_log
-      t.string :status
-      t.integer :publish_count
-      t.boolean :is_public
-      t.integer :created_by
-      t.integer :updated_by
 
-      t.timestamps
-    end
-    add_index :template_streams, :slug, unique: true
-
-    create_table :template_stream_cards do |t|
-      t.integer :account_id
-      t.integer :template_card_id
-      t.integer :template_stream_id
-      t.boolean :is_mandatory
-      t.integer :position
-      t.integer :created_by
-      t.integer :updated_by
-
-      t.timestamps
-    end
-
-    create_table :services_attachables do |t|
-      t.integer :account_id
-      t.integer :attachable_id
-      t.string :attachable_type
-      t.string :genre
-      t.text :file_url
-      t.text :original_file_name
-      t.string :file_type
-      t.string :s3_bucket
-      t.integer :created_by
-      t.integer :updated_by
-
-      t.timestamps
-    end
-    add_index "services_attachables", [:attachable_id, :attachable_type]
 
     create_table :datacasts do |t|
       t.string :slug

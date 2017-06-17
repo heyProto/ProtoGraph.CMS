@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170610040751) do
+ActiveRecord::Schema.define(version: 20170521162027) do
 
   create_table "accounts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "username"
@@ -116,22 +116,6 @@ ActiveRecord::Schema.define(version: 20170610040751) do
     t.index ["slug"], name: "index_ref_roles_on_slug", unique: true
   end
 
-  create_table "services_attachables", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.integer "account_id"
-    t.integer "attachable_id"
-    t.string "attachable_type"
-    t.string "genre"
-    t.text "file_url"
-    t.text "original_file_name"
-    t.string "file_type"
-    t.string "s3_bucket"
-    t.integer "created_by"
-    t.integer "updated_by"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["attachable_id", "attachable_type"], name: "index_services_attachables_on_attachable_id_and_attachable_type"
-  end
-
   create_table "template_cards", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer "account_id"
     t.string "name"
@@ -154,28 +138,6 @@ ActiveRecord::Schema.define(version: 20170610040751) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["slug"], name: "index_template_cards_on_slug", unique: true
-  end
-
-  create_table "template_containers", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.integer "account_id"
-    t.string "name"
-    t.string "elevator_pitch"
-    t.text "description"
-    t.string "global_slug"
-    t.boolean "is_current_version"
-    t.string "slug"
-    t.string "version_series"
-    t.integer "previous_version_id"
-    t.string "version_genre"
-    t.string "version"
-    t.text "change_log"
-    t.string "status"
-    t.integer "publish_count"
-    t.boolean "is_public"
-    t.integer "created_by"
-    t.integer "updated_by"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
   end
 
   create_table "template_data", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -201,41 +163,6 @@ ActiveRecord::Schema.define(version: 20170610040751) do
     t.datetime "updated_at", null: false
     t.index ["api_key"], name: "index_template_data_on_api_key"
     t.index ["slug"], name: "index_template_data_on_slug", unique: true
-  end
-
-  create_table "template_stream_cards", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.integer "account_id"
-    t.integer "template_card_id"
-    t.integer "template_stream_id"
-    t.boolean "is_mandatory"
-    t.integer "position"
-    t.integer "created_by"
-    t.integer "updated_by"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "template_streams", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.integer "account_id"
-    t.string "name"
-    t.string "elevator_pitch"
-    t.text "description"
-    t.string "global_slug"
-    t.boolean "is_current_version"
-    t.string "slug"
-    t.string "version_series"
-    t.integer "previous_version_id"
-    t.string "version_genre"
-    t.string "version"
-    t.text "change_log"
-    t.string "status"
-    t.integer "publish_count"
-    t.boolean "is_public"
-    t.integer "created_by"
-    t.integer "updated_by"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["slug"], name: "index_template_streams_on_slug", unique: true
   end
 
   create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|

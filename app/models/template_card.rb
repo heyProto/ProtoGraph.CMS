@@ -39,14 +39,12 @@ class TemplateCard < ApplicationRecord
 
     #ASSOCIATIONS
     belongs_to :template_datum
-    has_many :template_stream_cards, dependent: :destroy
-    has_many :template_streams, through: :template_stream_cards
-    has_one :html, ->{where(genre: "html", attachable_type: "TemplateCard")}, class_name: "ServicesAttachable", foreign_key: "attachable_id"
-    has_one :css, ->{where(genre: "css", attachable_type: "TemplateCard")}, class_name: "ServicesAttachable", foreign_key: "attachable_id"
-    has_one :js, ->{where(genre: "js", attachable_type: "TemplateCard")}, class_name: "ServicesAttachable", foreign_key: "attachable_id"
-    has_one :config, ->{where(genre: "config", attachable_type: "TemplateCard")}, class_name: "ServicesAttachable", foreign_key: "attachable_id"
-    has_one :image, ->{where(genre: "image", attachable_type: "TemplateCard")}, class_name: "ServicesAttachable", foreign_key: "attachable_id"
-    has_one :logo, ->{where(genre: "logo", attachable_type: "TemplateCard")}, class_name: "ServicesAttachable", foreign_key: "attachable_id"
+    # has_one :html, ->{where(genre: "html", attachable_type: "TemplateCard")}, class_name: "ServicesAttachable", foreign_key: "attachable_id"
+    # has_one :css, ->{where(genre: "css", attachable_type: "TemplateCard")}, class_name: "ServicesAttachable", foreign_key: "attachable_id"
+    # has_one :js, ->{where(genre: "js", attachable_type: "TemplateCard")}, class_name: "ServicesAttachable", foreign_key: "attachable_id"
+    # has_one :config, ->{where(genre: "config", attachable_type: "TemplateCard")}, class_name: "ServicesAttachable", foreign_key: "attachable_id"
+    # has_one :image, ->{where(genre: "image", attachable_type: "TemplateCard")}, class_name: "ServicesAttachable", foreign_key: "attachable_id"
+    # has_one :logo, ->{where(genre: "logo", attachable_type: "TemplateCard")}, class_name: "ServicesAttachable", foreign_key: "attachable_id"
 
 
     #ACCESSORS
@@ -131,12 +129,12 @@ class TemplateCard < ApplicationRecord
     end
 
     def after_create_set
-        ServicesAttachable.create_shell_object(self, "html")
-        ServicesAttachable.create_shell_object(self, "js")
-        ServicesAttachable.create_shell_object(self, "css")
-        ServicesAttachable.create_shell_object(self, "config")
-        ServicesAttachable.create_shell_object(self, "logo")
-        ServicesAttachable.create_shell_object(self, "image")
+        # ServicesAttachable.create_shell_object(self, "html")
+        # ServicesAttachable.create_shell_object(self, "js")
+        # ServicesAttachable.create_shell_object(self, "css")
+        # ServicesAttachable.create_shell_object(self, "config")
+        # ServicesAttachable.create_shell_object(self, "logo")
+        # ServicesAttachable.create_shell_object(self, "image")
         true
     end
 end
