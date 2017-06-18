@@ -39,7 +39,7 @@ users.each do |a|
   c = User.new(email: a[0], name: a[1], username: a[2], password: "indianmonsoon1234801" , confirmation_sent_at: Time.now)
   c.skip_confirmation!
   c.save
-  Permission.create({ref_role_slug: "owner", account_id: icfj_account.id, user_id: c.id})
+  Permission.create({ref_role_slug: "owner", account_id: icfj_account.id, user_id: c.id, created_by: c.id,updated_by: c.id})
 end
 
 
