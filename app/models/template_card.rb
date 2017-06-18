@@ -117,6 +117,12 @@ class TemplateCard < ApplicationRecord
         "https://s3.ap-south-1.amazonaws.com/protos.dev/cards/Proto.Card.toExplain/dist/v0.0.1/Proto.Card.toExplain.png"
     end
 
+    def versions
+        #self.siblings.where.not(id:  self.id).as_json(only: [:account_id, :id, :slug, :global_slug,:name, :elevator_pitch], methods: [:account_slug, :icon_url])
+        #uncomment after testing
+        self.siblings.as_json(only: [:account_id, :id, :slug, :global_slug,:name, :elevator_pitch], methods: [:account_slug, :icon_url])
+    end
+
 
     #PRIVATE
     private

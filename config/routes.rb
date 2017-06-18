@@ -11,8 +11,8 @@ Rails.application.routes.draw do
 
   scope :api do
     scope :v1 do
-      resources :accounts, only: [], controller: "api/v1/accounts" do
-        get "template_cards", on: :member
+      resources :accounts, only: [] do
+        resources :template_cards, only: [:index, :show], controller: "api/v1/template_cards"
       end
     end
   end
