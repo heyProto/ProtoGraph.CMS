@@ -24,7 +24,6 @@ class CreateUsers < ActiveRecord::Migration[5.1]
       t.timestamps
     end
     add_index :ref_roles, :slug, unique: true
-    RefRole.seed
 
     create_table :permissions do |t|
       t.integer :user_id
@@ -127,6 +126,8 @@ class CreateUsers < ActiveRecord::Migration[5.1]
       t.string :status
       t.integer :publish_count
       t.boolean :is_public
+      t.text    :git_url
+      t.string  :git_branch, default: "master"
       t.integer :created_by
       t.integer :updated_by
       t.string :api_key
@@ -152,6 +153,8 @@ class CreateUsers < ActiveRecord::Migration[5.1]
       t.string :status
       t.integer :publish_count
       t.boolean :is_public
+      t.text    :git_url
+      t.string  :git_branch, default: "master"
       t.integer :created_by
       t.integer :updated_by
       t.integer :template_datum_id

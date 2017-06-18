@@ -18,6 +18,8 @@
 #  status              :string(255)
 #  publish_count       :integer
 #  is_public           :boolean
+#  git_url             :text(65535)
+#  git_branch          :string(255)      default("master")
 #  created_by          :integer
 #  updated_by          :integer
 #  api_key             :string(255)
@@ -42,8 +44,6 @@ class TemplateDatum < ApplicationRecord
     belongs_to :updator, class_name: "User", foreign_key: "updated_by"
     has_many :template_cards
     has_many :datacasts
-    # has_one :sample_json, ->{where(genre: "sample_json", attachable_type: "TemplateDatum")}, class_name: 'ServicesAttachable', foreign_key: "attachable_id"
-    # has_one :json_schema, ->{where(genre: "json_schema",attachable_type: "TemplateDatum")}, class_name: 'ServicesAttachable', foreign_key: "attachable_id" # TODO AMIT change to json
 
     #ACCESSORS
     #VALIDATIONS
@@ -51,6 +51,7 @@ class TemplateDatum < ApplicationRecord
     validates :name, presence: true
     validates :created_by, presence: true
     validates :updated_by, presence: true
+    validates :git_url, presence: true, format: {with: /(^git@)(.+)(:)(.+)(\/)(.+)(.git$)/}
 
     #CALLBACKS
     before_create :before_create_set
@@ -58,6 +59,9 @@ class TemplateDatum < ApplicationRecord
 
     #SCOPE
     #OTHER
+    #TODO: Write a background job to connect to the git repo and the git branch, and upload the file from /build/#version_no./ folder
+
+
     def slug_candidates
         ["#{self.name}-#{self.version.to_s}"]
     end
@@ -109,7 +113,7 @@ class TemplateDatum < ApplicationRecord
         self.status = "Draft"
         self.publish_count = 0
         if self.previous_version_id.blank?
-            self.global_slug = self.name.gsub(" ", "-").downcase #TODO AMIT is there a better way to sluggify?
+            self.global_slug = self.name.parameterize
             self.is_current_version = true
             self.version_series = "0"
             self.previous_version_id = nil
@@ -122,8 +126,6 @@ class TemplateDatum < ApplicationRecord
     end
 
     def after_create_set
-        # ServicesAttachable.create_shell_object(self, "sample_json")
-        # ServicesAttachable.create_shell_object(self, "json_schema")
         true
     end
 

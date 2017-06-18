@@ -29,29 +29,6 @@ class RefRole < ApplicationRecord
     #SCOPE
     #OTHER
 
-    def self.seed
-        RefRole.destroy_all
-        RefRole.create(name: "Owner", slug: "owner",
-                        can_account_settings: true,
-                        can_template_design_do: true,
-                        can_template_design_publish: true)
-
-        RefRole.create(name: "Editor", slug: "editor",
-                        can_account_settings: true,
-                        can_template_design_do: false,
-                        can_template_design_publish: false)
-
-        RefRole.create(name: "Developer", slug: "developer",
-                        can_account_settings: false,
-                        can_template_design_do: true,
-                        can_template_design_publish: false)
-
-        RefRole.create(name: "Writer", slug: "writer",
-                        can_account_settings: false,
-                        can_template_design_do: false,
-                        can_template_design_publish: false)
-    end
-
     #PRIVATE
     private
 

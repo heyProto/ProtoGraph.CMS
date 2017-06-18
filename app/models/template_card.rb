@@ -18,6 +18,8 @@
 #  status              :string(255)
 #  publish_count       :integer
 #  is_public           :boolean
+#  git_url             :text(65535)
+#  git_branch          :string(255)      default("master")
 #  created_by          :integer
 #  updated_by          :integer
 #  template_datum_id   :integer
@@ -117,7 +119,7 @@ class TemplateCard < ApplicationRecord
         self.status = "Draft"
         self.publish_count = 0
         if self.previous_version_id.blank?
-            self.global_slug = self.name.gsub(" ", "-").downcase #TODO AMIT is there a better way to sluggify?
+            self.global_slug = self.name.parameterize
             self.is_current_version = true
             self.version_series = "0"
             self.previous_version_id = nil
