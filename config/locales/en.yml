@@ -46,4 +46,6 @@ en:
     private: "Made private."
   param:
     required: "%{param} is required to continue."
+  user:
+    not_found: 'User not found.'
 

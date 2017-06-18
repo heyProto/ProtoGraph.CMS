@@ -41,6 +41,7 @@ class TemplateCard < ApplicationRecord
 
     #ASSOCIATIONS
     belongs_to :template_datum
+    belongs_to :account
     # has_one :html, ->{where(genre: "html", attachable_type: "TemplateCard")}, class_name: "ServicesAttachable", foreign_key: "attachable_id"
     # has_one :css, ->{where(genre: "css", attachable_type: "TemplateCard")}, class_name: "ServicesAttachable", foreign_key: "attachable_id"
     # has_one :js, ->{where(genre: "js", attachable_type: "TemplateCard")}, class_name: "ServicesAttachable", foreign_key: "attachable_id"
@@ -105,6 +106,15 @@ class TemplateCard < ApplicationRecord
                 return true
         end
         return false
+    end
+
+    def account_slug
+        self.account.slug
+    end
+
+    def icon_url
+        # Returns the cdn file icon
+        "https://s3.ap-south-1.amazonaws.com/protos.dev/cards/Proto.Card.toExplain/dist/v0.0.1/Proto.Card.toExplain.png"
     end
 
 

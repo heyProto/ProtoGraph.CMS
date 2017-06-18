@@ -8,6 +8,15 @@ Rails.application.routes.draw do
   get '/auth/:provider/callback', to: 'authentications#create'
   get '/auth/failure', to: 'authentications#failure'
 
+
+  scope :api do
+    scope :v1 do
+      resources :accounts, only: [], controller: "api/v1/accounts" do
+        get "template_cards", on: :member
+      end
+    end
+  end
+
   resources :accounts do
     resources :permissions do
       get "change_role", on: :member

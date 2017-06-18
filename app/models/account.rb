@@ -54,10 +54,6 @@ class Account < ApplicationRecord
         TemplateDatum.where("account_id = ? OR is_public = true", self.id)
     end
 
-    def template_containers
-        TemplateContainer.where("account_id = ? OR is_public = true", self.id)
-    end
-
     #PRIVATE
     private
 

@@ -41,6 +41,9 @@ class AccountsController < ApplicationController
     end
   end
 
+  def template_cards
+  end
+
   private
 
     def account_params

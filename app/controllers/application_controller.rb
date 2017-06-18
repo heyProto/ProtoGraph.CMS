@@ -1,7 +1,10 @@
 class ApplicationController < ActionController::Base
-  protect_from_forgery with: :exception
-
+  protect_from_forgery with: :exception, unless: :json_request?
   before_action :sudo
+
+  def json_request?
+    request.format.json?
+  end
 
   def sudo_pykih_admin
     redirect_to root_url, notice: "Permission denied." if !current_user.is_admin_from_pykih
@@ -18,12 +21,12 @@ class ApplicationController < ActionController::Base
   private
 
   def sudo
+    if params[:account_id].present?
+      @account = Account.friendly.find(params[:account_id])
+    elsif controller_name == "accounts" and params[:id].present?
+      @account = Account.friendly.find(params[:id])
+    end
   	if user_signed_in?
-  		if params[:account_id].present?
-  			@account = Account.friendly.find(params[:account_id])
-  		elsif controller_name == "accounts" and params[:id].present?
-  			@account = Account.friendly.find(params[:id])
-  		end
   		@on_an_account_page = (@account.present? and @account.id.present?)
       if @on_an_account_page
         @permission = current_user.permission_object(@account.id)
