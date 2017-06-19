@@ -32,6 +32,7 @@ class TemplateDatum < ApplicationRecord
     include Versionable
     include Associable
     #CONSTANTS
+    CDN_BASE_URL = "#{ENV['AWS_S3_ENDPOINT']}/Schemas"
     #CUSTOM TABLES
     #GEMS
     require 'version'
@@ -102,6 +103,13 @@ class TemplateDatum < ApplicationRecord
         self.template_cards.where(status: "Published").first.present? ? true : false
     end
 
+    def files
+        {
+            "schema": "#{TemplateDatum::CDN_BASE_URL}/#{self.name}/#{self.version}/schema.json",
+            "sample": "#{TemplateDatum::CDN_BASE_URL}/#{self.name}/#{self.version}/sample.json"
+        }
+    end
+
     #PRIVATE
     private
 
@@ -118,7 +126,7 @@ class TemplateDatum < ApplicationRecord
             self.version_series = "0"
             self.previous_version_id = nil
             self.version_genre = "major"
-            self.version = "0.1.0"
+            self.version = "0.0.1"
             self.is_public = false
             self.api_key = SecureRandom.hex(24)
         end

@@ -8,7 +8,7 @@ class Api::V1::TemplateCardsController < ApiController
     def show
         @template_card = @account.template_cards.where(id: params[:id]).first
         if @template_card.present?
-            render json: {template_card: @template_card.as_json(only: [:account_id, :id, :slug, :global_slug,:name, :elevator_pitch], methods: [:account_slug, :icon_url, :versions])}
+            render json: {template_card: @template_card.as_json(only: [:account_id, :id, :slug, :global_slug,:name, :elevator_pitch], methods: [:account_slug, :files, :versions])}
         else
             return_render_card_not_found
         end

@@ -33,6 +33,7 @@ class TemplateCard < ApplicationRecord
     include Versionable
     #CONSTANTS
     STATUS = ["Draft", "Ready to Publish", "Published", "Deactivated"]
+    CDN_BASE_URL = "#{ENV['AWS_S3_ENDPOINT']}/cards"
 
     #CUSTOM TABLES
     #GEMS
@@ -113,14 +114,29 @@ class TemplateCard < ApplicationRecord
     end
 
     def icon_url
-        # Returns the cdn file icon
-        "https://s3.ap-south-1.amazonaws.com/protos.dev/cards/Proto.Card.toExplain/dist/v0.0.1/Proto.Card.toExplain.png"
+        "#{base_url}/card.png"
     end
 
     def versions
         #self.siblings.where.not(id:  self.id).as_json(only: [:account_id, :id, :slug, :global_slug,:name, :elevator_pitch], methods: [:account_slug, :icon_url])
         #uncomment after testing
         self.siblings.as_json(only: [:account_id, :id, :slug, :global_slug,:name, :elevator_pitch], methods: [:account_slug, :icon_url])
+    end
+
+    def base_url
+        "#{TemplateCard::CDN_BASE_URL}/#{self.name}/dist/#{self.version}"
+    end
+
+    def files
+        {
+            "js": "#{base_url}/card.min.js",
+            "css": "#{base_url}/card.min.css",
+            "html": "#{base_url}/index.html",
+            "configuration_schema": "#{base_url}/configuration_schema.json",
+            "configuration_sample": "#{base_url}/configuration_sample.json",
+            "icon_url": "#{icon_url}",
+            "schema_files": self.template_datum.files
+        }
     end
 
 
@@ -140,7 +156,7 @@ class TemplateCard < ApplicationRecord
             self.version_series = "0"
             self.previous_version_id = nil
             self.version_genre = "major"
-            self.version = "0.1.0"
+            self.version = "0.0.1"
             self.is_public = false
         end
         true
