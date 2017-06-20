@@ -13,7 +13,9 @@ Rails.application.routes.draw do
     scope :v1 do
       resources :accounts, only: [] do
         resources :template_cards, only: [:index, :show], controller: "api/v1/template_cards"
+        resources :datacasts, only: [:create, :update], controller: "api/v1/datacasts"
       end
+      resources :view_casts, only: [:show], controller: "api/v1/view_casts"
     end
   end
 
@@ -23,10 +25,6 @@ Rails.application.routes.draw do
     end
     resources :permission_invites
     resources :authentications
-    resources :services_attachables, only: [:destroy] do
-      put "upload_file", on: :member
-      delete "file", on: :member
-    end
 
     resources :template_data do
       get 'flip_public_private', 'move_to_next_status', on: :member
@@ -40,10 +38,9 @@ Rails.application.routes.draw do
       get 'flip_public_private', 'move_to_next_status', on: :member
     end
 
-    resources :datacasts
-  end
+    resources :view_casts, only: [:index, :show]
 
-  # resources :datacast_accounts
+  end
 
   root 'static_pages#index'
 

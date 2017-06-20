@@ -16,7 +16,6 @@
 //= require ./vendors/jquery.noty.packaged.min.js
 //= require ./app/notiy
 //= require turbolinks
-//= require_tree .
 //= require best_in_place
 
 $(document).on('turbolinks:load', function (e) {

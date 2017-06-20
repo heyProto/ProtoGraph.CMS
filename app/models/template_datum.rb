@@ -44,7 +44,6 @@ class TemplateDatum < ApplicationRecord
     belongs_to :creator, class_name: "User", foreign_key: "created_by"
     belongs_to :updator, class_name: "User", foreign_key: "updated_by"
     has_many :template_cards
-    has_many :datacasts
 
     #ACCESSORS
     #VALIDATIONS
@@ -105,9 +104,13 @@ class TemplateDatum < ApplicationRecord
 
     def files
         {
-            "schema": "#{TemplateDatum::CDN_BASE_URL}/#{self.name}/#{self.version}/schema.json",
+            "schema": "#{schema_json}",
             "sample": "#{TemplateDatum::CDN_BASE_URL}/#{self.name}/#{self.version}/sample.json"
         }
+    end
+
+    def schema_json
+        "#{TemplateDatum::CDN_BASE_URL}/#{self.name}/#{self.version}/schema.json"
     end
 
     #PRIVATE

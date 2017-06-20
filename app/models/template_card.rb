@@ -131,12 +131,16 @@ class TemplateCard < ApplicationRecord
         {
             "js": "#{base_url}/card.min.js",
             "css": "#{base_url}/card.min.css",
-            "html": "#{base_url}/index.html",
+            "html": "#{index_html}",
             "configuration_schema": "#{base_url}/configuration_schema.json",
             "configuration_sample": "#{base_url}/configuration_sample.json",
             "icon_url": "#{icon_url}",
             "schema_files": self.template_datum.files
         }
+    end
+
+    def index_html
+        "#{base_url}/index.html"
     end
 
 

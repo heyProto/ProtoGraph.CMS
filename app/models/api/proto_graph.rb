@@ -1,4 +1,20 @@
-class Api::Haiku
+class Api::ProtoGraph
+    class Datacast
+        class << self
+
+            def create(request_payload)
+                url = "#{AWS_API_DATACAST_URL}/datacast"
+                response = RestClient.post(url , request_payload.to_json,{content_type: :json, accept: :json, "x-api-key" => ENV['AWS_API_KEY']})
+                return JSON.parse(response.body)
+            end
+
+
+            def update
+            end
+        end
+    end
+
+
     class Utility
 
         class << self
