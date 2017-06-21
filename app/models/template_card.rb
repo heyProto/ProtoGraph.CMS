@@ -128,7 +128,7 @@ class TemplateCard < ApplicationRecord
     end
 
     def files
-        {
+        obj = {
             "js": "#{base_url}/card.min.js",
             "css": "#{base_url}/card.min.css",
             "html": "#{index_html}",
@@ -137,6 +137,9 @@ class TemplateCard < ApplicationRecord
             "icon_url": "#{icon_url}",
             "schema_files": self.template_datum.files
         }
+
+        obj["static_image"] = "#{base_url}/static_image.png" if self.has_static_image
+        obj
     end
 
     def index_html

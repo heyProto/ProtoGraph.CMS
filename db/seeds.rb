@@ -54,7 +54,7 @@ t_share = TemplateDatum.create({git_url: "git@github.com:pykih/ProtoGraph.Schema
 puts "----> Creating Template Cards"
 
 TemplateCard.create({git_url: "git@github.com:pykih/ProtoGraph.Card.toExplain.git", git_branch: "master", name: "ProtoGraph.Card.toExplain", status: "published", is_public: true, account_id: icfj_account.id, created_by: user_id, updated_by: user_id, template_datum_id: t_explain.id})
-TemplateCard.create({git_url: "git@github.com:pykih/ProtoGraph.Card.toBrandAnIntersection.git", git_branch: "master", name: "ProtoGraph.Card.toBrandAnIntersection", status: "published", is_public: true, account_id: icfj_account.id, created_by: user_id, updated_by: user_id, template_datum_id: t_brand.id})
+TemplateCard.create({git_url: "git@github.com:pykih/ProtoGraph.Card.toBrandAnIntersection.git", git_branch: "master", name: "ProtoGraph.Card.toBrandAnIntersection", status: "published", is_public: true, account_id: icfj_account.id, created_by: user_id, updated_by: user_id, template_datum_id: t_brand.id, has_static_image: true})
 TemplateCard.create({git_url: "git@github.com:pykih/ProtoGraph.Card.toQuiz.git", git_branch: "master", name: "ProtoGraph.Card.toQuiz", status: "published", is_public: true, account_id: icfj_account.id, created_by: user_id, updated_by: user_id, template_datum_id: t_quiz.id})
 TemplateCard.create({git_url: "git@github.com:pykih/ProtoGraph.Card.toShare.git", git_branch: "master", name: "ProtoGraph.Card.toShare", status: "published", is_public: true, account_id: icfj_account.id, created_by: user_id, updated_by: user_id, template_datum_id: t_share.id})
 
