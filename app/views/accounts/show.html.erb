@@ -1,8 +1,1 @@
-<%= stylesheet_link_tag "form" %>
-<div id="root"></div>
-
-<script type="text/javascript">
-    window.accessToken = "<%= current_user. access_token %>";
-    window.baseURL = "<%= BASE_URL %>/api/v1";
-</script>
-<%= javascript_include_tag "form" %>
+<%= link_to "Create a card", new_account_view_cast_path(@account) %>

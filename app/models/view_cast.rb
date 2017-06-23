@@ -8,13 +8,14 @@
 #  template_card_id    :integer
 #  template_datum_id   :integer
 #  name                :string(255)
-#  configJSON          :text(65535)
+#  optionalConfigJSON  :text(65535)
 #  cdn_url             :text(65535)
 #  slug                :string(255)
 #  created_by          :integer
 #  updated_by          :integer
 #  created_at          :datetime         not null
 #  updated_at          :datetime         not null
+#  seo_blockquote      :text(65535)
 #
 
 class ViewCast < ApplicationRecord
@@ -44,7 +45,8 @@ class ViewCast < ApplicationRecord
     def remote_urls
         {
             "data_url": "#{Datacast_ENDPOINT}/#{self.datacast_identifier}.json",
-            "configuration_url": self.cdn_url
+            "configuration_url": self.cdn_url,
+            "schema_json": "#{self.template_datum.schema_json}"
         }
     end
 
@@ -59,9 +61,9 @@ class ViewCast < ApplicationRecord
     end
 
     def before_save_set
-        if self.configJSON_changed? and self.configJSON.present?
+        if self.optionalConfigJSON_changed? and self.optionalConfigJSON.present?
             key = "ViewCasts/#{self.slug}.json"
-            encoded_file = Base64.encode64(self.configJSON)
+            encoded_file = Base64.encode64(self.optionalConfigJSON)
             content_type = "application/json"
             resp = Api::ProtoGraph::Utility.upload_to_cdn(encoded_file, key, content_type)
             self.cdn_url = resp.first["s3_endpoint"]

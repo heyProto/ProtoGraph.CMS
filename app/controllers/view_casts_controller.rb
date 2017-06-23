@@ -1,11 +1,22 @@
 class ViewCastsController < ApplicationController
+    before_action :authenticate_user!
+    before_action :set_view_cast, only: [:show, :edit]
+
+    def new
+    end
 
     def index
-        @view_casts = @account.view_casts
+        @view_casts = @account.view_casts.page(params[:page]).per(5)
     end
 
     def show
-        @view_cast = @account.view_casts.find(params[:id])
+    end
+
+    def edit
+    end
+
+    def set_view_cast
+        @view_cast = @account.view_casts.friendly.find(params[:id])
     end
 
 end

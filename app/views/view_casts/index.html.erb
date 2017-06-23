@@ -1,9 +1,22 @@
-<div class="ui stackable sixteen column grid">
-    <% @view_casts.each do |d| %>
-        <div class="seven wide column">
-            <h3></h3>
-            <% ss %>
-            <iframe src="https://www.youtube.com/embed/JBRI19x-1os" frameborder="0" allowfullscreen></iframe>
-        </div>
-    <% end %>
+<script src="https://d2m6lzru8erw1k.cloudfront.net/lib/protoGraph.js"></script>
+<div class="row">
+    <div class="ui stackable sixteen column grid">
+        <% @view_casts.each do |d| %>
+            <div class="row">
+                <div class="ProtoGraphCards" data-iframe-href="<%= "#{d.template_card.index_html}?HtmlCast_Unique_Identifier=#{d.id}" %>">
+                  <blockquote class="cite"><%= d.seo_blockquote %></blockquote>
+                </div>
+
+                <%= link_to "Show", [@account, d], "data-turbolinks"=> false %>
+            </div>
+        <% end %>
+    </div>
 </div>
+
+<%= paginate @view_casts %>
+
+<script type="text/javascript">
+    Array.from($(".ProtoGraphCards")).forEach(function(element){
+        new ProtoEmbed.initFrame(element, element.dataset.iframeHref , 'small')
+    });
+</script>

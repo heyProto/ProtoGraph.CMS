@@ -25,6 +25,7 @@
 #  template_datum_id   :integer
 #  created_at          :datetime         not null
 #  updated_at          :datetime         not null
+#  has_static_image    :boolean          default(FALSE)
 #
 
 class TemplateCard < ApplicationRecord
@@ -127,10 +128,18 @@ class TemplateCard < ApplicationRecord
         "#{TemplateCard::CDN_BASE_URL}/#{self.name}/dist/#{self.version}"
     end
 
+    def js
+        "#{base_url}/card.min.js"
+    end
+
+    def css
+        "#{base_url}/card.min.css"
+    end
+
     def files
         obj = {
-            "js": "#{base_url}/card.min.js",
-            "css": "#{base_url}/card.min.css",
+            "js": "#{js}",
+            "css": "#{css}",
             "html": "#{index_html}",
             "configuration_schema": "#{base_url}/configuration_schema.json",
             "configuration_sample": "#{base_url}/configuration_sample.json",

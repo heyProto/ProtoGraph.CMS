@@ -9,7 +9,10 @@ class Api::ProtoGraph
             end
 
 
-            def update
+            def update(request_payload)
+                url = "#{AWS_API_DATACAST_URL}/datacast"
+                response = RestClient.put(url , request_payload.to_json,{content_type: :json, accept: :json, "x-api-key" => ENV['AWS_API_KEY']})
+                return JSON.parse(response.body)
             end
         end
     end

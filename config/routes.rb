@@ -38,7 +38,7 @@ Rails.application.routes.draw do
       get 'flip_public_private', 'move_to_next_status', on: :member
     end
 
-    resources :view_casts, only: [:index, :show]
+    resources :view_casts, only: [:new, :index, :show, :edit]
 
   end
 
