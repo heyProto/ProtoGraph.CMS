@@ -14,6 +14,15 @@ a{
     color: #0088c9 !important;
 }
 
+a.ui.button {
+    color: white !important
+}
+
+a.ui.button:hover {
+    color: white !important;
+    border-bottom: 0px !important
+}
+
 a:hover{
     color: #ff5722 !important;
     border-bottom: 1px #ff5722 dotted;

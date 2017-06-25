@@ -14,7 +14,7 @@ class Api::V1::DatacastsController < ApiController
             if r.has_key?("errorMessage")
                 view_cast.remove_file
                 view_cast.destroy
-                render json: {error_message: JSON.parse(r['errorMessage'])['Error']}, status: 422
+                render json: {error_message: r['errorMessage']}, status: 422
             else
                 render json: {view_cast: view_cast.as_json(methods: [:remote_urls]), redirect_path: account_view_cast_url(@account, view_cast) }, status: 200
             end

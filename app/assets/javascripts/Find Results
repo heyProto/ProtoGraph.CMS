@@ -1,0 +1,10 @@
+Searching 8 files for "branding-icon" (regex)
+
+/Users/amitbadheka/work/ProtoGraph.Container.toCardForm/src/js/SideBar.js:
+   39        <div className="card-create-sidebar" style={styles}>
+   40          <div className="card-create-branding single-element">
+   41:           <div className="branding-icon"><img src="img/branding-icon.png" height="100%"/></div>
+   42              <div className="branding-name subheading-text">Pykih</div>
+   43            </div>
+
+2 matches in 1 file
