@@ -1,5 +1,8 @@
+<%= paginate @view_casts %>
+</br></br>
+
 <script src="https://d2m6lzru8erw1k.cloudfront.net/lib/protoGraph.js"></script>
-<div class="">
+<div style='width:100%; border-sizing: border-box'>
     <div class="ui stackable three column grid">
         <% @view_casts.each do |d| %>
             <div class="column proto-graph-card-div">
@@ -16,6 +19,7 @@
     </div>
 </div>
 
+</br></br>
 <%= paginate @view_casts %>
 
 <script type="text/javascript">

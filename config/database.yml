@@ -3,5 +3,5 @@ development:
   database: pykih_publishing_dev
   username: developer
   password: developer
-  host: 192.168.0.101
+  host: localhost
   port: 3306

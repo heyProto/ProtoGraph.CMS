@@ -24327,7 +24327,7 @@
 	        null,
 	        _react2.default.createElement(
 	          "button",
-	          { type: "button", className: "default-button primary-button publish-button", onClick: this.props.onPublishClick.bind(this, this.props.card) },
+	          { id: "proto_publish_button", type: "button", className: "default-button primary-button publish-button", onClick: this.props.onPublishClick.bind(this, this.props.card) },
 	          "Publish"
 	        )
 	      );
