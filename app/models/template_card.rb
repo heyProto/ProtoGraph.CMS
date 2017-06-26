@@ -129,13 +129,13 @@ class TemplateCard < ApplicationRecord
     end
 
     def js
-        #"#{base_url}/card.min.js"
-        "http://localhost:8001/dist/0.0.1/card.min.js"
+        "#{base_url}/card.min.js"
+        # "http://192.168.2.7:8001/dist/0.0.1/card.min.js"
     end
 
     def css
-        #"#{base_url}/card.min.css"
-        "http://localhost:8001/dist/0.0.1/card.min.css"
+        "#{base_url}/card.min.css"
+        # "http://192.168.2.7:8001/dist/0.0.1/card.min.css"
     end
 
     def files
@@ -143,10 +143,10 @@ class TemplateCard < ApplicationRecord
             "js": "#{js}",
             "css": "#{css}",
             "html": "#{index_html}",
-            # "configuration_schema": "#{base_url}/configuration_schema.json",
-            # "configuration_sample": "#{base_url}/configuration_sample.json",
-            "configuration_schema": "http://localhost:8001/dist/0.0.1/configuration_schema.json",
-            "configuration_sample": "http://localhost:8001/dist/0.0.1/configuration_sample.json",
+            "configuration_schema": "#{base_url}/configuration_schema.json",
+            "configuration_sample": "#{base_url}/configuration_sample.json",
+            # "configuration_schema": "http://192.168.2.7:8001/dist/0.0.1/configuration_schema.json",
+            # "configuration_sample": "http://192.168.2.7:8001/dist/0.0.1/configuration_sample.json",
             "icon_url": "#{icon_url}",
             "schema_files": self.template_datum.files
         }

@@ -33,7 +33,7 @@ class Api::V1::DatacastsController < ApiController
         payload["schema_url"] = view_cast.template_datum.schema_json
         r = Api::ProtoGraph::Datacast.update(payload)
         if r.has_key?("errorMessage")
-            render json: {error_message: JSON.parse(r['errorMessage'])['Error']}, status: 422
+            render json: {error_message: r['errorMessage']}, status: 422
         else
             view_cast.updated_by = @user.id
             view_cast.update_attributes(view_cast_params)
