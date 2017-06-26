@@ -1,13 +1,16 @@
 <script src="https://d2m6lzru8erw1k.cloudfront.net/lib/protoGraph.js"></script>
-<div class="row">
-    <div class="ui stackable sixteen column grid">
+<div class="">
+    <div class="ui stackable three column grid">
         <% @view_casts.each do |d| %>
-            <div class="row">
-                <div class="ProtoGraphCards" data-iframe-href="<%= "#{d.template_card.index_html}?HtmlCast_Unique_Identifier=#{d.id}" %>">
-                  <blockquote class="cite"><%= d.seo_blockquote %></blockquote>
-                </div>
-
-                <%= link_to "Show", [@account, d], "data-turbolinks"=> false %>
+            <div class="column proto-graph-card-div">
+                <%= link_to [@account, d], "data-turbolinks"=> false do %>
+                    <div class="proto-graph-card">
+                        <div class="ProtoGraphCards" data-iframe-href="<%= "#{d.template_card.index_html}?HtmlCast_Unique_Identifier=#{d.id}" %>">
+                            <blockquote class="cite"><%= d.seo_blockquote %></blockquote>
+                        </div>
+                        <div class="proto-card-gradient"></div>
+                    </div>
+                <% end %>
             </div>
         <% end %>
     </div>
