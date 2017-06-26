@@ -135,6 +135,10 @@ p{
   float: left;
 }
 
+.card-type-icon img{
+  width: 100%;
+}
+
 .card-type-name{
   width: 180px;
   display: inline-block;
@@ -153,7 +157,7 @@ p{
 .steps{
   height: 50px;
   background: #fafafa;
-  padding: 6px 15px;
+  padding: 8px 15px;
   box-sizing: border-box;
 }
 
@@ -165,8 +169,8 @@ p{
   color: #bbb;
   border: 2px solid #bbb;
   border-radius: 50px;
-  height: 28px;
-  width: 33px;
+  height: 32px;
+  width: 32px;
   text-align: center;
   font-size: 1.3em;
   vertical-align: middle;
@@ -196,9 +200,9 @@ p{
 
 .info-text{
   font-size: 0.4em;
-  color: #bbb;
+  color: #cdcdcd;
   font-weight: 300 !important;
-  margin-top:10px;
+  margin-top:20px;
 }
 
 .selected-card-preview{
