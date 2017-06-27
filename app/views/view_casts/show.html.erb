@@ -1,21 +1,24 @@
-<div class='row'>
-    <div id="protoCard" style='width: 100%'>
-      <blockquote class="cite"><%= @view_cast.seo_blockquote.to_s.html_safe %></blockquote>
+<div class="show-page-div">
+  <div class="ui stackable two column grid">
+    <div class='column'>
+        <textarea style="width: 100%; background: #F0F7FA ; height: 200px; font-size: 15px;" readonly>
+            <div id="ProtoCard">
+              <blockquote class="cite"><%= @view_cast.seo_blockquote %></blockquote>
+            </div><script src="https://d2m6lzru8erw1k.cloudfront.net/lib/protoGraph.js"></script><script type="text/javascript">new ProtoEmbed.initFrame(document.getElementById('ProtoCard'), "<%= "#{@view_cast.template_card.index_html}?HtmlCast_Unique_Identifier=#{@view_cast.id}" %>" , 'small')</script>
+        </textarea>
     </div>
+    </br>
+    <div class='column'>
+        <div id="protoCard" style='width: 100%'>
+          <blockquote class="cite"><%= @view_cast.seo_blockquote.to_s.html_safe %></blockquote>
+        </div>
 
-    <script src="https://d2m6lzru8erw1k.cloudfront.net/lib/protoGraph.js"></script>
-    <script type="text/javascript">
-      var proto_embed_test = new ProtoEmbed.initFrame(document.getElementById('protoCard'), "<%= "#{@view_cast.template_card.index_html}?HtmlCast_Unique_Identifier=#{@view_cast.id}" %>" , 'small')
-    </script>
+        <script src="https://d2m6lzru8erw1k.cloudfront.net/lib/protoGraph.js"></script>
+        <script type="text/javascript">
+          var proto_embed_test = new ProtoEmbed.initFrame(document.getElementById('protoCard'), "<%= "#{@view_cast.template_card.index_html}?HtmlCast_Unique_Identifier=#{@view_cast.id}" %>" , 'small')
+        </script>
+    </div>
+  </div>
 </div>
-</br>
-<div class='row'>
-    <textarea style="width: 100%; background: #F0F7FA ; height: 200px; font-size: 15px;" readonly>
-        <div id="ProtoCard">
-          <blockquote class="cite"><%= @view_cast.seo_blockquote %></blockquote>
-        </div><script src="https://d2m6lzru8erw1k.cloudfront.net/lib/protoGraph.js"></script><script type="text/javascript">new ProtoEmbed.initFrame(document.getElementById('ProtoCard'), "<%= "#{@view_cast.template_card.index_html}?HtmlCast_Unique_Identifier=#{@view_cast.id}" %>" , 'small')</script>
-    </textarea>
-</div>
-
 
 <%= link_to "Edit Card", edit_account_view_cast_path(@account, @view_cast),"data-turbolinks"=> false %>
