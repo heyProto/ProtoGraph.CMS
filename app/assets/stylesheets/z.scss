@@ -117,6 +117,10 @@ label {
     pointer-events: none;
 }
 
+.show-page-div {
+    width: 100%;
+}
+
 .proto-graph-card:hover .proto-card-highlight-gradient{
     background: linear-gradient(-45deg, rgba(243, 207, 63, 0.5) 0%, rgba(243, 63, 88, 0.5) 100%) !important;
 }

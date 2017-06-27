@@ -32328,17 +32328,18 @@
 	      var postInstance = _axios2.default.create({
 	        baseURL: window.baseURL
 	      });
+	      var postData = this.state.protoGraphInstance.getData();
 	      postInstance.defaults.headers['Access-Token'] = window.accessToken;
 	      postInstance.defaults.headers['Content-Type'] = 'application/json';
 	      postInstance.post(window.baseURL + '/accounts/' + window.accountSlug + '/datacasts', {
-	        "datacast": this.state.protoGraphInstance.getData().dataJSON,
+	        "datacast": postData.dataJSON,
 	        "view_cast": {
 	          "account_id": this.state.accountID,
 	          "template_datum_id": this.state.templateDatumID,
-	          "name": this.state.APIName,
+	          "name": postData.name,
 	          "template_card_id": this.state.templateCardID,
 	          "seo_blockquote": this.state.protoGraphInstance.renderSEO(),
-	          "optionalConfigJSON": JSON.stringify(this.state.protoGraphInstance.getData().optionalConfigJSON)
+	          "optionalConfigJSON": JSON.stringify(postData.optionalConfigJSON)
 	        }
 	      }).then(function (response) {
 	        console.log(response, "post response");
