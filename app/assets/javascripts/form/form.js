@@ -34268,15 +34268,36 @@
 	var ConfirmCard = function (_Component) {
 	  _inherits(ConfirmCard, _Component);
 
-	  function ConfirmCard() {
+	  function ConfirmCard(props) {
 	    _classCallCheck(this, ConfirmCard);
 
-	    return _possibleConstructorReturn(this, (ConfirmCard.__proto__ || Object.getPrototypeOf(ConfirmCard)).apply(this, arguments));
+	    var _this = _possibleConstructorReturn(this, (ConfirmCard.__proto__ || Object.getPrototypeOf(ConfirmCard)).call(this, props));
+
+	    _this.state = {
+	      selectedCard: 1
+	    };
+	    _this.handleSelectCardClick = _this.handleSelectCardClick.bind(_this);
+	    return _this;
 	  }
 
 	  _createClass(ConfirmCard, [{
+	    key: 'handleSelectCardClick',
+	    value: function handleSelectCardClick(event) {
+	      console.log("target", event.target);
+	      var selectedCard = event.target.getAttribute("data-index");
+	      this.setState({
+	        selectedCard: selectedCard
+	      });
+	    }
+	  }, {
 	    key: 'render',
 	    value: function render() {
+	      console.log("render");
+	      var selectedCard = this.state.selectedCard,
+	          mainImage = 'https://s3.ap-south-1.amazonaws.com/protos.dev/Assets/preview-' + selectedCard + '.png',
+	          styles = {
+	        opacity: 1
+	      };
 	      return _react2.default.createElement(
 	        'div',
 	        { id: 'view_area', className: 'selected-card-preview' },
@@ -34316,7 +34337,46 @@
 	        _react2.default.createElement(
 	          'button',
 	          { type: 'button', className: 'default-button primary-button preview-button', onClick: this.props.onSelectConfirmClick.bind(this, this.props.card) },
-	          'Next >'
+	          'Continue'
+	        ),
+	        _react2.default.createElement('div', { className: 'clearfix' }),
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'preview-slideshow' },
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'preview-main' },
+	            _react2.default.createElement('img', { className: 'preview-img', src: mainImage })
+	          ),
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'preview-minimap' },
+	            _react2.default.createElement(
+	              'div',
+	              { className: 'preview-mini-div', onClick: this.handleSelectCardClick },
+	              _react2.default.createElement('img', { className: 'preview-mini-img', 'data-index': '1', style: selectedCard == 1 ? styles : {}, src: 'https://s3.ap-south-1.amazonaws.com/protos.dev/Assets/preview-1.png' })
+	            ),
+	            _react2.default.createElement(
+	              'div',
+	              { className: 'preview-mini-div', onClick: this.handleSelectCardClick },
+	              _react2.default.createElement('img', { className: 'preview-mini-img', 'data-index': '2', style: selectedCard == 2 ? styles : {}, src: 'https://s3.ap-south-1.amazonaws.com/protos.dev/Assets/preview-2.png' })
+	            ),
+	            _react2.default.createElement(
+	              'div',
+	              { className: 'preview-mini-div', onClick: this.handleSelectCardClick },
+	              _react2.default.createElement('img', { className: 'preview-mini-img', 'data-index': '3', style: selectedCard == 3 ? styles : {}, src: 'https://s3.ap-south-1.amazonaws.com/protos.dev/Assets/preview-3.png' })
+	            ),
+	            _react2.default.createElement(
+	              'div',
+	              { className: 'preview-mini-div', onClick: this.handleSelectCardClick },
+	              _react2.default.createElement('img', { className: 'preview-mini-img', 'data-index': '4', style: selectedCard == 4 ? styles : {}, src: 'https://s3.ap-south-1.amazonaws.com/protos.dev/Assets/preview-4.png' })
+	            ),
+	            _react2.default.createElement(
+	              'div',
+	              { className: 'preview-mini-div', onClick: this.handleSelectCardClick },
+	              _react2.default.createElement('img', { className: 'preview-mini-img', 'data-index': '5', style: selectedCard == 5 ? styles : {}, src: 'https://s3.ap-south-1.amazonaws.com/protos.dev/Assets/preview-5.png' })
+	            )
+	          )
 	        )
 	      );
 	    }

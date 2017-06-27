@@ -253,13 +253,13 @@ p{
 }
 
 .preview-account-title {
-  font-size: 1.2em;
+  font-size: 2em;
   float: left;
   margin-left: 5px;
 }
 
 .preview-title{
-  font-size: 1.5em;
+  font-size: 2em;
   font-weight: bold;
   margin-bottom: 15px;
   float: left;
@@ -279,12 +279,38 @@ p{
 }
 
 .preview-elevator-pitch {
-  font-size: 2em;
-  margin-bottom: 20px;
+  font-size: 1.2em;
+  margin-bottom: 10px;
+  font-weight: bold;
 }
 
 .preview-description {
   margin-bottom: 25px;
+}
+
+.preview-slideshow {
+  text-align: center;
+  margin-top: 10px;
+}
+
+.preview-img {
+  height: 330px;
+  max-width: 100%;
+}
+
+.preview-mini-div {
+  display: inline-block;
+}
+
+.preview-mini-img {
+  height: 50px;
+  margin: 5px 3px;
+  cursor: pointer;
+  opacity: 0.3;
+}
+
+.preview-mini-img:hover {
+  opacity: 1;
 }
 
 /*========= buttons ===========*/
