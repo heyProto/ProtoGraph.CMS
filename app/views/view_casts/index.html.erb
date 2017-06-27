@@ -3,7 +3,7 @@
 
 <script src="https://d2m6lzru8erw1k.cloudfront.net/lib/protoGraph.js"></script>
 <div style='width:100%; border-sizing: border-box'>
-    <div class="ui stackable five column grid">
+    <!-- <div class="ui stackable five column grid"> -->
         <% @view_casts.each do |d| %>
             <div class="column proto-graph-card-div">
                 <%= link_to [@account, d], "data-turbolinks"=> false do %>
@@ -28,7 +28,7 @@
                 <% end %>
             </div>
         <% end %>
-    </div>
+    <!-- </div> -->
 </div>
 
 </br>
