@@ -12,7 +12,6 @@
  *
  *= require ./vendors/semantic.min.css
  *= require ./vendors/semantic-theme.css
- *= require ./scaffolds.scss
  *= require ./z.scss
  *= require_self
  */

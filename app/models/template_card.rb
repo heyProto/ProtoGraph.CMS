@@ -26,6 +26,7 @@
 #  created_at          :datetime         not null
 #  updated_at          :datetime         not null
 #  has_static_image    :boolean          default(FALSE)
+#  git_repo_name       :string(255)
 #
 
 class TemplateCard < ApplicationRecord
@@ -58,7 +59,7 @@ class TemplateCard < ApplicationRecord
     #VALIDATIONS
     validates :account_id, presence: true
     validates :template_datum_id, presence: true
-    validates :name, presence: true
+    validates :name, presence: true #AMIT TODO - name has to be unique within an account
     validates :created_by, presence: true
     validates :updated_by, presence: true
 
@@ -125,7 +126,7 @@ class TemplateCard < ApplicationRecord
     end
 
     def base_url
-        "#{TemplateCard::CDN_BASE_URL}/#{self.name}/dist/#{self.version}"
+        "#{TemplateCard::CDN_BASE_URL}/#{self.git_repo_name}/dist/#{self.version}"
     end
 
     def js

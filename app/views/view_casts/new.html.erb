@@ -4,6 +4,7 @@
 <script type="text/javascript">
     window.accessToken = "<%= current_user. access_token %>";
     window.baseURL = "<%= BASE_URL %>/api/v1";
+    window.accountSlug = "<%= @account.slug %>";
     // window.baseURL = "http://192.168.2.7:3000/api/v1"
 </script>
 <%= javascript_include_tag "form" %>

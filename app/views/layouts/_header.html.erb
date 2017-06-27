@@ -1,11 +1,15 @@
 <div style="width: 980px; margin-left: auto; margin-right: auto;">
     <% if user_signed_in? %>
   <div class="ui menu clear"  style="border-bottom: 1px lightgray solid">
-    <div class="item"><%= image_tag "logo.png" %></div>
     <% if @on_an_account_page %>
-        <div class="item"><%= link_to @account.username, account_path(@account), style: "color: black !important;" %></div>
+        <div class="item"><%= link_to @account.username, account_path(@account), style: "color: black !important; font-weight: bold;" %></div>
+    <% else %>
+        <div class="item"><%= image_tag "logo.png" %></div>
     <% end %>
     <div class="right menu">
+      <% if @on_an_account_page %>
+        <%= link_to "Start writing here", new_account_view_cast_path(@account), "data-turbolinks"=> false, class: "item" %>
+      <% end %>
       <div class="ui dropdown pointing item">
         <%= image_tag avatar_url(current_user.email), class: "ui avatar image" %>
         <div class="menu">
