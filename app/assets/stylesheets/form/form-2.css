@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css?family=Lato:300,400,700');
+ @import url('https://fonts.googleapis.com/css?family=Lato:300,400,700');
 
 body{
   font-family: Lato,'Helvetica Neue',Arial,Helvetica,sans-serif;
@@ -68,7 +68,7 @@ p{
 }
 
 .single-element{
-  padding: 10px 1px;
+  padding: 7px 10px;
   display: inline-block;
   position: relative;
   box-sizing: border-box;
@@ -80,7 +80,10 @@ p{
   background: #1371D8; /*#fafafa*/
   color: white;
 }
-
+.card-create-sidebar .active{
+  background: #1371D8; /*#fafafa*/
+  color: white;
+}
 .selected{
   background: #1371D8;
   color: white;
@@ -179,8 +182,8 @@ p{
   color: #bbb;
   border: 2px solid #bbb;
   border-radius: 50px;
-  height: 32px;
-  width: 32px;
+  height: 33px;
+  width: 33px;
   text-align: center;
   font-size: 1.3em;
   vertical-align: middle;

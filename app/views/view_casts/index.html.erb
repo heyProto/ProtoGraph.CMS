@@ -3,23 +3,35 @@
 
 <script src="https://d2m6lzru8erw1k.cloudfront.net/lib/protoGraph.js"></script>
 <div style='width:100%; border-sizing: border-box'>
-    <div class="ui stackable three column grid">
+    <!-- <div class="ui stackable five column grid"> -->
         <% @view_casts.each do |d| %>
             <div class="column proto-graph-card-div">
                 <%= link_to [@account, d], "data-turbolinks"=> false do %>
                     <div class="proto-graph-card">
-                        <div class="ProtoGraphCards" data-iframe-href="<%= "#{d.template_card.index_html}?HtmlCast_Unique_Identifier=#{d.id}" %>">
+                        <!-- <div class="ProtoGraphCards" data-iframe-href="<%= "#{d.template_card.index_html}?HtmlCast_Unique_Identifier=#{d.id}" %>">
                             <blockquote class="cite"><%= d.seo_blockquote %></blockquote>
+                        </div> -->
+                        <img src="<%= image_path("demo.png") %>">
+                        <!-- <div class="proto-card-highlight-gradient"></div> -->
+                        <div class="proto-card-gradient">
+                            <div class="index-card-content">
+                                <div class="index-card-title">
+                                    <%= d.name %>
+                                </div>
+                                <div class="index-card-created-by"><%= image_tag avatar_url(d.updator.email), width: "100%" %></div>
+                                <div class="index-card-extra-info">
+                                    <%= d.template_card.name %>  |  <%= time_ago_in_words(d.updated_at) %>
+                                </div>
+                            </div>
                         </div>
-                        <div class="proto-card-gradient"></div>
                     </div>
                 <% end %>
             </div>
         <% end %>
-    </div>
+    <!-- </div> -->
 </div>
 
-</br></br>
+</br>
 <%= paginate @view_casts %>
 
 <script type="text/javascript">
