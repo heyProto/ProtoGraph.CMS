@@ -22277,7 +22277,7 @@
 	      });
 	      instance.defaults.headers['Access-Token'] = window.accessToken;
 	      instance.defaults.headers['Content-Type'] = 'application/json';
-	      instance.get(window.baseURL + '/accounts/icfj/template_cards/' + card.id, {
+	      instance.get(window.baseURL + '/accounts/' + card.account_slug + '/template_cards/' + card.id, {
 	        timeout: 5000
 	      }).then(function (response) {
 	        console.log(response, "response of card data");
@@ -22319,7 +22319,7 @@
 	      });
 	      postInstance.defaults.headers['Access-Token'] = window.accessToken;
 	      postInstance.defaults.headers['Content-Type'] = 'application/json';
-	      postInstance.post(window.baseURL + '/accounts/icfj/datacasts', {
+	      postInstance.post(window.baseURL + '/accounts/' + card.account_slug + '/datacasts', {
 	        "datacast": this.state.protoGraphInstance.getData().dataJSON,
 	        "view_cast": {
 	          "account_id": this.state.accountID,
@@ -24126,7 +24126,7 @@
 	          _react2.default.createElement(
 	            'div',
 	            { className: 'step-name' },
-	            'Card Selection'
+	            'Select'
 	          )
 	        ),
 	        _react2.default.createElement(
@@ -24140,7 +24140,7 @@
 	          _react2.default.createElement(
 	            'div',
 	            { className: 'step-name' },
-	            'Card Creation'
+	            'Write'
 	          )
 	        )
 	      );
@@ -24191,12 +24191,7 @@
 	      return _react2.default.createElement(
 	        "div",
 	        { className: "display-area" },
-	        "Select a card type",
-	        _react2.default.createElement(
-	          "div",
-	          { className: "info-text" },
-	          "Start by selecting a card type from the sidebar"
-	        )
+	        "Select a card from sidebar"
 	      );
 	    }
 	  }]);
@@ -24361,7 +24356,7 @@
 	        null,
 	        _react2.default.createElement(
 	          "button",
-	          { type: "button", className: "default-button primary-button publish-button", onClick: this.props.onPublishClick.bind(this, this.props.card) },
+	          { id: "proto_publish_button", type: "button", className: "default-button primary-button publish-button", onClick: this.props.onPublishClick.bind(this, this.props.card) },
 	          "Publish"
 	        )
 	      );

@@ -68,7 +68,7 @@ p{
 }
 
 .single-element{
-  padding: 7px 10px;
+  padding: 10px 1px;
   display: inline-block;
   position: relative;
   box-sizing: border-box;
@@ -77,11 +77,13 @@ p{
 }
 
 .single-element:hover{
-  background: #fafafa;
+  background: #1371D8; /*#fafafa*/
+  color: white;
 }
 
 .selected{
-  background: #fafafa;
+  background: #1371D8;
+  color: white;
 }
 
 .sidebar-textbox{
@@ -136,21 +138,28 @@ p{
   float: left;
 }
 
+.card-type-icon img{
+  width: 100%;
+}
+
 .card-type-name{
   width: 180px;
   display: inline-block;
   float: left;
-  /* margin-top: 5px; MOJO REMOVING SINCE IT IMPACTING UI OF FORM */
+  font-weight: bold;
 }
 
 .card-account-name{
   font-size: 10px;
+  padding: 0px;
+  margin: 0px;
 }
-
 
 /*========== steps-area ==========*/
 .steps-area{
+  position: relative;
   width: 729px;
+  height: 100%;
   display: inline-block;
   float: right;
 }
@@ -158,7 +167,7 @@ p{
 .steps{
   height: 50px;
   background: #fafafa;
-  padding: 6px 15px;
+  padding: 8px 15px;
   box-sizing: border-box;
 }
 
@@ -170,8 +179,8 @@ p{
   color: #bbb;
   border: 2px solid #bbb;
   border-radius: 50px;
-  height: 28px;
-  width: 33px;
+  height: 32px;
+  width: 32px;
   text-align: center;
   font-size: 1.3em;
   vertical-align: middle;
@@ -201,14 +210,20 @@ p{
 
 .info-text{
   font-size: 0.4em;
-  color: #bbb;
+  color: #cdcdcd;
   font-weight: 300 !important;
-  margin-top:10px;
+  margin-top:20px;
 }
 
 .selected-card-preview{
-  padding: 15px;
+  /*padding: 15px;*/
   display: inline-block;
+  width: 100%;
+  box-sizing: border-box;s
+}
+
+#protograph-explainer-card-div{
+  text-align: center;
 }
 
 .selected-card-preview .card-create-col-6{
@@ -220,11 +235,16 @@ p{
   font-weight: bold;
 }
 
+.protograph_card_div{
+  width: 300px;
+  text-align: left;
+}
+
 /*========= buttons ===========*/
 .default-button{
   padding: 7px 12px;
   font-size: 1em;
-  background: white;
+  /*background: white;*/
   border:  1px solid rgba(34,36,38,.15);
   border-radius: 4px;
   /*width: 100%;*/
@@ -247,4 +267,10 @@ p{
   background: #efefef;
   color: #ccc;
   border: 1px solid #efefef;
+}
+
+#proto_publish_button {
+  position: absolute;
+  right: 30px;
+  bottom: 30px;
 }
