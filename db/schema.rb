@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170621130830) do
+ActiveRecord::Schema.define(version: 20170627010403) do
 
   create_table "accounts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "username"
@@ -111,6 +111,7 @@ ActiveRecord::Schema.define(version: 20170621130830) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "has_static_image", default: false
+    t.string "git_repo_name"
     t.index ["slug"], name: "index_template_cards_on_slug", unique: true
   end
 

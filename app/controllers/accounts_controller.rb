@@ -10,6 +10,7 @@ class AccountsController < ApplicationController
   end
 
   def show
+    @view_casts = @account.view_casts.page(params[:page]).per(6)
   end
 
   def edit
