@@ -6,7 +6,7 @@ class ViewCastsController < ApplicationController
     end
 
     def index
-        @view_casts = @account.view_casts.page(params[:page]).per(6)
+        @view_casts = @account.view_casts.page(params[:page]).per(10)
     end
 
     def show
