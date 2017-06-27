@@ -92,6 +92,11 @@ label {
     transition: all 250ms cubic-bezier(.02, .01, .47, 1);
     cursor: pointer;
     position: relative;
+    // opacity: 0.3;
+}
+
+.proto-graph-card:hover{
+    opacity: 1;
 }
 
 .proto-graph-card:hover {
@@ -102,16 +107,59 @@ label {
 
 .proto-card-gradient {
     width: 100%;
-    height: 30px;
+    height: 250px;
     position: absolute;
     bottom: 0px;
-    background: -webkit-linear-gradient(transparent, white); /* For Safari 5.1 to 6.0 */
-    background: -o-linear-gradient(transparent, white); /* For Opera 11.1 to 12.0 */
-    background: -moz-linear-gradient(transparent, white); /* For Firefox 3.6 to 15 */
-    background: linear-gradient(transparent, white); /* Standard syntax */
+    background: -webkit-linear-gradient(rgba(255, 255, 255, 0.5), white 60%); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(rgba(255, 255, 255, 0.5), white 60%); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(rgba(255, 255, 255, 0.5), white 60%); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(rgba(255, 255, 255, 0.5), white 60%); /* Standard syntax */
     pointer-events: none;
 }
 
 .show-page-div {
     width: 100%;
+}
+
+.proto-graph-card:hover .proto-card-highlight-gradient{
+    background: linear-gradient(-45deg, rgba(243, 207, 63, 0.5) 0%, rgba(243, 63, 88, 0.5) 100%) !important;
+}
+
+.index-card-content{
+    position: absolute;
+    display: inline-block;
+    bottom: 0px;
+    padding: 15px;
+}
+
+.index-card-content .index-card-title{
+    font-size: 1.5em;
+    color: #333;
+    font-weight: bold;
+    line-height: 1.3em;
+    font-family: arial;
+    margin-bottom: 10px;
+}
+
+.index-card-created-by{
+    display: inline-block;
+    float: right;
+}
+
+.index-card-extra-info{
+    display: inline-block;
+    // float: right;
+    font-size: 0.8em;
+    color: #999;
+}
+
+.index-card-created-by{
+    height: 24px;
+    width: 24px;
+    overflow: hidden;
+    border-radius: 50px;
+}
+
+.notification-text{
+    display: inline !important;
 }
