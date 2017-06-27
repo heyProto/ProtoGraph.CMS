@@ -140,7 +140,7 @@ p{
   width: 180px;
   display: inline-block;
   float: left;
-  margin-top: 5px;
+  /* margin-top: 5px; MOJO REMOVING SINCE IT IMPACTING UI OF FORM */
 }
 
 .card-account-name{

@@ -8,7 +8,7 @@
     <% end %>
     <div class="right menu">
       <% if @on_an_account_page %>
-        <%= link_to "Create a Card", new_account_view_cast_path(@account), "data-turbolinks"=> false, class: "item" %>
+        <%= link_to "Start writing here", new_account_view_cast_path(@account), "data-turbolinks"=> false, class: "item" %>
       <% end %>
       <div class="ui dropdown pointing item">
         <%= image_tag avatar_url(current_user.email), class: "ui avatar image" %>
