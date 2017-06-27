@@ -22,6 +22,10 @@ body{
   overflow: hidden;
 }
 
+.clearfix {
+  clear: both;
+}
+
 /*========= grid ==========*/
 .card-create-col-6{
   width: 50%;
@@ -139,6 +143,7 @@ p{
   margin-left: 1px;
   margin-right: 17px;
   float: left;
+  margin-top: 5px;
 }
 
 .card-type-icon img{
@@ -219,7 +224,7 @@ p{
 }
 
 .selected-card-preview{
-  /*padding: 15px;*/
+  padding: 15px;
   display: inline-block;
   width: 100%;
   box-sizing: border-box;s
@@ -233,14 +238,53 @@ p{
   padding: 15px;
 }
 
+.preview-header {
+  margin-bottom: 20px;
+  margin-top: 15px;
+}
+
+.preview-header i {
+  float: left;
+}
+
+.preview-icon {
+  float: right;
+  max-height: 100px;
+}
+
+.preview-account-title {
+  font-size: 1.2em;
+  float: left;
+  margin-left: 5px;
+}
+
 .preview-title{
-  font-size: 2em;
+  font-size: 1.5em;
   font-weight: bold;
+  margin-bottom: 15px;
+  float: left;
+  margin-left: 5px;
+}
+
+.preview-private-text {
+  font-size: 11px;
+  float: left;
+  margin-left: 10px;
+  color: grey;
 }
 
 .protograph_card_div{
   width: 300px;
   text-align: left;
+}
+
+.preview-elevator-pitch {
+  font-size: 2em;
+  margin-bottom: 20px;
+}
+
+.preview-description {
+  margin-bottom: 25px;
 }
 
 /*========= buttons ===========*/
@@ -270,6 +314,10 @@ p{
   background: #efefef;
   color: #ccc;
   border: 1px solid #efefef;
+}
+
+.preview-button {
+  float: right;
 }
 
 #proto_publish_button {

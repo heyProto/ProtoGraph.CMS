@@ -146,6 +146,8 @@ class TemplateCard < ApplicationRecord
             "html": "#{index_html}",
             "configuration_schema": "#{base_url}/configuration_schema.json",
             "configuration_sample": "#{base_url}/configuration_sample.json",
+            # "configuration_schema": "http://192.168.2.7:8001/dist/0.0.1/configuration_schema.json",
+            # "configuration_sample": "http://192.168.2.7:8001/dist/0.0.1/configuration_sample.json",
             "icon_url": "#{icon_url}",
             "schema_files": self.template_datum.files,
             "edit_file_js": "#{base_url}/edit-card.min.js"

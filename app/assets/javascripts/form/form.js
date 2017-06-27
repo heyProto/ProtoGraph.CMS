@@ -32252,8 +32252,6 @@
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-	var Form = __webpack_require__(1);
-
 	var Body = function (_Component) {
 	  _inherits(Body, _Component);
 
@@ -34284,65 +34282,41 @@
 	        { id: 'view_area', className: 'selected-card-preview' },
 	        _react2.default.createElement(
 	          'div',
-	          { className: 'card-create-col-6' },
+	          { className: 'preview-header' },
+	          this.props.card.is_public === false && _react2.default.createElement('i', { className: 'lock icon' }),
 	          _react2.default.createElement(
-	            'div',
+	            'span',
+	            { className: 'preview-account-title' },
+	            this.props.card.account_slug,
+	            ' / '
+	          ),
+	          _react2.default.createElement(
+	            'span',
 	            { className: 'preview-title' },
 	            this.props.card.name
 	          ),
-	          _react2.default.createElement(
-	            'p',
-	            null,
-	            'Account ID: ',
-	            this.props.card.account_id
+	          this.props.card.is_public === false && _react2.default.createElement(
+	            'span',
+	            { className: 'preview-private-text' },
+	            'Private'
 	          ),
-	          _react2.default.createElement(
-	            'p',
-	            null,
-	            'Account Slug: ',
-	            this.props.card.account_slug
-	          ),
-	          _react2.default.createElement(
-	            'p',
-	            null,
-	            'Global Slug: ',
-	            this.props.card.global_slug
-	          ),
-	          _react2.default.createElement(
-	            'p',
-	            null,
-	            'Elevator Pitch: ',
-	            this.props.card.elevator_pitch
-	          ),
-	          _react2.default.createElement(
-	            'p',
-	            null,
-	            'Icon URL: ',
-	            this.props.card.files.icon_url
-	          ),
-	          _react2.default.createElement(
-	            'p',
-	            null,
-	            'ID: ',
-	            this.props.card.id
-	          ),
-	          _react2.default.createElement(
-	            'p',
-	            null,
-	            'Slug: ',
-	            this.props.card.slug
-	          ),
-	          _react2.default.createElement(
-	            'p',
-	            null,
-	            'Template Datum Id: ',
-	            this.props.card.template_datum_id
-	          ),
-	          _react2.default.createElement(
-	            'button',
-	            { type: 'button', className: 'default-button primary-button', onClick: this.props.onSelectConfirmClick.bind(this, this.props.card) },
-	            'Next ->'
-	          )
+	          _react2.default.createElement('img', { className: 'preview-icon', src: this.props.card.files.icon_url }),
+	          _react2.default.createElement('div', { className: 'clearfix' })
+	        ),
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'preview-elevator-pitch' },
+	          this.props.card.elevator_pitch
+	        ),
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'preview-description' },
+	          this.props.card.description
+	        ),
+	        _react2.default.createElement(
+	          'button',
+	          { type: 'button', className: 'default-button primary-button preview-button', onClick: this.props.onSelectConfirmClick.bind(this, this.props.card) },
+	          'Next >'
 	        )
 	      );
 	    }
