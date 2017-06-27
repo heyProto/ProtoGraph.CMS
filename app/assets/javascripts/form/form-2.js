@@ -22355,7 +22355,7 @@
 	          protoGraphInstance: x
 	        });
 	        x.renderEdit();
-	      }, 2000);
+	      }, 5000);
 	    }
 	  }, {
 	    key: 'render',
@@ -22463,22 +22463,8 @@
 	        { className: 'card-create-sidebar', style: styles },
 	        _react2.default.createElement(
 	          'div',
-	          { className: 'card-create-branding single-element' },
-	          _react2.default.createElement(
-	            'div',
-	            { className: 'branding-icon' },
-	            _react2.default.createElement('img', { src: '/img/branding-icon.png', height: '100%' })
-	          ),
-	          _react2.default.createElement(
-	            'div',
-	            { className: 'branding-name subheading-text' },
-	            'Pykih'
-	          )
-	        ),
-	        _react2.default.createElement(
-	          'div',
 	          { className: 'sidebar-card-search' },
-	          _react2.default.createElement('input', { type: 'text', className: 'sidebar-textbox', value: '', id: 'root_firstName', label: 'First name', required: '', placeholder: 'Search cards' })
+	          _react2.default.createElement('input', { type: 'text', className: 'sidebar-textbox', value: '', id: 'root_firstName', label: 'First name', required: '', placeholder: 'Search cards', autoFocus: true })
 	        ),
 	        _react2.default.createElement(
 	          'div',
@@ -22539,6 +22525,11 @@
 	          "div",
 	          { className: "card-type-icon" },
 	          _react2.default.createElement("img", { src: this.props.card.icon_url })
+	        ),
+	        _react2.default.createElement(
+	          "div",
+	          { className: "card-account-name" },
+	          this.props.card.account_slug
 	        ),
 	        _react2.default.createElement(
 	          "div",
@@ -24264,12 +24255,55 @@
 	          _react2.default.createElement(
 	            'div',
 	            { className: 'preview-title' },
-	            'Quiz'
+	            this.props.card.name
 	          ),
 	          _react2.default.createElement(
 	            'p',
 	            null,
-	            'A quiz is a simple and fun story telling format that journalists can use to educate readers on critical information. A well-framed quiz can drive engagement because it challenges the readers knowledge on a topic. Beginners can create a quiz using nothing more than a Google spreadsheet. The experience of the quiz is similar to that Flash cards.'
+	            'Account ID: ',
+	            this.props.card.account_id
+	          ),
+	          _react2.default.createElement(
+	            'p',
+	            null,
+	            'Account Slug: ',
+	            this.props.card.account_slug
+	          ),
+	          _react2.default.createElement(
+	            'p',
+	            null,
+	            'Global Slug: ',
+	            this.props.card.global_slug
+	          ),
+	          _react2.default.createElement(
+	            'p',
+	            null,
+	            'Elevator Pitch: ',
+	            this.props.card.elevator_pitch
+	          ),
+	          _react2.default.createElement(
+	            'p',
+	            null,
+	            'Icon URL: ',
+	            this.props.card.files.icon_url
+	          ),
+	          _react2.default.createElement(
+	            'p',
+	            null,
+	            'ID: ',
+	            this.props.card.id
+	          ),
+	          _react2.default.createElement(
+	            'p',
+	            null,
+	            'Slug: ',
+	            this.props.card.slug
+	          ),
+	          _react2.default.createElement(
+	            'p',
+	            null,
+	            'Template Datum Id: ',
+	            this.props.card.template_datum_id
 	          ),
 	          _react2.default.createElement(
 	            'button',
@@ -24327,7 +24361,7 @@
 	        null,
 	        _react2.default.createElement(
 	          "button",
-	          { id: "proto_publish_button", type: "button", className: "default-button primary-button publish-button", onClick: this.props.onPublishClick.bind(this, this.props.card) },
+	          { type: "button", className: "default-button primary-button publish-button", onClick: this.props.onPublishClick.bind(this, this.props.card) },
 	          "Publish"
 	        )
 	      );

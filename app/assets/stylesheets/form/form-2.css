@@ -91,6 +91,7 @@ p{
   box-sizing: border-box;
   border: 0px;
   font-size: 1em;
+  height:50px;
 }
 
 .sidebar-textbox:focus{
@@ -135,10 +136,6 @@ p{
   float: left;
 }
 
-.card-type-icon img{
-  width: 100%;
-}
-
 .card-type-name{
   width: 180px;
   display: inline-block;
@@ -146,11 +143,14 @@ p{
   margin-top: 5px;
 }
 
+.card-account-name{
+  font-size: 10px;
+}
+
+
 /*========== steps-area ==========*/
 .steps-area{
-  position: relative;
   width: 729px;
-  height: 100%;
   display: inline-block;
   float: right;
 }
@@ -158,7 +158,7 @@ p{
 .steps{
   height: 50px;
   background: #fafafa;
-  padding: 8px 15px;
+  padding: 6px 15px;
   box-sizing: border-box;
 }
 
@@ -170,8 +170,8 @@ p{
   color: #bbb;
   border: 2px solid #bbb;
   border-radius: 50px;
-  height: 32px;
-  width: 32px;
+  height: 28px;
+  width: 33px;
   text-align: center;
   font-size: 1.3em;
   vertical-align: middle;
@@ -201,20 +201,14 @@ p{
 
 .info-text{
   font-size: 0.4em;
-  color: #cdcdcd;
+  color: #bbb;
   font-weight: 300 !important;
-  margin-top:20px;
+  margin-top:10px;
 }
 
 .selected-card-preview{
-  /*padding: 15px;*/
+  padding: 15px;
   display: inline-block;
-  width: 100%;
-  box-sizing: border-box;s
-}
-
-#protograph-explainer-card-div{
-  text-align: center;
 }
 
 .selected-card-preview .card-create-col-6{
@@ -226,16 +220,11 @@ p{
   font-weight: bold;
 }
 
-.protograph_card_div{
-  width: 300px;
-  text-align: left;
-}
-
 /*========= buttons ===========*/
 .default-button{
   padding: 7px 12px;
   font-size: 1em;
-  /*background: white;*/
+  background: white;
   border:  1px solid rgba(34,36,38,.15);
   border-radius: 4px;
   /*width: 100%;*/
@@ -258,10 +247,4 @@ p{
   background: #efefef;
   color: #ccc;
   border: 1px solid #efefef;
-}
-
-#proto_publish_button {
-  position: absolute;
-  right: 30px;
-  bottom: 30px;
 }
