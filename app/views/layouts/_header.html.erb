@@ -2,7 +2,7 @@
     <% if user_signed_in? %>
   <div class="ui menu clear"  style="border-bottom: 1px lightgray solid">
     <% if @on_an_account_page %>
-        <div class="item"><%= link_to @account.username, account_path(@account), style: "color: black; font-weight: bold;" %></div>
+        <div class="item"><%= link_to @account.username, account_path(@account), style: "color: black !important; font-weight: bold;" %></div>
     <% else %>
         <div class="item"><%= image_tag "logo.png" %></div>
     <% end %>
