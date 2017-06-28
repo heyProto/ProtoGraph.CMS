@@ -22,6 +22,10 @@ body{
   overflow: hidden;
 }
 
+.clearfix {
+  clear: both;
+}
+
 /*========= grid ==========*/
 .card-create-col-6{
   width: 50%;
@@ -139,6 +143,7 @@ p{
   margin-left: 1px;
   margin-right: 17px;
   float: left;
+  margin-top: 5px;
 }
 
 .card-type-icon img{
@@ -219,7 +224,7 @@ p{
 }
 
 .selected-card-preview{
-  /*padding: 15px;*/
+  padding: 15px;
   display: inline-block;
   width: 100%;
   box-sizing: border-box;s
@@ -233,14 +238,79 @@ p{
   padding: 15px;
 }
 
+.preview-header {
+  margin-bottom: 20px;
+  margin-top: 15px;
+}
+
+.preview-header i {
+  float: left;
+}
+
+.preview-icon {
+  float: right;
+  max-height: 100px;
+}
+
+.preview-account-title {
+  font-size: 2em;
+  float: left;
+  margin-left: 5px;
+}
+
 .preview-title{
   font-size: 2em;
   font-weight: bold;
+  margin-bottom: 15px;
+  float: left;
+  margin-left: 5px;
+}
+
+.preview-private-text {
+  font-size: 11px;
+  float: left;
+  margin-left: 10px;
+  color: grey;
 }
 
 .protograph_card_div{
   width: 300px;
   text-align: left;
+}
+
+.preview-elevator-pitch {
+  font-size: 1.2em;
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+
+.preview-description {
+  margin-bottom: 25px;
+}
+
+.preview-slideshow {
+  text-align: center;
+  margin-top: 10px;
+}
+
+.preview-img {
+  height: 330px;
+  max-width: 100%;
+}
+
+.preview-mini-div {
+  display: inline-block;
+}
+
+.preview-mini-img {
+  height: 50px;
+  margin: 5px 3px;
+  cursor: pointer;
+  opacity: 0.3;
+}
+
+.preview-mini-img:hover {
+  opacity: 1;
 }
 
 /*========= buttons ===========*/
@@ -270,6 +340,10 @@ p{
   background: #efefef;
   color: #ccc;
   border: 1px solid #efefef;
+}
+
+.preview-button {
+  float: right;
 }
 
 #proto_publish_button {

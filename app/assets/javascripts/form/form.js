@@ -32252,8 +32252,6 @@
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-	var Form = __webpack_require__(1);
-
 	var Body = function (_Component) {
 	  _inherits(Body, _Component);
 
@@ -34270,78 +34268,114 @@
 	var ConfirmCard = function (_Component) {
 	  _inherits(ConfirmCard, _Component);
 
-	  function ConfirmCard() {
+	  function ConfirmCard(props) {
 	    _classCallCheck(this, ConfirmCard);
 
-	    return _possibleConstructorReturn(this, (ConfirmCard.__proto__ || Object.getPrototypeOf(ConfirmCard)).apply(this, arguments));
+	    var _this = _possibleConstructorReturn(this, (ConfirmCard.__proto__ || Object.getPrototypeOf(ConfirmCard)).call(this, props));
+
+	    _this.state = {
+	      selectedCard: 1
+	    };
+	    _this.handleSelectCardClick = _this.handleSelectCardClick.bind(_this);
+	    return _this;
 	  }
 
 	  _createClass(ConfirmCard, [{
+	    key: 'handleSelectCardClick',
+	    value: function handleSelectCardClick(event) {
+	      console.log("target", event.target);
+	      var selectedCard = event.target.getAttribute("data-index");
+	      this.setState({
+	        selectedCard: selectedCard
+	      });
+	    }
+	  }, {
 	    key: 'render',
 	    value: function render() {
+	      console.log("render");
+	      var selectedCard = this.state.selectedCard,
+	          mainImage = 'https://s3.ap-south-1.amazonaws.com/protos.dev/Assets/preview-' + selectedCard + '.png',
+	          styles = {
+	        opacity: 1
+	      };
 	      return _react2.default.createElement(
 	        'div',
 	        { id: 'view_area', className: 'selected-card-preview' },
 	        _react2.default.createElement(
 	          'div',
-	          { className: 'card-create-col-6' },
+	          { className: 'preview-header' },
+	          this.props.card.is_public === false && _react2.default.createElement('i', { className: 'lock icon' }),
 	          _react2.default.createElement(
-	            'div',
+	            'span',
+	            { className: 'preview-account-title' },
+	            this.props.card.account_slug,
+	            ' / '
+	          ),
+	          _react2.default.createElement(
+	            'span',
 	            { className: 'preview-title' },
 	            this.props.card.name
 	          ),
+	          this.props.card.is_public === false && _react2.default.createElement(
+	            'span',
+	            { className: 'preview-private-text' },
+	            'Private'
+	          ),
+	          _react2.default.createElement('img', { className: 'preview-icon', src: this.props.card.files.icon_url }),
+	          _react2.default.createElement('div', { className: 'clearfix' })
+	        ),
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'preview-elevator-pitch' },
+	          this.props.card.elevator_pitch
+	        ),
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'preview-description' },
+	          this.props.card.description
+	        ),
+	        _react2.default.createElement(
+	          'button',
+	          { type: 'button', className: 'default-button primary-button preview-button', onClick: this.props.onSelectConfirmClick.bind(this, this.props.card) },
+	          'Continue'
+	        ),
+	        _react2.default.createElement('div', { className: 'clearfix' }),
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'preview-slideshow' },
 	          _react2.default.createElement(
-	            'p',
-	            null,
-	            'Account ID: ',
-	            this.props.card.account_id
+	            'div',
+	            { className: 'preview-main' },
+	            _react2.default.createElement('img', { className: 'preview-img', src: mainImage })
 	          ),
 	          _react2.default.createElement(
-	            'p',
-	            null,
-	            'Account Slug: ',
-	            this.props.card.account_slug
-	          ),
-	          _react2.default.createElement(
-	            'p',
-	            null,
-	            'Global Slug: ',
-	            this.props.card.global_slug
-	          ),
-	          _react2.default.createElement(
-	            'p',
-	            null,
-	            'Elevator Pitch: ',
-	            this.props.card.elevator_pitch
-	          ),
-	          _react2.default.createElement(
-	            'p',
-	            null,
-	            'Icon URL: ',
-	            this.props.card.files.icon_url
-	          ),
-	          _react2.default.createElement(
-	            'p',
-	            null,
-	            'ID: ',
-	            this.props.card.id
-	          ),
-	          _react2.default.createElement(
-	            'p',
-	            null,
-	            'Slug: ',
-	            this.props.card.slug
-	          ),
-	          _react2.default.createElement(
-	            'p',
-	            null,
-	            'Template Datum Id: ',
-	            this.props.card.template_datum_id
-	          ),
-	          _react2.default.createElement(
-	            'button',
-	            { type: 'button', className: 'default-button primary-button', onClick: this.props.onSelectConfirmClick.bind(this, this.props.card) },
-	            'Next ->'
+	            'div',
+	            { className: 'preview-minimap' },
+	            _react2.default.createElement(
+	              'div',
+	              { className: 'preview-mini-div', onClick: this.handleSelectCardClick },
+	              _react2.default.createElement('img', { className: 'preview-mini-img', 'data-index': '1', style: selectedCard == 1 ? styles : {}, src: 'https://s3.ap-south-1.amazonaws.com/protos.dev/Assets/preview-1.png' })
+	            ),
+	            _react2.default.createElement(
+	              'div',
+	              { className: 'preview-mini-div', onClick: this.handleSelectCardClick },
+	              _react2.default.createElement('img', { className: 'preview-mini-img', 'data-index': '2', style: selectedCard == 2 ? styles : {}, src: 'https://s3.ap-south-1.amazonaws.com/protos.dev/Assets/preview-2.png' })
+	            ),
+	            _react2.default.createElement(
+	              'div',
+	              { className: 'preview-mini-div', onClick: this.handleSelectCardClick },
+	              _react2.default.createElement('img', { className: 'preview-mini-img', 'data-index': '3', style: selectedCard == 3 ? styles : {}, src: 'https://s3.ap-south-1.amazonaws.com/protos.dev/Assets/preview-3.png' })
+	            ),
+	            _react2.default.createElement(
+	              'div',
+	              { className: 'preview-mini-div', onClick: this.handleSelectCardClick },
+	              _react2.default.createElement('img', { className: 'preview-mini-img', 'data-index': '4', style: selectedCard == 4 ? styles : {}, src: 'https://s3.ap-south-1.amazonaws.com/protos.dev/Assets/preview-4.png' })
+	            ),
+	            _react2.default.createElement(
+	              'div',
+	              { className: 'preview-mini-div', onClick: this.handleSelectCardClick },
+	              _react2.default.createElement('img', { className: 'preview-mini-img', 'data-index': '5', style: selectedCard == 5 ? styles : {}, src: 'https://s3.ap-south-1.amazonaws.com/protos.dev/Assets/preview-5.png' })
+	            )
 	          )
 	        )
 	      );
