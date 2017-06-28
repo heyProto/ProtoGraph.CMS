@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170627010403) do
+ActiveRecord::Schema.define(version: 20170628134726) do
 
   create_table "accounts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "username"
@@ -180,6 +180,7 @@ ActiveRecord::Schema.define(version: 20170627010403) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.text "seo_blockquote"
+    t.text "preview_image_url"
   end
 
 end

@@ -10,6 +10,7 @@ class Api::V1::DatacastsController < ApiController
         if view_cast.save
             payload["api_slug"] = view_cast.datacast_identifier
             payload["schema_url"] = view_cast.template_datum.schema_json
+            puts payload.inspect
             r = Api::ProtoGraph::Datacast.create(payload)
             if r.has_key?("errorMessage")
                 view_cast.remove_file
