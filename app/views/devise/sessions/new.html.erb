@@ -1,20 +1,76 @@
-<div class="ui two column centered grid">
-  <div class="column">
+<div class="ui grid">
+    <div class="two wide column">
+      <%= link_to((image_tag "logo.png", style: "width: 50px;"), root_url) %>
+    </div>
+    <div class="fourteen wide column">
+      <h1 class="ui small header" style="margin-top: 13px; margin-left: 30px; margin-bottom: 30px;">Welcome to ProtoGraph.co</h1>
+    </div>
+</div>
+<div class="ui grid">
+  <div class="eleven wide column">
+    <h2 class="ui big header" style="min-width: 673px;">Tell better stories.</h2>
+    <p style="margin-top: 20px;">
+      <i class="check icon" style="color: green;"></i>
+      Choose an story-telling app. Currently, we support 3 apps from <a href="https://www.icfj.org" target="_blank">ICFJ.org</a>.
+    </p>
+    <p style="margin-top: 20px;">
+      <i class="check icon" style="color: green;"></i>
+      Create content easily with a WYSIWYG form.
+    </p>
+    <p style="margin-top: 20px;">
+      <i class="check icon" style="color: green;"></i>
+      Embed the content in your site with our SEO-friendly, fast loading, responsive iFrames.
+    </p>
+    <p style="margin-top: 20px;">
+      <i class="check icon" style="color: green;"></i>
+      Create organisation account. Invite your team.
+    </p>
+    <p style="margin-top: 20px;">
+      <i class="check icon" style="color: green;"></i>
+      Free to use.
+    </p>
+  </div>
+  <div class="five wide column">
+    <div style="background: #E8EDF8; padding: 15px;" >
       <%= simple_form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
-          <%= f.error_notification %>
-          <%= f.input :email, autofocus: true, placeholder: 'Email', required: true %>
-          <%= f.input :password, autocomplete: "off", placeholder: 'Password', required: true  %>
-          <% if devise_mapping.rememberable? -%>
-            <div class="field">
-              <div class="ui checkbox">
-                <%= f.input :remember_me, as: :boolean, boolean_style: :inline  %>
-              </div>
-            </div>
-          <% end -%>
-          <%= f.button :submit, value: "Log in", class: 'ui button' %>
-        <% end %>
-        <br/>
-        <%= render "devise/shared/links" %>
-
+      <%= f.error_notification %>
+      <%= f.input :email, autofocus: true, placeholder: 'Email', required: true %>
+      <%= f.input :password, autocomplete: "off", placeholder: 'Password', required: true  %>
+      <% if devise_mapping.rememberable? -%>
+      <div class="field">
+        <div class="ui checkbox">
+          <%= f.input :remember_me, as: :boolean, boolean_style: :inline  %>
+        </div>
+      </div>
+      <% end -%>
+      <%= f.button :submit, value: "Sign in", class: 'ui button' %>
+      <% end %>
+      <br/>
+      <%- if devise_mapping.recoverable? && controller_name != 'passwords' && controller_name != 'registrations' %>
+      <%= link_to "I cannot access my account", new_password_path(resource_name) %><br />
+      <% end -%>
+    </div>
+    <div style="padding: 15px;" >
+      <br/>
+      <%= render "devise/shared/links" %>
+    </div>
+  </div>
+</div>
+<div class="ui grid">
+  <div class="sixteen wide column">
+  <div class="ui divider"></div>
+  <h2 class="ui medium   header" style="min-width: 980px; margin-bottom: 30px;">Q&As</h2>
+  <p style="font-weight: 800; margin-bottom: 6px;">asdasdasdasd</p>
+  <p>asdasd asdkadknas ldkna ldkasn dlkasn dals kdnaslkd nasld sandl sandl aksdnlaskdn alsdkn aldknasldk ansld kasnd lasknd laskdn alskd nasldkn</p>
+  <p style="font-weight: 800; margin-bottom: 6px; margin-top: 30px;">asdasdasdasd</p>
+  <p>asdasd asdkadknas ldkna ldkasn dlkasn dals kdnaslkd nasld sandl sandl aksdnlaskdn alsdkn aldknasldk ansld kasnd lasknd laskdn alskd nasldkn</p>
+  <p style="font-weight: 800; margin-bottom: 6px; margin-top: 30px;">asdasdasdasd</p>
+  <p>asdasd asdkadknas ldkna ldkasn dlkasn dals kdnaslkd nasld sandl sandl aksdnlaskdn alsdkn aldknasldk ansld kasnd lasknd laskdn alskd nasldkn</p>
+  <p style="font-weight: 800; margin-bottom: 6px; margin-top: 30px;">asdasdasdasd</p>
+  <p>asdasd asdkadknas ldkna ldkasn dlkasn dals kdnaslkd nasld sandl sandl aksdnlaskdn alsdkn aldknasldk ansld kasnd lasknd laskdn alskd nasldkn</p>
+  <p style="font-weight: 800; margin-bottom: 6px; margin-top: 30px;">asdasdasdasd</p>
+  <p>asdasd asdkadknas ldkna ldkasn dlkasn dals kdnaslkd nasld sandl sandl aksdnlaskdn alsdkn aldknasldk ansld kasnd lasknd laskdn alskd nasldkn</p>
+  <p style="font-weight: 800; margin-bottom: 6px; margin-top: 30px;">asdasdasdasd</p>
+  <p>asdasd asdkadknas ldkna ldkasn dlkasn dals kdnaslkd nasld sandl sandl aksdnlaskdn alsdkn aldknasldk ansld kasnd lasknd laskdn alskd nasldkn</p>
   </div>
 </div>
