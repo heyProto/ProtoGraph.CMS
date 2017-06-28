@@ -17,6 +17,17 @@ class Api::ProtoGraph
         end
     end
 
+    class ViewCast
+        class << self
+
+            def render_screenshot(request_payload)
+                url = "#{AWS_API_DATACAST_URL}/view-cast/render-screenshot"
+                response = RestClient.post(url , request_payload.to_json,{content_type: :json, accept: :json, "x-api-key" => ENV['AWS_API_KEY']})
+                return JSON.parse(response.body)
+            end
+        end
+    end
+
 
     class Utility
 

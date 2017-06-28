@@ -16,6 +16,7 @@
 #  created_at          :datetime         not null
 #  updated_at          :datetime         not null
 #  seo_blockquote      :text(65535)
+#  preview_image_url   :text(65535)
 #
 
 class ViewCast < ApplicationRecord
@@ -39,15 +40,24 @@ class ViewCast < ApplicationRecord
     #CALLBACKS
     before_create :before_create_set
     before_save :before_save_set
+    after_save :after_save_set
     #SCOPE
     #OTHER
 
     def remote_urls
         {
-            "data_url": "#{Datacast_ENDPOINT}/#{self.datacast_identifier}.json",
+            "data_url": self.data_url,
             "configuration_url": self.cdn_url,
-            "schema_json": "#{self.template_datum.schema_json}"
+            "schema_json": self.schema_json
         }
+    end
+
+    def schema_json
+        "#{self.template_datum.schema_json}"
+    end
+
+    def data_url
+        "#{Datacast_ENDPOINT}/#{self.datacast_identifier}.json"
     end
 
     def remove_file
@@ -67,6 +77,26 @@ class ViewCast < ApplicationRecord
             content_type = "application/json"
             resp = Api::ProtoGraph::Utility.upload_to_cdn(encoded_file, key, content_type)
             self.cdn_url = resp.first["s3_endpoint"]
+        end
+    end
+
+    def after_save_set
+        Thread.new do
+            payload = {}
+            key = "Previews/#{self.id}.png"
+            template_card = self.template_card
+            files = template_card.files
+            payload["js"] = files[:js]
+            payload["css"] = files[:css]
+            payload["data_url"] = self.data_url
+            payload["schema_json"] = self.schema_json
+            payload["configuration_url"] = self.cdn_url
+            payload["configuration_schema"] = files[:configuration_schema]
+            payload["initializer"] = template_card.git_repo_name
+            payload["key"] = key
+            html_url = "#{ENV['AWS_S3_ENDPOINT']}/#{key}"
+            Api::ProtoGraph::ViewCast.render_screenshot(payload)
+            self.update_column(:preview_image_url, html_url)
         end
     end
 end
