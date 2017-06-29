@@ -2,21 +2,21 @@
 #
 # Table name: view_casts
 #
-#  id                  :integer          not null, primary key
-#  account_id          :integer
-#  datacast_identifier :string(255)
-#  template_card_id    :integer
-#  template_datum_id   :integer
-#  name                :string(255)
-#  optionalConfigJSON  :text(65535)
-#  cdn_url             :text(65535)
-#  slug                :string(255)
-#  created_by          :integer
-#  updated_by          :integer
-#  created_at          :datetime         not null
-#  updated_at          :datetime         not null
-#  seo_blockquote      :text(65535)
-#  preview_image_url   :text(65535)
+#  id                    :integer          not null, primary key
+#  account_id            :integer
+#  datacast_identifier   :string(255)
+#  template_card_id      :integer
+#  template_datum_id     :integer
+#  name                  :string(255)
+#  optionalConfigJSON    :text(65535)
+#  cdn_url               :text(65535)
+#  slug                  :string(255)
+#  created_by            :integer
+#  updated_by            :integer
+#  created_at            :datetime         not null
+#  updated_at            :datetime         not null
+#  seo_blockquote        :text(65535)
+#  render_screenshot_url :text(65535)
 #
 
 class ViewCast < ApplicationRecord
@@ -96,7 +96,7 @@ class ViewCast < ApplicationRecord
             payload["key"] = key
             html_url = "#{ENV['AWS_S3_ENDPOINT']}/#{key}"
             Api::ProtoGraph::ViewCast.render_screenshot(payload)
-            self.update_column(:preview_image_url, html_url)
+            self.update_column(:render_screenshot_url, html_url)
         end
     end
 end
