@@ -1,27 +1,25 @@
 <div class="show-page-div">
   <div class="ui grid">
     <div class="sixteen wide column">
-      <div class="show-page-title">Show page card title</div>
     </div>
   </div>
   <div class="ui grid">
     <div class="twelve wide column">
-      <div>
-        <div class="proto-graph-mode-buttons">
-          <div class="ui small basic icon buttons">
-            <button class="ui button"><i class="desktop icon"></i>&nbsp Desktop</button>
-            <button class="ui button"><i class="mobile icon"></i> &nbsp Mobile</button>
-          </div>
+      <div class="show-page-title"><%= @view_cast.name %></div>
+      <div class="proto-graph-mode-buttons">
+        <div class="ui small basic icon buttons">
+          <button class="ui button"><i class="desktop icon"></i>&nbsp Desktop</button>
+          <button class="ui button"><i class="mobile icon"></i> &nbsp Mobile</button>
         </div>
-        <div id="protoCard" style='width: 100%'>
-          <blockquote class="cite"><%= @view_cast.seo_blockquote.to_s.html_safe %></blockquote>
-        </div>
-
-        <script src="https://d2m6lzru8erw1k.cloudfront.net/lib/protoGraph.js"></script>
-        <script type="text/javascript">
-          var proto_embed_test = new ProtoEmbed.initFrame(document.getElementById('protoCard'), "<%= "#{@view_cast.template_card.index_html}?HtmlCast_Unique_Identifier=#{@view_cast.id}" %>" , 'small')
-        </script>
       </div>
+      <div id="protoCard" style='width: 100%'>
+        <blockquote class="cite"><%= @view_cast.seo_blockquote.to_s.html_safe %></blockquote>
+      </div>
+
+      <script src="https://d2m6lzru8erw1k.cloudfront.net/lib/protoGraph.js"></script>
+      <script type="text/javascript">
+        var proto_embed_test = new ProtoEmbed.initFrame(document.getElementById('protoCard'), "<%= "#{@view_cast.template_card.index_html}?HtmlCast_Unique_Identifier=#{@view_cast.id}" %>" , 'small')
+      </script>
       <div class="proto-graph-code-area">
         <div class="proto-graph-code-area-title">Embed</div>
         <textarea class="proto-graph-code" readonly>
@@ -36,29 +34,29 @@
         <div class="card-details-title">Card Details</div>
         <div class="sigle-detail">
           <div class="card-detail-lable">Card Type:</div>
-          <div class="card-detail-Value">ToExplain</div>
+          <div class="card-detail-Value"><%= @view_cast.template_card.name %></div>
         </div>
         <!-- <br> -->
         <div class="sigle-detail">
           <div class="card-detail-lable">Created By:</div>
-          <div class="card-detail-Value">Mojo</div>
+          <div class="card-detail-Value"><%= @view_cast.creator.name %></div>
         </div>
         <div class="sigle-detail">
           <div class="card-detail-lable">For:</div>
-          <div class="card-detail-Value">ICFJ</div>
+          <div class="card-detail-Value"><%= @view_cast.account.username %></div>
         </div>
         <div class="sigle-detail">
           <div class="card-detail-lable">On:</div>
-          <div class="card-detail-Value">25th June 2017</div>
+          <div class="card-detail-Value"><%= @view_cast.created_at.strftime("%e %b %Y") %></div>
         </div>
         <br>
         <div class="sigle-detail">
           <div class="card-detail-lable">Updated By:</div>
-          <div class="card-detail-Value">mojo</div>
+          <div class="card-detail-Value"><%= @view_cast.updator.name %></div>
         </div>
         <div class="sigle-detail">
           <div class="card-detail-lable">On:</div>
-          <div class="card-detail-Value">29th June 2017</div>
+          <div class="card-detail-Value"><%= @view_cast.updated_at.strftime("%e %b %Y") %></div>
         </div>
       </div>
     </div>
