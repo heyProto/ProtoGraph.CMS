@@ -1,4 +1,13 @@
-<div class="ui two column centered grid">
+<div class="ui grid">
+    <div class="two wide column">
+      <%= link_to((image_tag "logo.png", style: "width: 50px;"), root_url) %>
+    </div>
+    <div class="fourteen wide column">
+      <h1 class="ui small header" style="margin-top: 13px; margin-left: 30px; margin-bottom: 30px;">Welcome to ProtoGraph.co</h1>
+    </div>
+</div>
+<div class="ui grid" style="margin-top: 100px;">
+<div class="ui one column centered grid">
   <div class="column">
       <%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
       <%= f.error_notification %>
@@ -15,4 +24,5 @@
         <%= render "devise/shared/links" %>
 
   </div>
+</div>
 </div>

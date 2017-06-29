@@ -1,14 +1,14 @@
 <div style="width: 980px; margin-left: auto; margin-right: auto;">
-    <% if user_signed_in? %>
+  <% if user_signed_in? %>
   <div class="ui menu clear"  style="border-bottom: 1px lightgray solid">
     <% if @on_an_account_page %>
-        <div class="item"><%= link_to @account.username, account_path(@account), style: "color: black !important; font-weight: bold;" %></div>
+    <div class="item"><%= link_to @account.username, account_path(@account), style: "color: black !important; font-weight: bold;" %></div>
     <% else %>
-        <div class="item"><%= image_tag "logo.png" %></div>
+    <div class="item"><%= image_tag "logo.png" %></div>
     <% end %>
     <div class="right menu">
       <% if @on_an_account_page %>
-        <%= link_to "Start here", new_account_view_cast_path(@account), "data-turbolinks"=> false, class: "item" %>
+      <%= link_to "Start here", new_account_view_cast_path(@account), "data-turbolinks"=> false, class: "item" %>
       <% end %>
       <div class="ui dropdown pointing item">
         <%= image_tag avatar_url(current_user.email), class: "ui avatar image" %>
@@ -20,30 +20,30 @@
         </div>
       </div>
       <% if @on_an_account_page %>
-          <div class="ui dropdown pointing item">
-            <div class="text">
-              <% if @on_an_account_page %>
-                <%= image_tag avatar_url(@account.gravatar_email), class: "ui avatar image" %>
-              <% end %>
-            </div>
-            <div class="menu">
-              <% if @role.can_account_settings %>
-                <%= link_to "Team Settings", edit_account_path(@account), class: "item" %>
-              <% end %>
-              <% if @role.can_template_design_do or @role.can_template_design_publish %>
-                <%= link_to "Template Designers", account_template_cards_path(@account), class: "item" %>
-              <% end %>
-            </div>
-      <% end %>
-    </div>
+      <div class="ui dropdown pointing item">
+        <div class="text">
+          <% if @on_an_account_page %>
+          <%= image_tag avatar_url(@account.gravatar_email), class: "ui avatar image" %>
+          <% end %>
+        </div>
+        <div class="menu">
+          <% if @role.can_account_settings %>
+          <%= link_to "Team Settings", edit_account_path(@account), class: "item" %>
+          <% end %>
+          <% if @role.can_template_design_do or @role.can_template_design_publish %>
+          <%= link_to "Template Designers", account_template_cards_path(@account), class: "item" %>
+          <% end %>
+        </div>
+        <% end %>
+      </div>
     </div>
   </div>
   <% end %>
   <br/>
   <% if notice.present? %>
-    <div class="ui column centered grid notification-text">
-       <p style="color: green;"><%= notice %></p>
-    </div>
-  <% end %>
+  <div class="ui column centered grid notification-text">
+   <p style="color: green;"><%= notice %></p>
+ </div>
+ <% end %>
 </div>
 <br/>
