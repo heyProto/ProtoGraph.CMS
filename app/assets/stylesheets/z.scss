@@ -121,6 +121,38 @@ label {
     width: 100%;
 }
 
+.show-page-div .show-page-title{
+    font-size: 2em;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+.card-details-title{
+    font-size: 1em;
+    color: #333;
+    // font-weight: bold;
+    border-bottom: 1px solid #efefef;
+    padding-bottom: 5px;
+    // font-family: arial;
+    font-weight: 100;
+}
+
+.card-detail-lable{
+    font-size: 0.9em;
+    color: #999;
+    font-weight: 100;
+    display: inline-block;
+    padding-top: 5px;
+}
+
+.card-detail-Value{
+    font-size: 0.9em;
+    color: #333;
+    font-weight: 100;
+    display: inline-block;
+    padding-top: 5px;
+}
+
 .proto-graph-card:hover .proto-card-highlight-gradient{
     background: linear-gradient(-45deg, rgba(243, 207, 63, 0.5) 0%, rgba(243, 63, 88, 0.5) 100%) !important;
 }
@@ -187,11 +219,15 @@ label {
 .proto-graph-code {
     width: 100%;
     height: 100px;
-    font-size: 15px;
-    padding: 20px;
-    background: #efefef;
-    border: 0px;
-    font-family: monospace;
+    font-size: 1em;
+    padding: 10px 15px;
+    color: #999;
+    background: #fafafa;
+    border: 1px solid #efefef;
+    font-family: arial;
+    letter-spacing: 0.5px;
+    word-wrap: nowrap;
+    margin-bottom: 15px;
 }
 
 .proto-graph-code-area {
