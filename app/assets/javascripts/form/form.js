@@ -32236,7 +32236,7 @@
 
 	var _ConfirmCard2 = _interopRequireDefault(_ConfirmCard);
 
-	var _Publish = __webpack_require__(220);
+	var _Publish = __webpack_require__(221);
 
 	var _Publish2 = _interopRequireDefault(_Publish);
 
@@ -32373,22 +32373,43 @@
 	        _this3.setState({
 	          protoGraphInstance: x
 	        });
-	        x.renderEdit();
+	        x.renderEdit({
+	          onLastStep: function onLastStep() {
+	            document.querySelector(".steps-area .publish-button").style.display = "block";
+	          },
+	          notOnLastStep: function notOnLastStep() {
+	            document.querySelector(".steps-area .publish-button").style.display = "none";
+	          }
+	        });
+	        document.querySelector(".section-title").style.display = "block";
 	      }, 5000);
 	    }
 	  }, {
 	    key: 'render',
 	    value: function render() {
 	      // console.log(this.state.currentStep, "-------")
-	      var styles = this.state.currentStep === 1 ? { width: 729 } : { width: 925 };
 	      return _react2.default.createElement(
 	        'div',
-	        { className: 'card-creation-container' },
+	        { className: 'card-creation-container ui grid' },
 	        this.state.showSideBar ? _react2.default.createElement(_SideBar2.default, { step: this.state.currentStep, onSelectCardClick: this.handleSelectCardClick }) : '',
 	        _react2.default.createElement(
 	          'div',
-	          { className: 'steps-area', style: styles },
+	          { className: 'steps-area thirteen wide column' },
 	          this.state.showSteps ? _react2.default.createElement(_Steps2.default, { stepNumber: this.state.currentStep }) : '',
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'section-title' },
+	            _react2.default.createElement(
+	              'div',
+	              { className: 'card-create-col-6 section-title-text' },
+	              'Fill the form'
+	            ),
+	            _react2.default.createElement(
+	              'div',
+	              { className: 'card-create-col-6 section-title-text' },
+	              'This is how it will look'
+	            )
+	          ),
 	          this.state.showViewForm ? _react2.default.createElement(_ViewForm2.default, null) : '',
 	          this.state.showConfirmCard ? _react2.default.createElement(_ConfirmCard2.default, { card: this.state.currentCard, onSelectConfirmClick: this.handleSelectConfirmCard }) : '',
 	          this.state.showPublish ? _react2.default.createElement(_Publish2.default, { card: this.state.currentCard, onPublishClick: this.handlePublishClick }) : ''
@@ -32493,10 +32514,9 @@
 	    value: function render() {
 	      var _this3 = this;
 
-	      var styles = this.props.step === 1 || this.props.step === undefined ? { width: 250 } : { width: 54 };
 	      return _react2.default.createElement(
 	        'div',
-	        { className: 'card-create-sidebar', style: styles },
+	        { className: 'card-create-sidebar three wide column' },
 	        _react2.default.createElement(
 	          'div',
 	          { className: 'sidebar-card-search' },
@@ -34178,7 +34198,8 @@
 	            { className: 'step-name' },
 	            'Write'
 	          )
-	        )
+	        ),
+	        _react2.default.createElement('div', { className: 'clearfix' })
 	      );
 	    }
 	  }]);
@@ -34257,6 +34278,10 @@
 
 	var _axios2 = _interopRequireDefault(_axios);
 
+	var _Slideshow = __webpack_require__(220);
+
+	var _Slideshow2 = _interopRequireDefault(_Slideshow);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -34268,36 +34293,15 @@
 	var ConfirmCard = function (_Component) {
 	  _inherits(ConfirmCard, _Component);
 
-	  function ConfirmCard(props) {
+	  function ConfirmCard() {
 	    _classCallCheck(this, ConfirmCard);
 
-	    var _this = _possibleConstructorReturn(this, (ConfirmCard.__proto__ || Object.getPrototypeOf(ConfirmCard)).call(this, props));
-
-	    _this.state = {
-	      selectedCard: 1
-	    };
-	    _this.handleSelectCardClick = _this.handleSelectCardClick.bind(_this);
-	    return _this;
+	    return _possibleConstructorReturn(this, (ConfirmCard.__proto__ || Object.getPrototypeOf(ConfirmCard)).apply(this, arguments));
 	  }
 
 	  _createClass(ConfirmCard, [{
-	    key: 'handleSelectCardClick',
-	    value: function handleSelectCardClick(event) {
-	      console.log("target", event.target);
-	      var selectedCard = event.target.getAttribute("data-index");
-	      this.setState({
-	        selectedCard: selectedCard
-	      });
-	    }
-	  }, {
 	    key: 'render',
 	    value: function render() {
-	      console.log("render");
-	      var selectedCard = this.state.selectedCard,
-	          mainImage = 'https://s3.ap-south-1.amazonaws.com/protos.dev/Assets/preview-' + selectedCard + '.png',
-	          styles = {
-	        opacity: 1
-	      };
 	      return _react2.default.createElement(
 	        'div',
 	        { id: 'view_area', className: 'selected-card-preview' },
@@ -34340,44 +34344,7 @@
 	          'Continue'
 	        ),
 	        _react2.default.createElement('div', { className: 'clearfix' }),
-	        _react2.default.createElement(
-	          'div',
-	          { className: 'preview-slideshow' },
-	          _react2.default.createElement(
-	            'div',
-	            { className: 'preview-main' },
-	            _react2.default.createElement('img', { className: 'preview-img', src: mainImage })
-	          ),
-	          _react2.default.createElement(
-	            'div',
-	            { className: 'preview-minimap' },
-	            _react2.default.createElement(
-	              'div',
-	              { className: 'preview-mini-div', onClick: this.handleSelectCardClick },
-	              _react2.default.createElement('img', { className: 'preview-mini-img', 'data-index': '1', style: selectedCard == 1 ? styles : {}, src: 'https://s3.ap-south-1.amazonaws.com/protos.dev/Assets/preview-1.png' })
-	            ),
-	            _react2.default.createElement(
-	              'div',
-	              { className: 'preview-mini-div', onClick: this.handleSelectCardClick },
-	              _react2.default.createElement('img', { className: 'preview-mini-img', 'data-index': '2', style: selectedCard == 2 ? styles : {}, src: 'https://s3.ap-south-1.amazonaws.com/protos.dev/Assets/preview-2.png' })
-	            ),
-	            _react2.default.createElement(
-	              'div',
-	              { className: 'preview-mini-div', onClick: this.handleSelectCardClick },
-	              _react2.default.createElement('img', { className: 'preview-mini-img', 'data-index': '3', style: selectedCard == 3 ? styles : {}, src: 'https://s3.ap-south-1.amazonaws.com/protos.dev/Assets/preview-3.png' })
-	            ),
-	            _react2.default.createElement(
-	              'div',
-	              { className: 'preview-mini-div', onClick: this.handleSelectCardClick },
-	              _react2.default.createElement('img', { className: 'preview-mini-img', 'data-index': '4', style: selectedCard == 4 ? styles : {}, src: 'https://s3.ap-south-1.amazonaws.com/protos.dev/Assets/preview-4.png' })
-	            ),
-	            _react2.default.createElement(
-	              'div',
-	              { className: 'preview-mini-div', onClick: this.handleSelectCardClick },
-	              _react2.default.createElement('img', { className: 'preview-mini-img', 'data-index': '5', style: selectedCard == 5 ? styles : {}, src: 'https://s3.ap-south-1.amazonaws.com/protos.dev/Assets/preview-5.png' })
-	            )
-	          )
-	        )
+	        _react2.default.createElement(_Slideshow2.default, null)
 	      );
 	    }
 	  }]);
@@ -34389,6 +34356,111 @@
 
 /***/ }),
 /* 220 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(6);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _axios = __webpack_require__(191);
+
+	var _axios2 = _interopRequireDefault(_axios);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var Slideshow = function (_Component) {
+	  _inherits(Slideshow, _Component);
+
+	  function Slideshow(props) {
+	    _classCallCheck(this, Slideshow);
+
+	    var _this = _possibleConstructorReturn(this, (Slideshow.__proto__ || Object.getPrototypeOf(Slideshow)).call(this, props));
+
+	    _this.state = {
+	      selectedCard: 1
+	    };
+	    _this.handleSelectCardClick = _this.handleSelectCardClick.bind(_this);
+	    return _this;
+	  }
+
+	  _createClass(Slideshow, [{
+	    key: 'handleSelectCardClick',
+	    value: function handleSelectCardClick(event) {
+	      var selectedCard = event.target.getAttribute("data-index");
+	      this.setState({
+	        selectedCard: selectedCard
+	      });
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      var selectedCard = this.state.selectedCard,
+	          mainImage = 'https://s3.ap-south-1.amazonaws.com/protos.dev/Assets/preview-' + selectedCard + '.png',
+	          styles = {
+	        opacity: 1
+	      };
+	      return _react2.default.createElement(
+	        'div',
+	        { className: 'preview-slideshow' },
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'preview-main' },
+	          _react2.default.createElement('img', { className: 'preview-img', src: mainImage })
+	        ),
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'preview-minimap' },
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'preview-mini-div' },
+	            _react2.default.createElement('img', { className: 'preview-mini-img', onClick: this.handleSelectCardClick, 'data-index': '1', style: selectedCard == 1 ? styles : {}, src: 'https://s3.ap-south-1.amazonaws.com/protos.dev/Assets/preview-1.png' })
+	          ),
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'preview-mini-div' },
+	            _react2.default.createElement('img', { className: 'preview-mini-img', onClick: this.handleSelectCardClick, 'data-index': '2', style: selectedCard == 2 ? styles : {}, src: 'https://s3.ap-south-1.amazonaws.com/protos.dev/Assets/preview-2.png' })
+	          ),
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'preview-mini-div' },
+	            _react2.default.createElement('img', { className: 'preview-mini-img', onClick: this.handleSelectCardClick, 'data-index': '3', style: selectedCard == 3 ? styles : {}, src: 'https://s3.ap-south-1.amazonaws.com/protos.dev/Assets/preview-3.png' })
+	          ),
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'preview-mini-div' },
+	            _react2.default.createElement('img', { className: 'preview-mini-img', onClick: this.handleSelectCardClick, 'data-index': '4', style: selectedCard == 4 ? styles : {}, src: 'https://s3.ap-south-1.amazonaws.com/protos.dev/Assets/preview-4.png' })
+	          ),
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'preview-mini-div' },
+	            _react2.default.createElement('img', { className: 'preview-mini-img', onClick: this.handleSelectCardClick, 'data-index': '5', style: selectedCard == 5 ? styles : {}, src: 'https://s3.ap-south-1.amazonaws.com/protos.dev/Assets/preview-5.png' })
+	          )
+	        )
+	      );
+	    }
+	  }]);
+
+	  return Slideshow;
+	}(_react.Component);
+
+	exports.default = Slideshow;
+
+/***/ }),
+/* 221 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	"use strict";
