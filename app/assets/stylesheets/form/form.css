@@ -19,7 +19,7 @@ body{
   margin-bottom: 50px;
   border: 1px solid #efefef;
   height: 700px;
-  overflow: hidden;
+  overflow: auto;
 }
 
 .clearfix {
@@ -149,8 +149,8 @@ p{
 
 .card-type-name{
   width: 180px;
-  /*display: inline-block;*/
-  /*float: left;*/
+  /*display: inline-block;
+  float: left;*/
   font-weight: bold;
 }
 
@@ -354,11 +354,12 @@ p{
 }
 
 #proto_publish_button {
-  position: absolute;
+  /*position: absolute;
   right: 70px;
-  bottom: 50px;
+  bottom: 50px;*/
   font-size: 1.2em;
-  padding: 9px 25px
+  padding: 9px 25px;
+  margin-bottom: 50px;
 }
 
 #root{
