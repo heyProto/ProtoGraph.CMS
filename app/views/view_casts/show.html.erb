@@ -8,8 +8,14 @@
       <div class="show-page-title"><%= @view_cast.name %></div>
       <div class="proto-graph-mode-buttons">
         <div class="ui small basic icon buttons">
-          <button class="ui button platform_buttons" id='laptop'><i class="desktop icon"></i>&nbsp Desktop</button>
-          <button class="ui button platform_buttons" id='mobile'><i class="mobile icon"></i> &nbsp Mobile</button>
+          <% if @view_cast.template_card.git_repo_name == 'ProtoGraph.Card.toShare' %>
+            <button class="ui button platform_buttons" id='facebook'><i class="facebook square icon"></i></button>
+            <button class="ui button platform_buttons" id='twitter'><i class="twitter square icon"></i></button>
+            <button class="ui button platform_buttons" id='instagram'><i class="instagram square icon"></i></button>
+          <% else %>
+            <button class="ui button platform_buttons" id='laptop'><i class="desktop icon"></i>&nbsp Desktop</button>
+            <button class="ui button platform_buttons" id='mobile'><i class="mobile icon"></i> &nbsp Mobile</button>
+          <% end %>
         </div>
       </div>
       <div id="protoCard" style='width: 100%'>
@@ -23,7 +29,7 @@
         <textarea class="proto-graph-code" readonly>
           <div id="ProtoCard">
             <%= @view_cast.seo_blockquote %>
-          </div><script src="https://d2m6lzru8erw1k.cloudfront.net/lib/protoGraph.min.js"></script><script type="text/javascript">new ProtoEmbed.initFrame(document.getElementById('ProtoCard'), "<%= "#{@view_cast.template_card.index_html}?HtmlCast_Unique_Identifier=#{@view_cast.id}" %>" , 'laptop')</script>
+          </div><script src="https://d2m6lzru8erw1k.cloudfront.net/lib/protoGraph.min.js"></script><script type="text/javascript">new ProtoEmbed.initFrame(document.getElementById('ProtoCard'), "<%= "#{@view_cast.template_card.index_html}?HtmlCast_Unique_Identifier=#{@view_cast.id}" %>" , "<%= @view_cast.template_card.git_repo_name == 'ProtoGraph.Card.toShare' ? "instagram" : "laptop"  %>")</script>
         </textarea>
       </div>
     </div>
@@ -64,7 +70,7 @@
 <%= link_to "Edit Card", edit_account_view_cast_path(@account, @view_cast),"data-turbolinks"=> false %>
 
 <script type="text/javascript">
-  var proto_embed_test = new ProtoEmbed.initFrame(document.getElementById('protoCard'), "<%= "#{@view_cast.template_card.index_html}?HtmlCast_Unique_Identifier=#{@view_cast.id}" %>" , 'laptop')
+  var proto_embed_test = new ProtoEmbed.initFrame(document.getElementById('protoCard'), "<%= "#{@view_cast.template_card.index_html}?HtmlCast_Unique_Identifier=#{@view_cast.id}" %>" , "<%= @view_cast.template_card.git_repo_name == 'ProtoGraph.Card.toShare' ? "instagram" : "laptop"  %>")
 
 
   $('.platform_buttons').on('click', function(event){

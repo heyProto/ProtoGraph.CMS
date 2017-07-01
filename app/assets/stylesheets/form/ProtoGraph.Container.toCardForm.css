@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css?family=Lato:300,400,700');
+ @import url('https://fonts.googleapis.com/css?family=Lato:300,400,700');
 
 body{
   font-family: Lato,'Helvetica Neue',Arial,Helvetica,sans-serif;
@@ -7,19 +7,23 @@ body{
   color: #333;
 }
 
-.publish-button{
+.publish-button, .update-button{
   margin-left: 15px;
+  display: none;
 }
 
-.card-creation-container{
-  width: 980px;
+.card-creation-container, .card-update-container{
   margin-left: auto;
   margin-right: auto;
   /*margin-top: 50px;*/
   margin-bottom: 50px;
   border: 1px solid #efefef;
   height: 700px;
-  overflow: hidden;
+  overflow: auto;
+}
+
+.clearfix {
+  clear: both;
 }
 
 /*========= grid ==========*/
@@ -57,10 +61,7 @@ p{
   position: absolute;
   z-index: 999;
   background: white;
-}
-
-.card-create-sidebar:hover{
-  width: 250px;
+  padding-right: 0px !important;
 }
 
 .sidebar-card-search{
@@ -68,20 +69,25 @@ p{
 }
 
 .single-element{
+  width: 100%;
   padding: 7px 10px;
   display: inline-block;
   position: relative;
   box-sizing: border-box;
-  width: 250px;
   cursor:pointer;
 }
 
 .single-element:hover{
-  background: #fafafa;
+  background: #1371D8; /*#fafafa*/
+  color: white;
 }
-
+.card-create-sidebar .active{
+  background: #1371D8; /*#fafafa*/
+  color: white;
+}
 .selected{
-  background: #fafafa;
+  background: #1371D8;
+  color: white;
 }
 
 .sidebar-textbox{
@@ -91,6 +97,7 @@ p{
   box-sizing: border-box;
   border: 0px;
   font-size: 1em;
+  height:50px;
 }
 
 .sidebar-textbox:focus{
@@ -133,27 +140,42 @@ p{
   margin-left: 1px;
   margin-right: 17px;
   float: left;
+  margin-top: 5px;
+}
+
+.card-type-icon img{
+  width: 100%;
 }
 
 .card-type-name{
   width: 180px;
-  display: inline-block;
-  float: left;
-  margin-top: 5px;
+  /*display: inline-block;
+  float: left;*/
+  font-weight: bold;
 }
 
+.card-account-name{
+  font-size: 10px;
+  padding: 0px;
+  margin: 0px;
+}
 
 /*========== steps-area ==========*/
 .steps-area{
-  width: 729px;
+  position: relative;
+  height: 100%;
   display: inline-block;
   float: right;
+}
+
+.card-creation-container .steps-area {
+  padding-left: 0px !important;
 }
 
 .steps{
   height: 50px;
   background: #fafafa;
-  padding: 6px 15px;
+  padding: 8px 15px;
   box-sizing: border-box;
 }
 
@@ -165,7 +187,7 @@ p{
   color: #bbb;
   border: 2px solid #bbb;
   border-radius: 50px;
-  height: 28px;
+  height: 33px;
   width: 33px;
   text-align: center;
   font-size: 1.3em;
@@ -196,22 +218,108 @@ p{
 
 .info-text{
   font-size: 0.4em;
-  color: #bbb;
+  color: #cdcdcd;
   font-weight: 300 !important;
-  margin-top:10px;
+  margin-top:20px;
 }
 
 .selected-card-preview{
   padding: 15px;
   display: inline-block;
+  width: 100%;
+  box-sizing: border-box;s
+}
+
+#protograph-explainer-card-div{
+  text-align: center;
 }
 
 .selected-card-preview .card-create-col-6{
   padding: 15px;
 }
 
+.preview-header {
+  margin-bottom: 20px;
+  margin-top: 15px;
+}
+
+.preview-header i {
+  float: left;
+}
+
+.preview-icon {
+  float: right;
+  max-height: 100px;
+}
+
+.preview-account-title {
+  font-size: 2em;
+  float: left;
+  margin-left: 5px;
+}
+
 .preview-title{
   font-size: 2em;
+  font-weight: bold;
+  margin-bottom: 15px;
+  float: left;
+  margin-left: 5px;
+}
+
+.preview-private-text {
+  font-size: 11px;
+  float: left;
+  margin-left: 10px;
+  color: grey;
+}
+
+.protograph_card_div{
+  width: 350px !important;
+  text-align: left;
+}
+
+.preview-elevator-pitch {
+  font-size: 1.2em;
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+
+.preview-description {
+  margin-bottom: 25px;
+}
+
+.preview-slideshow {
+  text-align: center;
+  margin-top: 10px;
+}
+
+.preview-img {
+  height: 330px;
+  max-width: 100%;
+}
+
+.preview-mini-div {
+  display: inline-block;
+}
+
+.preview-mini-img {
+  height: 50px;
+  margin: 5px 3px;
+  cursor: pointer;
+  opacity: 0.3;
+}
+
+.preview-mini-img:hover {
+  opacity: 1;
+}
+
+.section-title {
+  display: none;
+}
+
+.section-title-text{
+  font-size: 1.5em;
+  padding: 20px 15px;
   font-weight: bold;
 }
 
@@ -242,4 +350,21 @@ p{
   background: #efefef;
   color: #ccc;
   border: 1px solid #efefef;
+}
+
+.preview-button {
+  float: right;
+}
+
+#proto_publish_button {
+  /*position: absolute;
+  right: 70px;
+  bottom: 50px;*/
+  font-size: 1.2em;
+  padding: 9px 25px;
+  margin-bottom: 50px;
+}
+
+#root{
+  width: 100%;
 }
