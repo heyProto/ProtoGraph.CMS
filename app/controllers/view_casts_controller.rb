@@ -6,7 +6,7 @@ class ViewCastsController < ApplicationController
     end
 
     def index
-        @view_casts = @account.view_casts.page(params[:page]).per(10)
+        redirect_to account_path(@account)
     end
 
     def show
