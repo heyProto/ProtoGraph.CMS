@@ -42,6 +42,8 @@ Rails.application.routes.draw do
 
   end
 
+  get "features", to: 'static_pages#features', as: :features
+  get '/auth/:provider/callback', to: 'authentications#create'
   root 'static_pages#index'
 
 end

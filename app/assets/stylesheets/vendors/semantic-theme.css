@@ -10,11 +10,17 @@ a:hover{
 a.ui.button {
     background: white !important;
     color: #0366d6 !important;
+    border: 1px solid lightgray;
+}
+
+.ui.vertical.menu > .item:hover{
+    background: #F2F2F2 !important;
 }
 
 a.ui.button:hover {
-    background: #0366d6 !important;
-    color: white !important;
+    background: white !important;
+    color: #ff5722 !important;
+    border: 1px solid lightgray;
 }
 
 .card > .content > .meta > a{font-size: 11px;}
@@ -22,7 +28,17 @@ a.ui.button:hover {
 .ui.button{
     background: #0366d6 !important;
     color: white !important;
+    border: 1px solid #0366d6;
 }
+
+.ui.button:hover{
+    background: white !important;
+    color: #ff5722 !important;
+    border: 1px solid lightgray;
+}
+
+
+
 
 table.ui.table > thead > tr > th{
     font-weight: 400;
