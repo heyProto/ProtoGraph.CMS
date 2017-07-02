@@ -1,91 +1,29 @@
-<%= render partial: "templates/header_show" %>
+<div class="sixteen wide column">
+  <div class="ui breadcrumb">
+    <a class="section"><%= link_to "App Store", account_template_data_path(@account) %></a>
+  </div>
+  <h1 class="ui header" style="margin-top: 0px;">
+    <%= @template.name + " - "+@template.version.to_s %>
+  </h1>
+</div>
 <div class="eleven wide column">
-  <%= render partial: "templates/publish_steps", locals: {template: @template} %>
-  <div class="ui divider"></div>
-  <h3>
-    <a class="<%= @template.can_ready_to_publish? ? "ui green ribbon label" : "ui blue ribbon label" %>">
-      Step #2
-    </a>
-    Upload mandatory code
-  </h3>
-  <br/>
-  <%= render partial: "services_attachables/form", locals: {services_attachable: @json_schema, label: "Schema definition file", hint: "Format: .json", can_delete: (@template_datum.status != "Published"), content_types: "application/json"} %>
-  <%= render partial: "services_attachables/form", locals: {services_attachable: @sample_json, label: "Sample JSON for demo", hint: "Format: .json", can_delete: (@template_datum.status != "Published"), content_types: "application/json"} %>
-  <br/>
-  <% if @template.can_ready_to_publish? %>
-    <div class="ui divider"></div>
-    <h3>
-      <a class="<%= @template.status != "Draft" ? "ui green ribbon label" : "ui blue ribbon label" %>">Step #3</a>
-      Submit the template to Editor for review
-    </h3>
-    <br/>
-    <% if @template.status == "Draft" %>
-        <%= link_to "Submit for review", move_to_next_status_account_template_datum_path(@account, @template_datum), class: "ui primary button", style: "color: white !important;" %>
-    <% else %>
-        <i class="checkmark box icon green" style="font-size: 1.5em;"></i>
-    <% end %>
-    <br/>
-  <% end %>
-  <% if @template.status != "Draft" %>
-    <div class="ui divider"></div>
-    <h3>
-      <a class="<%= @template.status != "Draft" ? "ui green ribbon label" : "ui blue ribbon label" %>">Step #4</a>
-      Publish the Datacast
-    </h3>
-    <br/>
-    <% if @template.status == "Ready to Publish" %>
-        <%= link_to "Publish", move_to_next_status_account_template_datum_path(@account, @template), class: "ui primary button", style: "color: white !important;" %>
-    <% else %>
-        <i class="checkmark box icon green" style="font-size: 1.5em;"></i>
-    <% end %>
-    <br/>
-  <% end %>
-  <% if @template.status == "Published" %>
-      <div class="ui divider"></div>
-      <h3>
-        Push data with APIs
-      </h3>
-      <br/>
-      <table class="ui very basic table">
-        <tr>
-          <td>My API Key</td>
-          <td>:</td>
-          <td><%= current_user.access_token %></td>
-        </tr>
-        <tr>
-          <td>Datacast Token:</td>
-          <td>:</td>
-          <td><%= @template.api_key %></td>
-        </tr>
-      </table>
-      <br/>
-      <div class="ui divider"></div>
-      <h3>
-        <a class="<%= @template.status != "Draft" ? "ui green ribbon label" : "ui blue ribbon label" %>">Step #5</a>
-        Connect card templates
-      </h3>
-      <div style="float: right; font-size: 0.8em; font-weight: 400;">
-          <%= link_to "New card template", new_account_template_datum_template_card_path(@account, @template_datum) %>
-      </div>
-      <br/>
+  <%= link_to "New card template", new_account_template_datum_template_card_path(@account, @template_datum) %>
       <%= render partial: "template_cards/index" %>
-      <br/>
-  <% end %>
-  <br/>
-  <% if @template.status == "Published" %>
-      <div class="ui divider"></div>
-      <%= link_to "Make public", flip_public_private_account_template_datum_path(@account, @template_datum), class: "ui button" %>
-  <% end %>
-  <div class="ui divider"></div>
-  <br/>
-  <% if @template.status != "Published" %>
-  <%= link_to 'Destroy', [@account, @template_datum], method: :delete, data: { confirm: 'Are you sure?' }, class: "ui red basic button" %>
-  <% end %>
-  <br/><br/><br/><br/>
-  <div class="ui dividing right rail" style="min-height: 339px;"></div>
 </div>
 <div class="five wide column" style="padding-left: 90px;">
-<%= render partial: "templates/versions", locals: {template: @template, url: {"bug": create_version_account_template_datum_path(@account, @template, version_genre: "bug"), "major": create_version_account_template_datum_path(@account, @template, version_genre: "major"), "minor": create_version_account_template_datum_path(@account,@template, version_genre: "minor")}, siblings: @siblings} %>
+  <div class="ui list">
+    <% @siblings.each do |s| %>
+    <div class="item" style="margin-left: 20px; ">
+      <div class="content">
+        <div class="header">
+          <%= link_to([@account, s], style:  s.id == @template.id ? "color: orange !important;" : ""  ) do %>
+            <%= s.version.to_s %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+    <% end %>
+  </div>
 </div>
 </div>
 

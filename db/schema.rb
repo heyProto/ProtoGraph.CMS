@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170702135433) do
+ActiveRecord::Schema.define(version: 20170702173039) do
 
   create_table "accounts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "username"
@@ -117,29 +117,14 @@ ActiveRecord::Schema.define(version: 20170702135433) do
   end
 
   create_table "template_data", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.integer "account_id"
     t.string "name"
-    t.string "elevator_pitch"
-    t.text "description"
     t.string "global_slug"
-    t.boolean "is_current_version"
     t.string "slug"
-    t.string "version_series"
-    t.integer "previous_version_id"
-    t.string "version_genre"
     t.string "version"
     t.text "change_log"
-    t.string "status"
     t.integer "publish_count"
-    t.boolean "is_public"
-    t.text "git_url"
-    t.string "git_branch", default: "master"
-    t.integer "created_by"
-    t.integer "updated_by"
-    t.string "api_key"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["api_key"], name: "index_template_data_on_api_key"
     t.index ["slug"], name: "index_template_data_on_slug", unique: true
   end
 
