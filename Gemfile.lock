@@ -48,6 +48,7 @@ GEM
       actionpack (>= 3.2)
       railties (>= 3.2)
     bindex (0.5.0)
+    brakeman (3.6.2)
     builder (3.2.3)
     byebug (9.0.6)
     choice (0.2.0)
@@ -72,6 +73,9 @@ GEM
       dotenv (= 2.2.1)
       railties (>= 3.2, < 5.2)
     erubi (1.6.0)
+    exception_notification (4.2.1)
+      actionmailer (>= 4.0, < 6)
+      activesupport (>= 4.0, < 6)
     execjs (2.7.0)
     faraday (0.11.0)
       multipart-post (>= 1.2, < 3)
@@ -247,11 +251,13 @@ DEPENDENCIES
   annotate
   awesome_print
   best_in_place (~> 3.0.1)
+  brakeman
   byebug
   coffee-rails (~> 4.2)
   devise
   dotenv
   dotenv-rails
+  exception_notification
   friendly_id (~> 5.1.0)
   jbuilder (~> 2.5)
   kaminari

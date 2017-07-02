@@ -20,6 +20,7 @@ gem 'rest-client'
 gem 'best_in_place', '~> 3.0.1'
 gem 'kaminari'
 gem "version"
+gem 'exception_notification'
 
 #AUTHENTICATION
 gem 'devise'
@@ -50,6 +51,7 @@ group :development do
   gem "rails-erd"
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
+  gem 'brakeman', :require => false
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
