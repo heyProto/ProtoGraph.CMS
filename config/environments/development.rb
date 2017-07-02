@@ -33,7 +33,7 @@ Rails.application.configure do
     :deliver_with => :deliver,
     :email_prefix => "[DEVELOPMENT] ",
     :sender_address => %{"protograph notifier" <protograph@pykih.com>},
-    :exception_recipients => %w{ritvvij.parrikh@pykih.com}
+    :exception_recipients => %w{ritvvij.parrikh@pykih.com, ab@pykih.com, aashutosh.bhatt@pykih.com}
   }
 
   # Don't care if the mailer can't send.

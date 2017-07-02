@@ -102,7 +102,7 @@ Rails.application.configure do
     :deliver_with => :deliver,
     :email_prefix => "[STAGING] ",
     :sender_address => %{"protograph notifier" <protograph@pykih.com>},
-    :exception_recipients => %w{ritvvij.parrikh@pykih.com}
+    :exception_recipients => %w{ritvvij.parrikh@pykih.com, ab@pykih.com, aashutosh.bhatt@pykih.com}
   }
 
 
