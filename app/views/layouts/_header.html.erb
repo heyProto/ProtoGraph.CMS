@@ -1,17 +1,19 @@
 <div style="width: 980px; margin-left: auto; margin-right: auto;">
   <% if !user_signed_in? %>
-      <br/>
-      <div class="ui menu clear"  style="border-bottom: 1px lightgray solid">
-        <%= link_to((image_tag "logo.png", style: "width: 150px;"), root_url, class: "item") %>
+      <div class="ui menu clear">
+       <div class="item"> <%= link_to image_tag("logo.png"), root_url %></div>
+        <div class="right menu">
+        <%= link_to "Features", features_path, "data-turbolinks"=> false, class: "item" %>
+      </div>
       </div>
   <% else %>
-  <div class="ui menu clear"  style="border-bottom: 1px lightgray solid">
+  <div class="ui menu clear">
     <% if @on_an_account_page %>
 
-    <div class="item"><%= link_to image_tag("logo-circle.png", style: "width: 30px;"), account_path(@account) %></div>
+    <div class="item"><%= link_to image_tag("logged-in-logo.png"), account_path(@account) %></div>
     <div class="item"><%= link_to @account.username, account_path(@account), style: "font-weight: bold;" %></div>
     <% else %>
-    <div class="item"><%= image_tag "logo-circle.png" %></div>
+    <div class="item"><%= image_tag "logged-in-logo.png" %></div>
     <% end %>
     <div class="right menu">
       <% if @on_an_account_page %>
@@ -46,6 +48,5 @@
     </div>
   </div>
   <% end %>
-  <br/>
+  <hr style="margin-top: -15px; margin-bottom: 40px; border-top: #EDEDED;"/>
 </div>
-<br/>
