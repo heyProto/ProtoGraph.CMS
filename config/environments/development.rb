@@ -40,12 +40,24 @@ Rails.application.configure do
   #   authentication:       :login,
   #   :enable_starttls_auto => true
   # }
+
+  FROM_EMAIL = "dev.pykih@gmail.com"
+  # config.action_mailer.smtp_settings = {
+  #   address:              'smtp.gmail.com',
+  #   port:                 587,
+  #   domain:               'gmail.com',
+  #   user_name:            'dev.pykih@gmail.com',
+  #   password:             'IndianMonsoon1234801',
+  #   authentication:       :plain,
+  #   enable_starttls_auto: true
+  # }
+
   config.action_mailer.smtp_settings = {
     address:              'smtp.gmail.com',
     port:                 587,
     domain:               'gmail.com',
-    user_name:            'dev.pykih@gmail.com',
-    password:             'IndianMonsoon1234801',
+    user_name:            'protograph@pykih.com',
+    password:             'HinduOpenSystems1234806',
     authentication:       :plain,
     enable_starttls_auto: true
   }

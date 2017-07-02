@@ -10,6 +10,7 @@
 #  can_template_design_publish :boolean
 #  created_at                  :datetime         not null
 #  updated_at                  :datetime         not null
+#  sort_order                  :integer
 #
 
 class RefRole < ApplicationRecord

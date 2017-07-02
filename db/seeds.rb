@@ -16,22 +16,22 @@ puts "----> Creating Ref Roles"
 RefRole.create(name: "Owner", slug: "owner",
                 can_account_settings: true,
                 can_template_design_do: true,
-                can_template_design_publish: true)
+                can_template_design_publish: true, sort_order: 101)
 
 RefRole.create(name: "Editor", slug: "editor",
                 can_account_settings: true,
                 can_template_design_do: false,
-                can_template_design_publish: false)
+                can_template_design_publish: false, sort_order: 2)
 
 RefRole.create(name: "Developer", slug: "developer",
                 can_account_settings: false,
                 can_template_design_do: true,
-                can_template_design_publish: false)
+                can_template_design_publish: false, sort_order: 100)
 
 RefRole.create(name: "Writer", slug: "writer",
                 can_account_settings: false,
                 can_template_design_do: false,
-                can_template_design_publish: false)
+                can_template_design_publish: false, sort_order: 1)
 
 puts "----> Creating users and permissions"
 users = [["ritvvij.parrikh@pykih.com", "Ritvvij Parrikh" ,"ritvvijparrikh"], ["ab@pykih.com", "Amit Badheka", "amitbadheka"]]
