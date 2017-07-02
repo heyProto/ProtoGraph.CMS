@@ -38,7 +38,9 @@
               <% end %>
             </span>
             <div class="description" style="<%= permission.status == "Deactivated" ? "color: gray;font-weight: 400;" : "font-weight: 400;"%>">
+              <% if permission.user.current_sign_in_at.present? %>
               Last seen <%= time_ago_in_words(permission.user.current_sign_in_at) %> ago.
+              <% end %>
               <% if current_user.id != permission.user_id and permission.status != "Deactivated" %>
                   <%= link_to "<i class='trash outline icon'></i>".html_safe, account_permission_path(@account,   permission), method: :delete, data: { confirm: 'Are you sure?' } %>
               <% end %>
