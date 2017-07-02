@@ -7,6 +7,10 @@ a:hover{
     border-bottom: 1px #ff5722 dotted;
 }
 
+.text-highlight{
+    background-color: rgb(255, 253, 177);
+}
+
 a.ui.button {
     background: white !important;
     color: #0366d6 !important;
