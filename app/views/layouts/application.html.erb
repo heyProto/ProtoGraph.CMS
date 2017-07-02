@@ -16,5 +16,20 @@
   <% end %>
     <%= yield %>
   </div>
+
+
+  <% config = {} %>
+  <% if notice.present? %>
+    <% config = {text: notice, notify: "success"} %>
+  <% end %>
+  <% if alert.present? %>
+    <% config = {text: alert, notify: "error"} %>
+  <% end %>
+
+  <script type="text/javascript">
+    var notice = <%= config.to_json.html_safe %>;
+    if (notice.notify) generate_notify(notice);
+  </script>
+
 </body>
 </html>
