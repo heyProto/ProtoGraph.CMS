@@ -40,6 +40,8 @@ Rails.application.configure do
   #   authentication:       :login,
   #   :enable_starttls_auto => true
   # }
+
+  FROM_EMAIL = "dev.pykih@gmail.com"
   config.action_mailer.smtp_settings = {
     address:              'smtp.gmail.com',
     port:                 587,
