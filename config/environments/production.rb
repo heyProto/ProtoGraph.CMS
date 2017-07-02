@@ -97,6 +97,14 @@ Rails.application.configure do
     enable_starttls_auto: true
   }
 
+  Rails.application.config.middleware.use ExceptionNotification::Rack,
+  :email => {
+    :deliver_with => :deliver,
+    :email_prefix => "[PRODUCTION] ",
+    :sender_address => %{"protograph notifier" <protograph@pykih.com>},
+    :exception_recipients => %w{ritvvij.parrikh@pykih.com}
+  }
+
 
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false

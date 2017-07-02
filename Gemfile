@@ -20,6 +20,7 @@ gem 'rest-client'
 gem 'best_in_place', '~> 3.0.1'
 gem 'kaminari'
 gem "version"
+gem 'exception_notification'
 
 #AUTHENTICATION
 gem 'devise'
