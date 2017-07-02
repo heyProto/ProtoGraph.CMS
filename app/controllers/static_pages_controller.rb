@@ -8,4 +8,7 @@ class StaticPagesController < ApplicationController
   	end
   end
 
+  def features
+  end
+
 end

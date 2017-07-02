@@ -11,7 +11,7 @@
     <div class="item"><%= link_to image_tag("logo-circle.png", style: "width: 30px;"), account_path(@account) %></div>
     <div class="item"><%= link_to @account.username, account_path(@account), style: "font-weight: bold;" %></div>
     <% else %>
-    <div class="item"><%= image_tag "logo.png" %></div>
+    <div class="item"><%= image_tag "logo-circle.png" %></div>
     <% end %>
     <div class="right menu">
       <% if @on_an_account_page %>
