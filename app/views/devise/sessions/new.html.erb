@@ -29,7 +29,9 @@
     <div class="ui horizontal divider">
       Or
     </div>
-    <%= link_to "Sign up for free", new_registration_path(resource_name), class: "ui button huge", style: "background: white; color: black !important; border: 1px solid lightgray;" %><br />
+
+    <%= link_to "Sign up for free", new_registration_path(resource_name), class: "ui button massive" %><br />
+
     <div style="padding: 15px;" >
       <br/>
       <%= render "devise/shared/links" %>
@@ -48,7 +50,7 @@
     <div class="ui cards">
       <div class="card">
         <div class="content">
-          <img class="right floated mini ui image" src="https://raw.githubusercontent.com/pykih/ProtoGraph.Card.toExplain/master/dist/0.0.1/card.png">
+          <%= image_tag "toExplain.png", class: "right floated mini ui image" %>
           <div class="header">
             toExplain
           </div>
@@ -56,13 +58,13 @@
             <a href="https://www.icfj.org" target="_blank">ICFJ.org</a>
           </div>
           <div class="description">
-            Write explainers once. Reuse across stories.
+            Write text explainers once. Reuse across stories.
           </div>
         </div>
       </div>
       <div class="card">
         <div class="content">
-          <img class="right floated mini ui image" src="https://raw.githubusercontent.com/pykih/ProtoGraph.Card.toShare/master/dist/0.0.1/card.png">
+          <%= image_tag "toSocial.png", class: "right floated mini ui image" %>
           <div class="header">
             toSocial
           </div>
@@ -71,6 +73,20 @@
           </div>
           <div class="description">
             Create branded cover images for distribution.
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="content">
+          <%= image_tag "toQuiz.png", class: "right floated mini ui image" %>
+          <div class="header">
+            toQuiz
+          </div>
+          <div class="meta">
+            <a href="https://www.icfj.org" target="_blank">ICFJ.org</a>
+          </div>
+          <div class="description">
+            Educate and engage readers on relevant issues with quiz.
           </div>
         </div>
       </div>

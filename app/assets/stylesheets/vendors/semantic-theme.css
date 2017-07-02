@@ -10,6 +10,7 @@ a:hover{
 a.ui.button {
     background: white !important;
     color: #0366d6 !important;
+    border: 1px solid lightgray;
 }
 
 a.ui.button:hover {
