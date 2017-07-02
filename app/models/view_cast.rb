@@ -125,7 +125,7 @@ class ViewCast < ApplicationRecord
         if self.saved_changes? and !self.stop_callback
             Thread.new do
                 self.save_png
-                if self.template_card.git_repo_name == 'ProtoGraph.Card.toShare'
+                if self.template_card.git_repo_name == 'ProtoGraph.Card.toSocial'
                     self.save_png('twitter')
                     self.save_png('instagram')
                     self.save_png('facebook')
