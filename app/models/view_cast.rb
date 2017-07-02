@@ -68,6 +68,7 @@ class ViewCast < ApplicationRecord
 
     def before_create_set
         self.datacast_identifier = SecureRandom.hex(12)
+        self.optionalConfigJSON = {} if self.optionalConfigJSON.blank?
     end
 
     def before_save_set

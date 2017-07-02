@@ -10,7 +10,7 @@ class AccountsController < ApplicationController
   end
 
   def show
-    @view_casts = @account.view_casts.page(params[:page]).per(10)
+    @view_casts = @account.view_casts.order(updated_at: :desc).page(params[:page]).per(10)
     render "view_casts/index"
   end
 
