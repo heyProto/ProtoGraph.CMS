@@ -9,7 +9,7 @@
 
 puts "----> Creating ICFJ Account"
 
-icfj_account = Account.create({username: "icfj", domain: "icfj.org"})
+icfj_account = Account.create({username: "ICFJ", domain: "icfj.org"})
 
 puts "----> Creating Ref Roles"
 

@@ -59,6 +59,7 @@ table.ui.table > thead > tr > th{
 .ui.menu > .item:hover, .ui.menu.clear > .right.menu > a.item:hover, .item > a{
     background: white !important;
     border: 0px !important;
+    border-bottom: 1px solid lightgray !important;
 }
 
 .menu > .divider{
