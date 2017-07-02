@@ -10,9 +10,9 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170629063834) do
+ActiveRecord::Schema.define(version: 20170702114630) do
 
-  create_table "accounts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+  create_table "accounts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "username"
     t.string "slug"
     t.string "domain"
@@ -26,7 +26,7 @@ ActiveRecord::Schema.define(version: 20170629063834) do
     t.index ["username"], name: "index_accounts_on_username", unique: true
   end
 
-  create_table "authentications", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+  create_table "authentications", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer "account_id"
     t.string "provider"
     t.string "uid"
@@ -43,7 +43,7 @@ ActiveRecord::Schema.define(version: 20170629063834) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "friendly_id_slugs", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+  create_table "friendly_id_slugs", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "slug", null: false
     t.integer "sluggable_id", null: false
     t.string "sluggable_type", limit: 50
@@ -55,7 +55,7 @@ ActiveRecord::Schema.define(version: 20170629063834) do
     t.index ["sluggable_type"], name: "index_friendly_id_slugs_on_sluggable_type"
   end
 
-  create_table "permission_invites", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+  create_table "permission_invites", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer "account_id"
     t.string "email"
     t.string "ref_role_slug"
@@ -65,7 +65,7 @@ ActiveRecord::Schema.define(version: 20170629063834) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "permissions", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+  create_table "permissions", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer "user_id"
     t.integer "account_id"
     t.string "ref_role_slug"
@@ -76,7 +76,7 @@ ActiveRecord::Schema.define(version: 20170629063834) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "ref_roles", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+  create_table "ref_roles", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "name"
     t.string "slug"
     t.boolean "can_account_settings"
@@ -87,7 +87,7 @@ ActiveRecord::Schema.define(version: 20170629063834) do
     t.index ["slug"], name: "index_ref_roles_on_slug", unique: true
   end
 
-  create_table "template_cards", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+  create_table "template_cards", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer "account_id"
     t.string "name"
     t.string "elevator_pitch"
@@ -115,7 +115,7 @@ ActiveRecord::Schema.define(version: 20170629063834) do
     t.index ["slug"], name: "index_template_cards_on_slug", unique: true
   end
 
-  create_table "template_data", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+  create_table "template_data", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer "account_id"
     t.string "name"
     t.string "elevator_pitch"
@@ -142,7 +142,7 @@ ActiveRecord::Schema.define(version: 20170629063834) do
     t.index ["slug"], name: "index_template_data_on_slug", unique: true
   end
 
-  create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+  create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "name", default: "", null: false
     t.string "email", default: "", null: false
     t.string "access_token"
@@ -166,7 +166,7 @@ ActiveRecord::Schema.define(version: 20170629063834) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
-  create_table "view_casts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+  create_table "view_casts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer "account_id"
     t.string "datacast_identifier"
     t.integer "template_card_id"
@@ -181,6 +181,7 @@ ActiveRecord::Schema.define(version: 20170629063834) do
     t.datetime "updated_at", null: false
     t.text "seo_blockquote"
     t.text "render_screenshot_url"
+    t.text "status"
   end
 
 end
