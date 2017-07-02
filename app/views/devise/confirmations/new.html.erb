@@ -1,4 +1,4 @@
-<div class="ui grid" style="margin-top: 100px;">
+<div class="ui two column centered grid">
   <div class="column">
 <%= simple_form_for(resource, as: resource_name, url: confirmation_path(resource_name), html: { method: :post }) do |f| %>
           <%= f.error_notification %>
@@ -10,6 +10,4 @@
         <%= render "devise/shared/links" %>
 
 </div>
-</div>
-
 </div>

@@ -1,6 +1,4 @@
-<div class="ui grid" style="margin-top: 100px;">
-<div class="ui one column centered grid">
-  <div class="column">
+<div class="ui two column centered grid">  <div class="column">
       <%= simple_form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f| %>
           <%= f.error_notification %>
           <%= f.input :email, autofocus: true %>
@@ -8,6 +6,5 @@
         <% end %>
         <br/>
         <%= render "devise/shared/links" %>
-</div>
 </div>
 </div>

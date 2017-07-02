@@ -17,6 +17,8 @@ a.ui.button:hover {
     color: white !important;
 }
 
+.card > .content > .meta > a{font-size: 11px;}
+
 .ui.button{
     background: #0366d6 !important;
     color: white !important;
