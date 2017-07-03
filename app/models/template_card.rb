@@ -98,14 +98,7 @@ class TemplateCard < ApplicationRecord
     end
 
     def can_ready_to_publish?
-        if self.template_datum.status == "Published" and
-           self.html.file_url.present? and
-           self.css.file_url.present? and
-           self.js.file_url.present? and
-           self.config.file_url.present? and
-           self.logo.file_url.present?  and
-           self.image.file_url.present? and
-           self.description.present?
+        if self.description.present?
                 return true
         end
         return false

@@ -11,6 +11,7 @@
 #  publish_count :integer
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
+#  status        :string(255)
 #
 
 class TemplateDatum < ApplicationRecord
@@ -42,28 +43,6 @@ class TemplateDatum < ApplicationRecord
 
     def slug_candidates
         ["#{self.name}-#{self.version.to_s}"]
-    end
-
-    def current_version
-        TemplateDatum.where(global_slug: self.global_slug, is_current_version: true).first
-    end
-
-    def deep_copy_across_versions
-        p                           = self.previous
-        v                           = p.version.to_s.to_version
-        self.name                   = p.name
-        self.global_slug            = p.global_slug
-    end
-
-    def can_ready_to_publish?
-        if self.change_log.present?
-            return true
-        end
-        return false
-    end
-
-    def is_connected?
-        self.template_cards.where(status: "Published").first.present? ? true : false
     end
 
     def files

@@ -9,21 +9,6 @@
     Upload mandatory code
   </h3>
   <br/>
-  <%= render partial: "services_attachables/form", locals: {services_attachable: @html, label: "Html file required.", hint: "Format: .html", can_delete: (@template.status != "Published"), content_types: "text/html"} %>
-
-  <%= render partial: "services_attachables/form", locals: {services_attachable: @css, label: "Styling for the cards.", hint: "Format: .css", can_delete: (@template.status != "Published"), content_types: "text/css"} %>
-
-  <%= render partial: "services_attachables/form", locals: {services_attachable: @js, label: "The script with logic.", hint: "Format: .js", can_delete: (@template.status != "Published"), content_types: "text/javascript"} %>
-
-  <%= render partial: "services_attachables/form", locals: {services_attachable: @config, label: "The configuration file to integrate.", hint: "Format: .json", can_delete: (@template.status != "Published"), content_types: "application/json"} %>
-
-
-  <%= render partial: "services_attachables/form", locals: {services_attachable: @image, label: "The sprite image.", hint: "Format: .png, .jpg, .jpeg", can_delete: (@template.status != "Published"), content_types: "image/png, image/jpg, image/jpeg"} %>
-
-
-  <%= render partial: "services_attachables/form", locals: {services_attachable: @logo, label: "The logo for the card.", hint: "Format: .png, .jpg, .jpeg", can_delete: (@template.status != "Published"), content_types: "image/png, image/jpg, image/jpeg"} %>
-
-  <br/>
   <% if @template.can_ready_to_publish? %>
     <div class="ui divider"></div>
     <h3>
