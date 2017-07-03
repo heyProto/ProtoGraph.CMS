@@ -16,6 +16,7 @@ Rails.application.routes.draw do
         resources :datacasts, only: [:create, :update]
       end
       resources :view_casts, only: [:show]
+      resources :template_data, only: [:create]
     end
   end
 

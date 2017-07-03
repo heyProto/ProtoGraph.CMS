@@ -16,15 +16,13 @@
 
 class TemplateDatum < ApplicationRecord
 
-    include Versionable
-    include Associable
     #CONSTANTS
     CDN_BASE_URL = "#{ENV['AWS_S3_ENDPOINT']}/Schemas"
     #CUSTOM TABLES
     #GEMS
     require 'version'
     extend FriendlyId
-    friendly_id :slug_candidates, use: :scoped
+    friendly_id :slug_candidates, use: :slugged
 
     #ASSOCIATIONS
     has_many :template_cards
@@ -56,6 +54,21 @@ class TemplateDatum < ApplicationRecord
         "#{TemplateDatum::CDN_BASE_URL}/#{self.name}/#{self.version}/schema.json"
     end
 
+
+    class << self
+        def create_or_update(params)
+            a = TemplateDatum.where(name: params["name"], version: params["version"]).first
+            if a.blank?
+                a = TemplateDatum.create(name: params["name"], version: params["version"], status: params["status"], change_log: params["change_log"])
+                return [a, true]
+            else
+                return [a, false] if a.publish_count > 0
+                a.update_attributes(status: params["status"], change_log: params["change_log"])
+                return [a, true]
+            end
+        end
+    end
+
     #PRIVATE
     private
 
@@ -65,9 +78,7 @@ class TemplateDatum < ApplicationRecord
 
     def before_create_set
         self.publish_count = 0
-        if self.previous_version_id.blank?
-            self.global_slug = self.name.parameterize
-        end
+        self.global_slug = self.name.parameterize
         true
     end
 
