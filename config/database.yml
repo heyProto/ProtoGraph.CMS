@@ -3,5 +3,21 @@ development:
   database: pykih_publishing_dev
   username: developer
   password: developer
-  host: 192.168.0.101
+  host: localhost
+  port: 3306
+
+staging:
+  adapter: mysql2
+  database: <%= ENV['STAGING_DB_NAME'] %>
+  username: <%= ENV['STAGING_DB_USER'] %>
+  password: <%= ENV['STAGING_DB_PASSWORD'] %>
+  host: <%= ENV['STAGING_DB_HOST'] %>
+  port: 3306
+
+production:
+  adapter: mysql2
+  database: <%= ENV['PRODUCTION_DB_NAME'] %>
+  username: <%= ENV['PRODUCTION_DB_USER'] %>
+  password: <%= ENV['PRODUCTION_DB_PASSWORD'] %>
+  host: <%= ENV['PRODUCTION_DB_HOST'] %>
   port: 3306

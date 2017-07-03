@@ -1,6 +1,6 @@
 class PermissionInvites < ApplicationMailer
 
-  default from: 'from@example.com'
+  default from: FROM_EMAIL
   layout 'mailer'
 
   def invite(user, account, email)

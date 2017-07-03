@@ -9,13 +9,14 @@ Rails.application.routes.draw do
   get '/auth/failure', to: 'authentications#failure'
 
 
-  scope :api do
-    scope :v1 do
+  namespace :api do
+    namespace :v1 do
       resources :accounts, only: [] do
-        resources :template_cards, only: [:index, :show], controller: "api/v1/template_cards"
-        resources :datacasts, only: [:create, :update], controller: "api/v1/datacasts"
+        resources :template_cards, only: [:index, :show]
+        resources :datacasts, only: [:create, :update]
       end
-      resources :view_casts, only: [:show], controller: "api/v1/view_casts"
+      resources :view_casts, only: [:show]
+      resources :template_data, only: [:create]
     end
   end
 
@@ -27,8 +28,6 @@ Rails.application.routes.draw do
     resources :authentications
 
     resources :template_data do
-      get 'flip_public_private', 'move_to_next_status', on: :member
-      get "/new/:version_genre/version", to: "template_data#new", on: :member, as: :create_version
       resources :template_cards, only: [:new] do
         get "/new/:version_genre/version", to: "template_cards#new", on: :member, as: :create_version
       end
@@ -42,6 +41,8 @@ Rails.application.routes.draw do
 
   end
 
+  get "features", to: 'static_pages#features', as: :features
+  get '/auth/:provider/callback', to: 'authentications#create'
   root 'static_pages#index'
 
 end

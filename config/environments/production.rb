@@ -86,6 +86,28 @@ Rails.application.configure do
     config.logger    = ActiveSupport::TaggedLogging.new(logger)
   end
 
+  FROM_EMAIL = "protograph@pykih.com"
+  config.action_mailer.smtp_settings = {
+    address:              'smtp.gmail.com',
+    port:                 587,
+    domain:               'gmail.com',
+    user_name:            'protograph@pykih.com',
+    password:             'HinduOpenSystems1234806',
+    authentication:       :plain,
+    enable_starttls_auto: true
+  }
+
+  Rails.application.config.middleware.use ExceptionNotification::Rack,
+  :email => {
+    :deliver_with => :deliver,
+    :email_prefix => "[PRODUCTION] ",
+    :sender_address => %{"protograph notifier" <protograph@pykih.com>},
+    :exception_recipients => %w{ritvvij.parrikh@pykih.com, ab@pykih.com, aashutosh.bhatt@pykih.com}
+  }
+
+
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
+  BASE_URL = "http://protograph.pykih.com"
+  AWS_API_DATACAST_URL = "https://d9y49oyask.execute-api.ap-south-1.amazonaws.com/production"
 end
