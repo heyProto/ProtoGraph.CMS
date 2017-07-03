@@ -105,6 +105,10 @@ label {
     transition-delay: 0s !important;
 }
 
+.proto-graph-card img{
+    height: 254px;
+}
+
 .proto-card-gradient {
     width: 100%;
     height: 250px;
@@ -215,6 +219,7 @@ label {
     margin-left: 7px;
     display: inline-block;
     margin-bottom: 15px;
+    // float: left;
 }
 
 .proto-graph-mode-buttons {
