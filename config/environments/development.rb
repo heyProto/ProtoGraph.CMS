@@ -28,13 +28,13 @@ Rails.application.configure do
 
   BASE_URL = "http://localhost:3000"
 
-  Rails.application.config.middleware.use ExceptionNotification::Rack,
-  :email => {
-    :deliver_with => :deliver,
-    :email_prefix => "[DEVELOPMENT] ",
-    :sender_address => %{"protograph notifier" <protograph@pykih.com>},
-    :exception_recipients => %w{ritvvij.parrikh@pykih.com, ab@pykih.com, aashutosh.bhatt@pykih.com}
-  }
+  # Rails.application.config.middleware.use ExceptionNotification::Rack,
+  # :email => {
+  #   :deliver_with => :deliver,
+  #   :email_prefix => "[DEVELOPMENT] ",
+  #   :sender_address => %{"protograph notifier" <protograph@pykih.com>},
+  #   :exception_recipients => %w{ritvvij.parrikh@pykih.com, ab@pykih.com, aashutosh.bhatt@pykih.com}
+  # }
 
   # Don't care if the mailer can't send.
   config.action_mailer.raise_delivery_errors = false
