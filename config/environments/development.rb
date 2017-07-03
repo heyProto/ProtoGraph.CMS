@@ -28,6 +28,14 @@ Rails.application.configure do
 
   BASE_URL = "http://localhost:3000"
 
+  # Rails.application.config.middleware.use ExceptionNotification::Rack,
+  # :email => {
+  #   :deliver_with => :deliver,
+  #   :email_prefix => "[DEVELOPMENT] ",
+  #   :sender_address => %{"protograph notifier" <protograph@pykih.com>},
+  #   :exception_recipients => %w{ritvvij.parrikh@pykih.com, ab@pykih.com, aashutosh.bhatt@pykih.com}
+  # }
+
   # Don't care if the mailer can't send.
   config.action_mailer.raise_delivery_errors = false
   config.action_mailer.default_url_options = { host: "http://localhost:3000", port: 3000 }
@@ -40,6 +48,8 @@ Rails.application.configure do
   #   authentication:       :login,
   #   :enable_starttls_auto => true
   # }
+
+  FROM_EMAIL = "dev.pykih@gmail.com"
   config.action_mailer.smtp_settings = {
     address:              'smtp.gmail.com',
     port:                 587,
@@ -73,6 +83,5 @@ Rails.application.configure do
   # Use an evented file watcher to asynchronously detect changes in source code,
   # routes, locales, etc. This feature depends on the listen gem.
   config.file_watcher = ActiveSupport::EventedFileUpdateChecker
-  AWS_API_URL = "https://xzgnalbue6.execute-api.ap-south-1.amazonaws.com/staging"
-  AWS_API_DATACAST_URL = "https://d9y49oyask.execute-api.ap-south-1.amazonaws.com/staging"
+  AWS_API_DATACAST_URL = "https://d9y49oyask.execute-api.ap-south-1.amazonaws.com/development"
 end

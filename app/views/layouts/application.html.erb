@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Rumi / Pykih</title>
+  <title>ProtoGraph / Pykih</title>
   <%= csrf_meta_tags %>
 
   <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
@@ -9,8 +9,31 @@
 </head>
 <body>
   <%= render partial: "layouts/header" %>
-  <div class="ui sixteen grid" style="width: <%= ((controller_name == 'view_casts' and action_name == 'index') or (controller_name == "accounts" and action_name == 'show')) ? "90%" : "980px" ; %>; text-align: <%= ((controller_name == 'view_casts' and action_name == 'index') or (controller_name == "accounts" and action_name == 'show')) ? "center" : "left" ; %>;margin-left: auto; margin-right: auto;">
+  <% if controller_name == "view_casts" and action_name == "new" %>
+    <div class="ui sixteen grid" style="width: 100%;">
+  <% else %>
+    <div class="ui sixteen grid" style="width: <%= ((controller_name == 'view_casts' and action_name == 'index') or (controller_name == "accounts" and action_name == 'show')) ? "90%" : "980px" ; %>; text-align: <%= ((controller_name == 'view_casts' and action_name == 'index') or (controller_name == "accounts" and action_name == 'show')) ? "center" : "left" ; %>;margin-left: auto; margin-right: auto;">
+  <% end %>
     <%= yield %>
+
+
   </div>
+<%= render partial: "layouts/footer" %>
+
+
+
+  <% config = {} %>
+  <% if notice.present? %>
+    <% config = {text: notice, notify: "success"} %>
+  <% end %>
+  <% if alert.present? %>
+    <% config = {text: alert, notify: "error"} %>
+  <% end %>
+
+  <script type="text/javascript">
+    var notice = <%= config.to_json.html_safe %>;
+    if (notice.notify) generate_notify(notice);
+  </script>
+
 </body>
 </html>

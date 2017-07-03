@@ -9,29 +9,29 @@
 
 puts "----> Creating ICFJ Account"
 
-icfj_account = Account.create({username: "icfj", domain: "icfj.org"})
+icfj_account = Account.create({username: "ICFJ", domain: "icfj.org"})
 
 puts "----> Creating Ref Roles"
 
 RefRole.create(name: "Owner", slug: "owner",
                 can_account_settings: true,
                 can_template_design_do: true,
-                can_template_design_publish: true)
+                can_template_design_publish: true, sort_order: 101)
 
 RefRole.create(name: "Editor", slug: "editor",
                 can_account_settings: true,
                 can_template_design_do: false,
-                can_template_design_publish: false)
+                can_template_design_publish: false, sort_order: 2)
 
 RefRole.create(name: "Developer", slug: "developer",
                 can_account_settings: false,
                 can_template_design_do: true,
-                can_template_design_publish: false)
+                can_template_design_publish: false, sort_order: 100)
 
 RefRole.create(name: "Writer", slug: "writer",
                 can_account_settings: false,
                 can_template_design_do: false,
-                can_template_design_publish: false)
+                can_template_design_publish: false, sort_order: 1)
 
 puts "----> Creating users and permissions"
 users = [["ritvvij.parrikh@pykih.com", "Ritvvij Parrikh" ,"ritvvijparrikh"], ["ab@pykih.com", "Amit Badheka", "amitbadheka"]]
@@ -45,16 +45,12 @@ end
 
 puts "----> Creating Template Datum"
 user_id = User.first.id
-t_explain = TemplateDatum.create({git_url: "git@github.com:pykih/ProtoGraph.Schemas.git", git_branch: "master", name: "toExplain", account_id: icfj_account.id, created_by: user_id, updated_by: user_id})
-t_brand = TemplateDatum.create({git_url: "git@github.com:pykih/ProtoGraph.Schemas.git", git_branch: "master", name: "toBrandAnIntersection", account_id: icfj_account.id, created_by: user_id, updated_by: user_id})
-t_quiz = TemplateDatum.create({git_url: "git@github.com:pykih/ProtoGraph.Schemas.git", git_branch: "master", name: "toQuiz", account_id: icfj_account.id, created_by: user_id, updated_by: user_id})
-t_share = TemplateDatum.create({git_url: "git@github.com:pykih/ProtoGraph.Schemas.git", git_branch: "master", name: "toShare", account_id: icfj_account.id, created_by: user_id, updated_by: user_id})
+t_explain = TemplateDatum.create({name: "toExplain", version: "0.0.1"})
+t_share = TemplateDatum.create({name: "toSocial", version: "0.0.1"})
 
 
 puts "----> Creating Template Cards"
 
 TemplateCard.create({git_url: "git@github.com:pykih/ProtoGraph.Card.toExplain.git", name: "toExplain", git_branch: "master", git_repo_name: "ProtoGraph.Card.toExplain", status: "published", is_public: true, account_id: icfj_account.id, created_by: user_id, updated_by: user_id, template_datum_id: t_explain.id, elevator_pitch: "Write explainers once. Reuse across stories.", description: "askdna ldknas ldknas ldknas ldknas dlkans dlkasnd laksnd laksn dalskdn aslkdn aslkd naslkd nasldk nasld knasld kansdl kasndl kasnd lasknd laksnd alskdn alskdnaslkdnal dknasl dknasld knas dlknas dlkansd lkansd laksnd lasknd alksndl aksndals kdnalsk ndalkdn alsknd alsd"})
-#TemplateCard.create({git_url: "git@github.com:pykih/ProtoGraph.Card.toBrandAnIntersection.git", name: "toBrandAnIntersection", git_branch: "master", git_repo_name: "ProtoGraph.Card.toBrandAnIntersection", status: "published", is_public: true, account_id: icfj_account.id, created_by: user_id, updated_by: user_id, template_datum_id: t_brand.id, has_static_image: true})
-TemplateCard.create({git_url: "git@github.com:pykih/ProtoGraph.Card.toQuiz.git", name: "toQuiz", git_branch: "master", git_repo_name: "ProtoGraph.Card.toQuiz", status: "published", is_public: true, account_id: icfj_account.id, created_by: user_id, updated_by: user_id, template_datum_id: t_quiz.id, elevator_pitch: "Educate readers on relevant issues with quiz.", description: "askdna ldknas ldknas ldknas ldknas dlkans dlkasnd laksnd laksn dalskdn aslkdn aslkd naslkd nasldk nasld knasld kansdl kasndl kasnd lasknd laksnd alskdn alskdnaslkdnal dknasl dknasld knas dlknas dlkansd lkansd laksnd lasknd alksndl aksndals kdnalsk ndalkdn alsknd alsd"})
-TemplateCard.create({git_url: "git@github.com:pykih/ProtoGraph.Card.toShare.git", name: "toShare", git_branch: "master", git_repo_name: "ProtoGraph.Card.toShare", status: "published", is_public: true, account_id: icfj_account.id, created_by: user_id, updated_by: user_id, template_datum_id: t_share.id, elevator_pitch: "Create branded cover images for distribution.", description: "askdna ldknas ldknas ldknas ldknas dlkans dlkasnd laksnd laksn dalskdn aslkdn aslkd naslkd nasldk nasld knasld kansdl kasndl kasnd lasknd laksnd alskdn alskdnaslkdnal dknasl dknasld knas dlknas dlkansd lkansd laksnd lasknd alksndl aksndals kdnalsk ndalkdn alsknd alsd"})
+TemplateCard.create({git_url: "git@github.com:pykih/ProtoGraph.Card.toSocial.git", name: "toSocial", git_branch: "master", git_repo_name: "ProtoGraph.Card.toSocial", status: "published", is_public: true, account_id: icfj_account.id, created_by: user_id, updated_by: user_id, template_datum_id: t_share.id, elevator_pitch: "Create branded cover images for distribution.", description: "askdna ldknas ldknas ldknas ldknas dlkans dlkasnd laksnd laksn dalskdn aslkdn aslkd naslkd nasldk nasld knasld kansdl kasndl kasnd lasknd laksnd alskdn alskdnaslkdnal dknasl dknasld knas dlknas dlkansd lkansd laksnd lasknd alksndl aksndals kdnalsk ndalkdn alsknd alsd"})
 

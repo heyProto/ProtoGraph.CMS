@@ -3,7 +3,7 @@ $(document).on('turbolinks:load', function (e) {
     if (validate_file($(this)[0].files[0].type, $(this).attr("accept"))) {
       $(this).parents('form').submit();
     } else {
-      generate_notify({text: `Invalid file type.`, notify: "error"})
+      generate_notify({text: "Invalid file type.", notify: "error"})
       return false;
     }
   });

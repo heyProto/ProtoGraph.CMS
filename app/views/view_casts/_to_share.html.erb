@@ -1,0 +1,10 @@
+<div class='row'>
+    <% if (status.keys & ['facebook', 'twitter', 'instagram']).size > 0 %>
+        <ul>
+            <% status.keys.each do |platform| %>
+                <% next if platform == 'screenshot' %>
+                <li><%= link_to "#{platform.titleize}", urls[platform.to_sym], target: "_blank" %></li>
+            <% end %>
+        </ul>
+    <% end %>
+</div>

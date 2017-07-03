@@ -8,32 +8,36 @@
       <div class="show-page-title"><%= @view_cast.name %></div>
       <div class="proto-graph-mode-buttons">
         <div class="ui small basic icon buttons">
-          <button class="ui button"><i class="desktop icon"></i>&nbsp Desktop</button>
-          <button class="ui button"><i class="mobile icon"></i> &nbsp Mobile</button>
+          <% if @view_cast.template_card.git_repo_name == 'ProtoGraph.Card.toSocial' %>
+            <button class="ui button platform_buttons" id='facebook'><i class="facebook square icon"></i></button>
+            <button class="ui button platform_buttons" id='twitter'><i class="twitter square icon"></i></button>
+            <button class="ui button platform_buttons" id='instagram'><i class="instagram square icon"></i></button>
+          <% else %>
+            <button class="ui button platform_buttons" id='laptop'><i class="desktop icon"></i>&nbsp Desktop</button>
+            <button class="ui button platform_buttons" id='mobile'><i class="mobile icon"></i> &nbsp Mobile</button>
+          <% end %>
         </div>
       </div>
       <div id="protoCard" style='width: 100%'>
-        <blockquote class="cite"><%= @view_cast.seo_blockquote.to_s.html_safe %></blockquote>
+        <%= @view_cast.seo_blockquote.to_s.html_safe %>
       </div>
 
-      <script src="https://d2m6lzru8erw1k.cloudfront.net/lib/protoGraph.js"></script>
-      <script type="text/javascript">
-        var proto_embed_test = new ProtoEmbed.initFrame(document.getElementById('protoCard'), "<%= "#{@view_cast.template_card.index_html}?HtmlCast_Unique_Identifier=#{@view_cast.id}" %>" , 'small')
-      </script>
+      <script src="https://d2m6lzru8erw1k.cloudfront.net/lib/protoGraph.min.js"></script>
+
       <div class="proto-graph-code-area">
         <div class="proto-graph-code-area-title">Embed</div>
         <textarea class="proto-graph-code" readonly>
           <div id="ProtoCard">
-            <blockquote class="cite"><%= @view_cast.seo_blockquote %></blockquote>
-          </div><script src="https://d2m6lzru8erw1k.cloudfront.net/lib/protoGraph.js"></script><script type="text/javascript">new ProtoEmbed.initFrame(document.getElementById('ProtoCard'), "<%= "#{@view_cast.template_card.index_html}?HtmlCast_Unique_Identifier=#{@view_cast.id}" %>" , 'small')</script>
+            <%= @view_cast.seo_blockquote %>
+          </div><script src="https://d2m6lzru8erw1k.cloudfront.net/lib/protoGraph.min.js"></script><script type="text/javascript">new ProtoEmbed.initFrame(document.getElementById('ProtoCard'), "<%= "#{@view_cast.template_card.index_html}?HtmlCast_Unique_Identifier=#{@view_cast.id}" %>" , "<%= @view_cast.template_card.git_repo_name == 'ProtoGraph.Card.toSocial' ? "instagram" : "laptop"  %>")</script>
         </textarea>
       </div>
     </div>
     <div class="four wide column">
       <div class="card-details">
-        <div class="card-details-title">Card Details</div>
+        <div class="card-details-title">Details</div>
         <div class="sigle-detail">
-          <div class="card-detail-lable">Card Type:</div>
+          <div class="card-detail-lable">App:</div>
           <div class="card-detail-Value"><%= @view_cast.template_card.name %></div>
         </div>
         <!-- <br> -->
@@ -64,3 +68,20 @@
 </div>
 
 <%= link_to "Edit Card", edit_account_view_cast_path(@account, @view_cast),"data-turbolinks"=> false %>
+
+<% if @view_cast.template_card.git_repo_name ==  "ProtoGraph.Card.toSocial" %>
+  <%= render partial: "view_casts/to_share", locals: {status: JSON.parse(@view_cast.status), urls: @view_cast.social_urls} %>
+<% end %>
+
+<script type="text/javascript">
+  var proto_embed_test = new ProtoEmbed.initFrame(document.getElementById('protoCard'), "<%= "#{@view_cast.template_card.index_html}?HtmlCast_Unique_Identifier=#{@view_cast.id}" %>" , "<%= @view_cast.template_card.git_repo_name == 'ProtoGraph.Card.toSocial' ? "instagram" : "laptop"  %>")
+
+
+  $('.platform_buttons').on('click', function(event){
+    var platform = this.id
+    proto_embed_test.sandbox.oasis.services[0].send('change_mode', platform);
+    $('.proto-graph-code').val(`<div id="ProtoCard"><%= @view_cast.seo_blockquote.html_safe %></div><script src="https://d2m6lzru8erw1k.cloudfront.net/lib/protoGraph.min.js"><\/script><script type="text/javascript">new ProtoEmbed.initFrame(document.getElementById('ProtoCard'), "<%= "#{@view_cast.template_card.index_html}?HtmlCast_Unique_Identifier=#{@view_cast.id}" %>" , '${platform}')<\/script>`);
+    event.stopPropagation();
+  })
+
+</script>
