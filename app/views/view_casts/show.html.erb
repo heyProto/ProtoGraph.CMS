@@ -23,15 +23,18 @@
       </div>
 
       <script src="https://d2m6lzru8erw1k.cloudfront.net/lib/protoGraph.min.js"></script>
-
-      <div class="proto-graph-code-area">
-        <div class="proto-graph-code-area-title">Embed</div>
-        <textarea class="proto-graph-code" readonly>
-          <div id="ProtoCard">
-            <%= @view_cast.seo_blockquote %>
-          </div><script src="https://d2m6lzru8erw1k.cloudfront.net/lib/protoGraph.min.js"></script><script type="text/javascript">new ProtoEmbed.initFrame(document.getElementById('ProtoCard'), "<%= "#{@view_cast.template_card.index_html}?HtmlCast_Unique_Identifier=#{@view_cast.id}" %>" , "<%= @view_cast.template_card.git_repo_name == 'ProtoGraph.Card.toSocial' ? "instagram" : "laptop"  %>")</script>
-        </textarea>
-      </div>
+      <% if @view_cast.template_card.git_repo_name ==  "ProtoGraph.Card.toSocial" %>
+        <%= render partial: "view_casts/to_share", locals: {status: JSON.parse(@view_cast.status), urls: @view_cast.social_urls} %>
+      <% else %>
+        <div class="proto-graph-code-area">
+          <div class="proto-graph-code-area-title">Embed</div>
+          <textarea class="proto-graph-code" readonly>
+            <div id="ProtoCard">
+              <%= @view_cast.seo_blockquote %>
+            </div><script src="https://d2m6lzru8erw1k.cloudfront.net/lib/protoGraph.min.js"></script><script type="text/javascript">new ProtoEmbed.initFrame(document.getElementById('ProtoCard'), "<%= "#{@view_cast.template_card.index_html}?HtmlCast_Unique_Identifier=#{@view_cast.id}" %>" , "<%= @view_cast.template_card.git_repo_name == 'ProtoGraph.Card.toSocial' ? "instagram" : "laptop"  %>")</script>
+          </textarea>
+        </div>
+      <% end %>
     </div>
     <div class="four wide column">
       <div class="card-details">
@@ -69,9 +72,7 @@
 
 <%= link_to "Edit Card", edit_account_view_cast_path(@account, @view_cast),"data-turbolinks"=> false %>
 
-<% if @view_cast.template_card.git_repo_name ==  "ProtoGraph.Card.toSocial" %>
-  <%= render partial: "view_casts/to_share", locals: {status: JSON.parse(@view_cast.status), urls: @view_cast.social_urls} %>
-<% end %>
+
 
 <script type="text/javascript">
   var proto_embed_test = new ProtoEmbed.initFrame(document.getElementById('protoCard'), "<%= "#{@view_cast.template_card.index_html}?HtmlCast_Unique_Identifier=#{@view_cast.id}" %>" , "<%= @view_cast.template_card.git_repo_name == 'ProtoGraph.Card.toSocial' ? "instagram" : "laptop"  %>")
