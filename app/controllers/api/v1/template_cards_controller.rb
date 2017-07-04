@@ -6,7 +6,7 @@ class Api::V1::TemplateCardsController < ApiController
     end
 
     def show
-        @template_card = @account.template_cards.where(id: params[:id]).first
+        @template_card = @account.template_cards.friendly.find(params[:id])
         if @template_card.present?
             render json: {template_card: @template_card.as_json(only: [:account_id, :id, :slug, :global_slug,:name, :elevator_pitch, :description, :template_datum_id, :git_repo_name, :is_public], methods: [:account_slug, :files, :versions])}
         else

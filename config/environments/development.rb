@@ -27,7 +27,6 @@ Rails.application.configure do
   end
 
   BASE_URL = "http://localhost:3000"
-
   # Rails.application.config.middleware.use ExceptionNotification::Rack,
   # :email => {
   #   :deliver_with => :deliver,
