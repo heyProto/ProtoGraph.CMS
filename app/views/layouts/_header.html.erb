@@ -1,7 +1,7 @@
 <div style="width: 980px; margin-left: auto; margin-right: auto;">
   <% if !user_signed_in? %>
     <div class="ui menu clear">
-      <div class="item"><%= link_to image_tag("logo.png"), root_url %></div>
+      <div class="item"><%= link_to image_tag("logo.png", class: "protograph-logo-image"), root_url %></div>
       <div class="right menu">
         <%= link_to "Features", features_path, "data-turbolinks"=> false, class: "item" %>
       </div>
@@ -9,7 +9,7 @@
   <% else %>
     <div class="ui menu clear">
       <% if @on_an_account_page %>
-          <div class="item"><%= link_to image_tag("_logo.png"), account_path(@account) %></div>
+          <div class="item"><%= link_to image_tag("_logo.png", class: "protograph-logo-image"), account_path(@account) %></div>
           <div class="item"><%= link_to @account.username, account_path(@account) %></div>
           <div class="right menu">
               <div class="item"><%= link_to "Start writing here", new_account_view_cast_path(@account), "data-turbolinks"=> false %></div>
@@ -35,7 +35,7 @@
               </div>
           </div>
       <% else %>
-          <div class="item"><%= link_to image_tag("_logo.png"), root_url, style: "border: 0px;" %></div>
+          <div class="item"><%= link_to image_tag("_logo.png", class: "protograph-logo-image"), root_url, style: "border: 0px;" %></div>
           <div class="right menu">
               <div class="ui dropdown pointing item">
                 <%= image_tag avatar_url(current_user.email), class: "ui avatar image" %>
