@@ -26,8 +26,8 @@ Rails.application.configure do
     config.cache_store = :null_store
   end
 
-  BASE_URL = "http://localhost:3000"
-
+  #BASE_URL = "http://localhost:3000"
+  BASE_URL = "https://3fc38481.ngrok.io"
   # Rails.application.config.middleware.use ExceptionNotification::Rack,
   # :email => {
   #   :deliver_with => :deliver,
