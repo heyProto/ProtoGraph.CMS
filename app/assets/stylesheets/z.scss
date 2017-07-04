@@ -88,7 +88,6 @@ label {
 }
 
 .proto-graph-card img{
-    height: 254px;
 }
 
 .proto-card-gradient {
@@ -196,7 +195,7 @@ label {
 }
 
 .proto-graph-card-div{
-    width: 315px;
+    width: 254px;
     margin-right: 7px;
     margin-left: 7px;
     display: inline-block;
@@ -223,6 +222,7 @@ label {
     margin-bottom: 15px;
 }
 
+
 .proto-graph-code-area {
     margin-top: 30px;
 }
@@ -230,4 +230,8 @@ label {
 .proto-graph-code-area-title {
     margin-bottom: 10px;
     font-weight: bold;
+}
+
+.index-card-image{
+    height: 254px;
 }
