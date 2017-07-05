@@ -101,6 +101,11 @@ class ViewCast < ApplicationRecord
                 status_obj[mode] = true
                 self.update_attributes(status: status_obj.to_json, stop_callback: true)
             end
+        # else
+        #     Thread.new do
+        #         self.save_png(mode)
+        #         ActiveRecord::Base.connection.close
+        #     end
         end
     end
     #PRIVATE

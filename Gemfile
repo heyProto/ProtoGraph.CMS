@@ -21,6 +21,7 @@ gem 'best_in_place', '~> 3.0.1'
 gem 'kaminari'
 gem "version"
 gem 'exception_notification'
+gem 'foreman'
 
 #AUTHENTICATION
 gem 'devise'
