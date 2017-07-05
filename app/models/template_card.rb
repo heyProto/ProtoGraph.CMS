@@ -139,6 +139,7 @@ class TemplateCard < ApplicationRecord
             "html": "#{index_html}",
             "configuration_schema": "#{base_url}/configuration_schema.json",
             "configuration_sample": "#{base_url}/configuration_sample.json",
+            "ui_schema": "#{base_url}/ui_schema.json",
             # "configuration_schema": "http://192.168.2.7:8001/dist/0.0.1/configuration_schema.json",
             # "configuration_sample": "http://192.168.2.7:8001/dist/0.0.1/configuration_sample.json",
             "icon_url": "#{icon_url}",
