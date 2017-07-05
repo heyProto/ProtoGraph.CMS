@@ -1,5 +1,5 @@
 a{
-    color: #0366d6 !important;
+    /*color: #0366d6 !important;*/
 }
 
 a:hover{
@@ -40,8 +40,6 @@ a.ui.button:hover {
     color: #ff5722 !important;
     border: 1px solid lightgray;
 }
-
-
 
 
 table.ui.table > thead > tr > th{
