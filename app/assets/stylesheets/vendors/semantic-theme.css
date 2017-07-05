@@ -29,17 +29,17 @@ a.ui.button:hover {
 
 .card > .content > .meta > a{font-size: 11px;}
 
-.ui.button{
+/*.ui.button{
     background: #0366d6 !important;
     color: white !important;
     border: 1px solid #0366d6;
-}
+}*/
 
-.ui.button:hover{
+/*.ui.button:hover{
     background: white !important;
     color: #ff5722 !important;
     border: 1px solid lightgray;
-}
+}*/
 
 
 table.ui.table > thead > tr > th{
