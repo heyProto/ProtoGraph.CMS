@@ -1,3 +1,10 @@
+<% if Rails.env.staging? %>
+  <div class="ui grid" style="margin-top: 10px;">
+    <div class="ui yellow message">
+      Please note: This is a staging environment for testing and not for use in production.
+    </div>
+  </div>
+<% end %>
 <div class="ui grid" style="margin-top: 51px;">
   <div class="eight wide column">
     <h1 class="ui big header" style="font-size: 4em;">
