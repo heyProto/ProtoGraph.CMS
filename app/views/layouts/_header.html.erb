@@ -51,5 +51,7 @@
       <% end %>
     </div>
   <% end %>
-  <hr style="margin-top: -15px; margin-bottom: 40px; border-top: #EDEDED;"/>
+  <% if !(controller_name == "view_casts" and (action_name == "new" or action_name == "edit")) %>
+      <hr style="margin-top: -15px; margin-bottom: 40px; border-top: #EDEDED;"/>
+  <% end %>
 </div>
