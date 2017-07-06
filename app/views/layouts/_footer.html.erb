@@ -1,11 +1,17 @@
-<div class="ui sixteen grid">
-<div style="margin-top: 100px; margin-bottom: 30px; width: 980px; margin-left: auto; margin-right: auto;">
-    <p style="font-size: 11px; text-align: right;">
+<div class="ui sixteen grid" style="margin-top: 100px; margin-bottom: 30px; width: 980px; margin-left: auto; margin-right: auto;">
+    <div class="fourteen wide column">
+        <p style="font-size: 11px; text-align: right;">
         Individual tools by <a href="https://www.icfj.org" target="_blank">International Center for Journalists</a> and ProtoGraph platform by <a href="https://pykih.com" target="_blank">Pykih</a>.
-        &nbsp;&nbsp;&nbsp;&nbsp;
-        <img src="/comodo_secure_seal_76x26_transp.png">
-    </p>
-</div>
+        </p>
+    </div>
+    <div class="two wide column">
+        <% if Rails.env.staging? %>
+            <script language="JavaScript" type="text/javascript">
+              TrustLogo("http://protograph-staging.pykih.com/comodo_secure_seal_76x26_transp.png", "SC5", "none");
+            </script>
+            <a href="https://ssl.comodo.com/ev-ssl-certificates.php" id="comodoTL">EV SSL</a>
+        <% end %>
+    </div>
 </div>
 
 <% if Rails.env.production? %>
