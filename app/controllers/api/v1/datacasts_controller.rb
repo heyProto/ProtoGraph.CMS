@@ -20,7 +20,7 @@ class Api::V1::DatacastsController < ApiController
             end
 
         else
-            render json: {error_message: view_cast.errors.messages}, status: 422
+            render json: {error_message: view_cast.errors.full_messages}, status: 422
         end
     end
 

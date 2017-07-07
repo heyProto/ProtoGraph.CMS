@@ -130,12 +130,12 @@ class ViewCast < ApplicationRecord
     def after_save_set
         if self.saved_changes? and !self.stop_callback
             Thread.new do
-                self.save_png
                 if self.template_card.git_repo_name == 'ProtoGraph.Card.toSocial'
                     self.save_png('twitter')
                     self.save_png('instagram')
                     self.save_png('facebook')
                 end
+                self.save_png
                 ActiveRecord::Base.connection.close
             end
         end
