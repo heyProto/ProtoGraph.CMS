@@ -108,6 +108,6 @@ Rails.application.configure do
 
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
-  BASE_URL = "http://protograph.pykih.com"
+  BASE_URL = "https://protograph.pykih.com"
   AWS_API_DATACAST_URL = "https://d9y49oyask.execute-api.ap-south-1.amazonaws.com/production"
 end
