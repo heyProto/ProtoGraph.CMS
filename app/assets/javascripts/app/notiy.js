@@ -12,7 +12,7 @@ function generate_notify(config) {
     //top - topLeft - topCenter - topRight - center - centerLeft - centerRight - bottom - bottomLeft - bottomCenter - bottomRight
   }
   if(!config.timeout){
-    config.timeout = 1000;
+    config.timeout = 3000;
   }
 
   $.noty.closeAll();
