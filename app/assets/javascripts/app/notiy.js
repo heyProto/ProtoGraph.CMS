@@ -20,6 +20,8 @@ function generate_notify(config) {
       text        : config.text,
       type        : config.notify,
       dismissQueue: false,
+      closeWith   : ['click','timeout'],
+      maxVisible  : 10,
       layout      : config.position,
       theme       : 'defaultTheme',
       timeout     : config.timeout,
@@ -34,14 +36,26 @@ function generate_notify(config) {
 }
 
 function showAllValidationErrors(errors) {
-  for (i in errors) {
-    error = errors[i];
-    noty({
-      text        : error,
-      type        : "error",
-      dismissQueue: false,
-      layout      : "bottomRight",
-      theme       : 'defaultTheme'
-    });
+  let parameters = {
+    notify        : "error"
+  };
+  $.noty.closeAll();
+  switch(errors.constructor) {
+    case Array:
+      for (let i = 0; i < errors.length; i++) {
+        parameters.text = errors[i];
+        generate_notify(parameters);
+      }
+      break;
+    case Object:
+      for (i in errors) {
+        parameters.text = errors[i];
+        generate_notify(parameters);
+      }
+      break;
+    case String:
+      parameters.text = errors;
+      generate_notify(parameters);
+      break;
   }
 }

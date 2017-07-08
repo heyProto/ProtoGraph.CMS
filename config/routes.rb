@@ -37,7 +37,9 @@ Rails.application.routes.draw do
       get 'flip_public_private', 'move_to_next_status', on: :member
     end
 
-    resources :view_casts, only: [:new, :index, :show, :edit]
+    resources :view_casts, only: [:new, :index, :show, :edit] do
+      put :"recreate/:mode", to: "view_casts#recreate", on: :member, as: :recreate
+    end
 
   end
 

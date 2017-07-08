@@ -23,6 +23,7 @@
 class ViewCast < ApplicationRecord
     #CONSTANTS
     Datacast_ENDPOINT = "#{ENV['AWS_S3_ENDPOINT']}/Datacasts"
+    Platforms = ['facebook', 'twitter', 'instagram']
     #CUSTOM TABLES
     #GEMS
     extend FriendlyId
@@ -92,21 +93,24 @@ class ViewCast < ApplicationRecord
         html_url = "#{ENV['AWS_S3_ENDPOINT']}/#{key}"
         response = Api::ProtoGraph::ViewCast.render_screenshot(payload)
         unless response['errorMessage'].present?
-            status_obj = JSON.parse(self.status || {}.to_json)
-            status_obj['screenshot'] = true
             if mode.blank?
-                self.update_attributes(render_screenshot_url: html_url, status: status_obj.to_json, stop_callback: true)
+                self.update_attributes(render_screenshot_url: html_url, stop_callback: true)
             else
-                status_obj = JSON.parse(self.status || {}.to_json)
-                status_obj[mode] = true
+                status_obj = JSON.parse(self.status)
+                status_obj[mode] = "success"
                 self.update_attributes(status: status_obj.to_json, stop_callback: true)
             end
+        else
+            status_obj = JSON.parse(self.status)
+            status_obj[mode] = "failed"
+            self.update_attributes(status: status_obj.to_json, stop_callback: true)
+        end
         # else
         #     Thread.new do
         #         self.save_png(mode)
         #         ActiveRecord::Base.connection.close
         #     end
-        end
+        # end
     end
     #PRIVATE
     private
@@ -124,16 +128,18 @@ class ViewCast < ApplicationRecord
             resp = Api::ProtoGraph::Utility.upload_to_cdn(encoded_file, key, content_type)
             self.cdn_url = resp.first["s3_endpoint"]
         end
-        self.status = {}.to_json if self.status.blank?
+        if self.status.blank?
+            self.status = {"twitter": "creating", "facebook": "creating", "instagram": "creating"}.to_json
+        end
     end
 
     def after_save_set
         if self.saved_changes? and !self.stop_callback
             Thread.new do
                 if self.template_card.git_repo_name == 'ProtoGraph.Card.toSocial'
-                    self.save_png('twitter')
-                    self.save_png('instagram')
-                    self.save_png('facebook')
+                    ViewCast::Platforms.each do |mode|
+                        self.save_png(mode)
+                    end
                 end
                 self.save_png
                 ActiveRecord::Base.connection.close
