@@ -36,26 +36,24 @@ function generate_notify(config) {
 }
 
 function showAllValidationErrors(errors) {
-  let parameters = {
-    notify        : "error"
-  };
+  var con = { notify: "error"};
   $.noty.closeAll();
   switch(errors.constructor) {
     case Array:
-      for (let i = 0; i < errors.length; i++) {
-        parameters.text = errors[i];
-        generate_notify(parameters);
+      for (var i = 0; i < errors.length; i++) {
+        con.text = errors[i];
+        generate_notify(con);
       }
       break;
     case Object:
       for (i in errors) {
-        parameters.text = errors[i];
-        generate_notify(parameters);
+        con.text = errors[i];
+        generate_notify(con);
       }
       break;
     case String:
-      parameters.text = errors;
-      generate_notify(parameters);
+      con.text = errors;
+      generate_notify(con);
       break;
   }
 }
