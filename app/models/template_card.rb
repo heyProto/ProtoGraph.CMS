@@ -144,7 +144,8 @@ class TemplateCard < ApplicationRecord
             # "configuration_sample": "http://192.168.2.7:8001/dist/0.0.1/configuration_sample.json",
             "icon_url": "#{icon_url}",
             "schema_files": self.template_datum.files,
-            "edit_file_js": "#{base_url}/edit-card.min.js"
+            "edit_file_js": "#{base_url}/edit-card.min.js",
+            "protograph_html": "#{protograph_html}"
         }
 
         obj["static_image"] = "#{base_url}/static_image.png" if self.has_static_image
@@ -153,6 +154,10 @@ class TemplateCard < ApplicationRecord
 
     def index_html
         "#{base_url}/index.html"
+    end
+
+    def protograph_html
+        "#{base_url}/protograph.html"
     end
 
 

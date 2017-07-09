@@ -27,11 +27,16 @@
         <%= render partial: "view_casts/to_share", locals: {status: JSON.parse(@view_cast.status), urls: @view_cast.social_urls} %>
       <% else %>
         <div class="proto-graph-code-area">
-          <div class="proto-graph-code-area-title">Embed</div>
+          <div class="proto-graph-code-area-title">Protograph Embed</div>
           <textarea class="proto-graph-code" readonly>
             <div id="ProtoCard">
               <%= @view_cast.seo_blockquote %>
             </div><script src="https://d2m6lzru8erw1k.cloudfront.net/lib/protoGraph.min.js"></script><script type="text/javascript">new ProtoEmbed.initFrame(document.getElementById('ProtoCard'), "<%= "#{@view_cast.template_card.index_html}?HtmlCast_Unique_Identifier=#{@view_cast.id}" %>" , "<%= @view_cast.template_card.git_repo_name == 'ProtoGraph.Card.toSocial' ? "instagram" : "laptop"  %>")</script>
+          </textarea>
+          </br>
+          <div class="proto-graph-code-area-title">Normal Embed</div>
+          <textarea class="proto-graph-code" readonly>
+            <iframe width="560" height="315" src="<%= "#{@view_cast.template_card.protograph_html}?HtmlCast_Unique_Identifier=#{@view_cast.id}" %>" frameborder="0" allowfullscreen></iframe>
           </textarea>
         </div>
       <% end %>
