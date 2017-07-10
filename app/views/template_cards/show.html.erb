@@ -17,7 +17,7 @@
     </h3>
     <br/>
     <% if @template.status == "Draft" %>
-        <%= link_to "Submit for review", move_to_next_status_account_template_card_path(@account, @template), class: "ui primary button", style: "color: white !important;" %>
+        <%= link_to "Submit for review", move_to_next_status_account_template_card_path(@account, @template), class: "ui primary button" %>
     <% else %>
         <i class="checkmark box icon green" style="font-size: 1.5em;"></i>
     <% end %>
@@ -27,11 +27,11 @@
     <div class="ui divider"></div>
     <h3>
       <a class="<%= @template.status != "Draft" ? "ui green ribbon label" : "ui blue ribbon label" %>">Step #4</a>
-      Publish the Datacast
+      Publish the Card
     </h3>
     <br/>
     <% if @template.status == "Ready to Publish" %>
-        <%= link_to "Publish", move_to_next_status_account_template_card_path(@account, @template), class: "ui primary button", style: "color: white !important;" %>
+        <%= link_to "Publish", move_to_next_status_account_template_card_path(@account, @template), class: "ui primary button" %>
     <% else %>
         <i class="checkmark box icon green" style="font-size: 1.5em;"></i>
     <% end %>
@@ -41,7 +41,7 @@
   <div class="ui divider"></div>
   <br/>
   <% if @template.status != "Published" %>
-  <%= link_to 'Destroy', [@account, @template_card], method: :delete, data: { confirm: 'Are you sure?' }, class: "ui red basic button" %>
+    <%= link_to 'Destroy', [@account, @template_card], method: :delete, data: { confirm: 'Are you sure?' }, class: "ui red basic button" %>
   <% end %>
   <br/><br/><br/><br/>
   <div class="ui dividing right rail" style="min-height: 339px;"></div>

@@ -29,7 +29,7 @@ Rails.application.routes.draw do
 
     resources :template_data do
       resources :template_cards, only: [:new] do
-        get "/new/:version_genre/version", to: "template_cards#new", on: :member, as: :create_version
+        post "/create_version/:version_genre", to: "template_cards#create_version", on: :member, as: :create_version
       end
     end
 

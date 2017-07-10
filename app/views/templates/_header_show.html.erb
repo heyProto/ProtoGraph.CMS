@@ -18,7 +18,7 @@
         <div class="description">Verify. Review. Test.</div>
       </div>
     </div>
-    <div class="<%= @template.status != "Published" ? "step" : (@template.status == "Published" and !@template.is_connected?) ? "active step" : "active completed step"%>">
+    <div class="<%= @template.status != "Published" ? "step" : "active completed step"%>">
       <div class="content">
         <div class="title">Connect</div>
         <div class="description">Go live. Use.</div>

@@ -32,7 +32,7 @@ module Versionable
     end
 
     def move_to_next_status
-        if self.can_ready_to_publish?
+        if self.can_ready_to_publish? and self.status != 'Ready to Publish'
             self.update_attributes(status: "Ready to Publish")
             return "Successfully updated."
         elsif self.status == "Ready to Publish"
@@ -50,6 +50,34 @@ module Versionable
 
     def can_make_public?
         self.status == "Published" ? true : false
+    end
+
+    def override_previous
+        self.previous.view_casts.update_all(template_card_id: self.id)
+    end
+
+    def bump_version(mode)
+        new_version = self.version.to_version
+        new_version.bump!(mode.to_sym)
+        vesion = self.class.create({
+            account_id: self.account_id,
+            name: self.name,
+            elevator_pitch: self.elevator_pitch,
+            description: self.description,
+            global_slug: self.global_slug,
+            version_series: new_version.major,
+            previous_version_id: self.id,
+            version_genre: mode,
+            version: new_version,
+            git_url: self.git_url,
+            git_branch: new_version,
+            template_datum_id: self.template_datum_id,
+            has_static_image: self.has_static_image,
+            git_repo_name: self.git_repo_name
+        })
+        if self.mode == 'bug'
+            vesion.override_previous
+        end
     end
 
 end

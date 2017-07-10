@@ -1,7 +1,7 @@
 class TemplateCardsController < ApplicationController
 
   before_action :authenticate_user!, :sudo_role_can_template_designer
-  before_action :set_template_card, only: [:show, :edit, :update, :destroy, :flip_public_private, :move_to_next_status]
+  before_action :set_template_card, only: [:show, :edit, :update, :destroy, :flip_public_private, :move_to_next_status, :create_versions]
 
   def index
     @template_cards = @account.template_cards
@@ -25,7 +25,8 @@ class TemplateCardsController < ApplicationController
   end
 
   def move_to_next_status
-    redirect_to account_template_card_path(@account, @template_card), notice: @template_card.move_to_next_status
+    notice = @template_card.move_to_next_status
+    redirect_to account_template_card_path(@account, @template_card), notice: notice
   end
 
   def create
@@ -64,6 +65,14 @@ class TemplateCardsController < ApplicationController
     end
 
   end
+
+
+  def create_versions
+    mode = params[:version_genre]
+    template_card = @template_card.bump_version(mode)
+    redirect_to account_template_card_path(@account, template_card), notice: t("cs")
+  end
+
 
   def destroy
     if !@template_card.cards.first.present?

@@ -45,13 +45,6 @@ class TemplateCard < ApplicationRecord
     #ASSOCIATIONS
     belongs_to :template_datum
     belongs_to :account
-    # has_one :html, ->{where(genre: "html", attachable_type: "TemplateCard")}, class_name: "ServicesAttachable", foreign_key: "attachable_id"
-    # has_one :css, ->{where(genre: "css", attachable_type: "TemplateCard")}, class_name: "ServicesAttachable", foreign_key: "attachable_id"
-    # has_one :js, ->{where(genre: "js", attachable_type: "TemplateCard")}, class_name: "ServicesAttachable", foreign_key: "attachable_id"
-    # has_one :config, ->{where(genre: "config", attachable_type: "TemplateCard")}, class_name: "ServicesAttachable", foreign_key: "attachable_id"
-    # has_one :image, ->{where(genre: "image", attachable_type: "TemplateCard")}, class_name: "ServicesAttachable", foreign_key: "attachable_id"
-    # has_one :logo, ->{where(genre: "logo", attachable_type: "TemplateCard")}, class_name: "ServicesAttachable", foreign_key: "attachable_id"
-
 
     #ACCESSORS
     attr_accessor :previous_version_id
@@ -99,7 +92,7 @@ class TemplateCard < ApplicationRecord
 
     def can_ready_to_publish?
         if self.description.present?
-                return true
+            return true
         end
         return false
     end
@@ -124,12 +117,10 @@ class TemplateCard < ApplicationRecord
 
     def js
         "#{base_url}/card.min.js"
-        # "http://192.168.2.7:8001/dist/0.0.1/card.min.js"
     end
 
     def css
         "#{base_url}/card.min.css"
-        # "http://192.168.2.7:8001/dist/0.0.1/card.min.css"
     end
 
     def files
@@ -140,8 +131,6 @@ class TemplateCard < ApplicationRecord
             "configuration_schema": "#{base_url}/configuration_schema.json",
             "configuration_sample": "#{base_url}/configuration_sample.json",
             "ui_schema": "#{base_url}/ui_schema.json",
-            # "configuration_schema": "http://192.168.2.7:8001/dist/0.0.1/configuration_schema.json",
-            # "configuration_sample": "http://192.168.2.7:8001/dist/0.0.1/configuration_sample.json",
             "icon_url": "#{icon_url}",
             "schema_files": self.template_datum.files,
             "edit_file_js": "#{base_url}/edit-card.min.js",
@@ -184,12 +173,6 @@ class TemplateCard < ApplicationRecord
     end
 
     def after_create_set
-        # ServicesAttachable.create_shell_object(self, "html")
-        # ServicesAttachable.create_shell_object(self, "js")
-        # ServicesAttachable.create_shell_object(self, "css")
-        # ServicesAttachable.create_shell_object(self, "config")
-        # ServicesAttachable.create_shell_object(self, "logo")
-        # ServicesAttachable.create_shell_object(self, "image")
         true
     end
 end
