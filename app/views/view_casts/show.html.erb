@@ -28,15 +28,15 @@
       <% else %>
         <div class="proto-graph-code-area">
           <div class="proto-graph-code-area-title">Protograph Embed</div>
-          <textarea class="proto-graph-code" readonly>
+          <textarea class="proto-graph-code protograph-iframe" readonly>
             <div id="ProtoCard">
               <%= @view_cast.seo_blockquote %>
-            </div><script src="https://d2m6lzru8erw1k.cloudfront.net/lib/protoGraph.min.js"></script><script type="text/javascript">new ProtoEmbed.initFrame(document.getElementById('ProtoCard'), "<%= "#{@view_cast.template_card.index_html}?HtmlCast_Unique_Identifier=#{@view_cast.id}" %>" , "<%= @view_cast.template_card.git_repo_name == 'ProtoGraph.Card.toSocial' ? "instagram" : "laptop"  %>")</script>
+            </div><script src="https://d2m6lzru8erw1k.cloudfront.net/lib/protoGraph.min.js"></script><script type="text/javascript">new ProtoEmbed.initFrame(document.getElementById('ProtoCard'), "<%= "#{@view_cast.template_card.index_html}?ViewCast_Unique_Identifier=#{@view_cast.id}" %>" , "<%= @view_cast.template_card.git_repo_name == 'ProtoGraph.Card.toSocial' ? "instagram" : "laptop"  %>")</script>
           </textarea>
           </br>
           <div class="proto-graph-code-area-title">Normal Embed</div>
           <textarea class="proto-graph-code" readonly>
-            <iframe width="560" height="315" src="<%= "#{@view_cast.template_card.protograph_html}?HtmlCast_Unique_Identifier=#{@view_cast.id}" %>" frameborder="0" allowfullscreen></iframe>
+            <iframe width="560" height="315" src="<%= "#{@view_cast.template_card.protograph_html}?ViewCast_Unique_Identifier=#{@view_cast.id}" %>" frameborder="0" allowfullscreen></iframe>
           </textarea>
         </div>
       <% end %>
@@ -80,13 +80,13 @@
 
 
 <script type="text/javascript">
-  var proto_embed_test = new ProtoEmbed.initFrame(document.getElementById('protoCard'), "<%= "#{@view_cast.template_card.index_html}?HtmlCast_Unique_Identifier=#{@view_cast.id}" %>" , "<%= @view_cast.template_card.git_repo_name == 'ProtoGraph.Card.toSocial' ? "instagram" : "laptop"  %>")
+  var proto_embed_test = new ProtoEmbed.initFrame(document.getElementById('protoCard'), "<%= "#{@view_cast.template_card.index_html}?ViewCast_Unique_Identifier=#{@view_cast.id}" %>" , "<%= @view_cast.template_card.git_repo_name == 'ProtoGraph.Card.toSocial' ? "instagram" : "laptop"  %>")
 
 
   $('.platform_buttons').on('click', function(event){
     var platform = this.id
     proto_embed_test.sandbox.oasis.services[0].send('change_mode', platform);
-    $('.proto-graph-code').val(`<div id="ProtoCard"><%= @view_cast.seo_blockquote.html_safe %></div><script src="https://d2m6lzru8erw1k.cloudfront.net/lib/protoGraph.min.js"><\/script><script type="text/javascript">new ProtoEmbed.initFrame(document.getElementById('ProtoCard'), "<%= "#{@view_cast.template_card.index_html}?HtmlCast_Unique_Identifier=#{@view_cast.id}" %>" , '${platform}')<\/script>`);
+    $('.proto-graph-code.protograph-iframe').val(`<div id="ProtoCard"><%= @view_cast.seo_blockquote.html_safe %></div><script src="https://d2m6lzru8erw1k.cloudfront.net/lib/protoGraph.min.js"><\/script><script type="text/javascript">new ProtoEmbed.initFrame(document.getElementById('ProtoCard'), "<%= "#{@view_cast.template_card.index_html}?ViewCast_Unique_Identifier=#{@view_cast.id}" %>" , '${platform}')<\/script>`);
     event.stopPropagation();
   })
 
