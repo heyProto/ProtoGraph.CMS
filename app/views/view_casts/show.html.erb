@@ -40,6 +40,10 @@
           </textarea>
         </div>
       <% end %>
+
+      <%= link_to "Edit Card", edit_account_view_cast_path(@account, @view_cast),"data-turbolinks"=> false %>
+
+
     </div>
     <div class="four wide column">
       <div class="card-details">
@@ -74,10 +78,6 @@
     </div>
   </div>
 </div>
-
-<%= link_to "Edit Card", edit_account_view_cast_path(@account, @view_cast),"data-turbolinks"=> false %>
-
-
 
 <script type="text/javascript">
   var proto_embed_test = new ProtoEmbed.initFrame(document.getElementById('protoCard'), "<%= "#{@view_cast.template_card.index_html}?ViewCast_Unique_Identifier=#{@view_cast.id}" %>" , "<%= @view_cast.template_card.git_repo_name == 'ProtoGraph.Card.toSocial' ? "instagram" : "laptop"  %>")
