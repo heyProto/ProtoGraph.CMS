@@ -21,7 +21,7 @@ class ViewCastsController < ApplicationController
             Thread.new do
                 status = JSON.parse(@view_cast.status)
                 status[mode] = 'creating'
-                @view_cast.update_column(:status, status.to_json )
+                @view_cast.update_column(status: status.to_json,updated_at: Time.now)
                 @view_cast.save_png(mode)
                 ActiveRecord::Base.connection.close
             end
