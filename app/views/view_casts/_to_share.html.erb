@@ -6,12 +6,13 @@
                     <div class='signal sig-green' style="display:inline-block"></div>
                     <%= link_to "#{platform.titleize}", urls[platform.to_sym], target: "_blank" %>
                 <% elsif status[platform] == 'creating' %>
-                    <div class='signal sig-grey' style="display:inline-block"></div>
-                    <%= "#{platform.titleize}" %>
-                    <% if Time.now - @view_cast.updated_at == 1.minute %>
+                    <% if Time.now - @view_cast.updated_at > 1.minute %>
+                        <div class='signal sig-gray' style="display:inline-block"></div>
+                        <%= "#{platform.titleize}" %>
                         <%= link_to '<i class="repeat icon"></i>'.html_safe, recreate_account_view_cast_path(@account, @view_cast, platform), method: :put, class: "pull-right" %>
                     <% else %>
-                        - Creating
+                        <div class='signal sig-gray' style="display:inline-block"></div>
+                        <%= "#{platform.titleize} - Creating" %>
                     <% end %>
                 <% else %>
                     <div class='signal sig-red' style="display:inline-block"></div>
