@@ -49,7 +49,7 @@ class AccountsController < ApplicationController
   private
 
     def account_params
-      params.require(:account).permit(:username, :slug, :domain, :gravatar_email, :status)
+      params.require(:account).permit(:username, :slug, :domain, :gravatar_email, :status, :sign_up_mode)
     end
 
 end
