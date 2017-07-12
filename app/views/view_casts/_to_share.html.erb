@@ -1,25 +1,62 @@
 <div class='row'>
-    <ul style='list-style: none;'>
+    <hr/>
+    <h3 style="text-align: center; margin-bottom: 40px;">Add these branded images to your story's meta tags</h3>
+    <div class="proto-graph-code-area-title">Option #1 - Manually</div>
+    <table class="ui semantic very basic table">
+        <thead>
+            <tr>
+                <th>
+                    Image for
+                </th>
+                <th>
+                    Status
+                </th>
+            </tr>
+        </thead>
+    <tbody>
         <% ViewCast::Platforms.each do |platform| %>
-            <li>
-                <% if status[platform] == 'success' %>
-                    <div class='signal sig-green' style="display:inline-block"></div>
-                    <%= link_to "#{platform.titleize}", urls[platform.to_sym], target: "_blank" %>
-                <% elsif status[platform] == 'creating' %>
-                    <% if Time.now - @view_cast.updated_at > 1.minute %>
-                        <div class='signal sig-gray' style="display:inline-block"></div>
-                        <%= "#{platform.titleize}" %>
-                        <%= link_to '<i class="repeat icon"></i>'.html_safe, recreate_account_view_cast_path(@account, @view_cast, platform), method: :put, class: "pull-right" %>
-                    <% else %>
-                        <div class='signal sig-gray' style="display:inline-block"></div>
-                        <%= "#{platform.titleize} - Creating" %>
-                    <% end %>
-                <% else %>
-                    <div class='signal sig-red' style="display:inline-block"></div>
-                    <%= platform.titleize %>
-                    <%= link_to '<i class="repeat icon"></i>'.html_safe, recreate_account_view_cast_path(@account, @view_cast, platform), method: :put, class: "pull-right" %>
-                <% end %>
-            </li>
+            <% if status[platform] == 'success' %>
+                <tr>
+                    <td>
+                        <%= link_to "#{platform.titleize}", urls[platform.to_sym], target: "_blank" %>
+                    </td>
+                    <td>
+                        <div class='signal sig-green' style="display:inline-block"></div>
+                        Successfully generated
+                    </td>
+                </tr>
+            <% elsif status[platform] == 'creating' %>
+
+                    <tr>
+                        <td>
+                            <%= platform.titleize %>
+                        </td>
+                        <td>
+                            <div class='signal sig-gray' style="display:inline-block"></div>
+                            <% if Time.now - @view_cast.updated_at > 1.minute %>
+                                <%= link_to '<i class="repeat icon"></i>'.html_safe, recreate_account_view_cast_path(@account, @view_cast, platform), method: :put, class: "pull-right" %>
+                            <% else %>
+                                Creating...
+                            <% end %>
+                    </td>
+                </tr>
+
+            <% else %>
+                <tr>
+                    <td>
+                        <%= platform.titleize %>
+                    </td>
+                    <td>
+                        <div class='signal sig-red' style="display:inline-block"></div>
+                        Failed.
+                        <%= link_to '<i class="repeat icon"></i> Retry please'.html_safe, recreate_account_view_cast_path(@account, @view_cast, platform), method: :put, class: "pull-right" %>
+                    </td>
+                </tr>
+            <% end %>
         <% end %>
-    </ul>
+    </tbody>
+    </table>
+    <br/><br/>
+    <div class="proto-graph-code-area-title">Option #2 - Did you know you can get ProtoGraph API integrated with your CMS?</div>
+    <p>Contact us at ritvvij.parrikh@pykih.com for more details.</p>
 </div>
