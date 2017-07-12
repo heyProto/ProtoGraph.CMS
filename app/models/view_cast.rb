@@ -94,23 +94,27 @@ class ViewCast < ApplicationRecord
         response = Api::ProtoGraph::ViewCast.render_screenshot(payload)
         unless response['errorMessage'].present?
             if mode.blank?
-                self.update_attributes(render_screenshot_url: html_url, stop_callback: true)
+                self.update_columns(render_screenshot_url: html_url, updated_at: Time.now)
             else
                 status_obj = JSON.parse(self.status)
                 status_obj[mode] = "success"
-                self.update_attributes(status: status_obj.to_json, stop_callback: true)
+                self.update_columns(status: status_obj.to_json, updated_at: Time.now)
             end
         else
-            status_obj = JSON.parse(self.status)
-            status_obj[mode] = "failed"
-            self.update_attributes(status: status_obj.to_json, stop_callback: true)
+            if mode.present?
+                status_obj = JSON.parse(self.status)
+                status_obj[mode] = "success"
+                self.update_columns(status: status_obj.to_json, updated_at: Time.now)
+            end
         end
-        # else
-        #     Thread.new do
-        #         self.save_png(mode)
-        #         ActiveRecord::Base.connection.close
-        #     end
-        # end
+    end
+
+    class << self
+        def create_missing_images
+            ViewCast.where(render_screenshot_url: nil).each do |view_cast|
+                view_cast.save_png
+            end
+        end
     end
     #PRIVATE
     private
