@@ -23,8 +23,8 @@
             <div class="description">Invited by <%= permission_invite.creator.name %> <%= time_ago_in_words (permission_invite.creator.created_at) %>.</div>
           </div>
         </div>
-      </div>
-    <% end %>
+      <% end %>
+    </div>
   </div>
 </div>
 <%= render partial: "permission_invites/form" %>
