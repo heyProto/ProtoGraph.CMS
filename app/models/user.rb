@@ -28,7 +28,9 @@ class User < ApplicationRecord
     #CONSTANTS
     #CUSTOM TABLES
     #GEMS
-    devise :database_authenticatable, :registerable, :confirmable, :recoverable, :rememberable, :trackable, :validatable #, :omniauthable
+  devise :database_authenticatable, :registerable, :confirmable,
+         :recoverable, :rememberable, :trackable, :validatable,
+         :omniauthable, omniauth_providers: [:twitter]
 
     #ASSOCIATIONS
     has_many :permissions, ->{where(status: "Active")}
@@ -68,6 +70,9 @@ class User < ApplicationRecord
         end
     end
 
+    def self.from_omniauth(auth)
+      user = User.where(:email => auth.info.email).first_or_initialize
+    end
     #PRIVATE
     private
 
