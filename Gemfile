@@ -65,7 +65,7 @@ group :development do
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
   gem 'brakeman', :require => false
-  gem 'switch_user'
+  # gem 'switch_user'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
