@@ -27,8 +27,8 @@
 .env
 *.env
 
-# Emacs temp files
-*~
+
+# Emacs temporary files.
 \#*\#
 /.emacs.desktop
 /.emacs.desktop.lock
@@ -36,3 +36,4 @@
 auto-save-list
 tramp
 .\#*
+*~
