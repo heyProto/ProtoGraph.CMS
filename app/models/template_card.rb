@@ -27,6 +27,7 @@
 #  updated_at          :datetime         not null
 #  has_static_image    :boolean          default(FALSE)
 #  git_repo_name       :string(255)
+#  s3_identifier       :string(255)
 #
 
 class TemplateCard < ApplicationRecord
@@ -35,7 +36,7 @@ class TemplateCard < ApplicationRecord
     include Versionable
     #CONSTANTS
     STATUS = ["Draft", "Ready to Publish", "Published", "Deactivated"]
-    CDN_BASE_URL = "#{ENV['AWS_S3_ENDPOINT']}/cards"
+    CDN_BASE_URL = "#{ENV['AWS_S3_ENDPOINT']}"
 
     #CUSTOM TABLES
     #GEMS
@@ -112,7 +113,7 @@ class TemplateCard < ApplicationRecord
     end
 
     def base_url
-        "#{TemplateCard::CDN_BASE_URL}/#{self.git_repo_name}/dist/#{self.version}"
+        "#{TemplateCard::CDN_BASE_URL}/#{self.s3_identifier}"
     end
 
     def js
@@ -160,6 +161,7 @@ class TemplateCard < ApplicationRecord
     def before_create_set
         self.status = "Draft"
         self.publish_count = 0
+        self.s3_identifier = SecureRandom.hex(6)
         if self.previous_version_id.blank?
             self.global_slug = self.name.parameterize
             self.is_current_version = true

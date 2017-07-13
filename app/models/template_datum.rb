@@ -12,12 +12,13 @@
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
 #  status        :string(255)
+#  s3_identifier :string(255)
 #
 
 class TemplateDatum < ApplicationRecord
 
     #CONSTANTS
-    CDN_BASE_URL = "#{ENV['AWS_S3_ENDPOINT']}/Schemas"
+    CDN_BASE_URL = "#{ENV['AWS_S3_ENDPOINT']}"
     #CUSTOM TABLES
     #GEMS
     require 'version'
@@ -46,12 +47,12 @@ class TemplateDatum < ApplicationRecord
     def files
         {
             "schema": "#{schema_json}",
-            "sample": "#{TemplateDatum::CDN_BASE_URL}/#{self.name}/#{self.version}/sample.json"
+            "sample": "#{TemplateDatum::CDN_BASE_URL}/#{self.s3_identifier}/sample.json"
         }
     end
 
     def schema_json
-        "#{TemplateDatum::CDN_BASE_URL}/#{self.name}/#{self.version}/schema.json"
+        "#{TemplateDatum::CDN_BASE_URL}/#{self.s3_identifier}/schema.json"
     end
 
 
@@ -79,6 +80,7 @@ class TemplateDatum < ApplicationRecord
     def before_create_set
         self.publish_count = 0
         self.global_slug = self.name.parameterize
+        self.s3_identifier = SecureRandom.hex(6)
         true
     end
 

@@ -22,7 +22,7 @@
 
 class ViewCast < ApplicationRecord
     #CONSTANTS
-    Datacast_ENDPOINT = "#{ENV['AWS_S3_ENDPOINT']}/Datacasts"
+    Datacast_ENDPOINT = "#{ENV['AWS_S3_ENDPOINT']}"
     Platforms = ['facebook', 'twitter', 'instagram']
     #CUSTOM TABLES
     #GEMS
@@ -60,7 +60,7 @@ class ViewCast < ApplicationRecord
     end
 
     def data_url
-        "#{Datacast_ENDPOINT}/#{self.datacast_identifier}.json"
+        "#{Datacast_ENDPOINT}/#{self.datacast_identifier}/data.json"
     end
 
     def remove_file
@@ -69,16 +69,16 @@ class ViewCast < ApplicationRecord
 
     def social_urls
         {
-            "twitter": "#{ENV['AWS_S3_ENDPOINT']}/Previews/#{self.id}_twitter.png",
-            "facebook": "#{ENV['AWS_S3_ENDPOINT']}/Previews/#{self.id}_facebook.png",
-            "instagram": "#{ENV['AWS_S3_ENDPOINT']}/Previews/#{self.id}_instagram.png"
+            "twitter": "#{ENV['AWS_S3_ENDPOINT']}/#{self.datacast_identifier}/#{self.id}_twitter.png",
+            "facebook": "#{ENV['AWS_S3_ENDPOINT']}/#{self.datacast_identifier}/#{self.id}_facebook.png",
+            "instagram": "#{ENV['AWS_S3_ENDPOINT']}/#{self.datacast_identifier}/#{self.id}_instagram.png"
         }
     end
 
 
     def save_png(mode="")
         payload = {}
-        key = "Previews/#{self.id}#{ mode.present? ? "_#{mode}" : ""}.png"
+        key = "#{self.datacast_identifier}/#{self.id}#{ mode.present? ? "_#{mode}" : ""}.png"
         template_card = self.template_card
         files = template_card.files
         payload["js"] = files[:js]
@@ -126,7 +126,8 @@ class ViewCast < ApplicationRecord
 
     def before_save_set
         if self.optionalConfigJSON_changed? and self.optionalConfigJSON.present?
-            key = "ViewCasts/#{self.slug}.json"
+            self.datacast_identifier = SecureRandom.hex(12) if self.datacast_identifier.blank?
+            key = "#{self.datacast_identifier}/view_cast.json"
             encoded_file = Base64.encode64(self.optionalConfigJSON)
             content_type = "application/json"
             resp = Api::ProtoGraph::Utility.upload_to_cdn(encoded_file, key, content_type)
