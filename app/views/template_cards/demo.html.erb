@@ -10,9 +10,11 @@
 <div class="three wide column">
     <%= image_tag @template_card.icon_url, style: "width: 60px;" %>
     <br/>
+    <br/>
     <% if @template_card.is_public %>
-        <br/>
         <strong>Free</strong>
+    <% else %>
+        <strong><i class="lock icon" style="color: gold;"></i>Private</strong>
     <% end %>
     <br/>
     <p>Version: <%= @template_card.version %></p>
