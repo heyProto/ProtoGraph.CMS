@@ -1,10 +1,13 @@
 class TemplateCardsController < ApplicationController
 
-  before_action :authenticate_user!, :sudo_role_can_template_designer
-  before_action :set_template_card, only: [:show, :edit, :update, :destroy, :flip_public_private, :move_to_next_status, :create_versions]
+  before_action :authenticate_user!, :sudo_role_can_template_designer, except: [:demo]
+  before_action :set_template_card, only: [:demo, :show, :edit, :update, :destroy, :flip_public_private, :move_to_next_status, :create_versions]
 
   def index
     @template_cards = @account.template_cards
+  end
+
+  def demo
   end
 
   def show
