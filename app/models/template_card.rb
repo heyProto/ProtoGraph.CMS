@@ -135,7 +135,8 @@ class TemplateCard < ApplicationRecord
             "icon_url": "#{icon_url}",
             "schema_files": self.template_datum.files,
             "edit_file_js": "#{base_url}/edit-card.min.js",
-            "protograph_html": "#{protograph_html}"
+            "protograph_html": "#{protograph_html}",
+            "base_url": "#{base_url}"
         }
 
         obj["static_image"] = "#{base_url}/static_image.png" if self.has_static_image

@@ -12,7 +12,9 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
       resources :accounts, only: [] do
-        resources :template_cards, only: [:index, :show]
+        resources :template_cards, only: [:index, :show] do
+          get "validate", on: :member
+        end
         resources :datacasts, only: [:create, :update]
       end
       resources :view_casts, only: [:show]
