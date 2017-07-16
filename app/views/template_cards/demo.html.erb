@@ -25,6 +25,11 @@
     <div style="background: #f7f8f9; padding: 30px 30px;">
         <div id="ProtoCard"><blockquote><h3>What is mob justice?</h3><p>Mob justice, also called as lynching or extrajudicial punishment, is informal public execution by a mob in order to punish an alleged transgressor without a legal trial. It is wrong and illegal because it violates a person’s right to a fair trial (Article 10 of the UN Universal Declaration of Human Rights) and right to be innocent until proven guilty.</p></blockquote></div><script src="https://d2m6lzru8erw1k.cloudfront.net/lib/protoGraph.min.js"></script><script type="text/javascript">new ProtoEmbed.initFrame(document.getElementById('ProtoCard'), "https://dkqrqc7q64awx.cloudfront.net/3e50ceb0d81989c1/index.html?ViewCast_Unique_Identifier=60" , 'mobile')</script>
     </div>
-    <h3>How to use it?</h3>
-    <%= image_tag "toExplain.gif" %>
+    <% if @template_card.name == "toExplain" %>
+        <h3>How to use it?</h3>
+        <%= image_tag "toExplain.gif" %>
+    <% elsif @template_card.name == "toSocial" %>
+        <h3>How to use it?</h3>
+        <%= image_tag "toSocial.gif" %>
+    <% end %>
 </div>
