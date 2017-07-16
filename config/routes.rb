@@ -1,12 +1,14 @@
 Rails.application.routes.draw do
 
-  devise_for :users, controllers: { registrations: 'registrations' } do
+  devise_for :users, controllers: { registrations: 'registrations', sessions: 'sessions' } do
       get 'sign_out', to: 'devise/sessions#destroy'
   end
 
   get "/auth/:provider", to: lambda{ |env| [404, {}, ["Not Found"]] }, as: :oauth
   get '/auth/:provider/callback', to: 'authentications#create'
   get '/auth/failure', to: 'authentications#failure'
+
+  get "/card/:id", to: "template_cards#demo", as: :demo_template_card
 
 
   namespace :api do

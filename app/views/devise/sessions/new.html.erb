@@ -56,44 +56,59 @@
     <div class="ui cards">
       <div class="card">
         <div class="content">
-          <%= image_tag "toExplain.png", class: "right floated mini ui image" %>
+          <%= link_to image_tag("toExplain.png", class: "right floated mini ui image"), demo_template_card_path(id: @to_explain.slug) %>
           <div class="header">
-            toExplain
+            <%= link_to "toExplain", demo_template_card_path(id: @to_explain.slug)%>
           </div>
           <div class="meta">
             <a href="https://www.icfj.org" target="_blank">ICFJ</a>
           </div>
           <div class="description">
-            Write text explainers once. Reuse across stories.
+            <%= link_to "Write text explainers once. Reuse across stories.", demo_template_card_path(id: @to_explain.slug) %>
           </div>
         </div>
       </div>
+
       <div class="card">
         <div class="content">
-          <%= image_tag "toSocial.png", class: "right floated mini ui image" %>
+          <%= link_to image_tag("toSocial.png", class: "right floated mini ui image"), demo_template_card_path(id: @to_social.slug) %>
           <div class="header">
-            toSocial
+            <%= link_to "toSocial", demo_template_card_path(id: @to_social.slug)%>
           </div>
           <div class="meta">
             <a href="https://www.icfj.org" target="_blank">ICFJ</a>
           </div>
           <div class="description">
-            Create branded cover images for distribution.
+            <%= link_to "Create branded cover images for distribution.", demo_template_card_path(id: @to_social.slug) %>
           </div>
         </div>
       </div>
       <div class="card">
         <div class="content">
-          <%= image_tag "toQuiz.png", class: "right floated mini ui image" %>
+          <%= link_to image_tag("toMobJustice.png", class: "right floated mini ui image"), demo_template_card_path(id: @to_mob_justice.slug) %>
           <div class="header">
-            toQuiz
+            <%= link_to "toMobJustice", demo_template_card_path(id: @to_mob_justice.slug)%>
+          </div>
+          <div class="meta">
+            <a href="https://www.icfj.org" target="_blank">ICFJ</a>
+          </div>
+          <div class="description">
+            <%= link_to "Structured Journalism: Document incidents of mob lynching.", demo_template_card_path(id: @to_mob_justice.slug) %>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="content">
+          <%= link_to image_tag("toQuiz.png", class: "right floated mini ui image"), demo_template_card_path(id: @to_quiz.slug) %>
+          <div class="header">
+            <%= link_to "toQuiz", demo_template_card_path(id: @to_quiz.slug)%>
           </div>
           <div class="meta">
             <a href="https://www.icfj.org" target="_blank">ICFJ</a>
             (upcoming)
           </div>
           <div class="description">
-            Educate and engage readers on relevant issues with quiz.
+            <%= link_to "Educate and engage readers on relevant issues with quiz.", demo_template_card_path(id: @to_quiz.slug) %>
           </div>
         </div>
       </div>
