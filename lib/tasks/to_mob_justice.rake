@@ -4,17 +4,17 @@ namespace :to_mob_justice do
     task :load => :environment do
         json_data = JSON.parse(File.read(Rails.root.join('ref/to_mob_justice.json')))
         account_id = Account.friendly.find('indianexpress').id
-        template_datum_id = TemplateDatum.friendly.where(name: "toMobJustice").first
-        template_card_id = TemplateCard.friendly.where(name: "toMobJustice").first
+        template_datum_id = TemplateDatum.friendly.where(name: "toMobJustice").first.id
+        template_card_id = TemplateCard.friendly.where(name: "toMobJustice").first.id
         json_data.each do |data|
             #=================
             #Creating Viewcast
             #=================
             a = ViewCast.new
             a.name = data["name"]
-            a.account_id = 1
-            a.template_card_id = 4
-            a.template_datum_id = 13
+            a.account_id = account_id
+            a.template_card_id = template_card_id
+            a.template_datum_id = template_datum_id
             a.optionalConfigJSON = {
               "background_color": "white"
             }.to_json
