@@ -7,7 +7,6 @@ namespace :to_mob_justice do
         account_id = Account.friendly.find('indianexpress').id
         template_datum_id = TemplateDatum.friendly.where(name: "toMobJustice").first.id
         template_card_id = TemplateCard.friendly.where(name: "toMobJustice").first.id
-        csv_data = csv_data[0..10]
         csv_data.each do |d|
             data = d.to_hash
             #=================
@@ -71,6 +70,10 @@ namespace :to_mob_justice do
                 a.delete
             end
             puts "==========================="
+            Thread.new
+                a.save_png
+                ActiveRecord::Base.connection.close
+            end
         end
 
     end
