@@ -70,7 +70,7 @@ namespace :to_mob_justice do
                 a.delete
             end
             puts "==========================="
-            Thread.new
+            Thread.new do
                 a.save_png
                 ActiveRecord::Base.connection.close
             end
