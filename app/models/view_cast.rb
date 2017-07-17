@@ -121,13 +121,12 @@ class ViewCast < ApplicationRecord
     private
 
     def before_create_set
-        self.datacast_identifier = SecureRandom.hex(12)
         self.optionalConfigJSON = {} if self.optionalConfigJSON.blank?
     end
 
     def before_save_set
+        self.datacast_identifier = SecureRandom.hex(12) if self.datacast_identifier.blank?
         if self.optionalConfigJSON_changed? and self.optionalConfigJSON.present?
-            self.datacast_identifier = SecureRandom.hex(12) if self.datacast_identifier.blank?
             key = "#{self.datacast_identifier}/view_cast.json"
             encoded_file = Base64.encode64(self.optionalConfigJSON)
             content_type = "application/json"

@@ -4,7 +4,7 @@ class Api::V1::TemplateDataController < ApiController
     def create
         @template_datum, success = TemplateDatum.create_or_update(template_datum_params)
         if success
-            render json: {key: "Schemas/#{@template_datum.name}/#{@template_datum.version}/",bucket: ENV["AWS_S3_BUCKET"]}, status: 200
+            render json: {key: "Schemas/#{@template_datum.name}/#{@template_datum.version}/",bucket: ENV["AWS_S3_BUCKET"], distribution_id: ENV["AWS_CDN_ID"]}, status: 200
         else
             render json: {error_message: "This version of #{@template_datum.name} is already published. Please publish a new version"}, status: 422
         end
