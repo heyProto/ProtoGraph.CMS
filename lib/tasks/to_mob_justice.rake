@@ -81,4 +81,19 @@ namespace :to_mob_justice do
     task :cleanup => :environment do
         ViewCast.where(template_card_id: TemplateCard.where(name: 'toMobJustice').first.id).destroy_all
     end
+
+
+    task :index_json => :environment do
+        view_casts = ViewCast.where(template_card_id: TemplateCard.where(name: 'toMobJustice').first.id)
+        json_data = []
+        view_casts.each do |view_cast|
+            res = JSON.parse(RestClient.get(view_cast.data_url).body)
+            data = res['data']
+            data['view_cast_identifier'] = view_cast.id
+            data['screen_shot_url'] = view_cast.render_screenshot_url
+            json_data << data
+            puts "================="
+        end
+        File.open('/tmp/to_mob_justice_index.json', 'w') { |file| file.write(json_data) }
+    end
 end
