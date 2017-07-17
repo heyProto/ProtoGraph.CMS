@@ -94,6 +94,6 @@ namespace :to_mob_justice do
             json_data << data
             puts "================="
         end
-        File.open('/tmp/to_mob_justice_index.json', 'w') { |file| file.write(json_data) }
+        File.open('/tmp/to_mob_justice_index.json', 'w') { |file| file.write(json_data.to_json) }
     end
 end
