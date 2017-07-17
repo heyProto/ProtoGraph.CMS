@@ -167,5 +167,6 @@ class ViewCast < ApplicationRecord
             Api::ProtoGraph::Datacast.delete(payload)
         rescue => e
         end
+        self.template_card.update_column(:publish_count, (self.template_card.publish_count.to_i - 1))
     end
 end
