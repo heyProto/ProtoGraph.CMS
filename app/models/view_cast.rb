@@ -44,6 +44,7 @@ class ViewCast < ApplicationRecord
     after_create :after_create_set
     before_save :before_save_set
     after_save :after_save_set
+    before_destroy :before_destroy_set
     #SCOPE
     #OTHER
 
@@ -157,5 +158,14 @@ class ViewCast < ApplicationRecord
         template_card.update_attributes(publish_count: (template_card.publish_count.to_i + 1))
         template_datum = self.template_datum
         template_datum.update_attributes(publish_count: (template_datum.publish_count.to_i + 1))
+    end
+
+    def before_destroy_set
+        payload = {}
+        payload['folder_name'] = self.datacast_identifier
+        begin
+            Api::ProtoGraph::Datacast.delete(payload)
+        rescue => e
+        end
     end
 end
