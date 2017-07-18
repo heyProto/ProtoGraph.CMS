@@ -52,7 +52,8 @@ class ViewCast < ApplicationRecord
         {
             "data_url": self.data_url,
             "configuration_url": self.cdn_url,
-            "schema_json": self.schema_json
+            "schema_json": self.schema_json,
+            "base_url": self.template_card.base_url
         }
     end
 
