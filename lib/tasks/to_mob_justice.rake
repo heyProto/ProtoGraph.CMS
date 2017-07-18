@@ -41,20 +41,20 @@ namespace :to_mob_justice do
             data["state"] = data["state"].to_s
             data["state_ruling_party"] = data["state_ruling_party"].to_s
             data["image"] = data["image"].to_s
-            data["victim_religion"] = data["victim_religion"].to_s
+            data["victim_religion"] = data["victim_religion"].to_s.strip
             data["victim_tag"] = data["victim_tag"].to_s
-            data["victim_gender"] = data["victim_gender"].to_s
+            data["victim_gender"] = data["victim_gender"].to_s.strip
             data["victim_action"] = data["victim_action"].to_s
             data["victim_names"] = data["victim_names"].to_s
-            data["accused_religion"] = data["accused_religion"].to_s
+            data["accused_religion"] = data["accused_religion"].to_s.strip
             data["accused_tag"] = data["accused_tag"].to_s
-            data["accused_gender"] = data["accused_gender"].to_s
+            data["accused_gender"] = data["accused_gender"].to_s.strip
             data["accused_names"] = data["accused_names"].to_s
             data["accused_action"] = data["accused_action"].to_s
             data["the_lynching"] = data["the_lynching"].to_s
             data["count_injured"] = data["count_injured"].to_i
             data["count_dead"] = data["count_dead"].to_i
-            data["does_the_state_criminalise_victims_actions"] = data["does_the_state_criminalise_victims_actions"].to_s
+            data["does_the_state_criminalise_victims_actions"] = data["does_the_state_criminalise_victims_actions"].to_s.strip
             data["which_law"] = data["which_law"].to_s
             data["lat"] = data["lat"].to_i
             data["lng"] = data["lng"].to_i
@@ -85,15 +85,38 @@ namespace :to_mob_justice do
 
     task :index_json => :environment do
         view_casts = ViewCast.where(template_card_id: TemplateCard.where(name: 'toMobJustice').first.id)
-        json_data = []
+        cattle_protection_json = []
+        crime_json = []
+        sexual_harrassment_json = []
+        witch_craft_json = []
+        honour_killing_json = []
+        other_json = []
         view_casts.each do |view_cast|
             res = JSON.parse(RestClient.get(view_cast.data_url).body)
             data = res['data']
             data['view_cast_identifier'] = view_cast.id
             data['screen_shot_url'] = view_cast.render_screenshot_url
-            json_data << data
+            case data['menu']
+            when "Cattle Protection"
+                cattle_protection_json << data
+            when "Crime"
+                crime_json << data
+            when "Sexual Harrassment"
+                sexual_harrassment_json << data
+            when "Witch Craft"
+                witch_craft_json << data
+            when "Honour Killing"
+                honour_killing_json << data
+            else
+                other_json << data
+            end
             puts "================="
         end
-        File.open('/tmp/to_mob_justice_index.json', 'w') { |file| file.write(json_data.to_json) }
+        File.open('/tmp/cattle_protection.json', 'w') { |file| file.write(cattle_protection_json.to_json) }
+        File.open('/tmp/crime.json', 'w') { |file| file.write(crime_json.to_json) }
+        File.open('/tmp/sexual_harrassment.json', 'w') { |file| file.write(sexual_harrassment_json.to_json) }
+        File.open('/tmp/witch_craft.json', 'w') { |file| file.write(witch_craft_json.to_json) }
+        File.open('/tmp/honour_killing.json', 'w') { |file| file.write(honour_killing_json.to_json) }
+        File.open('/tmp/other.json', 'w') { |file| file.write(other_json.to_json) }
     end
 end
