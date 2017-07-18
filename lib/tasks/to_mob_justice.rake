@@ -83,7 +83,7 @@ namespace :to_mob_justice do
     end
 
 
-    task :index_json => :environment do
+    task :create_json => :environment do
         view_casts = ViewCast.where(template_card_id: TemplateCard.where(name: 'toMobJustice').first.id)
         cattle_protection_json = []
         crime_json = []
