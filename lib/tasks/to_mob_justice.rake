@@ -13,7 +13,7 @@ namespace :to_mob_justice do
             #Creating Viewcast
             #=================
             a = ViewCast.new
-            a.name = data["name"]
+            a.name = data["title"]
             a.account_id = account_id
             a.template_card_id = template_card_id
             a.template_datum_id = template_datum_id
@@ -112,11 +112,43 @@ namespace :to_mob_justice do
             end
             puts "================="
         end
-        File.open('/tmp/cattle_protection.json', 'w') { |file| file.write(cattle_protection_json.to_json) }
-        File.open('/tmp/crime.json', 'w') { |file| file.write(crime_json.to_json) }
-        File.open('/tmp/sexual_harrassment.json', 'w') { |file| file.write(sexual_harrassment_json.to_json) }
-        File.open('/tmp/witch_craft.json', 'w') { |file| file.write(witch_craft_json.to_json) }
-        File.open('/tmp/honour_killing.json', 'w') { |file| file.write(honour_killing_json.to_json) }
-        File.open('/tmp/other.json', 'w') { |file| file.write(other_json.to_json) }
+
+        puts "Uploading Cattle Protection"
+        key = "toMobJustice/cattle_protection.json"
+        encoded_file = Base64.encode64(cattle_protection_json.to_json)
+        content_type = "application/json"
+        resp = Api::ProtoGraph::Utility.upload_to_cdn(encoded_file, key, content_type)
+
+
+        puts "Uploading crime"
+        key = "toMobJustice/crime.json"
+        encoded_file = Base64.encode64(crime_json.to_json)
+        content_type = "application/json"
+        resp = Api::ProtoGraph::Utility.upload_to_cdn(encoded_file, key, content_type)
+
+        puts "Uploading Sexual Harrassment"
+        key = "toMobJustice/sexual_harrassment.json"
+        encoded_file = Base64.encode64(sexual_harrassment_json.to_json)
+        content_type = "application/json"
+        resp = Api::ProtoGraph::Utility.upload_to_cdn(encoded_file, key, content_type)
+
+        puts "Uploading Witch Craft"
+        key = "toMobJustice/witch_craft.json"
+        encoded_file = Base64.encode64(witch_craft_json.to_json)
+        content_type = "application/json"
+        resp = Api::ProtoGraph::Utility.upload_to_cdn(encoded_file, key, content_type)
+
+        puts  "Uploading Honor Kiling"
+        key = "toMobJustice/honour_killing.json"
+        encoded_file = Base64.encode64(honour_killing_json.to_json)
+        content_type = "application/json"
+        resp = Api::ProtoGraph::Utility.upload_to_cdn(encoded_file, key, content_type)
+
+        puts  "Uploading Other"
+        key = "toMobJustice/other.json"
+        encoded_file = Base64.encode64(other_json.to_json)
+        content_type = "application/json"
+        resp = Api::ProtoGraph::Utility.upload_to_cdn(encoded_file, key, content_type)
+
     end
 end
