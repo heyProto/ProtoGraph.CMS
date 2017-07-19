@@ -80,7 +80,7 @@ class TemplateDatum < ApplicationRecord
     def before_create_set
         self.publish_count = 0
         self.global_slug = self.name.parameterize
-        self.s3_identifier = SecureRandom.hex(6)
+        self.s3_identifier = SecureRandom.hex(6) if self.s3_identifier.blank?
         true
     end
 

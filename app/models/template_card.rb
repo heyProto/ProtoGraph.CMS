@@ -162,7 +162,7 @@ class TemplateCard < ApplicationRecord
     def before_create_set
         self.status = "Draft"
         self.publish_count = 0
-        self.s3_identifier = SecureRandom.hex(6)
+        self.s3_identifier = SecureRandom.hex(6) if self.s3_identifier.blank?
         if self.previous_version_id.blank?
             self.global_slug = self.name.parameterize
             self.is_current_version = true
