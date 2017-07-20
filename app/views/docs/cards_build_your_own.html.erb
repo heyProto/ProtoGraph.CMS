@@ -1,0 +1,78 @@
+<div class="ui sixteen column grid">
+    <div class="sixteen wide column">
+        <div class="ui breadcrumb">
+          <%= link_to "Docs", docs_path, class: "section" %>
+          <div class="divider"> / </div>
+          <div class="section">Card</div>
+        </div>
+        <h1 class="ui header" style="margin-top: 10px;">
+            Build your own Card
+        </h1>
+        <div class="ui divider"></div>
+        <p>Developers (Pykih or third party) can build their own cards. Each card is a front-end app developed in an independent GitHub repository using <a href="https://facebook.github.io/react/" target="_blank">ReactJS framework</a>.</p>
+        <p>The developer must adhere to ProtoGraph's card definition of done that is listed below. Once the card has been developed, the developer must submit the card to Pykih for review. Once Pykih verified the card, the card will be installed on ProtoGraph for use.</p>
+        <h2 class="ui header">Definition of Done</h2>
+        <h3 class="ui header">1. Naming the card app</h3>
+        <p>One can name private cards as one wants. However, if the card is public i.e. you want to allow others to create content using your cards, then the name of the card should be "to" plus "Purpose". Below are some examples:</p>
+        <ul>
+            <li>toSocial</li>
+            <li>toQuiz</li>
+            <li>toMobJustice</li>
+            <li>toExplain</li>
+            <li>toHeadline</li>
+        </ul>
+        <h3 class="ui header">2. Recommended version numbers</h3>
+        <p>The first version of the card will always be `0.0.1`</p>
+        <p>Till the current version is published, there is no need to update the version number. Once the card is published, there can be following updates:</p>
+        <ul>
+            <li><u>Bug fixes</u>: Past deployments in same version series + Under drafting but not published + New drafts(`0.0.1` -> `0.0.2`)</li>
+            <li><u>Minor upgrades</u>: Under drafting but not published + New drafts(`0.0.1` -> `0.1.0`)</li>
+            <li><u>Major upgrades</u>: New drafts (not backward compatibility)(`1.0.0` -> `2.0.0`)</li>
+        </ul>
+        <h3 class="ui header">3. Create JSON Schema</h3>
+        <p>Each card must have a <a href="http://json-schema.org" target="_blank">JSON Schema</a>. ProtoGraph will use the JSON Schema file to validate JSON documents when cards are created via a form by a person or programatically via API.</p>
+        <ul>
+            <li>We store all JSON Schema's in a public GitHub repository. Fork this repository - <a href="https://github.com/pykih/ProtoGraph.Schemas" target="_blank">https://github.com/pykih/ProtoGraph.Schemas</a>.</li>
+            <li>Create your card folder at the root level. Eg: `toCard`. </li>
+            <li>Add version folder. The default folder will be `0.0.1`.</li>
+            <li>Add your `schema.json`, `sample.json` and `package.json` inside the version folder.</li>
+            <li>Push the code to your branch.</li>
+            <li>Generate a pull request to https://github.com/pykih/ProtoGraph.Schemas to review.</li>
+        </ul>
+        <p>ProtoGraph will upload the schema to CDN.</p>
+        <table class="ui table">
+            <thead>
+                <tr>
+                    <th class="collapsing">File name</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>schema.json</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>sample.json</td>
+                    <td>`data` and `mandatory_config`</td>
+                </tr>
+                <tr>
+                    <td>package.json</td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+        <h3 class="ui header">4. Create a new GitHub Repository</h3>
+        <p>Create a new repository. Initialise ReactJS app.</p>
+        <p>Below are some open source GitHub card repositories that you can read for inspiration.</p>
+        <ul>
+            <li><a target="_blank" href="https://github.com/icfjknightfellows/ProtoGraph.Card.toExplain">GitHub.com/icfj...toExplain</a></li>
+            <li><a target="_blank" href="https://github.com/icfjknightfellows/ProtoGraph.Card.toMobJustice">GitHub.com/icfj...toMobJustice</a></li>
+            <li><a target="_blank" href="https://github.com/icfjknightfellows/ProtoGraph.Card.toSocial">GitHub.com/icfj...toSocial</a></li>
+            <li><a target="_blank" href="https://github.com/icfjknightfellows/ProtoGraph.Card.toQuiz">GitHub.com/icfj...toQuiz</a></li>
+        </ul>
+        <h3 class="ui header">5. Create a new GitHub Repository</h3>
+        <p>Create a new repository. Initialise ReactJS app.</p>
+        <p><%= link_to "< Back to Docs", docs_path %> </p>
+    </div>
+</div>
