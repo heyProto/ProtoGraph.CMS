@@ -94,7 +94,8 @@ namespace :to_mob_justice do
         view_casts.each do |view_cast|
             res = JSON.parse(RestClient.get(view_cast.data_url).body)
             data = res['data']
-            data['view_cast_identifier'] = view_cast.id
+            data['view_cast_id'] = view_cast.datacast_identifier
+            data['schema_id'] = view_cast.template_datum.s3_identifier
             data['screen_shot_url'] = view_cast.render_screenshot_url
             case data['menu']
             when "Cattle Protection"
@@ -112,6 +113,14 @@ namespace :to_mob_justice do
             end
             puts "================="
         end
+
+        #Sorting the data
+        cattle_protection_json = cattle_protection_json.sort_by{|d| - d['date']}
+        crime_json = crime_json.sort_by{|d| - d['date']}
+        sexual_harrassment_json = sexual_harrassment_json.sort_by{|d| - d['date']}
+        witch_craft_json = witch_craft_json.sort_by{|d| - d['date']}
+        honour_killing_json = honour_killing_json.sort_by{|d| - d['date']}
+        other_json = other_json.sort_by{|d| - d['date']}
 
         puts "Uploading Cattle Protection"
         key = "toMobJustice/cattle_protection.json"
