@@ -97,6 +97,7 @@ namespace :to_mob_justice do
             data['view_cast_id'] = view_cast.datacast_identifier
             data['schema_id'] = view_cast.template_datum.s3_identifier
             data['screen_shot_url'] = view_cast.render_screenshot_url
+            data['date'] = Date.parse(data['date']).strftime('%d %b %y')
             case data['menu']
             when "Cattle Protection"
                 cattle_protection_json << data
@@ -115,12 +116,12 @@ namespace :to_mob_justice do
         end
 
         #Sorting the data
-        cattle_protection_json = cattle_protection_json.sort_by{|d| - d['date']}
-        crime_json = crime_json.sort_by{|d| - d['date']}
-        sexual_harrassment_json = sexual_harrassment_json.sort_by{|d| - d['date']}
-        witch_craft_json = witch_craft_json.sort_by{|d| - d['date']}
-        honour_killing_json = honour_killing_json.sort_by{|d| - d['date']}
-        other_json = other_json.sort_by{|d| - d['date']}
+        cattle_protection_json.sort_by{|d| Date.parse(d['date'])}.reverse!
+        crime_json.sort_by{|d| - d['date']}.reverse!
+        sexual_harrassment_json.sort_by{|d| Date.parse(d['date'])}.reverse!
+        witch_craft_json.sort_by{|d| Date.parse(d['date'])}.reverse!
+        honour_killing_json.sort_by{|d| Date.parse(d['date'])}.reverse!
+        other_json.sort_by{|d| Date.parse(d['date'])}.reverse!
 
         puts "Uploading Cattle Protection"
         key = "toMobJustice/cattle_protection.json"
