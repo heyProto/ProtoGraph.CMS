@@ -98,8 +98,6 @@ namespace :to_mob_justice do
             data['schema_id'] = view_cast.template_datum.s3_identifier
             data['screen_shot_url'] = view_cast.render_screenshot_url
             data['date'] = Date.parse(data['date']).strftime("%d %b '%y")
-            puts data['date']
-            puts "============="
             case data['menu']
             when "Cattle Protection"
                 cattle_protection_json << data
