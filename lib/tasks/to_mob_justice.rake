@@ -56,8 +56,8 @@ namespace :to_mob_justice do
             data["count_dead"] = data["count_dead"].to_i
             data["does_the_state_criminalise_victims_actions"] = data["does_the_state_criminalise_victims_actions"].to_s.strip
             data["which_law"] = data["which_law"].to_s
-            data["lat"] = data["lat"].to_i
-            data["lng"] = data["lng"].to_i
+            data["lat"] = data["lat"].to_f
+            data["lng"] = data["lng"].to_f
             obj['data'] = data
             payload["payload"] = obj.to_json
             payload["source"]  = "backgroud_job"
