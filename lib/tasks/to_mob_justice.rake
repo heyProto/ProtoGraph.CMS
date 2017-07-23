@@ -115,7 +115,7 @@ namespace :to_mob_justice do
             else
                 other_json << data
             end
-            all_data = []
+            all_data << data
             puts "================="
         end
 
