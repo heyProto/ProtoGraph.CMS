@@ -87,6 +87,11 @@ Rails.application.configure do
   end
 
   FROM_EMAIL = "protograph@pykih.com"
+  config.active_record.dump_schema_after_migration = false
+  BASE_URL = "https://protograph.pykih.com"
+  AWS_API_DATACAST_URL = "https://d9y49oyask.execute-api.ap-south-1.amazonaws.com/production"
+
+  config.action_mailer.default_url_options = { host: BASE_URL }
   config.action_mailer.smtp_settings = {
     address:              'smtp.gmail.com',
     port:                 587,
@@ -107,7 +112,4 @@ Rails.application.configure do
 
 
   # Do not dump schema after migrations.
-  config.active_record.dump_schema_after_migration = false
-  BASE_URL = "https://protograph.pykih.com"
-  AWS_API_DATACAST_URL = "https://d9y49oyask.execute-api.ap-south-1.amazonaws.com/production"
 end
