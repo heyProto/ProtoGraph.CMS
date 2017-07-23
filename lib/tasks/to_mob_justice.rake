@@ -93,6 +93,7 @@ namespace :to_mob_justice do
         witch_craft_json = []
         honour_killing_json = []
         other_json = []
+        all_data = []
         view_casts.each do |view_cast|
             res = JSON.parse(RestClient.get(view_cast.data_url).body)
             data = res['data']
@@ -114,6 +115,7 @@ namespace :to_mob_justice do
             else
                 other_json << data
             end
+            all_data = []
             puts "================="
         end
 
@@ -124,6 +126,7 @@ namespace :to_mob_justice do
         witch_craft_json = witch_craft_json.sort_by{|d| Date.parse(d['date'])}.reverse!
         honour_killing_json = honour_killing_json.sort_by{|d| Date.parse(d['date'])}.reverse!
         other_json = other_json.sort_by{|d| Date.parse(d['date'])}.reverse!
+        all_data = all_data.sort_by{|d| Date.parse(d['date'])}.reverse!
 
         puts "Uploading Cattle Protection"
         key = "toMobJustice/cattle_protection.json"
@@ -159,6 +162,12 @@ namespace :to_mob_justice do
         puts  "Uploading Other"
         key = "toMobJustice/other.json"
         encoded_file = Base64.encode64(other_json.to_json)
+        content_type = "application/json"
+        resp = Api::ProtoGraph::Utility.upload_to_cdn(encoded_file, key, content_type)
+
+        puts  "Uploading Index"
+        key = "toMobJustice/index.json"
+        encoded_file = Base64.encode64(all_data.to_json)
         content_type = "application/json"
         resp = Api::ProtoGraph::Utility.upload_to_cdn(encoded_file, key, content_type)
 
