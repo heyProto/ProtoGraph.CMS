@@ -58,6 +58,8 @@ namespace :to_mob_justice do
             data["which_law"] = data["which_law"].to_s
             data["lat"] = data["lat"].to_f
             data["lng"] = data["lng"].to_f
+            data["police_to_population"] = data["police_to_population"].to_s
+            data["judge_to_population"] = data["judge_to_population"].to_s
             obj['data'] = data
             payload["payload"] = obj.to_json
             payload["source"]  = "backgroud_job"
