@@ -26,26 +26,35 @@
     <div class="ui divider"></div>
     <h5>DEMO</h5>
     <br/>
+    <% if @template_card.name == "toQuiz" %>
+            <div id="ProtoCard-Quiz"></div>
+            <script src="https://d2m6lzru8erw1k.cloudfront.net/lib/protoGraph.min.js"></script>
+            <script type="text/javascript">
+            var mode = (window.innerWidth <= 500) ? "mobile" : "laptop";
+            new ProtoEmbed.initFrame(document.getElementById("ProtoCard-Quiz"), "https://dkqrqc7q64awx.cloudfront.net/7878f6c6e651/index.html?view_cast_id=b870987055672692%26schema_id=d20025f1574f" , mode)</script>
+    <% end %>
     <div class="proto-graph-mode-buttons">
         <div class="ui small basic icon buttons">
           <% if @template_card.git_repo_name == 'ProtoGraph.Card.toSocial' %>
             <button class="ui button platform_buttons" id='facebook'><i class="facebook square icon"></i></button>
             <button class="ui button platform_buttons" id='twitter'><i class="twitter square icon"></i></button>
             <button class="ui button platform_buttons" id='instagram'><i class="instagram square icon"></i></button>
-          <% else %>
+          <% elsif !@template_card.name == "toQuiz" %>
             <button class="ui button platform_buttons" id='laptop'><i class="desktop icon"></i>&nbsp Desktop</button>
             <button class="ui button platform_buttons" id='mobile'><i class="mobile icon"></i> &nbsp Mobile</button>
           <% end %>
         </div>
       </div>
-    <div style="background: #f7f8f9; padding: 30px 30px;">
-        <div id="protoCard" style='width: 100%'></div>
-    </div>
 
-    <div class="ui divider"></div>
-    <h5>HOW TO USE IT?</h5>
-    <br/>
-    <%= image_tag("#{@template_card.name}.gif") %>
+    <% if @template_card.git_repo_name == 'ProtoGraph.Card.toSocial' or @template_card.git_repo_name == 'ProtoGraph.Card.toExplain' %>
+        <div style="background: #f7f8f9; padding: 30px 30px;">
+        <div id="protoCard" style='width: 100%'></div>
+        </div>
+        <div class="ui divider"></div>
+        <h5>HOW TO USE IT?</h5>
+        <br/>
+        <%= image_tag("#{@template_card.name}.gif") %>
+    <% end %>
 </div>
 
 <script type="text/javascript">
