@@ -1,3 +1,4 @@
+<script src="https://d2m6lzru8erw1k.cloudfront.net/lib/protoGraph.min.js"></script>
 <div class="sixteen wide column">
     <h1 class="ui header" style="padding-bottom: 0px; margin-bottom: 6px; font-size: 3em;">
         <%= @template_card.name %>
@@ -24,14 +25,32 @@
     <h3>Description</h3>
     <p><%= @template_card.description %></p>
     <h3>Demo</h3>
+    <div class="proto-graph-mode-buttons">
+        <div class="ui small basic icon buttons">
+          <% if @template_card.git_repo_name == 'ProtoGraph.Card.toSocial' %>
+            <button class="ui button platform_buttons" id='facebook'><i class="facebook square icon"></i></button>
+            <button class="ui button platform_buttons" id='twitter'><i class="twitter square icon"></i></button>
+            <button class="ui button platform_buttons" id='instagram'><i class="instagram square icon"></i></button>
+          <% else %>
+            <button class="ui button platform_buttons" id='laptop'><i class="desktop icon"></i>&nbsp Desktop</button>
+            <button class="ui button platform_buttons" id='mobile'><i class="mobile icon"></i> &nbsp Mobile</button>
+          <% end %>
+        </div>
+      </div>
     <div style="background: #f7f8f9; padding: 30px 30px;">
-        <div id="ProtoCard"><blockquote><h3>What is mob justice?</h3><p>Mob justice, also called as lynching or extrajudicial punishment, is informal public execution by a mob in order to punish an alleged transgressor without a legal trial. It is wrong and illegal because it violates a person’s right to a fair trial (Article 10 of the UN Universal Declaration of Human Rights) and right to be innocent until proven guilty.</p></blockquote></div><script src="https://d2m6lzru8erw1k.cloudfront.net/lib/protoGraph.min.js"></script><script type="text/javascript">new ProtoEmbed.initFrame(document.getElementById('ProtoCard'), "https://dkqrqc7q64awx.cloudfront.net/3e50ceb0d81989c1/index.html?ViewCast_Unique_Identifier=60" , 'mobile')</script>
+        <div id="protoCard" style='width: 100%'></div>
     </div>
-    <% if @template_card.name == "toExplain" %>
-        <h3>How to use it?</h3>
-        <%= image_tag "toExplain.gif" %>
-    <% elsif @template_card.name == "toSocial" %>
-        <h3>How to use it?</h3>
-        <%= image_tag "toSocial.gif" %>
-    <% end %>
+    <h3>How to use it?</h3>
+    <%= image_tag("#{@template_card.name}.gif") %>
 </div>
+
+<script type="text/javascript">
+  var proto_embed_test = new ProtoEmbed.initFrame(document.getElementById('protoCard'), "<%= "#{@template_card.index_html}?view_cast_id=demo/#{@template_card.slug}&schema_id=#{@template_card.template_datum.s3_identifier}".html_safe %>" , "<%= @template_card.git_repo_name == 'ProtoGraph.Card.toSocial' ? "instagram" : "laptop"  %>");
+
+
+    $('.platform_buttons').on('click', function(event){
+        var platform = this.id
+        proto_embed_test.sandbox.oasis.services[0].send('change_mode', platform);
+        event.stopPropagation();
+    })
+</script>
