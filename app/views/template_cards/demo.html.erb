@@ -21,10 +21,11 @@
     <p>Version: <%= @template_card.version %></p>
 </div>
 <div class="thirteen wide column">
-    <p><%= @template_card.elevator_pitch %></p>
-    <h3>Description</h3>
-    <p><%= @template_card.description %></p>
-    <h3>Demo</h3>
+    <h2 style="font-weight: 100;"><%= @template_card.elevator_pitch %></h2>
+    <p style="color: gray;"><%= @template_card.description.html_safe %></p>
+    <div class="ui divider"></div>
+    <h5>DEMO</h5>
+    <br/>
     <div class="proto-graph-mode-buttons">
         <div class="ui small basic icon buttons">
           <% if @template_card.git_repo_name == 'ProtoGraph.Card.toSocial' %>
@@ -40,7 +41,10 @@
     <div style="background: #f7f8f9; padding: 30px 30px;">
         <div id="protoCard" style='width: 100%'></div>
     </div>
-    <h3>How to use it?</h3>
+
+    <div class="ui divider"></div>
+    <h5>HOW TO USE IT?</h5>
+    <br/>
     <%= image_tag("#{@template_card.name}.gif") %>
 </div>
 
