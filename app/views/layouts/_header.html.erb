@@ -1,7 +1,11 @@
 <div style="width: 980px; margin-left: auto; margin-right: auto;">
   <% if !user_signed_in? %>
     <div class="ui menu clear">
-      <div class="item"><%= link_to image_tag("logo.png", class: "protograph-logo-image"), root_url %></div>
+      <% if controller_name == "sessions" and action_name == "new" %>
+          <div class="item"><%= link_to image_tag("logo.png", class: "protograph-logo-image"), root_url %></div>
+      <% else %>
+          <div class="item"><%= link_to image_tag("_logo.png", class: "protograph-logo-image"), root_url %></div>
+      <% end %>
       <div class="right menu">
         <%= link_to "Features", features_path, "data-turbolinks"=> false, class: "item" %>
       </div>
