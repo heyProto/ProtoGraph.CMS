@@ -55,6 +55,20 @@
         <br/>
         <%= image_tag("#{@template_card.name}.gif") %>
     <% end %>
+    <% if @template_card.name == 'toQuiz' %>
+        <div class="ui divider"></div>
+        <h5>CUSTOMERS</h5>
+        <div class="ui big horizontal divided list">
+          <div class="item">
+            <img class="ui avatar image" src="https://gravatar.com/avatar/25ee11d27ac647aebc75eab9c4770dbe.png?s=200">
+            <div class="content">
+              <div class="header">MoneyControl</div>
+            </div>
+          </div>
+        </div>
+    <% end %>
+
+
 </div>
 
 <script type="text/javascript">
