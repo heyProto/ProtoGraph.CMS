@@ -48,7 +48,7 @@ user_id = User.first.id
 t_explain = TemplateDatum.create({name: "toExplain", version: "0.0.1", s3_identifier: "2e804dc00b362f24"})
 t_share = TemplateDatum.create({name: "toSocial", version: "0.0.1", s3_identifier: "9701121472ab331a"})
 t_quiz = TemplateDatum.create({name: "toQuiz", version: "0.0.1", s3_identifier: "0eec77701464"})
-t_mobjustice = TemplateDatum.create({name: "toQuiz", version: "0.0.1", s3_identifier: "8fe46be1629b"})
+t_mobjustice = TemplateDatum.create({name: "toMobJustice", version: "0.0.1", s3_identifier: "8fe46be1629b"})
 
 puts "----> Creating Template Cards"
 
