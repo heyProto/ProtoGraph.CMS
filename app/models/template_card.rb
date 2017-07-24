@@ -170,7 +170,7 @@ class TemplateCard < ApplicationRecord
             self.previous_version_id = nil
             self.version_genre = "major"
             self.version = "0.0.1"
-            self.is_public = false
+            self.is_public = false unless self.is_public.present?
         end
         true
     end
