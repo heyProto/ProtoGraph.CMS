@@ -5,8 +5,8 @@ namespace :to_mob_justice do
     task :load => :environment do
         csv_data = CSV.read(Rails.root.join('ref/to_mob_justice.csv'), headers: true)
         account_id = Account.friendly.find('indianexpress').id
-        template_datum_id = TemplateDatum.friendly.where(name: "toMobJustice").first.id
-        template_card_id = TemplateCard.friendly.where(name: "toMobJustice").first.id
+        template_datum_id = TemplateDatum.friendly.where(name: "toReportViolence").first.id
+        template_card_id = TemplateCard.friendly.where(name: "toReportViolence").first.id
         csv_data.each do |d|
             data = d.to_hash
             #=================
@@ -81,12 +81,12 @@ namespace :to_mob_justice do
     end
 
     task :cleanup => :environment do
-        ViewCast.where(template_card_id: TemplateCard.where(name: 'toMobJustice').first.id).destroy_all
+        ViewCast.where(template_card_id: TemplateCard.where(name: 'toReportViolence').first.id).destroy_all
     end
 
 
     task :create_json => :environment do
-        view_casts = ViewCast.where(template_card_id: TemplateCard.where(name: 'toMobJustice').first.id)
+        view_casts = ViewCast.where(template_card_id: TemplateCard.where(name: 'toReportViolence').first.id)
         cattle_protection_json = []
         crime_json = []
         sexual_harrassment_json = []
