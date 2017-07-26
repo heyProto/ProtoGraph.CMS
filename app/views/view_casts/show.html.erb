@@ -29,14 +29,26 @@
         <div class="proto-graph-code-area">
           <hr/>
           <h3 style="text-align: center; margin-bottom: 40px;">Embed the card in your stories</h3>
-          <div class="proto-graph-code-area-title">Option #1 - SEO friendly and responsive iFrame</div>
+          <div class="proto-graph-code-area-title">Option #1 - SEO friendly  iFrame</div>
           <textarea class="proto-graph-code protograph-iframe" readonly>
             <div id="<%= "ProtoCard-#{@view_cast.id}" %>">
               <%= @view_cast.seo_blockquote %>
-            </div><script src="https://d2m6lzru8erw1k.cloudfront.net/lib/protoGraph.min.js"></script><script type="text/javascript">new ProtoEmbed.initFrame(document.getElementById("<%= "ProtoCard-#{@view_cast.id}" %>"), "<%= "#{@view_cast.template_card.index_html}?view_cast_id=#{@view_cast.datacast_identifier}&schema_id=#{@view_cast.template_datum.s3_identifier}".html_safe %>" , "<%= @view_cast.template_card.git_repo_name == 'ProtoGraph.Card.toSocial' ? "instagram" : "laptop"  %>")</script>
+            </div><script src="https://d2m6lzru8erw1k.cloudfront.net/lib/protoGraph.min.js"></script><script type="text/javascript">new ProtoEmbed.initFrame(document.getElementById("<%= "ProtoCard-#{@view_cast.id}" %>"), "<%= "#{@view_cast.template_card.index_html}?view_cast_id=#{@view_cast.datacast_identifier}&schema_id=#{@view_cast.template_datum.s3_identifier}".html_safe %>" , "laptop")</script>
           </textarea>
           </br>
-          <div class="proto-graph-code-area-title">Option #2 - Traditional iFrame for Google AMP pages</div>
+
+          <div class="proto-graph-code-area-title">Option #2 - Responsive SEO friendly iFrame</div>
+          <textarea class="proto-graph-code" readonly>
+            <div id="<%= "ProtoCard-#{@view_cast.id}" %>">
+              <%= @view_cast.seo_blockquote %>
+            </div><script src="https://d2m6lzru8erw1k.cloudfront.net/lib/protoGraph.min.js"></script><script type="text/javascript">
+              var mode = (window.innerWidth <= 500) ? "mobile" : "laptop";
+              new ProtoEmbed.initFrame(document.getElementById("<%= "ProtoCard-#{@view_cast.id}" %>"), "<%= "#{@view_cast.template_card.index_html}?view_cast_id=#{@view_cast.datacast_identifier}&schema_id=#{@view_cast.template_datum.s3_identifier}".html_safe %>", mode )</script>
+          </textarea>
+          </br>
+
+
+          <div class="proto-graph-code-area-title">Option #3 - Traditional iFrame for Google AMP pages</div>
           <textarea class="proto-graph-code amp-iframe" readonly>
             <iframe width="560" height="315" src="<%= "#{@view_cast.template_card.protograph_html}?view_cast_id=#{@view_cast.datacast_identifier}&schema_id=#{@view_cast.template_datum.s3_identifier}&mode=laptop".html_safe %>" frameborder="0" allowfullscreen></iframe>
           </textarea>
