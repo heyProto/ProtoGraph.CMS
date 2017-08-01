@@ -69,40 +69,42 @@ label {
     height: 250px;
     overflow: hidden;
     padding-bottom: 5px;
-    box-shadow: 0 20px 20px rgba(0,0,0,.08);
-    border:1px solid rgba(0,0,0,.08);
+    box-shadow: 0 20px 20px rgba(0, 0, 0, .08);
+    border: 1px solid rgba(0, 0, 0, .08);
     transition: all 250ms cubic-bezier(.02, .01, .47, 1);
     cursor: pointer;
-    position: relative;
-    // opacity: 0.3;
+    position: relative; // opacity: 0.3;
 }
 
-.proto-graph-card:hover{
+.proto-graph-card:hover {
     opacity: 1;
 }
 
 .proto-graph-card:hover {
-    box-shadow: 0 40px 40px rgba(0,0,0,.16);
-    transform: translate(0,-10px);
+    box-shadow: 0 40px 40px rgba(0, 0, 0, .16);
+    transform: translate(0, -10px);
     transition-delay: 0s !important;
 }
 
-.proto-graph-card img{
-}
+.proto-graph-card img {}
 
 .proto-card-gradient {
     width: 100%;
     height: 250px;
     position: absolute;
     bottom: 0px;
-    background: -webkit-linear-gradient(rgba(255, 255, 255, 0.5), white 60%); /* For Safari 5.1 to 6.0 */
-    background: -o-linear-gradient(rgba(255, 255, 255, 0.5), white 60%); /* For Opera 11.1 to 12.0 */
-    background: -moz-linear-gradient(rgba(255, 255, 255, 0.5), white 60%); /* For Firefox 3.6 to 15 */
-    background: linear-gradient(rgba(255, 255, 255, 0.5), white 60%); /* Standard syntax */
+    background: -webkit-linear-gradient(rgba(255, 255, 255, 0.5), white 60%);
+    /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(rgba(255, 255, 255, 0.5), white 60%);
+    /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(rgba(255, 255, 255, 0.5), white 60%);
+    /* For Firefox 3.6 to 15 */
+    background: linear-gradient(rgba(255, 255, 255, 0.5), white 60%);
+    /* Standard syntax */
     pointer-events: none;
 }
 
-#protoCard{
+#protoCard {
     min-height: 300px;
 }
 
@@ -110,7 +112,7 @@ label {
     width: 100%;
 }
 
-.show-page-div .show-page-title{
+.show-page-div .show-page-title {
     font-size: 1.8em;
     font-weight: bold;
     margin-bottom: 30px;
@@ -118,17 +120,15 @@ label {
     line-height: 1.4em;
 }
 
-.card-details-title{
+.card-details-title {
     font-size: 1em;
-    color: #333;
-    // font-weight: bold;
+    color: #333; // font-weight: bold;
     border-bottom: 1px solid #efefef;
-    padding-bottom: 5px;
-    // font-family: arial;
+    padding-bottom: 5px; // font-family: arial;
     font-weight: 100;
 }
 
-.card-detail-lable{
+.card-detail-lable {
     font-size: 0.9em;
     color: #999;
     font-weight: 100;
@@ -136,7 +136,7 @@ label {
     padding-top: 5px;
 }
 
-.card-detail-Value{
+.card-detail-Value {
     font-size: 0.9em;
     color: #333;
     font-weight: 100;
@@ -144,11 +144,11 @@ label {
     padding-top: 5px;
 }
 
-.proto-graph-card:hover .proto-card-highlight-gradient{
+.proto-graph-card:hover .proto-card-highlight-gradient {
     background: linear-gradient(-45deg, rgba(243, 207, 63, 0.5) 0%, rgba(243, 63, 88, 0.5) 100%) !important;
 }
 
-.index-card-content{
+.index-card-content {
     position: absolute;
     display: inline-block;
     bottom: 0px;
@@ -156,7 +156,7 @@ label {
     width: 100%;
 }
 
-.index-card-content .index-card-title{
+.index-card-content .index-card-title {
     font-size: 1.5em;
     color: #333;
     font-weight: bold;
@@ -171,36 +171,34 @@ label {
     -webkit-box-orient: vertical;
 }
 
-.index-card-created-by{
+.index-card-created-by {
     display: inline-block;
     float: right;
 }
 
-.index-card-extra-info{
-    display: inline-block;
-    // float: right;
+.index-card-extra-info {
+    display: inline-block; // float: right;
     font-size: 0.8em;
     color: #999;
 }
 
-.index-card-created-by{
+.index-card-created-by {
     height: 24px;
     width: 24px;
     overflow: hidden;
     border-radius: 50px;
 }
 
-.notification-text{
+.notification-text {
     display: inline !important;
 }
 
-.proto-graph-card-div{
+.proto-graph-card-div {
     width: 254px;
     margin-right: 7px;
     margin-left: 7px;
     display: inline-block;
-    margin-bottom: 15px;
-    // float: left;
+    margin-bottom: 15px; // float: left;
 }
 
 .proto-graph-mode-buttons {
@@ -232,69 +230,73 @@ label {
     font-weight: bold;
 }
 
-.index-card-image{
+.index-card-image {
     height: 254px;
 }
+
 .protograph-logo-image {
     height: 30px;
 }
 
-.creat-card-view-area{
+.creat-card-view-area {
     margin: 0px !important;
     margin-top: 10px !important;
 }
 
 
 // ====== over-writing css ======
-
-.ui.menu .item>i.icon{
+.ui.menu .item>i.icon {
     margin: 0px;
 }
 
-.default-button{
+.default-button {
     // background: red !important;
     font-size: 12px !important;
     padding: 5px 10px !important;
 }
 
-.field-object fieldset{
-    padding-bottom:0px !important;
+.field-object fieldset {
+    padding-bottom: 0px !important;
 }
 
-.protograph-primary-button{
+.protograph-primary-button {
     padding: 5px 20px !important;
     width: 50% !important;
- }
+}
 
- .proto-card-form{
- background: #fafafa;
- }
+.proto-card-form {
+    background: #fafafa;
+}
 
- .form-layout .row{
- background: #fafafa;
- padding: 0px !important;
- }
+.form-layout {
+    margin: 0rem !important;
+}
 
-.signal{
-  border-radius: 50%;
-  width: 12px;
-  height: 12px;
+
+.form-layout .row {
+    background: #fafafa;
+}
+
+.signal {
+    border-radius: 50%;
+    width: 12px;
+    height: 12px;
 }
 
 .sig-green {
-  background-image: -moz-radial-gradient(45px 45px 45deg, circle cover, #44aa22 0%, #44aa22 100%, #44aa22 95%);
-  background-image: -webkit-radial-gradient(45px 45px, circle cover, #44aa22, #44aa22);
-  background-image: radial-gradient(45px 45px 45deg, circle cover, #44aa22 0%, #44aa22 100%, #44aa22 95%);
+    background-image: -moz-radial-gradient(45px 45px 45deg, circle cover, #44aa22 0%, #44aa22 100%, #44aa22 95%);
+    background-image: -webkit-radial-gradient(45px 45px, circle cover, #44aa22, #44aa22);
+    background-image: radial-gradient(45px 45px 45deg, circle cover, #44aa22 0%, #44aa22 100%, #44aa22 95%);
 }
 
 .sig-gray {
-  background-image: -moz-radial-gradient(45px 45px 45deg, circle cover, yellow 0%, orange 100%, red 95%);
+    background-image: -moz-radial-gradient(45px 45px 45deg, circle cover, yellow 0%, orange 100%, red 95%);
     background-image: -webkit-radial-gradient(45px 45px, circle cover, yellow, orange);
     background-image: radial-gradient(45px 45px 45deg, circle cover, yellow 0%, orange 100%, red 95%);
 }
 
 .sig-red {
-  background-image: -moz-radial-gradient(45px 45px 45deg, circle cover, red 0%, red 100%, red 95%);
-  background-image: -webkit-radial-gradient(45px 45px, circle cover, red, red);
-  background-image: radial-gradient(45px 45px 45deg, circle cover, red 0%, red 100%, red 95%);
+    background-image: -moz-radial-gradient(45px 45px 45deg, circle cover, red 0%, red 100%, red 95%);
+    background-image: -webkit-radial-gradient(45px 45px, circle cover, red, red);
+    background-image: radial-gradient(45px 45px 45deg, circle cover, red 0%, red 100%, red 95%);
 }
