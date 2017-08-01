@@ -29,37 +29,44 @@ namespace :to_mob_justice do
             # #=================
             # #Creating Datacast
             # #=================
-
             payload = {}
             obj = {}
+            data["headline"] = data["headline"].to_s.strip
             data["url"] = data["url"].to_s.strip
-            data["title"] = data["title"].to_s.strip
-            data["menu"] = data["menu"].to_s.strip
-            data["sub_crime"] = data["sub_crime"].to_s.strip
+            data["story_source"] = data["story_source"].to_s.strip
+            data["story_source_summary"] = data["story_source_summary"].to_s.strip
             data["date"] = data["date"].to_s.strip
-            data["area"] = data["area"].to_s.strip
-            data["state"] = data["state"].to_s.strip
-            data["state_ruling_party"] = data["state_ruling_party"].to_s.strip
             data["image"] = data["image"].to_s.strip
+            data["state"] = data["state"].to_s.strip
+            data["district"] = data["district"].to_s.strip
+            data["area"] = data["area"].to_s.strip
+            data["area_classification"] = data["area_classification"].to_s.strip
+            data["state_ruling_party"] = data["state_ruling_party"].to_s.strip
+            data["police_to_population"] = data["police_to_population"].to_s.strip
+            data["judge_to_population"] = data["judge_to_population"].to_s.strip
+            data["lat"] = data["lat"].to_f
+            data["lng"] = data["lng"].to_f
             data["victim_religion"] = data["victim_religion"].to_s.strip
             data["victim_tag"] = data["victim_tag"].to_s.strip
             data["victim_gender"] = data["victim_gender"].to_s.strip
             data["victim_action"] = data["victim_action"].to_s.strip
-            data["victim_names"] = data["victim_names"].to_s.strip
             data["accused_religion"] = data["accused_religion"].to_s.strip
             data["accused_tag"] = data["accused_tag"].to_s.strip
             data["accused_gender"] = data["accused_gender"].to_s.strip
-            data["accused_names"] = data["accused_names"].to_s.strip
             data["accused_action"] = data["accused_action"].to_s.strip
             data["the_lynching"] = data["the_lynching"].to_s.strip
             data["count_injured"] = data["count_injured"].to_i
             data["count_dead"] = data["count_dead"].to_i
+            data["victim_names"] = data["victim_names"].to_s.strip
+            data["title"] = data["title"].to_s.strip
+            data["how_was_the_lynching_planned"] = data["how_was_the_lynching_planned"].to_s.strip
+            data["accused_names"] = data["accused_names"].to_s.strip
+            data["did_the_police_intervene_and_prevent_the_death?"] = data["did_the_police_intervene_and_prevent_the_death?"].to_s.strip
             data["does_the_state_criminalise_victims_actions"] = data["does_the_state_criminalise_victims_actions"].to_s.strip
-            data["which_law"] = data["which_law"].to_s.strip
-            data["lat"] = data["lat"].to_f
-            data["lng"] = data["lng"].to_f
-            data["police_to_population"] = data["police_to_population"].to_s.strip
-            data["judge_to_population"] = data["judge_to_population"].to_s.strip
+            data["what_the_victim_did"] = data["what_the_victim_did"].to_s.strip
+            data["what_was_the_mob_doing"] = data["what_was_the_mob_doing"].to_s.strip
+            data["menu"] = data["menu"].to_s.strip
+            data["is_notable_incident"] = data["is_notable_incident"].to_s.strip
             obj['data'] = data
             payload["payload"] = obj.to_json
             payload["source"]  = "backgroud_job"
@@ -101,69 +108,12 @@ namespace :to_mob_justice do
             data['schema_id'] = view_cast.template_datum.s3_identifier
             data['screen_shot_url'] = view_cast.render_screenshot_url
             data['date'] = Date.parse(data['date']).strftime("%d %b '%y")
-            case data['menu']
-            when "Cattle Protection"
-                cattle_protection_json << data
-            when "Crime"
-                crime_json << data
-            when "Sexual Harrassment"
-                sexual_harrassment_json << data
-            when "Witch Craft"
-                witch_craft_json << data
-            when "Honour Killing"
-                honour_killing_json << data
-            else
-                other_json << data
-            end
             all_data << data
             puts "================="
         end
 
         #Sorting the data
-        cattle_protection_json = cattle_protection_json.sort_by{|d| Date.parse(d['date'])}.reverse!
-        crime_json = crime_json.sort_by{|d| - d['date']}.reverse!
-        sexual_harrassment_json = sexual_harrassment_json.sort_by{|d| Date.parse(d['date'])}.reverse!
-        witch_craft_json = witch_craft_json.sort_by{|d| Date.parse(d['date'])}.reverse!
-        honour_killing_json = honour_killing_json.sort_by{|d| Date.parse(d['date'])}.reverse!
-        other_json = other_json.sort_by{|d| Date.parse(d['date'])}.reverse!
         all_data = all_data.sort_by{|d| Date.parse(d['date'])}.reverse!
-
-        puts "Uploading Cattle Protection"
-        key = "toMobJustice/cattle_protection.json"
-        encoded_file = Base64.encode64(cattle_protection_json.to_json)
-        content_type = "application/json"
-        resp = Api::ProtoGraph::Utility.upload_to_cdn(encoded_file, key, content_type)
-
-
-        puts "Uploading crime"
-        key = "toMobJustice/crime.json"
-        encoded_file = Base64.encode64(crime_json.to_json)
-        content_type = "application/json"
-        resp = Api::ProtoGraph::Utility.upload_to_cdn(encoded_file, key, content_type)
-
-        puts "Uploading Sexual Harrassment"
-        key = "toMobJustice/sexual_harrassment.json"
-        encoded_file = Base64.encode64(sexual_harrassment_json.to_json)
-        content_type = "application/json"
-        resp = Api::ProtoGraph::Utility.upload_to_cdn(encoded_file, key, content_type)
-
-        puts "Uploading Witch Craft"
-        key = "toMobJustice/witch_craft.json"
-        encoded_file = Base64.encode64(witch_craft_json.to_json)
-        content_type = "application/json"
-        resp = Api::ProtoGraph::Utility.upload_to_cdn(encoded_file, key, content_type)
-
-        puts  "Uploading Honor Kiling"
-        key = "toMobJustice/honour_killing.json"
-        encoded_file = Base64.encode64(honour_killing_json.to_json)
-        content_type = "application/json"
-        resp = Api::ProtoGraph::Utility.upload_to_cdn(encoded_file, key, content_type)
-
-        puts  "Uploading Other"
-        key = "toMobJustice/other.json"
-        encoded_file = Base64.encode64(other_json.to_json)
-        content_type = "application/json"
-        resp = Api::ProtoGraph::Utility.upload_to_cdn(encoded_file, key, content_type)
 
         puts  "Uploading Index"
         key = "toMobJustice/index.json"

@@ -14,7 +14,7 @@
             <button class="ui button platform_buttons" id='instagram'><i class="instagram square icon"></i></button>
           <% else %>
             <button class="ui button platform_buttons" id='laptop'><i class="desktop icon"></i>&nbsp Desktop</button>
-            <button class="ui button platform_buttons" id='mobile'><i class="mobile icon"></i> &nbsp Mobile</button>
+            <button class="ui button platform_buttons" id='mobile'><i class="mobile icon"></i> <%= @view_cast.template_card.git_repo_name == 'ProtoGraph.Card.toSocial' ? "Mobile with Desktop interaction" : "&nbsp Mobile".html_safe %></button>
           <% end %>
         </div>
       </div>
