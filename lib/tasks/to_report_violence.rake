@@ -119,7 +119,7 @@ namespace :to_report_violence do
             d["accused_religion"] = data["accused_religion"]
             d["title"] = data["title"]
             d["how_was_the_lynching_planned"] = data["how_was_the_lynching_planned"]
-            d["did_the_police_intervene_and_prevent_the_death?"] = data["did_the_police_intervene_and_prevent_the_death"]
+            d["did_the_police_intervene_and_prevent_the_death?"] = data["did_the_police_intervene_and_prevent_the_death?"]
             d["does_the_state_criminalise_victims_actions"] = data["does_the_state_criminalise_victims_actions"]
             d["menu"] = data["menu"]
             d["is_notable_incident"] = data["is_notable_incident"]
