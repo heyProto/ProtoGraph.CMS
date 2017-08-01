@@ -1,9 +1,9 @@
 require 'json'
 require 'csv'
 
-namespace :to_mob_justice do
+namespace :to_report_violence do
     task :load => :environment do
-        csv_data = CSV.read(Rails.root.join('ref/to_mob_justice.csv'), headers: true)
+        csv_data = CSV.read(Rails.root.join('ref/to_report_violence.csv'), headers: true)
         account_id = Account.friendly.find('indianexpress').id
         template_datum_id = TemplateDatum.friendly.where(name: "toReportViolence").first.id
         template_card_id = TemplateCard.friendly.where(name: "toReportViolence").first.id
@@ -116,7 +116,7 @@ namespace :to_mob_justice do
         all_data = all_data.sort_by{|d| Date.parse(d['date'])}.reverse!
 
         puts  "Uploading Index"
-        key = "toMobJustice/index.json"
+        key = "toReportViolence/index.json"
         encoded_file = Base64.encode64(all_data.to_json)
         content_type = "application/json"
         resp = Api::ProtoGraph::Utility.upload_to_cdn(encoded_file, key, content_type)
