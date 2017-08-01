@@ -104,11 +104,26 @@ namespace :to_report_violence do
         view_casts.each do |view_cast|
             res = JSON.parse(RestClient.get(view_cast.data_url).body)
             data = res['data']
-            data['view_cast_id'] = view_cast.datacast_identifier
-            data['schema_id'] = view_cast.template_datum.s3_identifier
-            data['screen_shot_url'] = view_cast.render_screenshot_url
-            data['date'] = Date.parse(data['date']).strftime("%d %b '%y")
-            all_data << data
+            d = {}
+            d['view_cast_id'] = view_cast.datacast_identifier
+            d['schema_id'] = view_cast.template_datum.s3_identifier
+            d['screen_shot_url'] = view_cast.render_screenshot_url
+            d['date'] = Date.parse(data['date']).strftime("%d %b '%y")
+            d['state'] = data['state']
+            d["area_classification"] = data["area_classification"]
+            d["police_to_population"] = data["police_to_population"]
+            d["judge_to_population"] = data["judge_to_population"]
+            d["lat"] = data["lat"]
+            d["lng"] = data["lng"]
+            d["victim_religion"] = data["victim_religion"]
+            d["accused_religion"] = data["accused_religion"]
+            d["title"] = data["title"]
+            d["how_was_the_lynching_planned"] = data["how_was_the_lynching_planned"]
+            d["did_the_police_intervene_and_prevent_the_death?"] = data["did_the_police_intervene_and_prevent_the_death"]
+            d["does_the_state_criminalise_victims_actions"] = data["does_the_state_criminalise_victims_actions"]
+            d["menu"] = data["menu"]
+            d["is_notable_incident"] = data["is_notable_incident"]
+            all_data << d
             puts "================="
         end
 
