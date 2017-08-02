@@ -61,6 +61,7 @@ class TemplateCard < ApplicationRecord
     #CALLBACKS
     before_create :before_create_set
     after_create :after_create_set
+    before_destroy :before_destroy_set
 
     #SCOPE
     #OTHER
@@ -178,5 +179,15 @@ class TemplateCard < ApplicationRecord
 
     def after_create_set
         true
+    end
+
+    def before_destroy_set
+        payload = {}
+        payload['folder_name'] = self.s3_identifier
+        begin
+            Api::ProtoGraph::Datacast.delete(payload)
+        rescue => e
+        end
+        self.view_casts.destroy_all
     end
 end

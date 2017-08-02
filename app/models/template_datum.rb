@@ -34,6 +34,7 @@ class TemplateDatum < ApplicationRecord
 
     #CALLBACKS
     before_create :before_create_set
+    before_destroy :before_destroy_set
 
     #SCOPE
     #OTHER
@@ -82,6 +83,16 @@ class TemplateDatum < ApplicationRecord
         self.global_slug = self.name.parameterize
         self.s3_identifier = SecureRandom.hex(6) if self.s3_identifier.blank?
         true
+    end
+
+    def before_destroy_set
+        payload = {}
+        payload['folder_name'] = self.s3_identifier
+        begin
+            Api::ProtoGraph::Datacast.delete(payload)
+        rescue => e
+        end
+        self.template_cards.destroy_all
     end
 
 end
