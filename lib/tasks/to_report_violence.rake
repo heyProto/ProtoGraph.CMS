@@ -108,7 +108,7 @@ namespace :to_report_violence do
             d['view_cast_id'] = view_cast.datacast_identifier
             d['schema_id'] = view_cast.template_datum.s3_identifier
             d['screen_shot_url'] = view_cast.render_screenshot_url
-            d['date'] = Date.parse(data['date']).strftime("%d %b '%y")
+            d['date'] = Date.parse(data['date']).strftime('%F')
             d['state'] = data['state']
             d["area_classification"] = data["area_classification"]
             d["police_to_population"] = data["police_to_population"]
