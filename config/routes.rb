@@ -21,6 +21,7 @@ Rails.application.routes.draw do
       end
       resources :view_casts, only: [:show]
       resources :template_data, only: [:create]
+      resources :images, only: [:create]
     end
   end
 
