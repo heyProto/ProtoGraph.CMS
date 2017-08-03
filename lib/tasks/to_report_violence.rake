@@ -123,8 +123,8 @@ namespace :to_report_violence do
             d["does_the_state_criminalise_victims_actions"] = data["does_the_state_criminalise_victims_actions"]
             d["menu"] = data["menu"]
             d["is_notable_incident"] = data["is_notable_incident"]
+            d['iframe_url']= "#{view_cast.template_card.index_html}?view_cast_id=#{view_cast.datacast_identifier}%26schema_id=#{view_cast.template_datum.s3_identifier}"
             all_data << d
-            puts "================="
         end
 
         #Sorting the data
