@@ -71,10 +71,6 @@
     height: 100vh;
 }
 
-option[value=''] {
-    display: none !important;
-}
-
 .ui.styled.fluid.accordion:empty {
     display: none;
 }
