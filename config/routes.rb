@@ -19,6 +19,8 @@ Rails.application.routes.draw do
         end
         resources :datacasts, only: [:create, :update]
       end
+      get '/iframely', to: "utilities#iframely"
+      get '/oembed', to: "utilities#oembed"
       resources :view_casts, only: [:show]
       resources :template_data, only: [:create]
       resources :images, only: [:create]
