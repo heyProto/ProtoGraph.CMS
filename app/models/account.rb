@@ -67,6 +67,12 @@ class Account < ApplicationRecord
     def before_create_set
         self.slug = self.username
         self.sign_up_mode = "Invitation only"
+        self.cdn_provider = "CloudFront"
+        self.cdn_id = ENV['AWS_CDN_ID']
+        self.invalidation_endpoint = "#{AWS_API_DATACAST_URL}/cloudfront/invalidate"
+        self.authorization_header_name = "x-api-key"
+        self.access_token = ENV["AWS_API_KEY"]
+        self.cdn_endpoint = ENV['AWS_S3_ENDPOINT']
         true
     end
 
