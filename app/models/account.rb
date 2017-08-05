@@ -2,15 +2,23 @@
 #
 # Table name: accounts
 #
-#  id             :integer          not null, primary key
-#  username       :string(255)
-#  slug           :string(255)
-#  domain         :string(255)
-#  gravatar_email :string(255)
-#  status         :string(255)
-#  sign_up_mode   :string(255)
-#  created_at     :datetime         not null
-#  updated_at     :datetime         not null
+#  id                        :integer          not null, primary key
+#  username                  :string(255)
+#  slug                      :string(255)
+#  domain                    :string(255)
+#  gravatar_email            :string(255)
+#  status                    :string(255)
+#  sign_up_mode              :string(255)
+#  created_at                :datetime         not null
+#  updated_at                :datetime         not null
+#  cdn_provider              :string(255)
+#  cdn_id                    :string(255)
+#  invalidation_endpoint     :text(65535)
+#  cdn_endpoint              :text(65535)
+#  authorization_header_name :string(255)
+#  client_token              :string(255)
+#  access_token              :string(255)
+#  client_secret             :string(255)
 #
 
 class Account < ApplicationRecord

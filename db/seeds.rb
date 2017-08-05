@@ -49,7 +49,7 @@ t_explain = TemplateDatum.create({name: "toExplain", version: "0.0.1", s3_identi
 t_share = TemplateDatum.create({name: "toSocial", version: "0.0.1", s3_identifier: "9701121472ab331a"})
 t_quiz = TemplateDatum.create({name: "toQuiz", version: "0.0.1", s3_identifier: "0eec77701464"})
 t_report_violence = TemplateDatum.create({name: "toReportViolence", version: "0.0.1", s3_identifier: "8fe46be1629b"})
-t_timeline = TemplateDatum.create({name: "toTimeline", version: "0.0.1", s3_identifier: "eadf798aca986e17"})
+t_timeline = TemplateDatum.create({name: "toLin", version: "0.0.1", s3_identifier: "eadf798aca986e17"})
 
 puts "----> Creating Template Cards"
 

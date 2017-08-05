@@ -69,11 +69,11 @@ class ViewCast < ApplicationRecord
         Api::ProtoGraph::Utility.remove_from_cdn(self.cdn_url)
     end
 
-    def social_urls
+    def social_urls(account)
         {
-            "twitter": "#{ENV['AWS_S3_ENDPOINT']}/#{self.datacast_identifier}/#{self.id}_twitter.png",
-            "facebook": "#{ENV['AWS_S3_ENDPOINT']}/#{self.datacast_identifier}/#{self.id}_facebook.png",
-            "instagram": "#{ENV['AWS_S3_ENDPOINT']}/#{self.datacast_identifier}/#{self.id}_instagram.png"
+            "twitter": "#{account.cdn_endpoint}/#{self.datacast_identifier}/#{self.id}_twitter.png",
+            "facebook": "#{account.cdn_endpoint}/#{self.datacast_identifier}/#{self.id}_facebook.png",
+            "instagram": "#{account.cdn_endpoint}/#{self.datacast_identifier}/#{self.id}_instagram.png"
         }
     end
 
@@ -150,6 +150,10 @@ class ViewCast < ApplicationRecord
                 self.save_png
                 ActiveRecord::Base.connection.close
             end
+        end
+        begin
+            Api::ProtoGraph::CloudFront.invalidate(["/#{self.datacast_identifier}/*"], 1)
+        rescue
         end
     end
 

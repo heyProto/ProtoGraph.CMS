@@ -12,7 +12,6 @@ class Api::V1::DatacastsController < ApiController
             payload["schema_url"] = view_cast.template_datum.schema_json
             r = Api::ProtoGraph::Datacast.create(payload)
             if r.has_key?("errorMessage")
-                view_cast.remove_file
                 view_cast.destroy
                 render json: {error_message: r['errorMessage']}, status: 422
             else

@@ -56,6 +56,13 @@ class TemplateDatum < ApplicationRecord
         "#{TemplateDatum::CDN_BASE_URL}/#{self.s3_identifier}/schema.json"
     end
 
+    def invalidate
+        begin
+            Api::ProtoGraph::CloudFront.invalidate(["/#{self.s3_identifier}/*"], 1)
+        rescue
+        end
+    end
+
 
     class << self
         def create_or_update(params)
