@@ -9,7 +9,6 @@
 #  template_datum_id     :integer
 #  name                  :string(255)
 #  optionalConfigJSON    :text(65535)
-#  cdn_url               :text(65535)
 #  slug                  :string(255)
 #  created_by            :integer
 #  updated_by            :integer
@@ -63,6 +62,10 @@ class ViewCast < ApplicationRecord
 
     def data_url
         "#{Datacast_ENDPOINT}/#{self.datacast_identifier}/data.json"
+    end
+
+    def cdn_url
+        "#{Datacast_ENDPOINT}/#{self.datacast_identifier}/view_cast.json"
     end
 
     def remove_file
@@ -132,7 +135,6 @@ class ViewCast < ApplicationRecord
             encoded_file = Base64.encode64(self.optionalConfigJSON)
             content_type = "application/json"
             resp = Api::ProtoGraph::Utility.upload_to_cdn(encoded_file, key, content_type)
-            self.cdn_url = resp.first["s3_endpoint"]
         end
         if self.status.blank?
             self.status = {"twitter": "creating", "facebook": "creating", "instagram": "creating"}.to_json
