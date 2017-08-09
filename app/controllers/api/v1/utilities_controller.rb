@@ -3,36 +3,45 @@ class Api::V1::UtilitiesController < ApiController
   def iframely
     if params['url'].present?
       url = "http://13.126.206.16:8000/iframely"
-      response = RestClient::Request.execute(
-        method: "get",
-        url: url,
-        headers: {
-          params: {
-            url: utility_params['url']
+      begin
+        response = RestClient::Request.execute(
+          method: "get",
+          url: url,
+          headers: {
+            params: {
+              url: utility_params['url']
+            }
           }
-        }
-      )
-      render json: JSON.parse(response)
+        )
+
+       render json: JSON.parse(response)
+      rescue Exception => e
+        render json: {success: false, message: e.to_s}, status: 400
+      end
     else
-      render json: {success: false, status: 400, message: "No URL present"}.to_json
+      render json: {success: false, message: t('url.required')}, status: 400
     end
   end
 
   def oembed
     url = "http://13.126.206.16:8000/oembed"
     if params['url'].present?
-      response = RestClient::Request.execute(
-        method: "get",
-        url: url,
-        headers: {
-          params: {
-            url: utility_params['url'],
+      begin
+        response = RestClient::Request.execute(
+          method: "get",
+          url: url,
+          headers: {
+            params: {
+              url: utility_params['url'],
+            }
           }
-        }
-      )
-      render json: JSON.parse(response)
+        )
+        render json: JSON.parse(response)
+      rescue  Exception => e
+        render json: {success: false, message: e.to_s}, status: 400
+      end
     else
-      render json: {success: false, status: 400, message: "No URL present"}.to_json
+      render json: {success: false, message: t('url.required')}, status: 400
     end
   end
 
