@@ -97,7 +97,7 @@ class ViewCast < ApplicationRecord
         payload["mode"] = mode.blank? ? 'screenshot' : mode
         html_url = "#{ENV['AWS_S3_ENDPOINT']}/#{key}"
         response = Api::ProtoGraph::ViewCast.render_screenshot(payload)
-        unless response['errorMessage'].present?
+        if response['message'].present? and response['message'] == "Data Added Successfully"
             if mode.blank?
                 self.update_columns(render_screenshot_url: html_url, updated_at: Time.now)
             else
@@ -108,7 +108,7 @@ class ViewCast < ApplicationRecord
         else
             if mode.present?
                 status_obj = JSON.parse(self.status)
-                status_obj[mode] = "success"
+                status_obj[mode] = false
                 self.update_columns(status: status_obj.to_json, updated_at: Time.now)
             end
         end
@@ -144,6 +144,7 @@ class ViewCast < ApplicationRecord
     def after_save_set
         if self.saved_changes? and !self.stop_callback
             Thread.new do
+                sleep 1
                 if self.template_card.git_repo_name == 'ProtoGraph.Card.toSocial'
                     ViewCast::Platforms.each do |mode|
                         self.save_png(mode)
