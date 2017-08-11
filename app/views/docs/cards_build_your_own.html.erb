@@ -71,8 +71,69 @@
             <li><a target="_blank" href="https://github.com/icfjknightfellows/ProtoGraph.Card.toSocial">GitHub.com/icfj...toSocial</a></li>
             <li><a target="_blank" href="https://github.com/icfjknightfellows/ProtoGraph.Card.toQuiz">GitHub.com/icfj...toQuiz</a></li>
         </ul>
-        <h3 class="ui header">5. Create a new GitHub Repository</h3>
-        <p>Create a new repository. Initialise ReactJS app.</p>
+        <h3 class="ui header">5. Development</h3>
+        <p>The development is broken down into 3 parts:</p>
+        <ul>
+            <li><p><u>The card application (card-name.jsx)</u>: This react application holds the logic of the card. It should expose following function</p>
+                <input type="checkbox" name="" value="init"> init - it accepts 5 paramenters
+                <ul>
+                    <li>selector</li>
+                    <li>data_url</li>
+                    <li>schema_url</li>
+                    <li>configuration_schema_url</li>
+                    <li>configuration_url</li>
+                </ul>
+                <br>
+                <input type="checkbox" name="" value="init"> renderLaptop - logic of how the card will look in laptop will go here.<br><br>
+                <input type="checkbox" name="" value="init"> renderMobile - logic of how the card will look in mobile will go here. <br><br>
+                <input type="checkbox" name="" value="init"> renderScreenshot 
+                <ul>
+                    <li>The content will be appended to a parent div with id='ProtoScreenshot'. The phantomjs program will be taking a snapshot of this div.</li>
+                    <li>The dimensions of the div should be 450*450 with 10px 15px padding.</li>
+                    <li>All the content that needs to be shown should be fitted inside of the parent div.</li>
+                    <li>Overflow should be hidden.</li>
+                    <li>configuration_url</li>
+                </ul>
+                <br>
+            </li>
+            <li><p><u>The edit-card application (edit_card-name.jsx)</u>: This react application holds the logic for WYSIWYG form. In addition to above functions, the edit file will expose following functions:</p>
+                <input type="checkbox" name="" value="init"> exportData - This function should return following keys
+                <ul>
+                    <li>dataJSON</li>
+                    <li>schemaJSON</li>
+                    <li>optionalConfigJSON</li>
+                    <li>optionalConfigSchemaJSON</li>
+                    <li>name</li>
+                </ul>
+                <br>
+                <input type="checkbox" name="" value="init"> renderEdit - This function holds the logic of the form. <br><br>
+                <input type="checkbox" name="" value="init"> renderSEO - This function should return all the content of the card inside blockquote tag.<br><br>
+            </li>
+            <li><p><u>Support for iFrames</u> :<br><br>
+                <input type="checkbox" name="" value="init"> Call the viewcast API inside the index.html. If response is successful then call the init function of card.<br><br>
+                <input type="checkbox" name="" value="init"> Add the code for Consumer in order to use the reSize service provided by ProtoGraph.js<br><br>
+            </li>
+        </ul>
+        <h3 class="ui header">6. Production</h3>
+        <p>Each card repo should have a dist folder with the following files:</p>
+        <ul>
+            <li>dist</li>
+            <ul>
+                <li>0.0.1 //version number</li>
+                <ul>
+                    <li>card.min.js</li>
+                    <li>edit-card.min.js</li>
+                    <li>card.min.css</li>
+                    <li>configuration_schema.json //schema for optional configuration</li>
+                    <li>configuration_sample.json //optional configuration of the card</li>
+                    <li>index.html</li>
+                    <li>protograph.html //standalone iframable page</li>
+                    <li>card.ai</li>
+                    <li>card.png</li>
+                    <li>static_image.png //sprite image that is used in the card</li>
+                </ul>
+            </ul>
+        </ul>
         <p><%= link_to "< Back to Docs", docs_path %> </p>
     </div>
 </div>
