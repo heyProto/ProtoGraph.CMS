@@ -21,15 +21,7 @@
             <li>toExplain</li>
             <li>toHeadline</li>
         </ul>
-        <h3 class="ui header">2. Recommended version numbers</h3>
-        <p>The first version of the card will always be `0.0.1`</p>
-        <p>Till the current version is published, there is no need to update the version number. Once the card is published, there can be following updates:</p>
-        <ul>
-            <li><u>Bug fixes</u>: Past deployments in same version series + Under drafting but not published + New drafts(`0.0.1` -> `0.0.2`)</li>
-            <li><u>Minor upgrades</u>: Under drafting but not published + New drafts(`0.0.1` -> `0.1.0`)</li>
-            <li><u>Major upgrades</u>: New drafts (not backward compatibility)(`1.0.0` -> `2.0.0`)</li>
-        </ul>
-        <h3 class="ui header">3. Create JSON Schema</h3>
+        <h3 class="ui header">2. Create JSON Schema</h3>
         <p>Each card must have a <a href="http://json-schema.org" target="_blank">JSON Schema</a>. ProtoGraph will use the JSON Schema file to validate JSON documents when cards are created via a form by a person or programatically via API.</p>
         <ul>
             <li>We store all JSON Schema's in a public GitHub repository. Fork this repository - <a href="https://github.com/pykih/ProtoGraph.Schemas" target="_blank">https://github.com/pykih/ProtoGraph.Schemas</a>.</li>
@@ -38,6 +30,7 @@
             <li>Add your `schema.json`, `sample.json` and `package.json` inside the version folder.</li>
             <li>Push the code to your branch.</li>
             <li>Generate a pull request to https://github.com/pykih/ProtoGraph.Schemas to review.</li>
+            <li><u>Note:</u> You can use this tool - <a href="https://jsonschema.net/" target="_blank">https://jsonschema.net/</a> to generate the schema.</li>
         </ul>
         <p>ProtoGraph will upload the schema to CDN.</p>
         <table class="ui table">
@@ -62,7 +55,7 @@
                 </tr>
             </tbody>
         </table>
-        <h3 class="ui header">4. Create a new GitHub Repository</h3>
+        <h3 class="ui header">3. Create a new GitHub Repository</h3>
         <p>Create a new repository. Initialise ReactJS app.</p>
         <p>Below are some open source GitHub card repositories that you can read for inspiration.</p>
         <ul>
@@ -71,11 +64,11 @@
             <li><a target="_blank" href="https://github.com/icfjknightfellows/ProtoGraph.Card.toSocial">GitHub.com/icfj...toSocial</a></li>
             <li><a target="_blank" href="https://github.com/icfjknightfellows/ProtoGraph.Card.toQuiz">GitHub.com/icfj...toQuiz</a></li>
         </ul>
-        <h3 class="ui header">5. Development</h3>
+        <h3 class="ui header">4. Development</h3>
         <p>The development is broken down into 3 parts:</p>
         <ul>
             <li><p><u>The card application (card-name.jsx)</u>: This react application holds the logic of the card. It should expose following function</p>
-                <input type="checkbox" name="" value="init"> init - it accepts 5 paramenters
+                <input type="checkbox" name="" value="init"> init - it accepts 5 mandatory parameters:
                 <ul>
                     <li>selector</li>
                     <li>data_url</li>
@@ -84,15 +77,15 @@
                     <li>configuration_url</li>
                 </ul>
                 <br>
-                <input type="checkbox" name="" value="init"> renderLaptop - logic of how the card will look in laptop will go here.<br><br>
-                <input type="checkbox" name="" value="init"> renderMobile - logic of how the card will look in mobile will go here. <br><br>
+                <input type="checkbox" name="" value="init"> renderLaptop - logic of how the card will look in laptop will go here. TODO - Please provide exact sizes and design best practices.<br><br>
+                <input type="checkbox" name="" value="init"> renderMobile - logic of how the card will look in mobile will go here. TODO - Please provide exact sizes and design best practices.<br><br>
                 <input type="checkbox" name="" value="init"> renderScreenshot 
                 <ul>
-                    <li>The content will be appended to a parent div with id='ProtoScreenshot'. The phantomjs program will be taking a snapshot of this div.</li>
+                    <li>Once the card is been created, this function is called to create the snapshot of the card.</li>
+                    <li>The content will be appended to a parent div with id='ProtoScreenshot'</li>
                     <li>The dimensions of the div should be 450*450 with 10px 15px padding.</li>
                     <li>All the content that needs to be shown should be fitted inside of the parent div.</li>
                     <li>Overflow should be hidden.</li>
-                    <li>configuration_url</li>
                 </ul>
                 <br>
             </li>
@@ -107,13 +100,84 @@
                 </ul>
                 <br>
                 <input type="checkbox" name="" value="init"> renderEdit - This function holds the logic of the form. <br><br>
-                <input type="checkbox" name="" value="init"> renderSEO - This function should return all the content of the card inside blockquote tag.<br><br>
+                <input type="checkbox" name="" value="init"> renderSEO - This function should return all the textual content of the card (no images, videos) inside blockquote tag. The content should be inside h3 and p tags only.<br><br>
             </li>
             <li><p><u>Support for iFrames</u> :<br><br>
-                <input type="checkbox" name="" value="init"> Call the viewcast API inside the index.html. If response is successful then call the init function of card.<br><br>
-                <input type="checkbox" name="" value="init"> Add the code for Consumer in order to use the reSize service provided by ProtoGraph.js<br><br>
+                <input type="checkbox" name="" value="init"> Include ProtoGraph-core.min.js library file inside the index.html (in dist folder)<br><br>
+                <input type="checkbox" name="" value="init"> Call the viewcast API inside the index.html. If response is successful then call the init function of card.
+<pre><code>
+function findGetParameter(parameterName) {
+  var result = null,
+    tmp = [],
+    search_url = decodeURIComponent(location.search);
+  search_url
+    .substr(1)
+    .split("&")
+    .forEach(function (item) {
+      tmp = item.split("=");
+      if (tmp[0] === parameterName) result = decodeURIComponent(tmp[1]);
+    });
+  return result;
+}
+let view_cast_id = findGetParameter('view_cast_id'),
+  schema_id = findGetParameter('schema_id');
+                </code></pre>
+                <input type="checkbox" name="" value="init"> Add the code for Consumer in order to use the reSize service provided by ProtoGraph.js
+                <pre><code>
+var ReceiverConsumer = Oasis.Consumer.extend({
+requests: {
+receive: function(mode) {
+if(typeof (view_cast_id) !== 'undefined' && typeof(schema_id) !== 'undefined'){
+  var that = this,
+  data_base_path = base_url + "/" + view_cast_id,
+  schema_base_path = base_url + "/" + schema_id;
+  //call init function of the card   
+  //call renderLaptop or renderMobile function
+  renderWithMode(mode);
+    }
+  }
+},
+events: {
+// setting the height of the iframe
+  get_size: function(){
+    var that = this;
+    var intervalId = setInterval(function(){
+        try {              
+          clientRect = x.getData();
+          if(clientRect.height){
+            var height = clientRect.height,
+              width = clientRect.width;
+            that.send("resize_frame", {height: height, width: width});
+            clearInterval(intervalId);
+          }
+        } catch (err) {}
+      }, 10)
+    }
+  }
+});
+oasis.connect({
+  consumers: {
+    receive: ReceiverConsumer
+  }
+});
+                </code></pre>
             </li>
         </ul>
+        <h3 class="ui header">5. Support for Analytics</h3>
+        <p>Protograph cards are deeply integrated with Piwik to track the analytics of the card. Add the following code in index file before calling the card's JS file</p>
+        <pre><code>
+var _paq = _paq || [];
+//tracker methods like "setCustomDimension" should be called before "trackPageView"
+_paq.push(['trackPageView']);
+_paq.push(['enableLinkTracking']);
+(function() {
+var u="//protograph.innocraft.cloud/";
+_paq.push(['setTrackerUrl', u+'piwik.php']);
+_paq.push(['setSiteId', siteId]);
+var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+})();
+        </code></pre>
         <h3 class="ui header">6. Production</h3>
         <p>Each card repo should have a dist folder with the following files:</p>
         <ul>
@@ -123,16 +187,25 @@
                 <ul>
                     <li>card.min.js</li>
                     <li>edit-card.min.js</li>
-                    <li>card.min.css</li>
-                    <li>configuration_schema.json //schema for optional configuration</li>
-                    <li>configuration_sample.json //optional configuration of the card</li>
-                    <li>index.html</li>
-                    <li>protograph.html //standalone iframable page</li>
+                    <li>card.min.css // this does not include css for forms</li>
+                    <li>configuration_schema.json // schema for optional configuration</li>
+                    <li>configuration_sample.json // optional configuration of the card</li>
+                    <li>ui_schema // used only if there are UI changes to be made inside forms. Eg: make some fields hidden, add help text etc. (optional)</li>
+                    <li>index.html // responsive and SEO friendly iframable page</li>
+                    <li>protograph.html // traditional iFramable page</li>
                     <li>card.ai</li>
                     <li>card.png</li>
-                    <li>static_image.png //sprite image that is used in the card</li>
+                    <li>static_image.png // sprite image that is used in the card</li>
                 </ul>
             </ul>
+        </ul>
+        <h3 class="ui header">7. Recommended version numbers</h3>
+        <p>The first version of the card will always be `0.0.1`</p>
+        <p>Till the current version is published, there is no need to update the version number. Once the card is published, there can be following updates:</p>
+        <ul>
+            <li><u>Bug fixes</u>: Past deployments in same version series + Under drafting but not published + New drafts(`0.0.1` -> `0.0.2`)</li>
+            <li><u>Minor upgrades</u>: Under drafting but not published + New drafts(`0.0.1` -> `0.1.0`)</li>
+            <li><u>Major upgrades</u>: New drafts (not backward compatibility)(`1.0.0` -> `2.0.0`)</li>
         </ul>
         <p><%= link_to "< Back to Docs", docs_path %> </p>
     </div>
