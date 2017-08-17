@@ -40,6 +40,9 @@ gem 'jbuilder', '~> 2.5'
 gem 'rack-cors', :require => 'rack/cors'
 gem 'whenever'
 
+gem 'rmagick'
+gem 'carrierwave'
+
 #Encryption
 #gem "attr_encrypted", "~> 3.0.0"
 

@@ -48,6 +48,9 @@ Rails.application.routes.draw do
       put :"recreate/:mode", to: "view_casts#recreate", on: :member, as: :recreate
     end
 
+    resources :images
+    resources :image_variations
+
   end
 
   get "docs", to: 'docs#index', as: :docs

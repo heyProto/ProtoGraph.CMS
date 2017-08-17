@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170805060545) do
+ActiveRecord::Schema.define(version: 20170817105353) do
 
   create_table "accounts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "username"
@@ -61,6 +61,37 @@ ActiveRecord::Schema.define(version: 20170805060545) do
     t.index ["slug", "sluggable_type"], name: "index_friendly_id_slugs_on_slug_and_sluggable_type"
     t.index ["sluggable_id"], name: "index_friendly_id_slugs_on_sluggable_id"
     t.index ["sluggable_type"], name: "index_friendly_id_slugs_on_sluggable_type"
+  end
+
+  create_table "image_variations", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.integer "image_id"
+    t.text "image_url"
+    t.integer "image_width"
+    t.integer "image_height"
+    t.text "thumbnail_url"
+    t.integer "thumbnail_width"
+    t.integer "thumbnail_height"
+    t.text "key"
+    t.boolean "is_original"
+    t.integer "created_by"
+    t.integer "updated_by"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "images", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.integer "account_id"
+    t.string "name"
+    t.text "description"
+    t.string "s3_identifer"
+    t.text "thumbnail_url"
+    t.integer "thumbnail_width"
+    t.integer "thumbnail_height"
+    t.string "image"
+    t.integer "created_by"
+    t.integer "updated_by"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "permission_invites", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
