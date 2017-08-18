@@ -66,15 +66,15 @@ class Api::V1::UtilitiesController < ApiController
                   flat_hash["thumbnail_width"] = response["links"]["thumbnail"][0]["media"]["width"]
                 end
               end
-              # rescue Exception => e
-              #   render json: {success: false, message: e.to_s}, status: 400
+              rescue Exception => e
+                render json: {success: false, message: e.to_s}, status: 400
             end
           end
         end
 
         render json: flat_hash.as_json
-      # rescue Exception => e
-      #   render json: {success: false, message: e.to_s}, status: 400
+      rescue Exception => e
+        render json: {success: false, message: e.to_s}, status: 400
       end
     else
       render json: {success: false, message: t('url.required')}, status: 400
