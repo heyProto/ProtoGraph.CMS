@@ -1,6 +1,8 @@
 class Api::V1::UtilitiesController < ApiController
   skip_before_action :set_user_from_token, :set_global_objects
   def iframely
+    # Captures date in the form of August 17, 2017
+    date_regex = /(January|February|March|April|May|June|July|August|September|October|November|December)\s([\d]{1,2}),\s([\d]{4})/
     if params['url'].present?
       url = "http://13.126.206.16:8000/iframely"
       begin
@@ -18,8 +20,14 @@ class Api::V1::UtilitiesController < ApiController
         flat_hash = {}
 
         response["meta"].each do |meta_attr, val|
-          flat_hash[meta_attr] = val
+          unless meta_attr == "description"
+            flat_hash[meta_attr] = val
+          end
         end
+
+        desc = response["meta"]["description"]
+        flat_hash["description"] = desc[0..desc.index("&mdash") - 1]
+        flat_hash["date"] = date_regex.match(desc.strip)[0]
 
         # This block to get the image from a tweet if present
         if response["links"].present? && response["links"]["thumbnail"].present?
