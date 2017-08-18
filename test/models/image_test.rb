@@ -6,10 +6,13 @@
 #  account_id       :integer
 #  name             :string(255)
 #  description      :text(65535)
-#  s3_identifer     :string(255)
+#  s3_identifier    :string(255)
 #  thumbnail_url    :text(65535)
+#  thumbnail_key    :text(65535)
 #  thumbnail_width  :integer
 #  thumbnail_height :integer
+#  image_width      :integer
+#  image_height     :integer
 #  image            :string(255)
 #  created_by       :integer
 #  updated_by       :integer

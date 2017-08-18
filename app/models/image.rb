@@ -6,10 +6,13 @@
 #  account_id       :integer
 #  name             :string(255)
 #  description      :text(65535)
-#  s3_identifer     :string(255)
+#  s3_identifier    :string(255)
 #  thumbnail_url    :text(65535)
+#  thumbnail_key    :text(65535)
 #  thumbnail_width  :integer
 #  thumbnail_height :integer
+#  image_width      :integer
+#  image_height     :integer
 #  image            :string(255)
 #  created_by       :integer
 #  updated_by       :integer
@@ -22,32 +25,40 @@ class Image < ApplicationRecord
   #CUSTOM TABLES
   #GEMS
   #ASSOCIATIONS
+  belongs_to :account
   #ACCESSORS
   attr_accessor :tags
   mount_uploader :image, ImageUploader
   #VALIDATIONS
   #CALLBACKS
-  before_create :create_image_version
+  before_create { self.s3_identifier = SecureRandom.hex(8) }
+  after_create :create_image_version
 
   #SCOPE
   #OTHER
+
+  def as_json
+    {
+      id: self.id,
+      redirect_to: Rails.application.routes.url_helpers.account_image_path(self.account_id, self),
+      thumbnail_url: self.thumbnail_url,
+      thumbnail_width: self.thumbnail_width,
+      thumbnail_height: self.thumbnail_height,
+      image_height: self.image_height,
+      image_width: self.image_width
+    }
+  end
+
   #PRIVATE
   private
 
   def create_image_version
     self.image.recreate_versions!
-    self.thumbnail_url = image.thumb.url
-    img = Magick::Image.ping("#{Rails.root.to_s}/public/#{self.thumbnail_url}").first
-    self.thumbnail_width = img.columns
-    self.thumbnail_height = img.rows
-    # asdads
-    # image_json = image.as_json
-    # ImageVariation.create_and_upload_variation({
-    #   image_id: self.id,
-    #   is_original: true,
-    #   image_url: image_json['url'],
-    #   thumbnail_url: image_json['thumb']
-    # })
-    true
+
+    ImageVariation.create({
+      image_id:   self.id,
+      is_original: true
+    });
+    false
   end
 end
