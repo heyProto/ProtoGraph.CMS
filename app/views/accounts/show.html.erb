@@ -1,0 +1,5 @@
+<div class="ten wide column">
+    <% @folders.each do |folder| %>
+        <%= link_to folder.name, [@account, folder] %>
+    <% end %>
+</div>

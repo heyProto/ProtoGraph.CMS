@@ -13,4 +13,24 @@
 #
 
 class Folder < ApplicationRecord
+    #CONSTANTS
+    #CUSTOM TABLES
+    #GEMS
+    extend FriendlyId
+    friendly_id :name, use: :slugged
+
+    #ASSOCIATIONS
+    belongs_to :account
+    #ACCESSORS
+    #VALIDATIONS
+    validates :name, uniqueness: {scope: [:account]}
+    has_many :view_casts
+
+
+    #CALLBACKS
+    #SCOPE
+    #OTHER
+    #PRIVATE
+    private
+
 end

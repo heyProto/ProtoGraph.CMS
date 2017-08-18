@@ -4,7 +4,8 @@ class Api::V1::DatacastsController < ApiController
         payload = {}
         payload["payload"] = datacast_params.to_json
         payload["source"]  = params[:source] || "form"
-        view_cast = @account.view_casts.new(view_cast_params)
+        view_cast = @folder.view_casts.new(view_cast_params)
+        view_cast.account_id = @account.id
         view_cast.created_by = @user.id
         view_cast.updated_by = @user.id
         if view_cast.save
@@ -24,7 +25,7 @@ class Api::V1::DatacastsController < ApiController
     end
 
     def update
-        view_cast = ViewCast.friendly.find(params[:id])
+        view_cast = @folder.view_casts.friendly.find(params[:id])
         payload = {}
         payload["payload"] = datacast_params.to_json
         payload["source"]  = "form"
@@ -47,7 +48,7 @@ class Api::V1::DatacastsController < ApiController
     end
 
     def view_cast_params
-        params.require(:view_cast).permit(:datacast_identifier, :template_datum_id, :name, :template_card_id, :optionalConfigJSON, :account_id, :updated_by, :seo_blockquote)
+        params.require(:view_cast).permit(:datacast_identifier, :template_datum_id, :name, :template_card_id, :optionalConfigJSON, :account_id, :updated_by, :seo_blockquote, :folder_id)
     end
 
 end
