@@ -26,8 +26,12 @@ class Api::V1::UtilitiesController < ApiController
         end
 
         desc = response["meta"]["description"]
-        flat_hash["description"] = desc[0..desc.index("&mdash") - 1]
-        flat_hash["date"] = date_regex.match(desc.strip)[0]
+        if response["meta"]["site"] == "Twitter"
+          flat_hash["description"] = desc[0..desc.index("&mdash") - 1]
+          flat_hash["date"] = date_regex.match(desc.strip)[0]
+        else
+          flat_hash["description"] = desc
+        end
 
         # This block to get the image from a tweet if present
         if response["links"].present? && response["links"]["thumbnail"].present?
