@@ -34,18 +34,20 @@ Rails.application.routes.draw do
     resources :permission_invites
     resources :authentications
 
-    resources :template_data do
-      resources :template_cards, only: [:new] do
-        post "/create_version/:version_genre", to: "template_cards#create_version", on: :member, as: :create_version
+    resources :folders do
+      resources :template_data do
+        resources :template_cards, only: [:new] do
+          post "/create_version/:version_genre", to: "template_cards#create_version", on: :member, as: :create_version
+        end
       end
-    end
 
-    resources :template_cards do
-      get 'flip_public_private', 'move_to_next_status', on: :member
-    end
+      resources :template_cards do
+        get 'flip_public_private', 'move_to_next_status', on: :member
+      end
 
-    resources :view_casts, only: [:new, :index, :show, :edit] do
-      put :"recreate/:mode", to: "view_casts#recreate", on: :member, as: :recreate
+      resources :view_casts, only: [:new, :index, :show, :edit] do
+        put :"recreate/:mode", to: "view_casts#recreate", on: :member, as: :recreate
+      end
     end
 
   end

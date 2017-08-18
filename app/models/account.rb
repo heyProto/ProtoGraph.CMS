@@ -37,6 +37,7 @@ class Account < ApplicationRecord
     has_many :permission_invites
     has_many :authentications
     has_many :view_casts
+    has_many :folders
 
     #ACCESSORS
     #VALIDATIONS
@@ -49,6 +50,7 @@ class Account < ApplicationRecord
 
     #CALLBACKS
     before_create :before_create_set
+    after_create :after_create_set
 
     #SCOPE
     #OTHER
@@ -74,6 +76,9 @@ class Account < ApplicationRecord
         self.access_token = ENV["AWS_API_KEY"]
         self.cdn_endpoint = ENV['AWS_S3_ENDPOINT']
         true
+    end
+
+    def after_create_set
     end
 
 end
