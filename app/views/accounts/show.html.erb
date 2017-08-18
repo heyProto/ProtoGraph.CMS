@@ -1,4 +1,7 @@
 <div class="center ten wide column">
+  <button class="circular ui icon huge button" id="addButton" style="float:right;">
+    <i class="inverted plus icon"></i>
+  </button>
   <table class="ui celled padded table">
     <thead>
       <tr>
@@ -21,11 +24,15 @@
     </tbody>
   </table>
 </div>
-
+<%= render partial: "folders/new" %>
 <script type="text/javascript">
- $(document).on("turbolinks:load", function {
-   $('#new-folder')
-     .modal('show')
-   ;
+
+ $(document).on("turbolinks:load", function () {
+   $('#addButton').on('click',function () {
+     $('#new-folder')
+       .modal({
+         closable: false,
+       }).modal('show');
+   })
  });
 </script>
