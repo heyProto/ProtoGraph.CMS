@@ -1,4 +1,4 @@
-class AccountsController < ApplicationController
+class FoldersController < ApplicationController
 
   before_action :authenticate_user!
 

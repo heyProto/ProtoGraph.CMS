@@ -12,11 +12,13 @@
     </div>
   <% else %>
     <div class="ui menu clear">
-      <% if 1 == 2 and @on_an_account_page %>
+      <% if @on_an_account_page %>
           <div class="item"><%= link_to image_tag("_logo.png", class: "protograph-logo-image"), account_path(@account) %></div>
           <div class="item"><%= link_to @account.username, account_path(@account) %></div>
           <div class="right menu">
-              <div class="item"><%= link_to "Start writing here", new_account_folder_view_cast_path(@account, @folder), "data-turbolinks"=> false %></div>
+              <% if @folder.present? %>
+                <div class="item"><%= link_to "Start writing here", new_account_folder_view_cast_path(@account, @folder), "data-turbolinks"=> false %></div>
+              <% end %>
               <div class="ui dropdown pointing item">
                 <%= image_tag avatar_url(@account.gravatar_email), class: "ui avatar image" %>
                 <div class="menu">

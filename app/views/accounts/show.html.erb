@@ -1,5 +1,23 @@
-<div class="ten wide column">
-    <% @folders.each do |folder| %>
-        <%= link_to folder.name, [@account, folder] %>
-    <% end %>
+<div class="center ten wide column">
+    <table class="ui celled padded table">
+    <thead>
+        <tr>
+            <th class='single line'>Name</th>
+            <th>No. of Cards</th>
+        </tr>
+    </thead>
+    <tbody>
+        <% @folders.each do |folder| %>
+            <tr>
+                <td>
+                    <i class="folder open icon steelblue"></i>
+                    <%= link_to folder.name.titleize, [@account, folder] %>
+                </td>
+                <td>
+                    <%= "#{folder.view_casts.count} cards" %>
+                </td>
+            </tr>
+        <% end %>
+    </tbody>
+    </table>
 </div>

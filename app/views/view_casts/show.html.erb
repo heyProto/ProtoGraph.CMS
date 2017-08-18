@@ -76,7 +76,7 @@
           <div class="card-detail-Value"><%= @view_cast.updated_at.strftime("%e %b %Y") %></div>
         </div>
         <br/>
-        <%= link_to "Edit the Card", edit_account_view_cast_path(@account, @view_cast),"data-turbolinks"=> false %>
+        <%= link_to "Edit the Card", edit_account_folder_view_cast_path(@account, @folder, @view_cast),"data-turbolinks"=> false %>
       </div>
     </div>
   </div>
