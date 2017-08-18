@@ -1,12 +1,12 @@
-<div class="center ten wide column">
-  <button class="circular ui icon huge button" id="addButton" style="float:right;">
+<div class="ten wide column">
+  <button class="circular ui blue icon huge button" id="addButton" style="float:right;">
     <i class="inverted plus icon"></i>
   </button>
   <table class="ui celled padded table">
     <thead>
       <tr>
         <th class='single line'>Name</th>
-        <th>No. of Cards</th>
+        <th class='single line'>No. of Cards</th>
       </tr>
     </thead>
     <tbody>
@@ -36,3 +36,13 @@
    })
  });
 </script>
+
+<style>
+ #addButton {
+     z-index: 1000;
+     position: fixed;
+     margin: 30px;
+     bottom: 0px;
+     right: 0px;
+ }
+</style>
