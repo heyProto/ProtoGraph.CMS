@@ -16,7 +16,7 @@
           <div class="item"><%= link_to image_tag("_logo.png", class: "protograph-logo-image"), account_path(@account) %></div>
           <div class="item"><%= link_to @account.username, account_path(@account) %></div>
           <div class="right menu">
-              <% if @folder.present? %>
+              <% if @folder.id.present? %>
                 <div class="item"><%= link_to "Start writing here", new_account_folder_view_cast_path(@account, @folder), "data-turbolinks"=> false %></div>
               <% end %>
               <div class="ui dropdown pointing item">
