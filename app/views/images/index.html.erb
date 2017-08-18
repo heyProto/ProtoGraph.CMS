@@ -34,7 +34,7 @@
           <div class="form-inputs">
             <%= f.input :account_id, as: :hidden, input_html: {value: @account.id} %>
             <%= f.input :name, required: true %>
-            <%= f.input :tags %>
+            <%= f.input :tag_list,  collection: [], input_html: { class: 'ui search fluid dropdown' } %>
             <%= f.input :description %>
           </div>
         <% end %>
@@ -56,6 +56,10 @@
       $('#fileUploadModal').modal('show');
     });
 
+    $('.ui.dropdown').dropdown({
+      allowAdditions: true,
+    });
+
     var maxHeight = 150;
     $('#imageContainer').empty().justifiedImages({
       images : images,
@@ -68,10 +72,20 @@
         return {width: photo.thumbnail_width, height: photo.thumbnail_height};
       },
       template: function (data) {
-        return '<div class="photo-container" style="height:' + data.displayHeight + 'px;margin-right:' + data.marginRight + 'px;">' + '<a href="'+data.redirect_to+'">' +
-                    '<img class="image-thumb" src="' + data.src + '" style="width:' + data.displayWidth + 'px;height:' + data.displayHeight + 'px;" >' +
-                    '</a>'+
-                    '</div>';
+        var image;
+        image = '<div class="photo-container" style="height:' + data.displayHeight + 'px;margin-right:' + data.marginRight + 'px;">';
+        image +=    '<a href="'+data.redirect_to+'">'
+        image +=        '<img class="image-thumb" src="' + data.src + '" style="width:' + data.displayWidth + 'px;height:' + data.displayHeight + 'px;" >'
+        image +=    '</a>';
+        image += '   <div class="photograph-image-details">' + data.image_width + ' x ' + data.image_height + '</div>';
+        image += '</div>';
+
+        return image;
+
+        // return  + '<a href="'+data.redirect_to+'">' +
+        //             '<img class="image-thumb" src="' + data.src + '" style="width:' + data.displayWidth + 'px;height:' + data.displayHeight + 'px;" >' +
+        //             '</a>'+
+        //             '</div>';
 
         // var image = '<div class="photo-container" style="height:'+maxHeight+'px;margin-right:'+photo.marginRight+'px;">';
         // image += '<a href="/account/<%= @account.slug %>/images/'+photo.id+'">'

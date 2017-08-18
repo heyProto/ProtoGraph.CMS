@@ -24,10 +24,14 @@ class Image < ApplicationRecord
   #CONSTANTS
   #CUSTOM TABLES
   #GEMS
+  acts_as_taggable
+
   #ASSOCIATIONS
   belongs_to :account
+  has_many :image_variation, -> {where.not(is_original: true)}
+  has_one :original_image, -> {where(is_original: true)}, class_name: "ImageVariation", foreign_key: "image_id"
   #ACCESSORS
-  attr_accessor :tags
+  attr_accessor :tag_list
   mount_uploader :image, ImageUploader
   #VALIDATIONS
   #CALLBACKS

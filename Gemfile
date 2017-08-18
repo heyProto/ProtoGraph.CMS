@@ -46,6 +46,7 @@ gem 'carrierwave'
 #Encryption
 #gem "attr_encrypted", "~> 3.0.0"
 
+gem 'acts-as-taggable-on'
 
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
