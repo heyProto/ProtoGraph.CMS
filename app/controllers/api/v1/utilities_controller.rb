@@ -14,7 +14,22 @@ class Api::V1::UtilitiesController < ApiController
           }
         )
 
-       render json: JSON.parse(response)
+        response = JSON.parse(response)
+        flat_hash = {}
+
+        response["meta"].each do |meta_attr, val|
+          flat_hash[meta_attr] = val
+        end
+
+        if response["links"].present? && response["links"]["thumbnail"].present?
+          flat_hash["thumbnail_url"] = response["links"]["thumbnail"][0]["href"]
+          if response["links"]["thumbnail"][0]["media"].present?
+            flat_hash["thumbnail_height"] = response["links"]["thumbnail"][0]["media"]["height"]
+            flat_hash["thumbnail_width"] = response["links"]["thumbnail"][0]["media"]["width"]
+          end
+        end
+
+        render json: flat_hash.as_json
       rescue Exception => e
         render json: {success: false, message: e.to_s}, status: 400
       end
