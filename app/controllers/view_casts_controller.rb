@@ -10,9 +10,20 @@ class ViewCastsController < ApplicationController
     end
 
     def show
+        @folders = @account.folders
     end
 
     def edit
+    end
+
+    def update
+        @view_cast = ViewCast.friendly.find(params[:id])
+        if @view_cast.update(view_cast_params)
+            redirect_to account_folder_view_cast_path(@account, @view_cast.folder, @view_cast), notice: t('us')
+        else
+            render :show
+        end
+
     end
 
     def recreate
@@ -33,6 +44,12 @@ class ViewCastsController < ApplicationController
 
     def set_view_cast
         @view_cast = @account.view_casts.friendly.find(params[:id])
+    end
+
+    private
+
+    def view_cast_params
+        params.require(:view_cast).permit(:folder_id)
     end
 
 end

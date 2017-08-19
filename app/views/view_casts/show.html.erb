@@ -75,6 +75,13 @@
           <div class="card-detail-lable">On:</div>
           <div class="card-detail-Value"><%= @view_cast.updated_at.strftime("%e %b %Y") %></div>
         </div>
+        <div class='sigle-detail'>
+          <%= simple_form_for([@account, @folder, @view_cast]) do |f|%>
+            <%= f.input :folder_id, collection: @folders, include_blank: false, label: "Folder" %>
+
+            <%= f.submit "Update", class: 'ui button' %>
+          <% end %>
+        </div>
         <br/>
         <%= link_to "Edit the Card", edit_account_folder_view_cast_path(@account, @folder, @view_cast),"data-turbolinks"=> false %>
       </div>

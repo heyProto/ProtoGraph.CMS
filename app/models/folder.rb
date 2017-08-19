@@ -19,6 +19,8 @@ class Folder < ApplicationRecord
     extend FriendlyId
     friendly_id :name, use: :slugged
 
+    after_validation :move_friendly_id_error_to_name
+
     #ASSOCIATIONS
     belongs_to :account
     #ACCESSORS
@@ -28,6 +30,10 @@ class Folder < ApplicationRecord
 
 
     #CALLBACKS
+
+    def move_friendly_id_error_to_name
+        errors.add :name, *errors.delete(:friendly_id) if errors[:friendly_id].present?
+    end
     #SCOPE
     #OTHER
     #PRIVATE
