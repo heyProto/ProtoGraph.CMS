@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170713071406) do
+ActiveRecord::Schema.define(version: 20170818074601) do
 
   create_table "accounts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "username"
@@ -21,6 +21,14 @@ ActiveRecord::Schema.define(version: 20170713071406) do
     t.string "sign_up_mode"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "cdn_provider"
+    t.string "cdn_id"
+    t.text "invalidation_endpoint"
+    t.text "cdn_endpoint"
+    t.string "authorization_header_name"
+    t.string "client_token"
+    t.string "access_token"
+    t.string "client_secret"
     t.index ["domain"], name: "index_accounts_on_domain"
     t.index ["slug"], name: "index_accounts_on_slug", unique: true
     t.index ["username"], name: "index_accounts_on_username", unique: true
@@ -37,6 +45,16 @@ ActiveRecord::Schema.define(version: 20170713071406) do
     t.string "access_token_secret"
     t.string "refresh_token"
     t.datetime "token_expires_at"
+    t.integer "created_by"
+    t.integer "updated_by"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "folders", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.integer "account_id"
+    t.string "name"
+    t.string "slug"
     t.integer "created_by"
     t.integer "updated_by"
     t.datetime "created_at", null: false
@@ -162,7 +180,6 @@ ActiveRecord::Schema.define(version: 20170713071406) do
     t.integer "template_datum_id"
     t.string "name"
     t.text "optionalConfigJSON"
-    t.text "cdn_url"
     t.string "slug"
     t.integer "created_by"
     t.integer "updated_by"
@@ -171,6 +188,7 @@ ActiveRecord::Schema.define(version: 20170713071406) do
     t.text "seo_blockquote"
     t.text "render_screenshot_url"
     t.text "status"
+    t.integer "folder_id"
   end
 
 end
