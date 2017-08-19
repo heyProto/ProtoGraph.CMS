@@ -51,6 +51,16 @@ ActiveRecord::Schema.define(version: 20170818123336) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "folders", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.integer "account_id"
+    t.string "name"
+    t.string "slug"
+    t.integer "created_by"
+    t.integer "updated_by"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "friendly_id_slugs", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "slug", null: false
     t.integer "sluggable_id", null: false
@@ -238,6 +248,7 @@ ActiveRecord::Schema.define(version: 20170818123336) do
     t.text "seo_blockquote"
     t.text "render_screenshot_url"
     t.text "status"
+    t.integer "folder_id"
   end
 
 end

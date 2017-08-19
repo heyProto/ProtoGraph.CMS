@@ -10,6 +10,10 @@ body {
     color: #ff5722;
 }
 
+.steelblue {
+    color: steelblue;
+}
+
 div {
     &.field,
     &.actions {
@@ -69,8 +73,7 @@ label {
     height: 250px;
     overflow: hidden;
     padding-bottom: 5px;
-    box-shadow: 0 20px 20px rgba(0, 0, 0, .08);
-    border: 1px solid rgba(0, 0, 0, .08);
+    box-shadow: 0 2px 5px #d8d8d8;
     transition: all 250ms cubic-bezier(.02, .01, .47, 1);
     cursor: pointer;
     position: relative; // opacity: 0.3;
@@ -81,8 +84,8 @@ label {
 }
 
 .proto-graph-card:hover {
-    box-shadow: 0 40px 40px rgba(0, 0, 0, .16);
-    transform: translate(0, -10px);
+    box-shadow: 0 16px 30px #d8d8d8;
+    transform: translate(0, -7px);
     transition-delay: 0s !important;
 }
 
@@ -301,13 +304,28 @@ label {
     background-image: radial-gradient(45px 45px 45deg, circle cover, red 0%, red 100%, red 95%);
 }
 
+#formAddButton {
+    z-index: 1000;
+    position: fixed;
+    margin: 30px;
+    bottom: 0px;
+    right: 0px;
+}
+
 .one-br-space,.two-br-space,.five-br-space,.ten-br-space,{
   display: inline-block !important;
   width: 100% !important;
   background: transparent !important;
 }
-
 .one-br-space{height: 10px !important;}
 .two-br-space{height: 20px !important;}
 .five-br-space{height: 50px !important;}
 .ten-br-space{height: 100px !important;}
+.page-header{
+    margin-top: 7px !important;
+}
+.card-parent-class {
+    background: #fafafa;
+    text-align: center;
+    padding: 20px;
+}

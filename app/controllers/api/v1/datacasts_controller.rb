@@ -4,7 +4,8 @@ class Api::V1::DatacastsController < ApiController
         payload = {}
         payload["payload"] = datacast_params.to_json
         payload["source"]  = params[:source] || "form"
-        view_cast = @account.view_casts.new(view_cast_params)
+        view_cast = @folder.view_casts.new(view_cast_params)
+        view_cast.account_id = @account.id
         view_cast.created_by = @user.id
         view_cast.updated_by = @user.id
         if view_cast.save
@@ -15,7 +16,7 @@ class Api::V1::DatacastsController < ApiController
                 view_cast.destroy
                 render json: {error_message: r['errorMessage']}, status: 422
             else
-                render json: {view_cast: view_cast.as_json(methods: [:remote_urls]), redirect_path: account_view_cast_url(@account, view_cast) }, status: 200
+                render json: {view_cast: view_cast.as_json(methods: [:remote_urls]), redirect_path: account_folder_view_cast_url(@account, @folder, view_cast) }, status: 200
             end
 
         else
@@ -24,7 +25,7 @@ class Api::V1::DatacastsController < ApiController
     end
 
     def update
-        view_cast = ViewCast.friendly.find(params[:id])
+        view_cast = @folder.view_casts.friendly.find(params[:id])
         payload = {}
         payload["payload"] = datacast_params.to_json
         payload["source"]  = "form"
@@ -36,7 +37,7 @@ class Api::V1::DatacastsController < ApiController
         else
             view_cast.updated_by = @user.id
             view_cast.update_attributes(view_cast_params)
-            render json: {view_cast: view_cast.as_json(methods: [:remote_urls]), redirect_path: account_view_cast_url(@account, view_cast) }, status: 200
+            render json: {view_cast: view_cast.as_json(methods: [:remote_urls]), redirect_path: account_folder_view_cast_url(@account, @folder, view_cast) }, status: 200
         end
     end
 
@@ -47,7 +48,7 @@ class Api::V1::DatacastsController < ApiController
     end
 
     def view_cast_params
-        params.require(:view_cast).permit(:datacast_identifier, :template_datum_id, :name, :template_card_id, :optionalConfigJSON, :account_id, :updated_by, :seo_blockquote)
+        params.require(:view_cast).permit(:datacast_identifier, :template_datum_id, :name, :template_card_id, :optionalConfigJSON, :account_id, :updated_by, :seo_blockquote, :folder_id)
     end
 
 end
