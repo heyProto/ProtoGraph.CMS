@@ -77,9 +77,8 @@
         </div>
         <div class='sigle-detail'>
           <%= simple_form_for([@account, @folder, @view_cast]) do |f|%>
-            <%= f.input :folder_id, collection: @folders, include_blank: false, label: "Folder" %>
-
-            <%= f.submit "Update", class: 'ui button' %>
+            <div class="card-detail-lable">Folder:</div>
+            <div class="card-detail-Value"><%= f.input :folder_id, collection: @folders, include_blank: false, label: false %></div>
           <% end %>
         </div>
         <br/>
@@ -101,6 +100,10 @@
 
     $('.proto-graph-code.amp-iframe').val(`<iframe width="560" height="315" src="<%= "#{@view_cast.template_card.protograph_html(@account)}?view_cast_id=#{@view_cast.datacast_identifier}%26schema_id=#{@view_cast.template_datum.s3_identifier}%26mode=${platform}".html_safe %>" frameborder="0" allowfullscreen></iframe>`)
     event.stopPropagation();
+  })
+
+  $("#view_cast_folder_id").on("change", function(){
+    $(this).parents('form').submit();
   })
 
 </script>

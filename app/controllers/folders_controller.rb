@@ -7,13 +7,19 @@ class FoldersController < ApplicationController
     render "view_casts/index"
   end
 
+  def edit
+    @folders = @account.folders
+    @open_modal = true
+    render "accounts/show"
+  end
+
   def update
-    if @account.update(account_params)
-      redirect_to edit_account_path(@account), notice: t("us")
+    if @folder.update(folder_params)
+      redirect_to account_path(@account), notice: t("us")
     else
-      @people_count = @account.users.count
-      @pending_invites_count = @account.permission_invites.count
-      render :edit
+      @folders = @account.folders
+      @open_modal = true
+      render "accounts/show"
     end
   end
 
