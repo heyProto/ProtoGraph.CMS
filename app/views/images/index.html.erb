@@ -18,7 +18,7 @@
 <div class="sixteen wide column">
 
   <h1 class="ui header">Digital Asset Manager</h1>
-  <button class="ui right floated button" id="openFileUpload"> Add a new image </button>
+  <button class="ui right floated basic button" id="openFileUpload">Upload image</button>
 
   <div style="clear: both;"></div>
 
@@ -26,22 +26,22 @@
   <div id="imageContainer"></div>
 
   <div class="ui modal" id="fileUploadModal"> <i class="close icon"></i>
-      <div class="header">Add a new image</div>
-      <div class="content">
-        <%= simple_form_for([@account, @image]) do |f| %>
-          <%= f.error_notification %>
-          <%= f.input :image, as: :file, required: true %>
-          <div class="form-inputs">
-            <%= f.input :account_id, as: :hidden, input_html: {value: @account.id} %>
-            <%= f.input :name, required: true %>
-            <%= f.input :tag_list,  collection: [], input_html: { class: 'ui search fluid dropdown' } %>
-            <%= f.input :description %>
-          </div>
-        <% end %>
-      </div>
-      <div class="actions">
-        <input type="submit" value="submit" form="new_image" class="ui button">
-      </div>
+    <div class="header">Add a new image</div>
+    <div class="content">
+      <%= simple_form_for([@account, @image]) do |f| %>
+        <%= f.error_notification %>
+        <%= f.input :image, as: :file, required: true %>
+        <div class="form-inputs">
+          <%= f.input :account_id, as: :hidden, input_html: {value: @account.id} %>
+          <%= f.input :name, required: true %>
+          <%= f.input :tag_list,  collection: [], input_html: { class: 'ui search fluid dropdown' } %>
+          <%= f.input :description %>
+        </div>
+      <% end %>
+    </div>
+    <div class="actions">
+      <input type="submit" value="submit" form="new_image" class="ui button">
+    </div>
   </div>
 
 </div>

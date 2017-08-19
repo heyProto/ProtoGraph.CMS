@@ -1,6 +1,4 @@
 class ImagesController < ApplicationController
-  # before_filter :find_model
-  before_action :set_image, only: [:show]
 
   def index
     @images = Image.all
@@ -10,6 +8,7 @@ class ImagesController < ApplicationController
   def create
     options = image_params
     options[:tag_list] = options[:tag_list].split(",")
+    options[:created_by] = current_user.id
     @image = Image.new(options)
     if @image.save
       redirect_to account_images_path(@account), notice: "Image added successfully"

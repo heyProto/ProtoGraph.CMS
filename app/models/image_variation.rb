@@ -26,13 +26,18 @@ class ImageVariation < ApplicationRecord
   #ASSOCIATIONS
   belongs_to :image
   #ACCESSORS
+ attr_accessor :crop_x, :crop_y, :crop_w, :crop_h
   #VALIDATIONS
   #CALLBACKS
-  after_create :process_and_upload_image
+  after_create :process_and_upload_image, if: :is_original?
+  after_create :process_and_upload_image_variation, if: :not_is_original?
   #SCOPE
   #OTHER
   #PRIVATE
   private
+  def not_is_original?
+    not self.is_original?
+  end
 
   def process_and_upload_image
     require "base64"
@@ -92,7 +97,47 @@ class ImageVariation < ApplicationRecord
         thumbnail_height: thumb_img_h
       })
     end
+  end
 
+  def process_and_upload_image_variation
+    require "base64"
+
+    temp_new_image = Image.new({crop_x: self.crop_x, crop_y: self.crop_y, crop_w: self.crop_w, crop_h: self.crop_h})
+
+    temp_new_image.remote_image_url = image.original_image.image_url
+    temp_new_image.image.crop
+
+    thumb_img_h = temp_new_image.image.thumb.height
+    thumb_img_w = temp_new_image.image.thumb.width
+
+    img_h = temp_new_image.image.height
+    img_w = temp_new_image.image.width
+
+    data = {
+      id: id,
+      s3Identifier: image.s3_identifier,
+      accountSlug: image.account.slug,
+      contentType: image.image.content_type,
+      imageBlob: Base64.encode64(File.open(img_path, "rb").read())
+    }
+
+    url = "#{AWS_API_DATACAST_URL}/images"
+    response = RestClient.post(url, data.to_json, {
+      content_type: :json,
+      accept: :json,
+      "x-api-key" => ENV['AWS_API_KEY']
+    })
+
+    response = JSON.parse(response);
+
+    if response["success"]
+      self.update_attributes({
+        image_url: response['data']['image_url'],
+        image_key: response['data']['image_key'],
+        image_width: img_w,
+        image_height: img_h
+      })
+    end
   end
 
 end

@@ -31,7 +31,7 @@ class Image < ApplicationRecord
   has_many :image_variation, -> {where.not(is_original: true)}
   has_one :original_image, -> {where(is_original: true)}, class_name: "ImageVariation", foreign_key: "image_id"
   #ACCESSORS
-  attr_accessor :tag_list
+  attr_accessor :tag_list, :crop_x, :crop_y, :crop_w, :crop_h
   mount_uploader :image, ImageUploader
   #VALIDATIONS
   #CALLBACKS

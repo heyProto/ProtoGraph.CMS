@@ -300,3 +300,14 @@ label {
     background-image: -webkit-radial-gradient(45px 45px, circle cover, red, red);
     background-image: radial-gradient(45px 45px 45deg, circle cover, red 0%, red 100%, red 95%);
 }
+
+.one-br-space,.two-br-space,.five-br-space,.ten-br-space,{
+  display: inline-block !important;
+  width: 100% !important;
+  background: transparent !important;
+}
+
+.one-br-space{height: 10px !important;}
+.two-br-space{height: 20px !important;}
+.five-br-space{height: 50px !important;}
+.ten-br-space{height: 100px !important;}
