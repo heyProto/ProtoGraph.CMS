@@ -3,7 +3,7 @@ class FoldersController < ApplicationController
   before_action :authenticate_user!
 
   def show
-    @view_casts = @account.view_casts.order(updated_at: :desc).page(params[:page]).per(30)
+    @view_casts = @folder.view_casts.order(updated_at: :desc).page(params[:page]).per(30)
     render "view_casts/index"
   end
 
@@ -23,6 +23,7 @@ class FoldersController < ApplicationController
       redirect_to account_folder_path(@account, @folder), notice: t("cs")
     else
       @folders = @account.folders
+      @open_modal = true
       render "accounts/show"
     end
   end

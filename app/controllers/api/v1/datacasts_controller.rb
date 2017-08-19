@@ -16,7 +16,7 @@ class Api::V1::DatacastsController < ApiController
                 view_cast.destroy
                 render json: {error_message: r['errorMessage']}, status: 422
             else
-                render json: {view_cast: view_cast.as_json(methods: [:remote_urls]), redirect_path: account_view_cast_url(@account, view_cast) }, status: 200
+                render json: {view_cast: view_cast.as_json(methods: [:remote_urls]), redirect_path: account_folder_view_cast_url(@account, @folder, view_cast) }, status: 200
             end
 
         else
@@ -37,7 +37,7 @@ class Api::V1::DatacastsController < ApiController
         else
             view_cast.updated_by = @user.id
             view_cast.update_attributes(view_cast_params)
-            render json: {view_cast: view_cast.as_json(methods: [:remote_urls]), redirect_path: account_view_cast_url(@account, view_cast) }, status: 200
+            render json: {view_cast: view_cast.as_json(methods: [:remote_urls]), redirect_path: account_folder_view_cast_url(@account, @folder, view_cast) }, status: 200
         end
     end
 

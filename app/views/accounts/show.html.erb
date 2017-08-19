@@ -1,5 +1,5 @@
 <div class="ten wide column">
-  <button class="circular ui blue icon huge button" id="addButton" style="float:right;">
+  <button class="circular ui blue icon huge button" id="formAddButton" style="float:right;">
     <i class="inverted plus icon"></i>
   </button>
   <table class="ui celled padded table">
@@ -30,7 +30,7 @@
 <script type="text/javascript">
 
  $(document).on("turbolinks:load", function () {
-   $('#addButton').on('click',function () {
+   $('#formAddButton').on('click',function () {
      $('#new-folder')
        .modal({
          closable: false,
@@ -39,12 +39,11 @@
  });
 </script>
 
-<style>
- #addButton {
-     z-index: 1000;
-     position: fixed;
-     margin: 30px;
-     bottom: 0px;
-     right: 0px;
- }
-</style>
+<% if @open_modal %>
+  <script type="text/javascript">
+    $('#new-folder')
+     .modal({
+       closable: false,
+     }).modal('show');
+  </script>
+<% end %>

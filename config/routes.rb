@@ -17,7 +17,9 @@ Rails.application.routes.draw do
         resources :template_cards, only: [:index, :show] do
           get "validate", on: :member
         end
-        resources :datacasts, only: [:create, :update]
+        resources :folders, only: [] do
+          resources :datacasts, only: [:create, :update]
+        end
       end
       get '/iframely', to: "utilities#iframely"
       get '/oembed', to: "utilities#oembed"
