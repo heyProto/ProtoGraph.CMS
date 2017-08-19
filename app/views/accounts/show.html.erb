@@ -1,23 +1,50 @@
-<div class="center ten wide column">
-    <table class="ui celled padded table">
+<div class="ten wide column">
+  <button class="circular ui blue icon huge button" id="addButton" style="float:right;">
+    <i class="inverted plus icon"></i>
+  </button>
+  <table class="ui celled padded table">
     <thead>
-        <tr>
-            <th class='single line'>Name</th>
-            <th>No. of Cards</th>
-        </tr>
+      <tr>
+        <th class='single line'>Name</th>
+        <th class='single line'>No. of Cards</th>
+      </tr>
     </thead>
     <tbody>
-        <% @folders.each do |folder| %>
-            <tr>
-                <td>
-                    <i class="folder open icon steelblue"></i>
-                    <%= link_to folder.name.titleize, [@account, folder] %>
-                </td>
-                <td>
-                    <%= "#{folder.view_casts.count} cards" %>
-                </td>
-            </tr>
+      <% @folders.each do |folder| %>
+        <% if folder.id.present? %>
+          <tr>
+            <td>
+              <i class="folder open icon steelblue"></i>
+              <%= link_to folder.name.titleize, [@account, folder] %>
+            </td>
+            <td>
+              <%= "#{folder.view_casts.count} cards" %>
+            </td>
+          </tr>
         <% end %>
+      <% end %>
     </tbody>
-    </table>
+  </table>
 </div>
+<%= render partial: "folders/new" %>
+<script type="text/javascript">
+
+ $(document).on("turbolinks:load", function () {
+   $('#addButton').on('click',function () {
+     $('#new-folder')
+       .modal({
+         closable: false,
+       }).modal('show');
+   })
+ });
+</script>
+
+<style>
+ #addButton {
+     z-index: 1000;
+     position: fixed;
+     margin: 30px;
+     bottom: 0px;
+     right: 0px;
+ }
+</style>

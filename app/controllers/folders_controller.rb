@@ -22,6 +22,7 @@ class FoldersController < ApplicationController
     if @folder.save
       redirect_to account_folder_path(@account, @folder), notice: t("cs")
     else
+      @folders = @account.folders
       render "accounts/show"
     end
   end

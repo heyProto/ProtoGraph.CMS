@@ -144,8 +144,8 @@ ActiveRecord::Schema.define(version: 20170818074601) do
     t.integer "publish_count"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "s3_identifier"
     t.string "status"
+    t.string "s3_identifier"
     t.index ["slug"], name: "index_template_data_on_slug", unique: true
   end
 

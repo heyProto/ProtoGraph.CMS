@@ -23,7 +23,7 @@ class Folder < ApplicationRecord
     belongs_to :account
     #ACCESSORS
     #VALIDATIONS
-    validates :name, uniqueness: {scope: [:account]}
+    validates :name, uniqueness: {scope: [:account], message: "Folder name is already used"}
     has_many :view_casts
 
 
