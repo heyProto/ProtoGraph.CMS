@@ -15,7 +15,7 @@
 <div style='width:100%; box-sizing: border-box'>
         <% @view_casts.each do |d| %>
             <div class="column proto-graph-card-div">
-                <%= link_to [@account, d], "data-turbolinks"=> false do %>
+                <%= link_to [@account, @folder,d], "data-turbolinks"=> false do %>
                     <div class="proto-graph-card">
                         <img class="index-card-image" src="<%= d.render_screenshot_url %>" width="100%" alt="<%= d.name %>">
                         <!-- <div class="proto-card-highlight-gradient"></div> -->
@@ -39,11 +39,4 @@
 
 </br>
 <%= paginate @view_casts %>
-
-<script type="text/javascript">
-    Array.from($(".ProtoGraphCards")).forEach(function(element){
-        new ProtoEmbed.initFrame(element, element.dataset.iframeHref , 'small')
-    });
-</script>
-
 <% end %>

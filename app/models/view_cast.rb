@@ -17,6 +17,7 @@
 #  seo_blockquote        :text(65535)
 #  render_screenshot_url :text(65535)
 #  status                :text(65535)
+#  folder_id             :integer
 #
 
 class ViewCast < ApplicationRecord
@@ -29,6 +30,7 @@ class ViewCast < ApplicationRecord
     friendly_id :name, use: :slugged
     #ASSOCIATIONS
     belongs_to :account
+    belongs_to :folder
     belongs_to :template_datum
     belongs_to :template_card
     belongs_to :creator, class_name: "User", foreign_key: "created_by"

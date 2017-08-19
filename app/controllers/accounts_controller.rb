@@ -10,8 +10,8 @@ class AccountsController < ApplicationController
   end
 
   def show
-    @view_casts = @account.view_casts.order(updated_at: :desc).page(params[:page]).per(30)
-    render "view_casts/index"
+    @folders = @account.folders
+    @folder = Folder.new
   end
 
   def edit

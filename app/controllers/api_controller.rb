@@ -10,14 +10,14 @@ class ApiController < ApplicationController
     def set_global_objects
         if @user.present?
             @on_an_account_page = (@account.present? and @account.id.present?)
-          if @on_an_account_page
-            @permission = @user.permission_object(@account.id)
-            if @permission.blank?
-              render_permission_not_found
-            else
-              @role = @permission.ref_role
+            if @on_an_account_page
+                @permission = @user.permission_object(@account.id)
+                if @permission.blank?
+                    render_permission_not_found
+                else
+                    @role = @permission.ref_role
+                end
             end
-          end
         end
     end
 

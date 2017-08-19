@@ -1,0 +1,53 @@
+<div class="ten wide column">
+  <button class="circular ui blue icon huge button" id="formAddButton" style="float:right;">
+    <i class="inverted plus icon"></i>
+  </button>
+  <table class="ui celled padded table">
+    <thead>
+      <tr>
+        <th class='single line'>Name</th>
+        <th class='single line'>No. of Cards</th>
+        <th class='single line'></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @folders.each do |folder| %>
+        <% if folder.id.present? %>
+          <tr>
+            <td>
+              <i class="folder open icon steelblue"></i>
+              <%= link_to folder.name.titleize, [@account, folder] %>
+            </td>
+            <td>
+              <%= "#{folder.view_casts.count} cards" %>
+            </td>
+            <td>
+              <%= link_to "Edit", edit_account_folder_path(@account, folder) %>
+            </td>
+          </tr>
+        <% end %>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+<%= render partial: "folders/form" %>
+<script type="text/javascript">
+
+ $(document).on("turbolinks:load", function () {
+   $('#formAddButton').on('click',function () {
+     $('#new-folder')
+       .modal({
+         closable: false,
+       }).modal('show');
+   })
+ });
+</script>
+
+<% if @open_modal %>
+  <script type="text/javascript">
+    $('#new-folder')
+     .modal({
+       closable: false,
+     }).modal('show');
+  </script>
+<% end %>

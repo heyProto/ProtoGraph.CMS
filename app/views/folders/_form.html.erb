@@ -1,0 +1,13 @@
+<div class="ui modal" id="new-folder">
+  <i class="close icon"></i>
+  <div class="header">
+    Add New Folder
+  </div>
+  <div class="content">
+    <%= simple_form_for [@account, @folder] do |f| %>
+
+      <%= f.input :name %>
+      <%= f.button :submit, class: "ui primary button" %>
+    <% end %>
+  </div>
+</div>
