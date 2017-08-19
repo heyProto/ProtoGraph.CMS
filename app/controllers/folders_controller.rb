@@ -27,6 +27,7 @@ class FoldersController < ApplicationController
   def create
     @folder = @account.folders.new(folder_params)
     @folder.created_by = current_user.id
+    @folder.updated_by = current_user.id
     if @folder.save
       redirect_to account_folder_path(@account, @folder), notice: t("cs")
     else
