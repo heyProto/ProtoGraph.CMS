@@ -1,11 +1,14 @@
 <div class="show-page-div">
   <div class="ui grid">
-    <div class="sixteen wide column">
-    </div>
-  </div>
-  <div class="ui grid">
     <div class="twelve wide column">
-      <div class="show-page-title"><%= @view_cast.name %></div>
+      <div class="ui mini breadcrumb">
+        <%=link_to @account.username, @account, class: "section" %>
+        <i class="right angle icon divider"></i>
+        <%=link_to @folder.name, [@account, @folder], class: "section" %>
+        <i class="right angle icon divider"></i>
+        <div  class="section" >Show</div>
+      </div>
+      <div class="ui huge header"><%= @view_cast.name %></div>
       <div class="proto-graph-mode-buttons">
         <div class="ui small basic icon buttons">
           <% if @view_cast.template_card.git_repo_name == 'ProtoGraph.Card.toSocial' %>
@@ -50,6 +53,7 @@
 
     </div>
     <div class="four wide column">
+      <div class='five-br-space'></div>
       <div class="card-details">
         <div class="card-details-title">Details</div>
         <div class="sigle-detail">

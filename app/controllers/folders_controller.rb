@@ -14,6 +14,7 @@ class FoldersController < ApplicationController
   end
 
   def update
+    folder_params[:updated_by] = @user.id
     if @folder.update(folder_params)
       redirect_to account_path(@account), notice: t("us")
     else
@@ -25,6 +26,7 @@ class FoldersController < ApplicationController
 
   def create
     @folder = @account.folders.new(folder_params)
+    @folder.created_by = @user.id
     if @folder.save
       redirect_to account_folder_path(@account, @folder), notice: t("cs")
     else
@@ -37,7 +39,7 @@ class FoldersController < ApplicationController
   private
 
     def folder_params
-      params.require(:folder).permit(:account_id, :name)
+      params.require(:folder).permit(:account_id, :name, :created_by, :updated_by)
     end
 
 end

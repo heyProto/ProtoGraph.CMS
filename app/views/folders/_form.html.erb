@@ -1,11 +1,10 @@
-<div class="ui modal" id="new-folder">
+<div class="ui mini modal" id="new-folder">
   <i class="close icon"></i>
   <div class="header">
-    Add New Folder
+    <%= (controller_name == 'folders' and ["edit", "update"].include?(action_name)) ? "Update the folder" : "Create a new folder" %>
   </div>
   <div class="content">
     <%= simple_form_for [@account, @folder] do |f| %>
-
       <%= f.input :name %>
       <%= f.button :submit, class: "ui primary button" %>
     <% end %>

@@ -15,6 +15,7 @@
 class Folder < ApplicationRecord
     #CONSTANTS
     #CUSTOM TABLES
+    include Associable
     #GEMS
     extend FriendlyId
     friendly_id :name, use: :slugged
@@ -22,7 +23,6 @@ class Folder < ApplicationRecord
     after_validation :move_friendly_id_error_to_name
 
     #ASSOCIATIONS
-    belongs_to :account
     #ACCESSORS
     #VALIDATIONS
     validates :name, uniqueness: {scope: [:account], message: "Folder name is already used"}
