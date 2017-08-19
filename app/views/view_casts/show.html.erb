@@ -15,6 +15,9 @@
           <% else %>
             <button class="ui button platform_buttons" id='laptop'><i class="desktop icon"></i>&nbsp Desktop</button>
             <button class="ui button platform_buttons" id='mobile'><i class="mobile icon"></i> <%= @view_cast.template_card.git_repo_name == 'ProtoGraph.Card.toSocial' ? "Mobile with Desktop interaction" : "&nbsp Mobile".html_safe %></button>
+            <% if @view_cast.template_card.git_repo_name == 'ProtoGraph.Card.toLink' %>
+              <button class="ui button platform_buttons" id='list'><i class="list icon"></i>&nbsp List</button>
+            <% end %>
           <% end %>
         </div>
       </div>
@@ -34,7 +37,7 @@
           </br>
 
           <div class="proto-graph-code-area-title">Option #2 - Responsive SEO friendly iFrame</div>
-          <textarea class="proto-graph-code" readonly><div id="<%= "ProtoCard-#{@view_cast.id}" %>"><%= !@view_cast.seo_blockquote.blank? ? @view_cast.seo_blockquote : ''.html_safe %></div><script src="<%= Rails.env.production? ? @account.cdn_endpoint :  "https://d2m6lzru8erw1k.cloudfront.net" %>/lib/protoGraph.min.js"></script><script type="text/javascript">var mode = (window.innerWidth <= 500) ? "mobile" : "laptop";new ProtoEmbed.initFrame(document.getElementById("<%= "ProtoCard-#{@view_cast.id}" %>"), "<%= "#{@view_cast.template_card.index_html(@account)}?view_cast_id=#{@view_cast.datacast_identifier}%26schema_id=#{@view_cast.template_datum.s3_identifier}".html_safe %>", mode )</script></textarea>
+          <textarea class="proto-graph-code" id='responsive-embed-code' readonly><div id="<%= "ProtoCard-#{@view_cast.id}" %>"><%= !@view_cast.seo_blockquote.blank? ? @view_cast.seo_blockquote.html_safe : '' %></div><script src="<%= Rails.env.production? ? @account.cdn_endpoint :  "https://d2m6lzru8erw1k.cloudfront.net" %>/lib/protoGraph.min.js"></script><script type="text/javascript">var mode = (window.innerWidth <= 500) ? "mobile" : "laptop";new ProtoEmbed.initFrame(document.getElementById("<%= "ProtoCard-#{@view_cast.id}" %>"), "<%= "#{@view_cast.template_card.index_html(@account)}?view_cast_id=#{@view_cast.datacast_identifier}%26schema_id=#{@view_cast.template_datum.s3_identifier}".html_safe %>", mode )</script></textarea>
           </br>
 
 
@@ -98,7 +101,14 @@
     $('.proto-graph-code.protograph-iframe').val(`<div id="<%= "ProtoCard-#{@view_cast.id}" %>"><%= @view_cast.seo_blockquote.html_safe %></div><script src="<%= Rails.env.production? ? @account.cdn_endpoint :  "https://d2m6lzru8erw1k.cloudfront.net" %>/lib/protoGraph.min.js"><\/script><script type="text/javascript">new ProtoEmbed.initFrame(document.getElementById("<%= "ProtoCard-#{@view_cast.id}" %>"), "<%= "#{@view_cast.template_card.index_html(@account)}?view_cast_id=#{@view_cast.datacast_identifier}%26schema_id=#{@view_cast.template_datum.s3_identifier}".html_safe %>" , '${platform}')<\/script>`);
 
 
-    $('.proto-graph-code.amp-iframe').val(`<iframe width="560" height="315" src="<%= "#{@view_cast.template_card.protograph_html(@account)}?view_cast_id=#{@view_cast.datacast_identifier}%26schema_id=#{@view_cast.template_datum.s3_identifier}%26mode=${platform}".html_safe %>" frameborder="0" allowfullscreen></iframe>`)
+    $('.proto-graph-code.amp-iframe').val(`<iframe width="560" height="315" src="<%= "#{@view_cast.template_card.protograph_html(@account)}?view_cast_id=#{@view_cast.datacast_identifier}%26schema_id=#{@view_cast.template_datum.s3_identifier}%26mode=${platform}".html_safe %>" frameborder="0" allowfullscreen></iframe>`);
+
+
+    if(platform == "list") {
+      $("#responsive-embed-code").val(`<div id="<%= "ProtoCard-#{@view_cast.id}" %>"><%= !@view_cast.seo_blockquote.blank? ? @view_cast.seo_blockquote.html_safe : '' %></div><script src="<%= Rails.env.production? ? @account.cdn_endpoint :  "https://d2m6lzru8erw1k.cloudfront.net" %>/lib/protoGraph.min.js"><\/script><script type="text/javascript">new ProtoEmbed.initFrame(document.getElementById("<%= "ProtoCard-#{@view_cast.id}" %>"), "<%= "#{@view_cast.template_card.index_html(@account)}?view_cast_id=#{@view_cast.datacast_identifier}%26schema_id=#{@view_cast.template_datum.s3_identifier}".html_safe %>", "list" )<\/script>`);
+    } else {
+      $("#responsive-embed-code").val(`<div id="<%= "ProtoCard-#{@view_cast.id}" %>"><%= !@view_cast.seo_blockquote.blank? ? @view_cast.seo_blockquote.html_safe : '' %></div><script src="<%= Rails.env.production? ? @account.cdn_endpoint :  "https://d2m6lzru8erw1k.cloudfront.net" %>/lib/protoGraph.min.js"><\/script><script type="text/javascript">var mode = (window.innerWidth <= 500) ? "mobile" : "laptop";new ProtoEmbed.initFrame(document.getElementById("<%= "ProtoCard-#{@view_cast.id}" %>"), "<%= "#{@view_cast.template_card.index_html(@account)}?view_cast_id=#{@view_cast.datacast_identifier}%26schema_id=#{@view_cast.template_datum.s3_identifier}".html_safe %>", mode )<\/script>`);
+    }
     event.stopPropagation();
   })
 
