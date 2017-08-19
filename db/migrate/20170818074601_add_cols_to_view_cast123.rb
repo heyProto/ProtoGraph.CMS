@@ -6,7 +6,7 @@ class AddColsToViewCast123 < ActiveRecord::Migration[5.1]
     Account.all.each do |account|
         folder = Folder.create({
             account_id: account.id,
-            name: "Default",
+            name: "Sample Project",
             created_by: account.users.first.id,
             updated_by: account.users.first.id
         })

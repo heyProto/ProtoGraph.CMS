@@ -63,6 +63,10 @@ class Account < ApplicationRecord
         TemplateDatum.where("account_id = ? OR is_public = true", self.id)
     end
 
+    def should_generate_new_friendly_id?
+        username_changed?
+    end
+
     #PRIVATE
     private
 
