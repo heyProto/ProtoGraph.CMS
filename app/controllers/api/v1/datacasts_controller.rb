@@ -3,7 +3,7 @@ class Api::V1::DatacastsController < ApiController
     def create
         payload = {}
         payload["payload"] = datacast_params.to_json
-        payload["source"]  = "form"
+        payload["source"]  = params[:source] || "form"
         view_cast = @account.view_casts.new(view_cast_params)
         view_cast.created_by = @user.id
         view_cast.updated_by = @user.id
@@ -12,7 +12,6 @@ class Api::V1::DatacastsController < ApiController
             payload["schema_url"] = view_cast.template_datum.schema_json
             r = Api::ProtoGraph::Datacast.create(payload)
             if r.has_key?("errorMessage")
-                view_cast.remove_file
                 view_cast.destroy
                 render json: {error_message: r['errorMessage']}, status: 422
             else
@@ -48,7 +47,7 @@ class Api::V1::DatacastsController < ApiController
     end
 
     def view_cast_params
-        params.require(:view_cast).permit(:template_datum_id, :name, :template_card_id, :optionalConfigJSON, :account_id, :updated_by, :seo_blockquote)
+        params.require(:view_cast).permit(:datacast_identifier, :template_datum_id, :name, :template_card_id, :optionalConfigJSON, :account_id, :updated_by, :seo_blockquote)
     end
 
 end

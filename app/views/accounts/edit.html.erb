@@ -11,6 +11,23 @@
       <%= f.input :domain, placeholder: "E.g. google.com. Don't use common domains like gmail, outlook, yahoo, etc." %>
     </div>
     <br/>
+
+    <div class="ui message">
+      <h4>CDN Configuration</h4>
+      <p class="hint">Configure your own cdn</p>
+      <%= f.input :cdn_provider,as: :select, collection: ["CloudFront","Akamai"], include_blank: false %>
+      <%= f.input :cdn_id, required: true %>
+      <%= f.input :cdn_endpoint, as: :string, required: true %>
+      <%= f.input :invalidation_endpoint, as: :string, required: true %>
+      <%= f.input :authorization_header_name, required: true %>
+      <%= f.input :client_token  %>
+      <%= f.input :access_token, required: true  %>
+      <%= f.input :client_secret  %>
+
+    </div>
+    <br/>
+
+
     <div class="ui message">
       <h4>Avatar</h4>
       <p class="hint">This works like a user icon. We use <a href="http://gravatar.com/" target="_blank">Gravatar.com</a> for display pictures. Register with Gravatar with an email ID, upload a square image there (Twitter DP) and enter that email ID below.</p>
@@ -23,6 +40,8 @@
     </div>
     <br/>
     <br/>
+
+
     <% if 1 == 2 %>
       <div class="ui message">
         <h4>Social</h4>

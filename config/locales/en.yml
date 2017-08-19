@@ -50,4 +50,6 @@ en:
     not_found: 'User not found.'
   platform_create: "The image for %{platform} will created shortly."
   platform_not_in_the_list: "The %{platform} is not in the list."
+  url:
+    required: "URL Parameter is required."
 

@@ -17,7 +17,7 @@
             <div class="column proto-graph-card-div">
                 <%= link_to [@account, d], "data-turbolinks"=> false do %>
                     <div class="proto-graph-card">
-                        <img class="index-card-image" src="<%= d.render_screenshot_url %>" width="100%">
+                        <img class="index-card-image" src="<%= d.render_screenshot_url %>" width="100%" alt="<%= d.name %>">
                         <!-- <div class="proto-card-highlight-gradient"></div> -->
                         <div class="proto-card-gradient">
                             <div class="index-card-content">

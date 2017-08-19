@@ -9,7 +9,6 @@
 #  template_datum_id     :integer
 #  name                  :string(255)
 #  optionalConfigJSON    :text(65535)
-#  cdn_url               :text(65535)
 #  slug                  :string(255)
 #  created_by            :integer
 #  updated_by            :integer
@@ -65,15 +64,19 @@ class ViewCast < ApplicationRecord
         "#{Datacast_ENDPOINT}/#{self.datacast_identifier}/data.json"
     end
 
+    def cdn_url
+        "#{Datacast_ENDPOINT}/#{self.datacast_identifier}/view_cast.json"
+    end
+
     def remove_file
         Api::ProtoGraph::Utility.remove_from_cdn(self.cdn_url)
     end
 
-    def social_urls
+    def social_urls(account)
         {
-            "twitter": "#{ENV['AWS_S3_ENDPOINT']}/#{self.datacast_identifier}/#{self.id}_twitter.png",
-            "facebook": "#{ENV['AWS_S3_ENDPOINT']}/#{self.datacast_identifier}/#{self.id}_facebook.png",
-            "instagram": "#{ENV['AWS_S3_ENDPOINT']}/#{self.datacast_identifier}/#{self.id}_instagram.png"
+            "twitter": "#{account.cdn_endpoint}/#{self.datacast_identifier}/#{self.id}_twitter.png",
+            "facebook": "#{account.cdn_endpoint}/#{self.datacast_identifier}/#{self.id}_facebook.png",
+            "instagram": "#{account.cdn_endpoint}/#{self.datacast_identifier}/#{self.id}_instagram.png"
         }
     end
 
@@ -94,7 +97,7 @@ class ViewCast < ApplicationRecord
         payload["mode"] = mode.blank? ? 'screenshot' : mode
         html_url = "#{ENV['AWS_S3_ENDPOINT']}/#{key}"
         response = Api::ProtoGraph::ViewCast.render_screenshot(payload)
-        unless response['errorMessage'].present?
+        if response['message'].present? and response['message'] == "Data Added Successfully"
             if mode.blank?
                 self.update_columns(render_screenshot_url: html_url, updated_at: Time.now)
             else
@@ -105,7 +108,7 @@ class ViewCast < ApplicationRecord
         else
             if mode.present?
                 status_obj = JSON.parse(self.status)
-                status_obj[mode] = "success"
+                status_obj[mode] = false
                 self.update_columns(status: status_obj.to_json, updated_at: Time.now)
             end
         end
@@ -118,6 +121,11 @@ class ViewCast < ApplicationRecord
             end
         end
     end
+
+    def should_generate_new_friendly_id?
+        name_changed?
+    end
+
     #PRIVATE
     private
 
@@ -132,7 +140,6 @@ class ViewCast < ApplicationRecord
             encoded_file = Base64.encode64(self.optionalConfigJSON)
             content_type = "application/json"
             resp = Api::ProtoGraph::Utility.upload_to_cdn(encoded_file, key, content_type)
-            self.cdn_url = resp.first["s3_endpoint"]
         end
         if self.status.blank?
             self.status = {"twitter": "creating", "facebook": "creating", "instagram": "creating"}.to_json
@@ -142,6 +149,7 @@ class ViewCast < ApplicationRecord
     def after_save_set
         if self.saved_changes? and !self.stop_callback
             Thread.new do
+                sleep 1
                 if self.template_card.git_repo_name == 'ProtoGraph.Card.toSocial'
                     ViewCast::Platforms.each do |mode|
                         self.save_png(mode)
@@ -150,6 +158,10 @@ class ViewCast < ApplicationRecord
                 self.save_png
                 ActiveRecord::Base.connection.close
             end
+        end
+        begin
+            Api::ProtoGraph::CloudFront.invalidate(["/#{self.datacast_identifier}/*"], 1)
+        rescue
         end
     end
 

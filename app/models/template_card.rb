@@ -114,8 +114,8 @@ class TemplateCard < ApplicationRecord
         self.siblings.as_json(only: [:account_id, :id, :slug, :global_slug,:name, :elevator_pitch], methods: [:account_slug, :icon_url])
     end
 
-    def base_url
-        "#{TemplateCard::CDN_BASE_URL}/#{self.s3_identifier}"
+    def base_url(account=nil)
+        "#{account.present? ? account.cdn_endpoint : TemplateCard::CDN_BASE_URL}/#{self.s3_identifier}"
     end
 
     def js
@@ -145,12 +145,19 @@ class TemplateCard < ApplicationRecord
         obj
     end
 
-    def index_html
-        "#{base_url}/index.html"
+    def index_html(account=nil)
+        "#{base_url(account)}/index.html"
     end
 
-    def protograph_html
-        "#{base_url}/protograph.html"
+    def protograph_html(account=nil)
+        "#{base_url(account)}/protograph.html"
+    end
+
+    def invalidate
+        begin
+            Api::ProtoGraph::CloudFront.invalidate(["/#{self.s3_identifier}/*"], 1)
+        rescue
+        end
     end
 
 

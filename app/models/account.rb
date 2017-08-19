@@ -2,15 +2,23 @@
 #
 # Table name: accounts
 #
-#  id             :integer          not null, primary key
-#  username       :string(255)
-#  slug           :string(255)
-#  domain         :string(255)
-#  gravatar_email :string(255)
-#  status         :string(255)
-#  sign_up_mode   :string(255)
-#  created_at     :datetime         not null
-#  updated_at     :datetime         not null
+#  id                        :integer          not null, primary key
+#  username                  :string(255)
+#  slug                      :string(255)
+#  domain                    :string(255)
+#  gravatar_email            :string(255)
+#  status                    :string(255)
+#  sign_up_mode              :string(255)
+#  created_at                :datetime         not null
+#  updated_at                :datetime         not null
+#  cdn_provider              :string(255)
+#  cdn_id                    :string(255)
+#  invalidation_endpoint     :text(65535)
+#  cdn_endpoint              :text(65535)
+#  authorization_header_name :string(255)
+#  client_token              :string(255)
+#  access_token              :string(255)
+#  client_secret             :string(255)
 #
 
 class Account < ApplicationRecord
@@ -59,6 +67,12 @@ class Account < ApplicationRecord
     def before_create_set
         self.slug = self.username
         self.sign_up_mode = "Invitation only"
+        self.cdn_provider = "CloudFront"
+        self.cdn_id = ENV['AWS_CDN_ID']
+        self.invalidation_endpoint = "#{AWS_API_DATACAST_URL}/cloudfront/invalidate"
+        self.authorization_header_name = "x-api-key"
+        self.access_token = ENV["AWS_API_KEY"]
+        self.cdn_endpoint = ENV['AWS_S3_ENDPOINT']
         true
     end
 

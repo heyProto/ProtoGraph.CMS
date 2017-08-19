@@ -52,4 +52,18 @@ class Api::ProtoGraph
             end
         end
     end
+
+    class CloudFront
+
+        class << self
+
+            def invalidate(items, quantity)
+                url = "#{AWS_API_DATACAST_URL}/cloudfront/invalidate"
+                params = {"invalidation_items": items, quantity: quantity, distribution_id: ENV['AWS_CDN_ID']}.to_json
+                response = RestClient.post(url , params,{content_type: :json, accept: :json, "x-api-key": ENV['AWS_API_KEY']})
+                return JSON.parse(response.body)
+            end
+        end
+
+    end
 end

@@ -40,6 +40,9 @@ gem 'jbuilder', '~> 2.5'
 gem 'rack-cors', :require => 'rack/cors'
 gem 'whenever'
 
+#Encryption
+#gem "attr_encrypted", "~> 3.0.0"
+
 
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
