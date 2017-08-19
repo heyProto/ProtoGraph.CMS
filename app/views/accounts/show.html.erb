@@ -11,15 +11,17 @@
     </thead>
     <tbody>
       <% @folders.each do |folder| %>
-        <tr>
-          <td>
-            <i class="folder open icon steelblue"></i>
-            <%= link_to folder.name.titleize, [@account, folder] %>
-          </td>
-          <td>
-            <%= "#{folder.view_casts.count} cards" %>
-          </td>
-        </tr>
+        <% if folder.id.present? %>
+          <tr>
+            <td>
+              <i class="folder open icon steelblue"></i>
+              <%= link_to folder.name.titleize, [@account, folder] %>
+            </td>
+            <td>
+              <%= "#{folder.view_casts.count} cards" %>
+            </td>
+          </tr>
+        <% end %>
       <% end %>
     </tbody>
   </table>
