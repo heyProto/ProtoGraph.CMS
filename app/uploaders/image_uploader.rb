@@ -30,6 +30,10 @@ class ImageUploader < CarrierWave::Uploader::Base
     end
   end
 
+  def size_range
+    1..500.kilobytes
+  end
+
   # Provide a default URL as a default if there hasn't been a file uploaded:
   # def default_url(*args)
   #   # For Rails 3.1+ asset pipeline compatibility:
