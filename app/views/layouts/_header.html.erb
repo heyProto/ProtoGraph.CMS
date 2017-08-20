@@ -24,7 +24,7 @@
                 <div class="menu">
                   <% if @role.can_account_settings %>
                     <%= link_to "Team Settings", edit_account_path(@account), class: "item" %>
-                    <%= link_to "DAM", account_images_path(@account), "data-turbolinks"=> false, class: 'item'  %>
+                    <%= link_to "Image Bank", account_images_path(@account), "data-turbolinks"=> false, class: 'item'  %>
                   <% end %>
                   <% if 1==2 and (@role.can_template_design_do or @role.can_template_design_publish) %>
                     <%= link_to "App Store", account_template_cards_path(@account), class: "item" %>
