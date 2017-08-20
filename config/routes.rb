@@ -52,6 +52,9 @@ Rails.application.routes.draw do
       end
     end
 
+    resources :images, only: [:index, :create, :show]
+    resources :image_variations, only: [:create, :show]
+
   end
 
   get "docs", to: 'docs#index', as: :docs

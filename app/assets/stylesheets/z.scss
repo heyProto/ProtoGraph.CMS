@@ -310,23 +310,20 @@ label {
     margin: 30px;
     bottom: 0px;
     right: 0px;
- }
+}
 
- .one-br-space,.two-br-space,.five-br-space,.ten-br-space,{
+.one-br-space,.two-br-space,.five-br-space,.ten-br-space,{
   display: inline-block !important;
   width: 100% !important;
   background: transparent !important;
 }
-
 .one-br-space{height: 10px !important;}
 .two-br-space{height: 20px !important;}
 .five-br-space{height: 50px !important;}
 .ten-br-space{height: 100px !important;}
-
 .page-header{
     margin-top: 7px !important;
 }
-
 .card-parent-class {
     background: #fafafa;
     text-align: center;
