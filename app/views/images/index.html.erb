@@ -20,7 +20,7 @@
     <div class="content">
       <%= simple_form_for([@account, @image]) do |f| %>
         <%= f.error_notification %>
-        <%= f.input :image, as: :file, required: true %>
+        <%= f.input :image, as: :file, required: true, hint: 'Size should less than or equal to 500kB' %>
         <div class="form-inputs">
           <%= f.input :account_id, as: :hidden, input_html: {value: @account.id} %>
           <%= f.input :name, required: true %>
