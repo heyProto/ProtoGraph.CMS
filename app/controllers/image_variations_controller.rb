@@ -1,5 +1,4 @@
 class ImageVariationsController < ApplicationController
-  # before_filter :find_model
 
   def create
     options = image_variation_params
@@ -12,8 +11,11 @@ class ImageVariationsController < ApplicationController
     end
   end
 
-  # def update
-  # end
+  def show
+    set_image_variation
+    @image = @image_variation.image
+    @image_variations = ImageVariation.where(image_id: @image_variation.image_id, is_original: false).where.not(id: @image_variation.id)
+  end
 
   private
 

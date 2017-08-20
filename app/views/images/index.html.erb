@@ -1,30 +1,20 @@
 <%= stylesheet_link_tag "justified.css" %>
 
-<style type="text/css">
-  .photo-container:hover .photograph-image-details {
-    display: block;
-  }
-  .photograph-image-details {
-    display: none;
-    position: absolute;
-    bottom: 0px;
-    padding-left: 10px;
-    background: rgba(0,0,0,0.65);
-    color: white;
-    width: 100%;
-  }
-</style>
-
 <div class="sixteen wide column">
-
   <h1 class="ui header">Digital Asset Manager</h1>
+
+  <!-- <div class="ui category search">
+    <div class="ui icon input" style="width: 100%;">
+      <i class="search icon"></i>
+      <input class="prompt" type="text" name="image_search" placeholder="Search....">
+    </div>
+  </div>
+
+  <div class="one-br-space"></div> -->
   <button class="ui right floated basic button" id="openFileUpload">Upload image</button>
-
   <div style="clear: both;"></div>
-
   <br>
   <div id="imageContainer"></div>
-
   <div class="ui modal" id="fileUploadModal"> <i class="close icon"></i>
     <div class="header">Add a new image</div>
     <div class="content">
@@ -50,7 +40,7 @@
 <script type="text/javascript">
   var images = <%= @images.as_json.to_json.html_safe %>;
 
-  $(document).on('turbolinks:load', function() {
+  $(document).ready( function() {
 
     $('#openFileUpload').on('click', function () {
       $('#fileUploadModal').modal('show');
@@ -60,11 +50,11 @@
       allowAdditions: true,
     });
 
-    var maxHeight = 150;
+    var maxHeight = 75;
     $('#imageContainer').empty().justifiedImages({
       images : images,
       rowHeight: maxHeight,
-      maxRowHeight: 500,
+      maxRowHeight: 75,
       thumbnailPath: function(photo, width, height){
         return photo.thumbnail_url;
       },
@@ -74,8 +64,8 @@
       template: function (data) {
         var image;
         image = '<div class="photo-container" style="height:' + data.displayHeight + 'px;margin-right:' + data.marginRight + 'px;">';
-        image +=    '<a href="'+data.redirect_to+'">'
-        image +=        '<img class="image-thumb" src="' + data.src + '" style="width:' + data.displayWidth + 'px;height:' + data.displayHeight + 'px;" >'
+        image +=    '<a href="'+data.redirect_to+'" data-turbolinks="false">';
+        image +=        '<img class="image-thumb" src="' + data.src + '" style="width:' + data.displayWidth + 'px;height:' + data.displayHeight + 'px;" >';
         image +=    '</a>';
         image += '   <div class="photograph-image-details">' + data.image_width + ' x ' + data.image_height + '</div>';
         image += '</div>';
@@ -95,7 +85,7 @@
         // image += '</div>';
         // return image;
       },
-      margin: 5
+      margin: 20
     });
 
   });

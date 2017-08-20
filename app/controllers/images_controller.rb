@@ -22,9 +22,6 @@ class ImagesController < ApplicationController
     @image_variation = ImageVariation.new
   end
 
-  def update
-  end
-
   private
 
   def set_image

@@ -15,7 +15,7 @@ class ImageUploader < CarrierWave::Uploader::Base
   end
 
   version :thumb do
-    resize_to_fit(nil, 150)
+    resize_to_fit(nil, 75)
   end
 
   def crop

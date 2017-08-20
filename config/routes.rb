@@ -52,8 +52,8 @@ Rails.application.routes.draw do
       end
     end
 
-    resources :images
-    resources :image_variations
+    resources :images, only: [:index, :create, :show]
+    resources :image_variations, only: [:create, :show]
 
   end
 

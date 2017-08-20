@@ -34,7 +34,21 @@ class ImageVariation < ApplicationRecord
   #SCOPE
   #OTHER
   #PRIVATE
+
+  def as_json
+    {
+      id: self.id,
+      image_url: self.image_url,
+      image_key: self.image_key,
+      image_width: self.image_width,
+      image_height: self.image_height,
+      redirect_to: Rails.application.routes.url_helpers.account_image_variation_path(self.image.account_id, self)
+    }
+  end
+
   private
+
+
   def not_is_original?
     not self.is_original?
   end
@@ -46,8 +60,8 @@ class ImageVariation < ApplicationRecord
     og_thumbnail_url = image.image.thumb.url
     og_image_url = image.image.url
 
-    thumb_img_path = "#{Rails.root.to_s}/public/#{og_thumbnail_url}"
-    img_path = "#{Rails.root.to_s}/public/#{og_image_url}"
+    thumb_img_path = "#{Rails.root.to_s}/public#{og_thumbnail_url}"
+    img_path = "#{Rails.root.to_s}/public#{og_image_url}"
 
     thumb_img = Magick::Image.ping(thumb_img_path).first
     img = Magick::Image.ping(img_path).first
@@ -112,6 +126,8 @@ class ImageVariation < ApplicationRecord
 
     img_h = temp_new_image.image.height
     img_w = temp_new_image.image.width
+
+    img_path = "#{Rails.root.to_s}/public#{temp_new_image.image.url}"
 
     data = {
       id: id,

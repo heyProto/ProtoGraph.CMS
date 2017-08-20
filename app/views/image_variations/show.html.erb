@@ -1,12 +1,12 @@
 <%= stylesheet_link_tag "justified.css" %>
 <%= stylesheet_link_tag "JCrop.css" %>
 
-<% w = @image.image_width %>
-<% h = @image.image_height %>
+<% w = @image_variation.image_width %>
+<% h = @image_variation.image_height %>
 <div class="ui grid">
   <div class="six wide column">
-    <%= link_to("< Back", account_images_path(@account, @image), "data-turbolinks"=> false) %>
-    <h5 class="ui header protograph-image-form-heading">Name</h5>
+    <%= link_to("< Back", account_image_path(@account, @image), "data-turbolinks"=> false) %>
+    <h5 class="ui header protograph-image-form-heading">Variation of</h5>
     <h1 class="ui header n-mt"><%= @image.name %></h1>
     <div class="one-br-space"></div>
     <div class="ui grid">
@@ -22,7 +22,7 @@
     <div class="one-br-space"></div>
     <h5 class="ui header protograph-image-form-heading">URL</h5>
     <div class="ui action input">
-      <input type="text" value="<%= @image.original_image.image_url %>" style="width: 300px;" id="copyToClipboardText">
+      <input type="text" value="<%= @image_variation.image_url %>" style="width: 300px;" id="copyToClipboardText">
       <button class="ui teal icon button" id="copyToClipboard" data-content="Copied" data-variation="basic">
         <i class="copy icon"></i>
       </button>
@@ -32,49 +32,25 @@
       <h5 class="ui header protograph-image-form-heading">Tags</h5>
       <div><%= @image.tag_list.join(', ') %></div>
     <% end %>
-
-    <div class="two-br-space"></div>
-    <button class="ui basic button" id="openFileUpload">Crop image</button>
   </div>
   <div class="ten wide column" style="background: #fafafa; max-height: 600px; overflow: auto;">
     <img class="ui centered image" src="<%= @image.original_image.image_url %>" style="height: 350px;">
     <div class="one-br-space"></div>
-    <% if @image.image_variation.present? %>
-      <h5 class="ui header">Variations</h5>
+    <% if @image_variations.present? %>
+      <h5 class="ui header">Other variations</h5>
       <div id="variationImages"></div>
     <% end %>
   </div>
 </div>
 
-<div class="ui modal" id="imageCropperModal"> <i class="close icon"></i>
-    <div class="header">Crop Image</div>
-    <div class="content">
-      <img class="ui centered image" src="<%= @image.original_image.image_url %>" id="cropbox" style="height: 350px;" >
-      <%= form_for ([@account, @image_variation]) do |f| %>
-        <%= f.hidden_field :image_id, value: @image.id %>
-        <% %w[x y w h].each do |attribute| %>
-            <%= f.hidden_field "crop_#{attribute}" %>
-        <% end %>
-      <% end %>
-    </div>
-    <div class="actions">
-      <input type="submit" value="Crop" form="new_image_variation" class="ui button">
-    </div>
-</div>
-
-<%= javascript_include_tag "justified.js" %>
 <%= javascript_include_tag "JCrop.js" %>
 
 <script type="text/javascript">
-  <% if @image.image_variation.present? %>
-    var images = <%= @image.image_variation.as_json.to_json.html_safe %>;
+  <% if @image_variations.present? %>
+    var images = <%= @image_variations.as_json.to_json.html_safe %>;
   <% end %>
 
   $(document).ready( function() {
-
-    $('#openFileUpload').on('click', function () {
-      $('#imageCropperModal').modal('show');
-    });
 
     new Clipboard('#copyToClipboard', {
       target: function(trigger) {
@@ -82,43 +58,7 @@
       }
     });
 
-    $('#copyToClipboard').popup({
-      on: 'click',
-      inline: true,
-      hoverable: true,
-      position: 'top center',
-      delay: {
-        show: 300,
-        hide: 800
-      }
-    });
-
-
-    function update(coords) {
-      $('#image_variation_crop_x').val(coords.x);
-      $('#image_variation_crop_y').val(coords.y);
-      $('#image_variation_crop_w').val(coords.w);
-      $('#image_variation_crop_h').val(coords.h);
-      // return updatePreview(coords);
-    };
-
-  // function updatePreview(coords) {
-  //   return $('#preview').css({
-  //     width: Math.round(100 / coords.w * $('#cropbox').width()) + 'px',
-  //     height: Math.round(100 / coords.h * $('#cropbox').height()) + 'px',
-  //     marginLeft: '-' + Math.round(100 / coords.w * coords.x) + 'px',
-  //     marginTop: '-' + Math.round(100 / coords.h * coords.y) + 'px'
-  //   });
-  // };
-
-    $('#cropbox').Jcrop({
-      setSelect: [0, 0, 600, 600],
-      onSelect: update,
-      onChange: update,
-      boxHeight: 350
-    });
-
-    <% if @image.image_variation.present? %>
+    <% if @image_variations.present? %>
       var maxHeight = 75;
       $('#variationImages').empty().justifiedImages({
         images : images,
