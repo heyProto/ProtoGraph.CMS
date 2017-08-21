@@ -49,7 +49,7 @@ namespace :to_report_violence do
             copy_paste_from_article["image"] = data["image"].to_s.strip
 
             # When and where it occur
-            when_and_where_it_occur["approximate_date_of_incident"] = Date.parse(data["approximate_date_of_incident"].to_s.strip).strftime("%Y-%m-%d")
+            when_and_where_it_occur["approximate_date_of_incident"] = data["approximate_date_of_incident"].to_s.strip
             when_and_where_it_occur["area"] = data["area"].to_s.strip
             when_and_where_it_occur["district"] = data["district"].to_s.strip
             when_and_where_it_occur["area_classification"] = data["area_classification"].to_s.strip
