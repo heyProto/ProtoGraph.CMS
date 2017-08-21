@@ -140,7 +140,7 @@ namespace :to_report_violence do
     task :cleanup => :environment do
         account = Account.friendly.find('indianexpress')
         folder = account.folders.where(name: "The Lynched").first
-        folder.view_casts.where(template_card_id: TemplateCard.where(name: 'toReportViolence').first.id)).destroy_all
+        folder.view_casts.where(template_card_id: TemplateCard.where(name: 'toReportViolence').first.id).destroy_all
     end
 
 
