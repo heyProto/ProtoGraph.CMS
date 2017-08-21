@@ -6,7 +6,12 @@ namespace :to_report_violence do
         csv_data = CSV.read(Rails.root.join('ref/to_report_violence.csv'), headers: true)
         account = Account.friendly.find('indianexpress')
         account_id = account.id
-        folder_id = account.folders.first.id
+        folder = account.folders.where(name: "The Lynched").first
+        unless folder.present?
+            folder_id = account.folders.create(name: 'The Lynched', created_by: account.users.first.id, updated_by: account.users.first.id)
+        else
+            folder_id = folder.id
+        end
         template_datum_id = TemplateDatum.friendly.where(name: "toReportViolence").first.id
         template_card_id = TemplateCard.friendly.where(name: "toReportViolence").first.id
         csv_data.each do |d|
