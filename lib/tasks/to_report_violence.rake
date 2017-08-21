@@ -6,9 +6,9 @@ namespace :to_report_violence do
         csv_data = CSV.read(Rails.root.join('ref/to_report_violence.csv'), headers: true)
         account = Account.friendly.find('indianexpress')
         account_id = account.id
-        folder = account.folders.where(name: "The Lynched").first
+        folder = account.folders.where(name: "#TheLynched").first
         unless folder.present?
-            folder_id = account.folders.create(name: 'The Lynched', created_by: account.users.first.id, updated_by: account.users.first.id)
+            folder_id = account.folders.create(name: '#TheLynched', created_by: account.users.first.id, updated_by: account.users.first.id)
         else
             folder_id = folder.id
         end
@@ -139,13 +139,15 @@ namespace :to_report_violence do
 
     task :cleanup => :environment do
         account = Account.friendly.find('indianexpress')
-        folder = account.folders.where(name: "The Lynched").first
+        folder = account.folders.where(name: "#TheLynched").first
         folder.view_casts.where(template_card_id: TemplateCard.where(name: 'toReportViolence').first.id).destroy_all
     end
 
 
     task :create_json => :environment do
-        view_casts = ViewCast.where(template_card_id: TemplateCard.where(name: 'toReportViolence').first.id)
+        account = Account.friendly.find('indianexpress')
+        folder = account.folders.where(name: "#TheLynched").first
+        view_casts = folder.view_casts.where(template_card_id: TemplateCard.where(name: 'toReportViolence').first.id)
         all_data = []
         view_casts.each do |view_cast|
             res = JSON.parse(RestClient.get(view_cast.data_url).body)
