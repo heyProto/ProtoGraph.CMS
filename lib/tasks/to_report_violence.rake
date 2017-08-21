@@ -4,7 +4,9 @@ require 'csv'
 namespace :to_report_violence do
     task :load => :environment do
         csv_data = CSV.read(Rails.root.join('ref/to_report_violence.csv'), headers: true)
-        account_id = Account.friendly.find('indianexpress').id
+        account = Account.friendly.find('indianexpress')
+        account_id = account.id
+        folder_id = account.folders.first.id
         template_datum_id = TemplateDatum.friendly.where(name: "toReportViolence").first.id
         template_card_id = TemplateCard.friendly.where(name: "toReportViolence").first.id
         csv_data.each do |d|
@@ -15,6 +17,7 @@ namespace :to_report_violence do
             a = ViewCast.new
             a.name = data["title"]
             a.account_id = account_id
+            a.folder_id = folder_id
             a.template_card_id = template_card_id
             a.template_datum_id = template_datum_id
             a.optionalConfigJSON = {
@@ -31,43 +34,85 @@ namespace :to_report_violence do
             # #=================
             payload = {}
             obj = {}
-            data["headline"] = data["headline"].to_s.strip
-            data["url"] = data["url"].to_s.strip
-            data["story_source"] = data["story_source"].to_s.strip
-            data["story_source_summary"] = data["story_source_summary"].to_s.strip
-            data["date"] = data["date"].to_s.strip
-            data["image"] = data["image"].to_s.strip
-            data["state"] = data["state"].to_s.strip
-            data["district"] = data["district"].to_s.strip
-            data["area"] = data["area"].to_s.strip
-            data["area_classification"] = data["area_classification"].to_s.strip
-            data["state_ruling_party"] = data["state_ruling_party"].to_s.strip
-            data["police_to_population"] = data["police_to_population"].to_s.strip
-            data["judge_to_population"] = data["judge_to_population"].to_s.strip
-            data["lat"] = data["lat"].to_f
-            data["lng"] = data["lng"].to_f
-            data["victim_religion"] = data["victim_religion"].to_s.strip
-            data["victim_tag"] = data["victim_tag"].to_s.strip
-            data["victim_gender"] = data["victim_gender"].to_s.strip
-            data["victim_action"] = data["victim_action"].to_s.strip
-            data["accused_religion"] = data["accused_religion"].to_s.strip
-            data["accused_tag"] = data["accused_tag"].to_s.strip
-            data["accused_gender"] = data["accused_gender"].to_s.strip
-            data["accused_action"] = data["accused_action"].to_s.strip
-            data["the_lynching"] = data["the_lynching"].to_s.strip
-            data["count_injured"] = data["count_injured"].to_i
-            data["count_dead"] = data["count_dead"].to_i
-            data["victim_names"] = data["victim_names"].to_s.strip
-            data["title"] = data["title"].to_s.strip
-            data["how_was_the_lynching_planned"] = data["how_was_the_lynching_planned"].to_s.strip
-            data["accused_names"] = data["accused_names"].to_s.strip
-            data["did_the_police_intervene_and_prevent_the_death?"] = data["did_the_police_intervene_and_prevent_the_death?"].to_s.strip
-            data["does_the_state_criminalise_victims_actions"] = data["does_the_state_criminalise_victims_actions"].to_s.strip
-            data["what_the_victim_did"] = data["what_the_victim_did"].to_s.strip
-            data["what_was_the_mob_doing"] = data["what_was_the_mob_doing"].to_s.strip
-            data["menu"] = data["menu"].to_s.strip
-            data["is_notable_incident"] = data["is_notable_incident"].to_s.strip
-            obj['data'] = data
+            object = {}
+            copy_paste_from_article = {}
+            when_and_where_it_occur = {}
+            the_incident = {}
+            the_people_involved = {}
+            hate_crime = {}
+            addendum = {}
+
+
+            # Copy Paste From Article
+            copy_paste_from_article["url"] = data["url"].to_s.strip
+            copy_paste_from_article["headline"] = data["headline"].to_s.strip
+            copy_paste_from_article["image"] = data["image"].to_s.strip
+
+            # When and where it occur
+            when_and_where_it_occur["approximate_date_of_incident"] = Date.parse(data["approximate_date_of_incident"].to_s.strip).strftime("%Y-%m-%d")
+            when_and_where_it_occur["area"] = data["area"].to_s.strip
+            when_and_where_it_occur["district"] = data["district"].to_s.strip
+            when_and_where_it_occur["area_classification"] = data["area_classification"].to_s.strip
+            when_and_where_it_occur["state"] = data["state"].to_s.strip
+            when_and_where_it_occur["party_whose_chief_minister_is_in_power"] = data["party_whose_chief_minister_is_in_power"].to_s.strip
+            when_and_where_it_occur["lat"] = data["lat"].to_f
+            when_and_where_it_occur["lng"] = data["lng"].to_f
+            when_and_where_it_occur["police_vehicles_per_km"] = data["police_vehicles_per_km"].to_s.strip
+            when_and_where_it_occur["does_state_have_village_defence_force"] = data["does_state_have_village_defence_force"].to_s.strip
+            when_and_where_it_occur["police_to_population_in_state"] = data["police_to_population_in_state"].to_s.strip
+            when_and_where_it_occur["judge_to_population_in_state"] = data["judge_to_population_in_state"].to_s.strip
+
+            # The incident
+            the_incident["count_injured"] = data["count_injured"].to_i
+            the_incident["count_dead"] = data["count_dead"].to_i
+            the_incident["did_the_police_intervene"] = data["did_the_police_intervene"].to_s.strip
+            the_incident["did_the_police_intervention_prevent_death"] = data["did_the_police_intervention_prevent_death"].to_s.strip
+            the_incident["what_the_victim_did"] = data["what_the_victim_did"].to_s.strip
+            the_incident["what_was_the_mob_doing"] = data["what_was_the_mob_doing"].to_s.strip
+            the_incident["describe_the_event"] = data["describe_the_event"].to_s.strip
+            the_incident["classification"] = data["classification"].to_s.strip
+            the_incident["was_incident_planned"] = data["was_incident_planned"].to_s.strip
+
+            # The people involved
+            the_people_involved["victim_names"] = data["victim_names"].to_s.strip
+            the_people_involved["victim_social_classification"] = data["victim_social_classification"].to_s.strip
+            the_people_involved["victim_social_classification_notes"] = data["victim_social_classification_notes"].to_s.strip
+            the_people_involved["victim_sex"] = data["victim_sex"].to_s.strip
+            the_people_involved["title"] = data["title"].to_s.strip
+            the_people_involved["accused_names"] = data["accused_names"].to_s.strip
+            the_people_involved["accused_social_classification"] = data["accused_social_classification"].to_s.strip
+            the_people_involved["accused_social_classification_notes"] = data["accused_social_classification_notes"].to_s.strip
+            the_people_involved["accused_sex"] = data["accused_sex"].to_s.strip
+
+
+            # Hate Crime
+            hate_crime["is_gender_hate_crime"] = data["is_gender_hate_crime"].to_s.strip
+            hate_crime["is_caste_hate_crime"] = data["is_caste_hate_crime"].to_s.strip
+            hate_crime["is_race_hate_crime"] = data["is_race_hate_crime"].to_s.strip
+            hate_crime["is_religion_hate_crime"] = data["is_religion_hate_crime"].to_s.strip
+            hate_crime["is_political_affiliation_hate_crime"] = data["is_political_affiliation_hate_crime"].to_s.strip
+            hate_crime["is_sexual_orientation_and_gender_identity_hate_crime"] = data["is_sexual_orientation_and_gender_identity_hate_crime"].to_s.strip
+            hate_crime["is_disability_hate_crime"] = data["is_disability_hate_crime"].to_s.strip
+            hate_crime["is_ethnicity_hate_crime"] = data["is_ethnicity_hate_crime"].to_s.strip
+            hate_crime["is_hate_crime"] = data["is_hate_crime"].to_s.strip
+
+
+            # Addendum
+            addendum["does_the_state_criminalise_victims_actions"] = data["does_the_state_criminalise_victims_actions"].to_s.strip
+            addendum["which_law"] = data["which_law"].to_s.strip
+            addendum["notes_to_explain_nuances"] = data["notes_to_explain_nuances"].to_s.strip
+            addendum["referral_link_1"] = data["referral_link_1"].to_s.strip
+            addendum["referral_link_2"] = data["referral_link_2"].to_s.strip
+            addendum["referral_link_3"] = data["referral_link_3"].to_s.strip
+
+            object["copy_paste_from_article"] = copy_paste_from_article
+            object["when_and_where_it_occur"] = when_and_where_it_occur
+            object["the_incident"] = the_incident
+            object["the_people_involved"] = the_people_involved
+            object["hate_crime"] = hate_crime
+            object["addendum"] = addendum
+            obj["data"] = object
+
             payload["payload"] = obj.to_json
             payload["source"]  = "backgroud_job"
             payload["api_slug"] = a.datacast_identifier
@@ -94,12 +139,6 @@ namespace :to_report_violence do
 
     task :create_json => :environment do
         view_casts = ViewCast.where(template_card_id: TemplateCard.where(name: 'toReportViolence').first.id)
-        cattle_protection_json = []
-        crime_json = []
-        sexual_harrassment_json = []
-        witch_craft_json = []
-        honour_killing_json = []
-        other_json = []
         all_data = []
         view_casts.each do |view_cast|
             res = JSON.parse(RestClient.get(view_cast.data_url).body)
@@ -108,22 +147,36 @@ namespace :to_report_violence do
             d['view_cast_id'] = view_cast.datacast_identifier
             d['schema_id'] = view_cast.template_datum.s3_identifier
             d['screen_shot_url'] = view_cast.render_screenshot_url
-            d['date'] = Date.parse(data['date']).strftime('%F')
-            d['state'] = data['state']
-            d["area_classification"] = data["area_classification"]
-            d["police_to_population"] = data["police_to_population"]
-            d["judge_to_population"] = data["judge_to_population"]
-            d["lat"] = data["lat"]
-            d["lng"] = data["lng"]
-            d["victim_religion"] = data["victim_religion"]
-            d["accused_religion"] = data["accused_religion"]
-            d["title"] = data["title"]
-            d["how_was_the_lynching_planned"] = data["how_was_the_lynching_planned"]
-            d["did_the_police_intervene_and_prevent_the_death?"] = data["did_the_police_intervene_and_prevent_the_death?"]
-            d["does_the_state_criminalise_victims_actions"] = data["does_the_state_criminalise_victims_actions"]
-            d["menu"] = data["menu"]
-            d["is_notable_incident"] = data["is_notable_incident"]
+            d['date'] = Date.parse(data["when_and_where_it_occur"]['approximate_date_of_incident']).strftime('%F')
+            d['state'] = data["when_and_where_it_occur"]['state']
+            d["area_classification"] = data["when_and_where_it_occur"]["area_classification"]
+            d["lat"] = data["when_and_where_it_occur"]["lat"]
+            d["lng"] = data["when_and_where_it_occur"]["lng"]
+            d["title"] = data['the_people_involved']["title"]
+            d["does_the_state_criminalise_victims_actions"] = data["addendum"]["does_the_state_criminalise_victims_actions"]
+            d["party_whose_chief_minister_is_in_power"] =data["when_and_where_it_occur"]['party_whose_chief_minister_is_in_power']
+            d["was_incident_planned"] = data["the_incident"]["was_incident_planned"]
+            d["victim_social_classification"] = data["the_people_involved"]["victim_social_classification"]
+            d["accused_social_classification"] = data["the_people_involved"]["accused_social_classification"]
+            d["did_the_police_intervene"] = data["the_incident"]["did_the_police_intervene"]
+            d["did_the_police_intervention_prevent_death"] = data["the_incident"]["did_the_police_intervene"]
+            d["classification"] = data["the_incident"]["classification"]
+            d["police_vehicles_per_km"] = data["when_and_where_it_occur"]["police_vehicles_per_km"]
+            d["does_state_have_village_defence_force"] = data["when_and_where_it_occur"]["does_state_have_village_defence_force"]
+            d["police_to_population_in_state"] = data["when_and_where_it_occur"]["police_to_population_in_state"]
+            d["judge_to_population_in_state"] = data["when_and_where_it_occur"]["judge_to_population_in_state"]
+            d["is_hate_crime"] = data["hate_crime"]["is_hate_crime"]
+            d["is_gender_hate_crime"] = data["hate_crime"]["is_gender_hate_crime"]
+            d["is_caste_hate_crime"] = data["hate_crime"]["is_caste_hate_crime"]
+            d["is_race_hate_crime"] = data["hate_crime"]["is_race_hate_crime"]
+            d["is_religion_hate_crime"] = data["hate_crime"]["is_religion_hate_crime"]
+            d["is_political_affiliation_hate_crime"] = data["hate_crime"]["is_political_affiliation_hate_crime"]
+            d["is_sexual_orientation_and_gender_identity_hate_crime"] = data["hate_crime"]["is_sexual_orientation_and_gender_identity_hate_crime"]
+            d["is_disability_hate_crime"] = data["hate_crime"]["is_disability_hate_crime"]
+            d["is_ethnicity_hate_crime"] = data["hate_crime"]["is_ethnicity_hate_crime"]
+            d["which_law"] = data["addendum"]["which_law"]
             d['iframe_url']= "#{view_cast.template_card.index_html}?view_cast_id=#{view_cast.datacast_identifier}%26schema_id=#{view_cast.template_datum.s3_identifier}"
+
             all_data << d
         end
 
@@ -135,6 +188,6 @@ namespace :to_report_violence do
         encoded_file = Base64.encode64(all_data.to_json)
         content_type = "application/json"
         resp = Api::ProtoGraph::Utility.upload_to_cdn(encoded_file, key, content_type)
-
+        Api::ProtoGraph::CloudFront.invalidate(["/toReportViolence/index.json"], 1)
     end
 end

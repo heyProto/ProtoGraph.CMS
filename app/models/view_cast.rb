@@ -161,9 +161,11 @@ class ViewCast < ApplicationRecord
                 ActiveRecord::Base.connection.close
             end
         end
-        begin
-            Api::ProtoGraph::CloudFront.invalidate(["/#{self.datacast_identifier}/*"], 1)
-        rescue
+        unless self.folder_id_changed? or self.status_changed? or self.render_screenshot_url_changed? or self.updated_at_changed?
+            begin
+                Api::ProtoGraph::CloudFront.invalidate(["/#{self.datacast_identifier}/*"], 1)
+            rescue
+            end
         end
     end
 
