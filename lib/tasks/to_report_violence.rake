@@ -197,7 +197,8 @@ namespace :to_report_violence do
 
         # Creating toLink article links json
         articles = []
-        folder = Rails.env.production? ? 22 : Rails.env.staging? ? 13 : account.folders.second
+        folder_id = Rails.env.production? ? 22 : Rails.env.staging? ? 13 : account.folders.second
+        folder = account.folders.find(folder_id)
         view_casts = folder.view_casts.where(template_card_id: TemplateCard.where(name: "toLink").first.id)
         view_casts.all.each do |view_cast|
             res = JSON.parse(RestClient.get(view_cast.data_url).body)
@@ -221,7 +222,8 @@ namespace :to_report_violence do
 
         # Creating toLink twitter links json
         twitter = []
-        folder = Rails.env.production? ? 21 : Rails.env.staging? ?  12 : account.folders.third
+        folder_id = Rails.env.production? ? 22 : Rails.env.staging? ? 13 : account.folders.second
+        folder = account.folders.find(folder_id)
         view_casts = folder.view_casts.where(template_card_id: TemplateCard.where(name: "toLink").first.id)
         view_casts.all.each do |view_cast|
             res = JSON.parse(RestClient.get(view_cast.data_url).body)
