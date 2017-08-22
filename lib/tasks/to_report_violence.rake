@@ -164,7 +164,7 @@ namespace :to_report_violence do
             d["victim_social_classification"] = data["the_people_involved"]["victim_social_classification"]
             d["accused_social_classification"] = data["the_people_involved"]["accused_social_classification"]
             d["did_the_police_intervene"] = data["the_incident"]["did_the_police_intervene"]
-            d["did_the_police_intervention_prevent_death"] = data["the_incident"]["did_the_police_intervene"]
+            d["did_the_police_intervention_prevent_death"] = data["the_incident"]["did_the_police_intervention_prevent_death"]
             d["classification"] = data["the_incident"]["classification"]
             d["police_vehicles_per_km"] = data["when_and_where_it_occur"]["police_vehicles_per_km"]
             d["does_state_have_village_defence_force"] = data["when_and_where_it_occur"]["does_state_have_village_defence_force"]
@@ -245,6 +245,6 @@ namespace :to_report_violence do
         resp = Api::ProtoGraph::Utility.upload_to_cdn(encoded_file, key, content_type)
 
 
-        Api::ProtoGraph::CloudFront.invalidate(["toReportViolence/index.json","toReportViolence/twitter.json", "toReportViolence/articles.json"], 3)
+        Api::ProtoGraph::CloudFront.invalidate(["toReportViolence/*"], 1)
     end
 end
