@@ -6,12 +6,7 @@ namespace :to_report_violence do
         csv_data = CSV.read(Rails.root.join('ref/to_report_violence.csv'), headers: true)
         account = Account.friendly.find('indianexpress')
         account_id = account.id
-        folder = account.folders.where(name: "#TheLynched").first
-        unless folder.present?
-            folder_id = account.folders.create(name: '#TheLynched', created_by: account.users.first.id, updated_by: account.users.first.id)
-        else
-            folder_id = folder.id
-        end
+        folder_id = Rails.env.production? ? 4 : Rails.env.staging? ? 11 : account.folders.first.id
         template_datum_id = TemplateDatum.friendly.where(name: "toReportViolence").first.id
         template_card_id = TemplateCard.friendly.where(name: "toReportViolence").first.id
         csv_data.each do |d|
@@ -138,15 +133,16 @@ namespace :to_report_violence do
     end
 
     task :cleanup => :environment do
-        account = Account.friendly.find('indianexpress')
-        folder = account.folders.where(name: "#TheLynched").first
+        folder_id = Rails.env.production? ? 4 : Rails.env.staging? ? 11 : account.folders.first.id
+        folder = Folder.find(folder_id)
         folder.view_casts.where(template_card_id: TemplateCard.where(name: 'toReportViolence').first.id).destroy_all
     end
 
 
     task :create_json => :environment do
         account = Account.friendly.find('indianexpress')
-        folder = account.folders.where(name: "#TheLynched").first
+        folder_id = Rails.env.production? ? 4 : Rails.env.staging? ? 11 : account.folders.first.id
+        folder = Folder.find(folder_id)
         view_casts = folder.view_casts.where(template_card_id: TemplateCard.where(name: 'toReportViolence').first.id)
         all_data = []
         view_casts.each do |view_cast|
@@ -185,7 +181,6 @@ namespace :to_report_violence do
             d["is_ethnicity_hate_crime"] = data["hate_crime"]["is_ethnicity_hate_crime"]
             d["which_law"] = data["addendum"]["which_law"]
             d['iframe_url']= "#{view_cast.template_card.index_html}?view_cast_id=#{view_cast.datacast_identifier}%26schema_id=#{view_cast.template_datum.s3_identifier}"
-
             all_data << d
         end
 
@@ -197,6 +192,57 @@ namespace :to_report_violence do
         encoded_file = Base64.encode64(all_data.to_json)
         content_type = "application/json"
         resp = Api::ProtoGraph::Utility.upload_to_cdn(encoded_file, key, content_type)
-        Api::ProtoGraph::CloudFront.invalidate(["/toReportViolence/index.json"], 1)
+
+
+
+        # Creating toLink article links json
+        articles = []
+        folder = Rails.env.production? ? 22 : Rails.env.staging? ? 13 : account.folders.second
+        view_casts = folder.view_casts.where(template_card_id: TemplateCard.where(name: "toLink").first.id)
+        view_casts.all.each do |view_cast|
+            res = JSON.parse(RestClient.get(view_cast.data_url).body)
+            data = res['data']
+            d = {}
+            d['view_cast_id'] = view_cast.datacast_identifier
+            d['schema_id'] = view_cast.template_datum.s3_identifier
+            d['screen_shot_url'] = view_cast.render_screenshot_url
+            d['date'] = Date.parse(data["date"]).strftime('%F')
+            d['url'] = data['canonical']
+            d['iframe_url']= "#{view_cast.template_card.index_html}?view_cast_id=#{view_cast.datacast_identifier}%26schema_id=#{view_cast.template_datum.s3_identifier}"
+            articles << d
+        end
+
+
+        puts  "Uploading Articles"
+        key = "toReportViolence/articles.json"
+        encoded_file = Base64.encode64(articles.to_json)
+        content_type = "application/json"
+        resp = Api::ProtoGraph::Utility.upload_to_cdn(encoded_file, key, content_type)
+
+        # Creating toLink twitter links json
+        twitter = []
+        folder = Rails.env.production? ? 21 : Rails.env.staging? ?  12 : account.folders.third
+        view_casts = folder.view_casts.where(template_card_id: TemplateCard.where(name: "toLink").first.id)
+        view_casts.all.each do |view_cast|
+            res = JSON.parse(RestClient.get(view_cast.data_url).body)
+            data = res['data']
+            d = {}
+            d['view_cast_id'] = view_cast.datacast_identifier
+            d['schema_id'] = view_cast.template_datum.s3_identifier
+            d['screen_shot_url'] = view_cast.render_screenshot_url
+            d['date'] = Date.parse(data["date"]).strftime('%F')
+            d['url'] = data['canonical']
+            d['iframe_url']= "#{view_cast.template_card.index_html}?view_cast_id=#{view_cast.datacast_identifier}%26schema_id=#{view_cast.template_datum.s3_identifier}"
+            articles << d
+        end
+
+        puts  "Uploading Tweets"
+        key = "toReportViolence/twitter.json"
+        encoded_file = Base64.encode64(twitter.to_json)
+        content_type = "application/json"
+        resp = Api::ProtoGraph::Utility.upload_to_cdn(encoded_file, key, content_type)
+
+
+        Api::ProtoGraph::CloudFront.invalidate(["toReportViolence/index.json","toReportViolence/twitter.json", "toReportViolence/articles.json"], 3)
     end
 end

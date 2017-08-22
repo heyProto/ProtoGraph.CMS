@@ -88,8 +88,8 @@ class ViewCast < ApplicationRecord
         key = "#{self.datacast_identifier}/#{self.id}#{ mode.present? ? "_#{mode}" : ""}.png"
         template_card = self.template_card
         files = template_card.files
-        payload["js"] = files[:js]
-        payload["css"] = files[:css]
+        payload["js"] = files[:js] + "?no-cache=true"
+        payload["css"] = files[:css] + "?no-cache=true"
         payload["data_url"] = self.data_url
         payload["schema_json"] = self.schema_json
         payload["configuration_url"] = self.cdn_url
