@@ -82,13 +82,4 @@ class Account < ApplicationRecord
         true
     end
 
-    def after_create_set
-        folder = Folder.create({
-            account_id: self.id,
-            name: "Sample Project",
-            created_by: self.users.first.id,
-            updated_by: self.users.first.id
-        })
-    end
-
 end
