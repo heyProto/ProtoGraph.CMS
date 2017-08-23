@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170818074601) do
+ActiveRecord::Schema.define(version: 20170818123336) do
 
   create_table "accounts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "username"
@@ -204,8 +204,8 @@ ActiveRecord::Schema.define(version: 20170818074601) do
     t.integer "publish_count"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "status"
     t.string "s3_identifier"
+    t.string "status"
     t.index ["slug"], name: "index_template_data_on_slug", unique: true
   end
 
