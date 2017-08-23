@@ -1,15 +1,15 @@
-<div class="ui sixteen grid" style="margin-top: 100px; margin-bottom: 30px; width: 980px; margin-left: auto; margin-right: auto;">
+<div class="ui grid" style="margin-top: 100px; margin-bottom: 30px; width: 100%; margin-left: auto; margin-right: auto;">
     <div class="fourteen wide column">
         <p style="font-size: 11px; text-align: right;">
         Individual tools by <a href="https://www.icfj.org" target="_blank">International Center for Journalists</a> and ProtoGraph platform by <a href="https://pykih.com" target="_blank">Pykih</a>.
         </p>
     </div>
     <div class="two wide column">
-        <% if Rails.env.staging? %>
-            <a href="https://www.instantssl.com/ssl-certificate-products/ev-mdc-ssl-certificate.html" target="_blank">
-              <img src="https://ssl.comodo.com/images/comodo_secure_seal_76x26_transp.png" alt="EV MDC SSL" width="76" height="26" style="border: 0px;"><br>
-              <span style="font-weight:bold; font-size:7pt">EV MDC SSL</span>
-            </a><br>
+        <% unless Rails.env.development? %>
+          <a href="https://www.instantssl.com/ssl-certificate-products/ev-mdc-ssl-certificate.html" target="_blank">
+            <img src="https://ssl.comodo.com/images/comodo_secure_seal_76x26_transp.png" alt="EV MDC SSL" width="76" height="26" style="border: 0px;"><br>
+            <span style="font-weight:bold; font-size:7pt">EV MDC SSL</span>
+          </a><br>
         <% end %>
     </div>
 </div>

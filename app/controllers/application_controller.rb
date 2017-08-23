@@ -24,6 +24,11 @@ class ApplicationController < ActionController::Base
   def sudo
     if params[:account_id].present?
       @account = Account.friendly.find(params[:account_id])
+      if params[:folder_id].present?
+        @folder = @account.folders.friendly.find(params[:folder_id])
+      elsif controller_name == "folders" and params[:id].present?
+        @folder = @account.folders.friendly.find(params[:id])
+      end
     elsif controller_name == "accounts" and params[:id].present?
       @account = Account.friendly.find(params[:id])
     end

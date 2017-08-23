@@ -1,14 +1,13 @@
-
 <%= stylesheet_link_tag "ProtoGraph.Container.toCardForm" %>
 <link rel="stylesheet" type="text/css" href="<%= @view_cast.template_card.css %>">
-
 
 <div id="root"></div>
 
 <script type="text/javascript">
     window.accessToken = "<%= current_user. access_token %>";
     window.baseURL = "<%= BASE_URL %>/api/v1";
-    window.accountSlug = "<%= @account.slug %>"
+    window.accountSlug = "<%= @account.slug %>";
+    window.folderSlug = "<%= @folder.slug %>";
     window.viewCast = <%= @view_cast.to_json(include: [template_card: {only: [:account_id, :id, :slug, :global_slug,:name, :elevator_pitch,:template_datum_id, :git_repo_name], methods: [:account_slug, :files, :versions]}], methods: [:remote_urls]).html_safe %>
 </script>
 <%= javascript_include_tag "ProtoGraph.Container.toCardForm" %>

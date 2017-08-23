@@ -30,14 +30,12 @@
 </head>
 <body>
   <%= render partial: "layouts/header" %>
-  <% if controller_name == "view_casts" and (action_name == "new" or action_name == 'edit') %>
-    <div class="ui sixteen grid" style="width: 100%;margin-top: 15px;margin: 0rem !important">
-  <% else %>
-    <div class="ui sixteen grid" style="width: <%= ((controller_name == 'view_casts' and action_name == 'index') or (controller_name == "accounts" and action_name == 'show')) ? "90%" : "980px" ; %>; text-align: <%= ((controller_name == 'view_casts' and action_name == 'index') or (controller_name == "accounts" and action_name == 'show')) ? "center" : "left" ; %>;margin-left: auto; margin-right: auto;">
-  <% end %>
-    <%= yield %>
-
-
+  <div class="ui grid" style="width: 100%;margin-top: 15px;margin: 0rem !important">
+    <div class='two wide column'></div>
+    <div class='twelve wide column'>
+      <%= yield %>
+    </div>
+    <div class='two wide column'></div>
   </div>
 <%= render partial: "layouts/footer" %>
 

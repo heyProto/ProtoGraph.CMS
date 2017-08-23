@@ -17,7 +17,9 @@ Rails.application.routes.draw do
         resources :template_cards, only: [:index, :show] do
           get "validate", on: :member
         end
-        resources :datacasts, only: [:create, :update]
+        resources :folders, only: [] do
+          resources :datacasts, only: [:create, :update]
+        end
       end
       get '/iframely', to: "utilities#iframely"
       get '/oembed', to: "utilities#oembed"
@@ -34,19 +36,24 @@ Rails.application.routes.draw do
     resources :permission_invites
     resources :authentications
 
-    resources :template_data do
-      resources :template_cards, only: [:new] do
-        post "/create_version/:version_genre", to: "template_cards#create_version", on: :member, as: :create_version
+    resources :folders do
+      resources :template_data do
+        resources :template_cards, only: [:new] do
+          post "/create_version/:version_genre", to: "template_cards#create_version", on: :member, as: :create_version
+        end
+      end
+
+      resources :template_cards do
+        get 'flip_public_private', 'move_to_next_status', on: :member
+      end
+
+      resources :view_casts, only: [:new, :index, :show, :edit, :update] do
+        put :"recreate/:mode", to: "view_casts#recreate", on: :member, as: :recreate
       end
     end
 
-    resources :template_cards do
-      get 'flip_public_private', 'move_to_next_status', on: :member
-    end
-
-    resources :view_casts, only: [:new, :index, :show, :edit] do
-      put :"recreate/:mode", to: "view_casts#recreate", on: :member, as: :recreate
-    end
+    resources :images, only: [:index, :create, :show]
+    resources :image_variations, only: [:create, :show]
 
   end
 

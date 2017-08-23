@@ -1,11 +1,14 @@
 <div class="show-page-div">
   <div class="ui grid">
-    <div class="sixteen wide column">
-    </div>
-  </div>
-  <div class="ui grid">
     <div class="twelve wide column">
-      <div class="show-page-title"><%= @view_cast.name %></div>
+      <div class="ui mini breadcrumb">
+        <%=link_to @account.username, @account, class: "section" %>
+        <i class="right angle icon divider"></i>
+        <%=link_to @folder.name, [@account, @folder], class: "section" %>
+        <i class="right angle icon divider"></i>
+        <div  class="section" >Show</div>
+      </div>
+      <div class="ui huge header"><%= @view_cast.name %></div>
       <div class="proto-graph-mode-buttons">
         <div class="ui small basic icon buttons">
           <% if @view_cast.template_card.git_repo_name == 'ProtoGraph.Card.toSocial' %>
@@ -50,6 +53,7 @@
 
     </div>
     <div class="four wide column">
+      <div class='five-br-space'></div>
       <div class="card-details">
         <div class="card-details-title">Details</div>
         <div class="sigle-detail">
@@ -78,8 +82,14 @@
           <div class="card-detail-lable">On:</div>
           <div class="card-detail-Value"><%= @view_cast.updated_at.strftime("%e %b %Y") %></div>
         </div>
+        <div class='sigle-detail'>
+          <%= simple_form_for([@account, @folder, @view_cast]) do |f|%>
+            <div class="card-detail-lable">Folder:</div>
+            <div class="card-detail-Value"><%= f.input :folder_id, collection: @folders, include_blank: false, label: false %></div>
+          <% end %>
+        </div>
         <br/>
-        <%= link_to "Edit the Card", edit_account_view_cast_path(@account, @view_cast),"data-turbolinks"=> false %>
+        <%= link_to "Edit the Card", edit_account_folder_view_cast_path(@account, @folder, @view_cast),"data-turbolinks"=> false %>
       </div>
     </div>
   </div>
@@ -104,6 +114,10 @@
       $("#responsive-embed-code").val(`<div id="<%= "ProtoCard-#{@view_cast.id}" %>"><%= !@view_cast.seo_blockquote.blank? ? @view_cast.seo_blockquote.html_safe : '' %></div><script src="<%= Rails.env.production? ? @account.cdn_endpoint :  "https://d2m6lzru8erw1k.cloudfront.net" %>/lib/protoGraph.min.js"><\/script><script type="text/javascript">var mode = (window.innerWidth <= 500) ? "mobile" : "laptop";new ProtoEmbed.initFrame(document.getElementById("<%= "ProtoCard-#{@view_cast.id}" %>"), "<%= "#{@view_cast.template_card.index_html(@account)}?view_cast_id=#{@view_cast.datacast_identifier}%26schema_id=#{@view_cast.template_datum.s3_identifier}".html_safe %>", mode )<\/script>`);
     }
     event.stopPropagation();
+  })
+
+  $("#view_cast_folder_id").on("change", function(){
+    $(this).parents('form').submit();
   })
 
 </script>
