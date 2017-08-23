@@ -88,8 +88,8 @@ class ViewCast < ApplicationRecord
         key = "#{self.datacast_identifier}/#{self.id}#{ mode.present? ? "_#{mode}" : ""}.png"
         template_card = self.template_card
         files = template_card.files
-        payload["js"] = files[:js]
-        payload["css"] = files[:css]
+        payload["js"] = files[:js] + "?no-cache=true"
+        payload["css"] = files[:css] + "?no-cache=true"
         payload["data_url"] = self.data_url
         payload["schema_json"] = self.schema_json
         payload["configuration_url"] = self.cdn_url
@@ -161,9 +161,11 @@ class ViewCast < ApplicationRecord
                 ActiveRecord::Base.connection.close
             end
         end
-        begin
-            Api::ProtoGraph::CloudFront.invalidate(["/#{self.datacast_identifier}/*"], 1)
-        rescue
+        unless self.folder_id_changed? or self.status_changed? or self.render_screenshot_url_changed? or self.updated_at_changed?
+            begin
+                Api::ProtoGraph::CloudFront.invalidate(["/#{self.datacast_identifier}/*"], 1)
+            rescue
+            end
         end
     end
 

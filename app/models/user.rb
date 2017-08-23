@@ -81,6 +81,12 @@ class User < ApplicationRecord
     def after_create_set
         a = Account.create(username: self.username)
         self.create_permission(a.id, "owner")
+        folder = Folder.create({
+            account_id: a.id,
+            name: "Sample Project",
+            created_by: self.id,
+            updated_by: self.id
+        })
     end
 
 end

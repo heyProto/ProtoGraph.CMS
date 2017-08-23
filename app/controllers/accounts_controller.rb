@@ -36,6 +36,12 @@ class AccountsController < ApplicationController
     @account = Account.new(account_params)
     if @account.save
       current_user.create_permission(@account.id, "owner")
+      folder = Folder.create({
+        account_id: @account.id,
+        name: "Sample Project",
+        created_by: current_user.id,
+        updated_by: current_user.id
+      })
       redirect_to @account, notice: t("cs")
     else
       @accounts = current_user.accounts
