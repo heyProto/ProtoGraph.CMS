@@ -50,7 +50,6 @@ class Account < ApplicationRecord
 
     #CALLBACKS
     before_create :before_create_set
-    after_create :after_create_set
 
     #SCOPE
     #OTHER
