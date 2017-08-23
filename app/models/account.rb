@@ -50,6 +50,7 @@ class Account < ApplicationRecord
 
     #CALLBACKS
     before_create :before_create_set
+    before_update :before_update_set
 
     #SCOPE
     #OTHER
@@ -79,6 +80,14 @@ class Account < ApplicationRecord
         self.access_token = ENV["AWS_API_KEY"]
         self.cdn_endpoint = ENV['AWS_S3_ENDPOINT']
         true
+    end
+
+    def before_update_set
+        self.cdn_id = ENV['AWS_CDN_ID'] if self.cdn_id.blank?
+        self.invalidation_endpoint = "#{AWS_API_DATACAST_URL}/cloudfront/invalidate" if self.invalidation_endpoint.blank?
+        self.authorization_header_name = "x-api-key" if self.authorization_header_name.blank?
+        self.access_token = ENV["AWS_API_KEY"] if self.access_token.blank?
+        self.cdn_endpoint = ENV['AWS_S3_ENDPOINT'] if self.cdn_endpoint.blank?
     end
 
 end
