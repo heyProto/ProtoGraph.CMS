@@ -20,17 +20,17 @@
     <div class="content">
       <%= simple_form_for([@account, @image]) do |f| %>
         <%= f.error_notification %>
-        <%= f.input :image, as: :file, required: true, hint: 'Size should less than or equal to 500kB' %>
+        <%= f.input :image, as: :file, required: true, hint: 'Size should less than or equal to 500kB. Supported file types are GIF, JPEG, JPG and PNG' %>
         <div class="form-inputs">
           <%= f.input :account_id, as: :hidden, input_html: {value: @account.id} %>
           <%= f.input :name, required: true %>
-          <%= f.input :tag_list,  collection: [], input_html: { class: 'ui search fluid dropdown' } %>
+          <%= f.input :tag_list,  collection: [], label: 'Tags', input_html: { class: 'ui search fluid dropdown' } %>
           <%= f.input :description %>
         </div>
       <% end %>
     </div>
     <div class="actions">
-      <input type="submit" value="submit" form="new_image" class="ui button">
+      <input type="submit" value="Upload" form="new_image" class="ui button">
     </div>
   </div>
 

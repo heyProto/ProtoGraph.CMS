@@ -13,13 +13,7 @@ class ImagesController < ApplicationController
     if @image.save
       redirect_to account_images_path(@account), notice: "Image added successfully"
     else
-      if @image.errors.messages[:image].present?
-        error_message = "Failed to upload the image, size was greater than 500kB."
-      else
-        error_message = "Failed to add the image"
-      end
-
-      redirect_to account_images_path(@account), alert: error_message
+      redirect_to account_images_path(@account), alert: @image.errors.full_messages
     end
   end
 
