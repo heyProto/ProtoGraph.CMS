@@ -66,46 +66,48 @@ class Api::V1::UtilitiesController < ApiController
                   flat_hash["thumbnail_width"] = response["links"]["thumbnail"][0]["media"]["width"]
                 end
               end
-              rescue Exception => e
-                render json: {success: false, message: e.to_s}, status: 400
+
+            rescue Exception => e
+              flat_hash["errors"] = e
             end
           end
         end
 
-        render json: flat_hash.as_json
-      rescue Exception => e
-        render json: {success: false, message: e.to_s}, status: 400
+        rescue Exception => e
+          render json: {success: false, message: e.to_s}, status: 400
+        else
+          render json: flat_hash.as_json
+        end
+      else
+        render json: {success: false, message: t('url.required')}, status: 400
       end
-    else
-      render json: {success: false, message: t('url.required')}, status: 400
     end
-  end
 
-  def oembed
-    url = "http://13.126.206.16:8000/oembed"
-    if params['url'].present?
-      begin
-        response = RestClient::Request.execute(
-          method: "get",
-          url: url,
-          headers: {
-            params: {
-              url: utility_params['url'],
+    def oembed
+      url = "http://13.126.206.16:8000/oembed"
+      if params['url'].present?
+        begin
+          response = RestClient::Request.execute(
+            method: "get",
+            url: url,
+            headers: {
+              params: {
+                url: utility_params['url'],
+              }
             }
-          }
-        )
-        render json: JSON.parse(response)
-      rescue  Exception => e
-        render json: {success: false, message: e.to_s}, status: 400
+          )
+          render json: JSON.parse(response)
+        rescue  Exception => e
+          render json: {success: false, message: e.to_s}, status: 400
+        end
+      else
+        render json: {success: false, message: t('url.required')}, status: 400
       end
-    else
-      render json: {success: false, message: t('url.required')}, status: 400
+    end
+
+    private
+
+    def utility_params
+      params.permit(:url)
     end
   end
-
-  private
-
-  def utility_params
-    params.permit(:url)
-  end
-end
