@@ -20,9 +20,7 @@ class Api::V1::UtilitiesController < ApiController
         flat_hash = {}
 
         response["meta"].each do |meta_attr, val|
-          unless meta_attr == "description"
-            flat_hash[meta_attr] = val
-          end
+          flat_hash[meta_attr] = val unless meta_attr == "description"
         end
 
         desc = response["meta"]["description"]
@@ -30,6 +28,7 @@ class Api::V1::UtilitiesController < ApiController
           flat_hash["description"] = desc[0..desc.index("&mdash") - 1]
           flat_hash["date"] = date_regex.match(desc.strip)[0]
         else
+          flat_hash['date'] = Date.parse(flat_hash['date']).strftime('%F')
           flat_hash["description"] = desc
         end
 
