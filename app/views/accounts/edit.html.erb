@@ -14,15 +14,15 @@
 
     <div class="ui message">
       <h4>CDN Configuration</h4>
-      <p class="hint">Configure your own cdn</p>
+      <p class="hint">Configure your own CDN. Keep it blank to use default configurations.</p>
       <%= f.input :cdn_provider,as: :select, collection: ["CloudFront","Akamai"], include_blank: false %>
-      <%= f.input :cdn_id, required: true %>
-      <%= f.input :cdn_endpoint, as: :string, required: true %>
-      <%= f.input :invalidation_endpoint, as: :string, required: true %>
-      <%= f.input :authorization_header_name, required: true %>
+      <%= f.input :cdn_id, input_html: {value: @account.cdn_id == ENV['AWS_CDN_ID'] ? "" : @account.cdn_id}, label: "CDN Identifier" %>
+      <%= f.input :cdn_endpoint, as: :string, input_html: {value: @account.cdn_id == ENV['AWS_CDN_ID'] ? "" : @account.cdn_endpoint}, label: "CDN Endpoint" %>
+      <%= f.input :invalidation_endpoint, input_html: {value: @account.cdn_id == ENV['AWS_CDN_ID'] ? "" : @account.invalidation_endpoint}, as: :string, label: "Invalidation URL" %>
+      <%= f.input :authorization_header_name, input_html: {value: @account.cdn_id == ENV['AWS_CDN_ID'] ? "" : @account.invalidation_endpoint}, label: "Authorization Header" %>
       <%= f.input :client_token  %>
-      <%= f.input :access_token, required: true  %>
-      <%= f.input :client_secret  %>
+      <%= f.input :client_secret %>
+      <%= f.input :access_token, input_html: {value: @account.cdn_id == ENV['AWS_CDN_ID'] ? "" : @account.access_token} %>
 
     </div>
     <br/>
