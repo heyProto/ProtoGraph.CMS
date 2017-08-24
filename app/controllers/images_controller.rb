@@ -12,7 +12,6 @@ class ImagesController < ApplicationController
     if tag_list.present?
       options[:tag_list] = tag_list
     end
-
     options[:created_by] = current_user.id
     @image = Image.new(options)
     if @image.save

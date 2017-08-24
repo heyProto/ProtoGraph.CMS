@@ -1,6 +1,12 @@
 <%= stylesheet_link_tag "justified.css" %>
 
 <div class="sixteen wide column">
+  <div class="ui mini breadcrumb">
+    <%=link_to @account.username, @account, class: "section" %>
+    <i class="right angle icon divider"></i>
+    <div  class="section" >Image Bank</div>
+  </div>
+
   <h1 class="ui header">Image Bank</h1>
   <button class="ui right floated basic button" id="openFileUpload">Upload image</button>
   <div style="clear: both;"></div>
@@ -51,15 +57,35 @@
       template: function (data) {
         var image;
         image = '<div class="photo-container" style="height:' + data.displayHeight + 'px;margin-right:' + data.marginRight + 'px;">';
+        image +=    '<a class="ui right corner label protograph-popup-trigger" data-clipboard-text="'+data.image_url+'" data-content="Copied" >';
+          image +=      '<i class="copy icon"></i>'
+          image +=    '</a>';
         image +=    '<a href="'+data.redirect_to+'" data-turbolinks="false">';
         image +=        '<img class="image-thumb" src="' + data.src + '" style="width:' + data.displayWidth + 'px;height:' + data.displayHeight + 'px;" >';
         image +=    '</a>';
-        image += '   <div class="photograph-image-details">' + data.image_width + ' x ' + data.image_height + '</div>';
+        image += '   <div class="photograph-image-details" style="display: block;">' + data.image_width + ' x ' + data.image_height + ' (' + data.aspectWidth + ':' + data.aspectHeight + ') ' + '</div>';
         image += '</div>';
 
         return image;
       },
-      margin: 20
+      margin: 20,
+      afterRenderCallback: function() {
+          new Clipboard('.protograph-popup-trigger', {
+            target: function(trigger) {
+              return trigger;
+            }
+          });
+
+           $('.protograph-popup-trigger').popup({
+              on: 'click',
+              position: 'top center',
+              onVisible: function (e) {
+                setTimeout(function() {
+                  $(e).popup('hide');
+                }, 250);
+              }
+            });
+        }
     });
 
     $('#new_image .ui.dropdown')
