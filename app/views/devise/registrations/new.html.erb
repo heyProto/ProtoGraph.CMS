@@ -4,7 +4,7 @@
       <%= f.error_notification %>
 
       <%= f.input :name, autofocus: true, required: true, placeholder: "What your friends call you?" %>
-      <%= f.input :username, required: true, placeholder: "What is your twitter username?", hint: "Choose wisely. You cannot change it later."  %>
+      <%= f.input :username, required: true, placeholder: "What is your twitter username?", hint: "Choose wisely. You cannot change it later. Only alphanumeric characters are allowed."  %>
       <%= f.input :email, required: true %>
       <%= f.input :password, required: true, autocomplete: "off", required: true, placeholder: "6 characters minimum." %>
       <%= f.input :password_confirmation, autocomplete: "off", required: true %>
