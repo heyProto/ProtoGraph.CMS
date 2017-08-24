@@ -107,6 +107,7 @@ class ViewCast < ApplicationRecord
                 status_obj[mode] = "success"
                 self.update_columns(status: status_obj.to_json, updated_at: Time.now)
             end
+            Api::ProtoGraph::CloudFront.invalidate(["/#{key}"], 1)
         else
             if mode.present?
                 status_obj = JSON.parse(self.status)
@@ -140,6 +141,12 @@ class ViewCast < ApplicationRecord
         if self.status.blank?
             self.status = {"twitter": "creating", "facebook": "creating", "instagram": "creating"}.to_json
         end
+        if self.optionalConfigJSON_changed? and self.optionalConfigJSON.present?
+            key = "#{self.datacast_identifier}/view_cast.json"
+            encoded_file = Base64.encode64(self.optionalConfigJSON)
+            content_type = "application/json"
+            resp = Api::ProtoGraph::Utility.upload_to_cdn(encoded_file, key, content_type)
+        end
     end
 
     def after_save_set
@@ -154,13 +161,6 @@ class ViewCast < ApplicationRecord
                 self.save_png
                 ActiveRecord::Base.connection.close
             end
-        end
-        if self.optionalConfigJSON_changed? and self.optionalConfigJSON.present?
-            key = "#{self.datacast_identifier}/view_cast.json"
-            encoded_file = Base64.encode64(self.optionalConfigJSON)
-            content_type = "application/json"
-            resp = Api::ProtoGraph::Utility.upload_to_cdn(encoded_file, key, content_type)
-            Api::ProtoGraph::CloudFront.invalidate(["/#{self.datacast_identifier}/*"], 1)
         end
     end
 
