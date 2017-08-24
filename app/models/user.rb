@@ -40,7 +40,7 @@ class User < ApplicationRecord
     #VALIDATIONS
     validates :name, presence: true, length: { in: 3..24 }
     validates :email, presence: true, uniqueness: { case_sensitive: false }, format: { with: /\A[^@\s]+@([^@.\s]+\.)+[^@.\s]+\z/ }
-    validates :username, presence: true, length: { in: 3..24 }, format: { with: /\A[a-z0-9_]{4,16}\z/ }, on: :create
+    validates :username, presence: true, length: { in: 3..24 }, format: { with: /\A[a-z0-9A-Z_]{4,16}\z/ }, on: :create
     validate  :is_username_unique, on: :create
 
     #CALLBACKS

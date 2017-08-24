@@ -28,8 +28,8 @@ class Account < ApplicationRecord
 
     #CUSTOM TABLES
     #GEMS
-    extend FriendlyId
-    friendly_id :username, use: :slugged
+    # extend FriendlyId
+    # friendly_id :username, use: :slugged
 
     #ASSOCIATIONS
     has_many :permissions, ->{where(status: "Active")}
