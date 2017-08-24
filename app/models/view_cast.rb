@@ -137,12 +137,6 @@ class ViewCast < ApplicationRecord
 
     def before_save_set
         self.datacast_identifier = SecureRandom.hex(12) if self.datacast_identifier.blank?
-        if self.optionalConfigJSON_changed? and self.optionalConfigJSON.present?
-            key = "#{self.datacast_identifier}/view_cast.json"
-            encoded_file = Base64.encode64(self.optionalConfigJSON)
-            content_type = "application/json"
-            resp = Api::ProtoGraph::Utility.upload_to_cdn(encoded_file, key, content_type)
-        end
         if self.status.blank?
             self.status = {"twitter": "creating", "facebook": "creating", "instagram": "creating"}.to_json
         end
@@ -161,11 +155,12 @@ class ViewCast < ApplicationRecord
                 ActiveRecord::Base.connection.close
             end
         end
-        unless self.folder_id_changed? or self.status_changed? or self.render_screenshot_url_changed? or self.updated_at_changed?
-            begin
-                Api::ProtoGraph::CloudFront.invalidate(["/#{self.datacast_identifier}/*"], 1)
-            rescue
-            end
+        if self.optionalConfigJSON_changed? and self.optionalConfigJSON.present?
+            key = "#{self.datacast_identifier}/view_cast.json"
+            encoded_file = Base64.encode64(self.optionalConfigJSON)
+            content_type = "application/json"
+            resp = Api::ProtoGraph::Utility.upload_to_cdn(encoded_file, key, content_type)
+            Api::ProtoGraph::CloudFront.invalidate(["/#{self.datacast_identifier}/*"], 1)
         end
     end
 
