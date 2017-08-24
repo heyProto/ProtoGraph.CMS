@@ -42,6 +42,7 @@ gem 'whenever'
 
 gem 'rmagick'
 gem 'carrierwave'
+gem 'search_cop'
 
 #Encryption
 #gem "attr_encrypted", "~> 3.0.0"

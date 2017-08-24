@@ -7,7 +7,12 @@ class ImagesController < ApplicationController
 
   def create
     options = image_params
-    options[:tag_list] = options[:tag_list].split(",")
+    tag_list = params["image"]["tag_list"].reject { |c| c.empty? }
+
+    if tag_list.present?
+      options[:tag_list] = tag_list
+    end
+
     options[:created_by] = current_user.id
     @image = Image.new(options)
     if @image.save

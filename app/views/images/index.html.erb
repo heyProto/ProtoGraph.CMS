@@ -2,15 +2,6 @@
 
 <div class="sixteen wide column">
   <h1 class="ui header">Image Bank</h1>
-
-  <!-- <div class="ui category search">
-    <div class="ui icon input" style="width: 100%;">
-      <i class="search icon"></i>
-      <input class="prompt" type="text" name="image_search" placeholder="Search....">
-    </div>
-  </div>
-
-  <div class="one-br-space"></div> -->
   <button class="ui right floated basic button" id="openFileUpload">Upload image</button>
   <div style="clear: both;"></div>
   <br>
@@ -24,7 +15,7 @@
         <div class="form-inputs">
           <%= f.input :account_id, as: :hidden, input_html: {value: @account.id} %>
           <%= f.input :name, required: true %>
-          <%= f.input :tag_list,  collection: [], label: 'Tags', input_html: { class: 'ui search fluid dropdown' } %>
+          <%= f.input :tag_list, collection: [], label: 'Tags', hint: "Enter a comma separated list of tags.", input_html: { id: 'tags_autocomplete', class: 'ui fluid search dropdown', multiple: true } %>
           <%= f.input :description %>
         </div>
       <% end %>
@@ -44,10 +35,6 @@
 
     $('#openFileUpload').on('click', function () {
       $('#fileUploadModal').modal('show');
-    });
-
-    $('.ui.dropdown').dropdown({
-      allowAdditions: true,
     });
 
     var maxHeight = 75;
@@ -71,22 +58,25 @@
         image += '</div>';
 
         return image;
-
-        // return  + '<a href="'+data.redirect_to+'">' +
-        //             '<img class="image-thumb" src="' + data.src + '" style="width:' + data.displayWidth + 'px;height:' + data.displayHeight + 'px;" >' +
-        //             '</a>'+
-        //             '</div>';
-
-        // var image = '<div class="photo-container" style="height:'+maxHeight+'px;margin-right:'+photo.marginRight+'px;">';
-        // image += '<a href="/account/<%= @account.slug %>/images/'+photo.id+'">'
-        // image += '<img class="image-thumb" src="' + photo.src + '" style="width: '+photo.displayWidth+'px; height: '+photo.displayHeight+'px; margin-top: -8.0235px;">';
-        // image += '</a>';
-        // image += '<div class="photograph-image-details">' +photo.displayWidth+ ' x ' +photo.displayHeight+ '</div>';
-        // image += '</div>';
-        // return image;
       },
       margin: 20
     });
 
+    $('#new_image .ui.dropdown')
+      .dropdown({
+        fullTextSearch: true,
+        forceSelection: false,
+        saveRemoteData:false,
+        allowAdditions: true,
+        debug: true,
+        apiSettings: {
+            url: '/api/v1/tags?q={query}'
+        },
+        fields: {
+          value: 'name',
+          name : 'name',
+          id: 'id'
+        }
+      });
   });
 </script>
