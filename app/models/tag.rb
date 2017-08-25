@@ -7,11 +7,10 @@
 #  taggings_count :integer          default(0)
 #
 
-class ActsAsTaggableOn::Tag < ApplicationRecord
+class Tag < ActsAsTaggableOn::Tag
   include SearchCop
 
   search_scope :search do
     attributes :name
   end
-
 end

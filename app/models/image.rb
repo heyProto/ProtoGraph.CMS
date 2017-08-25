@@ -24,7 +24,7 @@ class Image < ApplicationRecord
   #CONSTANTS
   #CUSTOM TABLES
   #GEMS
-  acts_as_taggable_on :tags
+  acts_as_taggable
 
   #ASSOCIATIONS
   belongs_to :account
@@ -66,6 +66,5 @@ class Image < ApplicationRecord
       image_id:   self.id,
       is_original: true
     });
-    false
   end
 end
