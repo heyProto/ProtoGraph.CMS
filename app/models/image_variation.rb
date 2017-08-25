@@ -42,7 +42,8 @@ class ImageVariation < ApplicationRecord
       image_key: self.image_key,
       image_width: self.image_width,
       image_height: self.image_height,
-      redirect_to: Rails.application.routes.url_helpers.account_image_variation_path(self.image.account_id, self)
+      aspectWidth: self.image_width / self.image_width.gcd(self.image_height),
+      aspectHeight: self.image_height / self.image_width.gcd(self.image_height)
     }
   end
 

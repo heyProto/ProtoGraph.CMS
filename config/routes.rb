@@ -25,7 +25,7 @@ Rails.application.routes.draw do
       get '/oembed', to: "utilities#oembed"
       resources :view_casts, only: [:show]
       resources :template_data, only: [:create]
-      resources :images, only: [:create]
+      resources :tags, only: [:index]
     end
   end
 
