@@ -1,0 +1,2 @@
+class StreamEntity < ApplicationRecord
+end
