@@ -1,0 +1,26 @@
+# == Schema Information
+#
+# Table name: piwik_metrics
+#
+#  id                  :integer          not null, primary key
+#  datacast_identifier :string(255)
+#  module              :string(255)
+#  metric              :string(255)
+#  value               :string(255)
+#  created_at          :datetime         not null
+#  updated_at          :datetime         not null
+#
+
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  view_cast_id: MyString
+  module: MyString
+  metric: MyString
+  value: MyString
+
+two:
+  view_cast_id: MyString
+  module: MyString
+  metric: MyString
+  value: MyString

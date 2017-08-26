@@ -35,7 +35,7 @@ class ViewCast < ApplicationRecord
     belongs_to :template_card
     belongs_to :creator, class_name: "User", foreign_key: "created_by"
     belongs_to :updator, class_name: "User", foreign_key: "updated_by"
-
+    has_many :piwik_metrics
     #ACCESSORS
     attr_accessor :dataJSON, :schemaJSON, :stop_callback
     #VALIDATIONS
