@@ -25,7 +25,7 @@ class Image < ApplicationRecord
   #CUSTOM TABLES
   #GEMS
   acts_as_taggable
-
+  paginates_per 100
   #ASSOCIATIONS
   belongs_to :account
   has_many :image_variation, -> {where.not(is_original: true)}

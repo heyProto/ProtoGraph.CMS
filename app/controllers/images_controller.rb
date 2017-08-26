@@ -1,7 +1,7 @@
 class ImagesController < ApplicationController
 
   def index
-    @images = Image.all
+    @images = Image.order(:created_at).page params[:page]
     @image = Image.new
   end
 
