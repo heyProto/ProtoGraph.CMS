@@ -52,4 +52,6 @@ en:
   platform_not_in_the_list: "The %{platform} is not in the list."
   url:
     required: "URL Parameter is required."
+  published:
+    stream: "The cards will be published shortly."
 
