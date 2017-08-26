@@ -30,12 +30,6 @@
 .protograph-image-form-heading {
   color: #dadada !important;
 }
-.protograph-popup-trigger {
-  opacity: 0;
-}
-.photo-container:hover .protograph-popup-trigger {
-  opacity: 1;
-}
 .protograph-crop-tooltip {
   position: absolute;
   bottom: 5px;
