@@ -22,6 +22,7 @@ gem 'kaminari'
 gem "version"
 gem 'exception_notification'
 gem 'foreman'
+gem 'sidekiq'
 
 #AUTHENTICATION
 gem 'devise'

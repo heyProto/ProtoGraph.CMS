@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170826062111) do
+ActiveRecord::Schema.define(version: 20170826080800) do
 
   create_table "accounts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "username"
@@ -131,11 +131,12 @@ ActiveRecord::Schema.define(version: 20170826062111) do
 
   create_table "piwik_metrics", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "datacast_identifier"
-    t.string "module"
-    t.string "metric"
-    t.string "value"
+    t.string "piwik_module"
+    t.string "piwik_metric_name"
+    t.integer "piwik_metric_value"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "piwik_metric_type"
   end
 
   create_table "ref_roles", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|

@@ -1,7 +1,12 @@
 class PiwikApi < ApplicationRecord
   PIWIK_BASE_URL = "https://protograph.innocraft.cloud"
   class << self
-    def get_event_categories(from_date, to_date)
+
+    def get_event(from_date,
+                  to_date,
+                  segment="",
+                  event_method_1="Name",
+                  event_method_2="Action")
       response = RestClient::Request.execute(
         method: "get",
         url: PIWIK_BASE_URL,
@@ -12,8 +17,11 @@ class PiwikApi < ApplicationRecord
             idSite: ENV["PIWIK_ID_SITE"],
             token_auth: ENV["PIWIK_TOKEN_AUTH"],
             period: "range",
-            method: "Events.getCategory&secondaryDimension=eventAction&flat=1",
             date: from_date + "," + to_date,
+            method: "Events.get#{event_method_1}",
+            segment: segment,
+            secondaryDimension: "event#{event_method_2}",
+            flat: 1,
           }
         }
       )
@@ -124,6 +132,52 @@ class PiwikApi < ApplicationRecord
       rescue Exception => e
         return { success: false }
       end      
+    end
+
+    def get_all_custom_dimensions
+      response = RestClient::Request.execute(
+        method: "get",
+        url: PIWIK_BASE_URL,
+        headers: {
+          params: {
+            module: "API",
+            format: "json",
+            idSite: ENV["PIWIK_ID_SITE"],
+            token_auth: ENV["PIWIK_TOKEN_AUTH"],
+            method: "CustomDimensions.getConfiguredCustomDimensions",
+          }
+        }
+      )
+      begin
+        return JSON.parse(response)
+      rescue Exception => e
+        return { success: false }
+      end
+    end
+
+    def get_custom_dimension(from_date, to_date, dimension_id, segment="")
+      response = RestClient::Request.execute(
+        method: "get",
+        url: PIWIK_BASE_URL,
+        headers: {
+          params: {
+            module: "API",
+            format: "json",
+            period: "range",
+            date: from_date + "," + to_date,
+            idSite: ENV["PIWIK_ID_SITE"],
+            token_auth: ENV["PIWIK_TOKEN_AUTH"],
+            method: "CustomDimensions.getConfiguredCustomDimensions",
+            idDimension: dimension_id,
+            segment: segment
+          }
+        }
+      )
+      begin
+        return JSON.parse(response)
+      rescue Exception => e
+        return { success: false }
+      end
     end
   end
 end

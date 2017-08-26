@@ -4,11 +4,12 @@
 #
 #  id                  :integer          not null, primary key
 #  datacast_identifier :string(255)
-#  module              :string(255)
-#  metric              :string(255)
-#  value               :string(255)
+#  piwik_module        :string(255)
+#  piwik_metric_name   :string(255)
+#  piwik_metric_value  :integer
 #  created_at          :datetime         not null
 #  updated_at          :datetime         not null
+#  piwik_metric_type   :string(255)
 #
 
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
