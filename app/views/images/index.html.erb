@@ -1,16 +1,13 @@
 <%= stylesheet_link_tag "justified.css" %>
 
 <div class="sixteen wide column">
-  <h1 class="ui header">Image Bank</h1>
-
-  <!-- <div class="ui category search">
-    <div class="ui icon input" style="width: 100%;">
-      <i class="search icon"></i>
-      <input class="prompt" type="text" name="image_search" placeholder="Search....">
-    </div>
+  <div class="ui mini breadcrumb">
+    <%=link_to @account.username, @account, class: "section" %>
+    <i class="right angle icon divider"></i>
+    <div  class="section" >Image Bank</div>
   </div>
 
-  <div class="one-br-space"></div> -->
+  <h1 class="ui header">Image Bank</h1>
   <button class="ui right floated basic button" id="openFileUpload">Upload image</button>
   <div style="clear: both;"></div>
   <br>
@@ -20,17 +17,17 @@
     <div class="content">
       <%= simple_form_for([@account, @image]) do |f| %>
         <%= f.error_notification %>
-        <%= f.input :image, as: :file, required: true, hint: 'Size should less than or equal to 500kB' %>
+        <%= f.input :image, as: :file, required: true, hint: 'Size should less than or equal to 500kB. Supported file types are GIF, JPEG, JPG and PNG' %>
         <div class="form-inputs">
           <%= f.input :account_id, as: :hidden, input_html: {value: @account.id} %>
           <%= f.input :name, required: true %>
-          <%= f.input :tag_list,  collection: [], input_html: { class: 'ui search fluid dropdown' } %>
+          <%= f.input :tag_list, collection: [], label: 'Tags', hint: "Enter a comma separated list of tags.", input_html: { id: 'tags_autocomplete', class: 'ui fluid search dropdown', multiple: true } %>
           <%= f.input :description %>
         </div>
       <% end %>
     </div>
     <div class="actions">
-      <input type="submit" value="submit" form="new_image" class="ui button">
+      <input type="submit" value="Upload" form="new_image" class="ui button">
     </div>
   </div>
 
@@ -44,10 +41,6 @@
 
     $('#openFileUpload').on('click', function () {
       $('#fileUploadModal').modal('show');
-    });
-
-    $('.ui.dropdown').dropdown({
-      allowAdditions: true,
     });
 
     var maxHeight = 75;
@@ -64,29 +57,52 @@
       template: function (data) {
         var image;
         image = '<div class="photo-container" style="height:' + data.displayHeight + 'px;margin-right:' + data.marginRight + 'px;">';
+        image +=    '<a class="ui right corner label protograph-popup-trigger" data-clipboard-text="'+data.image_url+'" data-content="Copied" >';
+          image +=      '<i class="copy icon"></i>'
+          image +=    '</a>';
         image +=    '<a href="'+data.redirect_to+'" data-turbolinks="false">';
         image +=        '<img class="image-thumb" src="' + data.src + '" style="width:' + data.displayWidth + 'px;height:' + data.displayHeight + 'px;" >';
         image +=    '</a>';
-        image += '   <div class="photograph-image-details">' + data.image_width + ' x ' + data.image_height + '</div>';
+        image += '   <div class="photograph-image-details" style="display: block;">' + data.image_width + ' x ' + data.image_height + ' (' + data.aspectWidth + ':' + data.aspectHeight + ') ' + '</div>';
         image += '</div>';
 
         return image;
-
-        // return  + '<a href="'+data.redirect_to+'">' +
-        //             '<img class="image-thumb" src="' + data.src + '" style="width:' + data.displayWidth + 'px;height:' + data.displayHeight + 'px;" >' +
-        //             '</a>'+
-        //             '</div>';
-
-        // var image = '<div class="photo-container" style="height:'+maxHeight+'px;margin-right:'+photo.marginRight+'px;">';
-        // image += '<a href="/account/<%= @account.slug %>/images/'+photo.id+'">'
-        // image += '<img class="image-thumb" src="' + photo.src + '" style="width: '+photo.displayWidth+'px; height: '+photo.displayHeight+'px; margin-top: -8.0235px;">';
-        // image += '</a>';
-        // image += '<div class="photograph-image-details">' +photo.displayWidth+ ' x ' +photo.displayHeight+ '</div>';
-        // image += '</div>';
-        // return image;
       },
-      margin: 20
+      margin: 20,
+      afterRenderCallback: function() {
+          new Clipboard('.protograph-popup-trigger', {
+            target: function(trigger) {
+              return trigger;
+            }
+          });
+
+           $('.protograph-popup-trigger').popup({
+              on: 'click',
+              position: 'top center',
+              onVisible: function (e) {
+                setTimeout(function() {
+                  $(e).popup('hide');
+                }, 250);
+              }
+            });
+        }
     });
 
+    $('#new_image .ui.dropdown')
+      .dropdown({
+        fullTextSearch: true,
+        forceSelection: false,
+        saveRemoteData:false,
+        allowAdditions: true,
+        debug: true,
+        apiSettings: {
+            url: '/api/v1/tags?q={query}'
+        },
+        fields: {
+          value: 'name',
+          name : 'name',
+          id: 'id'
+        }
+      });
   });
 </script>
