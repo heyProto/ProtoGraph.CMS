@@ -21,7 +21,7 @@
         <div class="form-inputs">
           <%= f.input :account_id, as: :hidden, input_html: {value: @account.id} %>
           <%= f.input :name, required: true %>
-          <%= f.input :tag_list, collection: [], label: 'Tags', hint: "Enter a comma separated list of tags.", input_html: { id: 'tags_autocomplete', class: 'ui fluid search dropdown', multiple: true } %>
+          <%= f.input :tag_list, collection: [], label: 'Tags', hint: "Enter a comma separated list of tags.", input_html: { id: 'tags_autocomplete', class: 'ui fluid search dropdown', multiple: true, "data-content"=>"This field is required." }, wrapper_html: { class: 'required'} %>
           <%= f.input :description %>
         </div>
       <% end %>
@@ -42,6 +42,23 @@
     $('#openFileUpload').on('click', function () {
       $('#fileUploadModal').modal('show');
     });
+
+    var validation_rules = {
+      on: 'blur',
+      inline: true,
+      fields: {
+        'image[tag_list][]': {
+          identifier  : 'tags_autocomplete',
+          rules: [
+            {
+              type   : 'empty',
+              prompt : 'This is a required field.'
+            }
+          ]
+        }
+      }
+    };
+    $('#new_image').form(validation_rules);
 
     var maxHeight = 75;
     $('#imageContainer').empty().justifiedImages({
@@ -94,7 +111,6 @@
         forceSelection: false,
         saveRemoteData:false,
         allowAdditions: true,
-        debug: true,
         apiSettings: {
             url: '/api/v1/tags?q={query}'
         },
