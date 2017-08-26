@@ -51,7 +51,7 @@ class StreamsController < ApplicationController
     private
 
     def stream_params
-        params.require(:stream).permit(:account_id, :folder_id, :title, :description, :created_by, :updated_by, card_list: [], folder_list: [], tag_list: [])
+        params.require(:stream).permit(:account_id, :folder_id, :title, :description, :created_by, :updated_by, :limit, :offset,card_list: [], folder_list: [], tag_list: [])
     end
 
     def set_stream
