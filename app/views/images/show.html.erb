@@ -4,13 +4,6 @@
 <% w = @image.image_width %>
 <% h = @image.image_height %>
 
-<!-- <style type="text/css">
-  .protograph-tooltip {
-    position: absolute;
-    display: none;
-  }
-</style> -->
-
 <div class="ui mini breadcrumb">
   <%=link_to @account.username, @account, class: "section", "data-turbolinks"=> false %>
   <i class="right angle icon divider"></i>
@@ -56,7 +49,7 @@
       <a class="item" data-width="2" data-height="3">
         2:3 (Quiz Cover Image)
       </a>
-      <a class="item" data-width="1" data-height="3">
+      <a class="item" data-width="1" data-height="2">
         1:2 (Quiz Answer Image)
       </a>
       <a class="item" data-width="1" data-height="1">
@@ -114,7 +107,6 @@
       }
     });
 
-    // $('.jcrop-holder').append('<div class="protograph-tooltip"></div>')
 
     $('#aspectRatioMenu .item').on('click', function () {
       var ref = $(this),
@@ -144,14 +136,35 @@
     });
 
     function update(coords) {
+
+      if (!$('.jcrop-holder .protograph-crop-tooltip').length) {
+        $('.jcrop-holder').append('<div class="protograph-crop-tooltip"></div>');
+      }
+
       $('#image_variation_crop_x').val(coords.x);
       $('#image_variation_crop_y').val(coords.y);
       $('#image_variation_crop_w').val(coords.w);
       $('#image_variation_crop_h').val(coords.h);
+
+      var str = "",
+        width = Math.round(coords.w),
+        height = Math.round(coords.h),
+        aspectWidth = width / gcd(width, height),
+        aspectHeight = height / gcd(width, height);
+
+      if (coords.w > 0 && coords.h > 0) {
+        str += (width + ' x ' + height);
+        str += "  ";
+        str += ('(' + Math.round(aspectWidth) + ':' + Math.round(aspectHeight) + ')');
+      } else {
+        str += ( width + ' x ' + height);
+      }
+
+      $('.protograph-crop-tooltip').html(str);
     };
 
     $('#cropbox').Jcrop({
-      // setSelect: [0, 0, 420, 420],
+      setSelect: [0, 0, 420, 420],
       onSelect: update,
       onChange: update,
       boxHeight: 350
