@@ -23,6 +23,8 @@ class Folder < ApplicationRecord
     after_validation :move_friendly_id_error_to_name
 
     #ASSOCIATIONS
+    belongs_to :account
+    has_many :streams
     #ACCESSORS
     #VALIDATIONS
     validates :name, uniqueness: {scope: [:account], message: "Folder name is already used"}
