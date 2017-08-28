@@ -1,7 +1,7 @@
 <div class="ui mini modal" id="new-stream">
   <i class="close icon"></i>
   <div class="header">
-    <%= (controller_name == 'streams' and ["edit", "update"].include?(action_name)) ? "Update the Stream" : "Create a new Stream" %>
+    <%= (controller_name == 'streams' and ["show", "edit", "update"].include?(action_name)) ? "Update the Stream" : "Create a new Stream" %>
   </div>
   <div class="content">
     <%= simple_form_for(@stream, url: [@account, @folder, @stream]) do |f| %>
