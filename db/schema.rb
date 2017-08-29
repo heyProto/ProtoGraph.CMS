@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170826175705) do
+ActiveRecord::Schema.define(version: 20170829084340) do
 
   create_table "accounts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "username"
@@ -241,6 +241,14 @@ ActiveRecord::Schema.define(version: 20170826175705) do
     t.index ["slug"], name: "index_template_data_on_slug", unique: true
   end
 
+  create_table "uploads", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string "attachment"
+    t.bigint "template_card_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["template_card_id"], name: "index_uploads_on_template_card_id"
+  end
+
   create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "name", default: "", null: false
     t.string "email", default: "", null: false
@@ -283,4 +291,5 @@ ActiveRecord::Schema.define(version: 20170826175705) do
     t.integer "folder_id"
   end
 
+  add_foreign_key "uploads", "template_cards"
 end

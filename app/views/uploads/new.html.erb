@@ -1,0 +1,5 @@
+<%= simple_form_for @upload do |f| %>
+    <%= f.input :attachment, as: :file, required: true %>
+    <%= f.input :template_card, collection: @template_cards %>
+    <%= f.button :submit, class: "ui primary button" %>
+<% end %>
