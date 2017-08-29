@@ -7,9 +7,6 @@
 </div>
 
 <% else %>
-
-
-<script src="https://d2m6lzru8erw1k.cloudfront.net/lib/protoGraph.js"></script>
 <div style='width:100%; box-sizing: border-box'>
     <div class="ui mini breadcrumb">
         <%=link_to @account.username, @account, class: "section" %>
@@ -18,29 +15,34 @@
 
     </div>
     <div class="ui huge header"><%= @folder.name %></div>
-
+    <div class="ui top attached tabular menu">
+        <a class="active item" >Cards</a>
+        <a class="item" href="<%= account_folder_streams_path(@account, @folder) %>">Streams</a>
+    </div>
     <div class='card-parent-class'>
-        <% @view_casts.each do |d| %>
-            <div class="column proto-graph-card-div">
-                <%= link_to [@account, @folder,d], "data-turbolinks"=> false do %>
-                    <div class="proto-graph-card">
-                        <img class="index-card-image" src="<%= d.render_screenshot_url %>" width="100%" alt="<%= d.name %>">
-                        <!-- <div class="proto-card-highlight-gradient"></div> -->
-                        <div class="proto-card-gradient">
-                            <div class="index-card-content">
-                                <div class="index-card-title">
-                                    <%= d.name %>
-                                </div>
-                                <div class="index-card-created-by"><%= image_tag avatar_url(d.updator.email), width: "100%" %></div>
-                                <div class="index-card-extra-info">
-                                    <%= d.template_card.name %>  |  <%= time_ago_in_words(d.updated_at) %>
+        <div class="ui bottom active tab" data-tab="second">
+            <% @view_casts.each do |d| %>
+                <div class="column proto-graph-card-div">
+                    <%= link_to [@account, @folder,d], "data-turbolinks"=> false do %>
+                        <div class="proto-graph-card">
+                            <img class="index-card-image" src="<%= d.render_screenshot_url %>" width="100%" alt="<%= d.name %>">
+                            <!-- <div class="proto-card-highlight-gradient"></div> -->
+                            <div class="proto-card-gradient">
+                                <div class="index-card-content">
+                                    <div class="index-card-title">
+                                        <%= d.name %>
+                                    </div>
+                                    <div class="index-card-created-by"><%= image_tag avatar_url(d.updator.email), width: "100%" %></div>
+                                    <div class="index-card-extra-info">
+                                        <%= d.template_card.name %>  |  <%= time_ago_in_words(d.updated_at) %>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                <% end %>
-            </div>
-        <% end %>
+                    <% end %>
+                </div>
+            <% end %>
+        </div>
     </div>
 </div>
 

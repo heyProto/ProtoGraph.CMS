@@ -27,3 +27,15 @@
 .jcrop-keymgr {
   opacity: 0;
 }
+.protograph-image-form-heading {
+  color: #dadada !important;
+}
+.protograph-crop-tooltip {
+  position: absolute;
+  bottom: 5px;
+  right: 5px;
+  background: black;
+  opacity: 0.6;
+  color: white;
+  z-index: 600;
+}

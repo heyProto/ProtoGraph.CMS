@@ -25,7 +25,7 @@ class Image < ApplicationRecord
   #CUSTOM TABLES
   #GEMS
   acts_as_taggable
-
+  paginates_per 100
   #ASSOCIATIONS
   belongs_to :account
   has_many :image_variation, -> {where.not(is_original: true)}
@@ -48,8 +48,11 @@ class Image < ApplicationRecord
       thumbnail_url: self.thumbnail_url,
       thumbnail_width: self.thumbnail_width,
       thumbnail_height: self.thumbnail_height,
+      image_url: self.original_image.image_url,
       image_height: self.image_height,
-      image_width: self.image_width
+      image_width: self.image_width,
+      aspectWidth: self.image_width / self.image_width.gcd(self.image_height),
+      aspectHeight: self.image_height / self.image_width.gcd(self.image_height)
     }
   end
 
@@ -63,6 +66,5 @@ class Image < ApplicationRecord
       image_id:   self.id,
       is_original: true
     });
-    false
   end
 end

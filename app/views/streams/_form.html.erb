@@ -1,0 +1,19 @@
+<div class="ui mini modal" id="new-stream">
+  <i class="close icon"></i>
+  <div class="header">
+    <%= (controller_name == 'streams' and ["show", "edit", "update"].include?(action_name)) ? "Update the Stream" : "Create a new Stream" %>
+  </div>
+  <div class="content">
+    <%= simple_form_for(@stream, url: [@account, @folder, @stream]) do |f| %>
+        <%= f.input :title, required: true %>
+        <%= f.input :account_id, as: :hidden, input_html: {value: @account.id} %>
+        <%= f.input :description, as: :string, required: true %>
+        <%= f.input :card_list,  collection: @account.template_cards.pluck(:name, :id), input_html: { class: 'ui search fluid dropdown', multiple: true }, label: "Type of Cards" %>
+        <%= f.input :folder_list,  collection: @account.folders.pluck(:name, :id), input_html: { class: 'ui search fluid dropdown', multiple: true}, label: "Within Folders" %>
+        <%= f.input :limit %>
+        <%= f.input :offset %>
+
+        <%= f.submit "Submit", class: 'ui button primary' %>
+    <% end %>
+  </div>
+</div>

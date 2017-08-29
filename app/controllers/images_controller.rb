@@ -1,25 +1,23 @@
 class ImagesController < ApplicationController
 
   def index
-    @images = Image.all
+    @images = Image.order(:created_at).page params[:page]
     @image = Image.new
   end
 
   def create
     options = image_params
-    options[:tag_list] = options[:tag_list].split(",")
+    tag_list = params["image"]["tag_list"].reject { |c| c.empty? }
+
+    if tag_list.present?
+      options[:tag_list] = tag_list
+    end
     options[:created_by] = current_user.id
     @image = Image.new(options)
     if @image.save
       redirect_to account_images_path(@account), notice: "Image added successfully"
     else
-      if @image.errors.messages[:image].present?
-        error_message = "Failed to upload the image, size was greater than 500kB."
-      else
-        error_message = "Failed to add the image"
-      end
-
-      redirect_to account_images_path(@account), alert: error_message
+      redirect_to account_images_path(@account), alert: @image.errors.full_messages
     end
   end
 
