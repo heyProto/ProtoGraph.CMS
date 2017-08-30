@@ -16,12 +16,11 @@
       <h4>CDN Configuration</h4>
       <p class="hint">Configure your own CDN. Keep it blank to use default configurations.</p>
       <%= f.input :cdn_provider,as: :select, collection: ["CloudFront","Akamai"], include_blank: false %>
-      <%= f.input :cdn_id, input_html: {value: @account.cdn_id == ENV['AWS_CDN_ID'] ? "" : @account.cdn_id}, label: "CDN Identifier", hint: "Keep blank if using cloudfront." %>
-      <%= f.input :cdn_endpoint, as: :string, input_html: {value: @account.cdn_id == ENV['AWS_CDN_ID'] ? "" : @account.cdn_endpoint}, label: "CDN Endpoint" %>
-      <%= f.input :host, input_html: {value: @account.cdn_id == ENV['AWS_CDN_ID'] ? "" : @account.host}, as: :string, label: "Invalidation URL" %>
-      <%= f.input :client_token, input_html: {value: @account.cdn_id == ENV['AWS_CDN_ID'] ? "" : @account.client_token},hint: "Used as Aws Client Access ID for cloudfront."  %>
-      <%= f.input :client_secret, input_html: {value: @account.cdn_id == ENV['AWS_CDN_ID'] ? "" : @account.client_secret}, hint: "Used as Aws Secret Access Key for cloudfront." %>
-      <%= f.input :access_token, input_html: {value: @account.cdn_id == ENV['AWS_CDN_ID'] ? "" : @account.access_token}, hint: "Keep blank if using cloudfront." %>
+      <%= f.input :cdn_id, input_html: {value: (@account.cdn_id == ENV['AWS_CDN_ID'] and @account.cdn_endpoint == ENV["AWS_S3_ENDPOINT"])  ? "" : @account.cdn_id}, label: "CDN Identifier", hint: "Keep blank if using cloudfront." %>
+      <%= f.input :cdn_endpoint, as: :string, input_html: {value: (@account.cdn_id == ENV['AWS_CDN_ID'] and @account.cdn_endpoint == ENV["AWS_S3_ENDPOINT"]) ? "" : @account.cdn_endpoint}, label: "CDN Endpoint" %>
+      <%= f.input :host, input_html: {value: (@account.cdn_id == ENV['AWS_CDN_ID'] and @account.cdn_endpoint == ENV["AWS_S3_ENDPOINT"]) ? "" : @account.host}, as: :string, label: "Host" %>
+      <%= f.input :client_secret, input_html: {value: (@account.cdn_id == ENV['AWS_CDN_ID'] and @account.cdn_endpoint == ENV["AWS_S3_ENDPOINT"]) ? "" : @account.client_secret}, hint: "Used as Aws Secret Access Key for cloudfront." %>
+      <%= f.input :access_token, input_html: {value: (@account.cdn_id == ENV['AWS_CDN_ID'] and @account.cdn_endpoint == ENV["AWS_S3_ENDPOINT"]) ? "" : @account.access_token}, hint: "Keep blank if using cloudfront." %>
 
     </div>
     <br/>
