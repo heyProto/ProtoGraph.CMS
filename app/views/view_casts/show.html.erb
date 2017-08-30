@@ -101,7 +101,7 @@
   var interval = setInterval(function(){
     if (window.ProtoEmbed) {
       clearInterval(interval);
-      var proto_embed_test = new ProtoEmbed.initFrame(document.getElementById('protoCard'), "<%= "#{@view_cast.template_card.index_html(@account)}?view_cast_id=#{@view_cast.datacast_identifier}%26schema_id=#{@view_cast.template_datum.s3_identifier}".html_safe %>" , "<%= @view_cast.template_card.git_repo_name == 'ProtoGraph.Card.toSocial' ? "instagram" : "laptop"  %>");
+      var proto_embed_test = new ProtoEmbed.initFrame(document.getElementById('protoCard'), "<%= "#{@view_cast.template_card.index_html}?view_cast_id=#{@view_cast.datacast_identifier}%26schema_id=#{@view_cast.template_datum.s3_identifier}".html_safe %>" , "<%= @view_cast.template_card.git_repo_name == 'ProtoGraph.Card.toSocial' ? "instagram" : "laptop"  %>");
 
       $('.platform_buttons').on('click', function(event){
         var platform = this.id
@@ -119,12 +119,6 @@
         }
         event.stopPropagation();
       })
-
-
-
-
-
-
     }
   },200)
 
