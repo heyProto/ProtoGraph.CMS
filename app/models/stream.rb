@@ -124,7 +124,11 @@ class Stream < ApplicationRecord
         encoded_file = Base64.encode64(cards_json.to_json)
         content_type = "application/json"
         resp = Api::ProtoGraph::Utility.upload_to_cdn(encoded_file, self.cdn_key, content_type)
-        res = Api::ProtoGraph::CloudFront.invalidate(self.account, ["/#{self.cdn_key}"], 1)
+        if self.account.cdn_id != ENV['AWS_CDN_ID']
+            Api::ProtoGraph::CloudFront.invalidate(self.account, ["/#{view_cast.datacast_identifier}/*"], 1)
+        end
+        Api::ProtoGraph::CloudFront.invalidate(nil, ["/#{view_cast.datacast_identifier}/*"], 1)
+
         self.update_column(:last_published_at, Time.now)
     end
 
