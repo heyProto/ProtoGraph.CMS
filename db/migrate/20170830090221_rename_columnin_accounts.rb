@@ -5,7 +5,7 @@ class RenameColumninAccounts < ActiveRecord::Migration[5.1]
 
 
     Account.all.each do |account|
-        account.update_columns(client_token: ENV['AWS_ACCESS_KEY_ID'], client_secret: ENV['AWS_SECRET_ACCESS_KEY'])
+        account.update_columns(client_token: ENV['AWS_ACCESS_KEY_ID'], client_secret: ENV['AWS_SECRET_ACCESS_KEY'], cdn_id: ENV['AWS_CDN_ID'])
     end
   end
 end
