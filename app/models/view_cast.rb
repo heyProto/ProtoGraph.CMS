@@ -107,7 +107,7 @@ class ViewCast < ApplicationRecord
                 status_obj[mode] = "success"
                 self.update_columns(status: status_obj.to_json, updated_at: Time.now)
             end
-            Api::ProtoGraph::CloudFront.invalidate(["/#{key}"], 1)
+            Api::ProtoGraph::CloudFront.invalidate(self.account,["/#{key}"], 1)
         else
             if mode.present?
                 status_obj = JSON.parse(self.status)

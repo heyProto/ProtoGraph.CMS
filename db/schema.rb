@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170826175705) do
+ActiveRecord::Schema.define(version: 20170830090221) do
 
   create_table "accounts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "username"
@@ -23,9 +23,8 @@ ActiveRecord::Schema.define(version: 20170826175705) do
     t.datetime "updated_at", null: false
     t.string "cdn_provider"
     t.string "cdn_id"
-    t.text "invalidation_endpoint"
+    t.text "host"
     t.text "cdn_endpoint"
-    t.string "authorization_header_name"
     t.string "client_token"
     t.string "access_token"
     t.string "client_secret"

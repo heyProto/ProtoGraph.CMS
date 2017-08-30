@@ -155,7 +155,7 @@ class TemplateCard < ApplicationRecord
 
     def invalidate
         begin
-            Api::ProtoGraph::CloudFront.invalidate(["/#{self.s3_identifier}/*"], 1)
+            Api::ProtoGraph::CloudFront.invalidate(nil, ["/#{self.s3_identifier}/*"], 1)
         rescue
         end
     end
