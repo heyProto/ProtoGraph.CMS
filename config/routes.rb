@@ -50,6 +50,11 @@ Rails.application.routes.draw do
       resources :view_casts, only: [:new, :index, :show, :edit, :update] do
         put :"recreate/:mode", to: "view_casts#recreate", on: :member, as: :recreate
       end
+
+      resources :streams, except: [:destroy, :edit] do
+        post :publish, on: :member
+        resources :stream_entities, only: [:create, :destroy]
+      end
     end
 
     resources :images, only: [:index, :create, :show]

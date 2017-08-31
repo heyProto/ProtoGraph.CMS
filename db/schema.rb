@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170818123336) do
+ActiveRecord::Schema.define(version: 20170830090221) do
 
   create_table "accounts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "username"
@@ -23,9 +23,8 @@ ActiveRecord::Schema.define(version: 20170818123336) do
     t.datetime "updated_at", null: false
     t.string "cdn_provider"
     t.string "cdn_id"
-    t.text "invalidation_endpoint"
+    t.text "host"
     t.text "cdn_endpoint"
-    t.string "authorization_header_name"
     t.string "client_token"
     t.string "access_token"
     t.string "client_secret"
@@ -139,6 +138,38 @@ ActiveRecord::Schema.define(version: 20170818123336) do
     t.datetime "updated_at", null: false
     t.integer "sort_order"
     t.index ["slug"], name: "index_ref_roles_on_slug", unique: true
+  end
+
+  create_table "stream_entities", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.integer "stream_id"
+    t.string "entity_type"
+    t.string "entity_value"
+    t.boolean "is_excluded"
+    t.integer "created_by"
+    t.integer "updated_by"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "streams", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string "title"
+    t.string "slug"
+    t.text "description"
+    t.integer "folder_id"
+    t.integer "account_id"
+    t.string "datacast_identifier"
+    t.integer "created_by"
+    t.integer "updated_by"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "card_count"
+    t.datetime "last_published_at"
+    t.string "order_by_key"
+    t.string "order_by_value"
+    t.integer "limit"
+    t.integer "offset"
+    t.index ["description"], name: "index_streams_on_description", type: :fulltext
+    t.index ["title"], name: "index_streams_on_title", type: :fulltext
   end
 
   create_table "taggings", id: :integer, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
