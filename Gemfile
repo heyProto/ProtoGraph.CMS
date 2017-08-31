@@ -22,7 +22,6 @@ gem 'kaminari'
 gem "version"
 gem 'exception_notification'
 gem 'foreman'
-gem 'json-schema'
 
 #AUTHENTICATION
 gem 'devise'
