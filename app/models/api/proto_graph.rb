@@ -76,7 +76,11 @@ class Api::ProtoGraph
                         creds[:client_token] = account.client_token
                         creds[:access_token] = account.access_token
                         params[:credentials] = creds
-                        params[:invalidation_items] = items
+                        invalidation_items = []
+                        items.each do |item|
+                            invalidation_items << "#{account.cdn_endpoint.sub(/^https?\:\/\//, '')}/#{item}"
+                        end
+                        params["invalidation_items"] = invalidation_items
                     end
                 else
                     params = {"invalidation_items": items, quantity: quantity, distribution_id: ENV['AWS_CDN_ID'], source: "CloudFront", credentials: {'aws_access_key_id': ENV['AWS_ACCESS_KEY_ID'], 'aws_secret_access_key': ENV['AWS_SECRET_ACCESS_KEY']}}
