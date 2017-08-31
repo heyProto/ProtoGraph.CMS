@@ -125,9 +125,9 @@ class Stream < ApplicationRecord
         content_type = "application/json"
         resp = Api::ProtoGraph::Utility.upload_to_cdn(encoded_file, self.cdn_key, content_type)
         if self.account.cdn_id != ENV['AWS_CDN_ID']
-            Api::ProtoGraph::CloudFront.invalidate(self.account, ["/#{view_cast.datacast_identifier}/*"], 1)
+            Api::ProtoGraph::CloudFront.invalidate(self.account, ["/#{view_cast.datacast_identifier}/index.json"], 1)
         end
-        Api::ProtoGraph::CloudFront.invalidate(nil, ["/#{view_cast.datacast_identifier}/*"], 1)
+        Api::ProtoGraph::CloudFront.invalidate(nil, ["/#{view_cast.datacast_identifier}/index.json"], 1)
 
         self.update_column(:last_published_at, Time.now)
     end

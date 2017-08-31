@@ -108,9 +108,9 @@ class ViewCast < ApplicationRecord
                 self.update_columns(status: status_obj.to_json, updated_at: Time.now)
             end
             if self.account.cdn_id != ENV['AWS_CDN_ID']
-                Api::ProtoGraph::CloudFront.invalidate(self.account, ["/#{view_cast.datacast_identifier}/*"], 1)
+                Api::ProtoGraph::CloudFront.invalidate(self.account, ["/#{key}"], 1)
             end
-            Api::ProtoGraph::CloudFront.invalidate(nil, ["/#{view_cast.datacast_identifier}/*"], 1)
+            Api::ProtoGraph::CloudFront.invalidate(nil, ["/#{key}"], 1)
 
         else
             if mode.present?
