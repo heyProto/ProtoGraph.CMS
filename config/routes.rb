@@ -58,7 +58,7 @@ Rails.application.routes.draw do
         resources :stream_entities, only: [:create, :destroy]
       end
     end
-
+    resources :uploads, only: [:new, :create]
     resources :images, only: [:index, :create, :show]
     resources :image_variations, only: [:create, :show]
 
@@ -75,5 +75,4 @@ Rails.application.routes.draw do
   get "features", to: 'static_pages#features', as: :features
   get '/auth/:provider/callback', to: 'authentications#create'
   root 'static_pages#index'
-  resources :uploads, only: [:new, :create]
 end

@@ -37,7 +37,7 @@ class Account < ApplicationRecord
     has_many :authentications
     has_many :view_casts
     has_many :folders
-
+    has_many :uploads
     #ACCESSORS
     #VALIDATIONS
     validates :username, presence: true, uniqueness: { case_sensitive: false }, length: { in: 3..24 }, format: { with: /\A[a-z0-9A-Z_]{4,16}\z/ }

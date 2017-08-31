@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170830151737) do
+ActiveRecord::Schema.define(version: 20170831110556) do
 
   create_table "accounts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "username"
@@ -246,6 +246,13 @@ ActiveRecord::Schema.define(version: 20170830151737) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.text "validation_errors"
+    t.bigint "account_id"
+    t.bigint "folder_id"
+    t.integer "created_by"
+    t.integer "updated_by"
+    t.text "upload_errors"
+    t.index ["account_id"], name: "index_uploads_on_account_id"
+    t.index ["folder_id"], name: "index_uploads_on_folder_id"
     t.index ["template_card_id"], name: "index_uploads_on_template_card_id"
   end
 
@@ -291,5 +298,7 @@ ActiveRecord::Schema.define(version: 20170830151737) do
     t.integer "folder_id"
   end
 
+  add_foreign_key "uploads", "accounts"
+  add_foreign_key "uploads", "folders"
   add_foreign_key "uploads", "template_cards"
 end
