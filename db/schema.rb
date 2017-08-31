@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170830090221) do
+ActiveRecord::Schema.define(version: 20170830151737) do
 
   create_table "accounts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "username"
@@ -245,6 +245,7 @@ ActiveRecord::Schema.define(version: 20170830090221) do
     t.bigint "template_card_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.text "validation_errors"
     t.index ["template_card_id"], name: "index_uploads_on_template_card_id"
   end
 
