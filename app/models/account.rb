@@ -2,23 +2,22 @@
 #
 # Table name: accounts
 #
-#  id                        :integer          not null, primary key
-#  username                  :string(255)
-#  slug                      :string(255)
-#  domain                    :string(255)
-#  gravatar_email            :string(255)
-#  status                    :string(255)
-#  sign_up_mode              :string(255)
-#  created_at                :datetime         not null
-#  updated_at                :datetime         not null
-#  cdn_provider              :string(255)
-#  cdn_id                    :string(255)
-#  invalidation_endpoint     :text(65535)
-#  cdn_endpoint              :text(65535)
-#  authorization_header_name :string(255)
-#  client_token              :string(255)
-#  access_token              :string(255)
-#  client_secret             :string(255)
+#  id             :integer          not null, primary key
+#  username       :string(255)
+#  slug           :string(255)
+#  domain         :string(255)
+#  gravatar_email :string(255)
+#  status         :string(255)
+#  sign_up_mode   :string(255)
+#  created_at     :datetime         not null
+#  updated_at     :datetime         not null
+#  cdn_provider   :string(255)
+#  cdn_id         :string(255)
+#  host           :text(65535)
+#  cdn_endpoint   :text(65535)
+#  client_token   :string(255)
+#  access_token   :string(255)
+#  client_secret  :string(255)
 #
 
 class Account < ApplicationRecord
@@ -71,19 +70,19 @@ class Account < ApplicationRecord
         self.sign_up_mode = "Invitation only"
         self.cdn_provider = "CloudFront"
         self.cdn_id = ENV['AWS_CDN_ID']
-        self.invalidation_endpoint = "#{AWS_API_DATACAST_URL}/cloudfront/invalidate"
-        self.authorization_header_name = "x-api-key"
-        self.access_token = ENV["AWS_API_KEY"]
+        self.host = "#{AWS_API_DATACAST_URL}/cloudfront/invalidate"
         self.cdn_endpoint = ENV['AWS_S3_ENDPOINT']
+        self.client_token = ENV['AWS_ACCESS_KEY_ID']
+        self.client_secret = ENV['AWS_SECRET_ACCESS_KEY']
         true
     end
 
     def before_update_set
-        self.cdn_id = ENV['AWS_CDN_ID'] if self.cdn_id.blank?
-        self.invalidation_endpoint = "#{AWS_API_DATACAST_URL}/cloudfront/invalidate" if self.invalidation_endpoint.blank?
-        self.authorization_header_name = "x-api-key" if self.authorization_header_name.blank?
-        self.access_token = ENV["AWS_API_KEY"] if self.access_token.blank?
+        self.cdn_id = ENV['AWS_CDN_ID'] if self.cdn_id.blank? and self.cdn_endpoint == ENV['AWS_S3_ENDPOINT']
+        self.host = "#{AWS_API_DATACAST_URL}/cloudfront/invalidate" if self.host.blank?
         self.cdn_endpoint = ENV['AWS_S3_ENDPOINT'] if self.cdn_endpoint.blank?
+        self.client_token = ENV['AWS_ACCESS_KEY_ID'] if self.client_token.blank?
+        self.client_secret = ENV['AWS_SECRET_ACCESS_KEY'] if self.client_secret.blank?
     end
 
 end

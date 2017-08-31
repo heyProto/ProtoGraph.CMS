@@ -57,10 +57,31 @@ class Api::ProtoGraph
 
         class << self
 
-            def invalidate(items, quantity)
+            def invalidate(account=nil, items, quantity)
                 url = "#{AWS_API_DATACAST_URL}/cloudfront/invalidate"
-                params = {"invalidation_items": items, quantity: quantity, distribution_id: ENV['AWS_CDN_ID']}.to_json
-                response = RestClient.post(url , params,{content_type: :json, accept: :json, "x-api-key": ENV['AWS_API_KEY']})
+                if account.present?
+                    params = {}
+                    if account.cdn_provider == "CloudFront"
+                        params[:source] = account.cdn_provider
+                        params[:quantity] = quantity
+                        params[:distribution_id] = account.cdn_id
+                        creds = {'aws_access_key_id': account.client_token, 'aws_secret_access_key': account.client_secret}
+                        params[:credentials] = creds
+                        params[:invalidation_items] = items
+                    else
+                        params[:source] = "Akamai"
+                        creds = {}
+                        creds[:host] = account.host
+                        creds[:client_secret] = account.client_secret
+                        creds[:client_token] = account.client_token
+                        creds[:access_token] = account.access_token
+                        params[:credentials] = creds
+                        params[:invalidation_items] = items
+                    end
+                else
+                    params = {"invalidation_items": items, quantity: quantity, distribution_id: ENV['AWS_CDN_ID'], source: "CloudFront", credentials: {'aws_access_key_id': ENV['AWS_ACCESS_KEY_ID'], 'aws_secret_access_key': ENV['AWS_SECRET_ACCESS_KEY']}}
+                end
+                response = RestClient.post(url , params.to_json,{content_type: :json, accept: :json, "x-api-key": ENV['AWS_API_KEY']})
                 return JSON.parse(response.body)
             end
         end

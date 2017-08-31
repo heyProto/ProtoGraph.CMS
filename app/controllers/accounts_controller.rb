@@ -55,7 +55,7 @@ class AccountsController < ApplicationController
   private
 
     def account_params
-      params.require(:account).permit(:username, :slug, :domain, :gravatar_email, :status, :sign_up_mode)
+      params.require(:account).permit(:username, :slug, :domain, :gravatar_email, :status, :sign_up_mode, :host, :cdn_id, :cdn_provider, :cdn_endpoint, :client_token, :access_token, :client_secret)
     end
 
 end
