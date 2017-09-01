@@ -14,7 +14,15 @@
     <div class="ui menu clear">
       <% if @on_an_account_page %>
           <div class="item"><%= link_to image_tag("_logo.png", class: "protograph-logo-image"), account_path(@account) %></div>
-          <div class="item"><%= link_to @account.username, account_path(@account) %></div>
+          <div class="item">
+            <div class="ui tiny breadcrumb">
+              <%=link_to @account.username, @account, class: "section" %>
+              <% if controller_name == 'view_casts' and ["new", "edit"].include?(action_name) %>
+                <i class="right angle icon divider"></i>
+                <%=link_to @folder.name, [@account, @folder], class: "section" %>
+              <% end %>
+            </div>
+          </div>
           <div class="right menu">
               <% if @folder.present? and @folder.id.present? %>
                 <div class="item"><%= link_to "Start writing here", new_account_folder_view_cast_path(@account, @folder), "data-turbolinks"=> false %></div>
