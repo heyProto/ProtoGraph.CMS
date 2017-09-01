@@ -4,7 +4,7 @@ class CardUploadWorker
 
   def perform(upload_id, card_data, name, seo_blockquote_text, source)
     @upload = Upload.find(upload_id)
-    @upload_errors = JSON.parse(@upload.upload_errors)
+    @upload_errors = []
     payload = {}
     params = all_params(card_data, name, seo_blockquote_text, source)
     datacast_params = params[:datacast]
