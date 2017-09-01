@@ -111,7 +111,7 @@ class Stream < ApplicationRecord
                 # end
                 # We do not require keys for all json files
             end
-            d['iframe_url']= "#{view_cast.template_card.index_html}?view_cast_id=#{view_cast.datacast_identifier}%26schema_id=#{view_cast.template_datum.s3_identifier}"
+            d['iframe_url']= "#{view_cast.template_card.index_html(self.account)}?view_cast_id=#{view_cast.datacast_identifier}%26schema_id=#{view_cast.template_datum.s3_identifier}"
             cards_json << d
         end
 
