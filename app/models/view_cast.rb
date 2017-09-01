@@ -48,6 +48,7 @@ class ViewCast < ApplicationRecord
     after_save :after_save_set
     before_destroy :before_destroy_set
     #SCOPE
+    default_scope ->{includes(:account)}
     #OTHER
 
     def remote_urls
@@ -83,6 +84,10 @@ class ViewCast < ApplicationRecord
         }
     end
 
+    def render_screenshot_url
+        self.render_screenshot_key.present?  ? "#{self.account.cdn_endpoint}/#{self.render_screenshot_key}" : nil
+    end
+
 
     def save_png(mode="")
         payload = {}
@@ -98,11 +103,11 @@ class ViewCast < ApplicationRecord
         payload["initializer"] = template_card.git_repo_name
         payload["key"] = key
         payload["mode"] = mode.blank? ? 'screenshot' : mode
-        html_url = "#{ENV['AWS_S3_ENDPOINT']}/#{key}"
+
         response = Api::ProtoGraph::ViewCast.render_screenshot(payload)
         if response['message'].present? and response['message'] == "Data Added Successfully"
             if mode.blank?
-                self.update_columns(render_screenshot_url: html_url, updated_at: Time.now)
+                self.update_columns(render_screenshot_key: key, updated_at: Time.now)
             else
                 status_obj = JSON.parse(self.status)
                 status_obj[mode] = "success"
@@ -124,7 +129,7 @@ class ViewCast < ApplicationRecord
 
     class << self
         def create_missing_images
-            ViewCast.where(render_screenshot_url: nil).each do |view_cast|
+            ViewCast.where(render_screenshot_key: nil).each do |view_cast|
                 view_cast.save_png
             end
         end
