@@ -16,10 +16,9 @@ class CsvVerificationWorker
     end
   end
 end
+
 # mappings = {
-#   "toReportViolence": {
-#                         "name": ,
-#                        "seo_blockquote_text": ,
-#                        "source": 
-#                       }
+#   "toReportViolence": {"name": ["the_people_involved"]["title"],
+#                        "seo_blockquote_text": "",
+#                        "source": "as"}
 # }

@@ -28,9 +28,9 @@ class CardUploadWorker
     if upload_error.nil?
       upload_error = []
     end
-    @upload_errors = JSON.parse(@upload.upload_errors)
-    @upload_errors << upload_error
-    @upload.upload_errors = @upload_errors.to_json.to_s
+    upload_errors = JSON.parse(@upload.upload_errors)
+    upload_errors << upload_error
+    @upload.upload_errors = upload_errors.to_json.to_s
     @upload.save
   end
   
