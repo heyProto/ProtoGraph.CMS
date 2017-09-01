@@ -168,8 +168,8 @@ ActiveRecord::Schema.define(version: 20170831110556) do
     t.string "order_by_value"
     t.integer "limit"
     t.integer "offset"
-    t.index ["description"], name: "index_streams_on_description", length: { description: 10 }
-    t.index ["title"], name: "index_streams_on_title"
+    t.index ["description"], name: "index_streams_on_description", type: :fulltext
+    t.index ["title"], name: "index_streams_on_title", type: :fulltext
   end
 
   create_table "taggings", id: :integer, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
