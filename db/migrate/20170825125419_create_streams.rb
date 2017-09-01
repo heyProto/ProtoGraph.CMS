@@ -13,8 +13,8 @@ class CreateStreams < ActiveRecord::Migration[5.1]
       t.timestamps
     end
 
-    add_index :streams, [:title]
-    add_index :streams, [:description], length: 10
+    add_index :streams, [:title], :type => :fulltext
+    add_index :streams, [:description], :type => :fulltext
 
     create_table :stream_entities do |t|
       t.integer :stream_id
