@@ -42,19 +42,21 @@
         <div class="proto-graph-code-area">
           <hr/>
           <h3 style="text-align: center; margin-bottom: 40px;">Embed the card in your stories</h3>
-          <div class="proto-graph-code-area-title">Option #1 - SEO friendly  iFrame</div>
-          <textarea class="proto-graph-code protograph-iframe" readonly><div id="<%= "ProtoCard#{@view_cast.id}" %>"><%= !@view_cast.seo_blockquote.blank? ? @view_cast.seo_blockquote : ''.html_safe %></div><script src="<%= Rails.env.production? ? @account.cdn_endpoint :  "https://d2m6lzru8erw1k.cloudfront.net" %>/lib/protoGraph.min.js" async></script><script type="text/javascript">var <%= "ProtoCard#{@view_cast.id}" %> = setInterval(function(){if (window.ProtoEmbed){clearInterval(<%= "ProtoCard#{@view_cast.id}" %>)};new ProtoEmbed.initFrame(document.getElementById("<%= "ProtoCard#{@view_cast.id}" %>"), "<%= "#{@view_cast.template_card.index_html(@account)}?view_cast_id=#{@view_cast.datacast_identifier}%26schema_id=#{@view_cast.template_datum.s3_identifier}".html_safe %>" , "laptop")}, 200)</script></textarea>
+          <div class="proto-graph-code-area-title">Option #1 - Responsive SEO friendly iFrame</div>
+          <textarea class="proto-graph-code"  id='responsive-embed-code' readonly><div id="<%= "ProtoCard#{@view_cast.id}" %>"><%= !@view_cast.seo_blockquote.blank? ? @view_cast.seo_blockquote : ''.html_safe %></div><script src="<%= Rails.env.production? ? @account.cdn_endpoint :  "https://d2m6lzru8erw1k.cloudfront.net" %>/lib/protoGraph.min.js" async></script><script type="text/javascript">var <%= "ProtoCard#{@view_cast.id}" %> = setInterval(function(){if (window.ProtoEmbed){clearInterval(<%= "ProtoCard#{@view_cast.id}" %>)};var mode = (window.innerWidth <= 500) ? "mobile" : "laptop";new ProtoEmbed.initFrame(document.getElementById("<%= "ProtoCard#{@view_cast.id}" %>"), "<%= "#{@view_cast.template_card.index_html(@account)}?view_cast_id=#{@view_cast.datacast_identifier}%26schema_id=#{@view_cast.template_datum.s3_identifier}".html_safe %>" , mode)}, 200)</script></textarea>
           </br>
 
-          <div class="proto-graph-code-area-title">Option #2 - Responsive SEO friendly iFrame</div>
-          <textarea class="proto-graph-code"  id='responsive-embed-code' readonly>
-            <div id="<%= "ProtoCard#{@view_cast.id}" %>"><%= !@view_cast.seo_blockquote.blank? ? @view_cast.seo_blockquote : ''.html_safe %></div><script src="<%= Rails.env.production? ? @account.cdn_endpoint :  "https://d2m6lzru8erw1k.cloudfront.net" %>/lib/protoGraph.min.js" async></script><script type="text/javascript">var <%= "ProtoCard#{@view_cast.id}" %> = setInterval(function(){if (window.ProtoEmbed){clearInterval(<%= "ProtoCard#{@view_cast.id}" %>)};var mode = (window.innerWidth <= 500) ? "mobile" : "laptop";new ProtoEmbed.initFrame(document.getElementById("<%= "ProtoCard#{@view_cast.id}" %>"), "<%= "#{@view_cast.template_card.index_html(@account)}?view_cast_id=#{@view_cast.datacast_identifier}%26schema_id=#{@view_cast.template_datum.s3_identifier}".html_safe %>" , mode)}, 200)</script>
-          </textarea>
+          <div class="proto-graph-code-area-title"> Option #2 - Protograph Wordpress Shortcode</div>
+          <textarea class="proto-graph-code" readonly>[ie-protograph view_cast_id="<%= @view_cast.datacast_identifier %>" schema_id="<%= @view_cast.template_datum.s3_identifier %>" id="<%= "ProtoCard#{@view_cast.id}" %>" frame_id="<%= @view_cast.template_card.s3_identifier %>"]<%= @view_cast.seo_blockquote %>[/ie-protograph]</textarea>
           </br>
-
 
           <div class="proto-graph-code-area-title">Option #3 - Traditional iFrame for Google AMP pages</div>
           <textarea class="proto-graph-code amp-iframe" readonly><iframe width="560" height="315" src="<%= "#{@view_cast.template_card.protograph_html(@account)}?view_cast_id=#{@view_cast.datacast_identifier}%26schema_id=#{@view_cast.template_datum.s3_identifier}%26mode=laptop".html_safe %>" frameborder="0" allowfullscreen></iframe></textarea>
+
+
+          <div class="proto-graph-code-area-title">Option #4 - SEO friendly iFrame for specific mode</div>
+          <textarea class="proto-graph-code protograph-iframe" readonly><div id="<%= "ProtoCard#{@view_cast.id}" %>"><%= !@view_cast.seo_blockquote.blank? ? @view_cast.seo_blockquote : ''.html_safe %></div><script src="<%= Rails.env.production? ? @account.cdn_endpoint :  "https://d2m6lzru8erw1k.cloudfront.net" %>/lib/protoGraph.min.js" async></script><script type="text/javascript">var <%= "ProtoCard#{@view_cast.id}" %> = setInterval(function(){if (window.ProtoEmbed){clearInterval(<%= "ProtoCard#{@view_cast.id}" %>)};new ProtoEmbed.initFrame(document.getElementById("<%= "ProtoCard#{@view_cast.id}" %>"), "<%= "#{@view_cast.template_card.index_html(@account)}?view_cast_id=#{@view_cast.datacast_identifier}%26schema_id=#{@view_cast.template_datum.s3_identifier}".html_safe %>" , "laptop")}, 200)</script></textarea>
+          </br>
         </div>
       <% end %>
 
