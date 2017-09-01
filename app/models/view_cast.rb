@@ -18,6 +18,7 @@
 #  render_screenshot_url :text(65535)
 #  status                :text(65535)
 #  folder_id             :integer
+#  is_invalidating       :boolean
 #
 
 class ViewCast < ApplicationRecord

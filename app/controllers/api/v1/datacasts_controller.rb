@@ -35,8 +35,10 @@ class Api::V1::DatacastsController < ApiController
         if r.has_key?("errorMessage")
             render json: {error_message: r['errorMessage']}, status: 422
         else
-            view_cast.updated_by = @user.id
-            view_cast.update_attributes(view_cast_params)
+            updating_params = view_cast_params
+            updating_params[:updated_by] = @user.id
+            updating_params[:is_invalidating] = true
+            view_cast.update_attributes(updating_params)
             if @account.cdn_id != ENV['AWS_CDN_ID']
                 Api::ProtoGraph::CloudFront.invalidate(@account, ["/#{view_cast.datacast_identifier}/data.json","/#{view_cast.datacast_identifier}/view_cast.json"], 2)
             end
@@ -52,7 +54,7 @@ class Api::V1::DatacastsController < ApiController
     end
 
     def view_cast_params
-        params.require(:view_cast).permit(:datacast_identifier, :template_datum_id, :name, :template_card_id, :optionalConfigJSON, :account_id, :updated_by, :seo_blockquote, :folder_id)
+        params.require(:view_cast).permit(:datacast_identifier, :template_datum_id, :name, :template_card_id, :optionalConfigJSON, :account_id, :updated_by, :seo_blockquote, :folder_id, :updated_by, :is_invalidating)
     end
 
 end

@@ -11,6 +11,9 @@ class ViewCastsController < ApplicationController
 
     def show
         @folders = @account.folders
+        if (Time.now - @view_cast.updated_at) > 5.minute and (@view_cast.is_invalidating)
+            @view_cast.update_column(:is_invalidating, false)
+        end
     end
 
     def edit
