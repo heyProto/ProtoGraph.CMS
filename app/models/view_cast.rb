@@ -84,8 +84,8 @@ class ViewCast < ApplicationRecord
         }
     end
 
-    def render_screenshot_url
-        self.render_screenshot_key.present?  ? "#{self.account.cdn_endpoint}/#{self.render_screenshot_key}" : nil
+    def render_screenshot_url(default=false)
+        self.render_screenshot_key.present?  ? "#{default ? ENV['AWS_S3_ENDPOINT'] : self.account.cdn_endpoint}/#{self.render_screenshot_key}" : nil
     end
 
 
