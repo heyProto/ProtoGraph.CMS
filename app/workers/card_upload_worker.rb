@@ -4,7 +4,6 @@ class CardUploadWorker
 
   def perform(upload_id, card_data, name, seo_blockquote_text, source)
     @upload = Upload.find(upload_id)
-    @upload_errors = []
     payload = {}
     params = all_params(card_data, name, seo_blockquote_text, source)
     datacast_params = params[:datacast]
@@ -21,11 +20,16 @@ class CardUploadWorker
       r = Api::ProtoGraph::Datacast.create(payload)
       if r.has_key?("errorMessage")
         view_cast.destroy
-        @upload_errors << [r['errorMessage']]
+        upload_error = [r['errorMessage']]
       end
     else
-      @upload_errors <<  [view_cast.errors.full_messages]
+      upload_error =  [view_cast.errors.full_messages]
     end
+    if upload_error.nil?
+      upload_error = []
+    end
+    @upload_errors = JSON.parse(@upload.upload_errors)
+    @upload_errors << upload_error
     @upload.upload_errors = @upload_errors.to_json.to_s
     @upload.save
   end
