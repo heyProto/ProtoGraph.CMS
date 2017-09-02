@@ -5,7 +5,15 @@
         <div  class="section" ><%=@folder.name %></div>
 
     </div>
-    <div class="ui huge header"><%= @folder.name %></div>
+    <div class='one-br-space'></div>
+    <div class="ui grid">
+        <div class="left floated three wide column">
+          <span class='ui huge header'><%= @folder.name %></span>
+        </div>
+        <div class="right floated four wide column right aligned">
+          <a id='formAddButton' class='ui primary basic button mini'>Search for a new Stream</a>
+        </div>
+    </div>
     <div class="ui top attached tabular menu">
         <a class="item" href="<%= account_folder_path(@account, @folder) %>">Cards</a>
         <a class="active item" data-tab="second">Streams</a>
@@ -48,9 +56,6 @@
     </div>
 </div>
 
-<button class="circular ui blue icon huge button" id="formAddButton" style="float:right;">
-    <i class="inverted plus icon"></i>
-</button>
 <%= render partial: "streams/form" %>
 
 

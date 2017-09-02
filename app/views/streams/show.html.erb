@@ -78,8 +78,11 @@
                             <%= time_ago_in_words(@stream.last_published_at) %> ago</div>
                     </div>
                 <% end %>
-                <br>
+                <div class='one-br-space'></div>
+                <div class='one-br-space'></div>
                 <br/>
+                <%= link_to "Edit the Stream", "#","data-turbolinks"=> false, id: "formAddButton" %>
+                <div class='one-br-space'></div>
                 <% unless @view_casts.count == 0 %>
                     <%= link_to "Publish the Stream", publish_account_folder_stream_path(@account, @folder, @stream),"data-turbolinks"=> false, class: "ui primary button", method: :post %>
                 <% end %>
@@ -89,9 +92,6 @@
     </div>
 </div>
 
-<button class="circular ui blue icon huge button" id="formAddButton" style="float:right;">
-    <i class="inverted pencil icon"></i>
-</button>
 <%= render partial: "streams/form" %>
 
 

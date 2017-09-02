@@ -159,6 +159,7 @@ class ViewCast < ApplicationRecord
         end
         self.seo_blockquote = self.seo_blockquote.to_s.gsub('\\', '\\\\')
         self.seo_blockquote = self.seo_blockquote.to_s.gsub('`', '\`')
+        self.seo_blockquote = self.seo_blockquote.to_s.gsub('${', '\${')
     end
 
     def after_save_set

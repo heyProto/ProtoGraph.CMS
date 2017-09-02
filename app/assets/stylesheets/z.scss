@@ -304,14 +304,6 @@ label {
     background-image: radial-gradient(45px 45px 45deg, circle cover, red 0%, red 100%, red 95%);
 }
 
-#formAddButton {
-    z-index: 1000;
-    position: fixed;
-    margin: 30px;
-    bottom: 0px;
-    right: 0px;
-}
-
 .one-br-space,.two-br-space,.five-br-space,.ten-br-space,{
   display: inline-block !important;
   width: 100% !important;

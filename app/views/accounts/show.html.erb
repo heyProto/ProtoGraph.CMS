@@ -1,5 +1,12 @@
 <div class="sixteen wide column">
-  <div class='ui huge header'><%= @account.username %></div>
+  <div class="ui grid">
+    <div class="left floated three wide column">
+      <span class='ui huge header'><%= @account.username %></span>
+    </div>
+    <div class="right floated four wide column right aligned">
+      <a id='formAddButton' class='ui primary basic button mini'>Create a new Folder</a>
+    </div>
+  </div>
   <div class='one-br-space'></div>
   <table class="ui very basic table">
     <thead>
@@ -37,9 +44,7 @@
     </tbody>
   </table>
 </div>
-<button class="circular ui blue icon huge button" id="formAddButton" style="float:right;">
-    <i class="inverted plus icon"></i>
-  </button>
+
 <%= render partial: "folders/form" %>
 <script type="text/javascript">
 

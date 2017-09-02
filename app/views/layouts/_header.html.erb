@@ -24,9 +24,6 @@
             </div>
           </div>
           <div class="right menu">
-              <% if @folder.present? and @folder.id.present? %>
-                <div class="item"><%= link_to "Start writing here", new_account_folder_view_cast_path(@account, @folder), "data-turbolinks"=> false %></div>
-              <% end %>
               <div class="ui dropdown pointing item">
                 <%= image_tag avatar_url(@account.gravatar_email), class: "ui avatar image" %>
                 <div class="menu">
