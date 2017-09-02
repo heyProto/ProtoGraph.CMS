@@ -13,21 +13,15 @@
         <i class="right angle icon divider"></i>
         <%=link_to @folder.name, [@account, @folder], class: "section" %>
         <i class="right angle icon divider"></i>
-        <div  class="section" >Show</div>
+        <%= link_to "Cards", account_folder_path(@account, @folder) %>
       </div>
       <div class="ui huge header"><%= @view_cast.name %></div>
       <div class="proto-graph-mode-buttons">
         <div class="ui small basic icon buttons">
-          <% if @view_cast.template_card.git_repo_name == 'ProtoGraph.Card.toSocial' %>
-            <button class="ui button platform_buttons" id='facebook'><i class="facebook square icon"></i></button>
-            <button class="ui button platform_buttons" id='twitter'><i class="twitter square icon"></i></button>
-            <button class="ui button platform_buttons" id='instagram'><i class="instagram square icon"></i></button>
-          <% else %>
-            <button class="ui button platform_buttons" id='laptop'><i class="desktop icon"></i>&nbsp Desktop</button>
-            <button class="ui button platform_buttons" id='mobile'><i class="mobile icon"></i> <%= @view_cast.template_card.git_repo_name == 'ProtoGraph.Card.toSocial' ? "Mobile with Desktop interaction" : "&nbsp Mobile".html_safe %></button>
-            <% if @view_cast.template_card.git_repo_name == 'ProtoGraph.Card.toLink' %>
-              <button class="ui button platform_buttons" id='list'><i class="list icon"></i>&nbsp List</button>
-            <% end %>
+          <button class="ui button platform_buttons" id='laptop'><i class="desktop icon"></i>&nbsp Desktop</button>
+          <button class="ui button platform_buttons" id='mobile'><i class="mobile icon"></i> <%= @view_cast.template_card.git_repo_name == 'ProtoGraph.Card.toQuiz' ? "Mobile with Desktop interaction" : "&nbsp Mobile".html_safe %></button>
+          <% if @view_cast.template_card.git_repo_name == 'ProtoGraph.Card.toLink' %>
+            <button class="ui button platform_buttons" id='list'><i class="list icon"></i>&nbsp List</button>
           <% end %>
         </div>
       </div>
@@ -36,30 +30,25 @@
       </div>
 
       <script src="https://d2m6lzru8erw1k.cloudfront.net/lib/protoGraph.min.js" async></script>
-      <% if @view_cast.template_card.git_repo_name ==  "ProtoGraph.Card.toSocial" %>
-        <%= render partial: "view_casts/to_share", locals: {status: JSON.parse(@view_cast.status), urls: @view_cast.social_urls(@account)} %>
-      <% else %>
-        <div class="proto-graph-code-area">
-          <hr/>
-          <h3 style="text-align: center; margin-bottom: 40px;">Embed the card in your stories</h3>
-          <div class="proto-graph-code-area-title">Option #1 - Responsive SEO friendly iFrame</div>
-          <textarea class="proto-graph-code"  id='responsive-embed-code' readonly><div id="<%= "ProtoCard#{@view_cast.id}" %>"><%= !@view_cast.seo_blockquote.blank? ? @view_cast.seo_blockquote : ''.html_safe %></div><script src="<%= Rails.env.production? ? @account.cdn_endpoint :  "https://d2m6lzru8erw1k.cloudfront.net" %>/lib/protoGraph.min.js" async></script><script type="text/javascript">var <%= "ProtoCard#{@view_cast.id}" %> = setInterval(function(){if (window.ProtoEmbed){clearInterval(<%= "ProtoCard#{@view_cast.id}" %>)};var mode = (window.innerWidth <= 500) ? "mobile" : "laptop";new ProtoEmbed.initFrame(document.getElementById("<%= "ProtoCard#{@view_cast.id}" %>"), "<%= "#{@view_cast.template_card.index_html(@account)}?view_cast_id=#{@view_cast.datacast_identifier}%26schema_id=#{@view_cast.template_datum.s3_identifier}".html_safe %>" , mode)}, 200)</script></textarea>
-          </br>
+      <div class="proto-graph-code-area">
+        <hr/>
+        <h3 style="text-align: center; margin-bottom: 40px;">Embed the card in your stories</h3>
+        <div class="proto-graph-code-area-title">Option #1 - Responsive SEO friendly iFrame</div>
+        <textarea class="proto-graph-code"  id='responsive-embed-code' readonly><div id="<%= "ProtoCard#{@view_cast.id}" %>"><%= !@view_cast.seo_blockquote.blank? ? @view_cast.seo_blockquote : ''.html_safe %></div><script src="<%= Rails.env.production? ? @account.cdn_endpoint :  "https://d2m6lzru8erw1k.cloudfront.net" %>/lib/protoGraph.min.js" async></script><script type="text/javascript">var <%= "ProtoCard#{@view_cast.id}" %> = setInterval(function(){if (window.ProtoEmbed){clearInterval(<%= "ProtoCard#{@view_cast.id}" %>)};var mode = (window.innerWidth <= 500) ? "mobile" : "laptop";new ProtoEmbed.initFrame(document.getElementById("<%= "ProtoCard#{@view_cast.id}" %>"), "<%= "#{@view_cast.template_card.index_html(@account)}?view_cast_id=#{@view_cast.datacast_identifier}%26schema_id=#{@view_cast.template_datum.s3_identifier}".html_safe %>" , mode)}, 200)</script></textarea>
+        </br>
 
-          <div class="proto-graph-code-area-title"> Option #2 - Protograph Wordpress Shortcode</div>
-          <textarea class="proto-graph-code" readonly>[ie-protograph view_cast_id="<%= @view_cast.datacast_identifier %>" schema_id="<%= @view_cast.template_datum.s3_identifier %>" id="<%= "ProtoCard#{@view_cast.id}" %>" frame_id="<%= @view_cast.template_card.s3_identifier %>"]<%= @view_cast.seo_blockquote %>[/ie-protograph]</textarea>
-          </br>
+        <div class="proto-graph-code-area-title"> Option #2 - Protograph Wordpress Shortcode</div>
+        <textarea class="proto-graph-code" readonly>[ie-protograph view_cast_id="<%= @view_cast.datacast_identifier %>" schema_id="<%= @view_cast.template_datum.s3_identifier %>" id="<%= "ProtoCard#{@view_cast.id}" %>" frame_id="<%= @view_cast.template_card.s3_identifier %>"]<%= @view_cast.seo_blockquote %>[/ie-protograph]</textarea>
+        </br>
 
-          <div class="proto-graph-code-area-title">Option #3 - Traditional iFrame for Google AMP pages</div>
-          <textarea class="proto-graph-code amp-iframe" readonly><iframe width="560" height="315" src="<%= "#{@view_cast.template_card.protograph_html(@account)}?view_cast_id=#{@view_cast.datacast_identifier}%26schema_id=#{@view_cast.template_datum.s3_identifier}%26mode=laptop".html_safe %>" frameborder="0" allowfullscreen></iframe></textarea>
+        <div class="proto-graph-code-area-title">Option #3 - Traditional iFrame for Google AMP pages</div>
+        <textarea class="proto-graph-code amp-iframe" readonly><iframe width="560" height="315" src="<%= "#{@view_cast.template_card.protograph_html(@account)}?view_cast_id=#{@view_cast.datacast_identifier}%26schema_id=#{@view_cast.template_datum.s3_identifier}%26mode=laptop".html_safe %>" frameborder="0" allowfullscreen></iframe></textarea>
 
 
-          <div class="proto-graph-code-area-title">Option #4 - SEO friendly iFrame for specific mode</div>
-          <textarea class="proto-graph-code protograph-iframe" readonly><div id="<%= "ProtoCard#{@view_cast.id}" %>"><%= !@view_cast.seo_blockquote.blank? ? @view_cast.seo_blockquote : ''.html_safe %></div><script src="<%= Rails.env.production? ? @account.cdn_endpoint :  "https://d2m6lzru8erw1k.cloudfront.net" %>/lib/protoGraph.min.js" async></script><script type="text/javascript">var <%= "ProtoCard#{@view_cast.id}" %> = setInterval(function(){if (window.ProtoEmbed){clearInterval(<%= "ProtoCard#{@view_cast.id}" %>)};new ProtoEmbed.initFrame(document.getElementById("<%= "ProtoCard#{@view_cast.id}" %>"), "<%= "#{@view_cast.template_card.index_html(@account)}?view_cast_id=#{@view_cast.datacast_identifier}%26schema_id=#{@view_cast.template_datum.s3_identifier}".html_safe %>" , "laptop")}, 200)</script></textarea>
-          </br>
-        </div>
-      <% end %>
-
+        <div class="proto-graph-code-area-title">Option #4 - SEO friendly iFrame for specific mode</div>
+        <textarea class="proto-graph-code protograph-iframe" readonly><div id="<%= "ProtoCard#{@view_cast.id}" %>"><%= !@view_cast.seo_blockquote.blank? ? @view_cast.seo_blockquote : ''.html_safe %></div><script src="<%= Rails.env.production? ? @account.cdn_endpoint :  "https://d2m6lzru8erw1k.cloudfront.net" %>/lib/protoGraph.min.js" async></script><script type="text/javascript">var <%= "ProtoCard#{@view_cast.id}" %> = setInterval(function(){if (window.ProtoEmbed){clearInterval(<%= "ProtoCard#{@view_cast.id}" %>)};new ProtoEmbed.initFrame(document.getElementById("<%= "ProtoCard#{@view_cast.id}" %>"), "<%= "#{@view_cast.template_card.index_html(@account)}?view_cast_id=#{@view_cast.datacast_identifier}%26schema_id=#{@view_cast.template_datum.s3_identifier}".html_safe %>" , "laptop")}, 200)</script></textarea>
+        </br>
+      </div>
 
 
     </div>
@@ -68,17 +57,13 @@
       <div class="card-details">
         <div class="card-details-title">Details</div>
         <div class="sigle-detail">
-          <div class="card-detail-lable">App:</div>
+          <div class="card-detail-lable">Card Type:</div>
           <div class="card-detail-Value"><%= @view_cast.template_card.name %></div>
         </div>
-        <!-- <br> -->
+        <br>
         <div class="sigle-detail">
           <div class="card-detail-lable">Created By:</div>
           <div class="card-detail-Value"><%= @view_cast.creator.name %></div>
-        </div>
-        <div class="sigle-detail">
-          <div class="card-detail-lable">For:</div>
-          <div class="card-detail-Value"><%= @view_cast.account.username %></div>
         </div>
         <div class="sigle-detail">
           <div class="card-detail-lable">On:</div>
@@ -93,9 +78,10 @@
           <div class="card-detail-lable">On:</div>
           <div class="card-detail-Value"><%= @view_cast.updated_at.strftime("%e %b %Y") %></div>
         </div>
+        <br>
         <div class='sigle-detail'>
           <%= simple_form_for([@account, @folder, @view_cast]) do |f|%>
-            <div class="card-detail-lable">Folder:</div>
+            <div class="card-detail-lable">Move to another folder:</div>
             <div class="card-detail-Value"><%= f.input :folder_id, collection: @folders, include_blank: false, label: false %></div>
           <% end %>
         </div>
@@ -110,7 +96,7 @@
   var interval = setInterval(function(){
     if (window.ProtoEmbed) {
       clearInterval(interval);
-      var proto_embed_test = new ProtoEmbed.initFrame(document.getElementById('protoCard'), "<%= "#{@view_cast.template_card.index_html}?view_cast_id=#{@view_cast.datacast_identifier}%26schema_id=#{@view_cast.template_datum.s3_identifier}".html_safe %>" , "<%= @view_cast.template_card.git_repo_name == 'ProtoGraph.Card.toSocial' ? "instagram" : "laptop"  %>");
+      var proto_embed_test = new ProtoEmbed.initFrame(document.getElementById('protoCard'), "<%= "#{@view_cast.template_card.index_html}?view_cast_id=#{@view_cast.datacast_identifier}%26schema_id=#{@view_cast.template_datum.s3_identifier}".html_safe %>" , "laptop");
 
       $('.platform_buttons').on('click', function(event){
         var platform = this.id

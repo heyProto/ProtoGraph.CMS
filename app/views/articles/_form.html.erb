@@ -1,0 +1,18 @@
+<div class='ui grid'>
+    <div class="left floated six wide column">
+        <%= simple_form_for([@account, @folder, @article]) do |f| %>
+            <%= f.input :account_id, as: :hidden, input_html: {value: @account.id} %>
+            <% if @article.id.nil? %>
+                <%= f.input :created_by, as: :hidden, input_html: {value: current_user.id} %>
+            <% end %>
+            <%= f.input :updated_by, as: :hidden, input_html: {value: current_user.id} %>
+            <%= f.input :title %>
+            <%= f.input :summary, as: :string %>
+            <%= f.input :genre %>
+            <%= f.submit "Submit", class: "ui button primary" %>
+        <% end %>
+    </div>
+    <div class="right floated ten wide column">
+        Here comes the preview
+    </div>
+</div>
