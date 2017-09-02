@@ -5,13 +5,23 @@
         <% end %>
         <%= f.input :updated_by, as: :hidden, input_html: {value: current_user.id} %>
     <div class='ui grid'>
-        <div class="left floated six wide column">
-            hi
+        <div class="left floated six wide column" style="background: #fafafa;">
+            <h4>Prepare the article</h4>
+            <h5>Brand images for social media</h5>
         </div>
         <div class="right floated ten wide column">
-            <%= f.input :title %>
-            <%= f.input :summary, as: :string %>
-            <%= f.input :genre %>
+            <div class="ui mini breadcrumb">
+               <%=link_to @account.username, @account, class: "section" %>
+                <i class="right angle icon divider"></i>
+                <%=link_to @folder.name, [@account, @folder], class: "section" %>
+                <i class="right angle icon divider"></i>
+                <%=link_to "Prepare articles", account_folder_articles_path(@account, @folder), class: "section" %>
+            </div>
+            <br/><br/>
+            <%= f.input :url, as: :string, placeholder: "*Copy paste the URL of the story", label: false, required: true %>
+            <%= f.input :genre, placeholder: "Genre of the story e.g. Opinion, Analysis, Wire, Breaking, Exclusive, etc.", label: false %>
+            <%= f.input :title, placeholder: "Copy paste the Title", label: false %>
+            <%= f.input :content, placeholder: "Copy paste the Story...", label: false, input_html: {rows: 30} %>
             <%= f.submit "Save", class: "ui button primary" %>
         </div>
     </div>

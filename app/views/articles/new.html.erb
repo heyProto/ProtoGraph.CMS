@@ -1,8 +1,1 @@
-<div class="ui mini breadcrumb">
-   <%=link_to @account.username, @account, class: "section" %>
-    <i class="right angle icon divider"></i>
-    <%=link_to @folder.name, [@account, @folder], class: "section" %>
-    <i class="right angle icon divider"></i>
-    <%=link_to "Prepare articles", account_folder_articles_path(@account, @folder), class: "section" %>
-</div>
 <%= render partial: "articles/form" %>
