@@ -21,10 +21,10 @@
             <%= f.input :url, as: :string, placeholder: "*Copy paste the URL of the story", label: false, required: true %>
             <%= f.input :genre, placeholder: "Genre of the story e.g. Opinion, Analysis, Wire, Breaking, Exclusive, etc.", label: false %>
             <%= f.input :title, placeholder: "Copy paste the Title", label: false %>
-            <%= f.input :content, placeholder: "Copy paste the Story...", label: false, input_html: {rows: 30} %>
             <%= f.fields_for @article.cover_image do |cover_image| %>
                 <%= cover_image.input :image %>
             <% end %>
+            <%= f.input :content, placeholder: "Copy paste the Story...", label: false, input_html: {rows: 30} %>
             <%= f.submit "Save", class: "ui button primary" %>
         </div>
     </div>
