@@ -5,8 +5,8 @@
   </div>
   <div class="content">
     <%= simple_form_for [@account, @folder] do |f| %>
-      <%= f.input :name %>
-      <%= f.button :submit, class: "ui primary button" %>
+      <%= f.input :name, required: true %>
+      <%= f.button :submit, "Save", class: "ui primary button" %>
     <% end %>
   </div>
 </div>

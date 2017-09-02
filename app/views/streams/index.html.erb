@@ -1,9 +1,6 @@
 <div style='width:100%; box-sizing: border-box'>
     <div class="ui mini breadcrumb">
         <%=link_to @account.username, @account, class: "section" %>
-        <i class="right angle icon divider"></i>
-        <div  class="section" ><%=@folder.name %></div>
-
     </div>
     <div class='one-br-space'></div>
     <div class="ui grid">
@@ -26,29 +23,32 @@
                 <!-- Replace the image with  Create a new Stream-->
             <% else %>
                 <table class="ui very basic table">
-                    <!-- <thead>
-                        <tr>
-                            <th>Name</th>
-                            <th>No. of Cards</th>
-                            <th>Last modified at</th>
-                            <th>Created by</th>
-                        </tr>
-                    </thead> -->
+                   <thead>
+      <tr>
+        <th>Name</th>
+        <th># Cards</th>
+        <th class="collapsing">Last modified at</th>
+        <th>by</th>
+      </tr>
+    </thead>
                     <tbody>
                       <% @streams.each do |stream| %>
                         <% if stream.id.present? %>
                             <tr>
                                 <td>
-                                    <i class='icon folder steelblue'></i>
+
+
+
+                                    <i class='icon newspaper black'></i>
                                     <%= link_to stream.title.titleize, [@account, @folder, stream] %>
                                 </td>
                                 <td>
-                                    <%= "#{stream.card_count} #{'card'.pluralize(stream.card_count)}" %>
+                                    <%= "#{stream.card_count} <span class='hint'>#{'card'.pluralize(stream.card_count)}</span>".html_safe %>
                                 </td>
-                                <td>
+                                <td class="hint">
                                     <%= "#{time_ago_in_words(stream.updated_at)} ago" %>
                                 </td>
-                                <td>
+                                <td class="hint collapsing">
                                     <%= stream.creator.name %>
                                 </td>
                                 </td>

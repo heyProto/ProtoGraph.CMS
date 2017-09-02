@@ -118,4 +118,15 @@
   left: 50%;
   transform: translate(-50%,-50%);
 }
+.list-inline {
+  padding-left: 0;
+}
+
+.list-inline > li {
+  list-style: none;
+}
+
+.btn.btn-info.btn-now, .btn.btn-warning.btn-clear {
+  display: none;
+}
 /*# sourceMappingURL=master-style.css.map */
