@@ -55,6 +55,8 @@ Rails.application.routes.draw do
         post :publish, on: :member
         resources :stream_entities, only: [:create, :destroy]
       end
+
+      resources :articles
     end
 
     resources :images, only: [:index, :create, :show]

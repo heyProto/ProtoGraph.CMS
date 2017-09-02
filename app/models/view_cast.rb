@@ -15,7 +15,7 @@
 #  created_at            :datetime         not null
 #  updated_at            :datetime         not null
 #  seo_blockquote        :text(65535)
-#  render_screenshot_url :text(65535)
+#  render_screenshot_key :text(65535)
 #  status                :text(65535)
 #  folder_id             :integer
 #  is_invalidating       :boolean
@@ -24,7 +24,6 @@
 class ViewCast < ApplicationRecord
     #CONSTANTS
     Datacast_ENDPOINT = "#{ENV['AWS_S3_ENDPOINT']}"
-    Platforms = ['facebook', 'twitter', 'instagram']
     #CUSTOM TABLES
     #GEMS
     extend FriendlyId
@@ -166,11 +165,6 @@ class ViewCast < ApplicationRecord
         if self.saved_changes? and !self.stop_callback
             Thread.new do
                 sleep 1
-                if self.template_card.git_repo_name == 'ProtoGraph.Card.toSocial'
-                    ViewCast::Platforms.each do |mode|
-                        self.save_png(mode)
-                    end
-                end
                 self.save_png
                 ActiveRecord::Base.connection.close
             end
