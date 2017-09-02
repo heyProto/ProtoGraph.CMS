@@ -23,16 +23,17 @@
 
 class Article < ApplicationRecord
     #CONSTANTS
+
+    #ASSOCIATIONS
+    belongs_to :folder
+    has_one :cover_image, class_name: "Image", primary_key: "cover_image_id", foreign_key: "id"
+    has_one :twitter_image_variation, class_name: "ImageVariation", foreign_key: "twitter_image_variation_id"
+    has_one :og_image_variation, class_name: "ImageVariation", foreign_key: "og_image_variation_id"
     #GEMS
     include Associable
     extend FriendlyId
     friendly_id :title, use: :slugged
-
-    #ASSOCIATIONS
-    belongs_to :folder
-    has_one :cover_image, class_name: "Image", foreign_key: "cover_image_id"
-    has_one :twitter_image_variation, class_name: "ImageVariation", foreign_key: "twitter_image_variation_id"
-    has_one :og_image_variation, class_name: "ImageVariation", foreign_key: "og_image_variation_id"
+    accepts_nested_attributes_for :cover_image
 
     #ACCESSORS
     #VALIDATIONS

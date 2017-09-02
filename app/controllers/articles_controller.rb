@@ -18,7 +18,8 @@ class ArticlesController < ApplicationController
     end
 
     def new
-        @article = @folder.articles.new()
+        @article = @folder.articles.new
+        @article.build_cover_image
     end
 
     def show
@@ -35,7 +36,7 @@ class ArticlesController < ApplicationController
     private
 
     def article_params
-        params.require(:article).permit(:account_id, :folder_id, :title)
+        params.require(:article).permit(:account_id, :folder_id, :title, :summary, :content, :genre, :url, :created_by, :updated_by, cover_image: [:image])
     end
 
     def set_article
