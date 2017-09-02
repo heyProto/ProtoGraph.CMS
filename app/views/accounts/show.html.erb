@@ -12,10 +12,11 @@
     <thead>
       <tr>
         <th>Name</th>
-        <th>No. of Cards</th>
-        <th>Last modified at</th>
-        <th>Created by</th>
-        <th></th>
+        <th># Cards</th>
+        <th># Streams</th>
+        <th class="collapsing">Last modified at</th>
+        <th>by</th>
+        <th class="collapsing"></th>
       </tr>
     </thead>
     <tbody>
@@ -26,16 +27,20 @@
               <i class='icon folder steelblue'></i>
               <%= link_to folder.name.titleize, [@account, folder] %>
             </td>
+
             <td>
-              <%= "#{folder.view_casts.count} #{'card'.pluralize(folder.view_casts.count)}" %>
+              <%= "#{folder.view_casts.count} <span class='hint'>#{'card'.pluralize(folder.view_casts.count)}</span>".html_safe %>
             </td>
             <td>
+              <%= "#{folder.streams.count} <span class='hint'>#{'stream'.pluralize(folder.streams.count)}</span>".html_safe %>
+            </td>
+            <td class="hint">
               <%= "#{time_ago_in_words(folder.updated_at)} ago" %>
             </td>
-            <td>
-              <%= folder.creator.name %>
+            <td class="hint collapsing">
+              <%= folder.updator.name %>
             </td>
-            <td  class='right aligned'>
+            <td  class='hint'>
               <%= link_to "Edit", edit_account_folder_path(@account, folder) %>
             </td>
           </tr>

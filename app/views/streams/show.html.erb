@@ -42,29 +42,6 @@
         <div class="four wide column">
             <div class="card-details">
                 <div class="card-details-title">Details</div>
-                <div class="sigle-detail">
-                    <div class="card-detail-lable">Folders:</div>
-                    <br>
-                    <ul class="card-detail-Value">
-                        <% @folders.each do |folder| %>
-                            <li>
-                                <%= folder.name %>
-                            </li>
-                        <% end %>
-                    </ul>
-                </div>
-                <!-- <br> -->
-                <div class="sigle-detail">
-                    <div class="card-detail-lable">Cards:</div>
-                    <br>
-                    <ul class="card-detail-Value">
-                        <% @template_cards.each do |card| %>
-                            <li>
-                                <%= card.name %>
-                            </li>
-                        <% end %>
-                    </ul>
-                </div>
                 <% if @stream.last_published_at and @view_casts.count > 0 %>
                     <div class="sigle-detail">
                         <div class="card-detail-lable">URL:</div>
@@ -78,10 +55,12 @@
                             <%= time_ago_in_words(@stream.last_published_at) %> ago</div>
                     </div>
                 <% end %>
-                <div class='one-br-space'></div>
-                <div class='one-br-space'></div>
                 <br/>
                 <%= link_to "Edit the Stream", "#","data-turbolinks"=> false, id: "formAddButton" %>
+
+
+                <br/>
+
                 <div class='one-br-space'></div>
                 <% unless @view_casts.count == 0 %>
                     <%= link_to "Publish the Stream", publish_account_folder_stream_path(@account, @folder, @stream),"data-turbolinks"=> false, class: "ui primary button", method: :post %>
