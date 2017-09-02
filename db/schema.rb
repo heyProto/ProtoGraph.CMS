@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170831110556) do
+ActiveRecord::Schema.define(version: 20170901092756) do
 
   create_table "accounts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "username"
@@ -168,8 +168,8 @@ ActiveRecord::Schema.define(version: 20170831110556) do
     t.string "order_by_value"
     t.integer "limit"
     t.integer "offset"
-    t.index ["description"], name: "index_streams_on_description", length: { description: 10 }
-    t.index ["title"], name: "index_streams_on_title"
+    t.index ["description"], name: "index_streams_on_description", type: :fulltext
+    t.index ["title"], name: "index_streams_on_title", type: :fulltext
   end
 
   create_table "taggings", id: :integer, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -245,7 +245,6 @@ ActiveRecord::Schema.define(version: 20170831110556) do
     t.bigint "template_card_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.text "validation_errors"
     t.bigint "account_id"
     t.bigint "folder_id"
     t.integer "created_by"
