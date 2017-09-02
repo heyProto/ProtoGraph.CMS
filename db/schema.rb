@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170902091142) do
+ActiveRecord::Schema.define(version: 20170902125954) do
 
   create_table "accounts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "username"
@@ -38,7 +38,7 @@ ActiveRecord::Schema.define(version: 20170902091142) do
     t.integer "folder_id"
     t.integer "cover_image_id"
     t.string "title"
-    t.text "description"
+    t.text "summary"
     t.text "content"
     t.string "genre"
     t.text "og_image_variation_id"
@@ -49,6 +49,7 @@ ActiveRecord::Schema.define(version: 20170902091142) do
     t.integer "updated_by"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.text "url"
   end
 
   create_table "authentications", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
