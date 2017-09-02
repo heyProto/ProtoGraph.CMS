@@ -19,6 +19,7 @@
 #  created_at                 :datetime         not null
 #  updated_at                 :datetime         not null
 #  url                        :text(65535)
+#  slug                       :string(255)
 #
 
 class Article < ApplicationRecord

@@ -10,6 +10,7 @@ class ArticlesController < ApplicationController
         @article = @folder.articles.new(article_params)
         @article.created_by = current_user.id
         @article.updated_by = current_user.id
+        ss
         if @article.save
             redirect_to account_folder_article_path(@account, @folder, @article), notice: t('cs')
         else
