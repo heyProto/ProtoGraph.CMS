@@ -41,6 +41,11 @@
         </div>
         <div class="four wide column">
             <div class="card-details">
+                <% unless @view_casts.count == 0 %>
+                    <%= link_to "Publish the Stream", publish_account_folder_stream_path(@account, @folder, @stream),"data-turbolinks"=> false, class: "ui green button", method: :post %>
+                <% end %>
+                <br/>
+                <div class='one-br-space'></div>
                 <div class="card-details-title">Details</div>
                 <% if @stream.last_published_at and @view_casts.count > 0 %>
                     <div class="sigle-detail">
@@ -50,22 +55,41 @@
                         </div>
                     </div>
                     <div class="sigle-detail">
-                        <div class="card-detail-lable">Last Publised at:</div>
+                        <div class="card-detail-lable">Last publised at:</div>
                         <div class="card-detail-Value">
                             <%= time_ago_in_words(@stream.last_published_at) %> ago</div>
                     </div>
+                    <div class="sigle-detail">
+                        <div class="card-detail-lable"># of cards in this stream:</div>
+                        <div class="card-detail-Value">
+                            <%= @view_casts.count %> </div>
+                    </div>
                 <% end %>
                 <br/>
+                <div class="sigle-detail">
+          <div class="card-detail-lable">Created By:</div>
+          <div class="card-detail-Value"><%= @stream.creator.name %></div>
+        </div>
+        <div class="sigle-detail">
+          <div class="card-detail-lable">On:</div>
+          <div class="card-detail-Value"><%= @stream.created_at.strftime("%e %b %Y") %></div>
+        </div>
+        <br>
+        <div class="sigle-detail">
+          <div class="card-detail-lable">Updated By:</div>
+          <div class="card-detail-Value"><%= @stream.updator.name %></div>
+        </div>
+        <div class="sigle-detail">
+          <div class="card-detail-lable">On:</div>
+          <div class="card-detail-Value"><%= @stream.updated_at.strftime("%e %b %Y") %></div>
+        </div>
+        <br/>
+
                 <%= link_to "Edit the Stream", "#","data-turbolinks"=> false, id: "formAddButton" %>
 
 
                 <br/>
 
-                <div class='one-br-space'></div>
-                <% unless @view_casts.count == 0 %>
-                    <%= link_to "Publish the Stream", publish_account_folder_stream_path(@account, @folder, @stream),"data-turbolinks"=> false, class: "ui green button", method: :post %>
-                <% end %>
-                <br/>
             </div>
         </div>
     </div>
