@@ -6,8 +6,9 @@
     <%= f.input :updated_by, as: :hidden, input_html: {value: current_user.id} %>
     <div class='ui grid'>
         <div class="left floated six wide column" style="background: #fafafa;">
-            <h4>Prepare the article</h4>
-            <h5>Brand images for social media</h5>
+            <h3>Prepare the article</h3>
+            <h4>Tags</h4>
+            <h4>Brand images for social media</h4>
         </div>
         <div class="right floated ten wide column">
             <div class="ui mini breadcrumb">
@@ -21,10 +22,23 @@
             <%= f.input :url, as: :string, placeholder: "*Copy paste the URL of the story", label: false, required: true %>
             <%= f.input :genre, placeholder: "Genre of the story e.g. Opinion, Analysis, Wire, Breaking, Exclusive, etc.", label: false %>
             <%= f.input :title, placeholder: "Copy paste the Title", label: false %>
-            <%= f.fields_for @article.cover_image do |cover_image| %>
-                <%= cover_image.input :image %>
-            <% end %>
-            <%= f.input :content, placeholder: "Copy paste the Story...", label: false, input_html: {rows: 30} %>
+            <table>
+                <tr>
+                    <td><%= image_tag "cover.png", width: "35px;" %></td>
+                    <td>&nbsp;</td>
+                    <td>
+                        <%= f.fields_for @article.cover_image do |cover_image| %>
+                            <%= cover_image.input :image, label: false %>
+                        <% end %>
+                    </td>
+                    <td class="hint">&nbsp; Upload cover image</td>
+                </tr>
+            </table>
+            <br/>
+
+
+
+            <%= f.input :content, placeholder: "Copy paste the Story...", label: false, input_html: {rows: 24} %>
             <%= f.submit "Save", class: "ui button primary" %>
         </div>
     </div>
