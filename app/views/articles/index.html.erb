@@ -1,11 +1,4 @@
 <div style='width:100%; box-sizing: border-box'>
-    <div class="ui mini breadcrumb">
-        <%=link_to @account.username, @account, class: "section" %>
-        <i class="right angle icon divider"></i>
-        <div  class="section" ><%=@folder.name %></div>
-
-    </div>
-    <div class='one-br-space'></div>
     <div class="ui grid">
         <div class="left floated three wide column">
           <span class='ui huge header'><%= @folder.name %></span>
@@ -17,7 +10,7 @@
     <div class="ui top attached tabular menu">
         <a class="item" href="<%= account_folder_path(@account, @folder) %>">Cards</a>
         <a class="item" data-tab="third">Streams</a>
-        <a class="active item" href="<%= account_folder_articles_path(@account, @folder) %>">Package Articles</a>
+        <a class="active item" href="<%= account_folder_articles_path(@account, @folder) %>">Prepare articles</a>
     </div>
     <div class='card-parent-class'>
         <div class="ui bottom active tab" data-tab="third">
