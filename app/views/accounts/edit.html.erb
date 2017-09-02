@@ -4,6 +4,30 @@
   <%= simple_form_for @account do |f| %>
   <%= f.error_notification %>
   <div class="form-inputs">
+    <% if current_user.is_admin_from_pykih and 1 == 2 %>
+          <div class="ui message">
+            <h4>CDN Configuration</h4>
+            <p class="hint">Configure your own CDN. Keep it blank to use default configurations.</p>
+            <%= f.input :cdn_provider,as: :select, collection: ["CloudFront","Akamai"], include_blank: false %>
+            <%= f.input :cdn_id, input_html: {value: (@account.cdn_id == ENV['AWS_CDN_ID'] and @account.cdn_endpoint == ENV["AWS_S3_ENDPOINT"])  ? "" : @account.cdn_id}, label: "CDN Identifier", hint: "Keep blank if using Akamai." %>
+            <%= f.input :cdn_endpoint, as: :string, input_html: {value: (@account.cdn_id == ENV['AWS_CDN_ID'] and @account.cdn_endpoint == ENV["AWS_S3_ENDPOINT"]) ? "" : @account.cdn_endpoint}, label: "CDN Endpoint", hint: "It should be in the format of https://cdn.protograph.pykih.com. Please do not include the trailing backslash." %>
+            <%= f.input :host, input_html: {value: (@account.cdn_id == ENV['AWS_CDN_ID'] and @account.cdn_endpoint == ENV["AWS_S3_ENDPOINT"]) ? "" : @account.host}, as: :string, label: "Host" %>
+            <%= f.input :client_token, input_html: {value: (@account.cdn_id == ENV['AWS_CDN_ID'] and @account.cdn_endpoint == ENV["AWS_S3_ENDPOINT"])? "" : @account.client_token},hint: "Used as Aws Client Access ID for cloudfront."  %>
+            <%= f.input :client_secret, input_html: {value: @account.cdn_id == ENV['AWS_CDN_ID'] ? "" : @account.client_secret}, hint: "Used as Aws Secret Access Key for cloudfront." %>
+            <%= f.input :access_token, input_html: {value: @account.cdn_id == ENV['AWS_CDN_ID'] ? "" : @account.access_token}, hint: "Keep blank if using cloudfront." %>
+          </div>
+    <% else %>
+          <% if @account.cdn_id == ENV['AWS_CDN_ID'] and @account.cdn_endpoint == ENV["AWS_S3_ENDPOINT"] %>
+          <div class="ui negative message">
+            <h4>Pending CDN Configuration</h4>
+            <p>Currently, your embeds are running of Pykih's sandbox CDN that is suitable only for testing. Unless explicitly activated, it wont not scale to handle traffic on a live news site. To activate ProtoGraph for live site use, set up your own CDN (Akamai or AWS CloudFront) and point it to <i>protograph.yoursite.com</i> and provide us with tokens and purge API end points.</p>
+            <p>Please contact us at <%=mail_to "ritvvij.parrikh@pykih.com" %>.</p>
+          </div>
+        <% else %>
+          <p>You are using a <%= @account.cdn_provider %> CDN. The endpoint is <%= @account.cdn_endpoint %>.</p>
+        <% end %>
+    <% end %>
+    <br/>
     <div class="ui message">
       <h4>How do you want members to sign up?</h4>
       <p class="hint">Choose to make your team signup process invitation only, or allow anyone with a certain email address format to sign up.</p>
@@ -12,29 +36,7 @@
     </div>
     <br/>
 
-    <div class="ui message">
-      <h4>CDN Configuration</h4>
-      <% if current_user.is_admin_from_pykih %>
-        <p class="hint">Configure your own CDN. Keep it blank to use default configurations.</p>
-        <%= f.input :cdn_provider,as: :select, collection: ["CloudFront","Akamai"], include_blank: false %>
-        <%= f.input :cdn_id, input_html: {value: (@account.cdn_id == ENV['AWS_CDN_ID'] and @account.cdn_endpoint == ENV["AWS_S3_ENDPOINT"])  ? "" : @account.cdn_id}, label: "CDN Identifier", hint: "Keep blank if using Akamai." %>
-        <%= f.input :cdn_endpoint, as: :string, input_html: {value: (@account.cdn_id == ENV['AWS_CDN_ID'] and @account.cdn_endpoint == ENV["AWS_S3_ENDPOINT"]) ? "" : @account.cdn_endpoint}, label: "CDN Endpoint", hint: "It should be in the format of https://cdn.protograph.pykih.com. Please do not include the trailing backslash." %>
-        <%= f.input :host, input_html: {value: (@account.cdn_id == ENV['AWS_CDN_ID'] and @account.cdn_endpoint == ENV["AWS_S3_ENDPOINT"]) ? "" : @account.host}, as: :string, label: "Host" %>
-        <%= f.input :client_token, input_html: {value: (@account.cdn_id == ENV['AWS_CDN_ID'] and @account.cdn_endpoint == ENV["AWS_S3_ENDPOINT"])? "" : @account.client_token},hint: "Used as Aws Client Access ID for cloudfront."  %>
-        <%= f.input :client_secret, input_html: {value: @account.cdn_id == ENV['AWS_CDN_ID'] ? "" : @account.client_secret}, hint: "Used as Aws Secret Access Key for cloudfront." %>
-        <%= f.input :access_token, input_html: {value: @account.cdn_id == ENV['AWS_CDN_ID'] ? "" : @account.access_token}, hint: "Keep blank if using cloudfront." %>
-      <% else %>
-        <% if @account.cdn_id == ENV['AWS_CDN_ID'] and @account.cdn_endpoint == ENV["AWS_S3_ENDPOINT"] %>
-          <div class="ui negative message">
-            <p>You are required to setup your own CDN either using AWS CloudFront or Akamai that points to a URL protograph.yoursite.com. To finish this configuration, please contact us at ritvvij.parrikh@pykih.com. Without this configuration, your stories (Quiz, Timeline, etc.) will not handle high traffic.</p>
-          </div>
-        <% else %>
-          <p>You are using a <%= @account.cdn_provider %> CDN. The endpoint is <%= @account.cdn_endpoint %>.</p>
-        <% end %>
-      <% end %>
 
-    </div>
-    <br/>
 
 
     <div class="ui message">
