@@ -7,7 +7,7 @@
 #  folder_id                  :integer
 #  cover_image_id             :integer
 #  title                      :string(255)
-#  description                :text(65535)
+#  summary                    :text(65535)
 #  content                    :text(65535)
 #  genre                      :string(255)
 #  og_image_variation_id      :text(65535)
@@ -18,6 +18,7 @@
 #  updated_by                 :integer
 #  created_at                 :datetime         not null
 #  updated_at                 :datetime         not null
+#  url                        :text(65535)
 #
 
 class Article < ApplicationRecord
@@ -29,7 +30,7 @@ class Article < ApplicationRecord
 
     #ASSOCIATIONS
     belongs_to :folder
-    has_one :cover_image
+    has_one :cover_image, class_name: "Image", foreign_key: "cover_image_id"
     has_one :twitter_image_variation, class_name: "ImageVariation", foreign_key: "twitter_image_variation_id"
     has_one :og_image_variation, class_name: "ImageVariation", foreign_key: "og_image_variation_id"
 
@@ -42,6 +43,10 @@ class Article < ApplicationRecord
 
     def should_generate_new_friendly_id?
         title_changed?
+    end
+
+    def cover_image_variation
+        cover_image.original_image
     end
 
     #PRIVATE
