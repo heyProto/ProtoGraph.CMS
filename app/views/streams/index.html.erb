@@ -20,38 +20,43 @@
     </div>
     <div class='card-parent-class'>
         <div class="ui bottom active tab" data-tab="second">
-            <table class="ui very basic table">
-                <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>No. of Cards</th>
-                        <th>Last modified at</th>
-                        <th>Created by</th>
-                    </tr>
-                </thead>
-                <tbody>
-                  <% @streams.each do |stream| %>
-                    <% if stream.id.present? %>
+            <% if @streams.first.blank? or @streams.first.id.nil? %>
+                <%= image_tag "option-2.png" %>
+                <!-- Replace the image with  Create a new Stream-->
+            <% else %>
+                <table class="ui very basic table">
+                    <!-- <thead>
                         <tr>
-                            <td>
-                                <i class='icon folder steelblue'></i>
-                                <%= link_to stream.title.titleize, [@account, @folder, stream] %>
-                            </td>
-                            <td>
-                                <%= "#{stream.card_count} #{'card'.pluralize(stream.card_count)}" %>
-                            </td>
-                            <td>
-                                <%= "#{time_ago_in_words(stream.updated_at)} ago" %>
-                            </td>
-                            <td>
-                                <%= stream.creator.name %>
-                            </td>
-                            </td>
+                            <th>Name</th>
+                            <th>No. of Cards</th>
+                            <th>Last modified at</th>
+                            <th>Created by</th>
                         </tr>
-                    <% end %>
-                  <% end %>
-                </tbody>
-              </table>
+                    </thead> -->
+                    <tbody>
+                      <% @streams.each do |stream| %>
+                        <% if stream.id.present? %>
+                            <tr>
+                                <td>
+                                    <i class='icon folder steelblue'></i>
+                                    <%= link_to stream.title.titleize, [@account, @folder, stream] %>
+                                </td>
+                                <td>
+                                    <%= "#{stream.card_count} #{'card'.pluralize(stream.card_count)}" %>
+                                </td>
+                                <td>
+                                    <%= "#{time_ago_in_words(stream.updated_at)} ago" %>
+                                </td>
+                                <td>
+                                    <%= stream.creator.name %>
+                                </td>
+                                </td>
+                            </tr>
+                        <% end %>
+                      <% end %>
+                    </tbody>
+                </table>
+            <% end %>
         </div>
     </div>
 </div>

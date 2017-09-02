@@ -42,10 +42,18 @@ users.each do |a|
   c.save
   Permission.create({ref_role_slug: "owner", account_id: icfj_account.id, user_id: c.id, created_by: c.id,updated_by: c.id})
 end
+user_id = User.first.id
+
+folder = Folder.create({
+  account_id: icfj_account.id,
+  name: "Sample Project",
+  created_by: user_id,
+  updated_by: user_id
+})
+
 
 
 puts "----> Creating Template Datum"
-user_id = User.first.id
 t_explain = TemplateDatum.create({name: "toExplain", version: "0.0.1", s3_identifier: "2e804dc00b362f24"})
 t_share = TemplateDatum.create({name: "toSocial", version: "0.0.1", s3_identifier: "9701121472ab331a"})
 t_quiz = TemplateDatum.create({name: "toQuiz", version: "0.0.1", s3_identifier: "0eec77701464"})

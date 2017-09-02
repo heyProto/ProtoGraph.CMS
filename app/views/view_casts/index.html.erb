@@ -1,12 +1,3 @@
-<% if @view_casts.first.blank? %>
-
-<div class="ui sixteen grid" style="width: 980px; margin-left: auto; margin-right: auto; margin-top: 100px; margin-bottom: 400px; padding-left: 30px;">
-
-    <%= image_tag "option-2.png" %>
-
-</div>
-
-<% else %>
 <div style='width:100%; box-sizing: border-box'>
     <div class="ui mini breadcrumb">
         <%=link_to @account.username, @account, class: "section" %>
@@ -28,26 +19,30 @@
     </div>
     <div class='card-parent-class'>
         <div class="ui bottom active tab" data-tab="second">
-            <% @view_casts.each do |d| %>
-                <div class="column proto-graph-card-div">
-                    <%= link_to [@account, @folder,d], "data-turbolinks"=> false do %>
-                        <div class="proto-graph-card">
-                            <img class="index-card-image" src="<%= d.render_screenshot_url(true) %>" width="100%" alt="<%= d.name %>">
-                            <!-- <div class="proto-card-highlight-gradient"></div> -->
-                            <div class="proto-card-gradient">
-                                <div class="index-card-content">
-                                    <div class="index-card-title">
-                                        <%= d.name %>
-                                    </div>
-                                    <div class="index-card-created-by"><%= image_tag avatar_url(d.updator.email), width: "100%" %></div>
-                                    <div class="index-card-extra-info">
-                                        <%= d.template_card.name %>  |  <%= time_ago_in_words(d.updated_at) %>
+            <% if @view_casts.first.blank? %>
+                <%= image_tag "option-2.png" %>
+            <% else %>
+                <% @view_casts.each do |d| %>
+                    <div class="column proto-graph-card-div">
+                        <%= link_to [@account, @folder,d], "data-turbolinks"=> false do %>
+                            <div class="proto-graph-card">
+                                <img class="index-card-image" src="<%= d.render_screenshot_url(true) %>" width="100%" alt="<%= d.name %>">
+                                <!-- <div class="proto-card-highlight-gradient"></div> -->
+                                <div class="proto-card-gradient">
+                                    <div class="index-card-content">
+                                        <div class="index-card-title">
+                                            <%= d.name %>
+                                        </div>
+                                        <div class="index-card-created-by"><%= image_tag avatar_url(d.updator.email), width: "100%" %></div>
+                                        <div class="index-card-extra-info">
+                                            <%= d.template_card.name %>  |  <%= time_ago_in_words(d.updated_at) %>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    <% end %>
-                </div>
+                        <% end %>
+                    </div>
+                <% end %>
             <% end %>
         </div>
     </div>
@@ -55,4 +50,3 @@
 
 </br>
 <%= paginate @view_casts %>
-<% end %>
