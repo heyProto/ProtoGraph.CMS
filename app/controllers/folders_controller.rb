@@ -11,6 +11,7 @@ class FoldersController < ApplicationController
 
   def edit
     @folders = @account.folders
+    @accounts = current_user.accounts
     @open_modal = true
     render "accounts/show"
   end
