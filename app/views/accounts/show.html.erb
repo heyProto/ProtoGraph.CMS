@@ -10,17 +10,19 @@
         <% end %>
       </div>
   </div>
+  <div class="eleven wide column" style="background: white;">
+    <%= render partial: "activities/index" %>
+  </div>
   <div class="four wide column">
       <h4>Folders</h4>
       <div class="ui very relaxed divided list">
         <% @folders.each do |folder| %>
             <div class="item">
-              <i class="large folder middle aligned icon"></i>
               <div class="content" style="width: 100% !important;">
                 <div class="right floated content">
                 <%= link_to "Edit", edit_account_folder_path(@account, folder), class: "hint" %>
               </div>
-                <%= link_to folder.name.titleize, [@account, folder], class: "header", style: "font-size: 1.1em; margin-bottom: 6px;" %>
+                <%= link_to folder.name.titleize, [@account, folder], class: "header", style: "font-size: 0.9em; margin-bottom: 6px;" %>
                 <p style="font-size: 11px; color: black; margin-bottom: 0px;">
                   <%= "#{folder.view_casts.count} <span class='hint'>#{'card'.pluralize(folder.view_casts.count)}</span>".html_safe %>.
                   <%= "#{folder.streams.count} <span class='hint'>#{'stream'.pluralize(folder.streams.count)}</span>".html_safe %>.
