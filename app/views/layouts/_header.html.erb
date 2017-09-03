@@ -51,7 +51,7 @@
       <div class="ui dropdown pointing item">
         <%= image_tag avatar_url(current_user.email), class: "ui avatar image" %>
         <div class="menu">
-          <%= link_to 'Your teams', accounts_path, class: "item" %>
+          <%= link_to 'Switch teams', accounts_path, class: "item" %>
           <div class="divider"></div>
           <%= link_to 'Profile', edit_user_registration_path(@account), class: "item" %>
           <%= link_to "Sign out", destroy_user_session_path, class: "item" %>
@@ -64,7 +64,7 @@
       <div class="ui dropdown pointing item">
         <%= image_tag avatar_url(current_user.email), class: "ui avatar image" %>
         <div class="menu">
-          <%= link_to 'Your teams', accounts_path, class: "item" %>
+          <%= link_to 'Switch teams', accounts_path, class: "item" %>
           <div class="divider"></div>
           <%= link_to 'Profile', edit_user_registration_path(@account), class: "item" %>
           <%= link_to "Sign out", destroy_user_session_path, class: "item" %>
