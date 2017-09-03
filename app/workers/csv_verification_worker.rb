@@ -20,7 +20,6 @@ class CsvVerificationWorker
       end
       row_number += 1
     end
-    schema = JSON.parse(RestClient.get(@upload.template_card.template_datum.schema_json))
     @upload.upload_errors = "[]"
     @upload.filtering_errors = filtering_errors.to_json.to_s
     @upload.save
@@ -50,7 +49,7 @@ class CsvVerificationWorker
       r = Api::ProtoGraph::Datacast.create(payload)
       if r.has_key?("errorMessage")
         view_cast.destroy
-        upload_error = [row_number, JSON.parse(r['errorMessage'])]
+        upload_error = [row_number, r['errorMessage']]
       end
     else
       upload_error =  [row_number, view_cast.errors.full_messages]
@@ -63,7 +62,7 @@ class CsvVerificationWorker
     @upload.upload_errors = upload_errors.to_json.to_s
     @upload.save
   end
-  
+
   def all_params(card_data)
     name, seo_blockquote_text = get_view_cast_details(card_data)
     {
