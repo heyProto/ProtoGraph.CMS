@@ -10,11 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-<<<<<<< HEAD
 ActiveRecord::Schema.define(version: 20170908053542) do
-=======
-ActiveRecord::Schema.define(version: 20170901122914) do
->>>>>>> Adds uniqueness on db level for slugs, card upload and verification in same woker
 
   create_table "accounts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "username"
@@ -339,10 +335,7 @@ ActiveRecord::Schema.define(version: 20170901122914) do
     t.text "render_screenshot_key"
     t.text "status"
     t.integer "folder_id"
-<<<<<<< HEAD
     t.boolean "is_invalidating"
-=======
->>>>>>> Adds uniqueness on db level for slugs, card upload and verification in same woker
     t.index ["slug"], name: "index_view_casts_on_slug", unique: true
   end
 
