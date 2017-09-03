@@ -4,6 +4,7 @@ class FoldersController < ApplicationController
 
   def show
     @view_casts = @folder.view_casts.order(updated_at: :desc).page(params[:page]).per(9)
+    @is_viewcasts_present = @view_casts.count != 0
     @streams = @folder.streams.order(updated_at: :desc)
     @articles = @folder.articles.order(updated_at: :desc)
   end

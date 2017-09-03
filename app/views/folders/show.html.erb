@@ -11,15 +11,17 @@
     <div class='five wide column'>
       <h4>
         Streams
-        <span style="float: right;text-align: right">
-          <%= link_to '<i class="plus icon"></i>'.html_safe, new_account_folder_stream_path(@account, @folder) %>
-        </span>
+        <% if @is_viewcasts_present %>
+            <span style="float: right;text-align: right">
+              <%= link_to '<i class="plus icon"></i>'.html_safe, new_account_folder_stream_path(@account, @folder) %>
+            </span>
+        <% end %>
       </h4>
       <%= render partial: "streams/index" %>
     </div>
     <div class='seven wide column'>
       <h4>
-        Articles
+        Prepare articles
         <span style="float: right;text-align: right">
           <%= link_to '<i class="plus icon"></i>'.html_safe, new_account_folder_article_path(@account, @folder) %>
           </span>
