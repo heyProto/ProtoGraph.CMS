@@ -1,11 +1,4 @@
 <div style='width:100%; box-sizing: border-box'>
-    <div class="ui mini breadcrumb">
-        <%=link_to @account.username, @account, class: "section" %>
-            <i class="right angle icon divider"></i>
-            <%=link_to @folder.name, [@account, @folder], class: "section" %>
-            <i class="right angle icon divider"></i>
-            <%=link_to "Streams", account_folder_streams_path(@account, @folder), class: "section" %>
-    </div>
     <div class="ui huge header">
         <%= @stream.title %>
     </div>
