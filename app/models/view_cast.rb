@@ -25,6 +25,7 @@ class ViewCast < ApplicationRecord
     #CONSTANTS
     Datacast_ENDPOINT = "#{ENV['AWS_S3_ENDPOINT']}"
     #CUSTOM TABLES
+
     #GEMS
     extend FriendlyId
     friendly_id :name, use: :slugged
