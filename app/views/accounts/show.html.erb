@@ -27,46 +27,26 @@
       </div>
   </div>
   <div class="nine wide column">
-      <table class="ui very basic table">
-        <thead>
-          <tr>
-            <th>Folder Name</th>
-            <th># Cards</th>
-            <th># Streams</th>
-            <th class="collapsing">Last modified at</th>
-            <th>by</th>
-            <th class="collapsing"></th>
-          </tr>
-        </thead>
-        <tbody>
-          <% @folders.each do |folder| %>
-            <% if folder.id.present? %>
-              <tr>
-                <td>
-                  <i class='icon folder steelblue'></i>
-                  <%= link_to folder.name.titleize, [@account, folder] %>
-                </td>
+      <div class="ui very relaxed divided list">
+        <% @folders.each do |folder| %>
+            <div class="item">
+              <i class="large folder middle aligned icon"></i>
+              <div class="content" style="width: 100% !important;">
+                <div class="right floated content">
+                <%= link_to "Edit", edit_account_folder_path(@account, folder), class: "hint" %>
+              </div>
+                <%= link_to folder.name.titleize, [@account, folder], class: "header" %>
+                <div class="hint">
+                  <%= "#{folder.view_casts.count} <span class='hint'>#{'card'.pluralize(folder.view_casts.count)}</span>".html_safe %>.
+                  <%= "#{folder.streams.count} <span class='hint'>#{'stream'.pluralize(folder.streams.count)}</span>".html_safe %>.
+                  <br/>
+                  Updated <%= "#{time_ago_in_words(folder.updated_at)} ago" %> by <%= folder.updator.name %>.
 
-                <td>
-                  <%= "#{folder.view_casts.count} <span class='hint'>#{'card'.pluralize(folder.view_casts.count)}</span>".html_safe %>
-                </td>
-                <td>
-                  <%= "#{folder.streams.count} <span class='hint'>#{'stream'.pluralize(folder.streams.count)}</span>".html_safe %>
-                </td>
-                <td class="hint">
-                  <%= "#{time_ago_in_words(folder.updated_at)} ago" %>
-                </td>
-                <td class="hint collapsing">
-                  <%= folder.updator.name %>
-                </td>
-                <td  class='hint'>
-                  <%= link_to "Edit", edit_account_folder_path(@account, folder) %>
-                </td>
-              </tr>
-            <% end %>
-          <% end %>
-        </tbody>
-      </table>
+                </div>
+              </div>
+            </div>
+        <% end %>
+      </div>
   </div>
 </div>
 

@@ -14,6 +14,7 @@ class ArticlesController < ApplicationController
         @article.created_by = current_user.id
         @article.updated_by = current_user.id
         if @article.save
+            track_activity(@article)
             redirect_to account_folder_article_path(@account, @folder, @article), notice: t('cs')
         else
             render :new
@@ -30,6 +31,7 @@ class ArticlesController < ApplicationController
 
     def update
         if @article.update(articles_params)
+            track_activity(@article)
             redirect_to account_folder_article_path(@account, @folder, @article), notice: t('cs')
         else
             render :edit

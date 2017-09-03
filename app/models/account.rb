@@ -37,6 +37,7 @@ class Account < ApplicationRecord
     has_many :authentications
     has_many :view_casts
     has_many :folders
+    has_many :activities
 
     #ACCESSORS
     #VALIDATIONS

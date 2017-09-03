@@ -18,6 +18,7 @@ class ViewCastsController < ApplicationController
     def update
         @view_cast = ViewCast.friendly.find(params[:id])
         if @view_cast.update(view_cast_params)
+            track_activity(@view_cast)
             redirect_to account_folder_view_cast_path(@account, @view_cast.folder, @view_cast), notice: t('us')
         else
             render :show
@@ -33,6 +34,7 @@ class ViewCastsController < ApplicationController
                 status[mode] = 'creating'
                 @view_cast.update_columns(status: status.to_json,updated_at: Time.now)
                 @view_cast.save_png(mode)
+                track_activity(@view_cast)
                 ActiveRecord::Base.connection.close
             end
             redirect_to account_view_cast_path(@account, @view_cast), notice: t('platform_create', platform: mode)

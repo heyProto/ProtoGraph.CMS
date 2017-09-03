@@ -7,6 +7,7 @@ class StreamsController < ApplicationController
         @stream.created_by = current_user.id
         @stream.updated_by = current_user.id
         if @stream.save
+            track_activity(@stream)
             redirect_to account_folder_stream_path(@account, @folder, @stream), notice: t('cs')
         else
             render :new
@@ -32,6 +33,7 @@ class StreamsController < ApplicationController
         s_params = stream_params
         s_params[:updated_by] = current_user.id
         if @stream.update(s_params)
+            track_activity(@stream)
             redirect_to account_folder_stream_path(@account, @folder, @stream), notice: t('cs')
         else
             render :edit

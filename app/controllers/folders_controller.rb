@@ -18,6 +18,7 @@ class FoldersController < ApplicationController
   def update
     folder_params[:updated_by] = current_user.id
     if @folder.update(folder_params)
+      track_activity(@folder)
       redirect_to account_path(@account), notice: t("us")
     else
       @folders = @account.folders
@@ -31,6 +32,7 @@ class FoldersController < ApplicationController
     @folder.created_by = current_user.id
     @folder.updated_by = current_user.id
     if @folder.save
+      track_activity(@folder)
       redirect_to account_folder_path(@account, @folder), notice: t("cs")
     else
       @folders = @account.folders

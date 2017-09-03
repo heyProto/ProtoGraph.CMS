@@ -19,6 +19,16 @@ class ApplicationController < ActionController::Base
     redirect_to root_url, notice: "Permission denied" if (!@role.can_template_design_do and !@role.can_template_design_publish)
   end
 
+  def track_activity(trackable, action = params[:action])
+    if @account.present?
+      if @folder.present?
+          current_user.activities.create!(action: action, trackable: trackable, account_id: @account.id, folder_id: @folder.id)
+      else
+          current_user.activities.create!(action: action, trackable: trackable, account_id: @account.id)
+      end
+    end
+  end
+
   private
 
   def sudo
