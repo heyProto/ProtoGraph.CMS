@@ -46,7 +46,7 @@ class Account < ApplicationRecord
     message: "%{value} is reserved." } #TODO AMIT - we need to think of more free email providers
 
     validates :gravatar_email, format: { with: /\A[^@\s]+@([^@.\s]+\.)+[^@.\s]+\z/ }, allow_blank: true, allow_nil: true
-
+    validates :cdn_endpoint, format: URI::regexp(%w(http https)), allow_nil: true
     #CALLBACKS
     before_create :before_create_set
     before_update :before_update_set

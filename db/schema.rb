@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170901122914) do
+ActiveRecord::Schema.define(version: 20170902140121) do
 
   create_table "accounts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "username"
@@ -31,6 +31,26 @@ ActiveRecord::Schema.define(version: 20170901122914) do
     t.index ["domain"], name: "index_accounts_on_domain"
     t.index ["slug"], name: "index_accounts_on_slug", unique: true
     t.index ["username"], name: "index_accounts_on_username", unique: true
+  end
+
+  create_table "articles", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.integer "account_id"
+    t.integer "folder_id"
+    t.integer "cover_image_id"
+    t.string "title"
+    t.text "summary"
+    t.text "content"
+    t.string "genre"
+    t.text "og_image_variation_id"
+    t.integer "og_image_width"
+    t.integer "og_image_height"
+    t.text "twitter_image_variation_id"
+    t.integer "created_by"
+    t.integer "updated_by"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.text "url"
+    t.string "slug"
   end
 
   create_table "authentications", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -292,10 +312,14 @@ ActiveRecord::Schema.define(version: 20170901122914) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.text "seo_blockquote"
-    t.text "render_screenshot_url"
+    t.text "render_screenshot_key"
     t.text "status"
     t.integer "folder_id"
+<<<<<<< HEAD
     t.index ["slug"], name: "index_view_casts_on_slug", unique: true
+=======
+    t.boolean "is_invalidating"
+>>>>>>> 623372df24dff6456245522e72aa44e51087ecb5
   end
 
   add_foreign_key "uploads", "accounts"

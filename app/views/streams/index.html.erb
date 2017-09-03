@@ -1,56 +1,55 @@
 <div style='width:100%; box-sizing: border-box'>
-    <div class="ui mini breadcrumb">
-        <%=link_to @account.username, @account, class: "section" %>
-        <i class="right angle icon divider"></i>
-        <div  class="section" ><%=@folder.name %></div>
-
-    </div>
-    <div class="ui huge header"><%= @folder.name %></div>
     <div class="ui top attached tabular menu">
         <a class="item" href="<%= account_folder_path(@account, @folder) %>">Cards</a>
         <a class="active item" data-tab="second">Streams</a>
+        <a class="item" href="<%= account_folder_articles_path(@account, @folder) %>">Prepare articles</a>
     </div>
     <div class='card-parent-class'>
         <div class="ui bottom active tab" data-tab="second">
-            <table class="ui very basic table">
-                <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>No. of Cards</th>
-                        <th>Last modified at</th>
-                        <th>Created by</th>
-                    </tr>
-                </thead>
-                <tbody>
-                  <% @streams.each do |stream| %>
-                    <% if stream.id.present? %>
-                        <tr>
-                            <td>
-                                <i class='icon folder steelblue'></i>
-                                <%= link_to stream.title.titleize, [@account, @folder, stream] %>
-                            </td>
-                            <td>
-                                <%= "#{stream.card_count} #{'card'.pluralize(stream.card_count)}" %>
-                            </td>
-                            <td>
-                                <%= "#{time_ago_in_words(stream.updated_at)} ago" %>
-                            </td>
-                            <td>
-                                <%= stream.creator.name %>
-                            </td>
-                            </td>
-                        </tr>
-                    <% end %>
-                  <% end %>
-                </tbody>
-              </table>
+            <% if @streams.first.blank? or @streams.first.id.nil? %>
+                <%= image_tag "option-2.png" %>
+                <!-- Replace the image with  Create a new Stream-->
+            <% else %>
+                <table class="ui very basic table">
+                   <thead>
+      <tr>
+        <th>Name</th>
+        <th># Cards</th>
+        <th class="collapsing">Last modified at</th>
+        <th>by</th>
+      </tr>
+    </thead>
+                    <tbody>
+                      <% @streams.each do |stream| %>
+                        <% if stream.id.present? %>
+                            <tr>
+                                <td>
+
+
+
+                                    <i class='icon newspaper black'></i>
+                                    <%= link_to stream.title.titleize, [@account, @folder, stream] %>
+                                </td>
+                                <td>
+                                    <%= "#{stream.card_count} <span class='hint'>#{'card'.pluralize(stream.card_count)}</span>".html_safe %>
+                                </td>
+                                <td class="hint">
+                                    <%= "#{time_ago_in_words(stream.updated_at)} ago" %>
+                                </td>
+                                <td class="hint collapsing">
+                                    <%= stream.creator.name %>
+                                </td>
+                                </td>
+                            </tr>
+                        <% end %>
+                      <% end %>
+                    </tbody>
+                </table>
+            <% end %>
         </div>
     </div>
 </div>
 
-<button class="circular ui blue icon huge button" id="formAddButton" style="float:right;">
-    <i class="inverted plus icon"></i>
-</button>
 <%= render partial: "streams/form" %>
 
 
