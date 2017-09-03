@@ -1,11 +1,10 @@
 <div class="ui grid">
   <div class="three wide column">
-    <div class="ui secondary vertical menu">
-      <%= link_to "Profile", edit_user_registration_path(@account), class: controller_name == "registrations" ? "item active" : "item" %>
-      <%= link_to "Your teams", accounts_path, class: (controller_name == "accounts" and action_name == "index") ? "item active" : "item" %>
-    </div>
+    <%= render partial: "devise/registrations/sidebar" %>
   </div>
   <div class="seven wide column">
+    <h3>Personal Settings</h3>
+    <br/>
     <%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
     <%= f.error_notification %>
     <%= f.input :name %>
@@ -18,14 +17,14 @@
     <br /><br />
     <%= f.input :password_confirmation, autocomplete: "off" %>
     <%= f.input :current_password %>
-    <%= f.button :submit, value: "Update", class: 'ui button' %>
+    <%= f.button :submit, value: "Save", class: 'ui button' %>
     <% end %>
-    <h4>Your API Access Token</h4>
+    <h3>Your API Access Token</h3>
     <p><%= current_user.access_token %> </p>
   </div>
   <div class="six wide column">
-    <%= image_tag avatar_url(current_user.email, 200), class: "ui medium circular image" %>
+    <%= image_tag avatar_url(current_user.email, 200), class: "ui medium circular centered image" %>
     <br/>
-    <p>To change the profile image, register with <a href="http://gravatar.com/" target="_blank">gravatar.com</a> with email ID <%= current_user.email %> and upload a square image there (Twitter DP).</p>
+    <p class="hint" style="text-align: center;">To change the profile image, register with <a href="http://gravatar.com/" target="_blank">gravatar.com</a> with email ID <%= current_user.email %> and upload a square image there (Twitter DP).</p>
   </div>
 </div>

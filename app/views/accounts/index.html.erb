@@ -1,12 +1,10 @@
 <div class="ui grid">
 <div class="three wide column">
-    <div class="ui secondary vertical menu">
-      <%= link_to "Profile", edit_user_registration_path(@account), class: controller_name == "registrations" ? "item active" : "item" %>
-      <%= link_to "Your teams", accounts_path, class: (controller_name == "accounts" and action_name == "index") ? "item active" : "item" %>
-    </div>
-  </div>
+    <%= render partial: "devise/registrations/sidebar" %>
+</div>
 <div class="seven wide column">
-  <h3>Switch teams</h3>
+  <h3>Personal Settings</h3>
+  <br/>
   <div class="ui very relaxed list" style="width: 100% !important;">
     <% @accounts.each do |account| %>
     <div class="item">
