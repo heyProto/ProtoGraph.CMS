@@ -7,10 +7,16 @@ class ArticlesController < ApplicationController
     end
 
     def create
-        @article = @folder.articles.new(article_params)
+        a_params = article_params
+        a_params["cover_image_attributes"]["name"] = a_params["title"]
+        a_params["cover_image_attributes"]["description"] = a_params["summary"]
+        a_params["cover_image_attributes"]["tag_list"] = [a_params["genre"]]
+        a_params["cover_image_attributes"]["account_id"] = @account.id
+        a_params["cover_image_attributes"]["created_by"] = current_user.id
+        a_params["cover_image_attributes"]["updated_by"] = current_user.id
+        @article = @folder.articles.new(a_params)
         @article.created_by = current_user.id
         @article.updated_by = current_user.id
-        ss
         if @article.save
             redirect_to account_folder_article_path(@account, @folder, @article), notice: t('cs')
         else
@@ -37,7 +43,7 @@ class ArticlesController < ApplicationController
     private
 
     def article_params
-        params.require(:article).permit(:account_id, :folder_id, :title, :summary, :content, :genre, :url, :created_by, :updated_by, cover_image: [:image])
+        params.require(:article).permit(:account_id, :folder_id, :title, :summary, :content, :genre, :url, :created_by, :updated_by, cover_image_attributes: [:image])
     end
 
     def set_article

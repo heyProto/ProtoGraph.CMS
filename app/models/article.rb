@@ -54,5 +54,4 @@ class Article < ApplicationRecord
     #PRIVATE
     private
 
-
 end
