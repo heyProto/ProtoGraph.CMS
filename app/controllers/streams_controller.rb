@@ -2,11 +2,6 @@ class StreamsController < ApplicationController
     before_action :authenticate_user!
     before_action :set_stream, only: [:show, :edit, :update, :publish]
 
-    def index
-        @streams = @folder.streams
-        @stream = @folder.streams.new
-    end
-
     def create
         @stream = @folder.streams.new(stream_params)
         @stream.created_by = current_user.id

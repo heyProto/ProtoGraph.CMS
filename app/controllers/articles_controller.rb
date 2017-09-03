@@ -2,10 +2,6 @@ class ArticlesController < ApplicationController
     before_action :authenticate_user!
     before_action :set_article, only: [:show, :edit, :update, :publish]
 
-    def index
-        @articles = @folder.articles
-    end
-
     def create
         a_params = article_params
         a_params["cover_image_attributes"]["name"] = a_params["title"]

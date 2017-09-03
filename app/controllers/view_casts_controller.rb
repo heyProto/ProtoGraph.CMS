@@ -5,10 +5,6 @@ class ViewCastsController < ApplicationController
     def new
     end
 
-    def index
-        redirect_to account_path(@account)
-    end
-
     def show
         @folders = @account.folders
         if (Time.now - @view_cast.updated_at) > 5.minute and (@view_cast.is_invalidating)
