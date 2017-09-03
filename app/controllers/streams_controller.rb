@@ -43,6 +43,7 @@ class StreamsController < ApplicationController
     def publish
         Thread.new do
             @stream.publish_cards
+            track_activity(@stream)
             ActiveRecord::Base.connection.close
         end
         redirect_to account_folder_stream_path(@account, @folder, @stream), notice: t("published.stream")
