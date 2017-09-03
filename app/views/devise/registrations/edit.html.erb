@@ -1,33 +1,31 @@
-<div class="ten wide column">
-  <h1 class="ui header">
-    Profile
-  </h1>
-  <br/>
-
-  <%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
-  <%= f.error_notification %>
-  <%= f.input :name %>
-  <%= f.input :email %>
-
-  <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
-  <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
-  <% end %>
-
-  <%= f.input :password, required: true, autocomplete: "off", placeholder: "6 characters minimum." %>
-  <i>(leave blank if you don't want to change it)</i>
-  <br /><br />
-
-  <%= f.input :password_confirmation, autocomplete: "off" %>
-  <%= f.input :current_password %>
-
-  <%= f.button :submit, value: "Update", class: 'ui button' %>
-  <% end %>
-  <h4>Your API Access Token</h4>
-  <p><%= current_user.access_token %> </p>
+<div class="ui grid">
+  <div class="three wide column">
+    <div class="ui secondary vertical menu">
+      <%= link_to "Profile", edit_user_registration_path(@account), class: controller_name == "registrations" ? "item active" : "item" %>
+      <%= link_to "Your teams", accounts_path, class: (controller_name == "accounts" and action_name == "index") ? "item active" : "item" %>
+    </div>
+  </div>
+  <div class="seven wide column">
+    <%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
+    <%= f.error_notification %>
+    <%= f.input :name %>
+    <%= f.input :email %>
+    <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
+    <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
+    <% end %>
+    <%= f.input :password, required: true, autocomplete: "off", placeholder: "6 characters minimum." %>
+    <i>(leave blank if you don't want to change it)</i>
+    <br /><br />
+    <%= f.input :password_confirmation, autocomplete: "off" %>
+    <%= f.input :current_password %>
+    <%= f.button :submit, value: "Update", class: 'ui button' %>
+    <% end %>
+    <h4>Your API Access Token</h4>
+    <p><%= current_user.access_token %> </p>
+  </div>
+  <div class="six wide column">
+    <%= image_tag avatar_url(current_user.email, 200), class: "ui medium circular image" %>
+    <br/>
+    <p>To change the profile image, register with <a href="http://gravatar.com/" target="_blank">gravatar.com</a> with email ID <%= current_user.email %> and upload a square image there (Twitter DP).</p>
+  </div>
 </div>
-<div class="four wide column">
-  <%= image_tag avatar_url(current_user.email, 200), class: "ui medium circular image" %>
-  <br/>
-  <p>To change the profile image, register with <a href="http://gravatar.com/" target="_blank">gravatar.com</a> with email ID <%= current_user.email %> and upload a square image there (Twitter DP).</p>
-</div>
-
