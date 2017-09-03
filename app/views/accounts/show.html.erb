@@ -19,7 +19,7 @@
       <div class="ui middle aligned selection list account_switcher_item">
         <% @accounts.each do |account| %>
             <div class="<%= @account.username == account.username ? 'item active' : 'item' %>">
-              <a href=<%= account_path(account) %>  title=<%=account.username%>>
+              <a href=<%= account_path(account) %> title=<%=account.username%>>
                 <%= image_tag avatar_url(account.gravatar_email), class: "ui avatar image" %>
               </a>
             </div>
