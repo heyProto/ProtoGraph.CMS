@@ -51,7 +51,7 @@ Rails.application.routes.draw do
         put :"recreate/:mode", to: "view_casts#recreate", on: :member, as: :recreate
       end
 
-      resources :streams, except: [:destroy, :edit] do
+      resources :streams do
         post :publish, on: :member
         resources :stream_entities, only: [:create, :destroy]
       end

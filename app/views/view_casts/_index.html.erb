@@ -1,7 +1,7 @@
 <div class='card-parent-class'>
     <div class="ui bottom active tab" data-tab="second">
         <% if @view_casts.first.blank? %>
-            <%= image_tag "option-2.png" %>
+            <%= image_tag "option-2.png", width: "100%" %>
         <% else %>
             <% @view_casts.each do |d| %>
                 <div class="column proto-graph-card-div">

@@ -6,31 +6,31 @@
         <div class="twelve wide column">
             <% if @view_casts.count == 0 %>
                 <h4>There are no cards in the stream. Edit your stream to improve your query</h4>
-            <% end %>
-            <% @view_casts.each do |d| %>
-                <div class="column proto-graph-card-div">
-                    <%= link_to [@account, @folder,d], "data-turbolinks"=> false do %>
-                        <div class="proto-graph-card">
-                            <img class="index-card-image" src="<%= d.render_screenshot_url(true) %>" width="100%" alt="<%= d.name %>">
-                            <!-- <div class="proto-card-highlight-gradient"></div> -->
-                            <div class="proto-card-gradient">
-                                <div class="index-card-content">
-                                    <div class="index-card-title">
-                                        <%= d.name %>
-                                    </div>
-                                    <div class="index-card-created-by">
-                                        <%= image_tag avatar_url(d.updator.email), width: "100%" %>
-                                    </div>
-                                    <div class="index-card-extra-info">
-                                        <%= d.template_card.name %> |
-                                            <%= time_ago_in_words(d.updated_at) %>
+                <% end %>
+                    <% @view_casts.each do |d| %>
+                        <div class="column proto-graph-card-div">
+                            <%= link_to [@account, @folder,d], "data-turbolinks"=> false do %>
+                                <div class="proto-graph-card">
+                                    <img class="index-card-image" src="<%= d.render_screenshot_url(true) %>" width="100%" alt="<%= d.name %>">
+                                    <!-- <div class="proto-card-highlight-gradient"></div> -->
+                                    <div class="proto-card-gradient">
+                                        <div class="index-card-content">
+                                            <div class="index-card-title">
+                                                <%= d.name %>
+                                            </div>
+                                            <div class="index-card-created-by">
+                                                <%= image_tag avatar_url(d.updator.email), width: "100%" %>
+                                            </div>
+                                            <div class="index-card-extra-info">
+                                                <%= d.template_card.name %> |
+                                                    <%= time_ago_in_words(d.updated_at) %>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
+                                <% end %>
                         </div>
-                    <% end %>
-                </div>
-            <% end %>
+                        <% end %>
         </div>
         <div class="four wide column">
             <div class="card-details">
@@ -55,55 +55,40 @@
                     <div class="sigle-detail">
                         <div class="card-detail-lable"># of cards in this stream:</div>
                         <div class="card-detail-Value">
-                            <%= @view_casts.count %> </div>
+                            <%= @view_casts.count %>
+                        </div>
                     </div>
                 <% end %>
                 <br/>
                 <div class="sigle-detail">
-          <div class="card-detail-lable">Created By:</div>
-          <div class="card-detail-Value"><%= @stream.creator.name %></div>
-        </div>
-        <div class="sigle-detail">
-          <div class="card-detail-lable">On:</div>
-          <div class="card-detail-Value"><%= @stream.created_at.strftime("%e %b %Y") %></div>
-        </div>
-        <br>
-        <div class="sigle-detail">
-          <div class="card-detail-lable">Updated By:</div>
-          <div class="card-detail-Value"><%= @stream.updator.name %></div>
-        </div>
-        <div class="sigle-detail">
-          <div class="card-detail-lable">On:</div>
-          <div class="card-detail-Value"><%= @stream.updated_at.strftime("%e %b %Y") %></div>
-        </div>
-        <br/>
-
-                <%= link_to "Edit the Stream", "#","data-turbolinks"=> false, id: "formAddButton" %>
-
-
+                    <div class="card-detail-lable">Created By:</div>
+                    <div class="card-detail-Value">
+                        <%= @stream.creator.name %>
+                    </div>
+                </div>
+                <div class="sigle-detail">
+                    <div class="card-detail-lable">On:</div>
+                    <div class="card-detail-Value">
+                        <%= @stream.created_at.strftime("%e %b %Y") %>
+                    </div>
+                </div>
+                <br>
+                <div class="sigle-detail">
+                    <div class="card-detail-lable">Updated By:</div>
+                    <div class="card-detail-Value">
+                        <%= @stream.updator.name %>
+                    </div>
+                </div>
+                <div class="sigle-detail">
+                    <div class="card-detail-lable">On:</div>
+                    <div class="card-detail-Value">
+                        <%= @stream.updated_at.strftime("%e %b %Y") %>
+                    </div>
+                </div>
                 <br/>
-
+                <%= link_to "Edit the Stream", edit_account_folder_stream_path(@account, @folder, @stream) %>
+                <br/>
             </div>
         </div>
     </div>
 </div>
-
-<%= render partial: "streams/form" %>
-
-
-<script type="text/javascript">
-
-$(document).on("turbolinks:load", function () {
-    $('#formAddButton').on('click',function () {
-        $('#new-stream')
-          .modal({
-            closable: false,
-          }).modal('show');
-    });
-
-    $('.ui.dropdown').dropdown({
-      allowAdditions: true,
-    });
-
-});
-</script>

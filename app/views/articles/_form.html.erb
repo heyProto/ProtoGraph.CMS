@@ -27,6 +27,7 @@
                     <td><%= image_tag "cover.png", width: "35px;" %></td>
                     <td>&nbsp;</td>
                     <td>
+                        <!-- # Ensure that the cover_image updates -->
                         <%= f.fields_for :cover_image do |cover_image| %>
                             <%= cover_image.input :image, label: false %>
                         <% end %>

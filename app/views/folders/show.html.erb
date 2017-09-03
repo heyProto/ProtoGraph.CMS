@@ -2,18 +2,28 @@
     <div class='three wide column'>
       <h4>
         Cards
-        <span style="float: right;">+</span>
+        <span style="float: right;text-align: right">
+          <%= link_to '<i class="plus icon"></i>'.html_safe, new_account_folder_view_cast_path(@account, @folder) %>
+        </span>
       </h4>
       <%= render partial: "view_casts/index" %>
     </div>
     <div class='five wide column'>
       <h4>
         Streams
-        <span style="float: right;">+</span>
+        <span style="float: right;text-align: right">
+          <%= link_to '<i class="plus icon"></i>'.html_safe, new_account_folder_stream_path(@account, @folder) %>
+        </span>
       </h4>
       <%= render partial: "streams/index" %>
     </div>
     <div class='eight wide column'>
-      <h4>Articles</h4>
+      <h4>
+        Articles
+        <span style="float: right;text-align: right">
+          <%= link_to '<i class="plus icon"></i>'.html_safe, new_account_folder_article_path(@account, @folder) %>
+          </span>
+      </h4>
+      <%= render partial: "articles/index" %>
     </div>
 </div>

@@ -70,12 +70,22 @@
   </div>
 </div>
 
+<div class="ui mini modal" id="new-folder">
+  <i class='close icon'></i>
+  <div class="header">
+    <%= (controller_name == 'folders' and ["edit", "update"].include?(action_name)) ? "Update the folder" : "Create a new folder" %>
+  </div>
+  <div class="content">
+    <%= render partial: "folders/form" %>
+  </div>
+</div>
 
-<%= render partial: "folders/form" %>
 <script type="text/javascript">
 
 $(document).on("turbolinks:load", function () {
-  $('#formAddButton').on('click',function () {
+  $("#formAddButton").unbind("click");
+  $('#formAddButton').on('click',function (e) {
+    event.preventDefault();
     $('#new-folder')
       .modal({
         closable: false,
@@ -89,6 +99,9 @@ $(document).on("turbolinks:load", function () {
     $('#new-folder')
       .modal({
         closable: false,
+        onHide: function(){
+          Turbolinks.visit("<%= account_path(@account) %>")
+        }
       }).modal('show');
   </script>
 <% end %>

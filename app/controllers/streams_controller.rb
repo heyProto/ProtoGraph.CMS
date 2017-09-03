@@ -24,10 +24,13 @@ class StreamsController < ApplicationController
 
     def show
         @view_casts = @stream.cards
-        @stream.folder_list = @stream.folder_ids.pluck(:entity_value)
-        @stream.card_list = @stream.template_card_ids.pluck(:entity_value)
         @folders = @account.folders.where(id: @stream.folder_list)
         @template_cards = @account.template_cards.where(id: @stream.card_list)
+    end
+
+    def edit
+        @stream.folder_list = @stream.folder_ids.pluck(:entity_value)
+        @stream.card_list = @stream.template_card_ids.pluck(:entity_value)
     end
 
     def update

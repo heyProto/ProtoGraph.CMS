@@ -1,31 +1,26 @@
-<% if @streams.first.blank? %>
+<% if @articles.first.blank? %>
     <%= image_tag "option-2.png", width: "100%" %>
 <% else %>
-
         <table class="ui very basic table">
             <thead>
               <tr>
                 <th>Name</th>
-                <th># Cards</th>
                 <th class="collapsing">Last modified at</th>
                 <th>by</th>
               </tr>
             </thead>
             <tbody>
-              <% @streams.each do |stream| %>
-                <% if stream.id.present? %>
+              <% @articles.each do |article| %>
+                <% if article.id.present? %>
                     <tr>
                         <td>
-                            <%= link_to stream.title.titleize, [@account, @folder, stream] %>
-                        </td>
-                        <td>
-                            <%= "#{stream.card_count} <span class='hint'>#{'card'.pluralize(stream.card_count)}</span>".html_safe %>
+                            <%= link_to article.title.titleize, [@account, @folder, article] %>
                         </td>
                         <td class="hint">
-                            <%= "#{time_ago_in_words(stream.updated_at)} ago" %>
+                            <%= "#{time_ago_in_words(article.updated_at)} ago" %>
                         </td>
                         <td class="hint collapsing">
-                            <%= stream.creator.name %>
+                            <%= article.creator.name %>
                         </td>
                         </td>
                     </tr>
