@@ -3,8 +3,8 @@ class FoldersController < ApplicationController
   before_action :authenticate_user!
 
   def show
-    @view_casts = @folder.view_casts.order(updated_at: :desc).page(params[:page]).per(30)
-    render "view_casts/index"
+    @view_casts = @folder.view_casts.order(updated_at: :desc).page(params[:page]).per(9)
+    @streams = @folder.streams.order(updated_at: :desc)
   end
 
   def edit
