@@ -18,6 +18,7 @@
 #  client_token   :string(255)
 #  access_token   :string(255)
 #  client_secret  :string(255)
+#  logo_url       :text(65535)
 #
 
 class Account < ApplicationRecord
