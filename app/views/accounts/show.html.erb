@@ -1,10 +1,26 @@
+<style>
+  .ui.middle.aligned.selection.list.account_switcher_item > .item{
+    background: #303E4D !important;
+    margin-bottom: 20px;
+  }
+  .ui.middle.aligned.selection.list.account_switcher_item > .item > a{
+    background: #303E4D !important;
+  }
+  .ui.middle.aligned.selection.list.account_switcher_item > .item.active{
+    background: #6698C8 !important;
+    margin-bottom: 20px;
+  }
+  .ui.middle.aligned.selection.list.account_switcher_item > .item.active > a{
+    background: #6698C8 !important;
+  }
+</style>
 <div class="ui grid">
-  <div class="one wide column" style="background: black;">
-      <div class="ui middle aligned selection list">
+  <div class="one wide column" style="background: #303E4D;">
+      <div class="ui middle aligned selection list account_switcher_item">
         <% @accounts.each do |account| %>
-            <div style="background: black; margin-bottom: 20px;" class="item">
-              <a href=<%= account_path(account) %>  style="background: black !important;" title=<%=account.username%>>
-                <%= image_tag avatar_url(account.gravatar_email), class: "ui avatar centered image",  style:"background: black;" %>
+            <div class="<%= @account.username == account.username ? 'item active' : 'item' %>">
+              <a href=<%= account_path(account) %>  title=<%=account.username%>>
+                <%= image_tag avatar_url(account.gravatar_email), class: "ui avatar image" %>
               </a>
             </div>
         <% end %>
