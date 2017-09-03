@@ -1,45 +1,59 @@
-<div class="sixteen wide column">
-  <table class="ui very basic table">
-    <thead>
-      <tr>
-        <th>Folder Name</th>
-        <th># Cards</th>
-        <th># Streams</th>
-        <th class="collapsing">Last modified at</th>
-        <th>by</th>
-        <th class="collapsing"></th>
-      </tr>
-    </thead>
-    <tbody>
-      <% @folders.each do |folder| %>
-        <% if folder.id.present? %>
-          <tr>
-            <td>
-              <i class='icon folder steelblue'></i>
-              <%= link_to folder.name.titleize, [@account, folder] %>
-            </td>
-
-            <td>
-              <%= "#{folder.view_casts.count} <span class='hint'>#{'card'.pluralize(folder.view_casts.count)}</span>".html_safe %>
-            </td>
-            <td>
-              <%= "#{folder.streams.count} <span class='hint'>#{'stream'.pluralize(folder.streams.count)}</span>".html_safe %>
-            </td>
-            <td class="hint">
-              <%= "#{time_ago_in_words(folder.updated_at)} ago" %>
-            </td>
-            <td class="hint collapsing">
-              <%= folder.updator.name %>
-            </td>
-            <td  class='hint'>
-              <%= link_to "Edit", edit_account_folder_path(@account, folder) %>
-            </td>
-          </tr>
+<div class="ui grid">
+  <div class="one wide column" style="background: black;">
+      <div class="ui middle aligned selection list">
+        <% @accounts.each do |account| %>
+            <div style="background: black; margin-bottom: 20px;" class="item">
+              <a href=<%= account_path(account) %>  style="background: black !important;" title=<%=account.username%>>
+                <%= image_tag avatar_url(account.gravatar_email), class: "ui avatar centered image",  style:"background: black;" %>
+              </a>
+            </div>
         <% end %>
-      <% end %>
-    </tbody>
-  </table>
+      </div>
+  </div>
+  <div class="fifteen wide column">
+      <table class="ui very basic table">
+        <thead>
+          <tr>
+            <th>Folder Name</th>
+            <th># Cards</th>
+            <th># Streams</th>
+            <th class="collapsing">Last modified at</th>
+            <th>by</th>
+            <th class="collapsing"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @folders.each do |folder| %>
+            <% if folder.id.present? %>
+              <tr>
+                <td>
+                  <i class='icon folder steelblue'></i>
+                  <%= link_to folder.name.titleize, [@account, folder] %>
+                </td>
+
+                <td>
+                  <%= "#{folder.view_casts.count} <span class='hint'>#{'card'.pluralize(folder.view_casts.count)}</span>".html_safe %>
+                </td>
+                <td>
+                  <%= "#{folder.streams.count} <span class='hint'>#{'stream'.pluralize(folder.streams.count)}</span>".html_safe %>
+                </td>
+                <td class="hint">
+                  <%= "#{time_ago_in_words(folder.updated_at)} ago" %>
+                </td>
+                <td class="hint collapsing">
+                  <%= folder.updator.name %>
+                </td>
+                <td  class='hint'>
+                  <%= link_to "Edit", edit_account_folder_path(@account, folder) %>
+                </td>
+              </tr>
+            <% end %>
+          <% end %>
+        </tbody>
+      </table>
+  </div>
 </div>
+
 
 <%= render partial: "folders/form" %>
 <script type="text/javascript">

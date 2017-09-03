@@ -12,6 +12,7 @@ class AccountsController < ApplicationController
   def show
     @folders = @account.folders
     @folder = Folder.new
+    @accounts = current_user.accounts
   end
 
   def edit
