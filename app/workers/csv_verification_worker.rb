@@ -81,11 +81,11 @@ class CsvVerificationWorker
 
   def get_view_cast_details(card_data)
     params = {toReportViolence: {
-                name: "the_people_involved/title",
+                name: "data/the_people_involved/title",
                 seo_blockquote_text: ""},
               toExplain: {
-                name: "explainer_header",
-                seo_blockquote_text: "explainer_text"
+                name: "data/explainer_header",
+                seo_blockquote_text: "data/explainer_text"
               }
              }
     name_path = params[@upload.template_card.name.to_sym][:name]
