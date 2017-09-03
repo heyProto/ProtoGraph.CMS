@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170902140121) do
+ActiveRecord::Schema.define(version: 20170903082228) do
 
   create_table "accounts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "username"
@@ -243,6 +243,7 @@ ActiveRecord::Schema.define(version: 20170902140121) do
     t.boolean "has_static_image", default: false
     t.string "git_repo_name"
     t.string "s3_identifier"
+    t.boolean "has_multiple_uploads", default: false
     t.index ["slug"], name: "index_template_cards_on_slug", unique: true
   end
 
@@ -270,6 +271,7 @@ ActiveRecord::Schema.define(version: 20170902140121) do
     t.integer "created_by"
     t.integer "updated_by"
     t.text "upload_errors"
+    t.text "filtering_errors"
     t.index ["account_id"], name: "index_uploads_on_account_id"
     t.index ["folder_id"], name: "index_uploads_on_folder_id"
     t.index ["template_card_id"], name: "index_uploads_on_template_card_id"
@@ -315,11 +317,8 @@ ActiveRecord::Schema.define(version: 20170902140121) do
     t.text "render_screenshot_key"
     t.text "status"
     t.integer "folder_id"
-<<<<<<< HEAD
-    t.index ["slug"], name: "index_view_casts_on_slug", unique: true
-=======
     t.boolean "is_invalidating"
->>>>>>> 623372df24dff6456245522e72aa44e51087ecb5
+    t.index ["slug"], name: "index_view_casts_on_slug", unique: true
   end
 
   add_foreign_key "uploads", "accounts"

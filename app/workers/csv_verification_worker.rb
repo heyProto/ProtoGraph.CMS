@@ -5,25 +5,37 @@ class CsvVerificationWorker
   def perform(upload_id)
     @upload = Upload.find(upload_id)
     require 'csv'
+    # open3 to capture stderr from jq
+    require 'open3'
     # The last jq filter returns an array of json objects
-    begin
-      card_array_filtered = %x(csv2json #{@upload.attachment.file.file} | jq -f ref/jq_filter/jq_filter_#{@upload.template_card.name}.jq | jq -s '.')
-    rescue
-      next
+    card_array_filtered = []
+    filtering_errors = []
+    row_number = 2
+    CSV.foreach(@upload.attachment.file.file, headers: true) do |row|
+      stdout, stderr, status = Open3.capture3("echo #{row.to_h.to_json.to_json} | jq -f ref/jq_filter/jq_filter_#{@upload.template_card.name}.jq")
+      if stdout.present?
+        card_array_filtered << stdout
+      else
+        filtering_errors << [row_number, stderr]
+      end
+      row_number += 1
     end
-    card_array_filtered = JSON.parse(card_array_filtered)
     schema = JSON.parse(RestClient.get(@upload.template_card.template_datum.schema_json))
     @upload.upload_errors = "[]"
+    @upload.filtering_errors = filtering_errors.to_json.to_s
     @upload.save
+    i = 2
     card_array_filtered.each do |card_filtered|
-      upload_card(@upload.id, card_filtered, "name", "seo_blockquote_text", "source")
+      upload_card(@upload.id, i, JSON.parse(card_filtered))
+      i += 1
     end
+    puts filtering_errors
   end
 
-  def upload_card(upload_id, card_data, name, seo_blockquote_text, source)
+  def upload_card(upload_id, row_number, card_data)
     @upload = Upload.find(upload_id)
     payload = {}
-    params = all_params(card_data, name, seo_blockquote_text, source)
+    params = all_params(card_data)
     datacast_params = params[:datacast]
     payload["payload"] = datacast_params.to_json
     payload["source"]  = params[:source] || "form"
@@ -38,10 +50,10 @@ class CsvVerificationWorker
       r = Api::ProtoGraph::Datacast.create(payload)
       if r.has_key?("errorMessage")
         view_cast.destroy
-        upload_error = [r['errorMessage']]
+        upload_error = [row_number, JSON.parse(r['errorMessage'])]
       end
     else
-      upload_error =  [view_cast.errors.full_messages]
+      upload_error =  [row_number, view_cast.errors.full_messages]
     end
     if upload_error.nil?
       upload_error = []
@@ -52,7 +64,8 @@ class CsvVerificationWorker
     @upload.save
   end
   
-  def all_params(card_data, name, seo_blockquote_text, source)
+  def all_params(card_data)
+    name, seo_blockquote_text = get_view_cast_details(card_data)
     {
       datacast: card_data,
       view_cast: {
@@ -66,4 +79,29 @@ class CsvVerificationWorker
       }
     }
   end
+
+  def get_view_cast_details(card_data)
+    params = {toReportViolence: {
+                name: "the_people_involved/title",
+                seo_blockquote_text: ""},
+              toExplain: {
+                name: "explainer_header",
+                seo_blockquote_text: "explainer_text"
+              }
+             }
+    name_path = params[@upload.template_card.name.to_sym][:name]
+    seo_blockquote_text_path = params[@upload.template_card.name.to_sym][:seo_blockquote_text]
+
+    name = card_data
+    name_path.split("/").each do |dir|
+      name = name[dir]
+    end
+    seo_blockquote_text = card_data
+    seo_blockquote_text_path.split("/").each do |dir|
+      seo_blockquote_text = seo_blockquote_text[dir]
+    end
+
+    return name, seo_blockquote_text
+  end
 end
+

@@ -5,7 +5,7 @@ class UploadsController < ApplicationController
   def new
     @upload = Upload.new
     @folders = @account.folders
-    @template_cards = TemplateCard.all
+    @template_cards = TemplateCard.with_multiple_uploads
   end
 
   def create

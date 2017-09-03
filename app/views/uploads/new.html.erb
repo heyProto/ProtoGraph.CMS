@@ -1,6 +1,6 @@
 <%= simple_form_for [:account, @upload] do |f| %>
     <%= f.input :attachment, as: :file, required: true %>
-    <%= f.association :template_card %>
+    <%= f.input :template_card_id, collection: @template_cards, label_method: :name, value_method: :id %>
     <%= f.input :folder_id, collection: @folders, required: true %>
     <%= f.hidden_field :account_id, value: @account.id %>
     <%= f.hidden_field :user_id, value: @current_user.id %>
