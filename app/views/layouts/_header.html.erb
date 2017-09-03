@@ -18,16 +18,6 @@
         <% elsif @folder.present? and @folder.id.present? %>
           <i class="right angle icon divider"></i>
           <%=link_to @folder.name, [@account, @folder], class: "section" %>
-          <% if controller_name == "view_casts" and action_name != "index" %>
-            <i class="right angle icon divider"></i>
-            <div class="active section">Cards</div>
-          <% elsif controller_name == "streams" and action_name != "index" %>
-            <i class="right angle icon divider"></i>
-            <div class="active section">Streams</div>
-          <% elsif controller_name == "articles" and action_name != "index" %>
-            <i class="right angle icon divider"></i>
-            <div class="active section">Streams</div>
-          <% end %>
         <% end %>
       </div>
     </div>
