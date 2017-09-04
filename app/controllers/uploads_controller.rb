@@ -6,6 +6,7 @@ class UploadsController < ApplicationController
     @upload = Upload.new
     @folders = @account.folders
     @template_cards = TemplateCard.with_multiple_uploads
+    @uploads = Upload.
   end
 
   def create
@@ -28,8 +29,7 @@ class UploadsController < ApplicationController
     params.require(:upload).permit(:attachment,
                                    :template_card_id,
                                    :account_id,
-                                   :folder_id,
-                                   :user_id)
+                                   :folder_id,)
   end
 
   def set_upload

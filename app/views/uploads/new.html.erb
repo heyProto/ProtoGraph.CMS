@@ -6,7 +6,7 @@
   <div class="twelve wide column">
     <%= simple_form_for [:account, :folder, @upload] do |f| %>
       <%= f.input :attachment, as: :file, required: true %>
-      <%= f.input :template_card_id, collection: @template_cards, label_method: :name, value_method: :id %>
+      <%= f.input :template_card_id, collection: @template_cards, label_method: :name, value_method: :id, include_blank: false %>
       <%= f.hidden_field :folder_id, value: @folder.id %>
       <%= f.hidden_field :account_id, value: @account.id %>
       <%= f.hidden_field :user_id, value: @current_user.id %>

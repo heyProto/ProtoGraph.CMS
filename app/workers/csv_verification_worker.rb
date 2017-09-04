@@ -21,14 +21,14 @@ class CsvVerificationWorker
       row_number += 1
     end
     @upload.upload_errors = "[]"
-    @upload.filtering_errors = filtering_errors.to_json.to_s
-    @upload.save
+    @upload.save!
+    @upload.update_columns(filtering_errors: filtering_errors.to_json)
+    puts "======== Filtering Errors =======\n#{filtering_errors}"
     i = 2
     card_array_filtered.each do |card_filtered|
       upload_card(@upload.id, i, JSON.parse(card_filtered))
       i += 1
     end
-    puts filtering_errors
   end
 
   def upload_card(upload_id, row_number, card_data)
