@@ -64,7 +64,7 @@ $(document).on("turbolinks:load", function () {
       .modal({
         closable: false,
         onHide: function(){
-          Turbolinks.visit("<%= account_path(@account) %>")
+          window.location.href= "<%= account_path(@account) %>";
         }
       }).modal('show');
   </script>
