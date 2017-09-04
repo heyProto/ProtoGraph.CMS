@@ -6,7 +6,7 @@ class UploadsController < ApplicationController
     @upload = Upload.new
     @folders = @account.folders
     @template_cards = TemplateCard.with_multiple_uploads
-    @uploads = Upload.
+    @uploads = @folder.uploads.order("created_at DESC")
   end
 
   def create
@@ -23,6 +23,18 @@ class UploadsController < ApplicationController
   end
 
   def show
+    errors = []
+    JSON.parse(@upload.filtering_errors).each do |a|
+      if a.present?
+        errors << a
+      end
+    end
+    JSON.parse(@upload.upload_errors).each do |a|
+      if a.present?
+        errors << a
+      end
+    end
+    @errors = errors.sort
   end
   private
   def upload_params

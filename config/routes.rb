@@ -62,7 +62,7 @@ Rails.application.routes.draw do
       end
 
       resources :articles, except: [:index]
-      resources :uploads, only: [:new, :create]
+      resources :uploads, only: [:new, :create, :show]
     end
     resources :images, only: [:index, :create, :show]
     resources :image_variations, only: [:create, :show]
