@@ -89,5 +89,4 @@ class User < ApplicationRecord
             updated_by: self.id
         })
     end
-
 end

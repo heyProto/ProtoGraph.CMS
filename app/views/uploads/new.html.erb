@@ -10,7 +10,30 @@
       <%= f.hidden_field :folder_id, value: @folder.id %>
       <%= f.hidden_field :account_id, value: @account.id %>
       <%= f.hidden_field :user_id, value: @current_user.id %>
-      <%= f.button :submit, class: "ui primary button" %>
+      <%= f.button :submit, "Upload File", class: "ui primary button" %>
     <% end %>
   </div>
+  <% if @uploads.present? %>
+    <div class="sixteen wide column">
+      <%= @folder.name %> has <%= pluralize(@uploads.count, "upload") %>.
+      <table class="ui celled selectable table">
+        <thead>
+          <tr>
+            <th>File Name</th>
+            <th>Template Card</th>
+            <th>Uploaded by</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @uploads.each do |u| %>
+            <tr>
+              <td><%= link_to u.attachment.file.file.split("/")[-1], account_folder_upload_path(@account, @folder, u) %></td>
+              <td><%= u.template_card.name %></td>
+              <td><%= u.creator.name %>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  <% end %>
 </div>
