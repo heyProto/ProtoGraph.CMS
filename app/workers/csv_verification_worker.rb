@@ -80,13 +80,25 @@ class CsvVerificationWorker
   end
 
   def get_view_cast_details(card_data)
+    puts card_data
+    # # converts card_data keys to symbols because of data retrieval in different cards
+    # card_data = card_data.symbolize_keys
     params = {toReportViolence: {
-                name: "data/the_people_involved/title",
-                seo_blockquote_text: "data/"},
+                name: "data/copy_paste_from_article/headline",
+                seo_blockquote_text: "data/when_and_where_it_occur/approximate_date_of_incident,
+data/when_and_where_it_occur/area,
+data/when_and_where_it_occur/district,
+data/when_and_where_it_occur/state,
+data/the_incident/describe_the_event,
+data/the_people_involved/title,
+data/the_incident/classification,
+data/the_people_involved/victim_names,
+data/the_people_involved/victim_social_classification,
+data/the_people_involved/accused_names,
+data/the_people_involved/accused_social_classification"},
               toExplain: {
                 name: "data/explainer_header",
-                seo_blockquote_text: "data/explainer_text"
-              }
+                seo_blockquote_text: "data/explainer_text"},
              }
     name_path = params[@upload.template_card.name.to_sym][:name]
     seo_blockquote_text_path = params[@upload.template_card.name.to_sym][:seo_blockquote_text]
@@ -96,12 +108,16 @@ class CsvVerificationWorker
       name = name[dir]
     end
 
-    seo_blockquote_text = card_data
-    seo_blockquote_text_path.split("/").each do |dir|
-      seo_blockquote_text = seo_blockquote_text[dir]
+    seo_text = ""
+    seo_blockquote_text_path.split(",").each do |field|
+      seo_blockquote_text = card_data
+      field.strip.split("/").each do |dir|
+        seo_blockquote_text = seo_blockquote_text[dir]
+      end
+      seo_text = seo_blockquote_text + "</p>\n<p>" + seo_text
     end
 
-    return name, seo_blockquote_text
+    return name, seo_text
   end
 end
 
