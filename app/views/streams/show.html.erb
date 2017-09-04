@@ -11,24 +11,19 @@
                         <div class="column proto-graph-card-div">
                             <%= link_to [@account, @folder,d], "data-turbolinks"=> false do %>
                                 <div class="proto-graph-card">
-                                    <img class="index-card-image" src="<%= d.render_screenshot_url(true) %>" width="100%" alt="<%= d.name %>">
-                                    <!-- <div class="proto-card-highlight-gradient"></div> -->
                                     <div class="proto-card-gradient">
                                         <div class="index-card-content">
                                             <div class="index-card-title">
                                                 <%= d.name %>
                                             </div>
-                                            <div class="index-card-created-by">
-                                                <%= image_tag avatar_url(d.updator.email), width: "100%" %>
-                                            </div>
+                                            <div class="index-card-created-by"><%= image_tag avatar_url(d.updator.email), width: "100%" %></div>
                                             <div class="index-card-extra-info">
-                                                <%= d.template_card.name %> |
-                                                    <%= time_ago_in_words(d.updated_at) %>
+                                                <%= d.template_card.name %>  |  <%= time_ago_in_words(d.updated_at) %>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                <% end %>
+                            <% end %>
                         </div>
                         <% end %>
         </div>
