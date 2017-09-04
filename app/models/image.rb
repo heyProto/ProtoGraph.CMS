@@ -18,6 +18,7 @@
 #  updated_by       :integer
 #  created_at       :datetime         not null
 #  updated_at       :datetime         not null
+#  is_logo          :boolean          default(FALSE)
 #
 
 class Image < ApplicationRecord
@@ -37,6 +38,13 @@ class Image < ApplicationRecord
   #CALLBACKS
   before_create { self.s3_identifier = SecureRandom.hex(8) }
   after_create :create_image_version
+
+  validate :check_dimensions, :on => :create, if: :is_logo?
+  def check_dimensions
+    if !image_cache.nil? and image.width != 100 and image.height != 100
+      errors.add :image, "Logo has to be of size 100x100."
+    end
+  end
 
   #SCOPE
   #OTHER
