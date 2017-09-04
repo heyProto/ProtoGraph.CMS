@@ -24,7 +24,6 @@ class Upload < ApplicationRecord
   belongs_to :folder
   include Associable
   #ACCESSORS
-  attr_accessor :account_id, :folder_id, :user_id
   mount_uploader :attachment, CsvUploader
   #VALIDATIONS
   validates :attachment, presence: true
