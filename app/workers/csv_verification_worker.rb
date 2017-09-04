@@ -80,13 +80,15 @@ class CsvVerificationWorker
   end
 
   def get_view_cast_details(card_data)
+    puts card_data
+    # # converts card_data keys to symbols because of data retrieval in different cards
+    # card_data = card_data.symbolize_keys
     params = {toReportViolence: {
                 name: "data/the_people_involved/title",
                 seo_blockquote_text: ""},
               toExplain: {
                 name: "data/explainer_header",
-                seo_blockquote_text: "data/explainer_text"
-              }
+                seo_blockquote_text: "data/explainer_text"}
              }
     name_path = params[@upload.template_card.name.to_sym][:name]
     seo_blockquote_text_path = params[@upload.template_card.name.to_sym][:seo_blockquote_text]
@@ -98,9 +100,10 @@ class CsvVerificationWorker
     seo_blockquote_text = card_data
     seo_blockquote_text_path.split("/").each do |dir|
       seo_blockquote_text = seo_blockquote_text[dir]
+
     end
 
-    return name, seo_blockquote_text
+    return name, seo_text
   end
 end
 
