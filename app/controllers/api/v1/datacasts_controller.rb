@@ -9,6 +9,7 @@ class Api::V1::DatacastsController < ApiController
         view_cast.created_by = @user.id
         view_cast.updated_by = @user.id
         if view_cast.save
+            track_activity(view_cast)
             payload["api_slug"] = view_cast.datacast_identifier
             payload["schema_url"] = view_cast.template_datum.schema_json
             r = Api::ProtoGraph::Datacast.create(payload)
@@ -39,6 +40,7 @@ class Api::V1::DatacastsController < ApiController
             updating_params[:updated_by] = @user.id
             updating_params[:is_invalidating] = true
             view_cast.update_attributes(updating_params)
+            track_activity(view_cast)
             if @account.cdn_id != ENV['AWS_CDN_ID']
                 Api::ProtoGraph::CloudFront.invalidate(@account, ["/#{view_cast.datacast_identifier}/data.json","/#{view_cast.datacast_identifier}/view_cast.json"], 2)
             end

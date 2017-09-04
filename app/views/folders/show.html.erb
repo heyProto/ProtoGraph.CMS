@@ -1,0 +1,31 @@
+<div class="ui grid">
+    <div class='four wide column'>
+      <h4>
+        Cards
+        <span style="float: right;text-align: right">
+          <%= link_to '<i class="plus icon"></i>'.html_safe, new_account_folder_view_cast_path(@account, @folder), data: {turbolinks: false} %>
+        </span>
+      </h4>
+      <%= render partial: "view_casts/index" %>
+    </div>
+    <div class='five wide column'>
+      <h4>
+        Streams
+        <% if @is_viewcasts_present %>
+            <span style="float: right;text-align: right">
+              <%= link_to '<i class="plus icon"></i>'.html_safe, new_account_folder_stream_path(@account, @folder) %>
+            </span>
+        <% end %>
+      </h4>
+      <%= render partial: "streams/index" %>
+    </div>
+    <div class='seven wide column'>
+      <h4>
+        Prepare articles
+        <span style="float: right;text-align: right">
+          <% #link_to '<i class="plus icon"></i>'.html_safe, new_account_folder_article_path(@account, @folder) %>
+          </span>
+      </h4>
+      <%= render partial: "articles/index" %>
+    </div>
+</div>

@@ -33,6 +33,7 @@ class User < ApplicationRecord
     #ASSOCIATIONS
     has_many :permissions, ->{where(status: "Active")}
     has_many :accounts, through: :permissions
+    has_many :activities
 
     #ACCESSORS
     attr_accessor :username

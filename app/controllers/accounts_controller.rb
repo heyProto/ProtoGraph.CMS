@@ -12,6 +12,8 @@ class AccountsController < ApplicationController
   def show
     @folders = @account.folders
     @folder = Folder.new
+    @accounts = current_user.accounts
+    @activities = @account.activities.order("updated_at DESC").limit(30)
   end
 
   def edit

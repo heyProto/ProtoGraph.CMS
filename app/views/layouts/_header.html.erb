@@ -12,36 +12,25 @@
     <div class="item">
       <div class="ui tiny breadcrumb">
         <%=link_to @account.username, @account, class: "section" %>
-        <% if @folder.present? and @folder.id.present? %>
+        <% if controller_name == "folders" and @folder.present? %>
+          <i class="right angle icon divider"></i>
+          <div class="active section"><%= @folder.name %></div>
+        <% elsif @folder.present? and @folder.id.present? %>
           <i class="right angle icon divider"></i>
           <%=link_to @folder.name, [@account, @folder], class: "section" %>
-          <% if controller_name == "view_casts" and action_name != "index" %>
-            <i class="right angle icon divider"></i>
-            <%=link_to "Cards", [@account, @folder], class: "section" %>
-          <% elsif controller_name == "streams" and action_name != "index" %>
-            <i class="right angle icon divider"></i>
-            <%=link_to "Streams", account_folder_streams_path(@account, @folder), class: "section" %>
-          <% end %>
         <% end %>
       </div>
     </div>
     <div class="right menu">
-      <% if controller_name == "folders" %>
-          <li class="item"><%= link_to "Compose a new card", new_account_folder_view_cast_path(@account, @folder), "data-turbolinks"=> false, class: "ui primary basic button mini", style: "font-size: 11px;" %></li>
-      <% elsif controller_name == "accounts" and action_name == "show" %>
-          <li class="item"><a id='formAddButton' class='ui primary basic button mini' style="font-size: 11px;">Create a new Folder</a></li>
-      <% elsif controller_name == "streams" %>
-          <li class="item"><a id='formAddButton' class='ui primary basic button mini' style="font-size: 11px;">Search for a new Stream</a></li>
-      <% elsif controller_name == "articles" %>
-          <li class="item"><a id='formAddButton' href='<%= new_account_folder_article_path(@account, @folder) %>' class='ui primary basic button mini' style="font-size: 11px;">Prepare an article</a></li>
+      <% if (controller_name == "accounts" and action_name == 'show') or (controller_name == 'folders' and action_name == "create") %>
+          <li class="item"><%= link_to "Add a new folder", "#", class: "ui primary basic button mini", id: "formAddButton" %></li>
       <% end %>
       <div class="ui dropdown pointing item">
         <%= image_tag avatar_url(@account.gravatar_email), class: "ui avatar image" %>
         <div class="menu">
-          <% if @role.can_account_settings %>
-
           <%= link_to "Image Bank", account_images_path(@account), "data-turbolinks"=> false, class: 'item'  %>
-          <%= link_to "Team Settings", edit_account_path(@account), class: "item" %>
+          <% if @role.can_account_settings %>
+            <%= link_to "Team Settings", edit_account_path(@account), class: "item" %>
           <% end %>
           <% if 1==2 and (@role.can_template_design_do or @role.can_template_design_publish) %>
           <%= link_to "App Store", account_template_cards_path(@account), class: "item" %>
@@ -51,8 +40,6 @@
       <div class="ui dropdown pointing item">
         <%= image_tag avatar_url(current_user.email), class: "ui avatar image" %>
         <div class="menu">
-          <%= link_to 'Your teams', accounts_path, class: "item" %>
-          <div class="divider"></div>
           <%= link_to 'Profile', edit_user_registration_path(@account), class: "item" %>
           <%= link_to "Sign out", destroy_user_session_path, class: "item" %>
         </div>
@@ -64,8 +51,6 @@
       <div class="ui dropdown pointing item">
         <%= image_tag avatar_url(current_user.email), class: "ui avatar image" %>
         <div class="menu">
-          <%= link_to 'Your teams', accounts_path, class: "item" %>
-          <div class="divider"></div>
           <%= link_to 'Profile', edit_user_registration_path(@account), class: "item" %>
           <%= link_to "Sign out", destroy_user_session_path, class: "item" %>
         </div>

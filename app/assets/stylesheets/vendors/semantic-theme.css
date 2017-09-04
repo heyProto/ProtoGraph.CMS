@@ -29,6 +29,21 @@ a.ui.button:hover {
 
 .card > .content > .meta > a{font-size: 11px;}
 
+.ui.middle.aligned.selection.list.account_switcher_item > .item{
+    background: #303E4D !important;
+    margin-bottom: 20px;
+  }
+  .ui.middle.aligned.selection.list.account_switcher_item > .item > a{
+    background: #303E4D !important;
+  }
+  .ui.middle.aligned.selection.list.account_switcher_item > .item.active{
+    background: #6698C8 !important;
+    margin-bottom: 20px;
+  }
+  .ui.middle.aligned.selection.list.account_switcher_item > .item.active > a{
+    background: #6698C8 !important;
+  }
+
 /*.ui.button{
     background: #0366d6 !important;
     color: white !important;

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170903082228) do
+ActiveRecord::Schema.define(version: 20170904023554) do
 
   create_table "accounts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "username"
@@ -28,9 +28,21 @@ ActiveRecord::Schema.define(version: 20170903082228) do
     t.string "client_token"
     t.string "access_token"
     t.string "client_secret"
+    t.text "logo_url"
     t.index ["domain"], name: "index_accounts_on_domain"
     t.index ["slug"], name: "index_accounts_on_slug", unique: true
     t.index ["username"], name: "index_accounts_on_username", unique: true
+  end
+
+  create_table "activities", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.integer "user_id"
+    t.string "action"
+    t.integer "trackable_id"
+    t.string "trackable_type"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "folder_id"
+    t.integer "account_id"
   end
 
   create_table "articles", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -94,7 +106,6 @@ ActiveRecord::Schema.define(version: 20170903082228) do
 
   create_table "image_variations", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer "image_id"
-    t.text "image_url"
     t.text "image_key"
     t.integer "image_width"
     t.integer "image_height"

@@ -11,14 +11,6 @@
             <h4>Brand images for social media</h4>
         </div>
         <div class="right floated ten wide column">
-            <div class="ui mini breadcrumb">
-               <%=link_to @account.username, @account, class: "section" %>
-                <i class="right angle icon divider"></i>
-                <%=link_to @folder.name, [@account, @folder], class: "section" %>
-                <i class="right angle icon divider"></i>
-                <%=link_to "Prepare articles", account_folder_articles_path(@account, @folder), class: "section" %>
-            </div>
-            <br/><br/>
             <%= f.input :url, as: :string, placeholder: "*Copy paste the URL of the story", label: false, required: true %>
             <%= f.input :genre, placeholder: "Genre of the story e.g. Opinion, Analysis, Wire, Breaking, Exclusive, etc.", label: false %>
             <%= f.input :title, placeholder: "Copy paste the Title", label: false %>
@@ -27,7 +19,8 @@
                     <td><%= image_tag "cover.png", width: "35px;" %></td>
                     <td>&nbsp;</td>
                     <td>
-                        <%= f.fields_for @article.cover_image do |cover_image| %>
+                        <!-- # Ensure that the cover_image updates -->
+                        <%= f.fields_for :cover_image do |cover_image| %>
                             <%= cover_image.input :image, label: false %>
                         <% end %>
                     </td>

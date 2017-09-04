@@ -82,7 +82,7 @@ class CsvVerificationWorker
   def get_view_cast_details(card_data)
     params = {toReportViolence: {
                 name: "data/the_people_involved/title",
-                seo_blockquote_text: ""},
+                seo_blockquote_text: "data/"},
               toExplain: {
                 name: "data/explainer_header",
                 seo_blockquote_text: "data/explainer_text"
@@ -95,6 +95,7 @@ class CsvVerificationWorker
     name_path.split("/").each do |dir|
       name = name[dir]
     end
+
     seo_blockquote_text = card_data
     seo_blockquote_text_path.split("/").each do |dir|
       seo_blockquote_text = seo_blockquote_text[dir]

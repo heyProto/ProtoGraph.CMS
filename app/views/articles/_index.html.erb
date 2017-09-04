@@ -1,0 +1,31 @@
+<% if @articles.first.blank? %>
+    <p class='hint'>Press the + button on top right to prepare articles before publishing.</p>
+<% else %>
+        <table class="ui very basic table">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th class="collapsing">Last modified at</th>
+                <th>by</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% @articles.each do |article| %>
+                <% if article.id.present? %>
+                    <tr>
+                        <td>
+                            <%= link_to article.title.titleize, [@account, @folder, article] %>
+                        </td>
+                        <td class="hint">
+                            <%= "#{time_ago_in_words(article.updated_at)} ago" %>
+                        </td>
+                        <td class="hint collapsing">
+                            <%= article.creator.name %>
+                        </td>
+                        </td>
+                    </tr>
+                <% end %>
+              <% end %>
+            </tbody>
+        </table>
+<% end %>
