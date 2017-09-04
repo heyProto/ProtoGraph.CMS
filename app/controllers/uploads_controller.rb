@@ -1,5 +1,5 @@
 class UploadsController < ApplicationController
-
+  before_action :sudo_pykih_admin
   before_action :set_upload, only: [:show]
 
   def new
