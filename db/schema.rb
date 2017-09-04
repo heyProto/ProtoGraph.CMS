@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170903072406) do
+ActiveRecord::Schema.define(version: 20170904023554) do
 
   create_table "accounts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "username"
@@ -106,7 +106,6 @@ ActiveRecord::Schema.define(version: 20170903072406) do
 
   create_table "image_variations", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer "image_id"
-    t.text "image_url"
     t.text "image_key"
     t.integer "image_width"
     t.integer "image_height"
