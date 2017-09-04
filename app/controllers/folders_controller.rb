@@ -13,6 +13,7 @@ class FoldersController < ApplicationController
     @folders = @account.folders
     @accounts = current_user.accounts
     @open_modal = true
+    @activities = @account.activities.order("updated_at DESC").limit(30)
     render "accounts/show"
   end
 
