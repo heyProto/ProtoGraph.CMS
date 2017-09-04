@@ -35,15 +35,30 @@
           <p class="hint">Choose to make your team signup process invitation only, or allow anyone with a certain email address format to sign up.</p>
           <%= f.input :sign_up_mode, as: :select, collection: Account::SIGN_UP_MODES.map{|z| [z, z]}, label: false, include_blank: false %>
           <%= f.input :domain, placeholder: "E.g. google.com. Don't use common domains like gmail, outlook, yahoo, etc." %>
-          <h4>Gravatar Email ID</h4>
-          <%= f.input :gravatar_email, label: false %>
+          <% unless @account.logo_image_id.present? %>
+            <h4>Logo Image</h4>
+            <%= f.fields_for :logo_image do |logo_image| %>
+              <%= logo_image.input :image, label: false %>
+            <% end %>
+          <% end %>
           <%= f.button :submit, "Save", class: "ui button" %>
         </div>
     </div>
     <div class="six wide column">
-        <%= image_tag avatar_url(@account.gravatar_email, 200), class: "ui medium circular centered image" %>
+      <% if @account.logo_image_id.present? %>
+        <%= image_tag(@account.logo_image.original_image.image_url, class: "ui medium circular centered image") %>
         <br/>
-        <p class="hint" style="text-align: center;">To change the profile image, register with <a href="http://gravatar.com/" target="_blank">gravatar.com</a> with email ID <%= @account.gravatar_email %> and upload a square image there (Twitter DP).</p>
+        <%= simple_form_for @account do |f| %>
+          <%= f.error_notification %>
+          <%= f.input :logo_image_id, as: :hidden, input_html: {value: nil} %>
+          <div style="text-align: center;">
+            <%= f.button :submit, "Remove Image", class: "ui button" %>
+          </div>
+        <% end %>
+      <% else %>
+        <%= image_tag avatar_url(@account.gravatar_email, 200), class: "ui medium circular centered image" %>
+      <% end %>
+        <!-- <p class="hint" style="text-align: center;">To change the profile image, register with <a href="http://gravatar.com/" target="_blank">gravatar.com</a> with email ID <%= @account.gravatar_email %> and upload a square image there (Twitter DP).</p> -->
     </div>
   </div>
 
