@@ -15,7 +15,7 @@ class CsvVerificationWorker
       stdout, stderr, status = Open3.capture3("echo #{row.to_h.to_json.to_json} | jq -f ref/jq_filter/jq_filter_#{@upload.template_card.name}.jq")
       if stdout.present?
         card_array_filtered << stdout
-      else
+      elsif stderr.present?
         filtering_errors << [row_number, stderr]
       end
       row_number += 1
