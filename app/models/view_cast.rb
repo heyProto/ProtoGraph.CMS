@@ -158,7 +158,7 @@ class ViewCast < ApplicationRecord
             resp = Api::ProtoGraph::Utility.upload_to_cdn(encoded_file, key, content_type)
         end
         self.seo_blockquote = self.seo_blockquote.to_s.gsub('\\', '\\\\')
-        self.seo_blockquote = self.seo_blockquote.to_s.gsub('`', '\`')
+        # self.seo_blockquote = self.seo_blockquote.to_s.split('`').join('\`') #.gsub('`', '\`')
         self.seo_blockquote = self.seo_blockquote.to_s.gsub('${', '\${')
     end
 
