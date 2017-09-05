@@ -36,6 +36,18 @@ class Upload < ApplicationRecord
   def validate_csv
     CsvVerificationWorker.perform_async(self.id)
   end
+
+  def validate_headers
+    require 'csv'
+    csv_headers = CSV.read(self.attachment.file.file)[0]
+    path = Rails.root.join("public/csv_templates/#{self.template_card.name.underscore}.csv")
+    template_card_headers = CSV.read(path)[0]
+    if csv_headers == template_card_headers
+      true
+    else
+      false
+    end
+  end
   #PRIVATE
 end
 

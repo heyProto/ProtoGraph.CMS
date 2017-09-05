@@ -11,6 +11,9 @@ class UploadsController < ApplicationController
 
   def create
     @upload = Upload.new(upload_params)
+    if !@upload.validate_headers
+      redirect_to new_account_folder_upload_path(@account, @folder), alert: "Make sure headers are the same as in the CSV headers file and you have selected the right card type" and return
+    end
     @upload.folder = Folder.find(upload_params[:folder_id])
     @upload.creator = current_user
     @upload.updator = current_user

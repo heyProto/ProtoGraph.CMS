@@ -1,6 +1,7 @@
 <div class="ui grid">
   <div class="four wide column">
-    <%= link_to "toReportViolence CSV headers", "/csv_templates/to_report_violence.csv", download:"" %>
+    Please make sure there are no empty rows in the csv file<br><br>
+    <%= link_to "toReportViolence CSV headers", "/csv_templates/to_report_violence.csv", download:"" %><br>
     <%= link_to "toExplain CSV headers", "/csv_templates/to_explain.csv", download:"" %>
   </div>
   <div class="twelve wide column">
@@ -30,7 +31,13 @@
             <tr>
               <td><%= link_to u.attachment.file.file.split("/")[-1], u.attachment.url, download: "" %></td>
               <td><%= u.template_card.name %></td>
-              <td><%= link_to "Download errored file" %></td>
+              <td>
+                <% if File.exist?(Rails.root.join("public" + u.attachment.url.split("/").slice(0..-2).join("/") + "/errored_file.csv")) %>
+                  <%= link_to "Download errored file", u.attachment.url.split("/").slice(0..-2).join("/") + "/errored_file.csv" %>
+                <% else %>
+                  <p>No errors found</p>
+                <% end %>
+              </td>
               <td><%= u.creator.name %>
             </tr>
           <% end %>
