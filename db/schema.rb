@@ -255,6 +255,7 @@ ActiveRecord::Schema.define(version: 20170904084802) do
     t.boolean "has_static_image", default: false
     t.string "git_repo_name"
     t.string "s3_identifier"
+    t.boolean "has_multiple_uploads", default: false
     t.index ["slug"], name: "index_template_cards_on_slug", unique: true
   end
 
@@ -282,6 +283,7 @@ ActiveRecord::Schema.define(version: 20170904084802) do
     t.integer "created_by"
     t.integer "updated_by"
     t.text "upload_errors"
+    t.text "filtering_errors"
     t.index ["account_id"], name: "index_uploads_on_account_id"
     t.index ["folder_id"], name: "index_uploads_on_folder_id"
     t.index ["template_card_id"], name: "index_uploads_on_template_card_id"
@@ -328,6 +330,7 @@ ActiveRecord::Schema.define(version: 20170904084802) do
     t.text "status"
     t.integer "folder_id"
     t.boolean "is_invalidating"
+    t.index ["slug"], name: "index_view_casts_on_slug", unique: true
   end
 
   add_foreign_key "uploads", "accounts"

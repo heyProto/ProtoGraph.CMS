@@ -2,32 +2,33 @@
 #
 # Table name: template_cards
 #
-#  id                  :integer          not null, primary key
-#  account_id          :integer
-#  name                :string(255)
-#  elevator_pitch      :string(255)
-#  description         :text(65535)
-#  global_slug         :string(255)
-#  is_current_version  :boolean
-#  slug                :string(255)
-#  version_series      :string(255)
-#  previous_version_id :integer
-#  version_genre       :string(255)
-#  version             :string(255)
-#  change_log          :text(65535)
-#  status              :string(255)
-#  publish_count       :integer
-#  is_public           :boolean
-#  git_url             :text(65535)
-#  git_branch          :string(255)      default("master")
-#  created_by          :integer
-#  updated_by          :integer
-#  template_datum_id   :integer
-#  created_at          :datetime         not null
-#  updated_at          :datetime         not null
-#  has_static_image    :boolean          default(FALSE)
-#  git_repo_name       :string(255)
-#  s3_identifier       :string(255)
+#  id                   :integer          not null, primary key
+#  account_id           :integer
+#  name                 :string(255)
+#  elevator_pitch       :string(255)
+#  description          :text(65535)
+#  global_slug          :string(255)
+#  is_current_version   :boolean
+#  slug                 :string(255)
+#  version_series       :string(255)
+#  previous_version_id  :integer
+#  version_genre        :string(255)
+#  version              :string(255)
+#  change_log           :text(65535)
+#  status               :string(255)
+#  publish_count        :integer
+#  is_public            :boolean
+#  git_url              :text(65535)
+#  git_branch           :string(255)      default("master")
+#  created_by           :integer
+#  updated_by           :integer
+#  template_datum_id    :integer
+#  created_at           :datetime         not null
+#  updated_at           :datetime         not null
+#  has_static_image     :boolean          default(FALSE)
+#  git_repo_name        :string(255)
+#  s3_identifier        :string(255)
+#  has_multiple_uploads :boolean
 #
 
 class TemplateCard < ApplicationRecord
@@ -64,7 +65,7 @@ class TemplateCard < ApplicationRecord
     before_destroy :before_destroy_set
 
     #SCOPE
-    #OTHER
+    scope :with_multiple_uploads, -> { where(has_multiple_uploads: true) }    #OTHER
     def slug_candidates
         ["#{self.name}-#{self.version.to_s}"]
     end

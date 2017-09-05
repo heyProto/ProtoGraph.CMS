@@ -1,11 +1,12 @@
 class UploadsController < ApplicationController
-
+  before_action :sudo_pykih_admin
   before_action :set_upload, only: [:show]
 
   def new
     @upload = Upload.new
     @folders = @account.folders
-    @template_cards = TemplateCard.all
+    @template_cards = TemplateCard.with_multiple_uploads
+    @uploads = @folder.uploads.order("created_at DESC")
   end
 
   def create
@@ -22,14 +23,25 @@ class UploadsController < ApplicationController
   end
 
   def show
+    errors = []
+    JSON.parse(@upload.filtering_errors).each do |a|
+      if a.present?
+        errors << a
+      end
+    end
+    JSON.parse(@upload.upload_errors).each do |a|
+      if a.present?
+        errors << a
+      end
+    end
+    @errors = errors.sort
   end
   private
   def upload_params
     params.require(:upload).permit(:attachment,
                                    :template_card_id,
                                    :account_id,
-                                   :folder_id,
-                                   :user_id)
+                                   :folder_id,)
   end
 
   def set_upload

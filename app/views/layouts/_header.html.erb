@@ -26,8 +26,11 @@
           <li class="item"><%= link_to "Add a new folder", "#", class: "ui primary basic button mini", id: "formAddButton" %></li>
       <% end %>
       <div class="ui dropdown pointing item">
-        <%= image_tag avatar_url(@account.gravatar_email), class: "ui avatar image" %>
-        <div class="menu">
+          <%= image_tag avatar_url(@account.gravatar_email), class: "ui avatar image" %>
+          <div class="menu">
+          <% if controller_name == "folders" && current_user.is_admin_from_pykih %>
+            <%= link_to "Add multiple cards", new_account_folder_upload_path(@account, @folder), "data-turbolinks"=> false, class: "item" %>
+          <% end %>
           <%= link_to "Image Bank", account_images_path(@account), "data-turbolinks"=> false, class: 'item'  %>
           <% if @role.can_account_settings %>
             <%= link_to "Team Settings", edit_account_path(@account), class: "item" %>

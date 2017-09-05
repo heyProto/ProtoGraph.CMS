@@ -1,8 +1,39 @@
-<%= simple_form_for [:account, @upload] do |f| %>
-    <%= f.input :attachment, as: :file, required: true %>
-    <%= f.association :template_card %>
-    <%= f.input :folder_id, collection: @folders, required: true %>
-    <%= f.hidden_field :account_id, value: @account.id %>
-    <%= f.hidden_field :user_id, value: @current_user.id %>
-    <%= f.button :submit, class: "ui primary button" %>
-<% end %>
+<div class="ui grid">
+  <div class="four wide column">
+    <%= link_to "toReportViolence CSV headers", "/csv_templates/to_report_violence.csv", download:"" %>
+    <%= link_to "toExplain CSV headers", "/csv_templates/to_explain.csv", download:"" %>
+  </div>
+  <div class="twelve wide column">
+    <%= simple_form_for [:account, :folder, @upload] do |f| %>
+      <%= f.input :attachment, as: :file, required: true %>
+      <%= f.input :template_card_id, collection: @template_cards, label_method: :name, value_method: :id, include_blank: false %>
+      <%= f.hidden_field :folder_id, value: @folder.id %>
+      <%= f.hidden_field :account_id, value: @account.id %>
+      <%= f.hidden_field :user_id, value: @current_user.id %>
+      <%= f.button :submit, "Upload File", class: "ui primary button" %>
+    <% end %>
+  </div>
+  <% if @uploads.present? %>
+    <div class="sixteen wide column">
+      <%= @folder.name %> has <%= pluralize(@uploads.count, "upload") %>.
+      <table class="ui celled selectable table">
+        <thead>
+          <tr>
+            <th>File Name</th>
+            <th>Template Card</th>
+            <th>Uploaded by</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @uploads.each do |u| %>
+            <tr>
+              <td><%= link_to u.attachment.file.file.split("/")[-1], account_folder_upload_path(@account, @folder, u) %></td>
+              <td><%= u.template_card.name %></td>
+              <td><%= u.creator.name %>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  <% end %>
+</div>
