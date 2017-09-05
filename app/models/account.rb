@@ -18,7 +18,7 @@
 #  client_token   :string(255)
 #  access_token   :string(255)
 #  client_secret  :string(255)
-#  logo_url       :text(65535)
+#  logo_image_id  :integer
 #
 
 class Account < ApplicationRecord
@@ -40,6 +40,8 @@ class Account < ApplicationRecord
     has_many :view_casts
     has_many :folders
     has_many :activities
+    belongs_to :logo_image, class_name: "Image", foreign_key: "logo_image_id", primary_key: "id", optional: true
+    accepts_nested_attributes_for :logo_image
 
     #ACCESSORS
     #VALIDATIONS

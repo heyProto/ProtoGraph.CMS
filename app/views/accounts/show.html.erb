@@ -4,7 +4,8 @@
         <% @accounts.each do |account| %>
             <div class="<%= @account.username == account.username ? 'item active' : 'item' %>">
               <a href=<%= account_path(account) %> title=<%=account.username%>>
-                <%= image_tag avatar_url(account.gravatar_email), class: "ui avatar image" %>
+                <% avatar_image = account.logo_image_id.present? ? account.logo_image.original_image.image_url : avatar_url(account.gravatar_email)%>
+                <%= image_tag avatar_image, class: "ui avatar image" %>
               </a>
             </div>
         <% end %>
@@ -64,7 +65,7 @@ $(document).on("turbolinks:load", function () {
       .modal({
         closable: false,
         onHide: function(){
-          Turbolinks.visit("<%= account_path(@account) %>")
+          window.location.href= "<%= account_path(@account) %>";
         }
       }).modal('show');
   </script>

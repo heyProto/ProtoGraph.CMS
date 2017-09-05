@@ -60,7 +60,7 @@ class Stream < ApplicationRecord
         query[:folder_id] = self.folder_ids.pluck(:entity_value) if self.folder_ids.count > 0
         query[:template_card_id] = self.template_card_ids.pluck(:entity_value) if self.template_card_ids.count > 0
         unless query.blank?
-            view_cast = ViewCast.where(query).limit(self.limit).offset(self.offset)
+            view_cast = ViewCast.order(created_at: :desc).where(query).limit(self.limit).offset(self.offset)
         else
             view_cast = ViewCast.none
         end
