@@ -155,6 +155,7 @@ class TemplateCard < ApplicationRecord
 
     def invalidate
         begin
+            #Write Code to invalidate all files for akamai account cdn
             Api::ProtoGraph::CloudFront.invalidate(nil, ["/#{self.s3_identifier}/*"], 1)
         rescue
         end

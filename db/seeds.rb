@@ -11,6 +11,7 @@
 puts "----> Creating ICFJ Account"
 
 icfj_account = Account.create({username: "ICFJ", domain: "icfj.org"})
+pykih_account = Account.create({username: "pykih", domain: "pykih.com"})
 
 puts "----> Creating Ref Roles"
 
@@ -42,16 +43,25 @@ users.each do |a|
   c.save
   Permission.create({ref_role_slug: "owner", account_id: icfj_account.id, user_id: c.id, created_by: c.id,updated_by: c.id})
 end
+user_id = User.first.id
+
+folder = Folder.create({
+  account_id: icfj_account.id,
+  name: "Sample Project",
+  created_by: user_id,
+  updated_by: user_id
+})
+
 
 
 puts "----> Creating Template Datum"
-user_id = User.first.id
 t_explain = TemplateDatum.create({name: "toExplain", version: "0.0.1", s3_identifier: "2e804dc00b362f24"})
 t_share = TemplateDatum.create({name: "toSocial", version: "0.0.1", s3_identifier: "9701121472ab331a"})
 t_quiz = TemplateDatum.create({name: "toQuiz", version: "0.0.1", s3_identifier: "0eec77701464"})
 t_report_violence = TemplateDatum.create({name: "toReportViolence", version: "0.0.1", s3_identifier: "8fe46be1629b"})
 t_timeline = TemplateDatum.create({name: "toTimeline", version: "0.0.1", s3_identifier: "eadf798aca986e17"})
 t_link = TemplateDatum.create({name: "toLink", version: "0.0.1", s3_identifier: "98f473c421f79d3f"})
+t_audio_photo = TemplateDatum.create({name: "toAudioPhoto", version: "0.0.1", s3_identifier: "0aa5919b93028be5"})
 
 puts "----> Creating Template Cards"
 
@@ -61,3 +71,4 @@ TemplateCard.create({git_url: "git@github.com:icfjknightfellows/ProtoGraph.Card.
 TemplateCard.create({git_url: "git@github.com:icfjknightfellows/ProtoGraph.Card.toReportViolence.git", name: "toReportViolence", git_branch: "master", git_repo_name: "ProtoGraph.Card.toReportViolence", status: "published", is_public: true, account_id: icfj_account.id, created_by: user_id, updated_by: user_id, template_datum_id: t_report_violence.id, elevator_pitch: "Structured Journalism: Document incidents of mob lynching.", description: "askdna ldknas ldknas ldknas ldknas dlkans dlkasnd laksnd laksn dalskdn aslkdn aslkd naslkd nasldk nasld knasld kansdl kasndl kasnd lasknd laksnd alskdn alskdnaslkdnal dknasl dknasld knas dlknas dlkansd lkansd laksnd lasknd alksndl aksndals kdnalsk ndalkdn alsknd alsd", s3_identifier: "1cc352b8dae0"})
 TemplateCard.create({git_url: "git@github.com:icfjknightfellows/ProtoGraph.Card.toTimeline.git", name: "toTimeline", git_branch: "master", git_repo_name: "ProtoGraph.Card.toTimeline", status: "published", is_public: true, account_id: icfj_account.id, created_by: user_id, updated_by: user_id, template_datum_id: t_timeline.id, elevator_pitch: "Build visually rich, mobile-first, interactive timelines.", description: "", s3_identifier: "abe2a24d7e5c4b81"})
 TemplateCard.create({git_url: "git@github.com:pykih/ProtoGraph.Card.toLink.git", name: "toLink", git_branch: "master", git_repo_name: "ProtoGraph.Card.toLink", status: "published", is_public: true, account_id: icfj_account.id, created_by: user_id, updated_by: user_id, template_datum_id: t_link.id, elevator_pitch: "", description: "", s3_identifier: "ce908c66e6861eb4"})
+TemplateCard.create({git_url: "git@github.com:pykih/ProtoGraph.Card.toAudioPhoto.git", name: "toAudioPhoto", git_branch: "master", git_repo_name: "ProtoGraph.Card.toAudioPhoto", status: "published", is_public: false, account_id: pykih_account.id, created_by: user_id, updated_by: user_id, template_datum_id: t_audio_photo.id, elevator_pitch: "", description: "", s3_identifier: "0834977043ff14a7"})

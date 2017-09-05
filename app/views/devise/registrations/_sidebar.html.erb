@@ -1,0 +1,6 @@
+<br/>
+<br/>
+<div class="ui secondary vertical menu">
+  <%= link_to "Profile", edit_user_registration_path(@account), class: controller_name == "registrations" ? "item active" : "item" %>
+  <%= link_to "Switch teams", accounts_path, class: (controller_name == "accounts" and action_name == "index") ? "item active" : "item" %>
+</div>

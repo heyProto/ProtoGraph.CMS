@@ -18,6 +18,7 @@
 #  client_token   :string(255)
 #  access_token   :string(255)
 #  client_secret  :string(255)
+#  logo_image_id  :integer
 #
 
 class Account < ApplicationRecord
@@ -29,6 +30,7 @@ class Account < ApplicationRecord
     #GEMS
     extend FriendlyId
     friendly_id :username, use: :slugged
+    mount_uploader :logo_url, ImageUploader
 
     #ASSOCIATIONS
     has_many :permissions, ->{where(status: "Active")}
@@ -38,6 +40,9 @@ class Account < ApplicationRecord
     has_many :view_casts
     has_many :folders
     has_many :uploads
+    has_many :activities
+    belongs_to :logo_image, class_name: "Image", foreign_key: "logo_image_id", primary_key: "id", optional: true
+    accepts_nested_attributes_for :logo_image
     #ACCESSORS
     #VALIDATIONS
     validates :username, presence: true, uniqueness: { case_sensitive: false }, length: { in: 3..24 }, format: { with: /\A[a-z0-9A-Z_]{4,16}\z/ }
@@ -46,10 +51,11 @@ class Account < ApplicationRecord
     message: "%{value} is reserved." } #TODO AMIT - we need to think of more free email providers
 
     validates :gravatar_email, format: { with: /\A[^@\s]+@([^@.\s]+\.)+[^@.\s]+\z/ }, allow_blank: true, allow_nil: true
-
+    validates :cdn_endpoint, format: URI::regexp(%w(http https)), allow_nil: true
     #CALLBACKS
     before_create :before_create_set
     before_update :before_update_set
+    after_save :after_save_set
 
     #SCOPE
     #OTHER
@@ -83,6 +89,9 @@ class Account < ApplicationRecord
         self.cdn_endpoint = ENV['AWS_S3_ENDPOINT'] if self.cdn_endpoint.blank?
         self.client_token = ENV['AWS_ACCESS_KEY_ID'] if self.client_token.blank?
         self.client_secret = ENV['AWS_SECRET_ACCESS_KEY'] if self.client_secret.blank?
+    end
+
+    def after_save_set
     end
 
 end

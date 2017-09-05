@@ -5,12 +5,11 @@ class ViewCastsController < ApplicationController
     def new
     end
 
-    def index
-        redirect_to account_path(@account)
-    end
-
     def show
         @folders = @account.folders
+        if (Time.now - @view_cast.updated_at) > 5.minute and (@view_cast.is_invalidating)
+            @view_cast.update_column(:is_invalidating, false)
+        end
     end
 
     def edit
@@ -19,6 +18,7 @@ class ViewCastsController < ApplicationController
     def update
         @view_cast = ViewCast.friendly.find(params[:id])
         if @view_cast.update(view_cast_params)
+            track_activity(@view_cast)
             redirect_to account_folder_view_cast_path(@account, @view_cast.folder, @view_cast), notice: t('us')
         else
             render :show

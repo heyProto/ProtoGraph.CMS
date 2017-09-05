@@ -1,7 +1,9 @@
-<div class="ten wide column">
-  <h1 class="ui header">
-    Your teams
-  </h1>
+<div class="ui grid">
+<div class="three wide column">
+    <%= render partial: "devise/registrations/sidebar" %>
+</div>
+<div class="seven wide column">
+  <h3>Personal Settings</h3>
   <br/>
   <div class="ui very relaxed list" style="width: 100% !important;">
     <% @accounts.each do |account| %>

@@ -1,11 +1,4 @@
 <div style='width:100%; box-sizing: border-box'>
-    <div class="ui mini breadcrumb">
-        <%=link_to @account.username, @account, class: "section" %>
-            <i class="right angle icon divider"></i>
-            <%=link_to @folder.name, [@account, @folder], class: "section" %>
-                <i class="right angle icon divider"></i>
-                <div class="section">Stream</div>
-    </div>
     <div class="ui huge header">
         <%= @stream.title %>
     </div>
@@ -13,58 +6,35 @@
         <div class="twelve wide column">
             <% if @view_casts.count == 0 %>
                 <h4>There are no cards in the stream. Edit your stream to improve your query</h4>
-            <% end %>
-            <% @view_casts.each do |d| %>
-                <div class="column proto-graph-card-div">
-                    <%= link_to [@account, @folder,d], "data-turbolinks"=> false do %>
-                        <div class="proto-graph-card">
-                            <img class="index-card-image" src="<%= d.render_screenshot_url %>" width="100%" alt="<%= d.name %>">
-                            <!-- <div class="proto-card-highlight-gradient"></div> -->
-                            <div class="proto-card-gradient">
-                                <div class="index-card-content">
-                                    <div class="index-card-title">
-                                        <%= d.name %>
-                                    </div>
-                                    <div class="index-card-created-by">
-                                        <%= image_tag avatar_url(d.updator.email), width: "100%" %>
-                                    </div>
-                                    <div class="index-card-extra-info">
-                                        <%= d.template_card.name %> |
-                                            <%= time_ago_in_words(d.updated_at) %>
+                <% end %>
+                    <% @view_casts.each do |d| %>
+                        <div class="column proto-graph-card-div">
+                            <%= link_to [@account, @folder,d], "data-turbolinks"=> false do %>
+                                <div class="proto-graph-card">
+                                    <div class="proto-card-gradient">
+                                        <div class="index-card-content">
+                                            <div class="index-card-title">
+                                                <%= d.name %>
+                                            </div>
+                                            <div class="index-card-created-by"><%= image_tag avatar_url(d.updator.email), width: "100%" %></div>
+                                            <div class="index-card-extra-info">
+                                                <%= d.template_card.name %>  |  <%= time_ago_in_words(d.updated_at) %>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
+                            <% end %>
                         </div>
-                    <% end %>
-                </div>
-            <% end %>
+                        <% end %>
         </div>
         <div class="four wide column">
             <div class="card-details">
+                <% unless @view_casts.count == 0 %>
+                    <%= link_to "Publish the Stream", publish_account_folder_stream_path(@account, @folder, @stream),"data-turbolinks"=> false, class: "ui green button", method: :post %>
+                <% end %>
+                <br/>
+                <div class='one-br-space'></div>
                 <div class="card-details-title">Details</div>
-                <div class="sigle-detail">
-                    <div class="card-detail-lable">Folders:</div>
-                    <br>
-                    <ul class="card-detail-Value">
-                        <% @folders.each do |folder| %>
-                            <li>
-                                <%= folder.name %>
-                            </li>
-                        <% end %>
-                    </ul>
-                </div>
-                <!-- <br> -->
-                <div class="sigle-detail">
-                    <div class="card-detail-lable">Cards:</div>
-                    <br>
-                    <ul class="card-detail-Value">
-                        <% @template_cards.each do |card| %>
-                            <li>
-                                <%= card.name %>
-                            </li>
-                        <% end %>
-                    </ul>
-                </div>
                 <% if @stream.last_published_at and @view_casts.count > 0 %>
                     <div class="sigle-detail">
                         <div class="card-detail-lable">URL:</div>
@@ -73,41 +43,47 @@
                         </div>
                     </div>
                     <div class="sigle-detail">
-                        <div class="card-detail-lable">Last Publised at:</div>
+                        <div class="card-detail-lable">Last publised at:</div>
                         <div class="card-detail-Value">
                             <%= time_ago_in_words(@stream.last_published_at) %> ago</div>
                     </div>
+                    <div class="sigle-detail">
+                        <div class="card-detail-lable"># of cards in this stream:</div>
+                        <div class="card-detail-Value">
+                            <%= @view_casts.count %>
+                        </div>
+                    </div>
                 <% end %>
-                <br>
                 <br/>
-                <% unless @view_casts.count == 0 %>
-                    <%= link_to "Publish the Stream", publish_account_folder_stream_path(@account, @folder, @stream),"data-turbolinks"=> false, class: "ui primary button", method: :post %>
-                <% end %>
+                <div class="sigle-detail">
+                    <div class="card-detail-lable">Created By:</div>
+                    <div class="card-detail-Value">
+                        <%= @stream.creator.name %>
+                    </div>
+                </div>
+                <div class="sigle-detail">
+                    <div class="card-detail-lable">On:</div>
+                    <div class="card-detail-Value">
+                        <%= @stream.created_at.strftime("%e %b %Y") %>
+                    </div>
+                </div>
+                <br>
+                <div class="sigle-detail">
+                    <div class="card-detail-lable">Updated By:</div>
+                    <div class="card-detail-Value">
+                        <%= @stream.updator.name %>
+                    </div>
+                </div>
+                <div class="sigle-detail">
+                    <div class="card-detail-lable">On:</div>
+                    <div class="card-detail-Value">
+                        <%= @stream.updated_at.strftime("%e %b %Y") %>
+                    </div>
+                </div>
+                <br/>
+                <%= link_to "Edit the Stream", edit_account_folder_stream_path(@account, @folder, @stream) %>
                 <br/>
             </div>
         </div>
     </div>
 </div>
-
-<button class="circular ui blue icon huge button" id="formAddButton" style="float:right;">
-    <i class="inverted pencil icon"></i>
-</button>
-<%= render partial: "streams/form" %>
-
-
-<script type="text/javascript">
-
-$(document).on("turbolinks:load", function () {
-    $('#formAddButton').on('click',function () {
-        $('#new-stream')
-          .modal({
-            closable: false,
-          }).modal('show');
-    });
-
-    $('.ui.dropdown').dropdown({
-      allowAdditions: true,
-    });
-
-});
-</script>
