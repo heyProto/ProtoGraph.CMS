@@ -27,7 +27,7 @@ class Article < ApplicationRecord
 
     #ASSOCIATIONS
     belongs_to :folder
-    has_one :cover_image, class_name: "Image", primary_key: "cover_image_id", foreign_key: "id"
+    belongs_to :cover_image, class_name: "Image"
     has_one :twitter_image_variation, class_name: "ImageVariation", foreign_key: "twitter_image_variation_id"
     has_one :og_image_variation, class_name: "ImageVariation", foreign_key: "og_image_variation_id"
     #GEMS
