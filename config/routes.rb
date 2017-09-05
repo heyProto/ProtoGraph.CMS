@@ -2,8 +2,6 @@ Rails.application.routes.draw do
   require 'sidekiq/web'
   mount Sidekiq::Web => '/sidekiq'
 
-  get 'uploads/new'
-
   resources :activities
   devise_for :users, controllers: { registrations: 'registrations', sessions: 'sessions' } do
       get 'sign_out', to: 'devise/sessions#destroy'
@@ -62,7 +60,7 @@ Rails.application.routes.draw do
       end
 
       resources :articles, except: [:index]
-      resources :uploads, only: [:new, :create, :show]
+      resources :uploads, only: [:new, :create]
     end
     resources :images, only: [:index, :create, :show]
     resources :image_variations, only: [:create, :show]

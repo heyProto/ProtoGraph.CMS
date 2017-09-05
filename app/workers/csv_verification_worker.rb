@@ -29,6 +29,7 @@ class CsvVerificationWorker
       upload_card(@upload.id, i, JSON.parse(card_filtered))
       i += 1
     end
+    CsvErrorWorker.perform_async(@upload.id)
   end
 
   def upload_card(upload_id, row_number, card_data)

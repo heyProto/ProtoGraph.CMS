@@ -28,6 +28,7 @@ ActiveRecord::Schema.define(version: 20170904084802) do
     t.string "client_token"
     t.string "access_token"
     t.string "client_secret"
+    t.text "logo_url"
     t.integer "logo_image_id"
     t.index ["domain"], name: "index_accounts_on_domain"
     t.index ["slug"], name: "index_accounts_on_slug", unique: true
@@ -200,8 +201,8 @@ ActiveRecord::Schema.define(version: 20170904084802) do
     t.string "order_by_value"
     t.integer "limit"
     t.integer "offset"
-    t.index ["description"], name: "index_streams_on_description", type: :fulltext
-    t.index ["title"], name: "index_streams_on_title", type: :fulltext
+    t.index ["description"], name: "index_streams_on_description", length: { description: 10 }
+    t.index ["title"], name: "index_streams_on_title"
   end
 
   create_table "taggings", id: :integer, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
