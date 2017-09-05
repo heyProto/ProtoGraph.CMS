@@ -3,6 +3,7 @@ Rails.application.routes.draw do
   mount Sidekiq::Web => '/sidekiq'
 
   get 'static_pages/index'
+
   resources :activities
   devise_for :users, controllers: { registrations: 'registrations', sessions: 'sessions' } do
       get 'sign_out', to: 'devise/sessions#destroy'

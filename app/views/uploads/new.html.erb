@@ -21,14 +21,16 @@
           <tr>
             <th>File Name</th>
             <th>Template Card</th>
+            <th>Errored file</th>
             <th>Uploaded by</th>
           </tr>
         </thead>
         <tbody>
           <% @uploads.each do |u| %>
             <tr>
-              <td><%= link_to u.attachment.file.file.split("/")[-1], account_folder_upload_path(@account, @folder, u) %></td>
+              <td><%= link_to u.attachment.file.file.split("/")[-1], u.attachment.url, download: "" %></td>
               <td><%= u.template_card.name %></td>
+              <td><%= link_to "Download errored file" %></td>
               <td><%= u.creator.name %>
             </tr>
           <% end %>

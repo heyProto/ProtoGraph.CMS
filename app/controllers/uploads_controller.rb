@@ -22,20 +22,6 @@ class UploadsController < ApplicationController
     end
   end
 
-  def show
-    errors = []
-    JSON.parse(@upload.filtering_errors).each do |a|
-      if a.present?
-        errors << a
-      end
-    end
-    JSON.parse(@upload.upload_errors).each do |a|
-      if a.present?
-        errors << a
-      end
-    end
-    @errors = errors.sort
-  end
   private
   def upload_params
     params.require(:upload).permit(:attachment,
