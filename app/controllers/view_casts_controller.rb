@@ -10,6 +10,7 @@ class ViewCastsController < ApplicationController
         if (Time.now - @view_cast.updated_at) > 5.minute and (@view_cast.is_invalidating)
             @view_cast.update_column(:is_invalidating, false)
         end
+        @view_cast_seo_blockquote = @view_cast.seo_blockquote.to_s.split('`').join('\`')
     end
 
     def edit
