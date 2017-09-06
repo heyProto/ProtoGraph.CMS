@@ -27,10 +27,12 @@ class ArticlesController < ApplicationController
     end
 
     def show
+        @image = @article.cover_image
+        @image_variation = @image_variation = ImageVariation.new
     end
 
     def update
-        if @article.update(articles_params)
+        if @article.update(article_params)
             track_activity(@article)
             redirect_to account_folder_article_path(@account, @folder, @article), notice: t('cs')
         else
@@ -41,7 +43,7 @@ class ArticlesController < ApplicationController
     private
 
     def article_params
-        params.require(:article).permit(:account_id, :folder_id, :title, :summary, :content, :genre, :url, :created_by, :updated_by, cover_image_attributes: [:image])
+        params.require(:article).permit(:account_id, :folder_id, :title, :summary, :content, :genre, :url, :created_by, :updated_by, :og_image_variation_id, :twitter_image_variation_id, :instagram_image_variation_id, :cover_image_id, cover_image_attributes: [:image])
     end
 
     def set_article

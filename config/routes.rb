@@ -48,9 +48,7 @@ Rails.application.routes.draw do
         get 'flip_public_private', 'move_to_next_status', on: :member
       end
 
-      resources :view_casts, only: [:new, :show, :edit, :update] do
-        put :"recreate/:mode", to: "view_casts#recreate", on: :member, as: :recreate
-      end
+      resources :view_casts, only: [:new, :show, :edit, :update]
 
       resources :streams, except: [:index] do
         post :publish, on: :member

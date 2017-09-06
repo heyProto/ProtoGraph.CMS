@@ -27,22 +27,6 @@ class ViewCastsController < ApplicationController
 
     end
 
-    def recreate
-        mode = params[:mode]
-        if ViewCast::Platforms.include?(mode)
-            Thread.new do
-                status = JSON.parse(@view_cast.status)
-                status[mode] = 'creating'
-                @view_cast.update_columns(status: status.to_json,updated_at: Time.now)
-                @view_cast.save_png(mode)
-                ActiveRecord::Base.connection.close
-            end
-            redirect_to account_view_cast_path(@account, @view_cast), notice: t('platform_create', platform: mode)
-        else
-            redirect_to account_view_cast_path(@account, @view_cast), alert: t('platform_not_in_the_list', platform: mode)
-        end
-    end
-
     def set_view_cast
         @view_cast = @account.view_casts.friendly.find(params[:id])
     end
