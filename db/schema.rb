@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170904084802) do
+ActiveRecord::Schema.define(version: 20170907133707) do
 
   create_table "accounts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "username"
@@ -294,6 +294,7 @@ ActiveRecord::Schema.define(version: 20170904084802) do
     t.integer "updated_by"
     t.text "upload_errors"
     t.text "filtering_errors"
+    t.string "upload_status", default: "waiting"
     t.index ["account_id"], name: "index_uploads_on_account_id"
     t.index ["folder_id"], name: "index_uploads_on_folder_id"
     t.index ["template_card_id"], name: "index_uploads_on_template_card_id"

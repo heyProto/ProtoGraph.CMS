@@ -13,6 +13,7 @@
 #  updated_by       :integer
 #  upload_errors    :text(65535)
 #  filtering_errors :text(65535)
+#  upload_status    :string(255)      default("waiting")
 #
 
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html

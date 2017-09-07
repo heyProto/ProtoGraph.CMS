@@ -28,7 +28,7 @@
 #  has_static_image     :boolean          default(FALSE)
 #  git_repo_name        :string(255)
 #  s3_identifier        :string(255)
-#  has_multiple_uploads :boolean
+#  has_multiple_uploads :boolean          default(FALSE)
 #
 
 class TemplateCard < ApplicationRecord
