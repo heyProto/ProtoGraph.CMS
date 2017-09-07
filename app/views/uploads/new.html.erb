@@ -22,8 +22,10 @@
           <tr>
             <th>File Name</th>
             <th>Template Card</th>
+            <th>Status</th>
             <th>Errored file</th>
             <th>Uploaded by</th>
+            <th>Uploaded at</th>
           </tr>
         </thead>
         <tbody>
@@ -31,6 +33,7 @@
             <tr>
               <td><%= link_to u.attachment.file.file.split("/")[-1], u.attachment.url, download: "" %></td>
               <td><%= u.template_card.name %></td>
+              <td><%= u.upload_status.capitalize %></td>
               <td>
                 <% if File.exist?(Rails.root.join("public" + u.attachment.url.split("/").slice(0..-2).join("/") + "/errored_file.csv")) %>
                   <%= link_to "Download errored file", u.attachment.url.split("/").slice(0..-2).join("/") + "/errored_file.csv" %>
@@ -38,7 +41,8 @@
                   <p>No errors found</p>
                 <% end %>
               </td>
-              <td><%= u.creator.name %>
+              <td><%= u.creator.name %></td>
+              <td><%= distance_of_time_in_words(u.created_at, Time.now) + " ago" %></td>
             </tr>
           <% end %>
         </tbody>

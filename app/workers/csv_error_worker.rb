@@ -40,5 +40,6 @@ class CsvErrorWorker
         end
       end
     end
+    @upload.update_columns(upload_status: "completed")
   end
 end
