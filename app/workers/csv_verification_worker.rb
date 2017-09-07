@@ -4,6 +4,7 @@ class CsvVerificationWorker
 
   def perform(upload_id)
     @upload = Upload.find(upload_id)
+    @upload.update_columns(upload_status: "uploading")
     require 'csv'
     # open3 to capture stderr from jq
     require 'open3'

@@ -13,10 +13,12 @@
 #  updated_by       :integer
 #  upload_errors    :text(65535)
 #  filtering_errors :text(65535)
+#  upload_status    :string(255)      default("waiting")
 #
 
 class Upload < ApplicationRecord
   #CONSTANTS
+  UPLOAD_STATUSES = ["waiting", "uploading", "failed", "completed"]
   #CUSTOM TABLES
   #GEMS
   #ASSOCIATIONS
@@ -28,6 +30,7 @@ class Upload < ApplicationRecord
   #VALIDATIONS
   validates :attachment, presence: true
   validates :folder, presence: true
+  validates :upload_status, inclusion: { in: Upload::UPLOAD_STATUSES }
   #CALLBACKS
   after_create :validate_csv
   #SCOPE
