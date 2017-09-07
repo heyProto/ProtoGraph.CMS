@@ -1,4 +1,11 @@
 class PiwikApi < ApplicationRecord
+  # All from_data and to_date are in the form of
+  # "yyyy-mm-dd". to_date can also take keywords
+  # "today", "yesterday"
+  #
+  # period: "day", "year", "month", "range"
+  # segment: check piwik documentation at
+  #
   PIWIK_BASE_URL = "https://protograph.innocraft.cloud"
   class << self
 
@@ -32,7 +39,7 @@ class PiwikApi < ApplicationRecord
       end
     end
 
-    def get_visitor_count(from_date, to_date)
+    def get_visitor_details(from_date, to_date, period="range", segment="")
       response = RestClient::Request.execute(
         method: "get",
         url: PIWIK_BASE_URL,
@@ -42,9 +49,10 @@ class PiwikApi < ApplicationRecord
             format: "json",
             idSite: ENV["PIWIK_ID_SITE"],
             token_auth: ENV["PIWIK_TOKEN_AUTH"],
-            period: "range",
-            method: "VisitsSummary.getVisits",
+            period: period,
+            method: "VisitsSummary.get",
             date: from_date + "," + to_date,
+            segment: segment,
           }
         }
       )
