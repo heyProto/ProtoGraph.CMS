@@ -28,7 +28,6 @@ ActiveRecord::Schema.define(version: 20170908053542) do
     t.string "client_token"
     t.string "access_token"
     t.string "client_secret"
-    t.text "logo_url"
     t.integer "logo_image_id"
     t.index ["domain"], name: "index_accounts_on_domain"
     t.index ["slug"], name: "index_accounts_on_slug", unique: true
@@ -164,6 +163,16 @@ ActiveRecord::Schema.define(version: 20170908053542) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "piwik_metrics", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string "datacast_identifier"
+    t.string "piwik_module"
+    t.string "piwik_metric_name"
+    t.integer "piwik_metric_value"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "piwik_metric_type"
+  end
+
   create_table "ref_roles", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "name"
     t.string "slug"
@@ -204,8 +213,8 @@ ActiveRecord::Schema.define(version: 20170908053542) do
     t.string "order_by_value"
     t.integer "limit"
     t.integer "offset"
-    t.index ["description"], name: "index_streams_on_description", length: { description: 10 }
-    t.index ["title"], name: "index_streams_on_title"
+    t.index ["description"], name: "index_streams_on_description", type: :fulltext
+    t.index ["title"], name: "index_streams_on_title", type: :fulltext
   end
 
   create_table "taggings", id: :integer, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
