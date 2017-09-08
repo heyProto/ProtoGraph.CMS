@@ -33,7 +33,17 @@
             <tr>
               <td><%= link_to u.attachment.file.file.split("/")[-1], u.attachment.url, download: "" %></td>
               <td><%= u.template_card.name %></td>
-              <td><%= u.upload_status.capitalize %></td>
+              <td>
+                <% if u.upload_status == "completed" || u.upload_status == "waiting" %>
+                  <%= u.upload_status.capitalize %></td>
+                <% elsif u.upload_status == "uploading" and u.rows_uploaded != nil %>
+                  <div class="ui progress" data-percent="<%= u.rows_uploaded / u.total_rows * 100 %>">
+                    <div class="bar">
+                      <div class="progress"></div>
+                    </div>
+                    <div class="label">Uploading Files</div>
+                  </div>
+                <% end %>
               <td>
                 <% if File.exist?(Rails.root.join("public" + u.attachment.url.split("/").slice(0..-2).join("/") + "/errored_file.csv")) %>
                   <%= link_to "Download errored file", u.attachment.url.split("/").slice(0..-2).join("/") + "/errored_file.csv" %>

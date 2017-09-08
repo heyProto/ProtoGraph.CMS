@@ -19,9 +19,9 @@ class UploadsController < ApplicationController
     @upload.updator = current_user
     @upload.account = @account
     if @upload.save
-      redirect_to account_folder_path(@account, Folder.find(upload_params[:folder_id])), notice: "File was uploaded successfully"
+      redirect_to new_account_folder_upload_path(@account, @folder), notice: "File was uploaded successfully"
     else
-      redirect_to account_folder_path(@account, Folder.find(upload_params[:folder_id])), alert: @upload.errors.full_messages
+      redirect_to new_account_folder_upload_path(@account, @folder), alert: @upload.errors.full_messages
     end
   end
 
