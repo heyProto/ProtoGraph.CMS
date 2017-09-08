@@ -22,6 +22,7 @@ class ArticlesController < ApplicationController
     end
 
     def new
+        redirect_to [@account, @folder], alert: "Cannot create an article without logo image" if @account.logo_image_id.nil?
         @article = @folder.articles.new
         @article.build_cover_image
     end
