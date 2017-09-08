@@ -6,15 +6,15 @@
   <div class="col-4">
       <nav class="github-menu">
         <span class="github-menu-heading">
-            Folders
+            Folders you contribute to
             <span style="float: right; font-weight: 400;">
                 <a href="#" id="formAddButton">+ Add</a>
             </span>
         </span>
         <% @folders.each do |folder| %>
-            <a href="<%= account_folder_path(@account, folder) %>" class="github-menu-item">
+            <a href="<%= account_folder_path(@account, folder) %>" class="github-menu-item" style="font-size: 1.1em; background: #fffdef;">
                 <%= folder.name.titleize %>
-                <span class="count badge badge-secondary" style="font-size: 0.9em; font-weight: 200;">
+                <span class="count badge badge-secondary" style="font-size: 0.8em; font-weight: 200;">
                     <%= folder.view_casts.count + folder.streams.count %>
                 </span>
             </a>

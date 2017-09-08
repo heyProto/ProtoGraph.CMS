@@ -1,12 +1,14 @@
-<div class="ui feed">
-  <% @activities.each do |a| %>
-      <div class="event">
-        <div class="label">
-          <%= image_tag avatar_url(a.user.email), width: "100%" %>
-        </div>
-        <div class="content">
-          <div class="summary" style="font-weight: 400; font-size: 0.85em;">
-            <%= a.user.name %>
+<table class="table">
+      <% @activities.each do |a| %>
+          <tr>
+              <td style="width: 40px;">
+                  <%= image_tag avatar_url(a.user.email), class: "rounded" %>
+              </td>
+              <td>
+                  <div class="gha-time">
+                      <%= time_ago_in_words a.updated_at %>
+                  </div>
+                  <%= a.user.name %>
             <%= a.action.sub(/e?$/, "ed")  %>
             <% if a.trackable.class.to_s == "Folder" %>
               a folder
@@ -18,11 +20,7 @@
               a stream
               <%= link_to a.trackable.title.titleize, [a.trackable.account, a.trackable.folder, a.trackable] %>
             <% end %>
-          </div>
-          <div class="hint">
-            <%= time_ago_in_words a.updated_at %>
-          </div>
-        </div>
-      </div>
+              </td>
+          </tr>
   <% end %>
-</div>
+</table>
