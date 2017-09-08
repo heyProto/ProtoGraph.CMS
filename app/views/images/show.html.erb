@@ -8,12 +8,22 @@
   <%=link_to @account.username, @account, class: "section", "data-turbolinks"=> false %>
   <i class="right angle icon divider"></i>
   <%=link_to "Image Bank", account_images_path(@account), class: "section", "data-turbolinks"=> false %>
-  <i class="right angle icon divider"></i>
-  <div  class="section"><%= @image.name %></div>
 </div>
 <div class="two-br-space"></div>
 <div class="sixteen wide column" style="max-height: 600px; overflow: auto;" >
-  <h1 class="ui header"><%= @image.name %></h1>
+
+
+  <div class="ui grid">
+        <div class="left floated three wide column">
+          <span class='ui huge header'><%= @image.name %></span>
+        </div>
+        <div class="right floated four wide column right aligned">
+          <a id="openFileUpload" class='ui primary basic button mini'>Crop original image to create variation</a>
+        </div>
+    </div>
+
+
+
   <h3 class="ui header protograph-image-form-heading">Original Image</h3>
   <div class="ui fluid image" style="background: #efefef;">
     <a class="ui right corner label" id="copyToClipboard" data-clipboard-text="<%= @image.original_image.image_url %>" data-content="Copied">
@@ -29,7 +39,6 @@
     <% if @image.image_variation.present? %>
       <h3 class="ui header protograph-image-form-heading">Variations</h3>
     <% end %>
-    <a style="position: absolute;top: 0px;right: 0px;" id="openFileUpload">Crop original image to create variation</a>
   </div>
   <% if @image.image_variation.present? %>
     <div id="variationImages"></div>
@@ -49,8 +58,8 @@
       <a class="item" data-width="2" data-height="3">
         2:3 (Quiz Cover Image)
       </a>
-      <a class="item" data-width="1" data-height="2">
-        1:2 (Quiz Answer Image)
+      <a class="item" data-width="2" data-height="1">
+        2:1 (Quiz Answer Image)
       </a>
       <a class="item" data-width="1" data-height="1">
         1:1 (Timeline Event Image)

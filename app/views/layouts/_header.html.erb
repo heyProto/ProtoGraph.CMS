@@ -1,64 +1,65 @@
-<div style="width: 100%; margin-left: auto; margin-right: auto;">
-  <% if !user_signed_in? %>
-    <div class="ui menu clear">
-      <% if controller_name == "sessions" and action_name == "new" %>
-          <div class="item"><%= link_to image_tag("logo.png", class: "protograph-logo-image"), root_url %></div>
-      <% else %>
-          <div class="item"><%= link_to image_tag("_logo.png", class: "protograph-logo-image"), root_url %></div>
-      <% end %>
-      <div class="right menu">
-        <%= link_to "Features", features_path, "data-turbolinks"=> false, class: "item" %>
+<div style="width: 90%; margin-left: auto; margin-right: auto;">
+<% if !user_signed_in? %>
+  <% if !(controller_name == "sessions" and action_name == "new") %>
+  <div class="ui menu clear">
+    <div class="item"><%= link_to image_tag("_logo.png", class: "protograph-logo-image"), root_url %></div>
+  </div>
+  <% end %>
+  <% else %>
+  <div class="ui menu clear">
+    <% if @on_an_account_page %>
+    <div class="item"><%= link_to image_tag("_logo.png", class: "protograph-logo-image"), account_path(@account) %></div>
+    <div class="item">
+      <div class="ui tiny breadcrumb">
+        <%=link_to @account.username, @account, class: "section" %>
+        <% if controller_name == "folders" and @folder.present? %>
+          <i class="right angle icon divider"></i>
+          <div class="active section"><%= @folder.name %></div>
+        <% elsif @folder.present? and @folder.id.present? %>
+          <i class="right angle icon divider"></i>
+          <%=link_to @folder.name, [@account, @folder], class: "section" %>
+        <% end %>
       </div>
     </div>
-  <% else %>
-    <div class="ui menu clear">
-      <% if @on_an_account_page %>
-          <div class="item"><%= link_to image_tag("_logo.png", class: "protograph-logo-image"), account_path(@account) %></div>
-          <div class="item"><%= link_to @account.username, account_path(@account) %></div>
-          <div class="right menu">
-              <% if @folder.present? and @folder.id.present? %>
-                <div class="item"><%= link_to "Start writing here", new_account_folder_view_cast_path(@account, @folder), "data-turbolinks"=> false %></div>
-              <% end %>
-              <div class="ui dropdown pointing item">
-                <%= image_tag avatar_url(@account.gravatar_email), class: "ui avatar image" %>
-                <div class="menu">
-                  <% if @role.can_account_settings %>
-                    <%= link_to "Team Settings", edit_account_path(@account), class: "item" %>
-                    <%= link_to "Image Bank", account_images_path(@account), "data-turbolinks"=> false, class: 'item'  %>
-                  <% end %>
-                  <% if 1==2 and (@role.can_template_design_do or @role.can_template_design_publish) %>
-                    <%= link_to "App Store", account_template_cards_path(@account), class: "item" %>
-                  <% end %>
-                </div>
-              </div>
-              <div class="ui dropdown pointing item">
-                <%= image_tag avatar_url(current_user.email), class: "ui avatar image" %>
-                <div class="menu">
-                  <%= link_to 'Your teams', accounts_path, class: "item" %>
-                  <div class="divider"></div>
-                  <%= link_to 'Profile', edit_user_registration_path(@account), class: "item" %>
-                  <%= link_to "Sign out", destroy_user_session_path, class: "item" %>
-                </div>
-              </div>
-
-          </div>
-      <% else %>
-          <div class="item"><%= link_to image_tag("_logo.png", class: "protograph-logo-image"), root_url, style: "border: 0px;" %></div>
-          <div class="right menu">
-              <div class="ui dropdown pointing item">
-                <%= image_tag avatar_url(current_user.email), class: "ui avatar image" %>
-                <div class="menu">
-                  <%= link_to 'Your teams', accounts_path, class: "item" %>
-                  <div class="divider"></div>
-                  <%= link_to 'Profile', edit_user_registration_path(@account), class: "item" %>
-                  <%= link_to "Sign out", destroy_user_session_path, class: "item" %>
-                </div>
-              </div>
-          </div>
+    <div class="right menu">
+      <% if (controller_name == "accounts" and action_name == 'show') or (controller_name == 'folders' and action_name == "create") %>
+          <li class="item"><%= link_to "Add a new folder", "#", class: "ui primary basic button mini", id: "formAddButton" %></li>
       <% end %>
+      <div class="ui dropdown pointing item">
+        <%= image_tag avatar_url(@account.gravatar_email), class: "ui avatar image" %>
+        <div class="menu">
+          <%= link_to "Image Bank", account_images_path(@account), "data-turbolinks"=> false, class: 'item'  %>
+          <% if @role.can_account_settings %>
+            <%= link_to "Team Settings", edit_account_path(@account), class: "item" %>
+          <% end %>
+          <% if 1==2 and (@role.can_template_design_do or @role.can_template_design_publish) %>
+          <%= link_to "App Store", account_template_cards_path(@account), class: "item" %>
+          <% end %>
+        </div>
+      </div>
+      <div class="ui dropdown pointing item">
+        <%= image_tag avatar_url(current_user.email), class: "ui avatar image" %>
+        <div class="menu">
+          <%= link_to 'Profile', edit_user_registration_path(@account), class: "item" %>
+          <%= link_to "Sign out", destroy_user_session_path, class: "item" %>
+        </div>
+      </div>
     </div>
+    <% else %>
+    <div class="item"><%= link_to image_tag("_logo.png", class: "protograph-logo-image"), root_url, style: "border: 0px;" %></div>
+    <div class="right menu">
+      <div class="ui dropdown pointing item">
+        <%= image_tag avatar_url(current_user.email), class: "ui avatar image" %>
+        <div class="menu">
+          <%= link_to 'Profile', edit_user_registration_path(@account), class: "item" %>
+          <%= link_to "Sign out", destroy_user_session_path, class: "item" %>
+        </div>
+      </div>
+    </div>
+    <% end %>
+  </div>
   <% end %>
   <% if !(controller_name == "view_casts" and (action_name == "new" or action_name == "edit")) %>
-      <hr style="margin-top: -15px; margin-bottom: 40px; border-top: #EDEDED;"/>
+  <hr style="margin-top: -15px; margin-bottom: 0px; border-top: #EDEDED;"/>
   <% end %>
 </div>

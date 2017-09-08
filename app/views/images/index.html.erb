@@ -1,16 +1,15 @@
 <%= stylesheet_link_tag "justified.css" %>
 
 <div class="sixteen wide column">
-  <div class="ui mini breadcrumb">
-    <%=link_to @account.username, @account, class: "section" %>
-    <i class="right angle icon divider"></i>
-    <div  class="section" >Image Bank</div>
-  </div>
-
-  <h1 class="ui header">Image Bank</h1>
-  <button class="ui right floated basic button" id="openFileUpload">Upload image</button>
-  <div style="clear: both;"></div>
-  <br>
+  <div class="ui grid">
+        <div class="left floated three wide column">
+          <span class='ui huge header'>Image Bank</span>
+        </div>
+        <div class="right floated four wide column right aligned">
+          <a id="openFileUpload" class='ui primary basic button mini'>Upload image</a>
+        </div>
+    </div>
+    <br/><br/>
   <div id="imageContainer"></div>
   <div class="ui modal" id="fileUploadModal"> <i class="close icon"></i>
     <div class="header">Add a new image</div>

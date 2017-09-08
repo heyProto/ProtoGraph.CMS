@@ -1,50 +1,56 @@
-<div class="sixteen wide column">
-  <div class='ui huge header'><%= @account.username %></div>
-  <div class='one-br-space'></div>
-  <table class="ui very basic table">
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>No. of Cards</th>
-        <th>Last modified at</th>
-        <th>Created by</th>
-        <th></th>
-      </tr>
-    </thead>
-    <tbody>
-      <% @folders.each do |folder| %>
-        <% if folder.id.present? %>
-          <tr>
-            <td>
-              <i class='icon folder steelblue'></i>
-              <%= link_to folder.name.titleize, [@account, folder] %>
-            </td>
-            <td>
-              <%= "#{folder.view_casts.count} #{'card'.pluralize(folder.view_casts.count)}" %>
-            </td>
-            <td>
-              <%= "#{time_ago_in_words(folder.updated_at)} ago" %>
-            </td>
-            <td>
-              <%= folder.creator.name %>
-            </td>
-            <td  class='right aligned'>
-              <%= link_to "Edit", edit_account_folder_path(@account, folder) %>
-            </td>
-          </tr>
+<div class="ui grid">
+  <div class="one wide column" style="background: #303E4D;">
+      <div class="ui middle aligned selection list account_switcher_item">
+        <% @accounts.each do |account| %>
+            <div class="<%= @account.username == account.username ? 'item active' : 'item' %>">
+              <a href=<%= account_path(account) %> title=<%=account.username%>>
+                <% avatar_image = account.logo_image_id.present? ? account.logo_image.original_image.image_url : avatar_url(account.gravatar_email)%>
+                <%= image_tag avatar_image, class: "ui avatar image" %>
+              </a>
+            </div>
         <% end %>
-      <% end %>
-    </tbody>
-  </table>
+      </div>
+  </div>
+  <div class="eleven wide column" style="background: white;">
+    <%= render partial: "activities/index" %>
+  </div>
+  <div class="four wide column">
+      <h4>Folders</h4>
+      <div class="ui very relaxed divided list">
+        <% @folders.each do |folder| %>
+            <div class="item">
+              <div class="content" style="width: 100% !important;">
+                <div class="right floated content">
+                <%= link_to "Edit", edit_account_folder_path(@account, folder), class: "hint" %>
+              </div>
+                <%= link_to folder.name.titleize, [@account, folder], class: "header", style: "font-size: 0.9em; margin-bottom: 6px;" %>
+                <p style="font-size: 11px; color: black; margin-bottom: 0px;">
+                  <%= "#{folder.view_casts.count} <span class='hint'>#{'card'.pluralize(folder.view_casts.count)}</span>".html_safe %>.
+                  <%= "#{folder.streams.count} <span class='hint'>#{'stream'.pluralize(folder.streams.count)}</span>".html_safe %>.
+                </p>
+              </div>
+            </div>
+        <% end %>
+      </div>
+  </div>
 </div>
-<button class="circular ui blue icon huge button" id="formAddButton" style="float:right;">
-    <i class="inverted plus icon"></i>
-  </button>
-<%= render partial: "folders/form" %>
+
+<div class="ui mini modal" id="new-folder">
+  <i class='close icon'></i>
+  <div class="header">
+    <%= (controller_name == 'folders' and ["edit", "update"].include?(action_name)) ? "Update the folder" : "Create a new folder" %>
+  </div>
+  <div class="content">
+    <%= render partial: "folders/form" %>
+  </div>
+</div>
+
 <script type="text/javascript">
 
 $(document).on("turbolinks:load", function () {
-  $('#formAddButton').on('click',function () {
+  $("#formAddButton").unbind("click");
+  $('#formAddButton').on('click',function (e) {
+    event.preventDefault();
     $('#new-folder')
       .modal({
         closable: false,
@@ -58,6 +64,9 @@ $(document).on("turbolinks:load", function () {
     $('#new-folder')
       .modal({
         closable: false,
+        onHide: function(){
+          window.location.href= "<%= account_path(@account) %>";
+        }
       }).modal('show');
   </script>
 <% end %>

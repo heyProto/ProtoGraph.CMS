@@ -30,12 +30,10 @@
 </head>
 <body>
   <%= render partial: "layouts/header" %>
-  <div class="ui grid" style="width: 100%;margin-top: 15px;margin: 0rem !important">
-    <div class='two wide column'></div>
-    <div class='twelve wide column'>
+  <div class="ui grid" style="width: 90%; margin-top: 0px; background: #fafafa; margin-left: auto; margin-right: auto;">
+    <div class='sixteen wide column'>
       <%= yield %>
     </div>
-    <div class='two wide column'></div>
   </div>
 <%= render partial: "layouts/footer" %>
 

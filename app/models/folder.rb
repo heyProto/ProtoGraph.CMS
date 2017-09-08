@@ -25,6 +25,9 @@ class Folder < ApplicationRecord
     #ASSOCIATIONS
     belongs_to :account
     has_many :streams
+    has_many :articles
+    has_many :activities
+
     #ACCESSORS
     #VALIDATIONS
     validates :name, uniqueness: {scope: [:account], message: "Folder name is already used"}

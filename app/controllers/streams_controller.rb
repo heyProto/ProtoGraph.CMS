@@ -2,16 +2,12 @@ class StreamsController < ApplicationController
     before_action :authenticate_user!
     before_action :set_stream, only: [:show, :edit, :update, :publish]
 
-    def index
-        @streams = @folder.streams
-        @stream = @folder.streams.new
-    end
-
     def create
         @stream = @folder.streams.new(stream_params)
         @stream.created_by = current_user.id
         @stream.updated_by = current_user.id
         if @stream.save
+            track_activity(@stream)
             redirect_to account_folder_stream_path(@account, @folder, @stream), notice: t('cs')
         else
             render :new
@@ -24,16 +20,20 @@ class StreamsController < ApplicationController
 
     def show
         @view_casts = @stream.cards
-        @stream.folder_list = @stream.folder_ids.pluck(:entity_value)
-        @stream.card_list = @stream.template_card_ids.pluck(:entity_value)
         @folders = @account.folders.where(id: @stream.folder_list)
         @template_cards = @account.template_cards.where(id: @stream.card_list)
+    end
+
+    def edit
+        @stream.folder_list = @stream.folder_ids.pluck(:entity_value)
+        @stream.card_list = @stream.template_card_ids.pluck(:entity_value)
     end
 
     def update
         s_params = stream_params
         s_params[:updated_by] = current_user.id
         if @stream.update(s_params)
+            track_activity(@stream)
             redirect_to account_folder_stream_path(@account, @folder, @stream), notice: t('cs')
         else
             render :edit
@@ -43,6 +43,7 @@ class StreamsController < ApplicationController
     def publish
         Thread.new do
             @stream.publish_cards
+            track_activity(@stream)
             ActiveRecord::Base.connection.close
         end
         redirect_to account_folder_stream_path(@account, @folder, @stream), notice: t("published.stream")

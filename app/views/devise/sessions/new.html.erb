@@ -5,11 +5,12 @@
     </div>
   </div>
 <% end %>
-<div class="ui grid" style="margin-top: 51px;">
+<div class="ui grid" style="margin-top: 140px;">
   <div class="eight wide column">
-    <h1 class="ui big header" style="font-size: 4em;">
+    <h1><%=image_tag "logo.png", alt: "ProtoGraph.co" %></h1>
+    <h2 class="ui big header">
       Tools to help journalists write better stories.
-    </h1>
+    </h2>
   </div>
   <div class="eight wide column" style="padding-left: 200px;">
     <div style="background: white; padding: 15px;" >
@@ -71,15 +72,15 @@
 
       <div class="card">
         <div class="content">
-          <%= link_to image_tag("toSocial.png", class: "right floated mini ui image"), demo_template_card_path(id: @to_social.slug) %>
+          <%= link_to image_tag("toSocial.png", class: "right floated mini ui image"), "#" %>
           <div class="header">
-            <%= link_to "toSocial", demo_template_card_path(id: @to_social.slug)%>
+            toSocial
           </div>
           <div class="meta">
             <a href="https://www.icfj.org" target="_blank">ICFJ</a>
           </div>
           <div class="description">
-            <%= link_to "Create branded cover images for distribution.", demo_template_card_path(id: @to_social.slug) %>
+            Create branded cover images for distribution.
           </div>
         </div>
       </div>
@@ -112,50 +113,9 @@
           </div>
         </div>
       </div>
-      <div class="card">
-        <div class="content">
-          <%= image_tag("toReportViolence.png", class: "right floated mini ui image") %>
-          <div class="header">
-            toReportViolence
-          </div>
-          <div class="meta">
-            <a href="https://www.icfj.org" target="_blank">ICFJ</a>
-          </div>
-          <div class="description">
-            Structured Journalism: Document incidents of mob lynching.
-          </div>
-        </div>
-      </div>
-      <div class="card">
-        <div class="content">
-          <%= link_to image_tag("toTweet.png", class: "right floated mini ui image"), nil %>
-          <div class="header">
-            toTweet
-          </div>
-          <div class="meta">
-            <a href="https://www.icfj.org" target="_blank">ICFJ</a>
-            (upcoming)
-          </div>
-          <div class="description">
-            Embed tweets
-          </div>
-        </div>
-      </div>
-      <div class="card">
-        <div class="content">
-          <%= link_to image_tag("toLink.png", class: "right floated mini ui image"), nil %>
-          <div class="header">
-            toLink
-          </div>
-          <div class="meta">
-            <a href="https://www.icfj.org" target="_blank">ICFJ</a>
-            (upcoming)
-          </div>
-          <div class="description">
-            Embed tweets
-          </div>
-        </div>
-      </div>
+
+
+
 
     </div>
   </div>

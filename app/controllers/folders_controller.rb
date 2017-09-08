@@ -3,19 +3,24 @@ class FoldersController < ApplicationController
   before_action :authenticate_user!
 
   def show
-    @view_casts = @folder.view_casts.order(updated_at: :desc).page(params[:page]).per(30)
-    render "view_casts/index"
+    @view_casts = @folder.view_casts.order(updated_at: :desc).page(params[:page]).per(9)
+    @is_viewcasts_present = @view_casts.count != 0
+    @streams = @folder.streams.order(updated_at: :desc)
+    @articles = @folder.articles.order(updated_at: :desc)
   end
 
   def edit
     @folders = @account.folders
+    @accounts = current_user.accounts
     @open_modal = true
+    @activities = @account.activities.order("updated_at DESC").limit(30)
     render "accounts/show"
   end
 
   def update
     folder_params[:updated_by] = current_user.id
     if @folder.update(folder_params)
+      track_activity(@folder)
       redirect_to account_path(@account), notice: t("us")
     else
       @folders = @account.folders
@@ -29,6 +34,7 @@ class FoldersController < ApplicationController
     @folder.created_by = current_user.id
     @folder.updated_by = current_user.id
     if @folder.save
+      track_activity(@folder)
       redirect_to account_folder_path(@account, @folder), notice: t("cs")
     else
       @folders = @account.folders
