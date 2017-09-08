@@ -1,35 +1,23 @@
+<br/><br/>
 <div class="row">
-  <div class="one wide column" style="background: #303E4D;">
-      <div class="ui middle aligned selection list account_switcher_item">
-        <% @accounts.each do |account| %>
-            <div class="<%= @account.username == account.username ? 'item active' : 'item' %>">
-              <a href=<%= account_path(account) %> title=<%=account.username%>>
-                <% avatar_image = account.logo_image_id.present? ? account.logo_image.original_image.image_url : avatar_url(account.gravatar_email)%>
-                <%= image_tag avatar_image, class: "ui avatar image" %>
-              </a>
-            </div>
-        <% end %>
-      </div>
-  </div>
-  <div class="eleven wide column" style="background: white;">
+  <div class="col-8">
     <%= render partial: "activities/index" %>
   </div>
-  <div class="four wide column">
-      <h4>Folders</h4>
-      <div class="ui very relaxed divided list">
+  <div class="col-4">
+      <nav class="github-menu">
+        <span class="github-menu-heading">
+            Folders
+            <span style="float: right; font-weight: 400;">
+                <a href="#" id="formAddButton">+ Add</a>
+            </span>
+        </span>
         <% @folders.each do |folder| %>
-            <div class="item">
-              <div class="content" style="width: 100% !important;">
-                <div class="right floated content">
-                <%= link_to "Edit", edit_account_folder_path(@account, folder), class: "hint" %>
-              </div>
-                <%= link_to folder.name.titleize, [@account, folder], class: "header", style: "font-size: 0.9em; margin-bottom: 6px;" %>
-                <p style="font-size: 11px; color: black; margin-bottom: 0px;">
-                  <%= "#{folder.view_casts.count} <span class='hint'>#{'card'.pluralize(folder.view_casts.count)}</span>".html_safe %>.
-                  <%= "#{folder.streams.count} <span class='hint'>#{'stream'.pluralize(folder.streams.count)}</span>".html_safe %>.
-                </p>
-              </div>
-            </div>
+            <a href="<%= [@account, folder] %>" class="github-menu-item">
+                <%= folder.name.titleize %>
+                <span class="count badge badge-secondary" style="font-size: 0.9em; font-weight: 200;">
+                    <%= folder.view_casts.count + folder.streams.count %>
+                </span>
+            </a>
         <% end %>
       </div>
   </div>

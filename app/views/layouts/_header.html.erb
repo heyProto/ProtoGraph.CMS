@@ -25,16 +25,13 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
               <ul class="navbar-nav mr-auto">
-                <li class="nav-item "><%= link_to @account.username, account_path(@account), style: "color: #C1C5CA;" %></li>
+                <li class="nav-item"><%= link_to @account.username, account_path(@account), style: "color: #C1C5CA;" %></li>
               </ul>
               <div class="form-inline my-2 my-lg-0">
                 <ul class="navbar-nav mr-auto">
-                  <% if (controller_name == "accounts" and action_name == 'show') or (controller_name == 'folders' and action_name == "create") %>
-                      <li class="nav-item"><%= link_to "Add a new folder", "#", class: "dropdown-item", id: "formAddButton" %></li>
-                  <% end %>
                   <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                      <%= image_tag avatar_url(@account.gravatar_email), class: "rounded" %>
+                      <%= image_tag avatar_url(@account.gravatar_email), class: "rounded", style: "width: 20px;" %>
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                       <%= link_to "Image Bank", account_images_path(@account), "data-turbolinks"=> false, class: "dropdown-item"  %>
@@ -43,10 +40,10 @@
                   </li>
                   <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                      <%= image_tag avatar_url(current_user.email), class: "rounded" %>
+                      <%= image_tag avatar_url(current_user.email), class: "rounded", style: "width: 20px;" %>
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                      <%= link_to 'Profile', edit_user_registration_path(@account), class: "dropdown-item" %>
+                      <%= link_to 'Settings', edit_user_registration_path(@account), class: "dropdown-item" %>
                       <%= link_to "Sign out", destroy_user_session_path, class: "dropdown-item" %>
                     </div>
                   </li>
