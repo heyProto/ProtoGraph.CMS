@@ -1,0 +1,6 @@
+<br/>
+<br/>
+<div class="ui secondary vertical menu">
+  <%= link_to "Settings", edit_account_path(@account), class: (controller_name == "accounts" ? "active item" : "item") %>
+  <%= link_to "People (#{@people_count})", account_permissions_path(@account), class: (controller_name == "permissions" ? "active item" : "item") %>
+</div>

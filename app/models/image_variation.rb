@@ -4,7 +4,6 @@
 #
 #  id               :integer          not null, primary key
 #  image_id         :integer
-#  image_url        :text(65535)
 #  image_key        :text(65535)
 #  image_width      :integer
 #  image_height     :integer
@@ -25,8 +24,9 @@ class ImageVariation < ApplicationRecord
   #GEMS
   #ASSOCIATIONS
   belongs_to :image
+  delegate :account, to: :image
   #ACCESSORS
- attr_accessor :crop_x, :crop_y, :crop_w, :crop_h
+  attr_accessor :crop_x, :crop_y, :crop_w, :crop_h
   #VALIDATIONS
   #CALLBACKS
   after_create :process_and_upload_image, if: :is_original?
@@ -34,6 +34,10 @@ class ImageVariation < ApplicationRecord
   #SCOPE
   #OTHER
   #PRIVATE
+
+  def image_url
+    "#{account.cdn_endpoint}/#{image_key}"
+  end
 
   def as_json
     {
@@ -76,7 +80,7 @@ class ImageVariation < ApplicationRecord
     data = {
       id: id,
       s3Identifier: image.s3_identifier,
-      accountSlug: image.account.slug,
+      accountSlug: account.slug,
       contentType: image.image.content_type,
       imageBlob: Base64.encode64(File.open(img_path, "rb").read()),
       thumbnailBlob: Base64.encode64(File.open(thumb_img_path, "rb").read())
@@ -102,7 +106,6 @@ class ImageVariation < ApplicationRecord
       })
 
       self.update_attributes({
-        image_url: response['data']['image_url'],
         image_key: response['data']['image_key'],
         image_width: img_w,
         image_height: img_h,
@@ -133,7 +136,7 @@ class ImageVariation < ApplicationRecord
     data = {
       id: id,
       s3Identifier: image.s3_identifier,
-      accountSlug: image.account.slug,
+      accountSlug: account.slug,
       contentType: image.image.content_type,
       imageBlob: Base64.encode64(File.open(img_path, "rb").read())
     }
@@ -149,7 +152,6 @@ class ImageVariation < ApplicationRecord
 
     if response["success"]
       self.update_attributes({
-        image_url: response['data']['image_url'],
         image_key: response['data']['image_key'],
         image_width: img_w,
         image_height: img_h

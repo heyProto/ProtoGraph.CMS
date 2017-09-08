@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170826175705) do
+ActiveRecord::Schema.define(version: 20170904084802) do
 
   create_table "accounts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "username"
@@ -23,15 +23,46 @@ ActiveRecord::Schema.define(version: 20170826175705) do
     t.datetime "updated_at", null: false
     t.string "cdn_provider"
     t.string "cdn_id"
-    t.text "invalidation_endpoint"
+    t.text "host"
     t.text "cdn_endpoint"
-    t.string "authorization_header_name"
     t.string "client_token"
     t.string "access_token"
     t.string "client_secret"
+    t.integer "logo_image_id"
     t.index ["domain"], name: "index_accounts_on_domain"
     t.index ["slug"], name: "index_accounts_on_slug", unique: true
     t.index ["username"], name: "index_accounts_on_username", unique: true
+  end
+
+  create_table "activities", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.integer "user_id"
+    t.string "action"
+    t.integer "trackable_id"
+    t.string "trackable_type"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "folder_id"
+    t.integer "account_id"
+  end
+
+  create_table "articles", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.integer "account_id"
+    t.integer "folder_id"
+    t.integer "cover_image_id"
+    t.string "title"
+    t.text "summary"
+    t.text "content"
+    t.string "genre"
+    t.text "og_image_variation_id"
+    t.integer "og_image_width"
+    t.integer "og_image_height"
+    t.text "twitter_image_variation_id"
+    t.integer "created_by"
+    t.integer "updated_by"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.text "url"
+    t.string "slug"
   end
 
   create_table "authentications", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -75,7 +106,6 @@ ActiveRecord::Schema.define(version: 20170826175705) do
 
   create_table "image_variations", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer "image_id"
-    t.text "image_url"
     t.text "image_key"
     t.integer "image_width"
     t.integer "image_height"
@@ -106,6 +136,7 @@ ActiveRecord::Schema.define(version: 20170826175705) do
     t.integer "updated_by"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "is_logo", default: false
   end
 
   create_table "permission_invites", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -278,9 +309,10 @@ ActiveRecord::Schema.define(version: 20170826175705) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.text "seo_blockquote"
-    t.text "render_screenshot_url"
+    t.text "render_screenshot_key"
     t.text "status"
     t.integer "folder_id"
+    t.boolean "is_invalidating"
   end
 
 end

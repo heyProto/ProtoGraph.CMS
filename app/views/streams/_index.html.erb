@@ -1,0 +1,29 @@
+<% if @is_viewcasts_present %>
+    <% if @streams.first.blank? %>
+        <p class='hint'>Press the + button on top right to search for a stream of cards.</p>
+    <% else %>
+        <div class='card-parent-class'>
+            <div class="ui bottom active tab" data-tab="second">
+                <% @streams.each do |stream| %>
+                    <div class="ui tall stacked segment" style="height: 170px; width: 85% !important;">
+                        <p class="hint" style="text-align: right;"><%= "#{stream.card_count} <span class='hint'>#{'card'.pluralize(stream.card_count)}</span>".html_safe %></p>
+                        <div style="font-size: 1.5em; color: #333; font-weight: bold; line-height: 1.3em; font-family: arial; ">
+                            <i class="newspaper icon"></i>
+                            <%= link_to stream.title.titleize, [@account, @folder, stream], style: "color: black;" %>
+                        </div>
+                        <div class="index-card-content" style="padding: 0px 30px 15px 0px;">
+                            <div class="index-card-title">
+                                <%= stream.updator.username %>
+                            </div>
+                            <div class="index-card-created-by"><%= image_tag avatar_url(stream.updator.email), width: "100%" %></div>
+                            <div class="index-card-extra-info"><%= time_ago_in_words(stream.updated_at) %>
+                            </div>
+                        </div>
+                    </div>
+                <% end %>
+            </div>
+        </div>
+    <% end %>
+<% else %>
+    <p class='hint' style="color: maroon;">You cannot create streams unless you have created cards.</p>
+<% end %>
