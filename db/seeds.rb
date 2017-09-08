@@ -52,8 +52,6 @@ folder = Folder.create({
   updated_by: user_id
 })
 
-
-
 puts "----> Creating Template Datum"
 t_explain = TemplateDatum.create({name: "toExplain", version: "0.0.1", s3_identifier: "2e804dc00b362f24"})
 t_share = TemplateDatum.create({name: "toSocial", version: "0.0.1", s3_identifier: "9701121472ab331a"})

@@ -4,29 +4,29 @@
     <div class="header item">Quick crop:</div>
     <% if controller_name == "articles" %>
       <% if @article.og_image_variation_id.present? %>
-        <div class="disabled item" id='facebook' data-width="2" data-height="1" disabled>
+        <div class="disabled item" disabled>
           Facebook Image
         </div>
       <% else %>
-        <a class="item active" id='facebook' data-width="2" data-height="1" <%= @article.og_image_variation_id.present? ? "disabled" : "" %>>
+        <a class="item active" id='facebook' data-width="2" data-height="1">
           Facebook Image
         </a>
       <% end %>
       <% if  @article.twitter_image_variation_id.present? %>
-        <div class="disabled item" id='twitter' data-width="2" data-height="1" disabled>
+        <div class="disabled item" disabled>
           Twitter Image
         </div>
       <% else %>
-        <a class="item" id='twitter' data-width="2" data-height="1"  ? "disabled" : "" %>
+        <a class="item" id='twitter' data-width="2" data-height="1" %>
           Twitter Image
         </a>
       <% end %>
       <% if @article.instagram_image_variation_id.present? %>
-        <div class="disabled item" id='instagram' data-width="1" data-height="1" disabled>
+        <div class="disabled item" disabled>
           Instagram Image
         </div>
       <% else %>
-        <a class="item" id='instagram' data-width="1" data-height="1" <%= @article.instagram_image_variation_id.present? ? "disabled" : "" %>>
+        <a class="item" id='instagram' data-width="1" data-height="1" >
           Instagram Image
         </a>
       <% end %>
