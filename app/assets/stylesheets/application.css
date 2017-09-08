@@ -12,6 +12,7 @@
  *
  *= require ./vendors/semantic.min.css
  *= require ./vendors/semantic-theme.css
+ *= require primer
  *= require ./z.scss
  *= require_self
  */
