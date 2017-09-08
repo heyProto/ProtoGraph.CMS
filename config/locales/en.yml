@@ -58,4 +58,8 @@ en:
       max_size_error: "Size should less than or equal to 500kB."
   published:
     stream: "The cards will be published shortly."
+  social:
+    integrated: "%{param} image will be generated shortly."
+  r:
+    image: "Removed Image."
 

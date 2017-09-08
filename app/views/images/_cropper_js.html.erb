@@ -13,8 +13,20 @@
 
       return gcd(b, a % b);
     };
+    var mode = $("#image_variation_mode");
 
-    $('#aspectRatioMenu .item').on('click', function () {
+    $('#aspectRatioMenu a.item:first').addClass("active");
+
+    if(mode){
+      try {
+        mode.val($('#aspectRatioMenu a.item:first')[0].id);
+      } catch (err) {}
+    }
+
+    $('#aspectRatioMenu a.item').on('click', function () {
+      if ($(this).attr("disabled") === "disabled"){
+        return false;
+      }
       var ref = $(this),
         data,
         aspectRatio;
@@ -38,6 +50,10 @@
         boxHeight: 350,
         aspectRatio: aspectRatio
       });
+
+      if(mode && $(this).id){
+        mode.value($(this).id);
+      }
 
     });
 
@@ -74,7 +90,7 @@
       onSelect: update,
       onChange: update,
       boxHeight: 350,
-      aspectRatio: <%= (@article.present? and @article.id.present?) ? 2 : 1  %>
+      aspectRatio: ($('#aspectRatioMenu a.item.active').data().width / $('#aspectRatioMenu a.item.active').data().height)
     });
 
   });

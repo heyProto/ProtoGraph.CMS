@@ -186,7 +186,7 @@ class ImageVariation < ApplicationRecord
           }
         }
 
-        data_json["data".to_sym]["cover_data".to_sym]["#{self.mode == "facebook" ? "fb_image" : "instagram_image" }"] = {
+        data_json["data".to_sym]["cover_data".to_sym]["#{(self.mode == "facebook"  or self.mode == "twitter") ? "fb_image" : "instagram_image" }"] = {
           "image": "#{self.image_url}"
         }
 
@@ -203,8 +203,14 @@ class ImageVariation < ApplicationRecord
 
         response = Api::ProtoGraph::ViewCast.render_screenshot(payload)
         if response['message'].present? and response['message'] == "Data Added Successfully"
-          article.update_column(og_image_variation_id: a.id)
-        else
+          if self.mode == "facebook"
+            article.update_column(:og_image_variation_id, a.id)
+          elsif self.mode == "twitter"
+            article.update_column(:twitter_image_variation_id, a.id)
+          else
+            article.update_column(:instagram_image_variation_id, a.id)
+          end
+
         end
         ActiveRecord::Base.connection.close
       end

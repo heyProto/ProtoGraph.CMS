@@ -55,7 +55,12 @@ Rails.application.routes.draw do
         resources :stream_entities, only: [:create, :destroy]
       end
 
-      resources :articles, except: [:index]
+      resources :articles, except: [:index] do
+        put "remove_cover_image", on: :member
+        put "remove_facebook_image", on: :member
+        put "remove_twitter_image", on: :member
+        put "remove_instagram_image", on: :member
+      end
     end
 
     resources :images, only: [:index, :create, :show]

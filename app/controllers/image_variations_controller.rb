@@ -1,11 +1,16 @@
 class ImageVariationsController < ApplicationController
+  before_action :authenticate_user!
 
   def create
     options = image_variation_params
     options[:is_original] = false
     @image_variation = ImageVariation.new(options)
     if @image_variation.save
-      redirect_to account_image_path(@account, options[:image_id]), notice: "Image Variation added successfully"
+      if params[:redirect_url].present?
+        redirect_to params[:redirect_url], notice: t("social.integrated", {param: @image_variation.mode.to_s.titleize})
+      else
+        redirect_to account_image_path(@account, options[:image_id]), notice: "Image Variation added successfully"
+      end
     else
       redirect_to account_image_path(@account, options[:image_id]), alert: "Failed to create image variation"
     end

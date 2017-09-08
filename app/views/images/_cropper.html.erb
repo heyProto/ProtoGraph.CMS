@@ -1,15 +1,35 @@
-
 <div class="header">Crop Image</div>
 <div class="content">
   <div class="ui secondary menu" id="aspectRatioMenu">
     <div class="header item">Quick crop:</div>
     <% if controller_name == "articles" %>
-      <a class="item active" data-width="2" data-height="1">
-        2:1 (Facebook Image)
-      </a>
-      <a class="item" data-width="1" data-height="1">
-        1:1 (Instagram Image)
-      </a>
+      <% if @article.og_image_variation_id.present? %>
+        <div class="disabled item" id='facebook' data-width="2" data-height="1" disabled>
+          Facebook Image
+        </div>
+      <% else %>
+        <a class="item active" id='facebook' data-width="2" data-height="1" <%= @article.og_image_variation_id.present? ? "disabled" : "" %>>
+          Facebook Image
+        </a>
+      <% end %>
+      <% if  @article.twitter_image_variation_id.present? %>
+        <div class="disabled item" id='twitter' data-width="2" data-height="1" disabled>
+          Twitter Image
+        </div>
+      <% else %>
+        <a class="item" id='twitter' data-width="2" data-height="1"  ? "disabled" : "" %>
+          Twitter Image
+        </a>
+      <% end %>
+      <% if @article.instagram_image_variation_id.present? %>
+        <div class="disabled item" id='instagram' data-width="1" data-height="1" disabled>
+          Instagram Image
+        </div>
+      <% else %>
+        <a class="item" id='instagram' data-width="1" data-height="1" <%= @article.instagram_image_variation_id.present? ? "disabled" : "" %>>
+          Instagram Image
+        </a>
+      <% end %>
     <% else %>
       <a class="item active" data-width="0" data-height="0">
         Free selection
@@ -32,7 +52,10 @@
         <%= f.input "crop_#{attribute}", as: :hidden %>
     <% end %>
     <%= f.input :mode, as: :hidden, input_html: {value: mode.present? ? mode : nil} %>
-    <%= f.input :article_id, as: :hidden,input_html: {value: (@article.present? and @article.id.present?) ? @article.id : nil } %>
+    <% if @article.present? and @article.id.present? %>
+      <%= f.input :article_id, as: :hidden,input_html: {value: @article.id } %>
+      <input type='hidden' name='redirect_url' value="<%= account_folder_article_path(@account, @folder, @article) %>" />
+    <% end %>
   <% end %>
 </div>
 <div class="actions">
