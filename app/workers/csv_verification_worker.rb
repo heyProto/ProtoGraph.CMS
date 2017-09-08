@@ -12,7 +12,9 @@ class CsvVerificationWorker
     card_array_filtered = []
     filtering_errors = []
     row_number = 2
+    total_rows = 0
     CSV.foreach(@upload.attachment.file.file, headers: true) do |row|
+      total_rows += 1
       stdout, stderr, status = Open3.capture3("echo #{row.to_h.to_json.to_json} | jq -f ref/jq_filter/jq_filter_#{@upload.template_card.name}.jq")
       if stdout.present?
         card_array_filtered << stdout
@@ -21,15 +23,19 @@ class CsvVerificationWorker
       end
       row_number += 1
     end
+    @upload.update_columns(total_rows: total_rows)
     @upload.upload_errors = "[]"
     @upload.save!
     @upload.update_columns(filtering_errors: filtering_errors.to_json)
     puts "======== Filtering Errors =======\n#{filtering_errors}"
     i = 2
+    rows_uploaded = 0
     card_array_filtered.each do |card_filtered|
       upload_card(@upload.id, i, JSON.parse(card_filtered))
       i += 1
+      rows_uploaded += 1
     end
+    @upload.update_columns(rows_uploaded: rows_uploaded)
     CsvErrorWorker.perform_async(@upload.id)
   end
 
