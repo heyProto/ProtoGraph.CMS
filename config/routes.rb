@@ -48,20 +48,25 @@ Rails.application.routes.draw do
         get 'flip_public_private', 'move_to_next_status', on: :member
       end
 
-      resources :view_casts, only: [:new, :show, :edit, :update] do
-        put :"recreate/:mode", to: "view_casts#recreate", on: :member, as: :recreate
-      end
+      resources :view_casts, only: [:new, :show, :edit, :update]
 
       resources :streams, except: [:index] do
         post :publish, on: :member
         resources :stream_entities, only: [:create, :destroy]
       end
 
-      resources :articles, except: [:index]
+      resources :articles, except: [:index] do
+        put "remove_cover_image", on: :member
+        put "remove_facebook_image", on: :member
+        put "remove_twitter_image", on: :member
+        put "remove_instagram_image", on: :member
+      end
     end
 
     resources :images, only: [:index, :create, :show]
-    resources :image_variations, only: [:create, :show]
+    resources :image_variations, only: [:create, :show] do
+      post :download, on: :member
+    end
 
   end
 

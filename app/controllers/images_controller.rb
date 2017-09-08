@@ -1,7 +1,8 @@
 class ImagesController < ApplicationController
+  before_action :authenticate_user!
 
   def index
-    @images = Image.order(:created_at).page params[:page]
+    @images = @account.images.order(:created_at).page params[:page]
     @image = Image.new
   end
 

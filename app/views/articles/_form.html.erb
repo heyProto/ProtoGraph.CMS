@@ -1,38 +1,128 @@
-<%= simple_form_for([@account, @folder, @article]) do |f| %>
-    <%= f.input :account_id, as: :hidden, input_html: {value: @account.id} %>
-    <% if @article.id.nil? %>
-        <%= f.input :created_by, as: :hidden, input_html: {value: current_user.id} %>
-    <% end %>
-    <%= f.input :updated_by, as: :hidden, input_html: {value: current_user.id} %>
-    <div class='ui grid'>
-        <div class="left floated six wide column" style="background: #fafafa;">
-            <h3>Prepare the article</h3>
-            <h4>Tags</h4>
-            <h4>Brand images for social media</h4>
-        </div>
-        <div class="right floated ten wide column">
+<div class='ui grid'>
+    <div class="left floated six wide column" style="background: #fafafa;">
+        <h3>Prepare the article</h3>
+        <h4>Tags</h4>
+        <h4>Brand images for social media</h4>
+        <% if @article.id.present? %>
+            <% if @image.present? %>
+                <% if @article.og_image_variation_id.present? %>
+                    <span style='float:left; display:inline-block'>
+                        <h5>
+                            Facebook Image
+                            <%= link_to "<i class='download icon'></i>".html_safe, download_account_image_variation_path(@account, @article.og_image_variation, filename: "#{@article.slug}"), method: "post", target: "_blank"  %>
+                         </h5>
+                    </span>
+                    <span style='float:right; display:inline-block'>
+                        <%= link_to "<i class='remove circle icon'></i>".html_safe, remove_facebook_image_account_folder_article_path(@account, @folder, @article), method: :put %>
+                    </span>
+                    <%= image_tag(@article.og_image_variation.image_url, width: '100%') %>
+                <% end %>
+                <% if @article.twitter_image_variation_id.present? %>
+                    <span style='float:left; display:inline-block'>
+                        <h5>
+                            Twitter Image
+                            <%= link_to "<i class='download icon'></i>".html_safe, download_account_image_variation_path(@account, @article.twitter_image_variation, filename: "#{@article.slug}"), method: "post", target: "_blank"%>
+                        </h5>
+                    </span>
+                    <span style='float:right; display:inline-block'>
+                        <%= link_to "<i class='remove circle icon'></i>".html_safe, remove_twitter_image_account_folder_article_path(@account, @folder, @article), method: :put %>
+                    </span>
+                    <%= image_tag(@article.twitter_image_variation.image_url, width: '100%') %>
+                <% end %>
+                <% if @article.instagram_image_variation_id.present? %>
+                    <span style='float:left; display:inline-block'>
+                        <h5>
+                            Instagram Image
+                            <%= link_to "<i class='download icon'></i>".html_safe, download_account_image_variation_path(@account, @article.instagram_image_variation, filename: "#{@article.slug}"), method: "post", target: "_blank" %>
+                        </h5>
+                    </span>
+                    <span style='float:right; display:inline-block'>
+                        <%= link_to "<i class='remove circle icon'></i>".html_safe, remove_instagram_image_account_folder_article_path(@account, @folder, @article), method: :put %>
+                    </span>
+                    <%= image_tag(@article.instagram_image_variation.image_url, width: '100%') %>
+                <% end %>
+                <% if @article.og_image_variation_id.blank? or @article.twitter_image_variation_id.blank? or  @article.instagram_image_variation_id.blank?  %>
+                  <%= link_to "Create a Social Image", "#", id: "social_button", class: "ui button primary" %>
+                <% end %>
+            <% else %>
+                <div class='hint'>Please upload a Cover Image to continue</div>
+            <% end %>
+        <% end %>
+
+    </div>
+    <div class="right floated ten wide column">
+        <%= simple_form_for([@account, @folder, @article]) do |f| %>
+            <%= f.input :account_id, as: :hidden, input_html: {value: @account.id} %>
+            <% if @article.id.nil? %>
+                <%= f.input :created_by, as: :hidden, input_html: {value: current_user.id} %>
+            <% end %>
+            <%= f.input :updated_by, as: :hidden, input_html: {value: current_user.id} %>
             <%= f.input :url, as: :string, placeholder: "*Copy paste the URL of the story", label: false, required: true %>
-            <%= f.input :genre, placeholder: "Genre of the story e.g. Opinion, Analysis, Wire, Breaking, Exclusive, etc.", label: false %>
+            <%= f.input :genre, placeholder: "Genre of the story e.g. Opinion, Analysis, Wire, Breaking, Exclusive, etc.", label: false, hint: "Cannot be longer than 40 characters" %>
             <%= f.input :title, placeholder: "Copy paste the Title", label: false %>
             <table>
                 <tr>
-                    <td><%= image_tag "cover.png", width: "35px;" %></td>
-                    <td>&nbsp;</td>
-                    <td>
-                        <!-- # Ensure that the cover_image updates -->
+                    <% if @article.cover_image_id.blank? %>
+                        <td><%= image_tag "cover.png", width: "35px;" %></td>
+                        <td>&nbsp;</td>
+                        <td>
+                            <!-- # Ensure that the cover_image updates -->
                         <%= f.fields_for :cover_image do |cover_image| %>
                             <%= cover_image.input :image, label: false %>
                         <% end %>
-                    </td>
-                    <td class="hint">&nbsp; Upload cover image</td>
+                        </td>
+                        <td class="hint">&nbsp; Upload cover image</td>
+
+                    <% else %>
+                        <h6> Cover Image </h6>
+                        <%= image_tag(@article.cover_image_variation.image_url, class: "ui centered image") %>
+                        <br/>
+                        <div style="text-align: center;">
+                            <%= link_to "Remove Image", remove_cover_image_account_folder_article_path(@account, @folder, @article), class: "ui mini button", method: :put %>
+                        </div>
+
+                    <% end %>
                 </tr>
             </table>
+            <div class='one-br-space'></div>
+            <image id='upload_preview_img' class='ui centered image' ></image>
             <br/>
-
-
 
             <%= f.input :content, placeholder: "Copy paste the Story...", label: false, input_html: {rows: 24} %>
             <%= f.submit "Save", class: "ui button primary" %>
-        </div>
+        <% end %>
+    </div>
+</div>
+
+<% if @article.id.present? and @article.cover_image_id.present? %>
+    <div class="ui large modal" id="socialCropperModal"> <i class="close icon"></i>
+      <%= render partial: "images/cropper", locals: {mode: "facebook"} %>
     </div>
 <% end %>
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        var preview = $("#upload_preview_img");
+
+        $('#social_button').on('click', function (e) {
+            $('#socialCropperModal').modal({closable: false}).modal('show');
+            e.stopPropagation()
+        });
+
+        $("#article_cover_image_attributes_image").change(function(event){
+            var input = $(event.currentTarget);
+            var file = input[0].files[0];
+            var reader = new FileReader();
+            reader.onload = function(e){
+               image_base64 = e.target.result;
+               preview.attr("src", image_base64);
+            };
+            reader.readAsDataURL(file);
+        });
+
+    });
+
+</script>
+
+<%= render partial: "images/cropper_js" %>
+

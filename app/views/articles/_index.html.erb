@@ -1,5 +1,11 @@
 <% if @articles.first.blank? %>
-    <p class='hint'>Press the + button on top right to prepare articles before publishing.</p>
+    <p class='hint'>
+        <% if @account.logo_image_id.present? %>
+            Press the + button on top right to prepare articles before publishing.
+        <% else %>
+            You need to <%= link_to "upload your logo", edit_account_path(@account) %> to publish an article.
+        <% end %>
+    </p>
 <% else %>
         <table class="ui very basic table">
             <thead>
