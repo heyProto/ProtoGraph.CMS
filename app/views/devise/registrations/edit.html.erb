@@ -1,10 +1,11 @@
-<div class="ui grid">
-  <div class="three wide column">
-    <%= render partial: "devise/registrations/sidebar" %>
+<div class="row">
+  <div class="col-2">
+    <%= render partial: "accounts/sidebar" %>
   </div>
-  <div class="seven wide column">
-    <h3>Personal Settings</h3>
+  <div class="col-8">
     <br/>
+    <h1>Account</h1>
+    <hr/>
     <%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
     <%= f.error_notification %>
     <%= f.input :name %>
@@ -12,19 +13,21 @@
     <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
     <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
     <% end %>
-    <%= f.input :password, required: true, autocomplete: "off", placeholder: "6 characters minimum." %>
-    <i>(leave blank if you don't want to change it)</i>
-    <br /><br />
+    <%= f.input :password, required: true, autocomplete: "off", placeholder: "6 characters minimum.", hint: "(leave blank if you don't want to change it)" %>
     <%= f.input :password_confirmation, autocomplete: "off" %>
     <%= f.input :current_password %>
-    <%= f.button :submit, value: "Save", class: 'ui button' %>
+    <%= f.button :submit, value: "Save" %>
     <% end %>
-    <h3>Your API Access Token</h3>
+    <br/>
+    <br/>
+    <h1>Your API Access Token</h1>
+    <hr/>
     <p><%= current_user.access_token %> </p>
   </div>
-  <div class="six wide column">
-    <%= image_tag avatar_url(current_user.email, 200), class: "ui medium circular centered image" %>
+  <div class="col-2">
+    <br/><br/><br/>
+    <%= image_tag avatar_url(current_user.email, 200), class: "rounded" %>
     <br/>
-    <p class="hint" style="text-align: center;">To change the profile image, register with <a href="http://gravatar.com/" target="_blank">gravatar.com</a> with email ID <%= current_user.email %> and upload a square image there (Twitter DP).</p>
+    <p class="hint">To change the profile image, register with <a href="http://gravatar.com/" target="_blank">gravatar.com</a> with email ID <%= current_user.email %> and upload a square image there (Twitter DP).</p>
   </div>
 </div>

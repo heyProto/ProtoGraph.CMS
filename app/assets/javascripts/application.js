@@ -12,7 +12,8 @@
 //
 //= require rails-ujs
 //= require ./vendors/jquery.min.js
-//= require ./vendors/semantic.min.js
+//= require ./vendors/popper.min.js
+//= require ./vendors/bootstrap.min.js
 //= require ./vendors/jquery.noty.packaged.min.js
 //= require ./app/notiy
 //= require turbolinks

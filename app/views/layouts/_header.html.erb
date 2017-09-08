@@ -1,65 +1,87 @@
-<div style="width: 90%; margin-left: auto; margin-right: auto;">
 <% if !user_signed_in? %>
-  <% if !(controller_name == "sessions" and action_name == "new") %>
-  <div class="ui menu clear">
-    <div class="item"><%= link_to image_tag("_logo.png", class: "protograph-logo-image"), root_url %></div>
-  </div>
-  <% end %>
-  <% else %>
-  <div class="ui menu clear">
-    <% if @on_an_account_page %>
-    <div class="item"><%= link_to image_tag("_logo.png", class: "protograph-logo-image"), account_path(@account) %></div>
-    <div class="item">
-      <div class="ui tiny breadcrumb">
-        <%=link_to @account.username, @account, class: "section" %>
-        <% if controller_name == "folders" and @folder.present? %>
-          <i class="right angle icon divider"></i>
-          <div class="active section"><%= @folder.name %></div>
-        <% elsif @folder.present? and @folder.id.present? %>
-          <i class="right angle icon divider"></i>
-          <%=link_to @folder.name, [@account, @folder], class: "section" %>
-        <% end %>
-      </div>
-    </div>
-    <div class="right menu">
-      <% if (controller_name == "accounts" and action_name == 'show') or (controller_name == 'folders' and action_name == "create") %>
-          <li class="item"><%= link_to "Add a new folder", "#", class: "ui primary basic button mini", id: "formAddButton" %></li>
-      <% end %>
-      <div class="ui dropdown pointing item">
-        <%= image_tag avatar_url(@account.gravatar_email), class: "ui avatar image" %>
-        <div class="menu">
-          <%= link_to "Image Bank", account_images_path(@account), "data-turbolinks"=> false, class: 'item'  %>
-          <% if @role.can_account_settings %>
-            <%= link_to "Team Settings", edit_account_path(@account), class: "item" %>
-          <% end %>
-          <% if 1==2 and (@role.can_template_design_do or @role.can_template_design_publish) %>
-          <%= link_to "App Store", account_template_cards_path(@account), class: "item" %>
-          <% end %>
-        </div>
-      </div>
-      <div class="ui dropdown pointing item">
-        <%= image_tag avatar_url(current_user.email), class: "ui avatar image" %>
-        <div class="menu">
-          <%= link_to 'Profile', edit_user_registration_path(@account), class: "item" %>
-          <%= link_to "Sign out", destroy_user_session_path, class: "item" %>
-        </div>
-      </div>
-    </div>
-    <% else %>
-    <div class="item"><%= link_to image_tag("_logo.png", class: "protograph-logo-image"), root_url, style: "border: 0px;" %></div>
-    <div class="right menu">
-      <div class="ui dropdown pointing item">
-        <%= image_tag avatar_url(current_user.email), class: "ui avatar image" %>
-        <div class="menu">
-          <%= link_to 'Profile', edit_user_registration_path(@account), class: "item" %>
-          <%= link_to "Sign out", destroy_user_session_path, class: "item" %>
-        </div>
-      </div>
-    </div>
+    <% if !(controller_name == "sessions" and action_name == "new") %>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <div class="container">
+                <%= link_to image_tag("_logo.png", style: "width: 30px;", class: "d-inline-block align-top"), root_url, class:"navbar-brand"%>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                  <ul class="navbar-nav mr-auto">
+                  </ul>
+              </div>
+            </div>
+        </nav>
     <% end %>
-  </div>
-  <% end %>
-  <% if !(controller_name == "view_casts" and (action_name == "new" or action_name == "edit")) %>
-  <hr style="margin-top: -15px; margin-bottom: 0px; border-top: #EDEDED;"/>
-  <% end %>
-</div>
+<% else %>    
+    <% if @on_an_account_page %>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+          <div class="container">
+            <a class="navbar-brand" href=<%= account_path(@account) %>>
+              <%=  image_tag("_logo.png", style: "width: 30px;", class: "d-inline-block align-top") %>
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+              <ul class="navbar-nav mr-auto">
+                <li class="nav-item "><%= link_to @account.username, account_path(@account), style: "color: #C1C5CA;" %></li>
+              </ul>
+              <div class="form-inline my-2 my-lg-0">
+                <ul class="navbar-nav mr-auto">
+                  <% if (controller_name == "accounts" and action_name == 'show') or (controller_name == 'folders' and action_name == "create") %>
+                      <li class="nav-item"><%= link_to "Add a new folder", "#", class: "dropdown-item", id: "formAddButton" %></li>
+                  <% end %>
+                  <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      <%= image_tag avatar_url(@account.gravatar_email), class: "rounded" %>
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                      <%= link_to "Image Bank", account_images_path(@account), "data-turbolinks"=> false, class: "dropdown-item"  %>
+                      <%= link_to "Team Settings", edit_account_path(@account), class: "dropdown-item" %>
+                    </div>
+                  </li>
+                  <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      <%= image_tag avatar_url(current_user.email), class: "rounded" %>
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                      <%= link_to 'Profile', edit_user_registration_path(@account), class: "dropdown-item" %>
+                      <%= link_to "Sign out", destroy_user_session_path, class: "dropdown-item" %>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </nav>
+    <% else %>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+          <div class="container">
+            <a class="navbar-brand" href=<%= edit_user_registration_path(@account) %>>
+              <%=  image_tag("_logo.png", style: "width: 30px;", class: "d-inline-block align-top") %>
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+              <ul class="navbar-nav mr-auto">
+              </ul>
+              <div class="form-inline my-2 my-lg-0">
+                <ul class="navbar-nav mr-auto">
+                  <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      <%= image_tag avatar_url(current_user.email), class: "rounded" %>
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                      <%= link_to 'Profile', edit_user_registration_path(@account), class: "dropdown-item" %>
+                      <%= link_to "Sign out", destroy_user_session_path, class: "dropdown-item" %>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </nav>
+    <% end %>
+<% end %>

@@ -11,7 +11,6 @@ ruby "2.3.3"
 gem 'rails', '~> 5.1.1'
 gem 'mysql2'
 gem 'puma', '~> 3.7'
-gem 'primer-rails'
 
 #CORE INFRASTRUCTURE
 gem 'friendly_id', '~> 5.1.0'

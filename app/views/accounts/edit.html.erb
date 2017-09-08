@@ -1,11 +1,11 @@
 <%= simple_form_for @account do |f| %>
   <%= f.error_notification %>
-  <div class="ui grid">
-    <div class="three wide column">
+  <div class="row">
+    <div class="col-2">
         <%= render partial: "accounts/sidebar" %>
     </div>
-    <div class="seven wide column">
-        <h3>Team Settings</h3>
+    <div class="col-8">
+        <br/>
         <% if current_user.is_admin_from_pykih and 1 == 2 %>
             <div class="ui message">
               <h4>CDN Configuration</h4>
@@ -21,8 +21,9 @@
         <% else %>
               <% if @account.cdn_id == ENV['AWS_CDN_ID'] and @account.cdn_endpoint == ENV["AWS_S3_ENDPOINT"] %>
               <div class="ui message" style="padding-left:  0px; padding-right: 0px;">
-                <h4 style="color: red;">Pending CDN Configuration</h4>
-                <p style="color: red;">Currently, your embeds are running of Pykih's sandbox CDN that is suitable only for testing. Unless explicitly activated, it wont not scale to handle traffic on a live news site. To activate ProtoGraph for live site use, set up your own CDN (Akamai or AWS CloudFront) and point it to <i>protograph.yoursite.com</i> and provide us with tokens and purge API end points.</p>
+                <h1 style="color: #C2002A;">Pending CDN Configuration</h1>
+                <hr/>
+                <p style="color: #C2002A;">Currently, your embeds are running of Pykih's sandbox CDN that is suitable only for testing. Unless explicitly activated, it wont not scale to handle traffic on a live news site. To activate ProtoGraph for live site use, set up your own CDN (Akamai or AWS CloudFront) and point it to <i>protograph.yoursite.com</i> and provide us with tokens and purge API end points.</p>
                 <p style="color: red;">Please contact us at <%=mail_to "ritvvij.parrikh@pykih.com" %>.</p>
               </div>
             <% else %>
@@ -31,22 +32,18 @@
         <% end %>
         <br/>
         <div class="form-inputs">
-          <h4>How do you want members to sign up?</h4>
+          <h1>How do you want members to sign up?</h1>
+          <hr/>
           <p class="hint">Choose to make your team signup process invitation only, or allow anyone with a certain email address format to sign up.</p>
           <%= f.input :sign_up_mode, as: :select, collection: Account::SIGN_UP_MODES.map{|z| [z, z]}, label: false, include_blank: false %>
           <%= f.input :domain, placeholder: "E.g. google.com. Don't use common domains like gmail, outlook, yahoo, etc." %>
-          <% unless @account.logo_image_id.present? %>
-            <h4>Logo Image</h4>
-            <%= f.fields_for :logo_image do |logo_image| %>
-              <%= logo_image.input :image, label: false %>
-            <% end %>
-          <% end %>
           <%= f.button :submit, "Save", class: "ui button" %>
         </div>
     </div>
-    <div class="six wide column">
+    <div class="col-2">
+        <br/><br/><br/>
       <% if @account.logo_image_id.present? %>
-        <%= image_tag(@account.logo_image.original_image.image_url, class: "ui medium circular centered image") %>
+        <%= image_tag(@account.logo_image.original_image.image_url, class: "rounded") %>
         <br/>
         <%= simple_form_for @account do |f| %>
           <%= f.error_notification %>
@@ -56,7 +53,13 @@
           </div>
         <% end %>
       <% else %>
-        <%= image_tag avatar_url(@account.gravatar_email, 200), class: "ui medium circular centered image" %>
+        <%= image_tag avatar_url(@account.gravatar_email, 200), class: "rounded" %>
+      <% end %>
+      <br/><br/>
+      <% unless @account.logo_image_id.present? %>
+        <%= f.fields_for :logo_image do |logo_image| %>
+          <%= logo_image.input :image, label: false %>
+        <% end %>
       <% end %>
         <!-- <p class="hint" style="text-align: center;">To change the profile image, register with <a href="http://gravatar.com/" target="_blank">gravatar.com</a> with email ID <%= @account.gravatar_email %> and upload a square image there (Twitter DP).</p> -->
     </div>

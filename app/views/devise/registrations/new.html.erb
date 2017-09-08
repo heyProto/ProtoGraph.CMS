@@ -1,5 +1,6 @@
-<div class="ui two column centered grid">
-      <div class="column">
+<div class="row">
+      <div class="col-4 align-self-center" style="margin-left: auto; margin-right: auto; margin-top: 40px;">
+          
       <%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
       <%= f.error_notification %>
 
@@ -8,7 +9,7 @@
       <%= f.input :email, required: true %>
       <%= f.input :password, required: true, autocomplete: "off", required: true, placeholder: "6 characters minimum." %>
       <%= f.input :password_confirmation, autocomplete: "off", required: true %>
-      <%= f.button :submit, value: "Sign up", class: 'ui button' %>
+      <%= f.button :submit, value: "Sign up" %>
     <% end %>
 </div>
 </div>

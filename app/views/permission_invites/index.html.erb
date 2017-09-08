@@ -1,8 +1,8 @@
-<div class="ui grid">
-  <div class="three wide column">
+<div class="row">
+  <div class="col-2">
     <%= render partial: "accounts/sidebar" %>
   </div>
-  <div class="seven wide column">
+  <div class="col-8">
     <h3>Team Settings</h3>
     <br/>
     <div class="ui very relaxed list" style="width: 100% !important;">
@@ -24,7 +24,7 @@
       <% end %>
     </div>
   </div>
-  <div class="six wide column">
+  <div class="col-2">
       <div style="text-align: right;">
       <span id='invite_members'><a>Invite people</a></span>
       <% if @pending_invites_count != 0 %>

@@ -1,0 +1,12 @@
+body{font-size: 13px;}
+h1{font-size: 2em; font-weight: 400;}
+h2{font-size: 1.7em; font-weight: 800;}
+h3{font-size: 1.5em; font-weight: 800;}
+h4{font-size: 1.3em; font-weight: 800;}
+h5{font-size: 1.1em; font-weight: 800;}
+h6{text-transform: uppercase; font-weight: 800;}
+.control-label{font-size: 0.9em; font-weight: 600;}
+.help-block, .hint{ font-size: 11px; color: gray; padding-top: 2px; font-style: italic;}
+.dropdown-item{ font-size: 0.9em !important;}
+.dropdown-menu{margin: 0px !important;}
+.bg-dark{background: #303E4D !important;}

@@ -1,6 +1,16 @@
 <br/>
-<br/>
-<div class="ui secondary vertical menu">
-  <%= link_to "Settings", edit_account_path(@account), class: (controller_name == "accounts" ? "active item" : "item") %>
-  <%= link_to "People (#{@people_count})", account_permissions_path(@account), class: (controller_name == "permissions" ? "active item" : "item") %>
-</div>
+<nav class="github-menu">
+  <span class="github-menu-heading">Personal Settings</span>
+  <%= link_to "Account", edit_user_registration_path(@account), class: controller_name == "registrations" ? "github-menu-item selected" : "github-menu-item" %>
+  <%= link_to "Switch teams", accounts_path, class: (controller_name == "accounts" and action_name == "index") ? "github-menu-item selected" : "github-menu-item" %>
+</nav>
+<% if @account.present? %>
+    <% if @account.id.present? %>
+        <br/>
+        <nav class="github-menu">
+          <span class="github-menu-heading"><%= @account.username %> Settings</span>
+          <%= link_to "Settings", edit_account_path(@account), class: (controller_name == "accounts" ? "github-menu-item selected" : "github-menu-item") %>
+          <%= link_to "People (#{@people_count})", account_permissions_path(@account), class: (controller_name == "permissions" ? "github-menu-item selected" : "github-menu-item") %> 
+        </nav>
+    <% end %>
+<% end %>

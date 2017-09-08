@@ -1,12 +1,12 @@
 <div class="show-page-div">
   <% if @view_cast.is_invalidating %>
-    <div class="ui grid" style="margin-top: 25px;">
+    <div class="row" style="margin-top: 25px;">
       <div class="ui yellow message">
         The data is getting updated. It generally takes between 5 seconds to 5 minutes. If it doesn't update, please contact us at ritvvij.parrikh@pykih.com
       </div>
     </div>
   <% end %>
-  <div class="ui grid">
+  <div class="row">
     <div class="twelve wide column">
       <div class="ui huge header"><%= @view_cast.name %></div>
       <div class="proto-graph-mode-buttons">

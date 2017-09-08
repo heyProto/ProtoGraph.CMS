@@ -1,8 +1,9 @@
-<div class="ui two column centered grid">  <div class="column">
+<div class="row">  
+    <div class="col-4 align-self-center" style="margin-left: auto; margin-right: auto; margin-top: 40px;">
       <%= simple_form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f| %>
           <%= f.error_notification %>
           <%= f.input :email, autofocus: true %>
-          <%= f.submit "Send me reset password instructions", class: 'ui button' %>
+          <%= f.submit "Send me reset password instructions", class: "btn btn-primary" %>
         <% end %>
         <br/>
         <%= render "devise/shared/links" %>

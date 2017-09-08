@@ -1,18 +1,18 @@
 <% if Rails.env.staging? %>
-  <div class="ui grid" style="margin-top: 25px;">
+  <div class="row" style="margin-top: 25px;">
     <div class="ui yellow message">
       Please note: This is a staging environment for testing and not for use in production.
     </div>
   </div>
 <% end %>
-<div class="ui grid" style="margin-top: 140px;">
-  <div class="eight wide column">
+<div class="row" style="margin-top: 140px; min-height: 700px;">
+  <div class="col-6">
     <h1><%=image_tag "logo.png", alt: "ProtoGraph.co" %></h1>
     <h2 class="ui big header">
       Tools to help journalists write better stories.
     </h2>
   </div>
-  <div class="eight wide column" style="padding-left: 200px;">
+  <div class="col-6" style="padding-left: 200px;">
     <div style="background: white; padding: 15px;" >
       <%= simple_form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
       <%= f.error_notification %>
@@ -25,7 +25,7 @@
         </div>
       </div>
       <% end -%>
-      <%= f.button :submit, value: "Sign in", class: 'ui button' %>
+      <%= f.button :submit, value: "Sign in" %>
       <% end %>
       <br/>
       <%- if devise_mapping.recoverable? && controller_name != 'passwords' && controller_name != 'registrations' %>
@@ -33,90 +33,12 @@
       <%= link_to "Didn't receive confirmation token?", new_confirmation_path(resource_name) %><br />
       <% end -%>
     </div>
-    <div class="ui horizontal divider">
-      Or
-    </div>
-
-    <%= link_to "Sign up for free", new_registration_path(resource_name), class: "ui button massive" %><br />
-
+    <hr/>
+    <p>OR</p>
+    <%= link_to "Sign up for free", new_registration_path(resource_name), class: "btn btn-outline-primary" %><br />
     <div style="padding: 15px;" >
       <br/>
       <%= render "devise/shared/links" %>
-    </div>
-  </div>
-</div>
-<div class="ui grid" style="margin-top: 150px;">
-  <div class="one column row">
-    <div class=" column">
-      <div class="ui horizontal divider">
-      Cards Supported
-    </div>
-    </div>
-  </div>
-  <div class="row">
-    <div class="ui cards">
-      <div class="card">
-        <div class="content">
-          <%= link_to image_tag("toExplain.png", class: "right floated mini ui image"), demo_template_card_path(id: @to_explain.slug) %>
-          <div class="header">
-            <%= link_to "toExplain", demo_template_card_path(id: @to_explain.slug)%>
-          </div>
-          <div class="meta">
-            <a href="https://www.icfj.org" target="_blank">ICFJ</a>
-          </div>
-          <div class="description">
-            <%= link_to "Write text explainers once. Reuse across stories.", demo_template_card_path(id: @to_explain.slug) %>
-          </div>
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="content">
-          <%= link_to image_tag("toSocial.png", class: "right floated mini ui image"), "#" %>
-          <div class="header">
-            toSocial
-          </div>
-          <div class="meta">
-            <a href="https://www.icfj.org" target="_blank">ICFJ</a>
-          </div>
-          <div class="description">
-            Create branded cover images for distribution.
-          </div>
-        </div>
-      </div>
-      <div class="card">
-        <div class="content">
-          <%= link_to image_tag("toQuiz.png", class: "right floated mini ui image"), demo_template_card_path(id: @to_quiz.slug) %>
-          <div class="header">
-            <%= link_to "toQuiz", demo_template_card_path(id: @to_quiz.slug)%>
-          </div>
-          <div class="meta">
-            <a href="https://www.icfj.org" target="_blank">ICFJ</a>
-          </div>
-          <div class="description">
-            <%= link_to "Educate and engage readers on relevant issues with quiz.", demo_template_card_path(id: @to_quiz.slug) %>
-          </div>
-        </div>
-      </div>
-      <div class="card">
-        <div class="content">
-          <%= link_to image_tag("toTimeline.png", class: "right floated mini ui image"), nil %>
-          <div class="header">
-            toTimeline
-          </div>
-          <div class="meta">
-            <a href="https://www.icfj.org" target="_blank">ICFJ</a>
-            (upcoming)
-          </div>
-          <div class="description">
-            Embed tweets
-          </div>
-        </div>
-      </div>
-
-
-
-
     </div>
   </div>
 </div>

@@ -3,13 +3,13 @@
 
 <% w = @image_variation.image_width %>
 <% h = @image_variation.image_height %>
-<div class="ui grid">
-  <div class="six wide column">
+<div class="row">
+  <div class="col-2">
     <%= link_to("< Back", account_image_path(@account, @image), "data-turbolinks"=> false) %>
     <h5 class="ui header protograph-image-form-heading">Variation of</h5>
     <h1 class="ui header n-mt"><%= @image.name %></h1>
     <div class="one-br-space"></div>
-    <div class="ui grid">
+    <div class="row">
       <div class="eight wide column">
         <h5 class="ui header protograph-image-form-heading">Dimension</h5>
         <div><%= "#{w} x #{h}" %></div>

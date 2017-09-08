@@ -10,9 +10,8 @@
  * files in this directory. Styles in this file should be added after the last require_* statement.
  * It is generally better to create a new file per style scope.
  *
- *= require ./vendors/semantic.min.css
- *= require ./vendors/semantic-theme.css
- *= require primer
- *= require ./z.scss
+ *= require vendors/bootstrap.min.css
+ *= require vendors/github.scss
+ *= require vendors/theme.css
  *= require_self
  */
