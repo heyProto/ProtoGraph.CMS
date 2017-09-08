@@ -1,5 +1,6 @@
 class ImageVariationsController < ApplicationController
   before_action :authenticate_user!
+  before_action :set_image_variation, only: [:show, :download]
 
   def create
     options = image_variation_params
@@ -17,9 +18,13 @@ class ImageVariationsController < ApplicationController
   end
 
   def show
-    set_image_variation
     @image = @image_variation.image
     @image_variations = ImageVariation.where(image_id: @image_variation.image_id, is_original: false).where.not(id: @image_variation.id)
+  end
+
+  def download
+    data = open(@image_variation.image_url)
+    send_data data.read, filename: "#{params[:filename]}-#{@image_variation.mode}.png", disposition: 'attachment', stream: 'true', buffer_size: '4096'
   end
 
   private

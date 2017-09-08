@@ -6,21 +6,36 @@
         <% if @article.id.present? %>
             <% if @image.present? %>
                 <% if @article.og_image_variation_id.present? %>
-                    <span style='float:left; display:inline-block'><h5> Facebook Image </h5></span>
+                    <span style='float:left; display:inline-block'>
+                        <h5>
+                            Facebook Image
+                            <%= link_to "<i class='download icon'></i>".html_safe, download_account_image_variation_path(@account, @article.og_image_variation, filename: "#{@article.slug}"), method: "post", target: "_blank"  %>
+                         </h5>
+                    </span>
                     <span style='float:right; display:inline-block'>
                         <%= link_to "<i class='remove circle icon'></i>".html_safe, remove_facebook_image_account_folder_article_path(@account, @folder, @article), method: :put %>
                     </span>
                     <%= image_tag(@article.og_image_variation.image_url, width: '100%') %>
                 <% end %>
                 <% if @article.twitter_image_variation_id.present? %>
-                    <span style='float:left; display:inline-block'><h5> Twitter Image </h5></span>
+                    <span style='float:left; display:inline-block'>
+                        <h5>
+                            Twitter Image
+                            <%= link_to "<i class='download icon'></i>".html_safe, download_account_image_variation_path(@account, @article.twitter_image_variation, filename: "#{@article.slug}"), method: "post", target: "_blank"%>
+                        </h5>
+                    </span>
                     <span style='float:right; display:inline-block'>
                         <%= link_to "<i class='remove circle icon'></i>".html_safe, remove_twitter_image_account_folder_article_path(@account, @folder, @article), method: :put %>
                     </span>
                     <%= image_tag(@article.twitter_image_variation.image_url, width: '100%') %>
                 <% end %>
                 <% if @article.instagram_image_variation_id.present? %>
-                    <span style='float:left; display:inline-block'><h5> Instagram Image </h5></span>
+                    <span style='float:left; display:inline-block'>
+                        <h5>
+                            Instagram Image
+                            <%= link_to "<i class='download icon'></i>".html_safe, download_account_image_variation_path(@account, @article.instagram_image_variation, filename: "#{@article.slug}"), method: "post", target: "_blank" %>
+                        </h5>
+                    </span>
                     <span style='float:right; display:inline-block'>
                         <%= link_to "<i class='remove circle icon'></i>".html_safe, remove_instagram_image_account_folder_article_path(@account, @folder, @article), method: :put %>
                     </span>
