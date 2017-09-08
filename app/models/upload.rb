@@ -39,7 +39,7 @@ class Upload < ApplicationRecord
 
   #OTHER
   def validate_csv
-    CsvVerificationWorker.perform_async(self.id)
+    CsvVerificationWorker.perform_at(3.seconds.from_now, self.id)
   end
 
   def validate_headers
