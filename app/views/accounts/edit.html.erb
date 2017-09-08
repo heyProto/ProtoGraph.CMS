@@ -1,10 +1,10 @@
 <%= simple_form_for @account do |f| %>
   <%= f.error_notification %>
   <div class="row">
-    <div class="col-2">
+    <div class="col-3">
         <%= render partial: "accounts/sidebar" %>
     </div>
-    <div class="col-8">
+    <div class="col-7">
         <br/>
         <% if current_user.is_admin_from_pykih and 1 == 2 %>
             <div class="ui message">

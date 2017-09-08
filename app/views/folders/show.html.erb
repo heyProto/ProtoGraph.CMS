@@ -1,7 +1,17 @@
 <div class="row-fluid" style="background: #fafbfc; ">
-  <div class="container" style="padding-left: 0px;">
+  <div class="container" style="padding-left: 0px; padding-right: 0px;">
     <br/>
-    <h2 style="margin-bottom: 20px;"><%= @folder.name %> </h2>
+    <div class="row"  style="padding-left: 0px; padding-right: 0px;">
+            <div class="col-10">
+                <h2 style="margin-bottom: 20px;">
+                    <%= @folder.name %> 
+                    <spa>
+                </h2>
+            </div>
+            <div class="col-2">
+                <%= link_to '+ Add a card'.html_safe, new_account_folder_view_cast_path(@account, @folder), data: {turbolinks: false}, class: "btn btn-primary", role: "button" %>
+            </div>
+    </div>
     <ul class="nav nav-tabs">
       <li class="nav-item">
         <a class="nav-link active" href="#">Cards</a>
@@ -21,7 +31,7 @@
       <h4>
 
         <span style="float: right;text-align: right">
-          <%= link_to '<i class="plus icon"></i>'.html_safe, new_account_folder_view_cast_path(@account, @folder), data: {turbolinks: false} %>
+          
         </span>
       </h4>
       <%= render partial: "view_casts/index" %>
