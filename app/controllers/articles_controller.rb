@@ -1,6 +1,14 @@
 class ArticlesController < ApplicationController
     before_action :authenticate_user!
     before_action :set_article, only: [:show, :edit, :update, :remove_cover_image,:remove_twitter_image, :remove_facebook_image, :remove_instagram_image]
+    
+    def index
+      @view_casts_count = @folder.view_casts.count
+      @streams_count = @folder.streams.count
+      @articles_count = @folder.articles.count
+      @articles = @folder.articles.order(updated_at: :desc).page(params[:page]).per(30)
+      render layout: "application-fluid"
+    end
 
     def create
         a_params = article_params

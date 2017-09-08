@@ -1,3 +1,9 @@
+        <% if @is_viewcasts_present %>
+        <span style="float: right;text-align: right">
+          <%= link_to '<i class="plus icon"></i>'.html_safe, new_account_folder_stream_path(@account, @folder) %>
+        </span>
+        <% end %>
+
 <% if @is_viewcasts_present %>
     <% if @streams.first.blank? %>
         <p class='hint'>Press the + button on top right to search for a stream of cards.</p>
@@ -27,3 +33,6 @@
 <% else %>
     <p class='hint' style="color: maroon;">You cannot create streams unless you have created cards.</p>
 <% end %>
+  <%= paginate @view_casts, theme: 'twitter-bootstrap-4', pagination_class: "pagination-sm" %>
+  
+  

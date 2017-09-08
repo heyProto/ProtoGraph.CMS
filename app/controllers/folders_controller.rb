@@ -3,10 +3,11 @@ class FoldersController < ApplicationController
   before_action :authenticate_user!
 
   def show
-    @view_casts = @folder.view_casts.order(updated_at: :desc).page(params[:page]).per(30)
+    @view_casts_count = @folder.view_casts.count
+    @streams_count = @folder.streams.count
+    @articles_count = @folder.articles.count
+    @view_casts = @folder.view_casts.order(updated_at: :desc).page(params[:page]).per(30)    
     @is_viewcasts_present = @view_casts.count != 0
-    @streams = @folder.streams.order(updated_at: :desc)
-    @articles = @folder.articles.order(updated_at: :desc)
     render layout: "application-fluid"
   end
 
