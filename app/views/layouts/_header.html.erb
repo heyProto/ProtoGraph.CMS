@@ -1,7 +1,7 @@
 <% if !user_signed_in? %>
     <% if !(controller_name == "sessions" and action_name == "new") %>
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-            <div class="container">
+            <div class="container" style="padding-left: 0px;">
                 <%= link_to image_tag("_logo.png", style: "width: 30px;", class: "d-inline-block align-top"), root_url, class:"navbar-brand"%>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                   <span class="navbar-toggler-icon"></span>
@@ -13,10 +13,10 @@
             </div>
         </nav>
     <% end %>
-<% else %>    
+<% else %>
     <% if @on_an_account_page %>
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-          <div class="container">
+          <div class="container" style="padding-left: 0px;">
             <a class="navbar-brand" href=<%= account_path(@account) %>>
               <%=  image_tag("_logo.png", style: "width: 30px;", class: "d-inline-block align-top") %>
             </a>
@@ -54,7 +54,7 @@
         </nav>
     <% else %>
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-          <div class="container">
+          <div class="container" style="padding-left: 0px;">
             <a class="navbar-brand" href=<%= edit_user_registration_path(@account) %>>
               <%=  image_tag("_logo.png", style: "width: 30px;", class: "d-inline-block align-top") %>
             </a>

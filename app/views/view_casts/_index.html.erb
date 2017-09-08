@@ -1,28 +1,30 @@
-<div class='card-parent-class'>
-    <div class="ui bottom active tab" data-tab="second">
-        <% if @view_casts.first.blank? %>
-            <%= image_tag "option-2.png", width: "100%" %>
-        <% else %>
+<div class="container">
+    <% if @view_casts.first.blank? %>
+        <%= image_tag "option-2.png", width: "100%" %>
+    <% else %>
+        <div class="row">
             <% @view_casts.each do |d| %>
-                <div class="column proto-graph-card-div">
+                <div class="col-3">
                     <%= link_to [@account, @folder,d], "data-turbolinks"=> false do %>
-                        <div class="proto-graph-card">
-                            <div class="proto-card-gradient">
-                                <div class="index-card-content">
-                                    <div class="index-card-title">
-                                        <%= d.name %>
-                                    </div>
-                                    <div class="index-card-created-by"><%= image_tag avatar_url(d.updator.email), width: "100%" %></div>
-                                    <div class="index-card-extra-info">
-                                        <%= d.template_card.name %>  |  <%= time_ago_in_words(d.updated_at) %>
-                                    </div>
-                                </div>
+                        <div class="card card-inverse" style="margin: 20px 0px; ">
+                            <img class="card-img" src="<%= d.render_screenshot_url %>">
+                            <div class="card-img-overlay" style="height: 250px; margin: 0px;">
+
                             </div>
-                        </div>
+                          <div class="card-footer">
+                              <h4 class="card-title" title="<%=d.name%>">
+                                <span class="branch-ref css-truncate css-truncate-target"><%= d.name %></span>
+                              </h4>
+                              <small class="text-muted">
+                                <%= image_tag avatar_url(d.updator.email), width: "20px", class: "rounded" %>
+                                &nbsp;&nbsp;
+                                <%= d.template_card.name %>  |  <%= time_ago_in_words(d.updated_at) %>
+                              </small>
+                          </div>
+                      </div>
                     <% end %>
-                </div>
-            <% end %>
+              </div>
         <% end %>
     </div>
-</div>
-<%= paginate @view_casts %>
+  <% end %>
+  <%= paginate @view_casts, theme: 'twitter-bootstrap-4', pagination_class: "pagination-sm" %>

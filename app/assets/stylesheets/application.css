@@ -13,7 +13,6 @@
  *= require vendors/bootstrap.min.css
  *= require vendors/github-btns.css
  *= require vendors/github-menu.scss
- *= require vendors/github-activity.css
  *= require vendors/theme.css
  *= require_self
  */
