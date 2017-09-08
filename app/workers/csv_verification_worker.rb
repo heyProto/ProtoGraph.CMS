@@ -34,8 +34,8 @@ class CsvVerificationWorker
       upload_card(@upload.id, i, JSON.parse(card_filtered))
       i += 1
       rows_uploaded += 1
+      @upload.update_columns(rows_uploaded: rows_uploaded)
     end
-    @upload.update_columns(rows_uploaded: rows_uploaded)
     CsvErrorWorker.perform_async(@upload.id)
   end
 
