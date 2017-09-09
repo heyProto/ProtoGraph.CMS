@@ -1,7 +1,7 @@
 class ArticlesController < ApplicationController
     before_action :authenticate_user!
     before_action :set_article, only: [:show, :edit, :update, :remove_cover_image,:remove_twitter_image, :remove_facebook_image, :remove_instagram_image]
-    
+
     def index
       @view_casts_count = @folder.view_casts.count
       @streams_count = @folder.streams.count
@@ -36,11 +36,14 @@ class ArticlesController < ApplicationController
         @view_casts_count = @folder.view_casts.count
         @streams_count = @folder.streams.count
         @articles_count = @folder.articles.count
-        @is_viewcasts_present = @view_casts_count != 0  
+        @is_viewcasts_present = @view_casts_count != 0
         render layout: "application-fluid"
     end
 
     def show
+    end
+
+    def edit
         @image = @article.cover_image
         if @image.blank?
             @article.build_cover_image

@@ -1,1 +1,94 @@
 <%= render partial: "articles/form" %>
+
+    <div class="row-fluid">
+        <div class="row" style="border-right: 1px solid lightgray;">
+            <div class='ui grid'>
+                <h4 style="font-weight: 200;">Step #3 - Crop cover images for social distribution</h4>
+                <div class="left floated six wide column" style="background: #fafafa;">
+                    <% if @image.present? %>
+                            <% if @article.og_image_variation_id.present? %>
+                                <span style='float:left; display:inline-block'>
+                                    <h5>
+                                        Facebook Image
+                                        <%= link_to "<i class='glyphicon glyphicon-download-alt'></i>".html_safe, download_account_image_variation_path(@account, @article.og_image_variation, filename: "#{@article.slug}"), method: "post", target: "_blank"  %>
+                                     </h5>
+                                </span>
+                                <span style='float:right; display:inline-block'>
+                                    <%= link_to "<i class='remove circle icon'></i>".html_safe, remove_facebook_image_account_folder_article_path(@account, @folder, @article), method: :put %>
+                                </span>
+                                <div class='one-br-space'></div>
+                                <%= image_tag(@article.og_image_variation.image_url) %>
+                                <div class='one-br-space'></div>
+                            <% end %>
+                            <% if @article.twitter_image_variation_id.present? %>
+                                <span style='float:left; display:inline-block'>
+                                    <h5>
+                                        Twitter Image
+                                        <%= link_to "<i class='glyphicon glyphicon-download-alt'></i>".html_safe, download_account_image_variation_path(@account, @article.twitter_image_variation, filename: "#{@article.slug}"), method: "post", target: "_blank"%>
+                                    </h5>
+                                </span>
+                                <span style='float:right; display:inline-block'>
+                                    <%= link_to "<i class='remove circle icon'></i>".html_safe, remove_twitter_image_account_folder_article_path(@account, @folder, @article), method: :put %>
+                                </span>
+                                <div class='one-br-space'></div>
+                                <%= image_tag(@article.twitter_image_variation.image_url) %>
+                                <div class='one-br-space'></div>
+                            <% end %>
+                            <% if @article.instagram_image_variation_id.present? %>
+                                <span style='float:left; display:inline-block'>
+                                    <h5>
+                                        Instagram Image
+                                        <%= link_to "<i class='glyphicon glyphicon-download-alt'></i>".html_safe, download_account_image_variation_path(@account, @article.instagram_image_variation, filename: "#{@article.slug}"), method: "post", target: "_blank" %>
+                                    </h5>
+                                </span>
+                                <span style='float:right; display:inline-block'>
+                                    <%= link_to "<i class='remove circle icon'></i>".html_safe, remove_instagram_image_account_folder_article_path(@account, @folder, @article), method: :put %>
+                                </span>
+                                <div class='one-br-space'></div>
+                                <%= image_tag(@article.instagram_image_variation.image_url) %>
+                                <div class='one-br-space'></div>
+                            <% end %>
+                            <% if @article.og_image_variation_id.blank? or @article.twitter_image_variation_id.blank? or  @article.instagram_image_variation_id.blank?  %>
+                              <%= link_to "Create a Social Image", "#", id: "social_button", class: "ui button primary" %>
+                            <% end %>
+                    <% else %>
+                        <div class='hint'>Please upload a Cover Image to continue</div>
+                    <% end %>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<% if @article.id.present? and @article.cover_image_id.present? %>
+    <div class="ui large modal" id="socialCropperModal"> <i class="close icon"></i>
+      <%= render partial: "images/cropper", locals: {mode: "facebook"} %>
+    </div>
+<% end %>
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        var preview = $("#upload_preview_img");
+
+        $('#social_button').on('click', function (e) {
+            $('#socialCropperModal').modal({closable: false}).modal('show');
+            e.stopPropagation()
+        });
+
+        $("#article_cover_image_attributes_image").change(function(event){
+            var input = $(event.currentTarget);
+            var file = input[0].files[0];
+            var reader = new FileReader();
+            reader.onload = function(e){
+               image_base64 = e.target.result;
+               preview.attr("src", image_base64);
+            };
+            reader.readAsDataURL(file);
+        });
+
+    });
+
+</script>
+
+<%= render partial: "images/cropper_js" %>
+
