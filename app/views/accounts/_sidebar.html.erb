@@ -10,7 +10,7 @@
         <nav class="github-menu">
           <span class="github-menu-heading"><%= @account.username %> Settings</span>
           <%= link_to "Settings", edit_account_path(@account), class: (controller_name == "accounts" ? "github-menu-item selected" : "github-menu-item") %>
-          <%= link_to "People (#{@people_count})", account_permissions_path(@account), class: (controller_name == "permissions" ? "github-menu-item selected" : "github-menu-item") %> 
+          <%= link_to "People (#{@people_count})", account_permissions_path(@account), class: ((controller_name == "permissions" or controller_name == "permission_invites") ? "github-menu-item selected" : "github-menu-item") %> 
         </nav>
     <% end %>
 <% end %>

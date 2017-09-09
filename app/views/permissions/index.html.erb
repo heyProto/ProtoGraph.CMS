@@ -22,7 +22,7 @@
                         <div class="hint">Last seen <%= time_ago_in_words(permission.user.current_sign_in_at) %> ago.</div>
                         <% end %>
                         <% if current_user.id != permission.user_id and permission.status != "Deactivated" %>
-                        <%= link_to "<i class='trash outline icon'></i>".html_safe, account_permission_path(@account,   permission), method: :delete, data: { confirm: 'Are you sure?' } %>
+                        <%= link_to "Remove".html_safe, account_permission_path(@account,   permission), method: :delete, data: { confirm: 'Are you sure?' } %>
                         <% end %>
                     </td>
                     <td  style="border: 0px;">
@@ -35,7 +35,7 @@
                           <div class="menu">
                             <% RefRole.pluck(:slug).uniq.each do |r| %>
                             <% if permission.ref_role_slug != r %>
-                            <%= link_to r.titleize, change_role_account_permission_path(@account, permission, r: r), class: "item" %>
+                            <%= link_to r.titleize, change_role_account_permission_path(@account, permission, r: r), class: "hint" %>
                             <% end %>
                             <% end %>
                           </div>
@@ -52,10 +52,10 @@
   </div>
   <div class="col-2">
     <br/><br/><br/>
-    <div style="text-align: right;">
+    <div style="text-align: right;" class="hint">
       <span id='invite_members'><a>Invite people</a></span>
       <% if @pending_invites_count != 0 %>
-      &nbsp;&nbsp; | &nbsp;&nbsp;
+      <br/>
       <%= link_to "Pending Invitations (#{@pending_invites_count})".html_safe, account_permission_invites_path(@account) %>
       <% end %>
     </div>
