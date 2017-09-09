@@ -29,6 +29,11 @@ h6{text-transform: uppercase; font-weight: 800;}
     max-width: 10000px !important
 }
 
+.bootstrap-container {
+    width:100% !important;
+    padding-top: 0px !important;
+    margin-bottom: 0px !important;
+}
 .proto-graph-code-area {
     margin-top: 30px;
 }
