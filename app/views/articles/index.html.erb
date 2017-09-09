@@ -10,7 +10,7 @@
             </div>
             <div class="col-2">
                 <% if @account.logo_image_id.present? %>
-                <%= link_to '+ Prepare an article'.html_safe, new_account_folder_article_path(@account, @folder), data: {turbolinks: false}, class: "btn btn-primary", role: "button" %>
+                <%= link_to '+ Prepare an article'.html_safe, new_account_folder_article_path(@account, @folder), data: {turbolinks: false}, class: "btn btn-outline", role: "button" %>
                 <% end %>
             </div>
         </div>
