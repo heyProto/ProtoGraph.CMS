@@ -11,6 +11,7 @@ class ViewCastsController < ApplicationController
             @view_cast.update_column(:is_invalidating, false)
         end
         @view_cast_seo_blockquote = @view_cast.seo_blockquote.to_s.split('`').join('\`')
+        render layout: "application-fluid"
     end
 
     def edit

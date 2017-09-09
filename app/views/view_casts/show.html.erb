@@ -1,88 +1,124 @@
-<div class="show-page-div">
-  <% if @view_cast.is_invalidating %>
-    <div class="row" style="margin-top: 25px;">
-      <div class="ui yellow message">
-        The data is getting updated. It generally takes between 5 seconds to 5 minutes. If it doesn't update, please contact us at ritvvij.parrikh@pykih.com
-      </div>
-    </div>
-  <% end %>
-  <div class="row">
-    <div class="twelve wide column">
-      <div class="ui huge header"><%= @view_cast.name %></div>
-      <div class="proto-graph-mode-buttons">
-        <div class="ui small basic icon buttons">
-          <button class="ui button platform_buttons" id='laptop'><i class="desktop icon"></i>&nbsp Desktop</button>
-          <button class="ui button platform_buttons" id='mobile'><i class="mobile icon"></i> <%= @view_cast.template_card.git_repo_name == 'ProtoGraph.Card.toQuiz' ? "Mobile with Desktop interaction" : "&nbsp Mobile".html_safe %></button>
-          <% if @view_cast.template_card.git_repo_name == 'ProtoGraph.Card.toLink' %>
-            <button class="ui button platform_buttons" id='list'><i class="list icon"></i>&nbsp List</button>
-          <% end %>
+<style>
+    .proto-graph-code-area {
+        margin-top: 30px;
+    }
+
+    .proto-graph-code-area-title {
+        margin-bottom: 10px;
+        font-weight: bold;
+    }
+    
+    .proto-graph-code {
+        width: 100%;
+        height: 100px;
+        font-size: 1em;
+        padding: 10px 15px;
+        color: #999;
+        background: #fafafa;
+        border: 1px solid #efefef;
+        font-family: arial;
+        letter-spacing: 0.5px;
+        word-wrap: nowrap;
+        margin-bottom: 15px;
+    }
+</style>
+
+<div class="row-fluid" style="background: #fafbfc; ">
+  <div class="container" style="padding-left: 0px; padding-right: 0px;">
+    <br/>
+    <div class="row"  style="padding-left: 0px; padding-right: 0px;">
+      <div class="col-12">
+        <h3 style="margin-bottom: 20px; font-weight: 200;">
+          <%= link_to @folder.name, account_folder_path(@account, @folder) %> /
+          <%= @view_cast.name %>
+          </h3>
         </div>
       </div>
-      <div id="protoCard" style='width: 100%'>
-        <%= sanitize @view_cast.seo_blockquote.to_s, tags: %w(p blockquote ul li h1 h2 h3 h4 h5 h6) %>
-      </div>
-
-      <script src="https://d2m6lzru8erw1k.cloudfront.net/lib/protoGraph.min.js" async></script>
-      <div class="proto-graph-code-area">
-        <hr/>
-        <h3 style="text-align: center; margin-bottom: 40px;">Embed the card in your stories</h3>
-        <div class="proto-graph-code-area-title">Option #1 - Responsive SEO friendly iFrame</div>
-        <textarea class="proto-graph-code"  id='responsive-embed-code' readonly><div id="<%= "ProtoCard#{@view_cast.id}" %>"><%= (sanitize @view_cast.seo_blockquote.to_s, tags: %w(p blockquote ul li h1 h2 h3 h4 h5 h6))%></div><script src="<%= Rails.env.production? ? @account.cdn_endpoint :  "https://d2m6lzru8erw1k.cloudfront.net" %>/lib/protoGraph.min.js" async></script><script type="text/javascript">var <%= "ProtoCard#{@view_cast.id}" %> = setInterval(function(){if (window.ProtoEmbed){clearInterval(<%= "ProtoCard#{@view_cast.id}" %>)};var mode = (window.innerWidth <= 500) ? "mobile" : "laptop";new ProtoEmbed.initFrame(document.getElementById("<%= "ProtoCard#{@view_cast.id}" %>"), "<%= "#{@view_cast.template_card.index_html(@account)}?view_cast_id=#{@view_cast.datacast_identifier}%26schema_id=#{@view_cast.template_datum.s3_identifier}" %>" , mode)}, 200)</script></textarea>
-        </br>
-
-        <div class="proto-graph-code-area-title"> Option #2 - Protograph Wordpress Shortcode</div>
-        <textarea class="proto-graph-code" readonly>[ie-protograph view_cast_id="<%= @view_cast.datacast_identifier %>" schema_id="<%= @view_cast.template_datum.s3_identifier %>" id="<%= "ProtoCard#{@view_cast.id}" %>" frame_id="<%= @view_cast.template_card.s3_identifier %>"]<%= (sanitize @view_cast.seo_blockquote.to_s, tags: %w(p blockquote ul li h1 h2 h3 h4 h5 h6)) %>[/ie-protograph]</textarea>
-        </br>
-
-        <div class="proto-graph-code-area-title">Option #3 - Traditional iFrame for Google AMP pages</div>
-        <textarea class="proto-graph-code amp-iframe" readonly><iframe width="560" height="315" src="<%= "#{@view_cast.template_card.protograph_html(@account)}?view_cast_id=#{@view_cast.datacast_identifier}%26schema_id=#{@view_cast.template_datum.s3_identifier}%26mode=laptop" %>" frameborder="0" allowfullscreen></iframe></textarea>
-
-
-        <div class="proto-graph-code-area-title">Option #4 - SEO friendly iFrame for specific mode</div>
-        <textarea class="proto-graph-code protograph-iframe" readonly><div id="<%= "ProtoCard#{@view_cast.id}" %>"><%= (sanitize @view_cast.seo_blockquote.to_s, tags: %w(p blockquote ul li h1 h2 h3 h4 h5 h6)) %></div><script src="<%= Rails.env.production? ? @account.cdn_endpoint :  "https://d2m6lzru8erw1k.cloudfront.net" %>/lib/protoGraph.min.js" async></script><script type="text/javascript">var <%= "ProtoCard#{@view_cast.id}" %> = setInterval(function(){if (window.ProtoEmbed){clearInterval(<%= "ProtoCard#{@view_cast.id}" %>)};new ProtoEmbed.initFrame(document.getElementById("<%= "ProtoCard#{@view_cast.id}" %>"), "<%= "#{@view_cast.template_card.index_html(@account)}?view_cast_id=#{@view_cast.datacast_identifier}%26schema_id=#{@view_cast.template_datum.s3_identifier}" %>" , "laptop")}, 200)</script></textarea>
-        </br>
-      </div>
-
-
-    </div>
-    <div class="four wide column">
-      <div class='five-br-space'></div>
-      <div class="card-details">
-        <div class="card-details-title">Details</div>
-        <div class="sigle-detail">
-          <div class="card-detail-lable">Card Type:</div>
-          <div class="card-detail-Value"><%= @view_cast.template_card.name %></div>
-        </div>
-        <br>
-        <div class="sigle-detail">
-          <div class="card-detail-lable">Created By:</div>
-          <div class="card-detail-Value"><%= @view_cast.creator.name %></div>
-        </div>
-        <div class="sigle-detail">
-          <div class="card-detail-lable">On:</div>
-          <div class="card-detail-Value"><%= @view_cast.created_at.strftime("%e %b %Y") %></div>
-        </div>
-        <br>
-        <div class="sigle-detail">
-          <div class="card-detail-lable">Updated By:</div>
-          <div class="card-detail-Value"><%= @view_cast.updator.name %></div>
-        </div>
-        <div class="sigle-detail">
-          <div class="card-detail-lable">On:</div>
-          <div class="card-detail-Value"><%= @view_cast.updated_at.strftime("%e %b %Y") %></div>
-        </div>
-        <br>
-        <div class='sigle-detail'>
-          <%= simple_form_for([@account, @folder, @view_cast]) do |f|%>
-            <div class="card-detail-lable">Move to another folder:</div>
-            <div class="card-detail-Value"><%= f.input :folder_id, collection: @folders, include_blank: false, label: false %></div>
-          <% end %>
-        </div>
-        <br/>
-        <%= link_to "Edit the Card", edit_account_folder_view_cast_path(@account, @folder, @view_cast),"data-turbolinks"=> false %>
-      </div>
-    </div>
   </div>
+</div>
+<br/>
+<br/>
+<div class="container">
+    <div class="row">
+        <div class="col-9">
+            <% if @view_cast.is_invalidating %>
+              <div class="alert alert-warning" role="alert">
+                The data is getting updated. It generally takes between 5 seconds to 5 minutes. If it doesn't update, please contact us at ritvvij.parrikh@pykih.com
+              </div>
+              <br/>
+            <% end %>
+            <div style="margin-left: 40%;">
+                <div class="btn-group">
+                  <button class="btn btn-sm" type="button" id='laptop'>Desktop</button>
+                  <button class="btn btn-sm" type="button" id='mobile'>Mobile</button>
+                  <% if @view_cast.template_card.git_repo_name == 'ProtoGraph.Card.toLink' %>
+                      <button class="btn btn-sm" type="button" id='list'>List</button>
+                  <% end %>
+                </div>
+            </div>
+            <br/>
+            <div id="protoCard" style='width: 100%'>
+              <%= sanitize @view_cast.seo_blockquote.to_s, tags: %w(p blockquote ul li h1 h2 h3 h4 h5 h6) %>
+            </div>
+
+            <script src="https://d2m6lzru8erw1k.cloudfront.net/lib/protoGraph.min.js" async></script>
+            <div class="proto-graph-code-area">
+              <hr/>
+              <h3 style="text-align: center; margin-bottom: 40px;">Embed the card in your stories</h3>
+              <div class="proto-graph-code-area-title">Option #1 - Responsive SEO friendly iFrame</div>
+              <textarea class="proto-graph-code"  id='responsive-embed-code' readonly><div id="<%= "ProtoCard#{@view_cast.id}" %>"><%= (sanitize @view_cast.seo_blockquote.to_s, tags: %w(p blockquote ul li h1 h2 h3 h4 h5 h6))%></div><script src="<%= Rails.env.production? ? @account.cdn_endpoint :  "https://d2m6lzru8erw1k.cloudfront.net" %>/lib/protoGraph.min.js" async></script><script type="text/javascript">var <%= "ProtoCard#{@view_cast.id}" %> = setInterval(function(){if (window.ProtoEmbed){clearInterval(<%= "ProtoCard#{@view_cast.id}" %>)};var mode = (window.innerWidth <= 500) ? "mobile" : "laptop";new ProtoEmbed.initFrame(document.getElementById("<%= "ProtoCard#{@view_cast.id}" %>"), "<%= "#{@view_cast.template_card.index_html(@account)}?view_cast_id=#{@view_cast.datacast_identifier}%26schema_id=#{@view_cast.template_datum.s3_identifier}" %>" , mode)}, 200)</script></textarea>
+              </br>
+
+              <div class="proto-graph-code-area-title"> Option #2 - Protograph Wordpress Shortcode</div>
+              <textarea class="proto-graph-code" readonly>[ie-protograph view_cast_id="<%= @view_cast.datacast_identifier %>" schema_id="<%= @view_cast.template_datum.s3_identifier %>" id="<%= "ProtoCard#{@view_cast.id}" %>" frame_id="<%= @view_cast.template_card.s3_identifier %>"]<%= (sanitize @view_cast.seo_blockquote.to_s, tags: %w(p blockquote ul li h1 h2 h3 h4 h5 h6)) %>[/ie-protograph]</textarea>
+              </br>
+
+              <div class="proto-graph-code-area-title">Option #3 - Traditional iFrame for Google AMP pages</div>
+              <textarea class="proto-graph-code amp-iframe" readonly><iframe width="560" height="315" src="<%= "#{@view_cast.template_card.protograph_html(@account)}?view_cast_id=#{@view_cast.datacast_identifier}%26schema_id=#{@view_cast.template_datum.s3_identifier}%26mode=laptop" %>" frameborder="0" allowfullscreen></iframe></textarea>
+
+
+              <div class="proto-graph-code-area-title">Option #4 - SEO friendly iFrame for specific mode</div>
+              <textarea class="proto-graph-code protograph-iframe" readonly><div id="<%= "ProtoCard#{@view_cast.id}" %>"><%= (sanitize @view_cast.seo_blockquote.to_s, tags: %w(p blockquote ul li h1 h2 h3 h4 h5 h6)) %></div><script src="<%= Rails.env.production? ? @account.cdn_endpoint :  "https://d2m6lzru8erw1k.cloudfront.net" %>/lib/protoGraph.min.js" async></script><script type="text/javascript">var <%= "ProtoCard#{@view_cast.id}" %> = setInterval(function(){if (window.ProtoEmbed){clearInterval(<%= "ProtoCard#{@view_cast.id}" %>)};new ProtoEmbed.initFrame(document.getElementById("<%= "ProtoCard#{@view_cast.id}" %>"), "<%= "#{@view_cast.template_card.index_html(@account)}?view_cast_id=#{@view_cast.datacast_identifier}%26schema_id=#{@view_cast.template_datum.s3_identifier}" %>" , "laptop")}, 200)</script></textarea>
+              </br>
+            </div>
+        </div>
+        <div class="col-3">
+            <div class="card-details">
+              <div class="card-details-title">Details</div>
+              <div class="sigle-detail">
+                <div class="card-detail-lable">Card Type:</div>
+                <div class="card-detail-Value"><%= @view_cast.template_card.name %></div>
+              </div>
+              <br>
+              <div class="sigle-detail">
+                <div class="card-detail-lable">Created By:</div>
+                <div class="card-detail-Value"><%= @view_cast.creator.name %></div>
+              </div>
+              <div class="sigle-detail">
+                <div class="card-detail-lable">On:</div>
+                <div class="card-detail-Value"><%= @view_cast.created_at.strftime("%e %b %Y") %></div>
+              </div>
+              <br>
+              <div class="sigle-detail">
+                <div class="card-detail-lable">Updated By:</div>
+                <div class="card-detail-Value"><%= @view_cast.updator.name %></div>
+              </div>
+              <div class="sigle-detail">
+                <div class="card-detail-lable">On:</div>
+                <div class="card-detail-Value"><%= @view_cast.updated_at.strftime("%e %b %Y") %></div>
+              </div>
+              <br>
+              <div class='sigle-detail'>
+                <%= simple_form_for([@account, @folder, @view_cast]) do |f|%>
+                  <div class="card-detail-lable">Move to another folder:</div>
+                  <div class="card-detail-Value"><%= f.input :folder_id, collection: @folders, include_blank: false, label: false %></div>
+                <% end %>
+              </div>
+              <br/>
+              <%= link_to "Edit the Card", edit_account_folder_view_cast_path(@account, @folder, @view_cast),"data-turbolinks"=> false %>
+            </div>
+        </div>
+    </div>
 </div>
 
 <script type="text/javascript">
