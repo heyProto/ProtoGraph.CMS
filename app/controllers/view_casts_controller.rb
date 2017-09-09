@@ -11,6 +11,9 @@ class ViewCastsController < ApplicationController
             @view_cast.update_column(:is_invalidating, false)
         end
         @view_cast_seo_blockquote = @view_cast.seo_blockquote.to_s.split('`').join('\`')
+        @view_casts_count = @folder.view_casts.count
+        @streams_count = @folder.streams.count
+        @articles_count = @folder.articles.count
         render layout: "application-fluid"
     end
 
