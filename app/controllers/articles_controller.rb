@@ -33,6 +33,10 @@ class ArticlesController < ApplicationController
         redirect_to [@account, @folder], alert: "Cannot create an article without logo image" if @account.logo_image_id.nil?
         @article = @folder.articles.new
         @article.build_cover_image
+        @view_casts_count = @folder.view_casts.count
+        @streams_count = @folder.streams.count
+        @articles_count = @folder.articles.count
+        @is_viewcasts_present = @view_casts_count != 0  
         render layout: "application-fluid"
     end
 
