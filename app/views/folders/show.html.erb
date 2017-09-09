@@ -2,46 +2,51 @@
   <div class="container" style="padding-left: 0px; padding-right: 0px;">
     <br/>
     <div class="row"  style="padding-left: 0px; padding-right: 0px;">
-            <div class="col-10">
-                <h2 style="margin-bottom: 20px;">
-                    <%= @folder.name %> 
-                    <spa>
-                </h2>
-            </div>
-            <div class="col-2">
-                <%= link_to '+ Add a card'.html_safe, new_account_folder_view_cast_path(@account, @folder), data: {turbolinks: false}, class: "btn btn-primary", role: "button" %>
-            </div>
+      <div class="col-10">
+        <h2 style="margin-bottom: 20px;">
+          <%= @folder.name %>
+          <spa>
+          </h2>
+        </div>
+        <div class="col-2">
+          <%= link_to '+ Add a card'.html_safe, new_account_folder_view_cast_path(@account, @folder), data: {turbolinks: false}, class: "btn btn-primary", role: "button" %>
+        </div>
+      </div>
+      <%= render partial: "folders/header" %>
     </div>
-    <%= render partial: "folders/header" %>
   </div>
-</div>
-<div class="container">
+  <div class="container">
     <% if @view_casts.first.blank? %>
-        <%= image_tag "option-2.png", width: "100%" %>
-    <% else %>
-        <div class="row">
-            <% @view_casts.each do |d| %>
-                <div class="col-3">
-                    <%= link_to [@account, @folder,d], "data-turbolinks"=> false do %>
-                        <div class="card card-inverse" style="margin: 20px 0px; ">
-                            <img class="card-img" src="<%= d.render_screenshot_url %>" style="height: 250px;">
-                            <div class="card-img-overlay" style="height: 250px; margin: 0px; background-color: rgba(256, 256, 256, 0.8);">
-
-                            </div>
-                          <div class="card-footer">
-                              <h4 class="card-title" title="<%=d.name%>">
-                                <span class="branch-ref css-truncate css-truncate-target"><%= d.name %></span>
-                              </h4>
-                              <small class="text-muted">
-                                <%= image_tag avatar_url(d.updator.email), width: "20px", class: "rounded" %>
-                                &nbsp;&nbsp;
-                                <%= d.template_card.name %>  |  <%= time_ago_in_words(d.updated_at) %>
-                              </small>
-                          </div>
-                      </div>
-                    <% end %>
-              </div>
-        <% end %>
+    <br/>
+    <br/>
+    <div class="blankslate blankslate-spacious">
+      <h3>No cards created yet.</h3>
+      <p>Use the [+ Add a card] button on the top right.</p>
     </div>
-  <% end %>
-  <%= paginate @view_casts, theme: 'twitter-bootstrap-4', pagination_class: "pagination-sm" %>
+    <% else %>
+    <div class="row">
+      <% @view_casts.each do |d| %>
+      <div class="col-3">
+        <%= link_to [@account, @folder,d], "data-turbolinks"=> false do %>
+        <div class="card card-inverse" style="margin: 20px 0px; ">
+          <img class="card-img" src="<%= d.render_screenshot_url %>" style="height: 250px;">
+          <div class="card-img-overlay" style="height: 250px; margin: 0px; background-color: rgba(256, 256, 256, 0.8);">
+
+          </div>
+          <div class="card-footer">
+            <h4 class="card-title" title="<%=d.name%>">
+              <span class="branch-ref css-truncate css-truncate-target"><%= d.name %></span>
+            </h4>
+            <small class="text-muted">
+              <%= image_tag avatar_url(d.updator.email), width: "20px", class: "rounded" %>
+              &nbsp;&nbsp;
+              <%= d.template_card.name %>  |  <%= time_ago_in_words(d.updated_at) %>
+            </small>
+          </div>
+        </div>
+        <% end %>
+      </div>
+      <% end %>
+    </div>
+    <% end %>
+    <%= paginate @view_casts, theme: 'twitter-bootstrap-4', pagination_class: "pagination-sm" %>

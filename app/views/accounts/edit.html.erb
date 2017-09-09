@@ -48,12 +48,10 @@
         <%= simple_form_for @account do |f| %>
           <%= f.error_notification %>
           <%= f.input :logo_image_id, as: :hidden, input_html: {value: nil} %>
-          <div style="text-align: center;">
-            <%= f.button :submit, "Remove Image", class: "ui button" %>
-          </div>
+          <%= f.button :submit, "Remove image", class: "btn btn-sm btn-outline" %>
         <% end %>
       <% else %>
-        <%= image_tag avatar_url(@account.gravatar_email, 200), class: "rounded" %>
+        <%= image_tag avatar_url(@account.gravatar_email, 100), class: "rounded" %>
       <% end %>
       <br/><br/>
       <% unless @account.logo_image_id.present? %>
@@ -61,7 +59,6 @@
           <%= logo_image.input :image, label: false %>
         <% end %>
       <% end %>
-        <!-- <p class="hint" style="text-align: center;">To change the profile image, register with <a href="http://gravatar.com/" target="_blank">gravatar.com</a> with email ID <%= @account.gravatar_email %> and upload a square image there (Twitter DP).</p> -->
     </div>
   </div>
 

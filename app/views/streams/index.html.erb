@@ -1,38 +1,68 @@
-        <% if @is_viewcasts_present %>
-        <span style="float: right;text-align: right">
-          <%= link_to '<i class="plus icon"></i>'.html_safe, new_account_folder_stream_path(@account, @folder) %>
-        </span>
-        <% end %>
-
-<% if @is_viewcasts_present %>
-    <% if @streams.first.blank? %>
-        <p class='hint'>Press the + button on top right to search for a stream of cards.</p>
-    <% else %>
-        <div class='card-parent-class'>
-            <div class="ui bottom active tab" data-tab="second">
-                <% @streams.each do |stream| %>
-                    <div class="ui tall stacked segment" style="height: 170px; width: 85% !important;">
-                        <p class="hint" style="text-align: right;"><%= "#{stream.card_count} <span class='hint'>#{'card'.pluralize(stream.card_count)}</span>".html_safe %></p>
-                        <div style="font-size: 1.5em; color: #333; font-weight: bold; line-height: 1.3em; font-family: arial; ">
-                            <i class="newspaper icon"></i>
-                            <%= link_to stream.title.titleize, [@account, @folder, stream], style: "color: black;" %>
-                        </div>
-                        <div class="index-card-content" style="padding: 0px 30px 15px 0px;">
-                            <div class="index-card-title">
-                                <%= stream.updator.username %>
-                            </div>
-                            <div class="index-card-created-by"><%= image_tag avatar_url(stream.updator.email), width: "100%" %></div>
-                            <div class="index-card-extra-info"><%= time_ago_in_words(stream.updated_at) %>
-                            </div>
-                        </div>
-                    </div>
-                <% end %>
+<div class="row-fluid" style="background: #fafbfc; ">
+    <div class="container" style="padding-left: 0px; padding-right: 0px;">
+        <br/>
+        <div class="row"  style="padding-left: 0px; padding-right: 0px;">
+            <div class="col-10">
+                <h2 style="margin-bottom: 20px;">
+                    <%= @folder.name %>
+                    <spa>
+                    </h2>
+                </div>
+                <div class="col-2">
+                    <% if @is_viewcasts_present %>
+                    <%= link_to '+ Add a stream'.html_safe, new_account_folder_stream_path(@account, @folder), data: {turbolinks: false}, class: "btn btn-primary", role: "button" %>
+                    <% end %>
+                </div>
             </div>
+            <%= render partial: "folders/header" %>
         </div>
+    </div>
+    <br/>
+    <br/>
+    <div class="container">
+        <% if !@is_viewcasts_present %>
+        <div class="blankslate blankslate-spacious">
+          <h3>No cards created yet.</h3>
+          <p>You cannot create streams unless you have created cards.</p>
+      </div>
+      <% else %>
+      <% if @streams.first.blank? %>
+      <div class="blankslate blankslate-spacious">
+          <h3>No streams created yet.</h3>
+          <p>Use the [+ Add a stream] button on the top right to search for your first stream.</p>
+      </div>
+      <% else %>
+      <div class="row">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                    </th>
+                    <th>Stream name
+                    </th>
+                    <th>Number of cards
+                    </th>
+                    <th>Last updated
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <% @streams.each do |stream| %>
+                <tr>
+                    <td style="width: 10%;"><%= image_tag avatar_url(stream.updator.email), width: "20px" %>
+                    </td>
+                    <td><%= link_to stream.title.titleize, [@account, @folder, stream] %>
+                    </td>
+                    <td><p class="hint"><%= "#{stream.card_count} <span class='hint'>#{'card'.pluralize(stream.card_count)}</span>".html_safe %></p>
+                    </td>
+                    <td><%= time_ago_in_words(stream.updated_at) %>
+                    </td>
+                </tr>
+                <% end %>
+            </tbody>
+            <%= paginate @streams, theme: 'twitter-bootstrap-4', pagination_class: "pagination-sm" %>
+        </table>
+    </div>
     <% end %>
-<% else %>
-    <p class='hint' style="color: maroon;">You cannot create streams unless you have created cards.</p>
-<% end %>
-  <%= paginate @view_casts, theme: 'twitter-bootstrap-4', pagination_class: "pagination-sm" %>
-  
-  
+    <% end %>
+</div>

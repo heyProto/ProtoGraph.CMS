@@ -50,12 +50,12 @@ Rails.application.routes.draw do
 
       resources :view_casts, only: [:new, :show, :edit, :update]
 
-      resources :streams, except: [:index] do
+      resources :streams do
         post :publish, on: :member
         resources :stream_entities, only: [:create, :destroy]
       end
 
-      resources :articles, except: [:index] do
+      resources :articles do
         put "remove_cover_image", on: :member
         put "remove_facebook_image", on: :member
         put "remove_twitter_image", on: :member

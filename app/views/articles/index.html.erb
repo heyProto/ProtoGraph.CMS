@@ -1,45 +1,75 @@
-        <% if @account.logo_image_id.present? %>
-        <span style="float: right;text-align: right">
-          <%= link_to '<i class="plus icon"></i>'.html_safe, new_account_folder_article_path(@account, @folder), data: {turbolinks: false} %>
-        </span>
-        <% end %>
-
-<% if @articles.first.blank? %>
-    <p class='hint'>
-        <% if @account.logo_image_id.present? %>
-            Press the + button on top right to prepare articles before publishing.
-        <% else %>
-            You need to <%= link_to "upload your logo", edit_account_path(@account) %> to publish an article.
-        <% end %>
-    </p>
-<% else %>
-        <table class="ui very basic table">
-            <thead>
-              <tr>
-                <th>Name</th>
-                <th class="collapsing">Last modified at</th>
-                <th>by</th>
-              </tr>
-            </thead>
-            <tbody>
-              <% @articles.each do |article| %>
-                <% if article.id.present? %>
-                    <tr>
-                        <td>
-                            <%= link_to article.title.titleize, [@account, @folder, article] %>
-                        </td>
-                        <td class="hint">
-                            <%= "#{time_ago_in_words(article.updated_at)} ago" %>
-                        </td>
-                        <td class="hint collapsing">
-                            <%= article.creator.name %>
-                        </td>
-                        </td>
-                    </tr>
+<div class="row-fluid" style="background: #fafbfc; ">
+  <div class="container" style="padding-left: 0px; padding-right: 0px;">
+    <br/>
+    <div class="row"  style="padding-left: 0px; padding-right: 0px;">
+        <div class="col-10">
+            <h2 style="margin-bottom: 20px;">
+                <%= @folder.name %>
+                <spa>
+                </h2>
+            </div>
+            <div class="col-2">
+                <% if @account.logo_image_id.present? %>
+                <%= link_to '+ Prepare an article'.html_safe, new_account_folder_article_path(@account, @folder), data: {turbolinks: false}, class: "btn btn-primary", role: "button" %>
                 <% end %>
-              <% end %>
-            </tbody>
-        </table>
+            </div>
+        </div>
+        <%= render partial: "folders/header" %>
+    </div>
+</div>
+<br/><br/>
+<div class="container">
+    <% if @articles.first.blank? %>
+
+    <% if @account.logo_image_id.present? %>
+    
+    <div class="blankslate blankslate-spacious">
+      <h3>No articles prepared yet.</h3>
+      <p>Use the [+ Prepare an article] button on the top right.</p>
+  </div>
+
+  <% else %>
+
+  <div class="blankslate blankslate-spacious">
+      <h3>Please <%= link_to "upload your logo", edit_account_path(@account) %></h3>
+      <p>We meed your a square logo of your team to prepare article.</p>
+  </div>
+
+  <% end %>
+
+  <% else %>
+  <div class="row">
+    <table class="ui very basic table">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th class="collapsing">Last modified at</th>
+            <th>by</th>
+        </tr>
+    </thead>
+    <tbody>
+      <% @articles.each do |article| %>
+      <% if article.id.present? %>
+      <tr>
+        <td>
+            <%= link_to article.title.titleize, [@account, @folder, article] %>
+        </td>
+        <td class="hint">
+            <%= "#{time_ago_in_words(article.updated_at)} ago" %>
+        </td>
+        <td class="hint collapsing">
+            <%= article.creator.name %>
+        </td>
+    </td>
+</tr>
+<% end %>
+<% end %>
+</tbody>
+</table>
+</div>
 <% end %>
 
-  <%= paginate @view_casts, theme: 'twitter-bootstrap-4', pagination_class: "pagination-sm" %>
+<%= paginate @articles, theme: 'twitter-bootstrap-4', pagination_class: "pagination-sm" %>
+
+</div>
+
