@@ -25,6 +25,11 @@ class StreamsController < ApplicationController
 
     def new
         @stream = @folder.streams.new(account_id: @account.id)
+        @view_casts_count = @folder.view_casts.count
+        @streams_count = @folder.streams.count
+        @articles_count = @folder.articles.count
+        @is_viewcasts_present = @view_casts_count != 0  
+        render layout: "application-fluid"
     end
 
     def show
@@ -42,6 +47,11 @@ class StreamsController < ApplicationController
     def edit
         @stream.folder_list = @stream.folder_ids.pluck(:entity_value)
         @stream.card_list = @stream.template_card_ids.pluck(:entity_value)
+        @view_casts_count = @folder.view_casts.count
+        @streams_count = @folder.streams.count
+        @articles_count = @folder.articles.count
+        @is_viewcasts_present = @view_casts_count != 0  
+        render layout: "application-fluid"
     end
 
     def update
