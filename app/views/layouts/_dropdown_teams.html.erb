@@ -2,9 +2,9 @@
 
       <a class="nav-link dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         <% if @account.present? and @account.id.present? %>
-            <span style="color: #C1C5CA;"><%= @account.username %></span>
+            <%= @account.username %>
         <% else %>
-            <span style="color: #C1C5CA;">Choose a team</span>
+            Choose a team
         <% end %>
       </a>
       <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">

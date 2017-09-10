@@ -10,7 +10,7 @@ h6{text-transform: uppercase; font-weight: 800;}
 .help-block, .hint{ font-size: 11px; color: gray; padding-top: 2px; font-style: italic;}
 .dropdown-item{ font-size: 0.9em !important;}
 .dropdown-menu{margin: 0px !important;}
-.bg-dark{background: #303E4D !important;}
+.bg-light{background: white !important;}
 
 .css-truncate.css-truncate-target,
 .css-truncate .css-truncate-target {
