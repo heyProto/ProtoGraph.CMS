@@ -128,7 +128,7 @@ class Stream < ApplicationRecord
                 d["description_of_attack"] = data["when_and_where_it_occur"]["description_of_attack"]
                 d["motive_of_attack"] = data["when_and_where_it_occur"]["motive_of_attack"]
                 d["party"] = data["when_and_where_it_occur"]["party"]
-                d["is_case_registed"] = data["when_and_where_it_occur"]["is_case_registed"]
+                d["is_case_registered"] = data["when_and_where_it_occur"]["is_case_registered"]
                 d["lat"] = data["when_and_where_it_occur"]["lat"]
                 d["lng"] = data["when_and_where_it_occur"]["lng"]
             end
