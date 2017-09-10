@@ -67,30 +67,40 @@
         </div>
         <div class="col-3">
             <div class="hint">
-              <div class="card-details-title">Details</div>
-              <div class="sigle-detail">
-                <div class="card-detail-lable">Card Type:</div>
-                <div class="card-detail-Value"><%= @view_cast.template_card.name %></div>
-              </div>
-              <br>
-              <div class="sigle-detail">
-                <div class="card-detail-lable">Created By:</div>
-                <div class="card-detail-Value"><%= @view_cast.creator.name %></div>
-              </div>
-              <div class="sigle-detail">
-                <div class="card-detail-lable">On:</div>
-                <div class="card-detail-Value"><%= @view_cast.created_at.strftime("%e %b %Y") %></div>
-              </div>
-              <br>
-              <div class="sigle-detail">
-                <div class="card-detail-lable">Updated By:</div>
-                <div class="card-detail-Value"><%= @view_cast.updator.name %></div>
-              </div>
-              <div class="sigle-detail">
-                <div class="card-detail-lable">On:</div>
-                <div class="card-detail-Value"><%= @view_cast.updated_at.strftime("%e %b %Y") %></div>
-              </div>
-              <br>
+                
+                  <table class="table table-sm hint">
+                      <tr>
+                          <td>Card Type</td>
+                          <td>:</td>
+                          <td><%= @view_cast.template_card.name %></td>
+                      </tr>
+                      <tr>
+                          <td>Created by</td>
+                          <td>:</td>
+                          <td><%= @view_cast.creator.name %></td>
+                      </tr>
+                      <tr>
+                          <td>On</td>
+                          <td>:</td>
+                          <td><%= @view_cast.created_at.strftime("%e %b %Y") %></td>
+                      </tr>
+                      <tr>
+                          <td>Card Type</td>
+                          <td>:</td>
+                          <td><%= @view_cast.template_card.name %></td>
+                      </tr>
+                      <tr>
+                          <td>Updated by</td>
+                          <td>:</td>
+                          <td><%= @view_cast.updator.name %></td>
+                      </tr>
+                      <tr>
+                          <td>On</td>
+                          <td>:</td>
+                          <td><%= @view_cast.updated_at.strftime("%e %b %Y") %></td>
+                      </tr>
+                  </table>
+            </div>
               <div class='sigle-detail'>
                 <%= simple_form_for([@account, @folder, @view_cast]) do |f|%>
                   <div class="card-detail-lable">Move to another folder:</div>
