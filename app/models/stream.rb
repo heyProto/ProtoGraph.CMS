@@ -121,7 +121,6 @@ class Stream < ApplicationRecord
                 d["major_story_link_1"] = data["details_about_journalist"]["major_story_link_1"]
                 d["major_story_link_2"] = data["details_about_journalist"]["major_story_link_2"]
                 d["major_story_link_3"] = data["details_about_journalist"]["major_story_link_3"]
-                d["date"] = data["when_and_where_it_occur"]["date"]
                 d["location"] = data["when_and_where_it_occur"]["location"]
                 d["state"] = data["when_and_where_it_occur"]["state"]
                 d["nature_of_assault"] = data["when_and_where_it_occur"]["nature_of_assault"]
