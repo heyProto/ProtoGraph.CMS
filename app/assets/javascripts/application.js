@@ -20,10 +20,10 @@
 //= require best_in_place
 
 $(document).on('turbolinks:load', function (e) {
-  $('.ui.dropdown').dropdown();
-  $('.ui.checkbox').checkbox();
-  $('.ui.radio.checkbox').checkbox();
+  // $('.ui.dropdown').dropdown();
+  // $('.ui.checkbox').checkbox();
+  // $('.ui.radio.checkbox').checkbox();
   $('select.dropdown').dropdown();
-  $('.ui.accordion').accordion();
+  // $('.ui.accordion').accordion();
   $(".best_in_place").best_in_place();
 });
