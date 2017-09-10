@@ -6,14 +6,11 @@
     <br/>
     <div class="row"  style="padding-left: 0px; padding-right: 0px;">
         <div class="col-10">
-            <h1 style="margin-bottom: 20px; font-weight: 400;">
+            <h1 style="margin-bottom: 20px; font-weight: 400; margin-top: 20px;">
                 <%= @folder.name %>
                 </h1>
             </div>
             <div class="col-2">
-                <% if @account.logo_image_id.present? %>
-                <%= link_to '+ Prepare an article'.html_safe, new_account_folder_article_path(@account, @folder), data: {turbolinks: false}, class: "btn btn-outline", role: "button" %>
-                <% end %>
             </div>
         </div>
         <%= render partial: "folders/header" %>
