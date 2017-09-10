@@ -50,6 +50,10 @@ class ArticlesController < ApplicationController
         else
             @image_variation = @image_variation = ImageVariation.new
         end
+        @view_casts_count = @folder.view_casts.count
+        @streams_count = @folder.streams.count
+        @articles_count = @folder.articles.count
+        render layout: "application-fluid"
     end
 
     def update

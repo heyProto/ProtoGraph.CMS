@@ -52,7 +52,7 @@
       <% if article.id.present? %>
       <tr>
         <td>
-            <%= link_to article.title.titleize, [@account, @folder, article] %>
+            <%= link_to article.title.titleize, edit_account_folder_article_path(@account, @folder, article) %>
         </td>
         <td class="hint">
             <%= "#{time_ago_in_words(article.updated_at)} ago" %>
