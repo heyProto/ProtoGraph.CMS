@@ -22,6 +22,9 @@ h6{text-transform: uppercase; font-weight: 800;}
     vertical-align: top
 }
 
+.dropdown-menu{padding: 0px !important;}
+.form-group{margin-bottom: 0px !important;}
+
 .css-truncate.expandable.zeroclipboard-is-hover .css-truncate-target,
 .css-truncate.expandable.zeroclipboard-is-hover.css-truncate-target,
 .css-truncate.expandable:hover .css-truncate-target,
