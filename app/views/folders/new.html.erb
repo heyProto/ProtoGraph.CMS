@@ -1,1 +1,10 @@
-<%= render partial: "folders/form" %>
+<div class="row">
+      <div class="col-4 align-self-center" style="margin-left: auto; margin-right: auto; margin-top: 40px;">
+          <h2>Add a new folder</h2>
+          <hr/>
+        <%= simple_form_for [@account, @folder] do |f| %>
+            <%= f.input :name, required: true %>
+            <%= f.button :submit, "Save", class: "ui primary button" %>
+        <% end %>
+      </div>
+</div>
