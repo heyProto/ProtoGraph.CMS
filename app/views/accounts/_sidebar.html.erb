@@ -2,7 +2,7 @@
 <nav class="github-menu">
   <span class="github-menu-heading">Personal Settings</span>
   <%= link_to "Account", edit_user_registration_path(@account), class: controller_name == "registrations" ? "github-menu-item selected" : "github-menu-item" %>
-  <%= link_to "Switch teams", accounts_path, class: (controller_name == "accounts" and action_name == "index") ? "github-menu-item selected" : "github-menu-item" %>
+  <%= link_to "Your teams", accounts_path, class: (controller_name == "accounts" and action_name == "index") ? "github-menu-item selected" : "github-menu-item" %>
 </nav>
 <% if @account.present? %>
     <% if @account.id.present? %>
