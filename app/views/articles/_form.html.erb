@@ -1,3 +1,6 @@
+<style>
+    .form-group{margin-bottom: 0px !important;} # Do not move this out
+</style>
 <div class="row-fluid" style="background: #fafbfc; ">
   <div class="container" style="padding-left: 0px; padding-right: 0px;">
     <br/>
@@ -27,7 +30,7 @@
                     <%= f.input :created_by, as: :hidden, input_html: {value: current_user.id} %>
                 <% end %>
                 <%= f.input :updated_by, as: :hidden, input_html: {value: current_user.id} %>
-                <%= f.input :url, as: :string, placeholder: "*Copy paste the URL of the story", required: true, label: false, input_html: {style: "border: 0px !important; font-size: 12px; padding-left: 0px; padding-right: 0px; margin-bottom: 0px !important;"} %>
+                <%= f.input :url, as: :string, placeholder: "*Copy paste the URL of the story", required: true, label: false, input_html: {style: "border: 0px !important; font-size: 12px; padding-left: 0px; padding-right: 0px; margin-bottom: 0px !important;"}, autofocus: true %>
                 <%= f.input :title, placeholder: "*Copy paste the headline", required: true, label: false, input_html: {style: "border: 0px !important; font-size: 28px; padding-left: 0px; padding-right: 0px; margin-top: 0px !important;"} %>
                 <hr/>
             </div>
