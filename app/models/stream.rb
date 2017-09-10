@@ -128,7 +128,9 @@ class Stream < ApplicationRecord
                 d["description_of_attack"] = data["when_and_where_it_occur"]["description_of_attack"]
                 d["motive_of_attack"] = data["when_and_where_it_occur"]["motive_of_attack"]
                 d["party"] = data["when_and_where_it_occur"]["party"]
-                d["is_case_registed"] = data["when_and_where_it_occur"]["is_case_registed"]
+                d["is_case_registered"] = data["when_and_where_it_occur"]["is_case_registered"]
+                d["lat"] = data["when_and_where_it_occur"]["lat"]
+                d["lng"] = data["when_and_where_it_occur"]["lng"]
             end
             d['iframe_url']= "#{view_cast.template_card.index_html(self.account)}?view_cast_id=#{view_cast.datacast_identifier}%26schema_id=#{view_cast.template_datum.s3_identifier}"
             cards_json << d

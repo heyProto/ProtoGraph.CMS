@@ -19,7 +19,6 @@ class Api::V1::UtilitiesController < ApiController
 
       response = JSON.parse(response)
       flat_hash = {}
-
       response["meta"].each do |meta_attr, val|
         flat_hash[meta_attr] = val unless meta_attr == "description"
       end
@@ -71,6 +70,10 @@ class Api::V1::UtilitiesController < ApiController
             flat_hash["errors"] = e
           end
         end
+      end
+
+      if flat_hash.has_key?("canonical") and flat_hash['canonical'] != utility_params["url"]
+        flat_hash['canonical'] = utility_params["url"]
       end
 
       rescue Exception => e
