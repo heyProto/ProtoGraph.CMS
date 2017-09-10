@@ -70,13 +70,13 @@ class Stream < ApplicationRecord
     def publish_cards
         cards_json = []
         self.cards.each do |view_cast|
-            res = JSON.parse(RestClient.get(view_cast.data_url).body)
-            data = res['data']
             d = {}
             d['view_cast_id'] = view_cast.datacast_identifier
             d['schema_id'] = view_cast.template_datum.s3_identifier
             d['screen_shot_url'] = view_cast.render_screenshot_url
             if view_cast.template_card.name == 'toReportViolence'
+                res = JSON.parse(RestClient.get(view_cast.data_url).body)
+                data = res['data']
                 d['date'] = Date.parse(data["when_and_where_it_occur"]['approximate_date_of_incident']).strftime('%F')
                 d['state'] = data["when_and_where_it_occur"]['state']
                 d["area_classification"] = data["when_and_where_it_occur"]["area_classification"]
@@ -105,11 +105,31 @@ class Stream < ApplicationRecord
                 d["is_disability_hate_crime"] = data["hate_crime"]["is_disability_hate_crime"]
                 d["is_ethnicity_hate_crime"] = data["hate_crime"]["is_ethnicity_hate_crime"]
                 d["which_law"] = data["addendum"]["which_law"]
-            else
-                # data.keys.each do |b|
-                #     d[b] = data[b]
-                # end
-                # We do not require keys for all json files
+            elsif view_cast.template_card.name = "toReportJournalistKilling"
+                res = JSON.parse(RestClient.get(view_cast.data_url).body)
+                data = res['data']
+                d['date'] = Date.parse(data["when_and_where_it_occur"]['date']).strftime('%F')
+                d["name"] = data["details_about_journalist"]["name"]
+                d["age"] = data["details_about_journalist"]["age"]
+                d["gender"] = data["details_about_journalist"]["gender"]
+                d["image_url"] = data["details_about_journalist"]["image_url"]
+                d["is_freelancer"] = data["details_about_journalist"]["is_freelancer"]
+                d["organisation"] = data["details_about_journalist"]["organisation"]
+                d["organisation_type"] = data["details_about_journalist"]["organisation_type"]
+                d["beat"] = data["details_about_journalist"]["beat"]
+                d["journalist_body_of_work"] = data["details_about_journalist"]["journalist_body_of_work"]
+                d["major_story_link_1"] = data["details_about_journalist"]["major_story_link_1"]
+                d["major_story_link_2"] = data["details_about_journalist"]["major_story_link_2"]
+                d["major_story_link_3"] = data["details_about_journalist"]["major_story_link_3"]
+                d["date"] = data["when_and_where_it_occur"]["date"]
+                d["location"] = data["when_and_where_it_occur"]["location"]
+                d["state"] = data["when_and_where_it_occur"]["state"]
+                d["nature_of_assault"] = data["when_and_where_it_occur"]["nature_of_assault"]
+                d["accussed_names"] = data["when_and_where_it_occur"]["accussed_names"]
+                d["description_of_attack"] = data["when_and_where_it_occur"]["description_of_attack"]
+                d["motive_of_attack"] = data["when_and_where_it_occur"]["motive_of_attack"]
+                d["party"] = data["when_and_where_it_occur"]["party"]
+                d["is_case_registed"] = data["when_and_where_it_occur"]["is_case_registed"]
             end
             d['iframe_url']= "#{view_cast.template_card.index_html(self.account)}?view_cast_id=#{view_cast.datacast_identifier}%26schema_id=#{view_cast.template_datum.s3_identifier}"
             cards_json << d
