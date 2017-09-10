@@ -14,7 +14,7 @@
         <% @folders.each do |folder| %>
             <a href="<%= account_folder_path(@account, folder) %>" class="github-menu-item" style="font-size: 1.1em; background: #fffdef;">
                 <%= folder.name.titleize %>
-                <span class="count badge badge-secondary" style="font-size: 0.8em; font-weight: 200;">
+                <span class="count badge badge-pill badge-secondary" style="font-size: 0.81em; font-weight: 200;">
                     <%= folder.view_casts.count + folder.streams.count %>
                 </span>
             </a>
