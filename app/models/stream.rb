@@ -132,7 +132,7 @@ class Stream < ApplicationRecord
                 d["lat"] = data["when_and_where_it_occur"]["lat"]
                 d["lng"] = data["when_and_where_it_occur"]["lng"]
             end
-            d['iframe_url']= "#{view_cast.template_card.index_html(a.account)}?view_cast_id=#{view_cast.datacast_identifier}%26schema_id=#{view_cast.template_datum.s3_identifier}"
+            d['iframe_url']= "#{view_cast.template_card.index_html(self.account)}?view_cast_id=#{view_cast.datacast_identifier}%26schema_id=#{view_cast.template_datum.s3_identifier}"
             cards_json << d
         end
 
