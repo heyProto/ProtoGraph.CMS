@@ -1,72 +1,24 @@
-<div class="ui grid">
-  <div class="one wide column" style="background: #303E4D;">
-      <div class="ui middle aligned selection list account_switcher_item">
-        <% @accounts.each do |account| %>
-            <div class="<%= @account.username == account.username ? 'item active' : 'item' %>">
-              <a href=<%= account_path(account) %> title=<%=account.username%>>
-                <% avatar_image = account.logo_image_id.present? ? account.logo_image.original_image.image_url : avatar_url(account.gravatar_email)%>
-                <%= image_tag avatar_image, class: "ui avatar image" %>
-              </a>
-            </div>
-        <% end %>
-      </div>
-  </div>
-  <div class="eleven wide column" style="background: white;">
+<br/><br/>
+<div class="row">
+  <div class="col-8">
     <%= render partial: "activities/index" %>
   </div>
-  <div class="four wide column">
-      <h4>Folders</h4>
-      <div class="ui very relaxed divided list">
+  <div class="col-4">
+      <nav class="github-menu">
+        <span class="github-menu-heading">
+            Folders you contribute to
+            <span style="float: right; font-weight: 400;">
+                <%= link_to "+ Add", new_account_folder_path(@account) %>
+            </span>
+        </span>
         <% @folders.each do |folder| %>
-            <div class="item">
-              <div class="content" style="width: 100% !important;">
-                <div class="right floated content">
-                <%= link_to "Edit", edit_account_folder_path(@account, folder), class: "hint" %>
-              </div>
-                <%= link_to folder.name.titleize, [@account, folder], class: "header", style: "font-size: 0.9em; margin-bottom: 6px;" %>
-                <p style="font-size: 11px; color: black; margin-bottom: 0px;">
-                  <%= "#{folder.view_casts.count} <span class='hint'>#{'card'.pluralize(folder.view_casts.count)}</span>".html_safe %>.
-                  <%= "#{folder.streams.count} <span class='hint'>#{'stream'.pluralize(folder.streams.count)}</span>".html_safe %>.
-                </p>
-              </div>
-            </div>
+            <a href="<%= account_folder_path(@account, folder) %>" class="github-menu-item" style="font-size: 1.1em; background: #fffdef;">
+                <%= folder.name.titleize %>
+                <span class="count badge badge-pill badge-secondary" style="font-size: 0.81em; font-weight: 200;">
+                    <%= folder.view_casts.count + folder.streams.count %>
+                </span>
+            </a>
         <% end %>
       </div>
   </div>
 </div>
-
-<div class="ui mini modal" id="new-folder">
-  <i class='close icon'></i>
-  <div class="header">
-    <%= (controller_name == 'folders' and ["edit", "update"].include?(action_name)) ? "Update the folder" : "Create a new folder" %>
-  </div>
-  <div class="content">
-    <%= render partial: "folders/form" %>
-  </div>
-</div>
-
-<script type="text/javascript">
-
-$(document).on("turbolinks:load", function () {
-  $("#formAddButton").unbind("click");
-  $('#formAddButton').on('click',function (e) {
-    event.preventDefault();
-    $('#new-folder')
-      .modal({
-        closable: false,
-      }).modal('show');
-    })
-});
-</script>
-
-<% if @open_modal %>
-  <script type="text/javascript">
-    $('#new-folder')
-      .modal({
-        closable: false,
-        onHide: function(){
-          window.location.href= "<%= account_path(@account) %>";
-        }
-      }).modal('show');
-  </script>
-<% end %>

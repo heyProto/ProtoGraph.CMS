@@ -2,6 +2,8 @@ Rails.application.routes.draw do
   require 'sidekiq/web'
   mount Sidekiq::Web => '/sidekiq'
 
+  get 'static_pages/index'
+
   resources :activities
   devise_for :users, controllers: { registrations: 'registrations', sessions: 'sessions' } do
       get 'sign_out', to: 'devise/sessions#destroy'
@@ -12,6 +14,8 @@ Rails.application.routes.draw do
   get '/auth/failure', to: 'authentications#failure'
 
   get "/card/:id", to: "template_cards#demo", as: :demo_template_card
+  
+  get "/planned-homepage", to: "static_pages#index2"
 
 
   namespace :api do
@@ -50,20 +54,25 @@ Rails.application.routes.draw do
         get 'flip_public_private', 'move_to_next_status', on: :member
       end
 
-      resources :view_casts, only: [:new, :show, :edit, :update] do
-        put :"recreate/:mode", to: "view_casts#recreate", on: :member, as: :recreate
-      end
+      resources :view_casts, only: [:new, :show, :edit, :update]
 
-      resources :streams, except: [:index] do
+      resources :streams do
         post :publish, on: :member
         resources :stream_entities, only: [:create, :destroy]
       end
 
-      resources :articles, except: [:index]
       resources :uploads, only: [:new, :create]
+      resources :articles do
+        put "remove_cover_image", on: :member
+        put "remove_facebook_image", on: :member
+        put "remove_twitter_image", on: :member
+        put "remove_instagram_image", on: :member
+      end
     end
     resources :images, only: [:index, :create, :show]
-    resources :image_variations, only: [:create, :show]
+    resources :image_variations, only: [:create, :show] do
+      post :download, on: :member
+    end
 
   end
 

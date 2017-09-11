@@ -1,31 +1,38 @@
-<div class="ui grid">
-<div class="three wide column">
-    <%= render partial: "devise/registrations/sidebar" %>
+<div class="row">
+<div class="col-3">
+    <%= render partial: "accounts/sidebar" %>
 </div>
-<div class="seven wide column">
-  <h3>Personal Settings</h3>
+<div class="col-7">
   <br/>
-  <div class="ui very relaxed list" style="width: 100% !important;">
-    <% @accounts.each do |account| %>
-    <div class="item">
-      <%= image_tag avatar_url(account.gravatar_email), class: "ui avatar image" %>
-      <div class="content">
-        <div class="header">
-          <h3><%= link_to account.username, account_path(account) %>
-          <span style="float: right; font-weight: 400; font-size: 13px;">
-              <%= current_user.permission_object(account.id).ref_role_slug.titleize %>
-          </span>
-          </h3>
-        </div>
-      </div>
-    </div>
-    <% end %>
-  </div>
+  <h1>Your teams</h1>
+  <hr/>
+  <table class="table">
+      <tbody>
+            <% @accounts.each do |account| %>
+                <tr>
+                        <td style="border: 0px; width: 10%;"><%= image_tag avatar_url(account.gravatar_email), class: "rounded" %>
+                        </td>
+                        <td style="border: 0px;"><%= link_to account.username, account_path(account) %>
+                        </td>
+                        <td style="border: 0px;"><%= current_user.permission_object(account.id).ref_role_slug.titleize %>
+                        </td>
+                </tr>
+            <% end %>
+      </tbody>
+  </table>
+</div>
+<div class="col-2">
   <br/>
-  <div class="ui divider"></div>
+  <br/>
   <br/>
   <%= simple_form_for @account do |f| %>
   <%= f.input :username, id: :account_username, hint: "Choose wisely. You cannot change it later." %>
-  <%= f.submit "Create new Team", class: 'ui button' %>
+  <%= f.submit "Create a new Team", class: "btn btn-sm btn-white" %>
   <% end %>
+  <br/>
+  <br/>
+  <br/>
+  <br/>
+  <br/>
+  <br/>
 </div>

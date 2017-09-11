@@ -5,14 +5,12 @@ class AccountsController < ApplicationController
 
   #Your Accounts - Switch Accounts
   def index
-    @accounts = current_user.accounts
     @account = Account.new
   end
 
   def show
     @folders = @account.folders
     @folder = Folder.new
-    @accounts = current_user.accounts
     @activities = @account.activities.order("updated_at DESC").limit(30)
   end
 
@@ -59,7 +57,6 @@ class AccountsController < ApplicationController
       })
       redirect_to @account, notice: t("cs")
     else
-      @accounts = current_user.accounts
       render :index
     end
   end

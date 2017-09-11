@@ -55,6 +55,9 @@ GEM
       actionpack (>= 3.2)
       railties (>= 3.2)
     bindex (0.5.0)
+    bootstrap4-kaminari-views (1.0.0)
+      kaminari (>= 0.13)
+      rails (>= 3.1)
     brakeman (3.7.0)
     builder (3.2.3)
     byebug (9.0.6)
@@ -331,6 +334,7 @@ DEPENDENCIES
   annotate
   awesome_print
   best_in_place (~> 3.0.1)
+  bootstrap4-kaminari-views
   brakeman
   byebug
   carrierwave
@@ -373,4 +377,4 @@ RUBY VERSION
    ruby 2.3.3p222
 
 BUNDLED WITH
-   1.15.3
+   1.15.4

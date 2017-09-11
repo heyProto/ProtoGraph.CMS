@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
   <title>ProtoGraph / Pykih</title>
   <%= csrf_meta_tags %>
@@ -30,12 +30,10 @@
 </head>
 <body>
   <%= render partial: "layouts/header" %>
-  <div class="ui grid" style="width: 90%; margin-top: 0px; background: #fafafa; margin-left: auto; margin-right: auto;">
-    <div class='sixteen wide column'>
+  <div class="container">
       <%= yield %>
-    </div>
   </div>
-<%= render partial: "layouts/footer" %>
+  <%= render partial: "layouts/footer" %>
 
 
 

@@ -11,6 +11,10 @@ class ViewCastsController < ApplicationController
             @view_cast.update_column(:is_invalidating, false)
         end
         @view_cast_seo_blockquote = @view_cast.seo_blockquote.to_s.split('`').join('\`')
+        @view_casts_count = @folder.view_casts.count
+        @streams_count = @folder.streams.count
+        @articles_count = @folder.articles.count
+        render layout: "application-fluid"
     end
 
     def edit
@@ -25,22 +29,6 @@ class ViewCastsController < ApplicationController
             render :show
         end
 
-    end
-
-    def recreate
-        mode = params[:mode]
-        if ViewCast::Platforms.include?(mode)
-            Thread.new do
-                status = JSON.parse(@view_cast.status)
-                status[mode] = 'creating'
-                @view_cast.update_columns(status: status.to_json,updated_at: Time.now)
-                @view_cast.save_png(mode)
-                ActiveRecord::Base.connection.close
-            end
-            redirect_to account_view_cast_path(@account, @view_cast), notice: t('platform_create', platform: mode)
-        else
-            redirect_to account_view_cast_path(@account, @view_cast), alert: t('platform_not_in_the_list', platform: mode)
-        end
     end
 
     def set_view_cast

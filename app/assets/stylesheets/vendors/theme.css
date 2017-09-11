@@ -1,0 +1,62 @@
+body{font-size: 13px;}
+a{color: #0366d6;}
+h1{font-size: 2em; font-weight: 400;}
+h2{font-size: 1.7em; font-weight: 800;}
+h3{font-size: 1.5em; font-weight: 800;}
+h4{font-size: 1.3em; font-weight: 800;}
+h5{font-size: 1.1em; font-weight: 800;}
+h6{text-transform: uppercase; font-weight: 800;}
+.control-label{font-size: 0.9em; font-weight: 600;}
+.help-block, .hint{ font-size: 11px; color: gray; padding-top: 2px; font-style: italic;}
+.dropdown-item{ font-size: 0.81em !important;}
+.dropdown-menu{margin: 0px !important;}
+.bg-light{background: white !important;}
+
+.css-truncate.css-truncate-target,
+.css-truncate .css-truncate-target {
+    display: inline-block;
+    max-width: 200px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    vertical-align: top
+}
+
+ul.nav > li.nav-item > a.nav-link.active{ border-bottom: 4px solid #0366d6; padding-left: 0px; padding-right: 0px; margin: 0px 50px;}
+
+.dropdown-menu{padding: 0px !important;}
+
+.css-truncate.expandable.zeroclipboard-is-hover .css-truncate-target,
+.css-truncate.expandable.zeroclipboard-is-hover.css-truncate-target,
+.css-truncate.expandable:hover .css-truncate-target,
+.css-truncate.expandable:hover.css-truncate-target {
+    max-width: 10000px !important
+}
+
+.bootstrap-container {
+    width:100% !important;
+    padding-top: 0px !important;
+    margin-bottom: 0px !important;
+}
+.proto-graph-code-area {
+    margin-top: 30px;
+}
+
+.proto-graph-code-area-title {
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+.proto-graph-code {
+    width: 100%;
+    height: 100px;
+    font-size: 1em;
+    padding: 10px 15px;
+    color: #999;
+    background: #fafafa;
+    border: 1px solid #efefef;
+    font-family: arial;
+    letter-spacing: 0.5px;
+    word-wrap: nowrap;
+    margin-bottom: 15px;
+}

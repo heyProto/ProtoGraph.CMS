@@ -1,31 +1,51 @@
-<div class="ui grid">
-    <div class='four wide column'>
-      <h4>
-        Cards
-        <span style="float: right;text-align: right">
-          <%= link_to '<i class="plus icon"></i>'.html_safe, new_account_folder_view_cast_path(@account, @folder), data: {turbolinks: false} %>
-        </span>
-      </h4>
-      <%= render partial: "view_casts/index" %>
+<div class="row-fluid" style="background: #fafbfc; ">
+  <div class="container" style="padding-left: 0px; padding-right: 0px;">
+    <br/>
+    <div class="row"  style="padding-left: 0px; padding-right: 0px;">
+      <div class="col-10">
+        <h1 style="margin-bottom: 20px; font-weight: 400; margin-top: 20px;">
+          <%= @folder.name %>
+          </h1>
+        </div>
+        <div class="col-2">
+          <%= link_to '+ Add a card'.html_safe, new_account_folder_view_cast_path(@account, @folder), data: {turbolinks: false}, class: "btn btn-outline", role: "button" %>
+        </div>
+      </div>
+      <%= render partial: "folders/header" %>
     </div>
-    <div class='five wide column'>
-      <h4>
-        Streams
-        <% if @is_viewcasts_present %>
-            <span style="float: right;text-align: right">
-              <%= link_to '<i class="plus icon"></i>'.html_safe, new_account_folder_stream_path(@account, @folder) %>
-            </span>
+  </div>
+  <div class="container">
+    <% if @view_casts.first.blank? %>
+    <br/>
+    <br/>
+    <div class="blankslate blankslate-spacious">
+      <h3>No cards created yet.</h3>
+      <p>Use the [+ Add a card] button on the top right.</p>
+    </div>
+    <% else %>
+    <div class="row">
+      <% @view_casts.each do |d| %>
+      <div class="col-3">
+        <%= link_to [@account, @folder,d], "data-turbolinks"=> false do %>
+        <div class="card card-inverse" style="margin: 20px 0px; ">
+          <img class="card-img" src="<%= d.render_screenshot_url %>" style="height: 250px;">
+          <div class="card-img-overlay" style="height: 250px; margin: 0px; background-color: rgba(256, 256, 256, 0.8);">
+
+          </div>
+          <div class="card-footer">
+            <h4 class="card-title" title="<%=d.name%>">
+              <span class="branch-ref css-truncate css-truncate-target"><%= d.name %></span>
+            </h4>
+            <small class="text-muted">
+              <%= image_tag avatar_url(d.updator.email), width: "20px", class: "rounded" %>
+              &nbsp;&nbsp;
+              <%= d.template_card.name %>  |  <%= time_ago_in_words(d.updated_at) %>
+            </small>
+          </div>
+        </div>
         <% end %>
-      </h4>
-      <%= render partial: "streams/index" %>
+      </div>
+      <% end %>
     </div>
-    <div class='seven wide column'>
-      <h4>
-        Prepare articles
-        <span style="float: right;text-align: right">
-          <% #link_to '<i class="plus icon"></i>'.html_safe, new_account_folder_article_path(@account, @folder) %>
-          </span>
-      </h4>
-      <%= render partial: "articles/index" %>
-    </div>
-</div>
+    <% end %>
+    <%= paginate @view_casts, theme: 'twitter-bootstrap-4', pagination_class: "pagination-sm" %>

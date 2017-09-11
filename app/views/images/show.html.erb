@@ -1,6 +1,3 @@
-<%= stylesheet_link_tag "justified.css" %>
-<%= stylesheet_link_tag "JCrop.css" %>
-
 <% w = @image.image_width %>
 <% h = @image.image_height %>
 
@@ -13,7 +10,8 @@
 <div class="sixteen wide column" style="max-height: 600px; overflow: auto;" >
 
 
-  <div class="ui grid">
+
+  <div class="row">
         <div class="left floated three wide column">
           <span class='ui huge header'><%= @image.name %></span>
         </div>
@@ -46,137 +44,15 @@
 
 </div>
 
-
-<div class="ui large modal" id="imageCropperModal"> <i class="close icon"></i>
-  <div class="header">Crop Image</div>
-  <div class="content">
-    <div class="ui secondary menu" id="aspectRatioMenu">
-      <div class="header item">Quick crop:</div>
-      <a class="item active" data-width="0" data-height="0">
-        Free selection
-      </a>
-      <a class="item" data-width="2" data-height="3">
-        2:3 (Quiz Cover Image)
-      </a>
-      <a class="item" data-width="2" data-height="1">
-        2:1 (Quiz Answer Image)
-      </a>
-      <a class="item" data-width="1" data-height="1">
-        1:1 (Timeline Event Image)
-      </a>
-    </div>
-    <img class="ui centered image" src="<%= @image.original_image.image_url %>" id="cropbox" style="height: 350px;" >
-    <%= form_for ([@account, @image_variation]) do |f| %>
-      <%= f.hidden_field :image_id, value: @image.id %>
-      <% %w[x y w h].each do |attribute| %>
-          <%= f.hidden_field "crop_#{attribute}" %>
-      <% end %>
-    <% end %>
-  </div>
-  <div class="actions">
-    <input type="submit" value="Crop" form="new_image_variation" class="ui button">
-  </div>
-</div>
-
-<%= javascript_include_tag "justified.js" %>
-<%= javascript_include_tag "JCrop.js" %>
-
 <script type="text/javascript">
   <% if @image.image_variation.present? %>
     var images = <%= @image.image_variation.as_json.to_json.html_safe %>;
   <% end %>
 
-  $(document).ready( function() {
+  $(document).ready(function(){
 
     $('#openFileUpload').on('click', function () {
       $('#imageCropperModal').modal('show');
-    });
-
-    var gcd = function(a, b) {
-      if ( ! b) {
-        return a;
-      }
-
-      return gcd(b, a % b);
-    };
-
-    new Clipboard('#copyToClipboard', {
-      target: function(trigger) {
-        return trigger;
-      }
-    });
-
-    $('#copyToClipboard').popup({
-      on: 'click',
-      position: 'top center',
-      onVisible: function (e) {
-        setTimeout(function() {
-          $(e).popup('hide');
-        }, 250);
-      }
-    });
-
-
-    $('#aspectRatioMenu .item').on('click', function () {
-      var ref = $(this),
-        data,
-        aspectRatio;
-
-      ref
-        .addClass('active')
-        .siblings('.item')
-          .removeClass('active');
-
-      data = ref.data();
-      if (data.height > 0 && data.width > 0) {
-        aspectRatio = data.width / data.height;
-      } else {
-        aspectRatio = 0;
-      }
-
-      $('#cropbox').Jcrop({
-        setSelect: [0, 0, 420, 420],
-        onSelect: update,
-        onChange: update,
-        boxHeight: 350,
-        aspectRatio: aspectRatio
-      });
-
-    });
-
-    function update(coords) {
-
-      if (!$('.jcrop-holder .protograph-crop-tooltip').length) {
-        $('.jcrop-holder').append('<div class="protograph-crop-tooltip"></div>');
-      }
-
-      $('#image_variation_crop_x').val(coords.x);
-      $('#image_variation_crop_y').val(coords.y);
-      $('#image_variation_crop_w').val(coords.w);
-      $('#image_variation_crop_h').val(coords.h);
-
-      var str = "",
-        width = Math.round(coords.w),
-        height = Math.round(coords.h),
-        aspectWidth = width / gcd(width, height),
-        aspectHeight = height / gcd(width, height);
-
-      if (coords.w > 0 && coords.h > 0) {
-        str += (width + ' x ' + height);
-        str += "  ";
-        str += ('(' + Math.round(aspectWidth) + ':' + Math.round(aspectHeight) + ')');
-      } else {
-        str += ( width + ' x ' + height);
-      }
-
-      $('.protograph-crop-tooltip').html(str);
-    };
-
-    $('#cropbox').Jcrop({
-      setSelect: [0, 0, 420, 420],
-      onSelect: update,
-      onChange: update,
-      boxHeight: 350
     });
 
     <% if @image.image_variation.present? %>
@@ -212,20 +88,38 @@
             }
           });
 
-           $('.protograph-popup-trigger').popup({
-              on: 'click',
-              position: 'top center',
-              onVisible: function (e) {
-                setTimeout(function() {
-                  $(e).popup('hide');
-                }, 250);
-              }
-            });
+          $('.protograph-popup-trigger').popup({
+            on: 'click',
+            position: 'top center',
+            onVisible: function (e) {
+              setTimeout(function() {
+                $(e).popup('hide');
+              }, 250);
+            }
+          });
         }
       });
     <% end %>
 
 
+    new Clipboard('#copyToClipboard', {
+      target: function(trigger) {
+        return trigger;
+      }
+    });
 
-  });
+    $('#copyToClipboard').popup({
+      on: 'click',
+      position: 'top center',
+      onVisible: function (e) {
+        setTimeout(function() {
+          $(e).popup('hide');
+        }, 250);
+      }
+    });
+  })
 </script>
+<div class="ui large modal" id="imageCropperModal"> <i class="close icon"></i>
+  <%= render partial: "images/cropper", locals: {mode: nil} %>
+</div>
+<%= render partial: "images/cropper_js" %>

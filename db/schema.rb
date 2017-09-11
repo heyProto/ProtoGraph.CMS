@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170908053542) do
+ActiveRecord::Schema.define(version: 20170906065137) do
 
   create_table "accounts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "username"
@@ -63,6 +63,7 @@ ActiveRecord::Schema.define(version: 20170908053542) do
     t.datetime "updated_at", null: false
     t.text "url"
     t.string "slug"
+    t.integer "instagram_image_variation_id"
   end
 
   create_table "authentications", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -118,6 +119,8 @@ ActiveRecord::Schema.define(version: 20170908053542) do
     t.integer "updated_by"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "mode"
+    t.boolean "is_social_image"
   end
 
   create_table "images", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -278,8 +281,8 @@ ActiveRecord::Schema.define(version: 20170908053542) do
     t.integer "publish_count"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "status"
     t.string "s3_identifier"
+    t.string "status"
     t.index ["slug"], name: "index_template_data_on_slug", unique: true
   end
 
