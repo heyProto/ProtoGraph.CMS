@@ -43,6 +43,7 @@ class ApplicationController < ActionController::Base
       @account = Account.friendly.find(params[:id])
     end
   	if user_signed_in?
+      @accounts = current_user.accounts
   		@on_an_account_page = (@account.present? and @account.id.present?)
       if @on_an_account_page
         @permission = current_user.permission_object(@account.id)

@@ -21,7 +21,7 @@
 
       <%= f.input :email, id: :permission_invite_email, required: true, autofocus: true %>
       <%= f.input :ref_role_slug, as: :select, label: "Role", collection: RefRole.order(:sort_order).pluck(:slug).uniq.map{|z| [z.titleize, z]}, include_blank: false %>
-      <%= f.submit "Invite", class: 'ui button' %>
+      <%= f.submit "Invite" %>
       <% end %>
   </div>
 </div>

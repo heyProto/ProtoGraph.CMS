@@ -1,89 +1,138 @@
-<div style='width:100%; box-sizing: border-box'>
-    <div class="ui huge header">
-        <%= @stream.title %>
-    </div>
-    <div class="ui grid">
-        <div class="twelve wide column">
-            <% if @view_casts.count == 0 %>
-                <h4>There are no cards in the stream. Edit your stream to improve your query</h4>
-                <% end %>
-                    <% @view_casts.each do |d| %>
-                        <div class="column proto-graph-card-div">
-                            <%= link_to [@account, @folder,d], "data-turbolinks"=> false do %>
-                                <div class="proto-graph-card">
-                                    <div class="proto-card-gradient">
-                                        <div class="index-card-content">
-                                            <div class="index-card-title">
-                                                <%= d.name %>
-                                            </div>
-                                            <div class="index-card-created-by"><%= image_tag avatar_url(d.updator.email), width: "100%" %></div>
-                                            <div class="index-card-extra-info">
-                                                <%= d.template_card.name %>  |  <%= time_ago_in_words(d.updated_at) %>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            <% end %>
-                        </div>
-                        <% end %>
+<div class="row-fluid" style="background: #fafbfc; ">
+    <div class="container" style="padding-left: 0px; padding-right: 0px;">
+        <br/>
+        <div class="row"  style="padding-left: 0px; padding-right: 0px;">
+            <div class="col-10">
+                <h1 style="margin-bottom: 20px; font-weight: 400; margin-top: 20px;">
+                    <%= @folder.name %>
+                    </h1>
+                </div>
+                <div class="col-2">
+                    <% if @is_viewcasts_present %>
+                    <%= link_to '+ Add a stream'.html_safe, new_account_folder_stream_path(@account, @folder), data: {turbolinks: false}, class: "btn btn-outline", role: "button" %>
+                    <% end %>
+                </div>
+            </div>
+            <%= render partial: "folders/header" %>
         </div>
-        <div class="four wide column">
-            <div class="card-details">
-                <% unless @view_casts.count == 0 %>
-                    <%= link_to "Publish the Stream", publish_account_folder_stream_path(@account, @folder, @stream),"data-turbolinks"=> false, class: "ui green button", method: :post %>
+    </div>
+    <br/>
+    <br/>
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+          <h3 style="margin-bottom: 30px; margin-top: 20px; font-weight: 600;">
+            <%= @stream.title %>
+            </h3>
+        </div>
+        <div class="col-9">
+            <% if @view_casts.first.blank? %>
+            <br/>
+            <br/>
+            <div class="blankslate blankslate-spacious">
+              <h3>No cards created yet.</h3>
+              <p>Please refine your search further.</p>
+            </div>
+            <% else %>
+            <div class="row">
+              <% @view_casts.each do |d| %>
+              <div class="col-4">
+                <%= link_to [@account, @folder,d], "data-turbolinks"=> false do %>
+                <div class="card card-inverse" style="margin: 20px 0px; ">
+                  <img class="card-img" src="<%= d.render_screenshot_url %>" style="height: 250px;">
+                  <div class="card-img-overlay" style="height: 250px; margin: 0px; background-color: rgba(256, 256, 256, 0.8);">
+
+                  </div>
+                  <div class="card-footer">
+                    <h4 class="card-title" title="<%=d.name%>">
+                      <span class="branch-ref css-truncate css-truncate-target"><%= d.name %></span>
+                    </h4>
+                    <small class="text-muted">
+                      <%= image_tag avatar_url(d.updator.email), width: "20px", class: "rounded" %>
+                      &nbsp;&nbsp;
+                      <%= d.template_card.name %>  |  <%= time_ago_in_words(d.updated_at) %>
+                    </small>
+                  </div>
+                </div>
                 <% end %>
-                <br/>
-                <div class='one-br-space'></div>
-                <div class="card-details-title">Details</div>
-                <% if @stream.last_published_at and @view_casts.count > 0 %>
-                    <div class="sigle-detail">
-                        <div class="card-detail-lable">URL:</div>
-                        <div class="card-detail-Value">
-                            <%= link_to "Here", "#{@account.cdn_endpoint}/#{@stream.cdn_key}", target: "blank" %>
-                        </div>
-                    </div>
-                    <div class="sigle-detail">
-                        <div class="card-detail-lable">Last publised at:</div>
-                        <div class="card-detail-Value">
-                            <%= time_ago_in_words(@stream.last_published_at) %> ago</div>
-                    </div>
-                    <div class="sigle-detail">
-                        <div class="card-detail-lable"># of cards in this stream:</div>
-                        <div class="card-detail-Value">
-                            <%= @view_casts.count %>
-                        </div>
-                    </div>
-                <% end %>
-                <br/>
-                <div class="sigle-detail">
-                    <div class="card-detail-lable">Created By:</div>
-                    <div class="card-detail-Value">
-                        <%= @stream.creator.name %>
-                    </div>
-                </div>
-                <div class="sigle-detail">
-                    <div class="card-detail-lable">On:</div>
-                    <div class="card-detail-Value">
-                        <%= @stream.created_at.strftime("%e %b %Y") %>
-                    </div>
-                </div>
-                <br>
-                <div class="sigle-detail">
-                    <div class="card-detail-lable">Updated By:</div>
-                    <div class="card-detail-Value">
-                        <%= @stream.updator.name %>
-                    </div>
-                </div>
-                <div class="sigle-detail">
-                    <div class="card-detail-lable">On:</div>
-                    <div class="card-detail-Value">
-                        <%= @stream.updated_at.strftime("%e %b %Y") %>
-                    </div>
-                </div>
-                <br/>
+              </div>
+              <% end %>
+            </div>
+            <% end %>
+            <%= paginate @view_casts, theme: 'twitter-bootstrap-4', pagination_class: "pagination-sm" %>
+                    
+        </div>
+        <div class="col-3">
+            <% unless @view_casts.count == 0 %>
+                <%= link_to "Publish the Stream", publish_account_folder_stream_path(@account, @folder, @stream),"data-turbolinks"=> false, class: "btn btn-outline", method: :post %>
+            <% end %>
+            <br/>
+            <br/>
+            <div class="hint">
+                
+                    <table class="table table-sm hint">
+                        <% if @stream.last_published_at and @view_casts.count > 0 %>
+                            <tr>
+                                <td>JSON URL
+                                </td>
+                                <td>&nbsp;:&nbsp;
+                                </td>
+                                <td><%= link_to "Here", "#{@account.cdn_endpoint}/#{@stream.cdn_key}", target: "blank" %>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Last publised at
+                                </td>
+                                <td>&nbsp;:&nbsp;
+                                </td>
+                                <td><%= time_ago_in_words(@stream.last_published_at) %> ago
+                                </td>
+                            </tr>
+                            <tr>
+                                <td># of cards
+                                </td>
+                                <td>&nbsp;:&nbsp;
+                                </td>
+                                <td><%= @view_casts.count %>
+                                </td>
+                            </tr>
+                        <% end %>
+                        <tr>
+                            <td>Created By
+                            </td>
+                            <td>&nbsp;:&nbsp;
+                            </td>
+                            <td><%= @stream.creator.name %>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>On
+                            </td>
+                            <td>&nbsp;:&nbsp;
+                            </td>
+                            <td><%= @stream.created_at.strftime("%e %b %Y") %>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Updated By
+                            </td>
+                            <td>&nbsp;:&nbsp;
+                            </td>
+                            <td><%= @stream.updator.name %>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>On
+                            </td>
+                            <td>&nbsp;:&nbsp;
+                            </td>
+                            <td><%= @stream.updated_at.strftime("%e %b %Y") %>
+                            </td>
+                        </tr>
+                    </table>
                 <%= link_to "Edit the Stream", edit_account_folder_stream_path(@account, @folder, @stream) %>
                 <br/>
             </div>
         </div>
-    </div>
-</div>
+     </div>
+</div>     

@@ -16,6 +16,8 @@
 #  updated_by       :integer
 #  created_at       :datetime         not null
 #  updated_at       :datetime         not null
+#  mode             :string(255)
+#  is_social_image  :boolean
 #
 
 class ImageVariation < ApplicationRecord
@@ -26,7 +28,7 @@ class ImageVariation < ApplicationRecord
   belongs_to :image
   delegate :account, to: :image
   #ACCESSORS
-  attr_accessor :crop_x, :crop_y, :crop_w, :crop_h
+  attr_accessor :crop_x, :crop_y, :crop_w, :crop_h, :article_id
   #VALIDATIONS
   #CALLBACKS
   after_create :process_and_upload_image, if: :is_original?
@@ -118,6 +120,7 @@ class ImageVariation < ApplicationRecord
   end
 
   def process_and_upload_image_variation
+    return true if self.is_social_image
     require "base64"
 
     temp_new_image = Image.new({crop_x: self.crop_x, crop_y: self.crop_y, crop_w: self.crop_w, crop_h: self.crop_h})
@@ -157,6 +160,62 @@ class ImageVariation < ApplicationRecord
         image_height: img_h
       })
     end
+
+    if self.mode.present? and self.article_id.present?
+      article = Article.friendly.find(self.article_id)
+      #Creating
+      key = "images/#{self.account.slug}/#{self.image.s3_identifier}/#{self.id + 1}.png"
+      a = ImageVariation.new({
+        image_id: self.image_id,
+        image_key: key,
+        image_width: self.image_width,
+        image_height: self.image_height,
+        is_social_image: true,
+        mode: self.mode
+      })
+      a.save
+      Thread.new do
+        data_json = {
+          "data": {
+            "cover_data": {
+              "cover_title": "#{article.genre}",
+              "logo_image": {
+                "image": "#{article.account.logo_image.original_image.image_url}"
+              }
+            }
+          }
+        }
+
+        data_json["data".to_sym]["cover_data".to_sym]["#{(self.mode == "facebook"  or self.mode == "twitter") ? "fb_image" : "instagram_image" }"] = {
+          "image": "#{self.image_url}"
+        }
+
+        payload = {}
+        payload["js"] = "https://cdn.protograph.pykih.com/Assets/toSocial/card.min.js?no-cache=true"
+        payload["css"] = "https://cdn.protograph.pykih.com/Assets/toSocial/card.min.css?no-cache=true"
+        payload["data_url"] = data_json.to_json
+        payload["schema_json"] = ""
+        payload["configuration_url"] = ""
+        payload["configuration_schema"] = ""
+        payload["initializer"] = "ProtoGraph.Card.toSocial"
+        payload["key"] = key
+        payload["mode"] = self.mode
+
+        response = Api::ProtoGraph::ViewCast.render_screenshot(payload)
+        if response['message'].present? and response['message'] == "Data Added Successfully"
+          if self.mode == "facebook"
+            article.update_column(:og_image_variation_id, a.id)
+          elsif self.mode == "twitter"
+            article.update_column(:twitter_image_variation_id, a.id)
+          else
+            article.update_column(:instagram_image_variation_id, a.id)
+          end
+
+        end
+        ActiveRecord::Base.connection.close
+      end
+    end
+
   end
 
 end

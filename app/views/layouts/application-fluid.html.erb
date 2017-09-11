@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>ProtoGraph / Pykih</title>
+  <%= csrf_meta_tags %>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+
+  <% if Rails.env.production? %>
+    <script>
+      (function(_,e,rr,s){_errs=[s];var c=_.onerror;_.onerror=function(){var a=arguments;_errs.push(a);
+      c&&c.apply(this,a)};var b=function(){var c=e.createElement(rr),b=e.getElementsByTagName(rr)[0];
+      c.src="//beacon.errorception.com/"+s+".js";c.async=!0;b.parentNode.insertBefore(c,b)};
+      _.addEventListener?_.addEventListener("load",b,!1):_.attachEvent("onload",b)})
+      (window,document,"script","596080a8d5a5240f6400108d");
+    </script>
+  <% elsif Rails.env.staging? %>
+    <script>
+      (function(_,e,rr,s){_errs=[s];var c=_.onerror;_.onerror=function(){var a=arguments;_errs.push(a);
+      c&&c.apply(this,a)};var b=function(){var c=e.createElement(rr),b=e.getElementsByTagName(rr)[0];
+      c.src="//beacon.errorception.com/"+s+".js";c.async=!0;b.parentNode.insertBefore(c,b)};
+      _.addEventListener?_.addEventListener("load",b,!1):_.attachEvent("onload",b)})
+      (window,document,"script","596080a8d5a5240f6400108d");
+    </script>
+  <% end %>
+
+</head>
+<body>
+  <%= render partial: "layouts/header" %>
+  <div class="container-fluid">
+      <%= yield %>
+  </div>
+  <%= render partial: "layouts/footer" %>
+
+
+
+  <% config = {} %>
+  <% if notice.present? %>
+    <% config = {text: notice, notify: "success"} %>
+  <% end %>
+  <% if alert.present? %>
+    <% config = {text: alert, notify: "error"} %>
+  <% end %>
+
+  <script type="text/javascript">
+    var notice = <%= config.to_json.html_safe %>;
+    if (notice.notify) generate_notify(notice);
+  </script>
+</body>
+</html>

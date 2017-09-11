@@ -1,38 +1,80 @@
+<style>
+    .form-group{margin-bottom: 0px !important;} 
+</style>
+<div class="row-fluid" style="background: #fafbfc; ">
+  <div class="container" style="padding-left: 0px; padding-right: 0px;">
+    <br/>
+    <div class="row"  style="padding-left: 0px; padding-right: 0px;">
+        <div class="col-10">
+            <h1 style="margin-bottom: 20px; font-weight: 400; margin-top: 20px;">
+                <%= @folder.name %>
+                </h1>
+            </div>
+            <div class="col-2">
+            </div>
+        </div>
+        <%= render partial: "folders/header" %>
+    </div>
+</div>
+<br/><br/>
 <%= simple_form_for([@account, @folder, @article]) do |f| %>
-    <%= f.input :account_id, as: :hidden, input_html: {value: @account.id} %>
-    <% if @article.id.nil? %>
-        <%= f.input :created_by, as: :hidden, input_html: {value: current_user.id} %>
-    <% end %>
-    <%= f.input :updated_by, as: :hidden, input_html: {value: current_user.id} %>
-    <div class='ui grid'>
-        <div class="left floated six wide column" style="background: #fafafa;">
-            <h3>Prepare the article</h3>
-            <h4>Tags</h4>
-            <h4>Brand images for social media</h4>
+    <div class="container" style="padding-left: 0px;">
+        <div class="row">
+            <div class="col-12">
+                <%= f.input :account_id, as: :hidden, input_html: {value: @account.id} %>
+                <% if @article.id.nil? %>
+                    <%= f.input :created_by, as: :hidden, input_html: {value: current_user.id} %>
+                <% end %>
+                <%= f.input :updated_by, as: :hidden, input_html: {value: current_user.id} %>
+                <%= f.input :url, as: :string, placeholder: "*Copy paste the URL of the story", required: true, label: false, input_html: {style: "border: 0px !important; font-size: 12px; padding-left: 0px; padding-right: 0px; margin-bottom: 0px !important;"}, autofocus: true %>
+                <%= f.input :title, placeholder: "*Copy paste the headline", required: true, label: false, input_html: {style: "border: 0px !important; font-size: 28px; padding-left: 0px; padding-right: 0px; margin-top: 0px !important;"} %>
+                <hr/>
+            </div>
         </div>
-        <div class="right floated ten wide column">
-            <%= f.input :url, as: :string, placeholder: "*Copy paste the URL of the story", label: false, required: true %>
-            <%= f.input :genre, placeholder: "Genre of the story e.g. Opinion, Analysis, Wire, Breaking, Exclusive, etc.", label: false %>
-            <%= f.input :title, placeholder: "Copy paste the Title", label: false %>
-            <table>
-                <tr>
-                    <td><%= image_tag "cover.png", width: "35px;" %></td>
-                    <td>&nbsp;</td>
-                    <td>
-                        <!-- # Ensure that the cover_image updates -->
-                        <%= f.fields_for :cover_image do |cover_image| %>
-                            <%= cover_image.input :image, label: false %>
+        <br/>
+        <br/>
+        <div class="row">
+            <div class="col-2">
+                <br/>
+            </div>
+            <div class="col-10">
+                <h4 style="font-weight: 200;">Step #1 - Choose a genre</h4>
+                <br/>
+                <%= f.input :genre, placeholder: "Genre of the story e.g. Opinion, Analysis, Wire, Breaking, Exclusive, etc.", label: false, hint: "Cannot be longer than 40 characters", input_html: {style: "font-size: 12px;"} %>
+            </div>
+            <hr/>
+        </div>
+        <br/>
+        <div class="row">
+            <div class="col-2">
+                <br/>
+            </div>
+            <div class="col-10">
+                <h4 style="font-weight: 200;">Step #2 - Choose a cover image</h4>
+                <br/>
+                <table>
+                    <tr>
+                        <% if @article.cover_image_id.blank? %>
+                            <td>
+                                <!-- # Ensure that the cover_image updates -->
+                            <%= f.fields_for :cover_image do |cover_image| %>
+                                <%= cover_image.input :image, label: false %>
+                            <% end %>
+                            </td>
+                            <td class="hint">&nbsp; Upload cover image</td>
+                        <% else %>
+                            <%= image_tag(@article.cover_image_variation.image_url, class: "ui centered image") %>
+                            <br/>
+                            <div style="text-align: center;">
+                                <%= link_to "Remove Image", remove_cover_image_account_folder_article_path(@account, @folder, @article), class: "ui mini button", method: :put %>
+                            </div>
                         <% end %>
-                    </td>
-                    <td class="hint">&nbsp; Upload cover image</td>
-                </tr>
-            </table>
-            <br/>
-
-
-
-            <%= f.input :content, placeholder: "Copy paste the Story...", label: false, input_html: {rows: 24} %>
-            <%= f.submit "Save", class: "ui button primary" %>
+                    </tr>
+                </table>
+                <br/>
+                <%= f.submit "Save", class: @article.id.present? ? "btn btn-outline" : "btn btn-primary" %>
+            </div>
         </div>
+    </div>
     </div>
 <% end %>

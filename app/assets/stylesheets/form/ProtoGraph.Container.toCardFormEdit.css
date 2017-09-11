@@ -22,7 +22,6 @@
 }
 
 .form-layout .proto-card-preview {
-    background: #fafafa;
     height: 100vh;
     padding-top: 15px;
 }
@@ -50,10 +49,6 @@
 
 .proto-pull-right {
     float: right;
-}
-
-.proto-grey-body {
-    background: #fafafa;
 }
 
 .protograph-menu-container {

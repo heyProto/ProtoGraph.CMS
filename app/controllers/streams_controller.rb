@@ -13,20 +13,45 @@ class StreamsController < ApplicationController
             render :new
         end
     end
+    
+    def index
+      @view_casts_count = @folder.view_casts.count
+      @streams_count = @folder.streams.count
+      @articles_count = @folder.articles.count
+      @is_viewcasts_present = @view_casts_count != 0  
+      @streams = @folder.streams.order(updated_at: :desc).page(params[:page]).per(30)
+      render layout: "application-fluid"
+    end
 
     def new
         @stream = @folder.streams.new(account_id: @account.id)
+        @view_casts_count = @folder.view_casts.count
+        @streams_count = @folder.streams.count
+        @articles_count = @folder.articles.count
+        @is_viewcasts_present = @view_casts_count != 0  
+        render layout: "application-fluid"
     end
 
     def show
-        @view_casts = @stream.cards
+        
+        @view_casts = @stream.cards.order(updated_at: :desc).page(params[:page]).per(30)    
         @folders = @account.folders.where(id: @stream.folder_list)
         @template_cards = @account.template_cards.where(id: @stream.card_list)
+        @view_casts_count = @folder.view_casts.count
+        @is_viewcasts_present = @view_casts_count != 0  
+        @streams_count = @folder.streams.count
+        @articles_count = @folder.articles.count
+        render layout: "application-fluid"
     end
 
     def edit
         @stream.folder_list = @stream.folder_ids.pluck(:entity_value)
         @stream.card_list = @stream.template_card_ids.pluck(:entity_value)
+        @view_casts_count = @folder.view_casts.count
+        @streams_count = @folder.streams.count
+        @articles_count = @folder.articles.count
+        @is_viewcasts_present = @view_casts_count != 0  
+        render layout: "application-fluid"
     end
 
     def update

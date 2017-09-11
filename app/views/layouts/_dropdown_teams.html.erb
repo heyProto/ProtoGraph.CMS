@@ -1,0 +1,16 @@
+<li class="nav-item dropdown">
+      <a class="nav-link dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <% if @account.present? and @account.id.present? %>
+            <%= @account.username %>
+        <% else %>
+            Choose a team
+        <% end %>
+      </a>
+      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+          <h6 class="dropdown-header" style="font-weight: 400;">Switch teams</h6>
+          <% @accounts.each do |a| %>
+              <%= link_to a.username, account_path(a), class: (@account.present? and @account.id.present? and @account.id == a.id) ? "dropdown-item active" : "dropdown-item", style: (@account.present? and @account.id.present? and @account.id == a.id) ? "background: #F2F2F2; color: black; font-weight: bold;" : nil %>
+          <% end %>
+      </div>
+</li>
+

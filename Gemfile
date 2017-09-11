@@ -19,6 +19,7 @@ gem 'dotenv-rails'
 gem 'rest-client'
 gem 'best_in_place', '~> 3.0.1'
 gem 'kaminari'
+gem 'bootstrap4-kaminari-views'
 gem "version"
 gem 'exception_notification'
 gem 'foreman'

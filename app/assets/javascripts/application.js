@@ -12,17 +12,18 @@
 //
 //= require rails-ujs
 //= require ./vendors/jquery.min.js
-//= require ./vendors/semantic.min.js
+//= require ./vendors/popper.min.js
+//= require ./vendors/bootstrap.min.js
 //= require ./vendors/jquery.noty.packaged.min.js
 //= require ./app/notiy
 //= require turbolinks
 //= require best_in_place
 
 $(document).on('turbolinks:load', function (e) {
-  $('.ui.dropdown').dropdown();
-  $('.ui.checkbox').checkbox();
-  $('.ui.radio.checkbox').checkbox();
+  // $('.ui.dropdown').dropdown();
+  // $('.ui.checkbox').checkbox();
+  // $('.ui.radio.checkbox').checkbox();
   $('select.dropdown').dropdown();
-  $('.ui.accordion').accordion();
+  // $('.ui.accordion').accordion();
   $(".best_in_place").best_in_place();
 });
