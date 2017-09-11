@@ -98,9 +98,16 @@ class CsvVerificationWorker
                 name: "data/explainer_header",
                 seo_blockquote_text: "data/explainer_text"},
               toReportJournalistKilling: {
-                name: "",
-                seo_blockquote_text: "",
-              },
+                name: "data/details_about_journalist/name",
+                seo_blockquote_text: "data/when_and_where_it_occur/date,
+data/when_and_where_it_occur/location,
+data/when_and_where_it_occur/state,
+data/details_about_journalist/organisation,
+data/details_about_journalist/organisation_type,
+data/when_and_where_it_occur/accused_names,
+data/details_about_journalist/journalist_body_of_work,
+data/when_and_where_it_occur/description_of_attack,
+data/details_about_journalist/beat"},
              }
     name_path = params[@upload.template_card.name.to_sym][:name]
     seo_blockquote_text_path = params[@upload.template_card.name.to_sym][:seo_blockquote_text]
