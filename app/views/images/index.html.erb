@@ -1,46 +1,48 @@
 <%= stylesheet_link_tag "justified.css" %>
+    <div class="sixteen wide column">
+        <div class="row">
+            <div class="float-left">
+                <h4>Image Bank</h4>
+            </div>
+            <div class="float-right">
+                <a id="openFileUpload" class='btn btn-outline' href='#' data-toggle='modal' data-target='#fileUploadModal'>Upload image</a>
+            </div>
+        </div>
+        <br/>
+        <br/>
+        <div id="imageContainer"></div>
+        <div class="modal fade bd-example-modal-lg" id="fileUploadModal" role='dialog'>
+          <div class="modal-content">
+            <div class="modal-header"><h4>Add a new image</h4></div>
+            <div class="modal-body">
+              <%= simple_form_for([@account, @image]) do |f| %>
+                <%= f.error_notification %>
+                <%= f.input :image, as: :file, required: true, hint: 'Size should less than or equal to 500kB. Supported file types are GIF, JPEG, JPG and PNG' %>
 
-<div class="sixteen wide column">
-  <div class="row">
-        <div class="float-left">
-          <span class='ui huge header'>Image Bank</span>
+                <div class="form-inputs">
+                  <%= f.input :account_id, as: :hidden, input_html: {value: @account.id} %>
+                  <%= f.input :name, required: true %>
+                  <%= f.input :tag_list, collection: [], label: 'Tags', hint: "Enter a comma separated list of tags.", input_html: { id: 'tags_autocomplete', class: 'ui fluid search dropdown', multiple: true, "data-content"=>"This field is required." }, wrapper_html: { class: 'required'} %>
+                  <%= f.input :description %>
+                </div>
+              <% end %>
+            </div>
+            <div class='modal-footer'>
+              <div class="actions">
+                <input type="submit" value="Upload" form="new_image" class="btn btn-outline">
+              </div>
+            </div>
+          </div>
+          <div class='float-none'></div>
         </div>
-        <div class="float-right">
-          <a id="openFileUpload" class='btn btn-light' href='#'>Upload image</a>
-        </div>
+        <%= paginate @images %>
     </div>
-    <br/><br/>
-  <div id="imageContainer"></div>
-  <div class="ui modal" id="fileUploadModal"> <i class="close icon"></i>
-    <div class="header">Add a new image</div>
-    <div class="content">
-      <%= simple_form_for([@account, @image]) do |f| %>
-        <%= f.error_notification %>
-        <%= f.input :image, as: :file, required: true, hint: 'Size should less than or equal to 500kB. Supported file types are GIF, JPEG, JPG and PNG' %>
-        <div class="form-inputs">
-          <%= f.input :account_id, as: :hidden, input_html: {value: @account.id} %>
-          <%= f.input :name, required: true %>
-          <%= f.input :tag_list, collection: [], label: 'Tags', hint: "Enter a comma separated list of tags.", input_html: { id: 'tags_autocomplete', class: 'ui fluid search dropdown', multiple: true, "data-content"=>"This field is required." }, wrapper_html: { class: 'required'} %>
-          <%= f.input :description %>
-        </div>
-      <% end %>
-    </div>
-    <div class="actions">
-      <input type="submit" value="Upload" form="new_image" class="ui button">
-    </div>
-  </div>
-  <%= paginate @images %>
-</div>
-<%= javascript_include_tag "justified.js" %>
+    <%= javascript_include_tag "justified.js" %>
 
 <script type="text/javascript">
   var images = <%= @images.as_json.to_json.html_safe %>;
 
   $(document).ready( function() {
-
-    $('#openFileUpload').on('click', function () {
-      $('#fileUploadModal').modal('show');
-    });
 
     var validation_rules = {
       on: 'blur',
