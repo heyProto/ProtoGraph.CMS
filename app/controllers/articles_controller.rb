@@ -69,7 +69,7 @@ class ArticlesController < ApplicationController
         end
         if @article.update(a_params)
             track_activity(@article)
-            redirect_to account_folder_article_path(@account, @folder, @article), notice: t('cs')
+            redirect_to edit_account_folder_article_path(@account, @folder, @article), notice: t('cs')
         else
             render :edit
         end

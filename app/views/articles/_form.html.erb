@@ -34,24 +34,17 @@
         <br/>
         <br/>
         <div class="row">
-            <div class="col-2">
-                <br/>
-            </div>
-            <div class="col-10">
+            <div class="col-2"></div>
+            <div class="col-8">
                 <h4 style="font-weight: 200;">Step #1 - Choose a genre</h4>
                 <br/>
                 <%= f.input :genre, placeholder: "Genre of the story e.g. Opinion, Analysis, Wire, Breaking, Exclusive, etc.", label: false, hint: "Cannot be longer than 40 characters", input_html: {style: "font-size: 12px;"} %>
-
-                <%= f.submit "Save", class: @article.id.present? ? "btn btn-outline" : "btn btn-primary" %>
             </div>
-            <hr/>
+            <div class="col-2"></div>
         </div>
-        <br/>
         <div class="row">
-            <div class="col-2">
-                <br/>
-            </div>
-            <div class="col-10">
+            <div class="col-2"></div>
+            <div class="col-8">
                 <h4 style="font-weight: 200;">Step #2 - Choose a cover image</h4>
                 <br/>
                 <table>
@@ -59,9 +52,9 @@
                         <% if @article.cover_image_id.blank? %>
                             <td>
                                 <!-- # Ensure that the cover_image updates -->
-                            <%= f.fields_for :cover_image do |cover_image| %>
-                                <%= cover_image.input :image, label: false %>
-                            <% end %>
+                                <%= f.fields_for :cover_image do |cover_image| %>
+                                    <%= cover_image.input :image, label: false %>
+                                <% end %>
                             </td>
                             <td class="hint">&nbsp; Upload cover image</td>
                         <% else %>
@@ -74,8 +67,8 @@
                     </tr>
                 </table>
                 <br/>
+                <%= f.submit "Save", class: @article.id.present? ? "btn btn-outline" : "btn btn-primary" %>
             </div>
         </div>
-    </div>
     </div>
 <% end %>

@@ -18,7 +18,7 @@
                 </a>
               </li>
             <% else %>
-              <li class="nav-item item active" id='facebook' data-width="2" data-height="1">
+              <li class="nav-item item" id='facebook' data-width="2" data-height="1">
                 <a class="nav-link" data-width="2" data-height="1">
                   Facebook Image
                 </a>
@@ -31,20 +31,20 @@
                 </a>
               </li>
             <% else %>
-              <li class="nav-item item active" id='twitter' data-width="2" data-height="1">
+              <li class="nav-item item" id='twitter' data-width="2" data-height="1">
                 <a class="nav-link" %>
                   Twitter Image
                 </a>
               </li>
             <% end %>
             <% if @article.instagram_image_variation_id.present? %>
-              <li class="nav-item item active" id='twitter' data-width="2" data-height="1">
+              <li class="nav-item" id='twitter' data-width="2" data-height="1">
                 <a class="nav-link disabled" href="#">
                   Instagram Image
                 </a>
               </li>
             <% else %>
-              <li class="nav-item item active" id='instagram'  data-width="1" data-height="1">
+              <li class="nav-item item" id='instagram'  data-width="1" data-height="1">
                 <a class="nav-link" %>
                   Instagram Image
                 </a>
@@ -84,7 +84,7 @@
       <%= f.input :mode, as: :hidden, input_html: {value: mode.present? ? mode : nil} %>
       <% if @article.present? and @article.id.present? %>
         <%= f.input :article_id, as: :hidden,input_html: {value: @article.id } %>
-        <input type='hidden' name='redirect_url' value="<%= account_folder_article_path(@account, @folder, @article) %>" />
+        <input type='hidden' name='redirect_url' value="<%= edit_account_folder_article_path(@account, @folder, @article) %>" />
       <% end %>
     <% end %>
   </div>

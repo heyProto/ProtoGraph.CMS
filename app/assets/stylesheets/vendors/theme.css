@@ -69,3 +69,6 @@ ul.nav > li.nav-item > a.nav-link.active{ border-bottom: 4px solid #0366d6; padd
 .two-br-space{height: 20px !important;}
 .five-br-space{height: 50px !important;}
 .ten-br-space{height: 100px !important;}
+.red{
+    color: red;
+}
