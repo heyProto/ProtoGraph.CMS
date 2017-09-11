@@ -34,6 +34,9 @@
                       <%= image_tag avatar_url(@account.gravatar_email), class: "rounded", style: "width: 20px;" %>
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                      <% if controller_name == "folders" %>
+                        <%= link_to "Add multiple cards", new_account_folder_upload_path(@account, @folder), "data-turbolinks"=> false, class: "dropdown-item" %>
+                      <% end %>
                       <%= link_to "Image Bank", account_images_path(@account), "data-turbolinks"=> false, class: "dropdown-item"  %>
                       <%= link_to "Team Settings", edit_account_path(@account), class: "dropdown-item" %>
                     </div>

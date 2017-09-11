@@ -1,7 +1,7 @@
 . | {"data":
          {"details_about_journalist": {
              "name": ."name" | tostring,
-             "age": ."age" | tonumber,
+             "age": (if ."age" == null then ."age" else ."age" | tonumber end),
              "gender": ."gender" | tostring,
              "image_url": ."image_url" | tostring,
              "is_freelancer": ."is_freelancer" | tostring,
