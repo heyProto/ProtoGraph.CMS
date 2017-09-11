@@ -29,6 +29,7 @@
 }
 .protograph-image-form-heading {
   color: #dadada !important;
+  width: 100%;
 }
 .protograph-crop-tooltip {
   position: absolute;
