@@ -1,83 +1,74 @@
 <%= stylesheet_link_tag "justified.css" %>
-    <div class="sixteen wide column">
-        <div class="row">
-            <div class="float-left">
-                <h4>Image Bank</h4>
-            </div>
-            <div class="float-right">
-                <a id="openFileUpload" class='btn btn-outline' href='#' data-toggle='modal' data-target='#fileUploadModal'>Upload image</a>
-            </div>
-        </div>
-        <br/>
-        <br/>
-        <div id="imageContainer"></div>
-        <div class="modal fade bd-example-modal-lg" id="fileUploadModal" role='dialog'>
-          <div class="modal-content">
-            <div class="modal-header"><h4>Add a new image</h4></div>
-            <div class="modal-body">
-              <%= simple_form_for([@account, @image]) do |f| %>
-                <%= f.error_notification %>
-                <%= f.input :image, as: :file, required: true, hint: 'Size should less than or equal to 500kB. Supported file types are GIF, JPEG, JPG and PNG' %>
-
-                <div class="form-inputs">
-                  <%= f.input :account_id, as: :hidden, input_html: {value: @account.id} %>
-                  <%= f.input :name, required: true %>
-                  <%= f.input :tag_list, collection: [], label: 'Tags', hint: "Enter a comma separated list of tags.", input_html: { id: 'tags_autocomplete', class: 'ui fluid search dropdown', multiple: true, "data-content"=>"This field is required." }, wrapper_html: { class: 'required'} %>
-                  <%= f.input :description %>
-                </div>
-              <% end %>
-            </div>
-            <div class='modal-footer'>
-              <div class="actions">
-                <input type="submit" value="Upload" form="new_image" class="btn btn-outline">
-              </div>
-            </div>
-          </div>
-          <div class='float-none'></div>
-        </div>
-        <%= paginate @images %>
+<div class="row">
+  <div class="container">
+    <div class="float-left">
+      <h4>Image Bank</h4>
     </div>
-    <%= javascript_include_tag "justified.js" %>
-
+    <div class="float-right">
+      <a id="openFileUpload" class='btn btn-outline' href='#' data-toggle='modal' data-target='#fileUploadModal'>Upload image</a>
+    </div>
+  </div>
+  <div id="imageContainer"></div>
+  <div class="modal fade bd-example-modal-lg" id="fileUploadModal" role='dialog'>
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4>Add a new image</h4>
+      </div>
+      <div class="modal-body">
+        <%= simple_form_for([@account, @image]) do |f| %>
+          <%= f.error_notification %>
+          <%= f.input :image, as: :file, required: true, hint: 'Size should less than or equal to 500kB. Supported file types are GIF, JPEG, JPG and PNG' %>
+          <%= f.input :account_id, as: :hidden, input_html: {value: @account.id} %>
+          <%= f.input :name, required: true %>
+          <%= f.input :tag_list, collection: [], label: 'Tags', hint: "Enter a comma separated list of tags.", input_html: { id: 'tags_autocomplete', class: 'ui fluid search dropdown', multiple: true, "data-content"=>"This field is required." }, wrapper_html: { class: 'required'} %>
+          <%= f.input :description %>
+        <% end %>
+      </div>
+      <div class='modal-footer'>
+        <input type="submit" value="Upload" form="new_image" class="btn btn-outline">
+      </div>
+    </div>
+    <div class='float-none'></div>
+  </div>
+  <%= paginate @images %>
+</div>
+<%= javascript_include_tag "justified.js" %>
 <script type="text/javascript">
   var images = <%= @images.as_json.to_json.html_safe %>;
 
-  $(document).ready( function() {
+  $(document).ready(function() {
 
     var validation_rules = {
-      on: 'blur',
-      inline: true,
-      fields: {
-        'image[tag_list][]': {
-          identifier  : 'tags_autocomplete',
-          rules: [
-            {
-              type   : 'empty',
-              prompt : 'This is a required field.'
+        on: 'blur',
+        inline: true,
+        fields: {
+            'image[tag_list][]': {
+                identifier: 'tags_autocomplete',
+                rules: [{
+                    type: 'empty',
+                    prompt: 'This is a required field.'
+                }]
             }
-          ]
         }
-      }
     };
     $('#new_image').form(validation_rules);
-
     var maxHeight = 75;
     $('#imageContainer').empty().justifiedImages({
-      images : images,
+      images: images,
       rowHeight: maxHeight,
       maxRowHeight: 75,
-      thumbnailPath: function(photo, width, height){
+      thumbnailPath: function(photo, width, height) {
         return photo.thumbnail_url;
       },
-      getSize: function(photo){
-        return {width: photo.thumbnail_width, height: photo.thumbnail_height};
+      getSize: function(photo) {
+        return { width: photo.thumbnail_width, height: photo.thumbnail_height };
       },
-      template: function (data) {
+      template: function(data) {
         var image;
         image = '<div class="photo-container" style="height:' + data.displayHeight + 'px;margin-right:' + data.marginRight + 'px;">';
-        image +=    '<a href="'+data.redirect_to+'" data-turbolinks="false">';
-        image +=        '<img class="image-thumb" src="' + data.src + '" style="width:' + data.displayWidth + 'px;height:' + data.displayHeight + 'px;" >';
-        image +=    '</a>';
+        image += '<a href="' + data.redirect_to + '" data-turbolinks="false">';
+        image += '<img class="image-thumb" src="' + data.src + '" style="width:' + data.displayWidth + 'px;height:' + data.displayHeight + 'px;" >';
+        image += '</a>';
         image += '   <div class="photograph-image-details" style="display: block;">' + data.image_width + ' x ' + data.image_height + ' (' + data.aspectWidth + ':' + data.aspectHeight + ') ' + '</div>';
         image += '</div>';
 
@@ -90,14 +81,14 @@
       .dropdown({
         fullTextSearch: true,
         forceSelection: false,
-        saveRemoteData:false,
+        saveRemoteData: false,
         allowAdditions: true,
         apiSettings: {
-            url: '/api/v1/tags?q={query}'
+          url: '/api/v1/tags?q={query}'
         },
         fields: {
           value: 'name',
-          name : 'name',
+          name: 'name',
           id: 'id'
         }
       });
