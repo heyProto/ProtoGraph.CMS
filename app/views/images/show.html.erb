@@ -17,14 +17,16 @@
     <h3 class="protograph-image-form-heading">Original Image</h3>
     <div class='one-br-space'></div>
     <div class='one-br-space'></div>
-    <div class="row" style="background: #efefef; position:relative;width:100%">
+    <div class="row" style="background: #efefef; position:relative; width:100%">
       <div class='col-sm-2'></div>
       <div class='col-sm-8'>
-        <a class="ui right corner label" id="copyToClipboard" data-clipboard-text="<%= @image.original_image.image_url %>" data-content="Copied">
-          <span class="oi" data-glyph="copywriting"></span>
-        </a>
-        <img src="<%= @image.original_image.image_url %>" style="height: 350px; width: initial !important;">
-        <div class="photograph-image-details" style="display: block;"><%= "#{w} x #{h} (#{w / w.gcd(h)} : #{h / w.gcd(h)})"%></div>
+          <!-- <span class="oi" data-glyph="copywriting"></span> -->
+        <div class='mx-auto'>
+          <a class="ui right corner label" id="copyToClipboard" data-clipboard-text="<%= @image.original_image.image_url %>" data-content="Copied">
+          </a>
+          <img src="<%= @image.original_image.image_url %>" class='mx-auto' style="height: 350px; width: initial !important;">
+          <div class="photograph-image-details" style="display: block;"><%= "#{w} x #{h} (#{w / w.gcd(h)} : #{h / w.gcd(h)})"%></div>
+        </div>
       </div>
       <div class='col-sm-2'></div>
 
@@ -34,7 +36,7 @@
     <div class="col-sm-12">
       <div style="position: relative;">
         <% if @image.image_variation.present? %>
-          <h3 class="ui header protograph-image-form-heading">Variations</h3>
+          <h3 class="protograph-image-form-heading">Variations</h3>
         <% end %>
       </div>
       <% if @image.image_variation.present? %>

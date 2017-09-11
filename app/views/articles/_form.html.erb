@@ -1,5 +1,5 @@
 <style>
-    .form-group{margin-bottom: 0px !important;} 
+    .form-group{margin-bottom: 0px !important;}
 </style>
 <div class="row-fluid" style="background: #fafbfc; ">
   <div class="container" style="padding-left: 0px; padding-right: 0px;">
@@ -41,6 +41,8 @@
                 <h4 style="font-weight: 200;">Step #1 - Choose a genre</h4>
                 <br/>
                 <%= f.input :genre, placeholder: "Genre of the story e.g. Opinion, Analysis, Wire, Breaking, Exclusive, etc.", label: false, hint: "Cannot be longer than 40 characters", input_html: {style: "font-size: 12px;"} %>
+
+                <%= f.submit "Save", class: @article.id.present? ? "btn btn-outline" : "btn btn-primary" %>
             </div>
             <hr/>
         </div>
@@ -72,7 +74,6 @@
                     </tr>
                 </table>
                 <br/>
-                <%= f.submit "Save", class: @article.id.present? ? "btn btn-outline" : "btn btn-primary" %>
             </div>
         </div>
     </div>
