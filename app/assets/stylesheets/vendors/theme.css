@@ -60,3 +60,12 @@ ul.nav > li.nav-item > a.nav-link.active{ border-bottom: 4px solid #0366d6; padd
     word-wrap: nowrap;
     margin-bottom: 15px;
 }
+.one-br-space,.two-br-space,.five-br-space,.ten-br-space,{
+  display: inline-block !important;
+  width: 100% !important;
+  background: transparent !important;
+}
+.one-br-space{height: 10px !important;}
+.two-br-space{height: 20px !important;}
+.five-br-space{height: 50px !important;}
+.ten-br-space{height: 100px !important;}
