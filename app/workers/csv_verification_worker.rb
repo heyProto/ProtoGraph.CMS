@@ -107,6 +107,10 @@ data/the_people_involved/accused_social_classification"},
               toExplain: {
                 name: "data/explainer_header",
                 seo_blockquote_text: "data/explainer_text"},
+              toReportJournalistKilling: {
+                name: "",
+                seo_blockquote_text: "",
+              },
              }
     name_path = params[@upload.template_card.name.to_sym][:name]
     seo_blockquote_text_path = params[@upload.template_card.name.to_sym][:seo_blockquote_text]
