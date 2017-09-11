@@ -14,7 +14,7 @@ Rails.application.routes.draw do
   get '/auth/failure', to: 'authentications#failure'
 
   get "/card/:id", to: "template_cards#demo", as: :demo_template_card
-  
+
   get "/planned-homepage", to: "static_pages#index2"
 
 
@@ -61,7 +61,7 @@ Rails.application.routes.draw do
         resources :stream_entities, only: [:create, :destroy]
       end
 
-      resources :uploads, only: [:new, :create]
+      resources :uploads, only: [:index, :create]
       resources :articles do
         put "remove_cover_image", on: :member
         put "remove_facebook_image", on: :member

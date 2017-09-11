@@ -2,7 +2,7 @@ class UploadsController < ApplicationController
   before_action :sudo_pykih_admin
   before_action :set_upload, only: [:show]
 
-  def new
+  def index
     @upload = Upload.new
     @folders = @account.folders
     @template_cards = TemplateCard.with_multiple_uploads
@@ -12,16 +12,16 @@ class UploadsController < ApplicationController
   def create
     @upload = Upload.new(upload_params)
     if !@upload.validate_headers
-      redirect_to new_account_folder_upload_path(@account, @folder), alert: "Make sure headers are the same as in the CSV headers file and you have selected the right card type" and return
+      redirect_to account_folder_uploads_path(@account, @folder), alert: "Make sure headers are the same as in the CSV headers file and you have selected the right card type" and return
     end
     @upload.folder = Folder.find(upload_params[:folder_id])
     @upload.creator = current_user
     @upload.updator = current_user
     @upload.account = @account
     if @upload.save
-      redirect_to new_account_folder_upload_path(@account, @folder), notice: "File was uploaded successfully"
+      redirect_to account_folder_uploads_path(@account, @folder), notice: "File was uploaded successfully"
     else
-      redirect_to new_account_folder_upload_path(@account, @folder), alert: @upload.errors.full_messages
+      redirect_to account_folder_uploads_path(@account, @folder), alert: @upload.errors.full_messages
     end
   end
 
