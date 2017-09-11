@@ -34,7 +34,7 @@
                       <%= image_tag avatar_url(@account.gravatar_email), class: "rounded", style: "width: 20px;" %>
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                      <% if controller_name == "folders" %>
+                      <% if controller_name == "folders" and current_user.is_admin_from_pykih %>
                         <%= link_to "Add multiple cards", new_account_folder_upload_path(@account, @folder), "data-turbolinks"=> false, class: "dropdown-item" %>
                       <% end %>
                       <%= link_to "Image Bank", account_images_path(@account), "data-turbolinks"=> false, class: "dropdown-item"  %>
