@@ -37,45 +37,46 @@
   var images = <%= @images.as_json.to_json.html_safe %>;
 
   $(document).ready(function() {
-
-    var validation_rules = {
-        on: 'blur',
-        inline: true,
-        fields: {
-            'image[tag_list][]': {
-                identifier: 'tags_autocomplete',
-                rules: [{
-                    type: 'empty',
-                    prompt: 'This is a required field.'
-                }]
-            }
-        }
-    };
-    $('#new_image').form(validation_rules);
+    // var validation_rules = {
+    //     on: 'blur',
+    //     inline: true,
+    //     fields: {
+    //         'image[tag_list][]': {
+    //             identifier: 'tags_autocomplete',
+    //             rules: [{
+    //                 type: 'empty',
+    //                 prompt: 'This is a required field.'
+    //             }]
+    //         }
+    //     }
+    // };
+    // $('#new_image').form(validation_rules);
     var maxHeight = 75;
-    $('#imageContainer').empty().justifiedImages({
-      images: images,
-      rowHeight: maxHeight,
-      maxRowHeight: 75,
-      thumbnailPath: function(photo, width, height) {
-        return photo.thumbnail_url;
-      },
-      getSize: function(photo) {
-        return { width: photo.thumbnail_width, height: photo.thumbnail_height };
-      },
-      template: function(data) {
-        var image;
-        image = '<div class="photo-container" style="height:' + data.displayHeight + 'px;margin-right:' + data.marginRight + 'px;">';
-        image += '<a href="' + data.redirect_to + '" data-turbolinks="false">';
-        image += '<img class="image-thumb" src="' + data.src + '" style="width:' + data.displayWidth + 'px;height:' + data.displayHeight + 'px;" >';
-        image += '</a>';
-        image += '   <div class="photograph-image-details" style="display: block;">' + data.image_width + ' x ' + data.image_height + ' (' + data.aspectWidth + ':' + data.aspectHeight + ') ' + '</div>';
-        image += '</div>';
+    if (images.length) {
+      $('#imageContainer').empty().justifiedImages({
+        images: images,
+        rowHeight: maxHeight,
+        maxRowHeight: 75,
+        thumbnailPath: function(photo, width, height) {
+          return photo.thumbnail_url;
+        },
+        getSize: function(photo) {
+          return { width: photo.thumbnail_width, height: photo.thumbnail_height };
+        },
+        template: function(data) {
+          var image;
+          image = '<div class="photo-container" style="height:' + data.displayHeight + 'px;margin-right:' + data.marginRight + 'px;">';
+          image += '<a href="' + data.redirect_to + '" data-turbolinks="false">';
+          image += '<img class="image-thumb" src="' + data.src + '" style="width:' + data.displayWidth + 'px;height:' + data.displayHeight + 'px;" >';
+          image += '</a>';
+          image += '   <div class="photograph-image-details" style="display: block;">' + data.image_width + ' x ' + data.image_height + ' (' + data.aspectWidth + ':' + data.aspectHeight + ') ' + '</div>';
+          image += '</div>';
 
-        return image;
-      },
-      margin: 20
-    });
+          return image;
+        },
+        margin: 20
+      });
+    }
 
     $('#new_image .ui.dropdown')
       .dropdown({
