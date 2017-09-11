@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
 
+  get 'static_pages/index'
+
   resources :activities
   devise_for :users, controllers: { registrations: 'registrations', sessions: 'sessions' } do
       get 'sign_out', to: 'devise/sessions#destroy'
@@ -10,6 +12,8 @@ Rails.application.routes.draw do
   get '/auth/failure', to: 'authentications#failure'
 
   get "/card/:id", to: "template_cards#demo", as: :demo_template_card
+  
+  get "/planned-homepage", to: "static_pages#index2"
 
 
   namespace :api do
