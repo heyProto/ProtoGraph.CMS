@@ -1,14 +1,14 @@
 . | {"data":
          {"details_about_journalist": {
              "name": ."name" | tostring,
-             "age": (if ."age" == null then ."age" else ."age" | tonumber end),
+             "age": (if ."age" == null then "" else ."age" end),
              "gender": ."gender" | tostring,
-             "image_url": ."image_url" | tostring,
+             "image_url": (if ."image_url" == null then "" else ."image_url" end),
              "is_freelancer": ."is_freelancer" | tostring,
-             "organisation": ."organisation" | tostring,
+             "organisation": (if ."organisation" == null then "" else ."organisation" end),
              "organisation_type": ."organisation_type" | tostring,
-             "beat": ."beat" | tostring,
-             "journalist_body_of_work": ."journalist_body_of_work" | tostring
+             "beat": (if ."beat" == null then "" else ."beat" end),
+             "journalist_body_of_work": (if ."journalist_body_of_work" == null then "" else ."journalist_body_of_work" end)
          },
           "when_and_where_it_occur": {
               "date": ."date" | tostring,
@@ -17,9 +17,9 @@
               "lat": ."lat" | tonumber,
               "lng": ."lng" | tonumber,
               "nature_of_assault": ."nature_of_assault" | tostring,
-              "accused_names": ."accused_names" | tostring,
-              "description_of_attack": ."description_of_attack" | tostring,
-              "motive_of_attack": ."motive_of_attack" | tostring,
+              "accused_names": (if ."accused_names" == null then "" else ."accused_names" end),
+              "description_of_attack": (if ."description_of_attack" == null then "" else ."description_of_attack" end),
+              "motive_of_attack": (if ."motive_of_attack" == null then "" else ."motive_of_attack" end),
               "party": ."party" | tostring,
               "is_case_registered": ."is_case_registered" | tostring,
           },
