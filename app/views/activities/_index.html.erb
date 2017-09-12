@@ -22,6 +22,9 @@
             <% elsif a.trackable.class.to_s == "Stream" %>
               a stream
               <%= link_to a.trackable.title.titleize, [a.trackable.account, a.trackable.folder, a.trackable] %>
+            <% elsif a.trackable.class.to_s == "Article" %>
+              a article
+              <%= link_to a.trackable.title.titleize, [a.trackable.account, a.trackable.folder, a.trackable] %>
             <% end %>
               </td>
           </tr>
