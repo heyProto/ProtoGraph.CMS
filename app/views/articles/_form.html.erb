@@ -58,11 +58,11 @@
                             </td>
                             <td class="hint">&nbsp; Upload cover image</td>
                         <% else %>
-                            <%= image_tag(@article.cover_image_variation.image_url, class: "ui centered image") %>
-                            <br/>
-                            <div style="text-align: center;">
-                                <%= link_to "Remove Image", remove_cover_image_account_folder_article_path(@account, @folder, @article), class: "ui mini button", method: :put %>
+                            <div style="text-align: center; background: #fdfdfd;">
+                                <%= image_tag(@article.cover_image_variation.image_url, class: "ui centered image") %>
                             </div>
+                            <br/>
+                            <%= link_to "Remove Image", remove_cover_image_account_folder_article_path(@account, @folder, @article), class: "btn btn-outline", method: :put %>
                         <% end %>
                     </tr>
                 </table>

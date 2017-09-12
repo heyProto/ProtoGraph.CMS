@@ -19,22 +19,18 @@
 <br/><br/>
 <div class="container">
     <% if @articles.first.blank? %>
+        <% if @account.logo_image_id.present? %>
+            <div class="blankslate blankslate-spacious">
+              <h3>No articles prepared yet.</h3>
+              <p>Use the [+ Prepare an article] button on the top right.</p>
+            </div>
+        <% else %>
 
-    <% if @account.logo_image_id.present? %>
-    
-    <div class="blankslate blankslate-spacious">
-      <h3>No articles prepared yet.</h3>
-      <p>Use the [+ Prepare an article] button on the top right.</p>
-  </div>
-
-  <% else %>
-
-  <div class="blankslate blankslate-spacious">
-      <h3>Please <%= link_to "upload your logo", edit_account_path(@account) %></h3>
-      <p>We meed your a square logo of your team to prepare article.</p>
-  </div>
-
-  <% end %>
+        <div class="blankslate blankslate-spacious">
+            <h3>Please <%= link_to "upload your logo", edit_account_path(@account) %></h3>
+            <p>We meed your a square logo of your team to prepare article.</p>
+        </div>
+    <% end %>
 
   <% else %>
   <div class="row">

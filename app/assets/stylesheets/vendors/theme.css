@@ -72,3 +72,8 @@ ul.nav.jignesh > li.nav-item > a.nav-link.active{ border-bottom: 4px solid #0366
 .red{
     color: red;
 }
+
+.nav-item.item.disabled {
+    pointer-events: none;
+    cursor: not-allowed;
+}

@@ -16,38 +16,46 @@
                     <% if @article.og_image_variation_id.present? %>
                         <h5 style='font-weight: 100;'>
                             Facebook Image
-                            <%= link_to "<span class='oi' data-glyph='data-transfer-download'></span>".html_safe, download_account_image_variation_path(@account, @article.og_image_variation, filename: "#{@article.slug}"), method: "post", target: "_blank"  %>
-                            <%= link_to "<span class='oi red' data-glyph='ban'></span>".html_safe, remove_facebook_image_account_folder_article_path(@account, @folder, @article), method: :put %>
                         </h5>
-                        <%= image_tag(@article.og_image_variation.image_url) %>
+                        <div style="text-align: center; background: #fdfdfd;">
+                            <%= image_tag(@article.og_image_variation.image_url) %>
+                        </div>
+                        <div class='one-br-space'></div>
+                        <%= link_to "Download".html_safe, download_account_image_variation_path(@account, @article.og_image_variation, filename: "#{@article.slug}"), method: "post", target: "_blank", class: 'btn btn-outline'  %>
+                        <%= link_to "Remove".html_safe, remove_facebook_image_account_folder_article_path(@account, @folder, @article), method: :put, class: 'btn btn-outline' %>
                         <div class='one-br-space'></div>
                     <% else %>
-                        <%= link_to "Crop cover image for Facebook", "#", id: "social_button", class: "btn btn-outline", "data-toggle"=>'modal', "data-target"=>'#socialCropperModal' %>
+                        <%= link_to "Crop cover image for Facebook", "#", id: "social_button", class: "btn btn-outline protograph-social-crop-btn", "data-toggle"=>'modal', "data-mode"=>'#facebook', "data-target"=>'#socialCropperModal' %>
                     <% end %>
                     <br/><br/>
                     <% if @article.twitter_image_variation_id.present? %>
                         <h5 style='font-weight: 100;'>
                             Twitter Image
-                            <%= link_to "<span class='oi' data-glyph='data-transfer-download'></span>".html_safe, download_account_image_variation_path(@account, @article.twitter_image_variation, filename: "#{@article.slug}"), method: "post", target: "_blank"%>
-                            <%= link_to "<span class='oi red' data-glyph='ban'></span>".html_safe, remove_twitter_image_account_folder_article_path(@account, @folder, @article), method: :put %>
                         </h5>
-                        <%= image_tag(@article.twitter_image_variation.image_url) %>
+                        <div style="text-align: center; background: #fdfdfd;">
+                            <%= image_tag(@article.twitter_image_variation.image_url) %>
+                        </div>
+                        <div class='one-br-space'></div>
+                            <%= link_to "Download".html_safe, download_account_image_variation_path(@account, @article.twitter_image_variation, filename: "#{@article.slug}"), method: "post", target: "_blank", class: 'btn btn-outline' %>
+                            <%= link_to "Remove".html_safe, remove_twitter_image_account_folder_article_path(@account, @folder, @article), method: :put, class: 'btn btn-outline' %>
                         <div class='one-br-space'></div>
                     <% else %>
-                        <%= link_to "Crop cover image for Twitter", "#", id: "social_button", class: "btn btn-outline", "data-toggle"=>'modal', "data-target"=>'#socialCropperModal' %>
+                        <%= link_to "Crop cover image for Twitter", "#", id: "social_button", class: "btn btn-outline protograph-social-crop-btn", "data-toggle"=>'modal', "data-mode"=>'#twitter', "data-target"=>'#socialCropperModal' %>
                     <% end %>
                     <br/><br/>
                     <% if @article.instagram_image_variation_id.present? %>
                         <h5 style='font-weight: 100;'>
                             Instagram Image
-                            <%= link_to "<span class='oi' data-glyph='data-transfer-download'></span>".html_safe, download_account_image_variation_path(@account, @article.instagram_image_variation, filename: "#{@article.slug}"), method: "post", target: "_blank" %>
-                        <%= link_to "<span class='oi red' data-glyph='ban'></span>".html_safe, remove_instagram_image_account_folder_article_path(@account, @folder, @article), method: :put %>
                         </h5>
+                        <div style="text-align: center; background: #fdfdfd;">
+                            <%= image_tag(@article.instagram_image_variation.image_url) %>
+                        </div>
                         <div class='one-br-space'></div>
-                        <%= image_tag(@article.instagram_image_variation.image_url) %>
+                            <%= link_to "Download".html_safe, download_account_image_variation_path(@account, @article.instagram_image_variation, filename: "#{@article.slug}"), method: "post", target: "_blank", class: 'btn btn-outline' %>
+                            <%= link_to "Remove".html_safe, remove_instagram_image_account_folder_article_path(@account, @folder, @article), method: :put, class: 'btn btn-outline' %>
                         <div class='one-br-space'></div>
                     <% else %>
-                        <%= link_to "Crop cover image for Instagram", "#", id: "social_button", class: "btn btn-outline", "data-toggle"=>'modal', "data-target"=>'#socialCropperModal' %>
+                        <%= link_to "Crop cover image for Instagram", "#", id: "social_button", class: "btn btn-outline protograph-social-crop-btn", "data-toggle"=>'modal', "data-mode"=>'#instagram', "data-target"=>'#socialCropperModal' %>
                     <% end %>
                 <% end %>
             </div>
@@ -78,7 +86,6 @@
             };
             reader.readAsDataURL(file);
         });
-
     });
 
 </script>

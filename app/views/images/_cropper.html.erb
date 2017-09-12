@@ -13,7 +13,7 @@
           <ul class="navbar-nav">
             <% if controller_name == "articles" %>
               <% if @article.og_image_variation_id.present? %>
-                <li class="nav-item item" data-width="2" data-height="1">
+                <li class="nav-item item disabled" data-width="2" data-height="1">
                   <a class="nav-link disabled" href="#">
                     Facebook Image
                   </a>
@@ -26,7 +26,7 @@
                 </li>
               <% end %>
               <% if  @article.twitter_image_variation_id.present? %>
-                <li class="nav-item item" id='facebook' data-width="2" data-height="1">
+                <li class="nav-item item disabled" id='facebook' data-width="2" data-height="1">
                   <a class="nav-link disabled" href="#">
                     Twitter Image
                   </a>
@@ -39,7 +39,7 @@
                 </li>
               <% end %>
               <% if @article.instagram_image_variation_id.present? %>
-                <li class="nav-item" id='twitter' data-width="2" data-height="1">
+                <li class="nav-item disabled" id='twitter' data-width="2" data-height="1">
                   <a class="nav-link disabled" href="#">
                     Instagram Image
                   </a>

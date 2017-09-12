@@ -57,6 +57,35 @@
       }
 
       e.preventDefault();
+    });
+
+    $('.protograph-social-crop-btn').on('click', function (e) {
+      $('#navbarNav li').removeClass('active');
+      var data = $(e.currentTarget).data();
+      var tab = $('#navbarNav li'+ data.mode),
+        tabData = tab.data(),
+        aspectRatio;
+
+      if (tabData.height > 0 && tabData.width > 0) {
+        aspectRatio = tabData.width / tabData.height;
+      } else {
+        aspectRatio = 0;
+      }
+
+      tab.addClass('active');
+
+      $('#cropbox').Jcrop({
+        setSelect: [0, 0, 420, 420],
+        onSelect: update,
+        onChange: update,
+        boxHeight: 350,
+        boxWidth: 750,
+        aspectRatio: aspectRatio
+      });
+
+      if(mode && tab.attr('id')){
+        mode.val(tab.attr('id'));
+      }
 
     });
 
