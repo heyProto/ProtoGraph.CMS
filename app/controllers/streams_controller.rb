@@ -33,11 +33,16 @@ class StreamsController < ApplicationController
     end
 
     def show
-
-        @view_casts = @stream.cards.order(updated_at: :desc).page(params[:page]).per(30)
+        if @stream.cards.count < 30
+            @view_casts = @stream.cards.order(updated_at: :desc)
+            @show_pagination = false
+        else
+            @view_casts = @stream.cards.order(updated_at: :desc).page(params[:page]).per(30)
+            @show_pagination = true
+        end
         @folders = @account.folders.where(id: @stream.folder_list)
-        @template_cards = @account.template_cards.where(id: @stream.card_list)
         @view_casts_count = @folder.view_casts.count
+        @template_cards = @account.template_cards.where(id: @stream.card_list)
         @is_viewcasts_present = @view_casts_count != 0
         @streams_count = @folder.streams.count
         @articles_count = @folder.articles.count
