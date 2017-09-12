@@ -14,9 +14,6 @@
           <%= @image.name %>
           </h1>
         </div>
-        <div class="col-2">
-          <a id="openFileUpload" class='btn btn-outline' href='#' data-toggle='modal' data-target='#fileUploadModal'>Upload image</a>
-        </div>
       </div>
     </div>
   </div>
@@ -24,25 +21,22 @@
 <br/>
 
 <div class="container" style="max-height: 600px; overflow: auto;" >
-  <div class='row'>
+  <div class='row' style="background: #efefef; text-align: center;">
     <div class='one-br-space'></div>
     <div class='one-br-space'></div>
-    <div class="row" style="background: #efefef; position:relative; width:100%">
-      <div class='col-sm-8'>
-          <!-- <span class="oi" data-glyph="copywriting"></span> -->
-        <div class='mx-auto'>
-          <a class="ui right corner label" id="copyToClipboard" data-clipboard-text="<%= @image.original_image.image_url %>" data-content="Copied">
-          </a>
+    <div class='col-sm-12'>
+        <!-- <span class="oi" data-glyph="copywriting"></span> -->
+      <div class='mx-auto'>
+        <a href="<%= @image.original_image.image_url %>" target="_blank">
           <img src="<%= @image.original_image.image_url %>" class="img-responsive"> <!-- class='mx-auto' style="height: 350px; width: initial !important;" -->
-          <div class="photograph-image-details" style="display: block;"><%= "#{w} x #{h} (#{w / w.gcd(h)} : #{h / w.gcd(h)})"%></div>
-        </div>
+        </a>
+        <div class="photograph-image-details" style="display: block;"><%= "#{w} x #{h} (#{w / w.gcd(h)} : #{h / w.gcd(h)})"%></div>
       </div>
     </div>
   </div>
   <br/><br/>
   <div class="row">
-
-      <a id="openFileUpload" class='btn btn-primary' href='#' data-toggle='modal' data-target='#imageCropperModal'>Crop original image to create variation</a>
+    <a id="openFileUpload" class='btn btn-primary' href='#' data-toggle='modal' data-target='#imageCropperModal'>Crop original image to create variation</a>
     <div class="col-sm-12">
       <div style="position: relative;">
         <% if @image.image_variation.present? %>
@@ -80,52 +74,17 @@
           var image;
 
           image = '<div class="photo-container" style="height:' + data.displayHeight + 'px;margin-right:' + data.marginRight + 'px;">';
-          image +=    '<a class="ui right corner label protograph-popup-trigger" data-clipboard-text="'+data.image_url+'" data-content="Copied" >';
-          image +=      '<i class="copy icon"></i>'
-          image +=    '</a>';
+          image +=    '<a class="protograph-popup-trigger" href="'+data.image_url+'" data-clipboard-text="'+data.image_url+'" target="_blank">';
           image +=    '<img class="image-thumb" src="' + data.src + '" style="width:' + data.displayWidth + 'px;height:' + data.displayHeight + 'px;" >';
+          image +=    '</a>';
           image += '   <div class="photograph-image-details" style="display: block;">' + data.image_width + ' x ' + data.image_height + ' (' + data.aspectWidth + ':' + data.aspectHeight + ') ' + '</div>';
           image += '</div>';
 
           return image;
         },
-        margin: 20,
-        afterRenderCallback: function() {
-          new Clipboard('.protograph-popup-trigger', {
-            target: function(trigger) {
-              return trigger;
-            }
-          });
-
-          $('.protograph-popup-trigger').popup({
-            on: 'click',
-            position: 'top center',
-            onVisible: function (e) {
-              setTimeout(function() {
-                $(e).popup('hide');
-              }, 250);
-            }
-          });
-        }
+        margin: 20
       });
     <% end %>
-
-
-    new Clipboard('#copyToClipboard', {
-      target: function(trigger) {
-        return trigger;
-      }
-    });
-
-    $('#copyToClipboard').popup({
-      on: 'click',
-      position: 'top center',
-      onVisible: function (e) {
-        setTimeout(function() {
-          $(e).popup('hide');
-        }, 250);
-      }
-    });
   })
 </script>
 <div class="modal" id="imageCropperModal"> <i class="close icon"></i>
