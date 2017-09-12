@@ -15,18 +15,18 @@
     <% end %>
 <% else %>
     <% if @on_an_account_page %>
-        <nav class="navbar navbar-expand-lg navbar bg-light">
-          <div class="bootstrap-container container" style="padding-left: 0px;">
-            <a class="navbar-brand" href=<%= account_path(@account) %>>
-              <%=  image_tag("_logo.png", style: "width: 30px;", class: "d-inline-block align-top") %>
-            </a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-              <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-              <ul class="navbar-nav mr-auto">
-                <%= render partial: "layouts/dropdown_teams" %>
-              </ul>
+      <nav class="navbar navbar-expand-lg navbar bg-light">
+        <div class="bootstrap-container container" style="padding-left: 0px;">
+          <a class="navbar-brand" href=<%= account_path(@account) %>>
+            <%=  image_tag("_logo.png", style: "width: 30px;", class: "d-inline-block align-top") %>
+          </a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+              <%= render partial: "layouts/dropdown_teams" %>
+            </ul>
               <div class="form-inline my-2 my-lg-0">
                 <ul class="navbar-nav mr-auto">
                   <li class="nav-item dropdown">
@@ -34,6 +34,9 @@
                       <%= image_tag avatar_url(@account.gravatar_email), class: "rounded", style: "width: 20px;" %>
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                      <% if controller_name == "folders" and current_user.is_admin_from_pykih %>
+                        <%= link_to "Add multiple cards", account_folder_uploads_path(@account, @folder), "data-turbolinks"=> false, class: "dropdown-item" %>
+                      <% end %>
                       <%= link_to "Image Bank", account_images_path(@account), "data-turbolinks"=> false, class: "dropdown-item"  %>
                       <%= link_to "Team Settings", edit_account_path(@account), class: "dropdown-item" %>
                     </div>
@@ -51,35 +54,36 @@
               </div>
             </div>
           </div>
-        </nav>
+        </div>
+      </nav>
     <% else %>
-        <nav class="navbar navbar-expand-lg navbar bg-light">
-          <div class="container" style="padding-left: 0px;">
-            <a class="navbar-brand" href=<%= root_url %>>
-              <%=  image_tag("_logo.png", style: "width: 30px;", class: "d-inline-block align-top") %>
-            </a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-              <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <nav class="navbar navbar-expand-lg navbar bg-light">
+        <div class="container" style="padding-left: 0px;">
+          <a class="navbar-brand" href=<%= root_url %>>
+            <%=  image_tag("_logo.png", style: "width: 30px;", class: "d-inline-block align-top") %>
+          </a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <%= render partial: "layouts/dropdown_teams" %>
+            </ul>
+            <div class="form-inline my-2 my-lg-0">
               <ul class="navbar-nav mr-auto">
-                  <%= render partial: "layouts/dropdown_teams" %>
+                <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <%= image_tag avatar_url(current_user.email), class: "rounded", style: "width: 20px;" %>
+                  </a>
+                  <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                    <%= link_to 'Profile', edit_user_registration_path(@account), class: "dropdown-item" %>
+                    <%= link_to "Sign out", destroy_user_session_path, class: "dropdown-item" %>
+                  </div>
+                </li>
               </ul>
-              <div class="form-inline my-2 my-lg-0">
-                <ul class="navbar-nav mr-auto">
-                  <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                      <%= image_tag avatar_url(current_user.email), class: "rounded", style: "width: 20px;" %>
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                      <%= link_to 'Profile', edit_user_registration_path(@account), class: "dropdown-item" %>
-                      <%= link_to "Sign out", destroy_user_session_path, class: "dropdown-item" %>
-                    </div>
-                  </li>
-                </ul>
-              </div>
             </div>
           </div>
-        </nav>
+        </div>
+      </nav>
     <% end %>
 <% end %>
