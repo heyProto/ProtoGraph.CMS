@@ -1,0 +1,1 @@
+//= require ./vendors/select2.min.js

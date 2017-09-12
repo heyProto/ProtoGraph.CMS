@@ -1,4 +1,5 @@
 <%= stylesheet_link_tag "justified.css" %>
+<%= stylesheet_link_tag "select2.css" %>
 
 <div class="row-fluid" style="background: #fafbfc; ">
   <div class="container" style="padding-left: 0px; padding-right: 0px;">
@@ -7,16 +8,17 @@
       <div class="col-10">
         <h1 style="margin-bottom: 20px; font-weight: 400; margin-top: 20px;">
           <%= link_to @account.username, @account, style: "font-weight: 200;" %> / Image Bank
-          </h1>
-        </div>
-        <div class="col-2">
-          <a id="openFileUpload" class='btn btn-outline' href='#' data-toggle='modal' data-target='#fileUploadModal'>Upload image</a>
-        </div>
+        </h1>
+      </div>
+      <div class="col-2">
+        <a id="openFileUpload" class='btn btn-outline' href='#' data-toggle='modal' data-target='#fileUploadModal'>Upload image</a>
       </div>
     </div>
   </div>
+</div>
 <br/>
 <br/>
+
 <div class="row">
   <div class="container">
       <% if @images.first.present? %>
@@ -44,7 +46,7 @@
             <%= f.input :image, as: :file, required: true, hint: 'Size should less than or equal to 500kB. Supported file types are GIF, JPEG, JPG and PNG' %>
             <%= f.input :account_id, as: :hidden, input_html: {value: @account.id} %>
             <%= f.input :name, required: true %>
-            <%= f.input :tag_list, collection: [], label: 'Tags', hint: "Enter a comma separated list of tags.", input_html: { id: 'tags_autocomplete', class: 'ui fluid search dropdown', multiple: true, "data-content"=>"This field is required." }, wrapper_html: { class: 'required'} %>
+            <%#= f.input :tag_list, collection: [], label: 'Tags', hint: "Enter a comma separated list of tags.", input_html: { id: 'tags_autocomplete', class: 'ui fluid search dropdown', multiple: true, "data-content"=>"This field is required." }, wrapper_html: { class: 'required'} %>
             <%= f.input :description %>
           <% end %>
         </div>
@@ -55,9 +57,10 @@
     </div>
   </div>
 
-  <%= paginate @images %>
+<%= paginate @images %>
 </div>
 <%= javascript_include_tag "justified.js" %>
+<%= javascript_include_tag "select2.js" %>
 <script type="text/javascript">
   var images = <%= @images.as_json.to_json.html_safe %>;
 
@@ -103,20 +106,52 @@
       });
     }
 
-    $('#new_image .ui.dropdown')
-      .dropdown({
-        fullTextSearch: true,
-        forceSelection: false,
-        saveRemoteData: false,
-        allowAdditions: true,
-        apiSettings: {
-          url: '/api/v1/tags?q={query}'
-        },
-        fields: {
-          value: 'name',
-          name: 'name',
-          id: 'id'
-        }
-      });
+  //   $('#tags_autocomplete').select2({
+  //     ajax: {
+  //     url: "/api/v1/tags",
+  //     dataType: 'json',
+  //     delay: 250,
+  //     data: function (params) {
+  //       return {
+  //         q: params.term
+  //       }
+  //     },
+  //     processResults: function (data, params) {
+  //       // parse the results into the format expected by Select2
+  //       // since we are using custom formatting functions we do not need to
+  //       // alter the remote JSON data, except to indicate that infinite
+  //       // scrolling can be used
+
+  //       return {
+  //         results: data.results
+  //       };
+  //     },
+  //     cache: true
+  //   },
+  //   createTag: function (params) {
+  //     return {
+  //       id: params.term,
+  //       text: params.term,
+  //       newOption: true
+  //     }
+  //   },
+  //   tags: true
+  // });
+
+    // $('#new_image .ui.dropdown')
+    //   .dropdown({
+    //     fullTextSearch: true,
+    //     forceSelection: false,
+    //     saveRemoteData: false,
+    //     allowAdditions: true,
+    //     apiSettings: {
+    //       url: '/api/v1/tags?q={query}'
+    //     },
+    //     fields: {
+    //       value: 'name',
+    //       name: 'name',
+    //       id: 'id'
+    //     }
+    //   });
   });
 </script>

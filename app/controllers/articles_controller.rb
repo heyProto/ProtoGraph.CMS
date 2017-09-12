@@ -86,7 +86,7 @@ class ArticlesController < ApplicationController
         else
             @article.update_attribute(:cover_image_id, nil)
         end
-        redirect_to [@account, @folder, @article]
+        redirect_to edit_account_folder_article_path(@account, @folder, @article)
     end
 
     [:remove_twitter_image, :remove_facebook_image, :remove_instagram_image].each do |meth|
