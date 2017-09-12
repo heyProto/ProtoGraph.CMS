@@ -15,7 +15,7 @@ class CsvVerificationWorker
     total_rows = 0
     CSV.foreach(@upload.attachment.file.file, headers: true) do |row|
       total_rows += 1
-      stdout, stderr, status = Open3.capture3("echo #{row.to_h.to_json.to_json} | jq -f ref/jq_filter/jq_filter_#{@upload.template_card.name}.jq")
+      stdout, stderr, status = Open3.capture3("echo #{row.to_h.to_json.gsub('\n', '\\n').to_json} | jq -f ref/jq_filter/jq_filter_#{@upload.template_card.name}.jq")
       if stdout.present?
         card_array_filtered << stdout
       elsif stderr.present?
@@ -92,22 +92,32 @@ class CsvVerificationWorker
     # # converts card_data keys to symbols because of data retrieval in different cards
     # card_data = card_data.symbolize_keys
     params = {toReportViolence: {
-                name: "data/the_people_involved/title",
-                seo_blockquote_text: ""},
+                name: "data/copy_paste_from_article/headline",
+                seo_blockquote_text: "data/when_and_where_it_occur/approximate_date_of_incident,
+                  data/when_and_where_it_occur/area,
+                  data/when_and_where_it_occur/district,
+                  data/when_and_where_it_occur/state,
+                  data/the_incident/describe_the_event,
+                  data/the_people_involved/title,
+                  data/the_incident/classification,
+                  data/the_people_involved/victim_names,
+                  data/the_people_involved/victim_social_classification,
+                  data/the_people_involved/accused_names,
+                  data/the_people_involved/accused_social_classification"},
               toExplain: {
                 name: "data/explainer_header",
                 seo_blockquote_text: "data/explainer_text"},
               toReportJournalistKilling: {
                 name: "data/details_about_journalist/name",
                 seo_blockquote_text: "data/when_and_where_it_occur/date,
-data/when_and_where_it_occur/location,
-data/when_and_where_it_occur/state,
-data/details_about_journalist/organisation,
-data/details_about_journalist/organisation_type,
-data/when_and_where_it_occur/accused_names,
-data/details_about_journalist/journalist_body_of_work,
-data/when_and_where_it_occur/description_of_attack,
-data/details_about_journalist/beat"},
+                  data/when_and_where_it_occur/location,
+                  data/when_and_where_it_occur/state,
+                  data/details_about_journalist/organisation,
+                  data/details_about_journalist/organisation_type,
+                  data/when_and_where_it_occur/accused_names,
+                  data/details_about_journalist/journalist_body_of_work,
+                  data/when_and_where_it_occur/description_of_attack,
+                  data/details_about_journalist/beat"},
              }
     name_path = params[@upload.template_card.name.to_sym][:name]
     seo_blockquote_text_path = params[@upload.template_card.name.to_sym][:seo_blockquote_text]
@@ -116,10 +126,13 @@ data/details_about_journalist/beat"},
     name_path.split("/").each do |dir|
       name = name[dir]
     end
-    seo_blockquote_text = card_data
-    seo_blockquote_text_path.split("/").each do |dir|
-      seo_blockquote_text = seo_blockquote_text[dir]
-
+    seo_text = ""
+    seo_blockquote_text_path.split(",").each do |field|
+      seo_blockquote_text = card_data
+      field.strip.split("/").each do |dir|
+        seo_blockquote_text = seo_blockquote_text[dir]
+      end
+      seo_text = seo_blockquote_text + "</p>\n<p>" + seo_text
     end
 
     return name, seo_text

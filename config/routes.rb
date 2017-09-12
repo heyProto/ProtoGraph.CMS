@@ -60,6 +60,7 @@ Rails.application.routes.draw do
         post :publish, on: :member
         resources :stream_entities, only: [:create, :destroy]
       end
+      resources :uploads, only: [:index, :create]
       resources :articles do
         put "remove_cover_image", on: :member
         put "remove_facebook_image", on: :member

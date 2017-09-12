@@ -25,6 +25,7 @@ class Folder < ApplicationRecord
     #ASSOCIATIONS
     belongs_to :account
     has_many :streams
+    has_many :uploads
     has_many :articles
     has_many :activities
     has_many :uploads

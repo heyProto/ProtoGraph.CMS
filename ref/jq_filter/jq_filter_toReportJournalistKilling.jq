@@ -8,10 +8,7 @@
              "organisation": ."organisation" | tostring,
              "organisation_type": ."organisation_type" | tostring,
              "beat": ."beat" | tostring,
-             "journalist_body_of_work": ."journalist_body_of_work" | tostring,
-             "major_story_link_1": ."major_story_link_1" | tostring,
-             "major_story_link_2": ."major_story_link_2" | tostring,
-             "major_story_link_3": ."major_story_link_3" | tostring,
+             "journalist_body_of_work": ."journalist_body_of_work" | tostring
          },
           "when_and_where_it_occur": {
               "date": ."date" | tostring,
