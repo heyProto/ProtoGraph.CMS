@@ -59,8 +59,8 @@
               <% end %>
             </div>
             <% end %>
-            <%= paginate @view_casts, theme: 'twitter-bootstrap-4', pagination_class: "pagination-sm" %>
-                    
+            <%= paginate @view_casts, theme: 'twitter-bootstrap-4', pagination_class: "pagination-sm" if @show_pagination %>
+
         </div>
         <div class="col-3">
             <% unless @view_casts.count == 0 %>
@@ -69,7 +69,7 @@
             <br/>
             <br/>
             <div class="hint">
-                
+
                     <table class="table table-sm hint">
                         <% if @stream.last_published_at and @view_casts.count > 0 %>
                             <tr>
@@ -93,7 +93,7 @@
                                 </td>
                                 <td>&nbsp;:&nbsp;
                                 </td>
-                                <td><%= @view_casts.count %>
+                                <td><%= @stream.cards.count %>
                                 </td>
                             </tr>
                         <% end %>
@@ -135,4 +135,4 @@
             </div>
         </div>
      </div>
-</div>     
+</div>
