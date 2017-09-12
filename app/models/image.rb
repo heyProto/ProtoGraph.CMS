@@ -41,7 +41,7 @@ class Image < ApplicationRecord
 
   validate :check_dimensions, :on => :create, if: :is_logo?
   def check_dimensions
-    if !image_cache.nil? and image.width != 100 and image.height != 100
+    if !image_cache.nil? and image.width != 400 and image.height != 400
       errors.add :image, "Logo has to be of size 100x100."
     end
   end
