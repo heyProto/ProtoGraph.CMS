@@ -1,15 +1,32 @@
 <%= stylesheet_link_tag "justified.css" %>
+
+<div class="row-fluid" style="background: #fafbfc; ">
+  <div class="container" style="padding-left: 0px; padding-right: 0px;">
+    <br/>
+    <div class="row"  style="padding-left: 0px; padding-right: 0px;">
+      <div class="col-10">
+        <h1 style="margin-bottom: 20px; font-weight: 400; margin-top: 20px;">
+          <%= link_to @account.username, @account, style: "font-weight: 200;" %> / Image Bank
+          </h1>
+        </div>
+        <div class="col-2">
+          <a id="openFileUpload" class='btn btn-outline' href='#' data-toggle='modal' data-target='#fileUploadModal'>Upload image</a>
+        </div>
+      </div>
+    </div>
+  </div>
+<br/>
+<br/>
 <div class="row">
   <div class="container">
-    <div class="float-left">
-      <h4>Image Bank</h4>
-    </div>
-    <div class="float-right">
-      <a id="openFileUpload" class='btn btn-outline' href='#' data-toggle='modal' data-target='#fileUploadModal'>Upload image</a>
-    </div>
-    <div class="clearfix"></div>
-    <div class="two-br-space"></div>
-    <div id="imageContainer" class="col-sm-12"></div>
+      <% if @images.first.present? %>
+        <div id="imageContainer" class="col-sm-12"></div>
+    <% else %>
+        <div class="blankslate blankslate-spacious">
+            <h3>No images uploaded yet.</h3>
+            <p>Use the [+ Upload image] button on the top right.</p>
+        </div>
+    <% end %>
   </div>
 
   <div class="modal" id="fileUploadModal">
