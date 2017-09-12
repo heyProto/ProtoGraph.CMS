@@ -1,35 +1,60 @@
 <%= stylesheet_link_tag "justified.css" %>
+
+<div class="row-fluid" style="background: #fafbfc; ">
+  <div class="container" style="padding-left: 0px; padding-right: 0px;">
+    <br/>
+    <div class="row"  style="padding-left: 0px; padding-right: 0px;">
+      <div class="col-10">
+        <h1 style="margin-bottom: 20px; font-weight: 400; margin-top: 20px;">
+          <%= link_to @account.username, @account, style: "font-weight: 200;" %> / Image Bank
+          </h1>
+        </div>
+        <div class="col-2">
+          <a id="openFileUpload" class='btn btn-outline' href='#' data-toggle='modal' data-target='#fileUploadModal'>Upload image</a>
+        </div>
+      </div>
+    </div>
+  </div>
+<br/>
+<br/>
 <div class="row">
   <div class="container">
-    <div class="float-left">
-      <h4>Image Bank</h4>
-    </div>
-    <div class="float-right">
-      <a id="openFileUpload" class='btn btn-outline' href='#' data-toggle='modal' data-target='#fileUploadModal'>Upload image</a>
+      <% if @images.first.present? %>
+        <div id="imageContainer" class="col-sm-12"></div>
+    <% else %>
+        <div class="blankslate blankslate-spacious">
+            <h3>No images uploaded yet.</h3>
+            <p>Use the [+ Upload image] button on the top right.</p>
+        </div>
+    <% end %>
+  </div>
+
+  <div class="modal" id="fileUploadModal">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Add a new image</h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <%= simple_form_for([@account, @image]) do |f| %>
+            <%= f.error_notification %>
+            <%= f.input :image, as: :file, required: true, hint: 'Size should less than or equal to 500kB. Supported file types are GIF, JPEG, JPG and PNG' %>
+            <%= f.input :account_id, as: :hidden, input_html: {value: @account.id} %>
+            <%= f.input :name, required: true %>
+            <%= f.input :tag_list, collection: [], label: 'Tags', hint: "Enter a comma separated list of tags.", input_html: { id: 'tags_autocomplete', class: 'ui fluid search dropdown', multiple: true, "data-content"=>"This field is required." }, wrapper_html: { class: 'required'} %>
+            <%= f.input :description %>
+          <% end %>
+        </div>
+        <div class='modal-footer'>
+          <input type="submit" value="Upload" form="new_image" class="btn btn-outline">
+        </div>
+      </div>
     </div>
   </div>
-  <div id="imageContainer"></div>
-  <div class="modal fade bd-example-modal-lg" id="fileUploadModal" role='dialog'>
-    <div class="modal-content">
-      <div class="modal-header">
-        <h4>Add a new image</h4>
-      </div>
-      <div class="modal-body">
-        <%= simple_form_for([@account, @image]) do |f| %>
-          <%= f.error_notification %>
-          <%= f.input :image, as: :file, required: true, hint: 'Size should less than or equal to 500kB. Supported file types are GIF, JPEG, JPG and PNG' %>
-          <%= f.input :account_id, as: :hidden, input_html: {value: @account.id} %>
-          <%= f.input :name, required: true %>
-          <%= f.input :tag_list, collection: [], label: 'Tags', hint: "Enter a comma separated list of tags.", input_html: { id: 'tags_autocomplete', class: 'ui fluid search dropdown', multiple: true, "data-content"=>"This field is required." }, wrapper_html: { class: 'required'} %>
-          <%= f.input :description %>
-        <% end %>
-      </div>
-      <div class='modal-footer'>
-        <input type="submit" value="Upload" form="new_image" class="btn btn-outline">
-      </div>
-    </div>
-    <div class='float-none'></div>
-  </div>
+
   <%= paginate @images %>
 </div>
 <%= javascript_include_tag "justified.js" %>

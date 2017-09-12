@@ -13,7 +13,7 @@
   background: rgba(0,0,0,0.65);
   color: white;
   font-size: 8px;
-  width: 100%;
+  /*width: 100%;*/
 }
 .n-mb {
   margin-bottom: 0px !important;
@@ -29,6 +29,7 @@
 }
 .protograph-image-form-heading {
   color: #dadada !important;
+  width: 100%;
 }
 .protograph-crop-tooltip {
   position: absolute;

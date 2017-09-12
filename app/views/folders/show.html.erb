@@ -4,7 +4,7 @@
     <div class="row"  style="padding-left: 0px; padding-right: 0px;">
       <div class="col-10">
         <h1 style="margin-bottom: 20px; font-weight: 400; margin-top: 20px;">
-          <%= @folder.name %>
+          <%= link_to @account.username, @account, style: "font-weight: 200;" %> / <%= @folder.name %>
           </h1>
         </div>
         <div class="col-2">

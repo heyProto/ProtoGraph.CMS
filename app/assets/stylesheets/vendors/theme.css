@@ -22,7 +22,7 @@ h6{text-transform: uppercase; font-weight: 800;}
     vertical-align: top
 }
 
-ul.nav > li.nav-item > a.nav-link.active{ border-bottom: 4px solid #0366d6; padding-left: 0px; padding-right: 0px; margin: 0px 50px;}
+ul.nav.jignesh > li.nav-item > a.nav-link.active{ border-bottom: 4px solid #0366d6; padding-left: 0px; padding-right: 0px; margin: 0px 50px;}
 
 .dropdown-menu{padding: 0px !important;}
 
@@ -59,4 +59,16 @@ ul.nav > li.nav-item > a.nav-link.active{ border-bottom: 4px solid #0366d6; padd
     letter-spacing: 0.5px;
     word-wrap: nowrap;
     margin-bottom: 15px;
+}
+.one-br-space,.two-br-space,.five-br-space,.ten-br-space,{
+  display: inline-block !important;
+  width: 100% !important;
+  background: transparent !important;
+}
+.one-br-space{height: 10px !important;}
+.two-br-space{height: 20px !important;}
+.five-br-space{height: 50px !important;}
+.ten-br-space{height: 100px !important;}
+.red{
+    color: red;
 }
