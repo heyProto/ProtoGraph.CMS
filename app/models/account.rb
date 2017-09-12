@@ -39,11 +39,12 @@ class Account < ApplicationRecord
     has_many :authentications
     has_many :view_casts
     has_many :folders
+    has_many :uploads
     has_many :activities
     belongs_to :logo_image, class_name: "Image", foreign_key: "logo_image_id", primary_key: "id", optional: true
     accepts_nested_attributes_for :logo_image
     has_many :images
-
+    has_many :uploads
     #ACCESSORS
     #VALIDATIONS
     validates :username, presence: true, uniqueness: { case_sensitive: false }, length: { in: 3..24 }, format: { with: /\A[a-z0-9A-Z_]{4,16}\z/ }

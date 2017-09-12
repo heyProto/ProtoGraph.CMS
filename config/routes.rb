@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  require 'sidekiq/web'
+  mount Sidekiq::Web => '/sidekiq'
 
   get 'static_pages/index'
 
@@ -12,7 +14,7 @@ Rails.application.routes.draw do
   get '/auth/failure', to: 'authentications#failure'
 
   get "/card/:id", to: "template_cards#demo", as: :demo_template_card
-  
+
   get "/planned-homepage", to: "static_pages#index2"
 
 
@@ -58,15 +60,15 @@ Rails.application.routes.draw do
         post :publish, on: :member
         resources :stream_entities, only: [:create, :destroy]
       end
-
+      resources :uploads, only: [:index, :create]
       resources :articles do
         put "remove_cover_image", on: :member
         put "remove_facebook_image", on: :member
         put "remove_twitter_image", on: :member
         put "remove_instagram_image", on: :member
       end
+      resources :uploads, only: [:new, :create]
     end
-
     resources :images, only: [:index, :create, :show]
     resources :image_variations, only: [:create, :show] do
       post :download, on: :member
@@ -85,5 +87,4 @@ Rails.application.routes.draw do
   get "features", to: 'static_pages#features', as: :features
   get '/auth/:provider/callback', to: 'authentications#create'
   root 'static_pages#index'
-
 end

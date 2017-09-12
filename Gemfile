@@ -23,6 +23,8 @@ gem 'bootstrap4-kaminari-views'
 gem "version"
 gem 'exception_notification'
 gem 'foreman'
+gem 'json-schema'
+gem 'sidekiq'
 
 #AUTHENTICATION
 gem 'devise'
