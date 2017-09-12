@@ -4,6 +4,7 @@ class ImagesController < ApplicationController
   def index
     @images = @account.images.order(:created_at).page params[:page]
     @image = Image.new
+    render layout: "application-fluid"
   end
 
   def create
@@ -25,6 +26,7 @@ class ImagesController < ApplicationController
   def show
     @image = Image.where(id: params[:id]).includes(:image_variation).first
     @image_variation = ImageVariation.new
+    render layout: "application-fluid"
   end
 
   private

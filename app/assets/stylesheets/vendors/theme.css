@@ -22,7 +22,7 @@ h6{text-transform: uppercase; font-weight: 800;}
     vertical-align: top
 }
 
-ul.nav > li.nav-item > a.nav-link.active{ border-bottom: 4px solid #0366d6; padding-left: 0px; padding-right: 0px; margin: 0px 50px;}
+ul.nav.jignesh > li.nav-item > a.nav-link.active{ border-bottom: 4px solid #0366d6; padding-left: 0px; padding-right: 0px; margin: 0px 50px;}
 
 .dropdown-menu{padding: 0px !important;}
 
@@ -69,3 +69,6 @@ ul.nav > li.nav-item > a.nav-link.active{ border-bottom: 4px solid #0366d6; padd
 .two-br-space{height: 20px !important;}
 .five-br-space{height: 50px !important;}
 .ten-br-space{height: 100px !important;}
+.red{
+    color: red;
+}
