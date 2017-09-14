@@ -1,5 +1,5 @@
-    <ul class="nav nav-tabs">
-      <li class="nav-item"><%= link_to "Cards <span class='badge badge-pill badge-secondary'>#{@view_casts_count}</span>".html_safe, account_folder_path(@account, @folder), class: (controller_name == 'folders' or controller_name == "view_casts") ? 'nav-link active' : 'nav-link' %></li>
-      <li class="nav-item"><%= link_to "Streams <span class='badge badge-pill badge-secondary'>#{@streams_count}</span>".html_safe, account_folder_streams_path(@account, @folder), class: controller_name == 'streams' ? 'nav-link active' : 'nav-link' %></li>
-      <li class="nav-item"><%= link_to "Prepare articles <span class='badge badge-pill badge-secondary'>#{@articles_count}</span>".html_safe, account_folder_articles_path(@account, @folder), class: controller_name == 'articles' ? 'nav-link active' : 'nav-link' %></li>
+    <ul class="nav nav-tabs justify-content-center">
+            <li class="nav-item"><%= link_to "Cards <span class='badge badge-pill badge-secondary'>#{@view_casts_count}</span>".html_safe, account_folder_path(@account, @folder), class: (controller_name == 'folders' or controller_name == "view_casts") ? 'nav-link active' : 'nav-link' %></li>
+            <li class="nav-item"><%= link_to "Streams <span class='badge badge-pill badge-secondary'>#{@streams_count}</span>".html_safe, account_folder_streams_path(@account, @folder), class: controller_name == 'streams' ? 'nav-link active' : 'nav-link' %></li>
+            <li class="nav-item"><%= link_to "Prepare articles <span class='badge badge-pill badge-secondary'>#{@articles_count}</span>".html_safe, account_folder_articles_path(@account, @folder), class: controller_name == 'articles' ? 'nav-link active' : 'nav-link' %></li>
     </ul>
