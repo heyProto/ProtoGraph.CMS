@@ -28,6 +28,7 @@ class StreamsController < ApplicationController
         @view_casts_count = @folder.view_casts.count
         @streams_count = @folder.streams.count
         @articles_count = @folder.articles.count
+        @view_casts_id_list = []
         @is_viewcasts_present = @view_casts_count != 0
         render layout: "application-fluid"
     end
@@ -52,6 +53,7 @@ class StreamsController < ApplicationController
     def edit
         @stream.folder_list = @stream.folder_ids.pluck(:entity_value)
         @stream.card_list = @stream.template_card_ids.pluck(:entity_value)
+        @stream.view_cast_id_list = @stream.view_cast_ids.pluck(:entity_value)
         @view_casts_count = @folder.view_casts.count
         @streams_count = @folder.streams.count
         @articles_count = @folder.articles.count
@@ -82,7 +84,7 @@ class StreamsController < ApplicationController
     private
 
     def stream_params
-        params.require(:stream).permit(:account_id, :folder_id, :title, :description, :created_by, :updated_by, :limit, :offset,card_list: [], folder_list: [], tag_list: [])
+        params.require(:stream).permit(:account_id, :folder_id, :title, :description, :created_by, :updated_by, :limit, :offset,card_list: [], folder_list: [], tag_list: [], view_casts_id_list: [])
     end
 
     def set_stream

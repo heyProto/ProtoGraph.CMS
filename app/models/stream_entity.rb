@@ -29,6 +29,7 @@ class StreamEntity < ApplicationRecord
     #SCOPE
     scope :folders, -> {where(entity_type: "folder_id")}
     scope :template_cards, -> {where(entity_type: "template_card_id")}
+    scope :view_cast_cards, -> {where(entity_type: "view_cast_id")}
     #OTHER
 
     #PRIVATE

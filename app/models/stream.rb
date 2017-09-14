@@ -41,11 +41,13 @@ class Stream < ApplicationRecord
     belongs_to :folder
     has_many :folder_ids, ->{folders}, class_name: "StreamEntity", foreign_key: "stream_id"
     has_many :template_card_ids, ->{template_cards}, class_name: "StreamEntity", foreign_key: "stream_id"
+    has_many :view_cast_ids, ->{view_cast_cards}, class_name: "StreamEntity", foreign_key: "stream_id"
 
     #ACCESSORS
     attr_accessor :folder_list
     attr_accessor :card_list #Template Card list
     attr_accessor :tag_list
+    attr_accessor :view_cast_id_list
     #VALIDATIONS
     #CALLBACKS
     before_create :before_create_set
@@ -184,6 +186,17 @@ class Stream < ApplicationRecord
             end
             self.folder_ids.where(entity_type: "folder_id").where(entity_value: [prev_folder_ids - self.folder_list]).delete_all
         end
+
+        #Creating folder entities from view_cast_id
+        if self.view_cast_id_list.present?
+            self.view_cast_id_list = self.view_cast_id_list.reject(&:empty?)
+            prev_view_cast_ids = self.view_cast_ids.pluck(:entity_value)
+            self.view_cast_id_list.each do |f|
+                self.view_cast_ids.create({entity_type: "view_cast_id",entity_value: f})
+            end
+            self.view_cast_ids.where(entity_type: "view_cast_id").where(entity_value: [prev_view_cast_ids - self.view_cast_id_list]).delete_all
+        end
+
         #Creating Tag entities from tag_list
         # if self.tag_list.present?
         #     self.tag_list = self.tag_list.reject(&:empty?)

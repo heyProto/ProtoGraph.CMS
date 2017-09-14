@@ -1,1 +1,1 @@
-//= require ./vendors/select2.min.js
+//= require ./vendors/bootstrap-tagsinput.min.js
