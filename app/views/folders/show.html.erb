@@ -11,8 +11,8 @@
           <%= link_to '+ Add a card'.html_safe, new_account_folder_view_cast_path(@account, @folder), data: {turbolinks: false}, class: "btn btn-outline", role: "button" %>
         </div>
       </div>
-      <%= render partial: "folders/header" %>
     </div>
+    <%= render partial: "folders/header" %>
   </div>
   <div class="container">
     <% if @view_casts.first.blank? %>
