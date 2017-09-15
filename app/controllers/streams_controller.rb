@@ -63,6 +63,7 @@ class StreamsController < ApplicationController
 
     def update
         s_params = stream_params
+        s
         s_params[:updated_by] = current_user.id
         if @stream.update(s_params)
             track_activity(@stream)
@@ -84,7 +85,7 @@ class StreamsController < ApplicationController
     private
 
     def stream_params
-        params.require(:stream).permit(:account_id, :folder_id, :title, :description, :created_by, :updated_by, :limit, :offset,card_list: [], folder_list: [], tag_list: [], view_casts_id_list: [])
+        params.require(:stream).permit(:account_id, :folder_id, :title, :description, :created_by, :updated_by, :limit, :offset,card_list: [], folder_list: [], tag_list: [], view_cast_id_list: [])
     end
 
     def set_stream
