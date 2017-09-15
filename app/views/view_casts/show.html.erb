@@ -3,16 +3,17 @@
     <br/>
     <div class="row"  style="padding-left: 0px; padding-right: 0px;">
       <div class="col-10">
-        <h1 style="margin-bottom: 20px; font-weight: 400; margin-top: 20px;">
-          <%= @folder.name %>
+        <h1 style="margin-bottom: 20px; font-weight: 600; margin-top: 0px; font-size: 20px;">
+          <%= link_to @account.username, @account, style: "font-weight: 400;" %> / <%= @folder.name %>
           </h1>
         </div>
         <div class="col-2">
           <%= link_to '+ Add a card'.html_safe, new_account_folder_view_cast_path(@account, @folder), data: {turbolinks: false}, class: "btn btn-outline", role: "button" %>
         </div>
       </div>
-      <%= render partial: "folders/header" %>
+      
     </div>
+    <%= render partial: "folders/header" %>
   </div>
 
 
@@ -32,10 +33,10 @@
             <% end %>
             <div style="margin-left: 40%;">
                 <div class="btn-group">
-                  <button class="btn btn-sm" type="button" id='laptop'>Desktop</button>
-                  <button class="btn btn-sm" type="button" id='mobile'>Mobile</button>
+                  <button class="btn btn-sm platform_buttons" type="button" id='laptop'>Desktop</button>
+                  <button class="btn btn-sm platform_buttons" type="button" id='mobile'>Mobile</button>
                   <% if @view_cast.template_card.git_repo_name == 'ProtoGraph.Card.toLink' %>
-                      <button class="btn btn-sm" type="button" id='list'>List</button>
+                      <button class="btn btn-sm platform_buttons" type="button" id='list'>List</button>
                   <% end %>
                 </div>
             </div>
@@ -67,7 +68,7 @@
         </div>
         <div class="col-3">
             <div class="hint">
-                
+
                   <table class="table table-sm hint">
                       <tr>
                           <td>Card Type</td>

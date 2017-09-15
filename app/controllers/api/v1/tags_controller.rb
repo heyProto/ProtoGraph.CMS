@@ -6,7 +6,7 @@ class Api::V1::TagsController < ApiController
   def index
     render json: {
       success: true,
-      results: Tag.select(:id,:name).search(name: params[:q]).limit(10)
+      results: Tag.select('id, name as text').search(name: params[:q]).limit(10)
     }, status: 200
   end
 

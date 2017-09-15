@@ -3,8 +3,8 @@
         <br/>
         <div class="row"  style="padding-left: 0px; padding-right: 0px;">
             <div class="col-10">
-                <h1 style="margin-bottom: 20px; font-weight: 400; margin-top: 20px;">
-                    <%= @folder.name %>
+                <h1 style="margin-bottom: 20px; font-weight: 600; margin-top: 0px; font-size: 20px;">
+                    <%= link_to @account.username, @account, style: "font-weight: 400;" %> / <%= @folder.name %>
                     </h1>
                 </div>
                 <div class="col-2">
@@ -13,8 +13,9 @@
                     <% end %>
                 </div>
             </div>
-            <%= render partial: "folders/header" %>
+            
         </div>
+        <%= render partial: "folders/header" %>
     </div>
     <br/>
     <br/>
@@ -59,8 +60,8 @@
               <% end %>
             </div>
             <% end %>
-            <%= paginate @view_casts, theme: 'twitter-bootstrap-4', pagination_class: "pagination-sm" %>
-                    
+            <%= paginate @view_casts, theme: 'twitter-bootstrap-4', pagination_class: "pagination-sm" if @show_pagination %>
+
         </div>
         <div class="col-3">
             <% unless @view_casts.count == 0 %>
@@ -69,7 +70,7 @@
             <br/>
             <br/>
             <div class="hint">
-                
+
                     <table class="table table-sm hint">
                         <% if @stream.last_published_at and @view_casts.count > 0 %>
                             <tr>
@@ -93,7 +94,7 @@
                                 </td>
                                 <td>&nbsp;:&nbsp;
                                 </td>
-                                <td><%= @view_casts.count %>
+                                <td><%= @stream.cards.count %>
                                 </td>
                             </tr>
                         <% end %>
@@ -135,4 +136,4 @@
             </div>
         </div>
      </div>
-</div>     
+</div>

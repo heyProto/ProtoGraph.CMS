@@ -34,7 +34,7 @@ class User < ApplicationRecord
     has_many :permissions, ->{where(status: "Active")}
     has_many :accounts, through: :permissions
     has_many :activities
-
+    has_many :uploads
     #ACCESSORS
     attr_accessor :username
 
@@ -89,5 +89,4 @@ class User < ApplicationRecord
             updated_by: self.id
         })
     end
-
 end

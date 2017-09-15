@@ -15,15 +15,15 @@
     };
     var mode = $("#image_variation_mode");
 
-    $('#aspectRatioMenu a.item:first').addClass("active");
+    $('#aspectRatioMenu li.item:first').addClass("active");
 
     if(mode){
       try {
-        mode.val($('#aspectRatioMenu a.item:first')[0].id);
+        mode.val($('#aspectRatioMenu li.item:first')[0].id);
       } catch (err) {}
     }
 
-    $('#aspectRatioMenu a.item').on('click', function () {
+    $('#aspectRatioMenu li.item').on('click', function (e) {
       if ($(this).attr("disabled") === "disabled"){
         return false;
       }
@@ -48,11 +48,43 @@
         onSelect: update,
         onChange: update,
         boxHeight: 350,
+        boxWidth: 750,
         aspectRatio: aspectRatio
       });
 
       if(mode && this.id){
         mode.val(this.id);
+      }
+
+      e.preventDefault();
+    });
+
+    $('.protograph-social-crop-btn').on('click', function (e) {
+      $('#navbarNav li').removeClass('active');
+      var data = $(e.currentTarget).data();
+      var tab = $('#navbarNav li'+ data.mode),
+        tabData = tab.data(),
+        aspectRatio;
+
+      if (tabData.height > 0 && tabData.width > 0) {
+        aspectRatio = tabData.width / tabData.height;
+      } else {
+        aspectRatio = 0;
+      }
+
+      tab.addClass('active');
+
+      $('#cropbox').Jcrop({
+        setSelect: [0, 0, 420, 420],
+        onSelect: update,
+        onChange: update,
+        boxHeight: 350,
+        boxWidth: 750,
+        aspectRatio: aspectRatio
+      });
+
+      if(mode && tab.attr('id')){
+        mode.val(tab.attr('id'));
       }
 
     });
@@ -90,7 +122,8 @@
       onSelect: update,
       onChange: update,
       boxHeight: 350,
-      aspectRatio: ($('#aspectRatioMenu a.item.active').data().width / $('#aspectRatioMenu a.item.active').data().height)
+      boxWidth: 750,
+      aspectRatio: ($('#aspectRatioMenu li.item.active').data().width / $('#aspectRatioMenu li.item.active').data().height)
     });
 
   });

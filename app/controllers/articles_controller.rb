@@ -69,7 +69,7 @@ class ArticlesController < ApplicationController
         end
         if @article.update(a_params)
             track_activity(@article)
-            redirect_to account_folder_article_path(@account, @folder, @article), notice: t('cs')
+            redirect_to edit_account_folder_article_path(@account, @folder, @article), notice: t('cs')
         else
             render :edit
         end
@@ -86,7 +86,7 @@ class ArticlesController < ApplicationController
         else
             @article.update_attribute(:cover_image_id, nil)
         end
-        redirect_to [@account, @folder, @article]
+        redirect_to edit_account_folder_article_path(@account, @folder, @article)
     end
 
     [:remove_twitter_image, :remove_facebook_image, :remove_instagram_image].each do |meth|

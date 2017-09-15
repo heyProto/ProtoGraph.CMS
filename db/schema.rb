@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170906065137) do
+ActiveRecord::Schema.define(version: 20170912082209) do
 
   create_table "accounts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "username"
@@ -258,6 +258,7 @@ ActiveRecord::Schema.define(version: 20170906065137) do
     t.boolean "has_static_image", default: false
     t.string "git_repo_name"
     t.string "s3_identifier"
+    t.boolean "has_multiple_uploads", default: false
     t.index ["slug"], name: "index_template_cards_on_slug", unique: true
   end
 
@@ -273,6 +274,25 @@ ActiveRecord::Schema.define(version: 20170906065137) do
     t.string "s3_identifier"
     t.string "status"
     t.index ["slug"], name: "index_template_data_on_slug", unique: true
+  end
+
+  create_table "uploads", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string "attachment"
+    t.bigint "template_card_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "account_id"
+    t.bigint "folder_id"
+    t.integer "created_by"
+    t.integer "updated_by"
+    t.text "upload_errors"
+    t.text "filtering_errors"
+    t.string "upload_status", default: "waiting"
+    t.integer "total_rows"
+    t.integer "rows_uploaded"
+    t.index ["account_id"], name: "index_uploads_on_account_id"
+    t.index ["folder_id"], name: "index_uploads_on_folder_id"
+    t.index ["template_card_id"], name: "index_uploads_on_template_card_id"
   end
 
   create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -316,6 +336,10 @@ ActiveRecord::Schema.define(version: 20170906065137) do
     t.text "status"
     t.integer "folder_id"
     t.boolean "is_invalidating"
+    t.index ["slug"], name: "index_view_casts_on_slug", unique: true
   end
 
+  add_foreign_key "uploads", "accounts"
+  add_foreign_key "uploads", "folders"
+  add_foreign_key "uploads", "template_cards"
 end

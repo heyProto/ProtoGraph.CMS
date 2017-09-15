@@ -3,8 +3,8 @@
     <br/>
     <div class="row"  style="padding-left: 0px; padding-right: 0px;">
         <div class="col-10">
-            <h1 style="margin-bottom: 20px; font-weight: 400; margin-top: 20px;">
-                <%= @folder.name %>
+            <h1 style="margin-bottom: 20px; font-weight: 600; margin-top: 0px; font-size: 20px;">
+                <%= link_to @account.username, @account, style: "font-weight: 400;" %> / <%= @folder.name %>
                 </h1>
             </div>
             <div class="col-2">
@@ -13,28 +13,25 @@
                 <% end %>
             </div>
         </div>
-        <%= render partial: "folders/header" %>
+        
     </div>
+    <%= render partial: "folders/header" %>
 </div>
 <br/><br/>
 <div class="container">
     <% if @articles.first.blank? %>
+        <% if @account.logo_image_id.present? %>
+            <div class="blankslate blankslate-spacious">
+              <h3>No articles prepared yet.</h3>
+              <p>Use the [+ Prepare an article] button on the top right.</p>
+            </div>
+        <% else %>
 
-    <% if @account.logo_image_id.present? %>
-    
-    <div class="blankslate blankslate-spacious">
-      <h3>No articles prepared yet.</h3>
-      <p>Use the [+ Prepare an article] button on the top right.</p>
-  </div>
-
-  <% else %>
-
-  <div class="blankslate blankslate-spacious">
-      <h3>Please <%= link_to "upload your logo", edit_account_path(@account) %></h3>
-      <p>We meed your a square logo of your team to prepare article.</p>
-  </div>
-
-  <% end %>
+        <div class="blankslate blankslate-spacious">
+            <h3>Please <%= link_to "upload your logo", edit_account_path(@account) %></h3>
+            <p>We meed your a square logo of your team to prepare article.</p>
+        </div>
+    <% end %>
 
   <% else %>
   <div class="row">

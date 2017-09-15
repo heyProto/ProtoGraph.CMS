@@ -43,7 +43,7 @@
     <div class="col-2">
         <br/><br/><br/>
       <% if @account.logo_image_id.present? %>
-        <%= image_tag(@account.logo_image.original_image.image_url, class: "rounded") %>
+        <%= image_tag(@account.logo_image.original_image.image_url, class: "rounded", style: "width: 100px;") %>
         <br/>
         <%= simple_form_for @account do |f| %>
           <%= f.error_notification %>
@@ -52,6 +52,7 @@
         <% end %>
       <% else %>
         <%= image_tag avatar_url(@account.gravatar_email, 100), class: "rounded" %>
+        <p class="hint">Please upload your company’s Twitter display profile (logo) here — (400x400, square)</p>
       <% end %>
       <br/><br/>
       <% unless @account.logo_image_id.present? %>
