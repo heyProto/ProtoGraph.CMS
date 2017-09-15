@@ -163,6 +163,16 @@ ActiveRecord::Schema.define(version: 20170912082209) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "piwik_metrics", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string "datacast_identifier"
+    t.string "piwik_module"
+    t.string "piwik_metric_name"
+    t.integer "piwik_metric_value"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "piwik_metric_type"
+  end
+
   create_table "ref_roles", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "name"
     t.string "slug"
@@ -271,8 +281,8 @@ ActiveRecord::Schema.define(version: 20170912082209) do
     t.integer "publish_count"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "s3_identifier"
     t.string "status"
+    t.string "s3_identifier"
     t.index ["slug"], name: "index_template_data_on_slug", unique: true
   end
 
