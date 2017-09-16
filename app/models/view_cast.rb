@@ -41,6 +41,7 @@ class ViewCast < ApplicationRecord
     attr_accessor :dataJSON, :schemaJSON, :stop_callback
     #VALIDATIONS
     validates :slug, uniqueness: true
+    validates :folder_id, presence: true
     #CALLBACKS
     before_create :before_create_set
     after_create :after_create_set

@@ -29,7 +29,8 @@ class StreamEntity < ApplicationRecord
     #SCOPE
     scope :folders, -> {where(entity_type: "folder_id")}
     scope :template_cards, -> {where(entity_type: "template_card_id")}
-    scope :view_cast_cards, -> {where(entity_type: "view_cast_id")}
+    scope :view_casts, -> {where(entity_type: "view_cast_id", is_excluded: false)}
+    scope :excluded_view_casts, -> {where(entity_type: "view_cast_id", is_excluded: true)}
     #OTHER
 
     #PRIVATE
@@ -40,6 +41,6 @@ class StreamEntity < ApplicationRecord
     end
 
     def before_save_set
-        self.is_excluded = true if self.entity_type == "blacklist"
+        self.is_excluded = false if self.is_excluded.blank?
     end
 end

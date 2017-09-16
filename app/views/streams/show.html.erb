@@ -38,7 +38,7 @@
             <div class="row">
               <% @view_casts.each do |d| %>
               <div class="col-4">
-                <%= link_to [@account, @folder,d], "data-turbolinks"=> false do %>
+                <%= link_to [@account, d.folder, d], "data-turbolinks"=> false do %>
                 <div class="card card-inverse" style="margin: 20px 0px; ">
                   <img class="card-img" src="<%= d.render_screenshot_url %>" style="height: 250px;">
                   <div class="card-img-overlay" style="height: 250px; margin: 0px; background-color: rgba(256, 256, 256, 0.8);">
@@ -60,8 +60,6 @@
               <% end %>
             </div>
             <% end %>
-            <%= paginate @view_casts, theme: 'twitter-bootstrap-4', pagination_class: "pagination-sm" if @show_pagination %>
-
         </div>
         <div class="col-3">
             <% unless @view_casts.count == 0 %>
