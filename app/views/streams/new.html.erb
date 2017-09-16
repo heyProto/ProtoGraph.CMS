@@ -1,3 +1,5 @@
+<%= stylesheet_link_tag "select2.css" %>
+
 <div class="row-fluid" style="background: #fafbfc; ">
     <div class="container" style="padding-left: 0px; padding-right: 0px;">
         <br/>
@@ -15,5 +17,12 @@
         <%= render partial: "folders/header" %>
     </div>
     <br/>
-    <br/>    
+    <br/>
 <%= render partial: "streams/form" %>
+<%= javascript_include_tag "select2.js" %>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('#stream_view_cast_id_list').tagsinput();
+    });
+</script>
