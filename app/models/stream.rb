@@ -41,11 +41,15 @@ class Stream < ApplicationRecord
     belongs_to :folder
     has_many :folder_ids, ->{folders}, class_name: "StreamEntity", foreign_key: "stream_id"
     has_many :template_card_ids, ->{template_cards}, class_name: "StreamEntity", foreign_key: "stream_id"
+    has_many :view_cast_ids, ->{view_casts}, class_name: "StreamEntity", foreign_key: "stream_id"
+    has_many :excluded_view_cast_ids, ->{excluded_view_casts}, class_name: "StreamEntity", foreign_key: "stream_id"
 
     #ACCESSORS
     attr_accessor :folder_list
     attr_accessor :card_list #Template Card list
     attr_accessor :tag_list
+    attr_accessor :view_cast_id_list
+    attr_accessor :excluded_view_cast_id_list
     #VALIDATIONS
     #CALLBACKS
     before_create :before_create_set
@@ -60,11 +64,15 @@ class Stream < ApplicationRecord
         query[:folder_id] = self.folder_ids.pluck(:entity_value) if self.folder_ids.count > 0
         query[:template_card_id] = self.template_card_ids.pluck(:entity_value) if self.template_card_ids.count > 0
         unless query.blank?
-            view_cast = ViewCast.order(created_at: :desc).where(query).limit(self.limit).offset(self.offset)
+            view_cast = account.view_casts.order(created_at: :desc).where(query)
+            view_cast = view_cast.where.not(id: self.excluded_view_cast_ids.pluck(:entity_value)) if self.excluded_view_cast_ids.count > 0
+            view_cast = view_cast.limit(self.limit).offset(self.offset)
         else
             view_cast = ViewCast.none
         end
-        return view_cast
+        view_cast_or = self.view_cast_ids.present? ? account.view_casts.where(id: self.view_cast_ids.pluck(:entity_value)) : ViewCast.none
+        view_casts = view_cast + view_cast_or
+        return view_casts
     end
 
     def publish_cards
@@ -161,6 +169,11 @@ class Stream < ApplicationRecord
         "#{self.datacast_identifier}/index.json"
     end
 
+    def update_card_count
+        self.card_count = self.cards.count
+        self.update_column(:card_count, self.cards.count)
+    end
+
     #PRIVATE
     private
 
@@ -168,13 +181,7 @@ class Stream < ApplicationRecord
         self.datacast_identifier = SecureRandom.hex(12)
     end
 
-    def update_card_count
-        self.card_count = self.cards.count
-        self.update_column(:card_count, self.cards.count)
-    end
-
     def after_save_set
-
         #Creating folder entities from folder_list
         if self.folder_list.present?
             self.folder_list = self.folder_list.reject(&:empty?)
@@ -182,8 +189,30 @@ class Stream < ApplicationRecord
             self.folder_list.each do |f|
                 self.folder_ids.create({entity_type: "folder_id",entity_value: f})
             end
-            self.folder_ids.where(entity_type: "folder_id").where(entity_value: [prev_folder_ids - self.folder_list]).delete_all
+            self.folder_ids.where(entity_value: (prev_folder_ids - self.folder_list)).delete_all
         end
+
+        #Creating ViewCast entities from view_cast_id
+        if self.view_cast_id_list.present?
+            self.view_cast_id_list = self.view_cast_id_list.first.split(",") # Because of the type of input we are getting
+            self.view_cast_id_list = self.view_cast_id_list.reject(&:empty?)
+            prev_view_cast_ids = self.view_cast_ids.pluck(:entity_value)
+            self.view_cast_id_list.each do |f|
+                self.view_cast_ids.create({entity_type: "view_cast_id",entity_value: f})
+            end
+            self.view_cast_ids.where(entity_value: (prev_view_cast_ids - self.view_cast_id_list)).delete_all
+        end
+        #Creating Excluded viewcast entities from view_cast_id
+        if self.excluded_view_cast_id_list.present?
+            self.excluded_view_cast_id_list = self.excluded_view_cast_id_list.first.split(",") # Because of the type of input we are getting
+            self.excluded_view_cast_id_list = self.excluded_view_cast_id_list.reject(&:empty?)
+            prev_excluded_view_cast_ids = self.excluded_view_cast_ids.pluck(:entity_value)
+            self.excluded_view_cast_id_list.each do |f|
+                self.excluded_view_cast_ids.create({entity_type: "view_cast_id",entity_value: f, is_excluded: true})
+            end
+            self.excluded_view_cast_ids.where(entity_value: (prev_excluded_view_cast_ids - self.excluded_view_cast_id_list)).delete_all
+        end
+
         #Creating Tag entities from tag_list
         # if self.tag_list.present?
         #     self.tag_list = self.tag_list.reject(&:empty?)
@@ -201,7 +230,7 @@ class Stream < ApplicationRecord
             self.card_list.each do |c|
                 self.template_card_ids.create({entity_type: "template_card_id",entity_value: c})
             end
-            self.template_card_ids.where(entity_type: "template_card_id").where(entity_value: [prev_card_ids - self.card_list]).delete_all
+            self.template_card_ids.where(entity_value: (prev_card_ids - self.card_list)).delete_all
         end
     end
 

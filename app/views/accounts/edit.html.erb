@@ -27,7 +27,9 @@
                 <p style="color: red;">Please contact us at <%=mail_to "ritvvij.parrikh@pykih.com" %>.</p>
               </div>
             <% else %>
-              <p>You are using a <%= @account.cdn_provider %> CDN. The endpoint is <%= @account.cdn_endpoint %>.</p>
+              <div class="alert alert-primary" role="alert">
+                  <p>You are using a <%= @account.cdn_provider %> CDN. The endpoint is <%= @account.cdn_endpoint %>.</p>
+              </div>
             <% end %>
         <% end %>
         <br/>

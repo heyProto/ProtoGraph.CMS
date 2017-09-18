@@ -12,7 +12,7 @@ class ArticlesController < ApplicationController
 
     def create
         a_params = article_params
-        a_params["cover_image_attributes"]["name"] = a_params["title"]
+        a_params["cover_image_attributes"]["name"] = article_params["cover_image_attributes"]['image'].original_filename
         a_params["cover_image_attributes"]["description"] = a_params["summary"]
         a_params["cover_image_attributes"]["tag_list"] = [a_params["genre"]]
         a_params["cover_image_attributes"]["account_id"] = @account.id
@@ -25,6 +25,7 @@ class ArticlesController < ApplicationController
             track_activity(@article)
             redirect_to edit_account_folder_article_path(@account, @folder, @article), notice: t('cs')
         else
+            flash.now.alert = @article.errors.full_messages
             render :new
         end
     end
@@ -60,7 +61,7 @@ class ArticlesController < ApplicationController
 
         a_params = article_params
         if a_params.has_key?("cover_image_attributes") and a_params["cover_image_attributes"].has_key?("image")
-            a_params["cover_image_attributes"]["name"] = a_params["title"]
+            a_params["cover_image_attributes"]["name"] = article_params["cover_image_attributes"]['image'].original_filename
             a_params["cover_image_attributes"]["description"] = a_params["summary"]
             a_params["cover_image_attributes"]["tag_list"] = [a_params["genre"]]
             a_params["cover_image_attributes"]["account_id"] = @account.id
