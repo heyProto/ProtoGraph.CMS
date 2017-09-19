@@ -29,6 +29,7 @@
 #  git_repo_name        :string(255)
 #  s3_identifier        :string(255)
 #  has_multiple_uploads :boolean          default(FALSE)
+#  has_grouping         :boolean          default(FALSE)
 #
 
 class TemplateCard < ApplicationRecord
