@@ -18,7 +18,7 @@ class StreamsController < ApplicationController
       @view_casts_count = @folder.view_casts.count
       @streams_count = @folder.streams.count
       @articles_count = @folder.articles.count
-      @is_viewcasts_present = @view_casts_count != 0
+      @is_viewcasts_present = @account.view_casts.count > 0
       @streams = @folder.streams.order(updated_at: :desc).page(params[:page]).per(30)
       render layout: "application-fluid"
     end

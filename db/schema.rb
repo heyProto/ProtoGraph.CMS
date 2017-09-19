@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170918141427) do
+ActiveRecord::Schema.define(version: 20170919074206) do
 
   create_table "accounts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "username"
@@ -203,6 +203,8 @@ ActiveRecord::Schema.define(version: 20170918141427) do
     t.string "order_by_value"
     t.integer "limit"
     t.integer "offset"
+    t.boolean "is_grouped_data_stream", default: false
+    t.string "data_group_key"
     t.index ["description"], name: "index_streams_on_description", type: :fulltext
     t.index ["title"], name: "index_streams_on_title", type: :fulltext
   end
