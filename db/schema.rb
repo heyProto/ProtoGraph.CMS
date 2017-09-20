@@ -28,6 +28,7 @@ ActiveRecord::Schema.define(version: 20170919074206) do
     t.string "client_token"
     t.string "access_token"
     t.string "client_secret"
+    t.text "logo_url"
     t.integer "logo_image_id"
     t.index ["domain"], name: "index_accounts_on_domain"
     t.index ["slug"], name: "index_accounts_on_slug", unique: true
@@ -274,8 +275,8 @@ ActiveRecord::Schema.define(version: 20170919074206) do
     t.integer "publish_count"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "s3_identifier"
     t.string "status"
+    t.string "s3_identifier"
     t.index ["slug"], name: "index_template_data_on_slug", unique: true
   end
 
