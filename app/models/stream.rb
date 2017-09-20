@@ -209,7 +209,7 @@ class Stream < ApplicationRecord
     private
 
     def before_create_set
-        self.datacast_identifier = SecureRandom.hex(12)
+        self.datacast_identifier = SecureRandom.hex(12) if self.datacast_identifier.blank?
     end
 
     def after_save_set
