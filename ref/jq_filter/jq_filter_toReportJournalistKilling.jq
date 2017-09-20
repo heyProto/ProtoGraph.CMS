@@ -17,7 +17,7 @@
               "lat": ."lat" | tonumber,
               "lng": ."lng" | tonumber,
               "nature_of_assault": ."nature_of_assault" | tostring,
-              "accused_names": (if ."accused_names" == null then "" else ."accused_names" end),
+              "accussed_names": (if ."accussed_names" == null then "" else ."accussed_names" end),
               "description_of_attack": (if ."description_of_attack" == null then "" else ."description_of_attack" end),
               "motive_of_attack": (if ."motive_of_attack" == null then "" else ."motive_of_attack" end),
               "party": ."party" | tostring,
