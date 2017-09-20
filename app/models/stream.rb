@@ -98,6 +98,9 @@ class Stream < ApplicationRecord
                         district_obj[group_key][col_key] = data[col_key]
                     end
                 end
+                if view_cast.template_card.name == 'toDistrictProfile'
+                    district_obj[group_key]["screen_shot_url"] = view_cast.render_screenshot_url
+                end
             end
             district_obj.each do |key, value|
                 value[self.data_group_key] = key
