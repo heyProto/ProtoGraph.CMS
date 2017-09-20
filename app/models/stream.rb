@@ -106,6 +106,7 @@ class Stream < ApplicationRecord
                 value[self.data_group_key] = key
                 cards_json << value
             end
+            cards_json = cards_json.sort_by{|d| d[self.data_group_key]}
         else
             self.cards.each do |view_cast|
                 d = {}
