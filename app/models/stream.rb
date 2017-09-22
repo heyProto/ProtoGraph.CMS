@@ -95,7 +95,7 @@ class Stream < ApplicationRecord
                 district_obj[group_key] = {} unless district_obj.has_key?(group_key)
                 if Stream::CARD_KEYS.has_key?(view_cast.template_card.name.to_sym)
                     Stream::CARD_KEYS[view_cast.template_card.name.to_sym].each do |col_key|
-                        district_obj[group_key][col_key] = "#{data[col_key]}" if data['col_key'].present?
+                        district_obj[group_key][col_key] = "#{data[col_key]}" if data[col_key].present?
                     end
                 end
                 if view_cast.template_card.name == 'toDistrictProfile'
