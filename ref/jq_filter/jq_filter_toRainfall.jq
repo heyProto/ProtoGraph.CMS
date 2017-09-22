@@ -1,7 +1,7 @@
 . | {data:
         {
             "district": .district,
-            "rainfall_deficit_score": .rainfall_deficit_score,
+            "rainfall_deficit_score": .rainfall_deficit_score | tonumber,
             "years": [{
                 "year": "2012",
                 "annual": .rainfall_2012 | tonumber,
