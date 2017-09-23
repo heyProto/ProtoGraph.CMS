@@ -57,6 +57,9 @@ class Article < ApplicationRecord
         cover_image.original_image
     end
 
+    def publish_card
+    end
+
     #PRIVATE
     private
 
