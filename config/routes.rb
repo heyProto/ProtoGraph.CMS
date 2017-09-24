@@ -54,7 +54,7 @@ Rails.application.routes.draw do
         get 'flip_public_private', 'move_to_next_status', on: :member
       end
 
-      resources :view_casts, only: [:new, :show, :edit, :update]
+      resources :view_casts
 
       resources :streams do
         post :publish, on: :member

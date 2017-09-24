@@ -1,51 +1,23 @@
-<div class="row-fluid" style="background: #fafbfc; ">
-  <div class="container" style="padding-left: 0px; padding-right: 0px;">
-    <br/>
-    <div class="row"  style="padding-left: 0px; padding-right: 0px;">
-      <div class="col-10">
-        <h1 style="margin-bottom: 20px; font-weight: 600; margin-top: 0px; font-size: 20px;">
-          <%= link_to @account.username, @account, style: "font-weight: 400;" %> / <%= @folder.name %>
-          </h1>
+<div class="container">
+    <div class="card-group">
+      <div class="card">
+        <div class="card-body">
+          <h4 class="card-title"><%= link_to "Cards <span class='badge badge-pill badge-secondary'>#{@view_casts_count}</span>".html_safe, account_folder_view_casts_path(@account, @folder) %></h4>
         </div>
-        <div class="col-2">
-          <%= link_to '+ Add a card'.html_safe, new_account_folder_view_cast_path(@account, @folder), data: {turbolinks: false}, class: "btn btn-outline", role: "button" %>
+      </div>
+      <div class="card">
+        <div class="card-body">
+          <h4 class="card-title"><%= link_to "Streams <span class='badge badge-pill badge-secondary'>#{@streams_count}</span>".html_safe, account_folder_streams_path(@account, @folder) %></h4>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-body">
+          <h4 class="card-title"><%= link_to "Prepare articles <span class='badge badge-pill badge-secondary'>#{@articles_count}</span>".html_safe, account_folder_articles_path(@account, @folder) %></h4>
         </div>
       </div>
     </div>
-    <%= render partial: "folders/header" %>
-  </div>
-  <div class="container">
-    <% if @view_casts.first.blank? %>
     <br/>
     <br/>
-    <div class="blankslate blankslate-spacious">
-      <h3>No cards created yet.</h3>
-      <p>Use the [+ Add a card] button on the top right.</p>
-    </div>
-    <% else %>
-    <div class="row">
-      <% @view_casts.each do |d| %>
-      <div class="col-3">
-        <%= link_to [@account, @folder,d], "data-turbolinks"=> false do %>
-        <div class="card card-inverse" style="margin: 20px 0px; ">
-          <img class="card-img" src="<%= d.render_screenshot_url %>" style="height: 250px;">
-          <div class="card-img-overlay" style="height: 250px; margin: 0px; background-color: rgba(256, 256, 256, 0.8);">
-
-          </div>
-          <div class="card-footer">
-            <h4 class="card-title" title="<%=d.name%>">
-              <span class="branch-ref css-truncate css-truncate-target"><%= d.name %></span>
-            </h4>
-            <small class="text-muted">
-              <%= image_tag avatar_url(d.updator.email), width: "20px", class: "rounded" %>
-              &nbsp;&nbsp;
-              <%= d.template_card.name %>  |  <%= time_ago_in_words(d.updated_at) %>
-            </small>
-          </div>
-        </div>
-        <% end %>
-      </div>
-      <% end %>
-    </div>
-    <% end %>
-    <%= paginate @view_casts, theme: 'twitter-bootstrap-4', pagination_class: "pagination-sm" %>
+    <h3 style="font-weight: 200;">What's happening?</h3>
+    <%= render partial: "activities/index" %>
+</div>

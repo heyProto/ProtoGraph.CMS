@@ -7,6 +7,7 @@ class FoldersController < ApplicationController
     @articles_count = @folder.articles.count
     @view_casts = @folder.view_casts.order(updated_at: :desc).page(params[:page]).per(30)
     @is_viewcasts_present = @view_casts.count != 0
+    @activities = @account.activities.where(folder_id: @folder.id).order("updated_at DESC").limit(30)
     render layout: "application-fluid"
   end
 

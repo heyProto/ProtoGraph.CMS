@@ -1,23 +1,6 @@
 <%= stylesheet_link_tag "select2.css" %>
 
-<div class="row-fluid" style="background: #fafbfc; ">
-    <div class="container" style="padding-left: 0px; padding-right: 0px;">
-        <br/>
-        <div class="row"  style="padding-left: 0px; padding-right: 0px;">
-            <div class="col-10">
-                <h1 style="margin-bottom: 20px; font-weight: 600; margin-top: 0px; font-size: 20px;">
-                    <%= link_to @account.username, @account, style: "font-weight: 400;" %> / <%= @folder.name %>
-                    </h1>
-                </div>
-                <div class="col-2">
-                </div>
-            </div>
-            
-        </div>
-        <%= render partial: "folders/header" %>
-    </div>
-    <br/>
-    <br/>
+
 <%= render partial: "streams/form" %>
 <%= javascript_include_tag "select2.js" %>
 

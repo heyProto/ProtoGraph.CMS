@@ -1,10 +1,10 @@
 <%= simple_form_for @account do |f| %>
   <%= f.error_notification %>
   <div class="row">
-    <div class="col-3">
+    <div class="col-sm-3">
         <%= render partial: "accounts/sidebar" %>
     </div>
-    <div class="col-7">
+    <div class="col-sm-9">
         <br/>
         <% if current_user.is_admin_from_pykih and 1 == 2 %>
             <div class="ui message">
@@ -42,7 +42,7 @@
           <%= f.button :submit, "Save", class: "ui button" %>
         </div>
     </div>
-    <div class="col-2">
+    <div class="col-4">
         <br/><br/><br/>
       <% if @account.logo_image_id.present? %>
         <%= image_tag(@account.logo_image.original_image.image_url, class: "rounded", style: "width: 100px;") %>
