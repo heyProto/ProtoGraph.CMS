@@ -34,7 +34,8 @@ class StreamsController < ApplicationController
     end
 
     def show
-        @view_casts = @stream.cards.where.not(name: "toArticle")
+        article_template_card =  TemplateCard.where(name: 'toArticle').first
+        @view_casts = @stream.cards.where.not(template_card_id: article_template_card.present? ? article_template_card.id : nil)
         @folders = @account.folders.where(id: @stream.folder_list)
         @view_casts_count = @folder.view_casts.count
         @template_cards = @account.template_cards.where(id: @stream.card_list)

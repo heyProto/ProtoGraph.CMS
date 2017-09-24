@@ -85,8 +85,8 @@ class Article < ApplicationRecord
         data["data"]["title"] = self.title
         data["data"]["url"] = self.url
         data["data"]["genre"] = self.genre
-        data["data"]["feature_image_url"] = self.cover_image.image_url
-        data["data"]["thumbnail_url"] = "#{self.account.cdn_endpoint}/#{self.cover_image.thumbnail_key}"
+        data["data"]["feature_image_url"] = "#{self.instagram_image_variation.image_url}"
+        data["data"]["thumbnail_url"] = "#{self.cover_image.image_url}"
         data["data"]["description"] = self.content
         data["data"]["author"] = "#{self.author}"
         data["data"]["date"] = self.article_datetime.strftime("%Y-%m-%dT%l:%M:%S%z")
