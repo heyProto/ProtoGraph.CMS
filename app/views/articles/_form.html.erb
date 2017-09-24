@@ -29,7 +29,7 @@
                                     <% end %>
                                 <% else %>
 
-                                    <%= image_tag(@article.cover_image_variation.image_url, class: "ui centered image") %>
+                                    <%= image_tag(@article.cover_image_variation.image_url, class: "img-fluid") %>
 
                                 <br/>
                                 <%= link_to "Remove Image", remove_cover_image_account_folder_article_path(@account, @folder, @article), method: :put, style: "text-align: right;" %>
