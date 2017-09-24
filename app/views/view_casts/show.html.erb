@@ -1,12 +1,14 @@
 <div class="container">
     <div class="row">
-        <div class="col-12">
-          <h3 style="margin-bottom: 80px; margin-top: 20px; font-weight: 600;">
-            <%= @view_cast.name %>
-            </h3>
-          </div>
-        <div class="col-9">
-            <% if @view_cast.is_invalidating %>
+      <div class="col-sm-16">
+        <h1><%= @view_cast.name %></h1>
+      </div>
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+      <div class="col-sm-13">
+        <% if @view_cast.is_invalidating %>
               <div class="alert alert-warning" role="alert">
                 The data is getting updated. It generally takes between 5 seconds to 5 minutes. If it doesn't update, please contact us at ritvvij.parrikh@pykih.com
               </div>
@@ -46,9 +48,10 @@
               <textarea class="proto-graph-code protograph-iframe" readonly><div id="<%= "ProtoCard#{@view_cast.id}" %>"><%= (sanitize @view_cast.seo_blockquote.to_s, tags: %w(p blockquote ul li h1 h2 h3 h4 h5 h6)) %></div><script src="<%= Rails.env.production? ? @account.cdn_endpoint :  "https://d2m6lzru8erw1k.cloudfront.net" %>/lib/protoGraph.min.js" async></script><script type="text/javascript">var <%= "ProtoCard#{@view_cast.id}" %> = setInterval(function(){if (window.ProtoEmbed){clearInterval(<%= "ProtoCard#{@view_cast.id}" %>)};new ProtoEmbed.initFrame(document.getElementById("<%= "ProtoCard#{@view_cast.id}" %>"), "<%= "#{@view_cast.template_card.index_html(@account)}?view_cast_id=#{@view_cast.datacast_identifier}%26schema_id=#{@view_cast.template_datum.s3_identifier}" %>" , "laptop")}, 200)</script></textarea>
               </br>
             </div>
-        </div>
-        <div class="col-3">
-            <div class="hint">
+      </div>
+      <div class="col-sm-3">
+        <br/><br/>
+        <div class="hint">
 
                   <table class="table table-sm hint">
                       <tr>
@@ -97,7 +100,7 @@
               <br/>
               <%= link_to "Edit the Card", edit_account_folder_view_cast_path(@account, @folder, @view_cast),"data-turbolinks"=> false %>
             </div>
-        </div>
+      </div>
     </div>
 </div>
 

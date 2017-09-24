@@ -1,11 +1,13 @@
 <div class="container">
     <div class="row">
-        <div class="col-12">
-          <h3 style="margin-bottom: 30px; margin-top: 20px; font-weight: 600;">
-            <%= @stream.title %>
-            </h3>
+        <div class="col-16">
+            <h1><%= @stream.title %></h1>
         </div>
-        <div class="col-9">
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-sm-13">
             <% if @view_casts.first.blank? %>
             <br/>
             <br/>
@@ -16,15 +18,11 @@
             <% else %>
             <div class="row">
               <% @view_casts.each do |d| %>
-              <div class="col-4">
+              <div class="col-sm-5">
                 <%= link_to [@account, d.folder, d], "data-turbolinks"=> false do %>
                 <div class="card card-inverse" style="margin: 20px 0px; ">
-                  <img class="card-img" src="<%= d.render_screenshot_url %>" style="height: 250px;">
-                  <div class="card-img-overlay" style="height: 250px; margin: 0px; background-color: rgba(256, 256, 256, 0.8);">
-
-                  </div>
                   <div class="card-footer">
-                    <h4 class="card-title" title="<%=d.name%>">
+                    <h4 class="card-title" style="font-weight: 400" title="<%=d.name%>">
                       <span class="branch-ref css-truncate css-truncate-target"><%= d.name %></span>
                     </h4>
                     <small class="text-muted">
@@ -40,7 +38,9 @@
             </div>
             <% end %>
         </div>
-        <div class="col-3">
+        <div class="col-sm-3">
+            <br/>
+            <br/>
             <% unless @view_casts.count == 0 %>
                 <%= link_to "Publish the Stream", publish_account_folder_stream_path(@account, @folder, @stream),"data-turbolinks"=> false, class: "btn btn-outline", method: :post %>
             <% end %>
@@ -112,5 +112,5 @@
                 <br/>
             </div>
         </div>
-     </div>
+    </div>
 </div>
