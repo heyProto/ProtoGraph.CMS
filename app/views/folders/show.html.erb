@@ -1,18 +1,27 @@
 <div class="container">
+    <div class="row">
+        <div class="col-sm-16">
+            <h1  style="text-align: center;"><%= @folder.name %> </h1>
+            <br/>
+            <br/>
+        </div>
+    </div>
+</div>
+<div class="container">
     <div class="card-group">
       <div class="card">
         <div class="card-body">
-          <h4 class="card-title"><%= link_to "Cards <span class='badge badge-pill badge-secondary'>#{@view_casts_count}</span>".html_safe, account_folder_view_casts_path(@account, @folder) %></h4>
+          <h3 class="card-title" style="text-align: center; font-weight: 400;"><%= link_to "Cards <span class='badge badge-pill badge-secondary'>#{@view_casts_count}</span>".html_safe, account_folder_view_casts_path(@account, @folder) %></h3>
         </div>
       </div>
       <div class="card">
         <div class="card-body">
-          <h4 class="card-title"><%= link_to "Streams <span class='badge badge-pill badge-secondary'>#{@streams_count}</span>".html_safe, account_folder_streams_path(@account, @folder) %></h4>
+          <h3 class="card-title" style="text-align: center; font-weight: 400;"><%= link_to "Streams <span class='badge badge-pill badge-secondary'>#{@streams_count}</span>".html_safe, account_folder_streams_path(@account, @folder) %></h3>
         </div>
       </div>
       <div class="card">
         <div class="card-body">
-          <h4 class="card-title"><%= link_to "Prepare articles <span class='badge badge-pill badge-secondary'>#{@articles_count}</span>".html_safe, account_folder_articles_path(@account, @folder) %></h4>
+          <h3 class="card-title" style="text-align: center; font-weight: 400;"><%= link_to "Prepare articles <span class='badge badge-pill badge-secondary'>#{@articles_count}</span>".html_safe, account_folder_articles_path(@account, @folder) %></h3>
         </div>
       </div>
     </div>
