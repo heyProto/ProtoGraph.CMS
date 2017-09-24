@@ -2,12 +2,12 @@ class FoldersController < ApplicationController
   before_action :authenticate_user!
 
   def show
-    @view_casts_count = @folder.view_casts.count
-    @streams_count = @folder.streams.count
-    @articles_count = @folder.articles.count
-    @view_casts = @folder.view_casts.order(updated_at: :desc).page(params[:page]).per(30)
-    @is_viewcasts_present = @view_casts.count != 0
-    render layout: "application-fluid"
+      @view_casts_count = @folder.view_casts.count
+      @streams_count = @folder.streams.count
+      @articles_count = @folder.articles.count
+      @view_casts = @folder.view_casts.where.not(name: "toArticle").order(updated_at: :desc).page(params[:page]).per(30)
+      @is_viewcasts_present = @view_casts.count != 0
+      render layout: "application-fluid"
   end
 
   def new
