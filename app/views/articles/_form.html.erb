@@ -17,7 +17,7 @@
                             <p style="margin-bottom: 10px; color: gray;"><%= @article.url %></p>
                         <% end %>
                         <% if @article.id.nil? %>
-                            <%= f.input :title, placeholder: "*Copy paste the headline", required: true, label: false, input_html: {style: "border: 0px !important; font-size: 32px; font-weight: bold; color: black; padding-left: 0px; padding-right: 0px; margin-top: 0px !important;"}%>
+                            <%= f.input :title, as: :text, placeholder: "*Copy paste the headline", required: true, label: false, input_html: {style: "border: 0px !important; font-size: 32px; font-weight: bold; color: black; padding-left: 0px; padding-right: 0px; margin-top: 0px !important;"}%>
                         <% else %>
                             <h1 style="border: 0px !important; font-size: 32px; font-weight: bold; color: black; padding-left: 0px; padding-right: 0px; margin-top: 0px !important;"><%= @article.title %></h1>
                         <% end %>
