@@ -79,3 +79,11 @@ ul.nav.jignesh > li.nav-item > a.nav-link.active{ border-bottom: 4px solid #0366
     pointer-events: none;
     cursor: not-allowed;
 }
+
+.list-group-item:not(.disabled):hover{
+    z-index: 2;
+    color: #fff;
+    background-color: #007bff;
+    border-color: #007bff;
+    cursor: pointer;
+}

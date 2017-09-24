@@ -54,6 +54,9 @@ class ArticlesController < ApplicationController
         @view_casts_count = @folder.view_casts.count
         @streams_count = @folder.streams.count
         @articles_count = @folder.articles.count
+        @article_modes = ""
+        @article.cover_image.present? ? (@article_modes << "1") : (@article_modes << "0")
+        @article.content.present? ? (@article_modes << "1") : (@article_modes << "0")
         render layout: "application-fluid"
     end
 

@@ -29,6 +29,12 @@
 
 class Article < ApplicationRecord
     #CONSTANTS
+    ENABLED_MODES = {
+        "11": ["Thumbnail with summary", "Thumbnail without summary", "Cover with summary","Text only with summary","Text only without summary"],
+        "10": ["Thumbnail without summary"],
+        "01": ["Text only with summary"],
+        "00": ["Text only without summary"]
+    }
 
     #ASSOCIATIONS
     belongs_to :folder
