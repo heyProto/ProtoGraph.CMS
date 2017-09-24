@@ -47,7 +47,7 @@
                         <br/>
                         <%= f.input :article_datetime, label: "When was the article published?", input_html: {style: "font-size: 12px;"} %>
                         <br/>
-                        <%= f.input :genre, placeholder: "E.g. Opinion, Analysis, Wire, Breaking, Exclusive, etc.", label: "Choose a genre of the story", hint: "Cannot be longer than 16 characters", input_html: {style: "font-size: 12px;"}, maxlength: 16, disabled: @article.id.present? ? true : false %>
+                        <%= f.input :genre, placeholder: "E.g. Opinion, Analysis, Wire, Breaking, Exclusive, etc.", label: "Choose a genre of the story", hint: "Cannot be longer than 16 characters. Note, you cannot change it once you save.", input_html: {style: "font-size: 12px;"}, maxlength: 16, disabled: @article.id.present? ? true : false %>
                         <%= f.submit "Save", class: @article.id.present? ? "btn btn-outline" : "btn btn-primary" %>
                     </div>
                 </div>
