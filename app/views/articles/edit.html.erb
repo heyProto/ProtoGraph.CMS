@@ -46,7 +46,7 @@
                     </span>
                 <% end %>
                 <br/><br/>
-                <label class="control-label string optional disabled">Crop cover image to upload on Instagram</label>
+                <label class="control-label string optional disabled">Prepare image for Instagram</label>
                 <% if @article.instagram_image_variation_id.present? %>
                     <p class="hint">
                         Instagram Image
@@ -61,11 +61,14 @@
 
                 <% else %>
                     <span style="float: right;">
-                        <%= link_to "Crop for Instagram", "#", id: "social_button", class: "protograph-social-crop-btn", "data-toggle"=>'modal', "data-mode"=>'#instagram', "data-target"=>'#socialCropperModal' %>
+                        <%= link_to "Crop", "#", id: "social_button", class: "protograph-social-crop-btn", "data-toggle"=>'modal', "data-mode"=>'#instagram', "data-target"=>'#socialCropperModal' %>
                     </span>
                 <% end %>
             <% end %>
-
+            <br/>
+            <br/>
+            <label class="control-label string optional disabled">Brand cover image for Social Distribution</label>
+            <br/>
             <% if @article.cover_image.present? and @article.article_datetime.present? %>
                 <% if @article.article_card.present? %>
                     <!-- Show the Preview -->
