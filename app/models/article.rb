@@ -53,6 +53,7 @@ class Article < ApplicationRecord
     #ACCESSORS
     #VALIDATIONS
     validates :genre, length: {maximum: 40}
+    validates :content, length: {maximum: 300}
     #CALLBACKS
     before_update :before_update_set
     after_save :publish_card
@@ -75,14 +76,18 @@ class Article < ApplicationRecord
                 view_cast.update({name: self.title, updated_by: self.updated_by, seo_blockquote: "<blockquote><h4#>#{self.title}</h4><p>#{self.content}</p></blockquote>", folder_id: self.folder_id, default_view: self.default_view})
             else
                 view_cast = ViewCast.create({name: self.title,template_card_id: TemplateCard.where(name: 'toArticle').first.id,template_datum_id: TemplateDatum.where(name: 'toArticle').first.id, optionalConfigJSON: {}, created_by: self.created_by, updated_by: self.updated_by, seo_blockquote: "<blockquote><h4#>#{self.title}</h4><p>#{self.content}</p></blockquote>", folder_id: self.folder_id, default_view: self.default_view, account_id: self.account_id})
-                self.update_column(:view_cast_id, view_cast.id)
             end
             payload = {}
             payload["payload"] = create_datacast_json.to_json
             payload["api_slug"] = view_cast.datacast_identifier
             payload["schema_url"] = view_cast.template_datum.schema_json
             payload["source"] = "form"
-            r = Api::ProtoGraph::Datacast.create(payload)
+            if self.view_cast_id.present?
+                r = Api::ProtoGraph::Datacast.update(payload)
+            else
+                r = Api::ProtoGraph::Datacast.create(payload)
+                self.update_column(:view_cast_id, view_cast.id)
+            end
             if self.account.cdn_id != ENV['AWS_CDN_ID']
                 Api::ProtoGraph::CloudFront.invalidate(@account, ["/#{view_cast.datacast_identifier}/data.json","/#{view_cast.datacast_identifier}/view_cast.json"], 2)
             end
@@ -97,7 +102,7 @@ class Article < ApplicationRecord
         data["data"]["url"] = self.url.to_s
         data["data"]["genre"] = self.genre.to_s
         data["data"]["feature_image_url"] = "#{self.instagram_image_variation.present? ? self.instagram_image_variation.image_url : ""}"
-        data["data"]["thumbnail_url"] = "#{self.cover_image.image_url}"
+        data["data"]["thumbnail_url"] = "#{self.cover_image.original_image.image_url}"
         data["data"]["description"] = self.content.to_s
         data["data"]["author"] = "#{self.author}"
         data["data"]["date"] = self.article_datetime.strftime("%Y-%m-%dT%l:%M:%S%z")
