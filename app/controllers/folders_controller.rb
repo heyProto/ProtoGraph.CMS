@@ -2,6 +2,15 @@ class FoldersController < ApplicationController
   before_action :authenticate_user!
 
   def show
+<<<<<<< HEAD
+      @view_casts_count = @folder.view_casts.count
+      @streams_count = @folder.streams.count
+      @articles_count = @folder.articles.count
+      article_template_card =  TemplateCard.where(name: 'toArticle').first
+      @view_casts = @folder.view_casts.where.not(template_card_id: article_template_card.present? ? article_template_card.id : nil).order(updated_at: :desc).page(params[:page]).per(30)
+      @is_viewcasts_present = @view_casts.count != 0
+      render layout: "application-fluid"
+=======
     @view_casts_count = @folder.view_casts.count
     @streams_count = @folder.streams.count
     @articles_count = @folder.articles.count
@@ -9,6 +18,7 @@ class FoldersController < ApplicationController
     @is_viewcasts_present = @view_casts.count != 0
     @activities = @account.activities.where(folder_id: @folder.id).order("updated_at DESC").limit(30)
     render layout: "application-fluid"
+>>>>>>> 89f152e1e9bf5e293ead769f4c20c452547c0e37
   end
 
   def new

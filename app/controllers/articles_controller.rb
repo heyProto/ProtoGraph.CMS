@@ -1,6 +1,6 @@
 class ArticlesController < ApplicationController
     before_action :authenticate_user!
-    before_action :set_article, only: [:show, :edit, :update, :remove_cover_image,:remove_twitter_image, :remove_facebook_image, :remove_instagram_image]
+    before_action :set_article, only: [:show, :edit, :update, :remove_cover_image,:remove_twitter_image, :remove_facebook_image, :remove_instagram_image, :publish_card]
 
     def index
       @view_casts_count = @folder.view_casts.count
@@ -87,11 +87,16 @@ class ArticlesController < ApplicationController
         else
             @article.update_attribute(:cover_image_id, nil)
         end
-        redirect_to edit_account_folder_article_path(@account, @folder, @article)
+        redirect_to edit_account_folder_article_path(@account, @folder, @article), notice: t("ds")
     end
 
     [:remove_twitter_image, :remove_facebook_image, :remove_instagram_image].each do |meth|
         alias_method meth, :remove_cover_image
+    end
+
+    def publish_card
+        @article.publish_card
+        redirect_to edit_account_folder_article_path(@account, @folder, @article), notice: t("publish.article_card")
     end
 
 
@@ -99,7 +104,7 @@ class ArticlesController < ApplicationController
     private
 
     def article_params
-        params.require(:article).permit(:account_id, :folder_id, :title, :summary, :content, :genre, :url, :created_by, :updated_by, :og_image_variation_id, :twitter_image_variation_id, :instagram_image_variation_id, :cover_image_id, cover_image_attributes: [:image])
+        params.require(:article).permit(:account_id, :folder_id, :title, :summary, :content, :genre, :url, :created_by, :updated_by, :og_image_variation_id, :twitter_image_variation_id, :instagram_image_variation_id, :cover_image_id, :author, :article_datetime, cover_image_attributes: [:image])
     end
 
     def set_article

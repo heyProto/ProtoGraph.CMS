@@ -19,6 +19,7 @@
 #  status                :text(65535)
 #  folder_id             :integer
 #  is_invalidating       :boolean
+#  default_view          :string(255)
 #
 
 class ViewCast < ApplicationRecord

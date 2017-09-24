@@ -16,10 +16,8 @@
             <% end %>
             <div style="margin-left: 40%;">
                 <div class="btn-group">
-                  <button class="btn btn-sm platform_buttons" type="button" id='laptop'>Desktop</button>
-                  <button class="btn btn-sm platform_buttons" type="button" id='mobile'>Mobile</button>
-                  <% if @view_cast.template_card.git_repo_name == 'ProtoGraph.Card.toLink' %>
-                      <button class="btn btn-sm platform_buttons" type="button" id='list'>List</button>
+                  <% @view_cast.template_card.allowed_views.each do |mode|%>
+                    <button class="btn btn-sm platform_buttons" type="button" id="<%= mode %>"><%= mode.titleize %></button>
                   <% end %>
                 </div>
             </div>
@@ -28,7 +26,7 @@
               <%= sanitize @view_cast.seo_blockquote.to_s, tags: %w(p blockquote ul li h1 h2 h3 h4 h5 h6) %>
             </div>
 
-            <script src="https://d2m6lzru8erw1k.cloudfront.net/lib/protoGraph.min.js" async></script>
+            <script src="https://cdn.protograph.pykih.com/lib/protoGraph.min.js" async></script>
             <div class="proto-graph-code-area">
               <hr/>
               <h3 style="text-align: center; margin-bottom: 40px;">Embed the card in your stories</h3>
@@ -108,7 +106,7 @@
   var interval = setInterval(function(){
     if (window.ProtoEmbed) {
       clearInterval(interval);
-      var proto_embed_test = new ProtoEmbed.initFrame(document.getElementById('protoCard'), "<%= "#{@view_cast.template_card.index_html}?view_cast_id=#{@view_cast.datacast_identifier}%26schema_id=#{@view_cast.template_datum.s3_identifier}" %>" , "laptop");
+      var proto_embed_test = new ProtoEmbed.initFrame(document.getElementById('protoCard'), "<%= "#{@view_cast.template_card.index_html}?view_cast_id=#{@view_cast.datacast_identifier}%26schema_id=#{@view_cast.template_datum.s3_identifier}" %>" , "<%= @view_cast.template_card.allowed_views.first %>");
 
       $('.platform_buttons').on('click', function(event){
         var platform = this.id
@@ -128,8 +126,8 @@
       })
     }
   },200)
-
-
+</script>
+<script type="text/javascript">
   $("#view_cast_folder_id").on("change", function(){
     $(this).parents('form').submit();
   })
