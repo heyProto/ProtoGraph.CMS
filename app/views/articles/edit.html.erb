@@ -5,7 +5,7 @@
         </div>
         <div class="col-sm-4">
             <br/>
-            <label class="control-label string optional disabled">Brand cover image for Social Distribution</label>
+            <label class="control-label string optional disabled">4. Brand cover image for Social Distribution</label>
             <br/>
             <% if @image.blank? %>
                 <div class="alert alert-danger" role="alert">
@@ -46,7 +46,7 @@
                     </span>
                 <% end %>
                 <br/><br/>
-                <label class="control-label string optional disabled">Prepare image for Instagram</label>
+                <label class="control-label string optional disabled">5. Prepare image for Instagram</label>
                 <% if @article.instagram_image_variation_id.present? %>
                     <p class="hint">
                         Instagram Image
@@ -67,7 +67,7 @@
             <% end %>
             <br/>
             <br/>
-            <label class="control-label string optional disabled">Brand cover image for Social Distribution</label>
+            <label class="control-label string optional disabled">6. How should the card be seen?</label>
             <br/>
             <% if @article.cover_image.present? and @article.article_datetime.present? %>
                 <% if @article.article_card.present? %>

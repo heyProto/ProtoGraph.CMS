@@ -11,15 +11,23 @@
                             <%= f.input :created_by, as: :hidden, input_html: {value: current_user.id} %>
                         <% end %>
                         <%= f.input :updated_by, as: :hidden, input_html: {value: current_user.id} %>
-                        <%= f.input :url, as: :string, placeholder: "*Copy paste the URL of the story", required: true, label: false, input_html: {style: "border: 0px !important; font-size: 12px; padding-left: 0px; padding-right: 0px; margin-bottom: 0px !important;"}, autofocus: true %>
-                        <%= f.input :title, as: :text, placeholder: "*Copy paste the headline", required: true, label: false, input_html: {style: "border: 0px !important; font-size: 32px; font-weight: bold; color: black; padding-left: 0px; padding-right: 0px; margin-top: 0px !important;"}%>
+                        <% if @article.id.nil? %>
+                            <%= f.input :url, as: :string, placeholder: "*Copy paste the URL of the story", required: true, label: false, input_html: {style: "border: 0px !important; font-size: 12px; padding-left: 0px; padding-right: 0px; margin-bottom: 0px !important;"}, autofocus: true %>
+                        <% else %>
+                            <p style="margin-bottom: 10px; color: gray;"><%= @article.url %></p>
+                        <% end %>
+                        <% if @article.id.nil? %>
+                            <%= f.input :title, as: :text, placeholder: "*Copy paste the headline", required: true, label: false, input_html: {style: "border: 0px !important; font-size: 32px; font-weight: bold; color: black; padding-left: 0px; padding-right: 0px; margin-top: 0px !important;"}%>
+                        <% else %>
+                            <h1 style="border: 0px !important; font-size: 32px; font-weight: bold; color: black; padding-left: 0px; padding-right: 0px; margin-top: 0px !important;"><%= @article.title %></h1>
+                        <% end %>
                     </div>
                     <div class="col-sm-3">
 
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-sm-14">
+                    <div class="col-sm-16">
                         <br/>
                                 <% if @article.cover_image_id.blank? %>
                                     <!-- # Ensure that the cover_image updates -->
@@ -32,7 +40,7 @@
                                     <%= image_tag(@article.cover_image_variation.image_url, class: "img-fluid") %>
 
                                 <br/>
-                                <%= link_to "Remove Image", remove_cover_image_account_folder_article_path(@account, @folder, @article), method: :put, style: "text-align: right;" %>
+                                <%= link_to "Remove Cover Image", remove_cover_image_account_folder_article_path(@account, @folder, @article), method: :put, style: "float: right;" %>
                                 <br/>
                                 <% end %>
 
@@ -44,11 +52,11 @@
                         <%= f.input :content, as: :text, hint: "Cannot be longer than 200 words.", input_html:  {style: "font-size: 12px;", rows: '18'}, label: "Summary of the article" %>
                     </div>
                     <div class="col-sm-4">
-                        <%= f.input :author, placeholder: "e.g. John Doe", label: "Byline", input_html: {style: "font-size: 12px;"} %>
+                        <%= f.input :author, placeholder: "e.g. John Doe", label: "1. <span style='color: red;'>*</span>Byline".html_safe, input_html: {style: "font-size: 12px;"} %>
                         <br/>
-                        <%= f.input :article_datetime, label: "When was the article published?", input_html: {style: "font-size: 12px;"} %>
+                        <%= f.input :article_datetime, label: "2. <span style='color: red;'>*</span>When was the article published?".html_safe, input_html: {style: "font-size: 12px;"} %>
                         <br/>
-                        <%= f.input :genre, placeholder: "E.g. Opinion, Analysis, Wire, Breaking, Exclusive, etc.", label: "Choose a genre of the story", hint: "Cannot be longer than 16 characters. Note, you cannot change it once you save.", input_html: {style: "font-size: 12px;"}, maxlength: 16, disabled: @article.id.present? ? true : false %>
+                        <%= f.input :genre, placeholder: "E.g. Opinion, Analysis, Wire, Breaking, Exclusive, etc.", label: "3. <span style='color: red;'>*</span>Choose a genre of the story".html_safe, hint: "Cannot be longer than 16 characters. Note, you cannot change it once you save.", input_html: {style: "font-size: 12px;"}, maxlength: 16, disabled: @article.id.present? ? true : false %>
                         <%= f.submit "Save", class: @article.id.present? ? "btn btn-outline" : "btn btn-primary" %>
                     </div>
                 </div>
