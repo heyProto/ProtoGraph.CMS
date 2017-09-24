@@ -6,6 +6,15 @@
     </div>
     <div class="col-sm-9">
         <br/>
+
+            <h1>House Colour</h1>
+            <hr/>
+            <p class="hint">Choose your brand colour. Wherever possible, we will use this colour.</p>
+            <%= f.input :house_colour, input_html: {type: :color, style: "height: 40px;"}, label: false %>
+            <br/>
+            <br/>
+
+
         <% if current_user.is_admin_from_pykih and 1 == 2 %>
             <div class="ui message">
               <h4>CDN Configuration</h4>
@@ -42,7 +51,7 @@
           <%= f.button :submit, "Save", class: "ui button" %>
         </div>
     </div>
-    <div class="col-4">
+    <div class="col-sm-4">
         <br/><br/><br/>
       <% if @account.logo_image_id.present? %>
         <%= image_tag(@account.logo_image.original_image.image_url, class: "rounded", style: "width: 100px;") %>

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170923120100) do
+ActiveRecord::Schema.define(version: 20170924114909) do
 
   create_table "accounts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "username"
@@ -29,6 +29,7 @@ ActiveRecord::Schema.define(version: 20170923120100) do
     t.string "access_token"
     t.string "client_secret"
     t.integer "logo_image_id"
+    t.string "house_colour"
     t.index ["domain"], name: "index_accounts_on_domain"
     t.index ["slug"], name: "index_accounts_on_slug", unique: true
     t.index ["username"], name: "index_accounts_on_username", unique: true

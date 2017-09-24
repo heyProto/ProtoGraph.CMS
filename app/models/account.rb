@@ -19,6 +19,7 @@
 #  access_token   :string(255)
 #  client_secret  :string(255)
 #  logo_image_id  :integer
+#  house_colour   :string(255)
 #
 
 class Account < ApplicationRecord
@@ -82,6 +83,7 @@ class Account < ApplicationRecord
         self.cdn_endpoint = ENV['AWS_S3_ENDPOINT']
         self.client_token = ENV['AWS_ACCESS_KEY_ID']
         self.client_secret = ENV['AWS_SECRET_ACCESS_KEY']
+        self.house_colour = "000000"
         true
     end
 
