@@ -94,13 +94,6 @@ class ArticlesController < ApplicationController
         alias_method meth, :remove_cover_image
     end
 
-    def publish_card
-        @article.publish_card
-        redirect_to edit_account_folder_article_path(@account, @folder, @article), notice: t("publish.article_card")
-    end
-
-
-
     private
 
     def article_params

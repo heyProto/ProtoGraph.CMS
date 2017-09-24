@@ -74,8 +74,6 @@
                     <!-- Show the Preview -->
                     <%= render partial: "articles/to_article_preview", locals: {view_cast: @article.article_card } %>
                 <% end %>
-
-                <%= link_to "Publish Card", publish_card_account_folder_article_path(@account, @folder, @article), method: :put %>
             <% end %>
         </div>
     </div>

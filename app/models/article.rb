@@ -49,6 +49,7 @@ class Article < ApplicationRecord
     validates :genre, length: {maximum: 40}
     #CALLBACKS
     before_update :before_update_set
+    after_save :publish_card
 
     #SCOPE
     #OTHER
