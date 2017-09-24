@@ -62,4 +62,6 @@ en:
     integrated: "%{param} image will be generated shortly."
   r:
     image: "Removed Image."
+  publish:
+    article_card: "The article card is published."
 

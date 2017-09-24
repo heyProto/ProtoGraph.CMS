@@ -2,6 +2,74 @@
 <div class="container">
     <div class="row">
         <div class="col-sm-7">
+<<<<<<< HEAD
+        </div>
+        <div class="col-sm-4">
+            <br/>
+            <h5>Prepare article for Social Distribution</h5>
+            <br/>
+            <% if @image.blank? %>
+                <div class="alert alert-danger" role="alert">
+                  To continue, upload a cover image.
+                </div>
+            <% else %>
+
+                <% if @article.og_image_variation_id.present? %>
+                    <p class="hint">
+                        Facebook Image
+                        <span style="float: right;">
+                            <%= link_to "Remove".html_safe, remove_facebook_image_account_folder_article_path(@account, @folder, @article), method: :put %>
+                        </span>
+                    </p>
+
+                    <%= link_to (image_tag @article.og_image_variation.image_url, class: 'img-fluid'), download_account_image_variation_path(@account, @article.og_image_variation, filename: "#{@article.slug}"), method: "post", target: "_blank"  %>
+
+
+                <% else %>
+                   <%= link_to "Crop cover image for Facebook", "#", id: "social_button", class: "btn btn-outline protograph-social-crop-btn", "data-toggle"=>'modal', "data-mode"=>'#facebook', "data-target"=>'#socialCropperModal' %>
+                <% end %>
+                <br/><br/>
+                <% if @article.twitter_image_variation_id.present? %>
+                    <p class="hint">
+                        Twitter Image
+                        <span style="float: right;">
+                            <%= link_to "Remove".html_safe, remove_twitter_image_account_folder_article_path(@account, @folder, @article), method: :put %>
+                        </span>
+                    </p>
+                    <%= link_to (image_tag @article.twitter_image_variation.image_url, class: 'img-fluid'), download_account_image_variation_path(@account, @article.twitter_image_variation, filename: "#{@article.slug}"), method: "post", target: "_blank"  %>
+
+
+                <% else %>
+                    <%= link_to "Crop cover image for Twitter", "#", id: "social_button", class: "btn btn-outline protograph-social-crop-btn", "data-toggle"=>'modal', "data-mode"=>'#twitter', "data-target"=>'#socialCropperModal' %>
+                <% end %>
+                <br/><br/>
+                <% if @article.instagram_image_variation_id.present? %>
+                    <p class="hint">
+                        Instagram Image
+                        <span style="float: right;">
+                            <%= link_to "Remove".html_safe, remove_instagram_image_account_folder_article_path(@account, @folder, @article), method: :put %>
+                        </span>
+                    </p>
+
+
+                    <%= link_to (image_tag @article.instagram_image_variation.image_url, class: 'img-fluid'), download_account_image_variation_path(@account, @article.instagram_image_variation, filename: "#{@article.slug}"), method: "post", target: "_blank"  %>
+
+
+                <% else %>
+                    <%= link_to "Crop 1:1 cover image for Instagram", "#", id: "social_button", class: "btn btn-outline protograph-social-crop-btn", "data-toggle"=>'modal', "data-mode"=>'#instagram', "data-target"=>'#socialCropperModal' %>
+                <% end %>
+            <% end %>
+
+            <% if @article.cover_image.present? and @article.article_datetime.present? %>
+                <% if @article.article_card.present? %>
+                    <!-- Show the Preview -->
+                    <%= render partial: "articles/to_article_preview", locals: {view_cast: @article.article_card } %>
+                <% end %>
+
+                <%= link_to "Publish Card", publish_card_account_folder_article_path(@account, @folder, @article), method: :put %>
+            <% end %>
+        </div>
+=======
         </div>
         <div class="col-sm-4">
             <br/>
@@ -58,6 +126,7 @@
         <%= link_to "Crop 1:1 cover image for Instagram", "#", id: "social_button", class: "btn btn-outline protograph-social-crop-btn", "data-toggle"=>'modal', "data-mode"=>'#instagram', "data-target"=>'#socialCropperModal' %>
         <% end %>
         <% end %>
+>>>>>>> 89f152e1e9bf5e293ead769f4c20c452547c0e37
     </div>
 </div>
 

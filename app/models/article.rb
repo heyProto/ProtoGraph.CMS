@@ -65,9 +65,9 @@ class Article < ApplicationRecord
         if self.cover_image.present? and self.article_datetime.present?
             if self.article_card.present?
                 view_cast = self.article_card
-                view_cast.update({name: self.title, updated_by: self.updated_by, seo_blockquote: "<h4#>#{self.title}</h4><p>#{self.content}</p>", folder_id: self.folder_id, default_view: self.default_view})
+                view_cast.update({name: self.title, updated_by: self.updated_by, seo_blockquote: "<blockquote><h4#>#{self.title}</h4><p>#{self.content}</p></blockquote>", folder_id: self.folder_id, default_view: self.default_view})
             else
-                view_cast = ViewCast.create({name: self.title,template_card_id: TemplateCard.where(name: 'toArticle').first.id,template_datum_id: TemplateDatum.where(name: 'toArticle').first.id, optionalConfigJSON: {}, created_by: self.created_by, updated_by: self.updated_by, seo_blockquote: "<h4#>#{self.title}</h4><p>#{self.content}</p>", folder_id: self.folder_id, default_view: self.default_view, account_id: self.account_id})
+                view_cast = ViewCast.create({name: self.title,template_card_id: TemplateCard.where(name: 'toArticle').first.id,template_datum_id: TemplateDatum.where(name: 'toArticle').first.id, optionalConfigJSON: {}, created_by: self.created_by, updated_by: self.updated_by, seo_blockquote: "<blockquote><h4#>#{self.title}</h4><p>#{self.content}</p></blockquote>", folder_id: self.folder_id, default_view: self.default_view, account_id: self.account_id})
                 self.update_column(:view_cast_id, view_cast.id)
             end
             payload = {}
@@ -76,6 +76,10 @@ class Article < ApplicationRecord
             payload["schema_url"] = view_cast.template_datum.schema_json
             payload["source"] = "form"
             r = Api::ProtoGraph::Datacast.create(payload)
+            if self.account.cdn_id != ENV['AWS_CDN_ID']
+                Api::ProtoGraph::CloudFront.invalidate(@account, ["/#{view_cast.datacast_identifier}/data.json","/#{view_cast.datacast_identifier}/view_cast.json"], 2)
+            end
+            Api::ProtoGraph::CloudFront.invalidate(nil, ["/#{view_cast.datacast_identifier}/*"], 1)
         end
     end
 

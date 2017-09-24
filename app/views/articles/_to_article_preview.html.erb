@@ -1,0 +1,38 @@
+<script src="https://cdn.protograph.pykih.com/lib/protoGraph.min.js" async></script>
+
+<div class='one-br-space'></div>
+<select class="custom-select" id='select_mode'>
+    <% view_cast.template_card.allowed_views.each_with_index do |mode, index| %>
+        <option class="dropdown-item" value="<%= mode %>" <%= index == 0 ? "selected" : "" %>><%= mode.titleize %></option>
+    <% end %>
+</select>
+
+<!-- <div class="dropdown">
+  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    <%= view_cast.template_card.allowed_views.first.titleize %>
+  </button>
+  <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+    <% view_cast.template_card.allowed_views.each do |mode| %>
+        <button class="dropdown-item" type="button" id="<%= mode %>" ><%= mode.titleize %></button>
+    <% end %>
+  </div>
+</div>
+ -->
+<div id="protoCard" style='width: 100%'>
+    <%= sanitize view_cast.seo_blockquote.to_s, tags: %w(p blockquote ul li h1 h2 h3 h4 h5 h6) %>
+</div>
+
+<script type="text/javascript">
+    var interval = setInterval(function(){
+        if (window.ProtoEmbed) {
+          clearInterval(interval);
+          var proto_embed_test = new ProtoEmbed.initFrame(document.getElementById('protoCard'), "<%= "#{view_cast.template_card.index_html}?view_cast_id=#{view_cast.datacast_identifier}%26schema_id=#{view_cast.template_datum.s3_identifier}" %>" , "<%= view_cast.template_card.allowed_views.first %>");
+        }
+
+        $("#select_mode").on("change", function(){
+            proto_embed_test.sandbox.oasis.services[0].send('change_mode', this.value);
+        });
+    }, 10);
+
+
+</script>

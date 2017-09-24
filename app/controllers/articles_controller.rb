@@ -1,6 +1,6 @@
 class ArticlesController < ApplicationController
     before_action :authenticate_user!
-    before_action :set_article, only: [:show, :edit, :update, :remove_cover_image,:remove_twitter_image, :remove_facebook_image, :remove_instagram_image]
+    before_action :set_article, only: [:show, :edit, :update, :remove_cover_image,:remove_twitter_image, :remove_facebook_image, :remove_instagram_image, :publish_card]
 
     def index
       @view_casts_count = @folder.view_casts.count
@@ -87,11 +87,16 @@ class ArticlesController < ApplicationController
         else
             @article.update_attribute(:cover_image_id, nil)
         end
-        redirect_to edit_account_folder_article_path(@account, @folder, @article)
+        redirect_to edit_account_folder_article_path(@account, @folder, @article), notice: t("ds")
     end
 
     [:remove_twitter_image, :remove_facebook_image, :remove_instagram_image].each do |meth|
         alias_method meth, :remove_cover_image
+    end
+
+    def publish_card
+        @article.publish_card
+        redirect_to edit_account_folder_article_path(@account, @folder, @article), notice: t("publish.article_card")
     end
 
 
