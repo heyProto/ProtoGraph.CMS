@@ -12,12 +12,7 @@
                         <% end %>
                         <%= f.input :updated_by, as: :hidden, input_html: {value: current_user.id} %>
                         <%= f.input :url, as: :string, placeholder: "*Copy paste the URL of the story", required: true, label: false, input_html: {style: "border: 0px !important; font-size: 12px; padding-left: 0px; padding-right: 0px; margin-bottom: 0px !important;"}, autofocus: true %>
-
                         <%= f.input :title, placeholder: "*Copy paste the headline", required: true, label: false, input_html: {style: "border: 0px !important; font-size: 32px; font-weight: bold; color: black; padding-left: 0px; padding-right: 0px; margin-top: 0px !important;"}%>
-                        <%= f.input :author, placeholder: "Author of the article.", label: false, input_html: {style: "border: 0px !important; font-size: 12px; padding-left: 0px; padding-right: 0px; margin-bottom: 0px !important;"} %>
-                        <div class='one-br-space'></div>
-                        <%= f.input :article_datetime, placeholder: "Published date and time of the article", label: "Time of the article", input_html: {style: "font-size: 12px;"} %>
-                        <div class='one-br-space'></div>
                     </div>
                     <div class="col-sm-3">
 
@@ -48,8 +43,11 @@
                     <div class="col-sm-7">
                     </div>
                     <div class="col-sm-4">
-
-                        <%= f.input :genre, placeholder: "E.g. Opinion, Analysis, Wire, Breaking, Exclusive, etc.", label: "Choose a genre of the story", hint: "Cannot be longer than 16 characters", input_html: {style: "font-size: 12px;"}, maxlength: 16, disabled: @article.id.present? ? true : false %>
+                        <%= f.input :author, placeholder: "e.g. John Doe", label: "Byline", input_html: {style: "font-size: 12px;"} %>
+                        <br/>
+                        <%= f.input :article_datetime, label: "When was the article published?", input_html: {style: "font-size: 12px;"} %>
+                        <br/>
+                        <%= f.input :genre, placeholder: "E.g. Opinion, Analysis, Wire, Breaking, Exclusive, etc.", label: "Choose a genre of the story", hint: "Cannot be longer than 16 characters. Note, you cannot change it once you save.", input_html: {style: "font-size: 12px;"}, maxlength: 16, disabled: @article.id.present? ? true : false %>
                         <%= f.submit "Save", class: @article.id.present? ? "btn btn-outline" : "btn btn-primary" %>
                     </div>
                 </div>

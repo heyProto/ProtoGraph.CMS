@@ -5,15 +5,15 @@
         </div>
         <div class="col-sm-4">
             <br/>
-            <h5>Prepare article for Social Distribution</h5>
+            <label class="control-label string optional disabled">Brand cover image for Social Distribution</label>
             <br/>
             <% if @image.blank? %>
                 <div class="alert alert-danger" role="alert">
                   To continue, upload a cover image.
                 </div>
             <% else %>
-
                 <% if @article.og_image_variation_id.present? %>
+
                     <p class="hint">
                         Facebook Image
                         <span style="float: right;">
@@ -25,7 +25,9 @@
 
 
                 <% else %>
-                   <%= link_to "Crop cover image for Facebook", "#", id: "social_button", class: "btn btn-outline protograph-social-crop-btn", "data-toggle"=>'modal', "data-mode"=>'#facebook', "data-target"=>'#socialCropperModal' %>
+                   <span style="float: right;">
+                    <%= link_to "Crop for Facebook", "#", id: "social_button", class: "protograph-social-crop-btn", "data-toggle"=>'modal', "data-mode"=>'#facebook', "data-target"=>'#socialCropperModal' %>
+                   </span>
                 <% end %>
                 <br/><br/>
                 <% if @article.twitter_image_variation_id.present? %>
@@ -39,9 +41,12 @@
 
 
                 <% else %>
-                    <%= link_to "Crop cover image for Twitter", "#", id: "social_button", class: "btn btn-outline protograph-social-crop-btn", "data-toggle"=>'modal', "data-mode"=>'#twitter', "data-target"=>'#socialCropperModal' %>
+                    <span style="float: right;">
+                        <%= link_to "Crop for Twitter", "#", id: "social_button", class: "protograph-social-crop-btn", "data-toggle"=>'modal', "data-mode"=>'#twitter', "data-target"=>'#socialCropperModal' %>
+                    </span>
                 <% end %>
                 <br/><br/>
+                <label class="control-label string optional disabled">Crop cover image to upload on Instagram</label>
                 <% if @article.instagram_image_variation_id.present? %>
                     <p class="hint">
                         Instagram Image
@@ -55,7 +60,9 @@
 
 
                 <% else %>
-                    <%= link_to "Crop 1:1 cover image for Instagram", "#", id: "social_button", class: "btn btn-outline protograph-social-crop-btn", "data-toggle"=>'modal', "data-mode"=>'#instagram', "data-target"=>'#socialCropperModal' %>
+                    <span style="float: right;">
+                        <%= link_to "Crop for Instagram", "#", id: "social_button", class: "protograph-social-crop-btn", "data-toggle"=>'modal', "data-mode"=>'#instagram', "data-target"=>'#socialCropperModal' %>
+                    </span>
                 <% end %>
             <% end %>
 
