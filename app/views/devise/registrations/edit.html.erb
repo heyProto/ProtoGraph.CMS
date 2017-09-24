@@ -1,8 +1,8 @@
 <div class="row">
-  <div class="col-3">
+  <div class="col-sm-3">
     <%= render partial: "accounts/sidebar" %>
   </div>
-  <div class="col-7">
+  <div class="col-sm-9">
     <br/>
     <h1>Account</h1>
     <hr/>
@@ -24,7 +24,7 @@
     <hr/>
     <p><%= current_user.access_token %> </p>
   </div>
-  <div class="col-2">
+  <div class="col-sm-4">
     <br/><br/><br/>
     <%= image_tag avatar_url(current_user.email, 200), class: "rounded" %>
     <br/>

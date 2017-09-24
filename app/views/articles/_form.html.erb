@@ -70,11 +70,44 @@
                             <br/>
                             <%= link_to "Remove Image", remove_cover_image_account_folder_article_path(@account, @folder, @article), class: "btn btn-outline", method: :put %>
                         <% end %>
-                    </tr>
-                </table>
-                <br/>
-                <%= f.submit "Save", class: @article.id.present? ? "btn btn-outline" : "btn btn-primary" %>
+                        <%= f.input :updated_by, as: :hidden, input_html: {value: current_user.id} %>
+                        <%= f.input :url, as: :string, placeholder: "*Copy paste the URL of the story", required: true, label: false, input_html: {style: "border: 0px !important; font-size: 12px; padding-left: 0px; padding-right: 0px; margin-bottom: 0px !important;"}, autofocus: true %>
+                        <%= f.input :title, placeholder: "*Copy paste the headline", required: true, label: false, input_html: {style: "border: 0px !important; font-size: 32px; font-weight: bold; color: black; padding-left: 0px; padding-right: 0px; margin-top: 0px !important;"} %>
+                    </div>
+                    <div class="col-sm-3">
+
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-14">
+                        <br/>
+                                <% if @article.cover_image_id.blank? %>
+                                    <!-- # Ensure that the cover_image updates -->
+                                    <p class="hint" style="margin-bottom: 0px;">Upload cover image</p>
+                                    <%= f.fields_for :cover_image do |cover_image| %>
+                                        <%= cover_image.input :image, label: false, placeholder: "Upload cover image", input_html: {style: "width: 100%; background: lightgray; min-height: 400px; cursor: pointer; padding: 160px 0px 0px 40%;"} %>
+                                    <% end %>
+                                <% else %>
+
+                                    <%= image_tag(@article.cover_image_variation.image_url, class: "ui centered image") %>
+
+                                <br/>
+                                <%= link_to "Remove Image", remove_cover_image_account_folder_article_path(@account, @folder, @article), method: :put, style: "text-align: right;" %>
+                                <br/>
+                                <% end %>
+
+                        <br/>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-7">
+                    </div>
+                    <div class="col-sm-4">
+
+                        <%= f.input :genre, placeholder: "E.g. Opinion, Analysis, Wire, Breaking, Exclusive, etc.", label: "Choose a genre of the story", hint: "Cannot be longer than 16 characters", input_html: {style: "font-size: 12px;"}, maxlength: 16 %>
+                        <%= f.submit "Save", class: @article.id.present? ? "btn btn-outline" : "btn btn-primary" %>
+                    </div>
+                </div>
             </div>
-        </div>
-    </div>
-<% end %>
+    <% end %>
+</div>

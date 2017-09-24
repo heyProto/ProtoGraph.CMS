@@ -22,6 +22,8 @@ h6{text-transform: uppercase; font-weight: 800;}
     vertical-align: top
 }
 
+nav.navbar{border-bottom: 1px solid #F5F5F5; background: #FAFAFA !important;}
+
 ul.nav.jignesh > li.nav-item > a.nav-link.active{ border-bottom: 4px solid #0366d6; padding-left: 0px; padding-right: 0px; margin: 0px 50px;}
 
 .dropdown-menu{padding: 0px !important;}

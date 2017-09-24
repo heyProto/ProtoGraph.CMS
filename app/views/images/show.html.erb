@@ -1,13 +1,10 @@
 <% w = @image.image_width %>
 <% h = @image.image_height %>
 
-<div class="row-fluid" style="background: #fafbfc; ">
-  <div class="container" style="padding-left: 0px; padding-right: 0px;">
-    <br/>
-    <div class="row"  style="padding-left: 0px; padding-right: 0px;">
-      <div class="col-10">
+  <div class="container">
+    <div class="row" >
+      <div class="col-16">
           <ol class="breadcrumb" style="background: transparent; padding-left: 0px; margin-bottom: 0px;">
-            <li class="breadcrumb-item"><%= link_to @account.username, @account %></li>
             <li class="breadcrumb-item active"><%= link_to "Image Bank", account_images_path(@account) %></li>
           </ol>
         <h1 style="margin-bottom: 20px; font-weight: 600; margin-top: 0px; font-size: 20px;">
@@ -20,9 +17,9 @@
 <br/>
 <br/>
 
-<div class="container" style="max-height: 600px; overflow: auto;" >
+<div class="container" >
   <div class='row' style="background: #efefef; text-align: center;">
-    <div class='col-sm-12'>
+    <div class='col-sm-16'>
         <!-- <span class="oi" data-glyph="copywriting"></span> -->
       <div class='mx-auto'>
         <a href="<%= @image.original_image.image_url %>" target="_blank">
@@ -35,7 +32,7 @@
   <br/><br/>
   <div class="row">
     <a id="openFileUpload" class='btn btn-primary' href='#' data-toggle='modal' data-target='#imageCropperModal'>Crop original image to create variation</a>
-    <div class="col-sm-12">
+    <div class="col-sm-16">
       <div style="position: relative;">
         <% if @image.image_variation.present? %>
             <br/><br/>
@@ -57,11 +54,11 @@
 
   $(document).ready(function(){
     <% if @image.image_variation.present? %>
-      var maxHeight = 75;
+      var maxHeight = 150;
       $('#variationImages').empty().justifiedImages({
         images : images,
         rowHeight: maxHeight,
-        maxRowHeight: 75,
+        maxRowHeight: 150,
         thumbnailPath: function(photo, width, height){
           return photo.image_url;
         },
