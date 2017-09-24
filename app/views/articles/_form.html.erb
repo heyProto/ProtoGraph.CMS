@@ -13,7 +13,7 @@
             <div class="col-2">
             </div>
         </div>
-        
+
     </div>
     <%= render partial: "folders/header" %>
 </div>
@@ -32,14 +32,17 @@
                 <hr/>
             </div>
         </div>
-        <br/>
-        <br/>
+        <br/><br/>
         <div class="row">
             <div class="col-2"></div>
             <div class="col-8">
                 <h4 style="font-weight: 200;">Step #1 - Choose a genre</h4>
                 <br/>
                 <%= f.input :genre, placeholder: "Genre of the story e.g. Opinion, Analysis, Wire, Breaking, Exclusive, etc.", label: false, hint: "Cannot be longer than 40 characters", input_html: {style: "font-size: 12px;"} %>
+                <%= f.input :author, placeholder: "Author of the article.", label: false, input_html: {style: "font-size: 12px;"} %>
+                <div class='one-br-space'></div>
+                <%= f.input :article_datetime, placeholder: "Published date and time of the article", label: "Time of the article", input_html: {style: "font-size: 12px;"} %>
+                <div class='one-br-space'></div>
             </div>
             <div class="col-2"></div>
         </div>
@@ -60,7 +63,9 @@
                             <td class="hint">&nbsp; Upload cover image</td>
                         <% else %>
                             <div style="text-align: center; background: #fdfdfd;">
-                                <%= image_tag(@article.cover_image_variation.image_url, class: "ui centered image") %>
+                                <div class='col-sm-8 col-sm-offset-2'>
+                                    <%= image_tag(@article.cover_image_variation.image_url,width: "100%")  %>
+                                </div>
                             </div>
                             <br/>
                             <%= link_to "Remove Image", remove_cover_image_account_folder_article_path(@account, @folder, @article), class: "btn btn-outline", method: :put %>

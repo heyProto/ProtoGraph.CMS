@@ -21,6 +21,10 @@
 #  url                          :text(65535)
 #  slug                         :string(255)
 #  instagram_image_variation_id :integer
+#  author                       :string(255)
+#  article_datetime             :datetime
+#  view_cast_id                 :integer
+#  default_view                 :string(255)
 #
 
 class Article < ApplicationRecord
@@ -32,7 +36,7 @@ class Article < ApplicationRecord
     has_one :twitter_image_variation, class_name: "ImageVariation", primary_key: "twitter_image_variation_id", foreign_key: "id"
     has_one :og_image_variation, class_name: "ImageVariation", primary_key: "og_image_variation_id", foreign_key: "id"
     has_one :instagram_image_variation, class_name: "ImageVariation", primary_key: "instagram_image_variation_id", foreign_key: "id"
-
+    has_one :article_card, class_name: "ViewCast", primary_key: "view_cast_id", foreign_key: "id"
     #GEMS
     include Associable
     extend FriendlyId
@@ -58,6 +62,35 @@ class Article < ApplicationRecord
     end
 
     def publish_card
+        if self.cover_image.present? and self.article_datetime.present?
+            if self.article_card.present?
+                view_cast = self.article_card
+                view_cast.update({name: self.title, updated_by: self.updated_by, seo_blockquote: "<h4#>#{self.title}</h4><p>#{self.content}</p>", folder_id: self.folder_id, default_view: self.default_view})
+            else
+                view_cast = ViewCast.create({name: self.title,template_card_id: TemplateCard.where(name: 'toArticle').first.id,template_datum_id: TemplateDatum.where(name: 'toArticle').first.id, optionalConfigJSON: {}, created_by: self.created_by, updated_by: self.updated_by, seo_blockquote: "<h4#>#{self.title}</h4><p>#{self.content}</p>", folder_id: self.folder_id, default_view: self.default_view, account_id: self.account_id})
+                self.update_column(:view_cast_id, view_cast.id)
+            end
+            payload = {}
+            payload["payload"] = create_datacast_json.to_json
+            payload["api_slug"] = view_cast.datacast_identifier
+            payload["schema_url"] = view_cast.template_datum.schema_json
+            payload["source"] = "form"
+            r = Api::ProtoGraph::Datacast.create(payload)
+        end
+    end
+
+
+    def create_datacast_json
+        data = {"data" => {}}
+        data["data"]["title"] = self.title
+        data["data"]["url"] = self.url
+        data["data"]["genre"] = self.genre
+        data["data"]["feature_image_url"] = self.cover_image.image_url
+        data["data"]["thumbnail_url"] = "#{self.account.cdn_endpoint}/#{self.cover_image.thumbnail_key}"
+        data["data"]["description"] = self.content
+        data["data"]["author"] = "#{self.author}"
+        data["data"]["date"] = self.article_datetime.strftime("%Y-%m-%dT%l:%M:%S%z")
+        data
     end
 
     #PRIVATE
