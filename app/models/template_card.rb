@@ -30,6 +30,7 @@
 #  s3_identifier        :string(255)
 #  has_multiple_uploads :boolean          default(FALSE)
 #  has_grouping         :boolean          default(FALSE)
+#  allowed_views        :text(65535)
 #
 
 class TemplateCard < ApplicationRecord
@@ -39,6 +40,7 @@ class TemplateCard < ApplicationRecord
     #CONSTANTS
     STATUS = ["Draft", "Ready to Publish", "Published", "Deactivated"]
     CDN_BASE_URL = "#{ENV['AWS_S3_ENDPOINT']}"
+    serialize :allowed_views
 
     #CUSTOM TABLES
     #GEMS
@@ -62,7 +64,6 @@ class TemplateCard < ApplicationRecord
 
     #CALLBACKS
     before_create :before_create_set
-    after_create :after_create_set
     before_destroy :before_destroy_set
 
     #SCOPE
@@ -184,10 +185,6 @@ class TemplateCard < ApplicationRecord
             self.version = "0.0.1"
             self.is_public = false unless self.is_public.present?
         end
-        true
-    end
-
-    def after_create_set
         true
     end
 
