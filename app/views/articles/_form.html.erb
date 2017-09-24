@@ -49,6 +49,7 @@
                 </div>
                 <div class="row">
                     <div class="col-sm-7">
+                        <%= f.input :content, as: :text, hint: "Cannot be longer than 200 words.", input_html:  {style: "font-size: 12px;", rows: '18'}, label: "Summary of the article" %>
                     </div>
                     <div class="col-sm-4">
                         <%= f.input :author, placeholder: "e.g. John Doe", label: "1. <span style='color: red;'>*</span>Byline".html_safe, input_html: {style: "font-size: 12px;"} %>

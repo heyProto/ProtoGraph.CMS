@@ -54,6 +54,9 @@ class ArticlesController < ApplicationController
         @view_casts_count = @folder.view_casts.count
         @streams_count = @folder.streams.count
         @articles_count = @folder.articles.count
+        @article_modes = ""
+        @article.cover_image.present? ? (@article_modes << "1") : (@article_modes << "0")
+        @article.content.present? ? (@article_modes << "1") : (@article_modes << "0")
         render layout: "application-fluid"
     end
 
@@ -93,13 +96,6 @@ class ArticlesController < ApplicationController
     [:remove_twitter_image, :remove_facebook_image, :remove_instagram_image].each do |meth|
         alias_method meth, :remove_cover_image
     end
-
-    def publish_card
-        @article.publish_card
-        redirect_to edit_account_folder_article_path(@account, @folder, @article), notice: t("publish.article_card")
-    end
-
-
 
     private
 

@@ -66,7 +66,6 @@ Rails.application.routes.draw do
         put "remove_facebook_image", on: :member
         put "remove_twitter_image", on: :member
         put "remove_instagram_image", on: :member
-        put "publish_card", on: :member
       end
       resources :uploads, only: [:new, :create]
     end

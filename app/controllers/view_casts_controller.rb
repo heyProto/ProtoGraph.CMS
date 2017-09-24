@@ -1,6 +1,6 @@
 class ViewCastsController < ApplicationController
     before_action :authenticate_user!
-    before_action :set_view_cast, only: [:show, :edit, :recreate]
+    before_action :set_view_cast, only: [:show, :edit, :recreate, :update]
 
     def new
     end
@@ -29,10 +29,15 @@ class ViewCastsController < ApplicationController
     end
 
     def update
-        @view_cast = ViewCast.friendly.find(params[:id])
+        v_c_params = view_cast_params
+        v_c_params["stop_callback"] = true
         if @view_cast.update(view_cast_params)
             track_activity(@view_cast)
-            redirect_to account_folder_view_cast_path(@account, @view_cast.folder, @view_cast), notice: t('us')
+            if @view_cast.redirect_url.present?
+                redirect_to @view_cast.redirect_url, notice: t('us')
+            else
+                redirect_to account_folder_view_cast_path(@account, @view_cast.folder, @view_cast), notice: t('us')
+            end
         else
             render :show
         end
@@ -46,7 +51,7 @@ class ViewCastsController < ApplicationController
     private
 
     def view_cast_params
-        params.require(:view_cast).permit(:folder_id)
+        params.require(:view_cast).permit(:folder_id, :default_view, :redirect_url)
     end
 
 end

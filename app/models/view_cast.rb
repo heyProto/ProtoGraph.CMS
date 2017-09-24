@@ -39,7 +39,7 @@ class ViewCast < ApplicationRecord
     belongs_to :updator, class_name: "User", foreign_key: "updated_by"
 
     #ACCESSORS
-    attr_accessor :dataJSON, :schemaJSON, :stop_callback
+    attr_accessor :dataJSON, :schemaJSON, :stop_callback, :redirect_url
     #VALIDATIONS
     validates :slug, uniqueness: true
     validates :folder_id, presence: true
