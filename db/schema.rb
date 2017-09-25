@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170924114909) do
+ActiveRecord::Schema.define(version: 20170925073549) do
 
   create_table "accounts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "username"
@@ -346,6 +346,7 @@ ActiveRecord::Schema.define(version: 20170924114909) do
     t.integer "folder_id"
     t.boolean "is_invalidating"
     t.string "default_view"
+    t.integer "article_id"
     t.index ["slug"], name: "index_view_casts_on_slug", unique: true
   end
 

@@ -20,6 +20,7 @@
 #  folder_id             :integer
 #  is_invalidating       :boolean
 #  default_view          :string(255)
+#  article_id            :integer
 #
 
 class ViewCast < ApplicationRecord
@@ -37,6 +38,7 @@ class ViewCast < ApplicationRecord
     belongs_to :template_card
     belongs_to :creator, class_name: "User", foreign_key: "created_by"
     belongs_to :updator, class_name: "User", foreign_key: "updated_by"
+    has_one :article
 
     #ACCESSORS
     attr_accessor :dataJSON, :schemaJSON, :stop_callback, :redirect_url
