@@ -59,7 +59,7 @@ class Account < ApplicationRecord
     before_create :before_create_set
     before_update :before_update_set
     after_save :after_save_set
-
+    before_update :change_view_casts_house_colours, if: :house_colour_changed?
     #SCOPE
     #OTHER
 
@@ -98,4 +98,8 @@ class Account < ApplicationRecord
     def after_save_set
     end
 
+    def change_view_casts_house_colours
+      view_casts = self.view_casts
+      view_casts.where(template_card_id: TemplateCard.where(name: 'toArticle').first.id).update_all(optionalConfigJSON: '{"house_colour": self.house_colour}')
+    end
 end
