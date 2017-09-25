@@ -61,7 +61,6 @@ class ArticlesController < ApplicationController
     end
 
     def update
-
         a_params = article_params
         if a_params.has_key?("cover_image_attributes") and a_params["cover_image_attributes"].has_key?("image")
             a_params["cover_image_attributes"]["name"] = article_params["cover_image_attributes"]['image'].original_filename
@@ -71,11 +70,18 @@ class ArticlesController < ApplicationController
             a_params["cover_image_attributes"]["created_by"] = current_user.id
             a_params["cover_image_attributes"]["updated_by"] = current_user.id
         end
-        if @article.update(a_params)
-            track_activity(@article)
-            redirect_to edit_account_folder_article_path(@account, @folder, @article), notice: t('cs')
-        else
-            render :edit
+
+        respond_to do |format|
+            if @article.update(a_params)
+                track_activity(@article)
+                format.html {
+                    redirect_to(redirect_to edit_account_folder_article_path(@account, @folder, @article), notice: t('cs'))
+                }
+                format.json { respond_with_bip(@article) }
+            else
+                format.html { render :edit }
+                format.json { respond_with_bip(@article) }
+            end
         end
     end
 
