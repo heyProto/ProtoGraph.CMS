@@ -61,10 +61,6 @@ class Article < ApplicationRecord
     #SCOPE
     #OTHER
 
-    def should_generate_new_friendly_id?
-        title_changed?
-    end
-
     def cover_image_variation
         cover_image.original_image
     end
