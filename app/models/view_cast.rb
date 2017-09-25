@@ -164,6 +164,7 @@ class ViewCast < ApplicationRecord
         self.seo_blockquote = self.seo_blockquote.to_s.gsub('\\', '\\\\')
         # self.seo_blockquote = self.seo_blockquote.to_s.split('`').join('\`') #.gsub('`', '\`')
         self.seo_blockquote = self.seo_blockquote.to_s.gsub('${', '\${')
+        self.default_view = self.template_card.allowed_views.first
     end
 
     def after_save_set
