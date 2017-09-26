@@ -163,6 +163,13 @@ class ImageVariation < ApplicationRecord
 
     if self.mode.present? and self.article_id.present?
       article = Article.friendly.find(self.article_id)
+      if self.mode == "facebook"
+        article.update_column(:facebook_uploading, true)
+      elsif self.mode == "twitter"
+        article.update_column(:twitter_uploading, true)
+      else
+        article.update_column(:instagram_uploading, true)
+      end
       #Creating
       key = "images/#{self.account.slug}/#{self.image.s3_identifier}/#{self.id + 1}.png"
       a = ImageVariation.new({
@@ -204,11 +211,12 @@ class ImageVariation < ApplicationRecord
         response = Api::ProtoGraph::ViewCast.render_screenshot(payload)
         if response['message'].present? and response['message'] == "Data Added Successfully"
           if self.mode == "facebook"
-            article.update_column(:og_image_variation_id, a.id)
+            article.update_columns(og_image_variation_id: a.id, facebook_uploading: false)
+
           elsif self.mode == "twitter"
-            article.update_column(:twitter_image_variation_id, a.id)
+            article.update_columns(twitter_image_variation_id: a.id, twitter_uploading: false)
           else
-            article.update_column(:instagram_image_variation_id, a.id)
+            article.update_columns(instagram_image_variation_id: a.id, instagram_uploading: false)
           end
 
         end

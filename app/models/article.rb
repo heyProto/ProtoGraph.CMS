@@ -25,6 +25,9 @@
 #  article_datetime             :datetime
 #  view_cast_id                 :integer
 #  default_view                 :string(255)
+#  facebook_uploading           :boolean          default(FALSE)
+#  twitter_uploading            :boolean          default(FALSE)
+#  instagram_uploading          :boolean          default(FALSE)
 #
 
 class Article < ApplicationRecord

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170925073549) do
+ActiveRecord::Schema.define(version: 20170926084858) do
 
   create_table "accounts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "username"
@@ -69,6 +69,9 @@ ActiveRecord::Schema.define(version: 20170925073549) do
     t.datetime "article_datetime"
     t.integer "view_cast_id"
     t.string "default_view"
+    t.boolean "facebook_uploading", default: false
+    t.boolean "twitter_uploading", default: false
+    t.boolean "instagram_uploading", default: false
   end
 
   create_table "authentications", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
