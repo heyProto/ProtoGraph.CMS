@@ -1,1 +1,1 @@
-district,total_reporting_area,area_under_forest,forest_area,area_under_concrete,concrete_area,land_score,forest_score,population_increase,population_score
+district_code,district,total_reporting_area,area_under_forest,forest_area,area_under_concrete,concrete_area,land_score,forest_score,population_increase,population_score,language
