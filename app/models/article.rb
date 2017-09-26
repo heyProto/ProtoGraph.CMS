@@ -38,7 +38,7 @@ class Article < ApplicationRecord
 
     #ASSOCIATIONS
     belongs_to :folder
-    belongs_to :cover_image, class_name: "Image"
+    belongs_to :cover_image, class_name: "Image", optional: true
     has_one :twitter_image_variation, class_name: "ImageVariation", primary_key: "twitter_image_variation_id", foreign_key: "id"
     has_one :og_image_variation, class_name: "ImageVariation", primary_key: "og_image_variation_id", foreign_key: "id"
     has_one :instagram_image_variation, class_name: "ImageVariation", primary_key: "instagram_image_variation_id", foreign_key: "id"
@@ -71,7 +71,7 @@ class Article < ApplicationRecord
                 view_cast = self.article_card
                 view_cast.update({name: self.title, updated_by: self.updated_by, seo_blockquote: "<blockquote><h4#>#{self.title}</h4><p>#{self.content}</p></blockquote>", folder_id: self.folder_id, default_view: self.default_view})
             else
-                view_cast = ViewCast.create({name: self.title,template_card_id: TemplateCard.where(name: 'toArticle').first.id,template_datum_id: TemplateDatum.where(name: 'toArticle').first.id, optionalConfigJSON: {}, created_by: self.created_by, updated_by: self.updated_by, seo_blockquote: "<blockquote><h4#>#{self.title}</h4><p>#{self.content}</p></blockquote>", folder_id: self.folder_id, default_view: self.default_view, account_id: self.account_id})
+                view_cast = ViewCast.create({name: self.title,template_card_id: TemplateCard.where(name: 'toArticle').first.id,template_datum_id: TemplateDatum.where(name: 'toArticle').first.id, optionalConfigJSON: {"house_colour": self.account.house_colour}, created_by: self.created_by, updated_by: self.updated_by, seo_blockquote: "<blockquote><h4#>#{self.title}</h4><p>#{self.content}</p></blockquote>", folder_id: self.folder_id, default_view: self.default_view, account_id: self.account_id})
             end
             payload = {}
             payload["payload"] = create_datacast_json.to_json

@@ -13,7 +13,6 @@
                 </div>
             <% else %>
                 <% if @article.og_image_variation_id.present? %>
-
                     <p class="hint">
                         Facebook Image
                         <span style="float: right;">
@@ -22,8 +21,6 @@
                     </p>
 
                     <%= link_to (image_tag @article.og_image_variation.image_url, class: 'img-fluid'), download_account_image_variation_path(@account, @article.og_image_variation, filename: "#{@article.slug}"), method: "post", target: "_blank"  %>
-
-
                 <% else %>
                    <span style="float: right;">
                     <%= link_to "Crop for Facebook", "#", id: "social_button", class: "protograph-social-crop-btn", "data-toggle"=>'modal', "data-mode"=>'#facebook', "data-target"=>'#socialCropperModal' %>

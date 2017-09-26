@@ -75,7 +75,7 @@ class ArticlesController < ApplicationController
             if @article.update(a_params)
                 track_activity(@article)
                 format.html {
-                    redirect_to(redirect_to edit_account_folder_article_path(@account, @folder, @article), notice: t('cs'))
+                    redirect_to(edit_account_folder_article_path(@account, @folder, @article), notice: t('cs'))
                 }
                 format.json { respond_with_bip(@article) }
             else
