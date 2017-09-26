@@ -1,0 +1,45 @@
+<div class="row">
+    <div class="col-sm-3">
+        <%= render partial: "accounts/sidebar" %>
+    </div>
+    <div class="col-sm-9">
+        <br/>
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Val</th>
+              <th>Is default</th>
+              <th>Updated by</th>
+              <th colspan="1"></th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <% @ref_codes.each do |ref_code| %>
+              <tr>
+                <td><%= ref_code.val %></td>
+                <td><%= ref_code.is_default %></td>
+                <td><%= ref_code.updated_by %></td>
+                <td><%= link_to 'Destroy', account_ref_code_path(@account, ref_code), method: :delete, data: { confirm: 'Are you sure?' } %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+    </div>
+    <div class="col-sm-4">
+        <%= simple_form_for([@account, @ref_code]) do |f| %>
+          <%= f.error_notification %>
+
+          <div class="form-inputs">
+            <%= f.input :account_id, as: :hidden, input_html: {value: @account.id} %>
+            <%= f.input :val %>
+            <%= f.input :created_by, as: :hidden, input_html: {value: current_user.id} %>
+            <%= f.input :updated_by, as: :hidden, input_html: {value: current_user.id} %>
+          </div>
+
+          <div class="form-actions">
+            <%= f.button :submit %>
+          </div>
+        <% end %>
+    </div>
+</div>

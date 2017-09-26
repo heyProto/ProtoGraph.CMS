@@ -46,6 +46,8 @@ class Account < ApplicationRecord
     accepts_nested_attributes_for :logo_image
     has_many :images
     has_many :uploads
+    has_many :ref_codes
+
     #ACCESSORS
     #VALIDATIONS
     validates :username, presence: true, uniqueness: { case_sensitive: false }, length: { in: 3..24 }, format: { with: /\A[a-z0-9A-Z_]{4,16}\z/ }

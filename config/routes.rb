@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+
   require 'sidekiq/web'
   mount Sidekiq::Web => '/sidekiq'
 
@@ -37,6 +38,7 @@ Rails.application.routes.draw do
   end
 
   resources :accounts do
+    resources :ref_codes
     resources :permissions do
       get "change_role", on: :member
     end
