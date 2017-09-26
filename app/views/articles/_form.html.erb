@@ -33,7 +33,7 @@
                                     <!-- # Ensure that the cover_image updates -->
                                     <p class="hint" style="margin-bottom: 0px;">Upload cover image</p>
                                     <%= f.fields_for :cover_image do |cover_image| %>
-                                        <%= cover_image.input :image, label: false, placeholder: "Upload cover image", input_html: {style: "width: 100%; background: lightgray; min-height: 400px; cursor: pointer; padding: 160px 0px 0px 40%;"}%>
+                                        <%= cover_image.input :image, label: false, placeholder: "Upload cover image", input_html: {style: "width: 100%; background: lightgray; min-height: 400px; cursor: pointer; padding: 160px 0px 0px 40%;", onchange: "readURL(this);"}%>
                                     <% end %>
                                 <% else %>
                                     <%= image_tag(@article.cover_image_variation.image_url, class: "img-fluid") %>
@@ -48,7 +48,7 @@
                 <div class="row">
                     <div class="col-sm-7">
                         <% if @article.id.nil? %>
-                            <%= f.input :content, as: :text, hint: "Cannot be longer than 300 characters.", input_html:  {style: "font-size: 12px;", rows: '5'}, label: "Summary of the article" %>
+                            <%= f.input :content, as: :text, hint: "Cannot be longer than 300 characters.", input_html:  {style: "font-size: 12px;", rows: '5', maxlength: "300"}, label: "Summary of the article" %>
                         <% else %>
                             <p style="margin-bottom: 10px; color: gray;">
                                 <%= best_in_place @article, :content,url: [@account, @folder, @article] , as: :textarea, html_attrs: {style: "margin-bottom: 10px; color: gray;"} %>
@@ -70,3 +70,15 @@
             </div>
     <% end %>
 </div>
+
+<script type="text/javascript">
+    function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                $(input).css('background', 'transparent url('+e.target.result +') left top no-repeat');
+            }
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+</script>
