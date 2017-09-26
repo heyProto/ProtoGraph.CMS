@@ -1,5 +1,8 @@
+# coding: utf-8
 require 'json'
 require 'csv'
+
+district_mapping = {"Agra":"आगरा","Aligarh":"अलीगढ़","Allahabad":"इलाहाबाद","Ambedkar Nagar":"अंबेडकर नगर","Amethi":"अमेठी","Amroha":"अमरोहा","Auraiya":"औरैया","Azamgarh":"आजमगढ़","Baghpat":"बागपत","Bahraich":"बहराइच","Ballia":"बलिया","Balrampur":"बलरामपुर","Banda":"बांदा","Barabanki":"बाराबंकी","Bareilly":"बरेली","Basti":"बस्ती","Bhadohi":"भदोही","Bijnor":"बिजनौर","Budaun":"शाहजहांपुर","Bulandshahar":"बुलंदशहर","Chandauli":"चंदौली","Chitrakoot":"चित्रकूट","Deoria":"देवरिया","Etah":"एटा","Etawah":"इटावा","Faizabad":"फैजाबाद","Farrukhabad":"फर्रुखाबाद","Fatehpur":"फतेहपुर","Firozabad":"फिरोजाबाद","Gautam Buddha Nagar":"गौतम बुद्ध नगर","Ghaziabad":"गाज़ियाबाद","Ghazipur":"गाजीपुर","Gonda":"गोंडा","Gorakhpur":"गोरखपुर","Hamirpur":"हमीरपुर","Hapur":"हापुड़","Hardoi":"हरदोई","Hathras":"हाथरस","Jalaun":"जालौन","Jaunpur":"जौनपुर","Jhansi":"झांसी","Kannauj":"कन्नौज","Kanpur Dehat":"कानपुर देहात","Kanpur Nagar":"कानपुर नगर","Kasganj":"कासगंज","Kaushambi":"कौशाम्बी","Kushinagar":"कुशीनगर","Lakhimpur Kheri":"लखीमपुर खेरी","Lalitpur":"ललितपुर","Lucknow":"लखनऊ","Maharajganj":"महाराजगंज","Mahoba":"महोबा","Mainpuri":"मैनपुरी","Mathura":"मथुरा","Mau":"मऊ","Meerut":"मेरठ","Mirzapur":"मिर्जापुर","Moradabad":"मुरादाबाद","Muzaffarnagar":"मुजफ्फरनगर","Pilibhit":"पीलीभीत","Pratapgarh":"प्रतापगढ़","Raebareli":"रायबरेली","Rampur":"रामपुर","Saharanpur":"सहारनपुर","Sambhal":"संभल","Sant Kabir Nagar":"संत कबीर नगर","Shahjahanpur":"शाहजहांपुर","Shamli":"शामली","Shravasti":"श्रावस्ती","Siddharth Nagar":"सिद्धार्थ नगर","Sitapur":"सीतापुर","Sonbhadra":"सोनभद्र","Sultanpur":"सुल्तानपुर","Unnao":"उन्नाव","Varanasi":"वाराणसी"}
 
 namespace :to_district_profile do
     task :load_streams => :environment do
@@ -24,11 +27,11 @@ namespace :to_district_profile do
 
         all_districts.each do |district|
             stream = Stream.new(title: district, folder_id: streams_folder.id,created_by: user.id, updated_by: user.id, datacast_identifier: district.parameterize, account_id: account.id)
-            district_card = district_folder.view_casts.where(template_card_id: district_template_card.id, name: district).first
-            mp_card = mp_folder.view_casts.where(template_card_id: mp_template_card.id, name: district).first
-            land_use_card = land_use_folder.view_casts.where(template_card_id: land_use_template_card.id, name: district).first
-            rainfall_card = rainfall_folder.view_casts.where(template_card_id: rainfall_template_card.id, name: district).first
-            water_exploitation_card = water_exploitation_folder.view_casts.where(template_card_id: water_exploitation_template_card.id, name: district).first
+            district_card = district_folder.view_casts.where(template_card_id: district_template_card.id, name: district_mapping[district]).first
+            mp_card = mp_folder.view_casts.where(template_card_id: mp_template_card.id, name: district_mapping[district]).first
+            land_use_card = land_use_folder.view_casts.where(template_card_id: land_use_template_card.id, name: district_mapping[district]).first
+            rainfall_card = rainfall_folder.view_casts.where(template_card_id: rainfall_template_card.id, name: district_mapping[district]).first
+            water_exploitation_card = water_exploitation_folder.view_casts.where(template_card_id: water_exploitation_template_card.id, name: district_mapping[district]).first
 
             view_cast_ids = []
             view_cast_ids << district_card.id if district_card.present?
