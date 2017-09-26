@@ -26,7 +26,7 @@
 class Stream < ApplicationRecord
     #CONSTANTS
     CARD_KEYS = {
-        "toRainfall": ["rainfall_deficit_score"],
+        "toRainfall": ["rainfall_deficit_score", "district"],
         "toLandUse": ["land_score", "forest_score", "population_score"],
         "toWaterExploitation": ["decadal_decrease_score"],
         "toWell": ["well_score"]
