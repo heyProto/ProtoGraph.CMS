@@ -1,5 +1,6 @@
 . | {"data":
         {
+            "district_code": .district_code,
             "language": .language,
             "district": .district ,
             "map": .map,

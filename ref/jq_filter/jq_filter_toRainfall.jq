@@ -1,5 +1,6 @@
 . | {data:
         {
+            "district_code": .district_code,
             "language": .language,
             "district": .district,
             "rainfall_deficit_score": .rainfall_deficit_score | tonumber,
