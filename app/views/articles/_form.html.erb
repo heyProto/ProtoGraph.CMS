@@ -33,13 +33,13 @@
                                     <!-- # Ensure that the cover_image updates -->
                                     <p class="hint" style="margin-bottom: 0px;">Upload cover image</p>
                                     <%= f.fields_for :cover_image do |cover_image| %>
-                                        <%= cover_image.input :image, label: false, placeholder: "Upload cover image", input_html: {style: "width: 100%; background: lightgray; min-height: 400px; cursor: pointer; padding: 160px 0px 0px 40%;"}, hint: "Note, you cannot change it once you save." %>
+                                        <%= cover_image.input :image, label: false, placeholder: "Upload cover image", input_html: {style: "width: 100%; background: lightgray; min-height: 400px; cursor: pointer; padding: 160px 0px 0px 40%;"}%>
                                     <% end %>
                                 <% else %>
                                     <%= image_tag(@article.cover_image_variation.image_url, class: "img-fluid") %>
-                                    <!-- <br/> -->
-                                    <%#= link_to "Remove Cover Image", remove_cover_image_account_folder_article_path(@account, @folder, @article), method: :put, style: "float: right;" %>
-                                    <!-- <br/> -->
+                                    <br/>
+                                    <%= link_to "Remove Cover Image", remove_cover_image_account_folder_article_path(@account, @folder, @article), method: :put, style: "float: right;" %>
+                                    <br/>
                                 <% end %>
 
                         <br/>

@@ -96,7 +96,7 @@ class Article < ApplicationRecord
         data["data"]["url"] = self.url.to_s
         data["data"]["genre"] = self.genre.to_s
         data["data"]["feature_image_url"] = "#{self.instagram_image_variation.present? ? self.instagram_image_variation.image_url : ""}"
-        data["data"]["thumbnail_url"] = "#{self.cover_image.id.present? ? self.cover_image.original_image.image_url : ""}"
+        data["data"]["thumbnail_url"] = "#{(self.cover_image.present? and self.cover_image.id.present?) ? self.cover_image.original_image.image_url : ""}"
         data["data"]["description"] = self.content.to_s
         data["data"]["author"] = "#{self.author}"
         data["data"]["date"] = self.article_datetime.strftime("%Y-%m-%dT%l:%M:%S%z")
