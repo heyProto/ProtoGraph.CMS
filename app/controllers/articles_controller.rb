@@ -1,23 +1,25 @@
 class ArticlesController < ApplicationController
     before_action :authenticate_user!
     before_action :set_article, only: [:show, :edit, :update, :remove_cover_image,:remove_twitter_image, :remove_facebook_image, :remove_instagram_image, :publish_card]
+    layout "application-fluid"
 
     def index
       @view_casts_count = @folder.view_casts.count
       @streams_count = @folder.streams.count
       @articles_count = @folder.articles.count
       @articles = @folder.articles.order(updated_at: :desc).page(params[:page]).per(30)
-      render layout: "application-fluid"
     end
 
     def create
         a_params = article_params
-        a_params["cover_image_attributes"]["name"] = article_params["cover_image_attributes"]['image'].original_filename
-        a_params["cover_image_attributes"]["description"] = a_params["summary"]
-        a_params["cover_image_attributes"]["tag_list"] = [a_params["genre"]]
-        a_params["cover_image_attributes"]["account_id"] = @account.id
-        a_params["cover_image_attributes"]["created_by"] = current_user.id
-        a_params["cover_image_attributes"]["updated_by"] = current_user.id
+        if a_params.has_key?("cover_image_attributes") and a_params["cover_image_attributes"].has_key?("image")
+            a_params["cover_image_attributes"]["name"] = article_params["cover_image_attributes"]['image'].original_filename
+            a_params["cover_image_attributes"]["description"] = a_params["summary"]
+            a_params["cover_image_attributes"]["tag_list"] = [a_params["genre"]]
+            a_params["cover_image_attributes"]["account_id"] = @account.id
+            a_params["cover_image_attributes"]["created_by"] = current_user.id
+            a_params["cover_image_attributes"]["updated_by"] = current_user.id
+        end
         @article = @folder.articles.new(a_params)
         @article.created_by = current_user.id
         @article.updated_by = current_user.id
@@ -38,7 +40,6 @@ class ArticlesController < ApplicationController
         @streams_count = @folder.streams.count
         @articles_count = @folder.articles.count
         @is_viewcasts_present = @view_casts_count != 0
-        render layout: "application-fluid"
     end
 
     def show
@@ -55,27 +56,31 @@ class ArticlesController < ApplicationController
         @streams_count = @folder.streams.count
         @articles_count = @folder.articles.count
         @article_modes = ""
-        @article.cover_image.present? ? (@article_modes << "1") : (@article_modes << "0")
+        @article.cover_image.id.present? ? (@article_modes << "1") : (@article_modes << "0")
         @article.content.present? ? (@article_modes << "1") : (@article_modes << "0")
-        render layout: "application-fluid"
     end
 
     def update
-
         a_params = article_params
         if a_params.has_key?("cover_image_attributes") and a_params["cover_image_attributes"].has_key?("image")
             a_params["cover_image_attributes"]["name"] = article_params["cover_image_attributes"]['image'].original_filename
             a_params["cover_image_attributes"]["description"] = a_params["summary"]
-            a_params["cover_image_attributes"]["tag_list"] = [a_params["genre"]]
             a_params["cover_image_attributes"]["account_id"] = @account.id
             a_params["cover_image_attributes"]["created_by"] = current_user.id
             a_params["cover_image_attributes"]["updated_by"] = current_user.id
         end
-        if @article.update(a_params)
-            track_activity(@article)
-            redirect_to edit_account_folder_article_path(@account, @folder, @article), notice: t('cs')
-        else
-            render :edit
+
+        respond_to do |format|
+            if @article.update(a_params)
+                track_activity(@article)
+                format.html {
+                    redirect_to(edit_account_folder_article_path(@account, @folder, @article), notice: t('cs'))
+                }
+                format.json { respond_with_bip(@article) }
+            else
+                format.html { render :edit }
+                format.json { respond_with_bip(@article) }
+            end
         end
     end
 

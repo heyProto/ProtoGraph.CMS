@@ -1,7 +1,7 @@
 <script src="https://cdn.protograph.pykih.com/lib/protoGraph.min.js" async></script>
 <%= simple_form_for([@account, @folder, view_cast]) do |f| %>
   <div class="list-group" style="font-size: 11px;">
-    <% [["Thumbnail with summary", "small_image_text"],["Thumbnail without summary", "thumbnail"],["Cover with summary", "big_image_text"],["Text only with summary", "title_text"],["Text only without summary", "title_text"],  ["Featured without summary", "feature_image"]].each do |c| %>
+    <% [["Thumbnail with summary", "small_image_text"],["Thumbnail without summary", "thumbnail"],["Cover with summary", "big_image_text"],["Text only with summary", "title_text"],["Text only without summary", "title"],  ["Featured without summary", "feature_image"]].each do |c| %>
       <!-- now we are using title_text for text only without summary, once the mode is generated, we will update it -->
       <% enabled = Article::ENABLED_MODES[@article_modes.to_sym].include?(c[0]) %>
       <% enabled = true if (c[1] == "feature_image" and @article.instagram_image_variation.present?) %>
@@ -14,12 +14,6 @@
         </small>
       </button>
     <% end %>
-
-    <!-- <button class="list-group-item list-group-item-action <%= view_cast.default_view == "thumbnail" ? "active": ""%>" name="view_cast[default_view]" value="thumbnail">Thumbnail with summary <small style="float: right;"><a href="#" id='thumbnail' data-toggle='modal' data-target='#platform_modal'>Preview</a></small></button>
-    <button class="list-group-item list-group-item-action <%= view_cast.default_view == "small_image_text" ? "active": ""%>" name="view_cast[default_view]" value="small_image_text" data-toggle='modal' data-target='#platform_modal'>Thumbnail without summary <small style="float: right;"><a href="#" id="small_image_text" >Preview</a></small></button>
-    <button class="list-group-item list-group-item-action <%= view_cast.default_view == "feature_image" ? "active": ""%>" name="view_cast[default_view]" value="feature_image">Featured without summary <small style="float: right;"><a href="#" id="feature_image" data-toggle='modal' data-target='#platform_modal'>Preview</a></small></button>
-    <button class="list-group-item list-group-item-action <%= view_cast.default_view == "big_image_text" ? "active": ""%>" name="view_cast[default_view]" value="big_image_text">Cover with summary <small style="float: right;"><a href="#" id="big_image_text" data-toggle='modal' data-target='#platform_modal'>Preview</a></small></button>
-    <button class="list-group-item list-group-item-action <%= view_cast.default_view == "title_text" ? "active": ""%>" name="view_cast[default_view]" value="title_text">Text only <small style="float: right;"><a href="#" id="title_text" data-toggle='modal' data-target='#platform_modal'>Preview</a></small></button> -->
   </div>
   <%= f.input :redirect_url, as: :hidden, input_html: {value: edit_account_folder_article_path(@account, @folder, @article)} %>
 <% end %>

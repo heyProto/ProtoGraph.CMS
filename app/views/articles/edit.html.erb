@@ -13,7 +13,6 @@
                 </div>
             <% else %>
                 <% if @article.og_image_variation_id.present? %>
-
                     <p class="hint">
                         Facebook Image
                         <span style="float: right;">
@@ -22,8 +21,6 @@
                     </p>
 
                     <%= link_to (image_tag @article.og_image_variation.image_url, class: 'img-fluid'), download_account_image_variation_path(@account, @article.og_image_variation, filename: "#{@article.slug}"), method: "post", target: "_blank"  %>
-
-
                 <% else %>
                    <span style="float: right;">
                     <%= link_to "Crop for Facebook", "#", id: "social_button", class: "protograph-social-crop-btn", "data-toggle"=>'modal', "data-mode"=>'#facebook', "data-target"=>'#socialCropperModal' %>
@@ -69,12 +66,7 @@
             <br/>
             <label class="control-label string optional disabled">6. How should the card be seen?</label>
             <br/>
-            <% if @article.cover_image.present? and @article.article_datetime.present? %>
-                <% if @article.article_card.present? %>
-                    <!-- Show the Preview -->
-                    <%= render partial: "articles/to_article_preview", locals: {view_cast: @article.article_card } %>
-                <% end %>
-            <% end %>
+            <%= render partial: "articles/to_article_preview", locals: {view_cast: @article.article_card } %>
         </div>
     </div>
 </div>

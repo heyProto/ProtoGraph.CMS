@@ -12,14 +12,14 @@
                         <% end %>
                         <%= f.input :updated_by, as: :hidden, input_html: {value: current_user.id} %>
                         <% if @article.id.nil? %>
-                            <%= f.input :url, as: :string, placeholder: "*Copy paste the URL of the story", required: true, label: false, input_html: {style: "border: 0px !important; font-size: 12px; padding-left: 0px; padding-right: 0px; margin-bottom: 0px !important;"}, autofocus: true %>
+                            <%= f.input :url, as: :string, placeholder: "*Copy paste the URL of the story", required: true, label: false, input_html: {style: "border: 0px !important; font-size: 12px; padding-left: 0px; padding-right: 0px; margin-bottom: 0px !important;wid"}, autofocus: true %>
                         <% else %>
-                            <p style="margin-bottom: 10px; color: gray;"><%= @article.url %></p>
+                            <p style="margin-bottom: 10px; color: gray;"><%= best_in_place @article, :url,url: [@account, @folder, @article], html_attrs: {style: "margin-bottom: 10px; color: gray;width: 100%"} %></p>
                         <% end %>
                         <% if @article.id.nil? %>
                             <%= f.input :title, as: :text, placeholder: "*Copy paste the headline", required: true, label: false, input_html: {style: "border: 0px !important; font-size: 32px; font-weight: bold; color: black; padding-left: 0px; padding-right: 0px; margin-top: 0px !important;"}%>
                         <% else %>
-                            <h1 style="border: 0px !important; font-size: 32px; font-weight: bold; color: black; padding-left: 0px; padding-right: 0px; margin-top: 0px !important;"><%= @article.title %></h1>
+                            <h1 style="border: 0px !important; font-size: 32px; font-weight: bold; color: black; padding-left: 0px; padding-right: 0px; margin-top: 0px !important;"><%= best_in_place @article, :title,url: [@account, @folder, @article] , as: :textarea, html_attrs: {style: "border: 0px !important; font-size: 32px; font-weight: bold; color: black; padding-left: 0px; padding-right: 0px; margin-top: 0px !important;"} %></h1>
                         <% end %>
                     </div>
                     <div class="col-sm-3">
@@ -33,15 +33,13 @@
                                     <!-- # Ensure that the cover_image updates -->
                                     <p class="hint" style="margin-bottom: 0px;">Upload cover image</p>
                                     <%= f.fields_for :cover_image do |cover_image| %>
-                                        <%= cover_image.input :image, label: false, placeholder: "Upload cover image", input_html: {style: "width: 100%; background: lightgray; min-height: 400px; cursor: pointer; padding: 160px 0px 0px 40%;"} %>
+                                        <%= cover_image.input :image, label: false, placeholder: "Upload cover image", input_html: {style: "width: 100%; background: lightgray; min-height: 400px; cursor: pointer; padding: 160px 0px 0px 40%;"}%>
                                     <% end %>
                                 <% else %>
-
                                     <%= image_tag(@article.cover_image_variation.image_url, class: "img-fluid") %>
-
-                                <br/>
-                                <%= link_to "Remove Cover Image", remove_cover_image_account_folder_article_path(@account, @folder, @article), method: :put, style: "float: right;" %>
-                                <br/>
+                                    <br/>
+                                    <%= link_to "Remove Cover Image", remove_cover_image_account_folder_article_path(@account, @folder, @article), method: :put, style: "float: right;" %>
+                                    <br/>
                                 <% end %>
 
                         <br/>
@@ -49,7 +47,14 @@
                 </div>
                 <div class="row">
                     <div class="col-sm-7">
-                        <%= f.input :content, as: :text, hint: "Cannot be longer than 300 characters.", input_html:  {style: "font-size: 12px;", rows: '5'}, label: "Summary of the article" %>
+                        <% if @article.id.nil? %>
+                            <%= f.input :content, as: :text, hint: "Cannot be longer than 300 characters.", input_html:  {style: "font-size: 12px;", rows: '5'}, label: "Summary of the article" %>
+                        <% else %>
+                            <p style="margin-bottom: 10px; color: gray;">
+                                <%= best_in_place @article, :content,url: [@account, @folder, @article] , as: :textarea, html_attrs: {style: "margin-bottom: 10px; color: gray;"} %>
+                            </p>
+                        <% end %>
+
                     </div>
                     <div class="col-sm-4">
                         <%= f.input :author, placeholder: "e.g. John Doe", label: "1. <span style='color: red;'>*</span>Byline".html_safe, input_html: {style: "font-size: 12px;"} %>

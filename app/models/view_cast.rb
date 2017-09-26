@@ -20,6 +20,7 @@
 #  folder_id             :integer
 #  is_invalidating       :boolean
 #  default_view          :string(255)
+#  article_id            :integer
 #
 
 class ViewCast < ApplicationRecord
@@ -37,6 +38,7 @@ class ViewCast < ApplicationRecord
     belongs_to :template_card
     belongs_to :creator, class_name: "User", foreign_key: "created_by"
     belongs_to :updator, class_name: "User", foreign_key: "updated_by"
+    has_one :article
 
     #ACCESSORS
     attr_accessor :dataJSON, :schemaJSON, :stop_callback, :redirect_url
@@ -146,13 +148,11 @@ class ViewCast < ApplicationRecord
 
     def before_create_set
         self.optionalConfigJSON = {} if self.optionalConfigJSON.blank?
+        self.default_view = self.template_card.allowed_views.first if self.default_view.blank?
     end
 
     def before_save_set
         self.datacast_identifier = SecureRandom.hex(12) if self.datacast_identifier.blank?
-        if self.status.blank?
-            self.status = {"twitter": "creating", "facebook": "creating", "instagram": "creating"}.to_json
-        end
         if self.optionalConfigJSON_changed? and self.optionalConfigJSON.present?
             key = "#{self.datacast_identifier}/view_cast.json"
             encoded_file = Base64.encode64(self.optionalConfigJSON)

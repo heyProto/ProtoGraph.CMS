@@ -61,7 +61,7 @@ class Account < ApplicationRecord
     before_create :before_create_set
     before_update :before_update_set
     after_save :after_save_set
-
+    before_update :change_view_casts_house_colours, if: :house_colour_changed?
     #SCOPE
     #OTHER
 
@@ -85,7 +85,7 @@ class Account < ApplicationRecord
         self.cdn_endpoint = ENV['AWS_S3_ENDPOINT']
         self.client_token = ENV['AWS_ACCESS_KEY_ID']
         self.client_secret = ENV['AWS_SECRET_ACCESS_KEY']
-        self.house_colour = "000000"
+        self.house_colour = "#000000"
         true
     end
 
@@ -100,4 +100,7 @@ class Account < ApplicationRecord
     def after_save_set
     end
 
+    def change_view_casts_house_colours
+        ColorUpdateWorker.perform_in(1.seconds, self.id)
+    end
 end
