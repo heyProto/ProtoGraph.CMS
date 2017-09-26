@@ -148,6 +148,7 @@ class ViewCast < ApplicationRecord
 
     def before_create_set
         self.optionalConfigJSON = {} if self.optionalConfigJSON.blank?
+        self.default_view = self.template_card.allowed_views.first if self.default_view.blank?
     end
 
     def before_save_set
@@ -161,7 +162,6 @@ class ViewCast < ApplicationRecord
         self.seo_blockquote = self.seo_blockquote.to_s.gsub('\\', '\\\\')
         # self.seo_blockquote = self.seo_blockquote.to_s.split('`').join('\`') #.gsub('`', '\`')
         self.seo_blockquote = self.seo_blockquote.to_s.gsub('${', '\${')
-        self.default_view = self.template_card.allowed_views.first
     end
 
     def after_save_set

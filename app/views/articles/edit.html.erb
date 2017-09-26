@@ -66,12 +66,7 @@
             <br/>
             <label class="control-label string optional disabled">6. How should the card be seen?</label>
             <br/>
-            <% if @article.cover_image.present? and @article.article_datetime.present? %>
-                <% if @article.article_card.present? %>
-                    <!-- Show the Preview -->
-                    <%= render partial: "articles/to_article_preview", locals: {view_cast: @article.article_card } %>
-                <% end %>
-            <% end %>
+            <%= render partial: "articles/to_article_preview", locals: {view_cast: @article.article_card } %>
         </div>
     </div>
 </div>

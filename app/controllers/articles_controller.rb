@@ -13,12 +13,14 @@ class ArticlesController < ApplicationController
 
     def create
         a_params = article_params
-        a_params["cover_image_attributes"]["name"] = article_params["cover_image_attributes"]['image'].original_filename
-        a_params["cover_image_attributes"]["description"] = a_params["summary"]
-        a_params["cover_image_attributes"]["tag_list"] = [a_params["genre"]]
-        a_params["cover_image_attributes"]["account_id"] = @account.id
-        a_params["cover_image_attributes"]["created_by"] = current_user.id
-        a_params["cover_image_attributes"]["updated_by"] = current_user.id
+        if a_params.has_key?("cover_image_attributes") and a_params["cover_image_attributes"].has_key?("image")
+            a_params["cover_image_attributes"]["name"] = article_params["cover_image_attributes"]['image'].original_filename
+            a_params["cover_image_attributes"]["description"] = a_params["summary"]
+            a_params["cover_image_attributes"]["tag_list"] = [a_params["genre"]]
+            a_params["cover_image_attributes"]["account_id"] = @account.id
+            a_params["cover_image_attributes"]["created_by"] = current_user.id
+            a_params["cover_image_attributes"]["updated_by"] = current_user.id
+        end
         @article = @folder.articles.new(a_params)
         @article.created_by = current_user.id
         @article.updated_by = current_user.id
@@ -55,7 +57,7 @@ class ArticlesController < ApplicationController
         @streams_count = @folder.streams.count
         @articles_count = @folder.articles.count
         @article_modes = ""
-        @article.cover_image.present? ? (@article_modes << "1") : (@article_modes << "0")
+        @article.cover_image.id.present? ? (@article_modes << "1") : (@article_modes << "0")
         @article.content.present? ? (@article_modes << "1") : (@article_modes << "0")
     end
 

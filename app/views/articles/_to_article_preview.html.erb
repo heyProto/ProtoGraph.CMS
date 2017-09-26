@@ -14,12 +14,6 @@
         </small>
       </button>
     <% end %>
-
-    <!-- <button class="list-group-item list-group-item-action <%= view_cast.default_view == "thumbnail" ? "active": ""%>" name="view_cast[default_view]" value="thumbnail">Thumbnail with summary <small style="float: right;"><a href="#" id='thumbnail' data-toggle='modal' data-target='#platform_modal'>Preview</a></small></button>
-    <button class="list-group-item list-group-item-action <%= view_cast.default_view == "small_image_text" ? "active": ""%>" name="view_cast[default_view]" value="small_image_text" data-toggle='modal' data-target='#platform_modal'>Thumbnail without summary <small style="float: right;"><a href="#" id="small_image_text" >Preview</a></small></button>
-    <button class="list-group-item list-group-item-action <%= view_cast.default_view == "feature_image" ? "active": ""%>" name="view_cast[default_view]" value="feature_image">Featured without summary <small style="float: right;"><a href="#" id="feature_image" data-toggle='modal' data-target='#platform_modal'>Preview</a></small></button>
-    <button class="list-group-item list-group-item-action <%= view_cast.default_view == "big_image_text" ? "active": ""%>" name="view_cast[default_view]" value="big_image_text">Cover with summary <small style="float: right;"><a href="#" id="big_image_text" data-toggle='modal' data-target='#platform_modal'>Preview</a></small></button>
-    <button class="list-group-item list-group-item-action <%= view_cast.default_view == "title_text" ? "active": ""%>" name="view_cast[default_view]" value="title_text">Text only <small style="float: right;"><a href="#" id="title_text" data-toggle='modal' data-target='#platform_modal'>Preview</a></small></button> -->
   </div>
   <%= f.input :redirect_url, as: :hidden, input_html: {value: edit_account_folder_article_path(@account, @folder, @article)} %>
 <% end %>
