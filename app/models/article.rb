@@ -102,7 +102,7 @@ class Article < ApplicationRecord
         data["data"]["thumbnail_url"] = "#{(self.cover_image.present? and self.cover_image.id.present?) ? self.cover_image.original_image.image_url : ""}"
         data["data"]["description"] = self.content.to_s
         data["data"]["author"] = "#{self.author}"
-        data["data"]["date"] = self.article_datetime.strftime("%Y-%m-%dT%l:%M:%S%z")
+        data["data"]["date"] = self.article_datetime.strftime("%Y-%m-%dT%H:%M")
         data
     end
 
