@@ -1,4 +1,4 @@
-[group_by(.district_code)[] | 
+[group_by(.district_code)[] |
     {"data": {
             "district_code": .district_code,
             "language": .[0].language,
@@ -7,7 +7,8 @@
             "details": [.[] | {
                                 "assembly": .constituency_name,
                                 "name": .name,
-                                "party": .party
+                                "party": .party,
+                                "party_color": .party_color
                               }
                             ]
                     }
