@@ -8,7 +8,6 @@ class ArticlesController < ApplicationController
       @streams_count = @folder.streams.count
       @articles_count = @folder.articles.count
       @articles = @folder.articles.order(updated_at: :desc).page(params[:page]).per(30)
-      render layout: "application-fluid"
     end
 
     def create
@@ -66,7 +65,6 @@ class ArticlesController < ApplicationController
         if a_params.has_key?("cover_image_attributes") and a_params["cover_image_attributes"].has_key?("image")
             a_params["cover_image_attributes"]["name"] = article_params["cover_image_attributes"]['image'].original_filename
             a_params["cover_image_attributes"]["description"] = a_params["summary"]
-            a_params["cover_image_attributes"]["tag_list"] = [a_params["genre"]]
             a_params["cover_image_attributes"]["account_id"] = @account.id
             a_params["cover_image_attributes"]["created_by"] = current_user.id
             a_params["cover_image_attributes"]["updated_by"] = current_user.id
