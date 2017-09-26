@@ -48,6 +48,7 @@ class AccountsController < ApplicationController
   def create
     @account = Account.new(account_params)
     if @account.save
+      RefCode.seed(@account.id, current_user.id)
       current_user.create_permission(@account.id, "owner")
       folder = Folder.create({
         account_id: @account.id,

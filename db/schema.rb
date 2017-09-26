@@ -10,7 +10,6 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-
 ActiveRecord::Schema.define(version: 20170925073549) do
 
   create_table "accounts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -29,9 +28,8 @@ ActiveRecord::Schema.define(version: 20170925073549) do
     t.string "client_token"
     t.string "access_token"
     t.string "client_secret"
-    t.text "logo_url"
     t.integer "logo_image_id"
-    t.string "house_colour", default: "#000000"
+    t.string "house_colour"
     t.index ["domain"], name: "index_accounts_on_domain"
     t.index ["slug"], name: "index_accounts_on_slug", unique: true
     t.index ["username"], name: "index_accounts_on_username", unique: true
@@ -294,8 +292,8 @@ ActiveRecord::Schema.define(version: 20170925073549) do
     t.integer "publish_count"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "status"
     t.string "s3_identifier"
+    t.string "status"
     t.index ["slug"], name: "index_template_data_on_slug", unique: true
   end
 

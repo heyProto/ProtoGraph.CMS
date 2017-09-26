@@ -37,6 +37,12 @@ class RefCode < ApplicationRecord
     #SCOPE
     #OTHER
 
+    def self.seed(aid, uid)
+        ["Opinion", "Analysis", "Reportage", "Wire", "News", "Breaking", "Exclusive"].each do |a|
+            RefCode.create(account_id: aid, val: a, created_by: uid, updated_by: uid)
+        end
+    end
+
     #PRIVATE
     private
 
