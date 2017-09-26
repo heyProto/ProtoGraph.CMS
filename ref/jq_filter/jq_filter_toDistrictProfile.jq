@@ -1,5 +1,6 @@
 . | {"data":
         {
+            "language": .language,
             "district": .district ,
             "map": .map,
             "population": .population,

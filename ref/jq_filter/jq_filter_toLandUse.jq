@@ -1,5 +1,6 @@
 . | {"data":
         {
+            "language": .language,
             "district":.district,
             "forest_score":.forest_score | tonumber,
             "land_score":.land_score | tonumber,
