@@ -38,7 +38,7 @@ class Article < ApplicationRecord
 
     #ASSOCIATIONS
     belongs_to :folder
-    belongs_to :cover_image, class_name: "Image"
+    belongs_to :cover_image, class_name: "Image", optional: true
     has_one :twitter_image_variation, class_name: "ImageVariation", primary_key: "twitter_image_variation_id", foreign_key: "id"
     has_one :og_image_variation, class_name: "ImageVariation", primary_key: "og_image_variation_id", foreign_key: "id"
     has_one :instagram_image_variation, class_name: "ImageVariation", primary_key: "instagram_image_variation_id", foreign_key: "id"
@@ -60,10 +60,6 @@ class Article < ApplicationRecord
 
     #SCOPE
     #OTHER
-
-    def should_generate_new_friendly_id?
-        title_changed?
-    end
 
     def cover_image_variation
         cover_image.original_image

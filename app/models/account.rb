@@ -83,7 +83,7 @@ class Account < ApplicationRecord
         self.cdn_endpoint = ENV['AWS_S3_ENDPOINT']
         self.client_token = ENV['AWS_ACCESS_KEY_ID']
         self.client_secret = ENV['AWS_SECRET_ACCESS_KEY']
-        self.house_colour = "000000"
+        self.house_colour = "#000000"
         true
     end
 
@@ -99,7 +99,6 @@ class Account < ApplicationRecord
     end
 
     def change_view_casts_house_colours
-      view_casts = self.view_casts
-      view_casts.where(template_card_id: TemplateCard.where(name: 'toArticle').first.id).update_all(optionalConfigJSON: '{"house_colour": self.house_colour}')
+        ColorUpdateWorker.perform_in(1.seconds, self.id)
     end
 end
