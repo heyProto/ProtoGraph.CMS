@@ -56,6 +56,14 @@ class AccountsController < ApplicationController
         created_by: current_user.id,
         updated_by: current_user.id
       })
+      folder = Folder.create({
+        account_id: @account.id,
+        name: "Recycle Bin",
+        created_by: current_user.id,
+        updated_by: current_user.id,
+        is_trash: true,
+        is_system_generated: true
+      })
       redirect_to @account, notice: t("cs")
     else
       render :index

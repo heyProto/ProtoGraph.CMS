@@ -17,6 +17,9 @@ class FoldersController < ApplicationController
   end
 
   def edit
+    if @folder.is_trash
+      redirect_back(fallback_location: [@account], alert: t("pd.folder"))
+    end
   end
 
   def update

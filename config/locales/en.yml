@@ -64,4 +64,6 @@ en:
     image: "Removed Image."
   publish:
     article_card: "The article card is published."
+  pd:
+    folder: "Cannot edit trash folder."
 

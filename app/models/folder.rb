@@ -10,6 +10,7 @@
 #  updated_by :integer
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
+#  is_trash   :boolean          default(FALSE)
 #
 
 class Folder < ApplicationRecord
@@ -30,8 +31,11 @@ class Folder < ApplicationRecord
     has_many :activities
     has_many :uploads
     #ACCESSORS
+    attr_accessor :is_system_generated
     #VALIDATIONS
-    validates :name, uniqueness: {scope: [:account], message: "Folder name is already used"}
+    validates :name, exclusion: {in: ["Recycle Bin"], message: "Is a reserved name."}, unless: :is_system_generated
+    validates :name, uniqueness: {scope: [:account], message: "Folder name is already used."}
+
     has_many :view_casts
 
 
