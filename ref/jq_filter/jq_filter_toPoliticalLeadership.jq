@@ -7,7 +7,8 @@
                                 "assembly": .constituency_name,
                                 "name": .name,
                                 "party": .party,
-                                "party_color": .party_color
+                                "party_color": .party_color,
+                                "gender": .gender
                               }
                             ]
                     }
