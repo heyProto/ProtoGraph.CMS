@@ -73,13 +73,13 @@ class Stream < ApplicationRecord
         query[:folder_id] = self.folder_ids.pluck(:entity_value) if self.folder_ids.count > 0
         query[:template_card_id] = self.template_card_ids.pluck(:entity_value) if self.template_card_ids.count > 0
         unless query.blank?
-            view_cast = account.view_casts.order(created_at: :desc).where(query)
+            view_cast = account.view_casts.order(created_at: :desc).where(query).where.not(folder_id: account.folders.where(is_trash: true).first.id)
             view_cast = view_cast.where.not(id: self.excluded_view_cast_ids.pluck(:entity_value)) if self.excluded_view_cast_ids.count > 0
             view_cast = view_cast.limit(self.limit).offset(self.offset)
         else
             view_cast = ViewCast.none
         end
-        view_cast_or = self.view_cast_ids.present? ? account.view_casts.where(id: self.view_cast_ids.pluck(:entity_value)) : ViewCast.none
+        view_cast_or = self.view_cast_ids.present? ? account.view_casts.where(id: self.view_cast_ids.pluck(:entity_value)).where.not(folder_id: account.folders.where(is_trash: true).first.id) : ViewCast.none
         view_casts = view_cast + view_cast_or
         return view_casts
     end
