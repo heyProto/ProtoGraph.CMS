@@ -1,23 +1,27 @@
 <div class="container">
     <div class="row">
         <div class="col-sm-16">
-            <h1  style="text-align: center;"><%= @folder.name %> </h1>
-            <br/>
-            <br/>
+            <h1  style="text-align: center">
+              <%= @folder.name %>
+            </h1>
+            <div class="dropdown" style='float: right; position: absolute;right: 1%; top: 0'>
+              <button class="btn btn-light dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Developer Tools
+              </button>
+              <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <%= link_to "Streams <span class='badge badge-pill badge-secondary'>#{@streams_count}</span>".html_safe, account_folder_streams_path(@account, @folder), class: "dropdown-item" %>
+              </div>
+            </div>
         </div>
     </div>
+    <div class='one-br-space'></div>
+    <div class='one-br-space'></div>
 </div>
 <div class="container">
     <div class="card-deck">
       <div class="card">
         <div class="card-body">
           <h4 class="card-title" style="text-align: center; font-weight: 400;"><%= link_to "Cards <span class='badge badge-pill badge-secondary'>#{@view_casts_count}</span>".html_safe, account_folder_view_casts_path(@account, @folder) %></h4>
-          <hr style="margin-left: 20px; margin-right: 20px;"/>
-        </div>
-      </div>
-      <div class="card">
-        <div class="card-body">
-          <h4 class="card-title" style="text-align: center; font-weight: 400;"><%= link_to "Streams <span class='badge badge-pill badge-secondary'>#{@streams_count}</span>".html_safe, account_folder_streams_path(@account, @folder) %></h4>
           <hr style="margin-left: 20px; margin-right: 20px;"/>
         </div>
       </div>
@@ -35,3 +39,6 @@
       <%= render partial: "activities/index" %>
     <% end %>
 </div>
+<script type="text/javascript">
+  $('.dropdown-toggle').dropdown()
+</script>
