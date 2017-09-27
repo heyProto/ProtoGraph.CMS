@@ -60,7 +60,6 @@ class Account < ApplicationRecord
     #CALLBACKS
     before_create :before_create_set
     before_update :before_update_set
-    after_save :after_save_set
     before_update :change_view_casts_house_colours, if: :house_colour_changed?
     #SCOPE
     #OTHER
@@ -95,9 +94,6 @@ class Account < ApplicationRecord
         self.cdn_endpoint = ENV['AWS_S3_ENDPOINT'] if self.cdn_endpoint.blank?
         self.client_token = ENV['AWS_ACCESS_KEY_ID'] if self.client_token.blank?
         self.client_secret = ENV['AWS_SECRET_ACCESS_KEY'] if self.client_secret.blank?
-    end
-
-    def after_save_set
     end
 
     def change_view_casts_house_colours

@@ -88,5 +88,13 @@ class User < ApplicationRecord
             created_by: self.id,
             updated_by: self.id
         })
+        folder = Folder.create({
+            account_id: a.id,
+            name: "Recycle Bin",
+            created_by: self.id,
+            updated_by: self.id,
+            is_trash: true,
+            is_system_generated: true
+        })
     end
 end

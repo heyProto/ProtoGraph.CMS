@@ -96,8 +96,8 @@ Rails.application.configure do
     address:              'smtp.gmail.com',
     port:                 587,
     domain:               'gmail.com',
-    user_name:            'protograph@pykih.com',
-    password:             'HinduOpenSystems1234806',
+    user_name:            'team@pykih.com',
+    password:             'easternwisdom1234801',
     authentication:       :plain,
     enable_starttls_auto: true
   }
