@@ -27,11 +27,11 @@ namespace :to_district_profile do
 
         all_districts.each do |district|
             stream = Stream.new(title: district, folder_id: streams_folder.id,created_by: user.id, updated_by: user.id, datacast_identifier: district.parameterize, account_id: account.id)
-            district_card = district_folder.view_casts.where(template_card_id: district_template_card.id, name: district_mapping[district.to_sym]).first
-            mp_card = mp_folder.view_casts.where(template_card_id: mp_template_card.id, name: district_mapping[district.to_sym]).first
-            land_use_card = land_use_folder.view_casts.where(template_card_id: land_use_template_card.id, name: district_mapping[district.to_sym]).first
-            rainfall_card = rainfall_folder.view_casts.where(template_card_id: rainfall_template_card.id, name: district_mapping[district.to_sym]).first
-            water_exploitation_card = water_exploitation_folder.view_casts.where(template_card_id: water_exploitation_template_card.id, name: district_mapping[district.to_sym]).first
+            district_card = district_folder.view_casts.where(template_card_id: district_template_card.id, name: district_mapping[district]).first
+            mp_card = mp_folder.view_casts.where(template_card_id: mp_template_card.id, name: district_mapping[district]).first
+            land_use_card = land_use_folder.view_casts.where(template_card_id: land_use_template_card.id, name: district_mapping[district]).first
+            rainfall_card = rainfall_folder.view_casts.where(template_card_id: rainfall_template_card.id, name: district_mapping[district]).first
+            water_exploitation_card = water_exploitation_folder.view_casts.where(template_card_id: water_exploitation_template_card.id, name: district_mapping[district]).first
 
             view_cast_ids = []
             view_cast_ids << district_card.id if district_card.present?
