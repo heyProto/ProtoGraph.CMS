@@ -59,11 +59,20 @@
                     <div class="col-sm-4">
                         <%= f.input :author, placeholder: "e.g. John Doe", label: "1. <span style='color: red;'>*</span>Byline".html_safe, input_html: {style: "font-size: 12px;"} %>
                         <br/>
-                        <%= f.input :article_datetime, label: "2. <span style='color: red;'>*</span>When was the article published?".html_safe, input_html: {style: "font-size: 12px;"} %>
+                        <%= f.input :article_datetime, label: "2. <span style='color: red;'>*</span>When was the article published?".html_safe, input_html: {style: "font-size: 12px;height: calc(2.25rem - 3px)"} %>
                         <br/>
                         <%= f.input :genre, placeholder: "E.g. Opinion, Analysis, Wire, Breaking, Exclusive, etc.", label: "3. <span style='color: red;'>*</span>Choose a genre of the story".html_safe, hint: "Cannot be longer than 16 characters. Note, you cannot change it once you save.", input_html: {style: "font-size: 12px;"}, maxlength: 16, disabled: @article.id.present? ? true : false %>
                         <%= f.submit "Save", class: @article.id.present? ? "btn btn-outline" : "btn btn-primary" %>
                     </div>
+                    <% if @article.id.present? %>
+                        <div class="col-sm-3">
+                            <div class='sigle-detail'>
+                                <%= simple_form_for([@account, @folder, @article]) do |f|%>
+                                  <%= f.input :folder_id, collection: @folders, include_blank: false, label: "1. Move to another folder", input_html: {style: "font-size: 12px;height: calc(2.25rem - 3px)"} %>
+                                <% end %>
+                            </div>
+                        </div>
+                    <% end %>
                 </div>
 
 
@@ -80,5 +89,10 @@
             }
             reader.readAsDataURL(input.files[0]);
         }
-    }
+    };
+
+    $("#article_folder_id").on("change", function(){
+        $(this).parents('form').submit();
+    });
+
 </script>

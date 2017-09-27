@@ -25,9 +25,14 @@ class ArticlesController < ApplicationController
         @article.updated_by = current_user.id
         if @article.save
             track_activity(@article)
-            redirect_to edit_account_folder_article_path(@account, @folder, @article), notice: t('cs')
+            redirect_to edit_account_folder_article_path(@account, @article.folder, @article), notice: t('cs')
         else
             flash.now.alert = @article.errors.full_messages
+            @article.build_cover_image
+            @view_casts_count = @folder.view_casts.count
+            @streams_count = @folder.streams.count
+            @articles_count = @folder.articles.count
+            @is_viewcasts_present = @view_casts_count != 0
             render :new
         end
     end
@@ -58,6 +63,7 @@ class ArticlesController < ApplicationController
         @article_modes = ""
         @article.cover_image.id.present? ? (@article_modes << "1") : (@article_modes << "0")
         @article.content.present? ? (@article_modes << "1") : (@article_modes << "0")
+        @folders = @account.folders
     end
 
     def update
@@ -74,11 +80,27 @@ class ArticlesController < ApplicationController
             if @article.update(a_params)
                 track_activity(@article)
                 format.html {
-                    redirect_to(edit_account_folder_article_path(@account, @folder, @article), notice: t('cs'))
+                    @article.reload
+                    redirect_to(edit_account_folder_article_path(@account, @article.folder, @article), notice: t('us'))
                 }
                 format.json { respond_with_bip(@article) }
             else
-                format.html { render :edit }
+                format.html {
+                    @image = @article.cover_image
+                    if @image.blank?
+                        @article.build_cover_image
+                    else
+                        @image_variation = @image_variation = ImageVariation.new
+                    end
+                    @view_casts_count = @folder.view_casts.count
+                    @streams_count = @folder.streams.count
+                    @articles_count = @folder.articles.count
+                    @article_modes = ""
+                    @article.cover_image.id.present? ? (@article_modes << "1") : (@article_modes << "0")
+                    @article.content.present? ? (@article_modes << "1") : (@article_modes << "0")
+                    @folders = @account.folders
+                    render :edit
+                }
                 format.json { respond_with_bip(@article) }
             end
         end
@@ -95,7 +117,7 @@ class ArticlesController < ApplicationController
         else
             @article.update_attribute(:cover_image_id, nil)
         end
-        redirect_to edit_account_folder_article_path(@account, @folder, @article), notice: t("ds")
+        redirect_to edit_account_folder_article_path(@account, @article.folder, @article), notice: t("ds")
     end
 
     [:remove_twitter_image, :remove_facebook_image, :remove_instagram_image].each do |meth|
