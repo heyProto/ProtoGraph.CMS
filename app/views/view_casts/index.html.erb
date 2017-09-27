@@ -3,8 +3,12 @@
     <br/>
     <br/>
     <div class="blankslate blankslate-spacious">
-      <h3>No cards created yet.</h3>
-      <p>Use the [+ Add a card] button on the top right.</p>
+      <% if @folder.is_trash %>
+        <h3>There are no cards in the recycle bin.</h3>
+      <% else %>
+        <h3>No cards created yet.</h3>
+        <p>Use the [+ Add a card] button on the top right.</p>
+      <% end %>
     </div>
     <% else %>
     <div class="row">

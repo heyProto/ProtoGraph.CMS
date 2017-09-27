@@ -30,6 +30,8 @@
     </div>
     <br/>
     <br/>
-    <h3 style="font-weight: 200;">What's happening?</h3>
-    <%= render partial: "activities/index" %>
+    <% if @activities.count > 0 %>
+      <h3 style="font-weight: 200;">What's happening?</h3>
+      <%= render partial: "activities/index" %>
+    <% end %>
 </div>
