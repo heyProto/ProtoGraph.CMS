@@ -51,6 +51,10 @@
                       <% elsif controller_name == "articles" and action_name != "new"  %>
                         <li class="nav-item"><%= link_to '+ Prepare an article', new_account_folder_article_path(@account, @folder), data: {turbolinks: false}, class: "nav-link btn btn-sm btn-primary", style: "margin-top: 5px;" %></li>
                       <% end %>
+                  <% elsif controller_name == "images" and action_name != "new"  %>
+                      <li class="nav-item"><%= link_to '+ Upload an image', "#", class: "nav-link btn btn-sm btn-primary",style: "margin-top: 5px;", "data-toggle" => "modal", "data-target" => "#fileUploadModal" %></li>
+
+                      <%= render partial: "images/form" %>
                   <% end %>
                   <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

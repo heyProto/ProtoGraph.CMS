@@ -3,13 +3,10 @@
 <div class="container">
   <div class="row">
     <div class="col-sm-13">
-    <h1 style="margin-bottom: 20px; font-weight: 600; margin-top: 0px; font-size: 20px;">
-      Image Bank
-    </h1>
-  </div>
-  <div class="col-sm-3">
-    <a id="openFileUpload" class='btn btn-outline' href='#' data-toggle='modal' data-target='#fileUploadModal' style="float: right;">Upload image</a>
-  </div>
+      <h1 style="margin-bottom: 20px; font-weight: 600; margin-top: 0px; font-size: 20px;">
+        Image Bank
+      </h1>
+    </div>
   </div>
 </div>
 <br/>
@@ -25,34 +22,7 @@
         </div>
     <% end %>
   </div>
-
-  <div class="modal" id="fileUploadModal">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h4 class="modal-title">Add a new image</h4>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <%= simple_form_for([@account, @image]) do |f| %>
-            <%= f.error_notification %>
-            <%= f.input :image, as: :file, required: true, hint: 'Size should less than or equal to 500kB. Supported file types are GIF, JPEG, JPG and PNG' %>
-            <%= f.input :account_id, as: :hidden, input_html: {value: @account.id} %>
-            <%= f.input :name, required: true %>
-            <%#= f.input :tag_list, collection: [], label: 'Tags', hint: "Enter a comma separated list of tags.", input_html: { id: 'tags_autocomplete', class: 'ui fluid search dropdown', multiple: true, "data-content"=>"This field is required." }, wrapper_html: { class: 'required'} %>
-            <%= f.input :description %>
-          <% end %>
-        </div>
-        <div class='modal-footer'>
-          <input type="submit" value="Upload" form="new_image" class="btn btn-outline">
-        </div>
-      </div>
-    </div>
-  </div>
-
-<%= paginate @images %>
+  <%= paginate @images %>
 </div>
 <%= javascript_include_tag "justified.js" %>
 <%= javascript_include_tag "select2.js" %>
@@ -60,20 +30,6 @@
   var images = <%= @images.as_json.to_json.html_safe %>;
 
   $(document).ready(function() {
-    // var validation_rules = {
-    //     on: 'blur',
-    //     inline: true,
-    //     fields: {
-    //         'image[tag_list][]': {
-    //             identifier: 'tags_autocomplete',
-    //             rules: [{
-    //                 type: 'empty',
-    //                 prompt: 'This is a required field.'
-    //             }]
-    //         }
-    //     }
-    // };
-    // $('#new_image').form(validation_rules);
     var maxHeight = 75;
     if (images.length) {
       $('#imageContainer').empty().justifiedImages({
@@ -100,53 +56,5 @@
         margin: 20
       });
     }
-
-  //   $('#tags_autocomplete').select2({
-  //     ajax: {
-  //     url: "/api/v1/tags",
-  //     dataType: 'json',
-  //     delay: 250,
-  //     data: function (params) {
-  //       return {
-  //         q: params.term
-  //       }
-  //     },
-  //     processResults: function (data, params) {
-  //       // parse the results into the format expected by Select2
-  //       // since we are using custom formatting functions we do not need to
-  //       // alter the remote JSON data, except to indicate that infinite
-  //       // scrolling can be used
-
-  //       return {
-  //         results: data.results
-  //       };
-  //     },
-  //     cache: true
-  //   },
-  //   createTag: function (params) {
-  //     return {
-  //       id: params.term,
-  //       text: params.term,
-  //       newOption: true
-  //     }
-  //   },
-  //   tags: true
-  // });
-
-    // $('#new_image .ui.dropdown')
-    //   .dropdown({
-    //     fullTextSearch: true,
-    //     forceSelection: false,
-    //     saveRemoteData: false,
-    //     allowAdditions: true,
-    //     apiSettings: {
-    //       url: '/api/v1/tags?q={query}'
-    //     },
-    //     fields: {
-    //       value: 'name',
-    //       name: 'name',
-    //       id: 'id'
-    //     }
-    //   });
   });
 </script>
