@@ -61,7 +61,7 @@
                       <% if @account.logo_image_id.present? %>
                         <%= image_tag(@account.logo_image.original_image.image_url, class: "rounded", style: "width: 20px;", alt: @account.username) %>
                       <% else %>
-                        <%= image_tag("account", class: "rounded", style: "width: 20px;", alt: @account.username) %>
+                        <%= image_tag("account.png", class: "rounded", style: "width: 20px;", alt: @account.username) %>
                       <% end %>
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">

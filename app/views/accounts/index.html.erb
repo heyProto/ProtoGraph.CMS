@@ -11,7 +11,7 @@
             <% @accounts.each do |account| %>
                 <tr>
                   <td style="border: 0px;">
-                    <%= image_tag (account.logo_image.nil? ?  "account" : account.logo_image.original_image.image_url), height: "20px", class: "rounded" %>
+                    <%= image_tag (account.logo_image.nil? ?  "account.png" : account.logo_image.original_image.image_url), height: "20px", class: "rounded" %>
                     <%= link_to account.username, account_path(account) %>
                   </td>
                   <td style="border: 0px;"><%= current_user.permission_object(account.id).ref_role_slug.titleize %>
