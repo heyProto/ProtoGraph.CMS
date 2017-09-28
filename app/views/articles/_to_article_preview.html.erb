@@ -38,21 +38,25 @@
 </div>
 
 <script type="text/javascript">
+    var frame_loaded = false;
+    var proto_embed_test;
     var interval = setInterval(function(){
         if (window.ProtoEmbed) {
           clearInterval(interval);
-          var proto_embed_test = new ProtoEmbed.initFrame(document.getElementById('protoCard'), "<%= "#{view_cast.template_card.index_html}?view_cast_id=#{view_cast.datacast_identifier}%26schema_id=#{view_cast.template_datum.s3_identifier}" %>" , "<%= view_cast.template_card.allowed_views.first %>");
+          $(".list-group-item:not(.disabled) a").on("click", function(event){
+              if(!frame_loaded){
+                frame_loaded = true
+                proto_embed_test = new ProtoEmbed.initFrame(document.getElementById('protoCard'), "<%= "#{view_cast.template_card.index_html}?view_cast_id=#{view_cast.datacast_identifier}%26schema_id=#{view_cast.template_datum.s3_identifier}" %>" , this.id );
+              } else {
+                proto_embed_test.sandbox.oasis.services[0].send('change_mode', this.id);
+              }
+              event.preventDefault();
+          });
         }
-
-        $(".list-group-item:not(.disabled) a").on("click", function(event){
-            proto_embed_test.sandbox.oasis.services[0].send('change_mode', this.id);
-            event.preventDefault();
-        });
-
-        $("button.disabled").on("click", function(event){
-          return false;
-        })
     }, 10);
+    $("button.disabled").on("click", function(event){
+      return false;
+    })
 
 
 </script>
