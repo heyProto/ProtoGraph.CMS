@@ -22,6 +22,30 @@ h6{text-transform: uppercase; font-weight: 800;}
     vertical-align: top
 }
 
+.getting-started_single-todo{
+    font-size: 24px;
+    color: #333;
+    font-weight: 200;
+    border-bottom: 1px solid #efefef;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+}
+
+.getting-started_todo-circle{
+    width: 24px;
+    height: 24px;
+    border: 1px solid #efefef;
+    border-radius: 50px;
+    background: white;
+    display: inline-block;
+    margin-right: 10px;
+    vertical-align: middle;
+}
+
+.getting-started_todo-task{
+    display: inline-block;
+}
+
 nav.navbar{border-bottom: 1px solid #F5F5F5; background: #FAFAFA !important;}
 
 ul.nav.jignesh > li.nav-item > a.nav-link.active{ border-bottom: 4px solid #0366d6; padding-left: 0px; padding-right: 0px; margin: 0px 50px;}
