@@ -1,7 +1,7 @@
 <table class="table">
       <% prev_user = nil %>
       <% @activities.each do |a| %>
-          <% next if a.trackable.class.to_s == "ViewCast" and a.trackable.template_card.name != 'toArticle' %>
+          <% next if a.trackable.class.to_s == "ViewCast" and a.trackable.template_card.name == 'toArticle' %>
           <tr>
               <td style="width: 40px; border: 0px;">
                   <% if a.user_id != prev_user %>
