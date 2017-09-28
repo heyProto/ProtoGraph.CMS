@@ -16,7 +16,7 @@
             <% if a.trackable.class.to_s == "Folder" %>
               a folder
               <%= link_to a.trackable.name.titleize, [a.trackable.account, a.trackable] %>
-            <% elsif a.trackable.class.to_s == "ViewCast" and a.trackable.name != 'toArticle' %>
+            <% elsif a.trackable.class.to_s == "ViewCast" and a.trackable.template_card.name != 'toArticle' %>
               a card
               <%= link_to a.trackable.name.titleize, [a.trackable.account, a.trackable.folder, a.trackable] if a.trackable.present? and a.trackable.folder.present? %>
             <% elsif a.trackable.class.to_s == "Stream" %>
