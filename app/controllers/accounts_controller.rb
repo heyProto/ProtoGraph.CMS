@@ -27,6 +27,9 @@ class AccountsController < ApplicationController
 
   def update
     a_params = account_params
+    if params["commit"] == "Save" and a_params["logo_image_id"].blank?
+      a_params.delete("logo_image_id")
+    end
     if a_params["logo_image_attributes"].present?
       a_params["logo_image_attributes"]["name"] = @account.username + "_avatar"
       a_params["logo_image_attributes"]["tag_list"] = ['avatar']

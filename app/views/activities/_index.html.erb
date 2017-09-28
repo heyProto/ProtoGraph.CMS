@@ -16,7 +16,7 @@
             <% if a.trackable.class.to_s == "Folder" %>
               a folder
               <%= link_to a.trackable.name.titleize, [a.trackable.account, a.trackable] %>
-            <% elsif a.trackable.class.to_s == "ViewCast" %>
+            <% elsif a.trackable.class.to_s == "ViewCast" and a.trackable.name != 'toArticle' %>
               a card
               <%= link_to a.trackable.name.titleize, [a.trackable.account, a.trackable.folder, a.trackable] if a.trackable.present? and a.trackable.folder.present? %>
             <% elsif a.trackable.class.to_s == "Stream" %>
@@ -24,7 +24,7 @@
               <%= link_to a.trackable.title.titleize, [a.trackable.account, a.trackable.folder, a.trackable] %>
             <% elsif a.trackable.class.to_s == "Article" %>
               a article
-              <%= link_to a.trackable.title.titleize, edit_account_folder_article_path(a.trackable.account, a.trackable.folder, a.trackable) %>
+              <%= link_to a.trackable.title.titleize, edit_account_folder_article_path(a.trackable.account, a.trackable.folder, a.trackable), "data-turbolinks" => "false" %>
             <% end %>
               </td>
           </tr>
