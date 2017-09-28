@@ -10,12 +10,12 @@
       <tbody>
             <% @accounts.each do |account| %>
                 <tr>
-                        <td style="border: 0px; width: 10%;"><%= image_tag avatar_url(account.gravatar_email), class: "rounded" %>
-                        </td>
-                        <td style="border: 0px;"><%= link_to account.username, account_path(account) %>
-                        </td>
-                        <td style="border: 0px;"><%= current_user.permission_object(account.id).ref_role_slug.titleize %>
-                        </td>
+                  <td style="border: 0px; width: 10%;"><%= image_tag (account.image_logo.original_image.image_url), class: "rounded" %>
+                  </td>
+                  <td style="border: 0px;"><%= link_to account.username, account_path(account) %>
+                  </td>
+                  <td style="border: 0px;"><%= current_user.permission_object(account.id).ref_role_slug.titleize %>
+                  </td>
                 </tr>
             <% end %>
       </tbody>

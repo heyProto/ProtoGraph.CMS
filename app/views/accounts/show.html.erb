@@ -1,4 +1,8 @@
-<br/><br/>
+<% unless (@account.logo_image_id.present? and (@account.users.count > 1 or  @account.permission_invites.count > 0) and @account.folders.count > 2 and @account.view_casts.count > 0) %>
+  <div class="row">
+    <%= render partial: "accounts/getting_started" %>
+  </div>
+<% end %>
 <div class="row">
   <div class="col-sm-10">
     <%= render partial: "activities/index" %>

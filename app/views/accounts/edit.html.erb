@@ -62,11 +62,8 @@
           <%= f.button :submit, "Remove image", class: "btn btn-sm btn-outline" %>
         <% end %>
       <% else %>
-        <%= image_tag avatar_url(@account.gravatar_email, 100), class: "rounded" %>
-        <p class="hint">Please upload your company’s Twitter display profile (logo) here — (400x400, square)</p>
-      <% end %>
-      <br/><br/>
-      <% unless @account.logo_image_id.present? %>
+        <%= image_tag("account", class: "rounded", style: "width: 100px;") %>
+        <br/><br/>
         <%= f.fields_for :logo_image do |logo_image| %>
           <%= logo_image.input :image, label: false %>
         <% end %>

@@ -2,24 +2,23 @@
 #
 # Table name: accounts
 #
-#  id             :integer          not null, primary key
-#  username       :string(255)
-#  slug           :string(255)
-#  domain         :string(255)
-#  gravatar_email :string(255)
-#  status         :string(255)
-#  sign_up_mode   :string(255)
-#  created_at     :datetime         not null
-#  updated_at     :datetime         not null
-#  cdn_provider   :string(255)
-#  cdn_id         :string(255)
-#  host           :text(65535)
-#  cdn_endpoint   :text(65535)
-#  client_token   :string(255)
-#  access_token   :string(255)
-#  client_secret  :string(255)
-#  logo_image_id  :integer
-#  house_colour   :string(255)
+#  id            :integer          not null, primary key
+#  username      :string(255)
+#  slug          :string(255)
+#  domain        :string(255)
+#  status        :string(255)
+#  sign_up_mode  :string(255)
+#  created_at    :datetime         not null
+#  updated_at    :datetime         not null
+#  cdn_provider  :string(255)
+#  cdn_id        :string(255)
+#  host          :text(65535)
+#  cdn_endpoint  :text(65535)
+#  client_token  :string(255)
+#  access_token  :string(255)
+#  client_secret :string(255)
+#  logo_image_id :integer
+#  house_colour  :string(255)
 #
 
 class Account < ApplicationRecord
@@ -54,8 +53,6 @@ class Account < ApplicationRecord
 
     validates :domain, format: {:with => /[a-zA-Z0-9][a-zA-Z0-9-]{1,61}[a-zA-Z0-9]\.[a-zA-Z]{2,}/ }, allow_blank: true, allow_nil: true, length: { in: 3..240 }, exclusion: { in: %w(gmail.com outlook.com yahoo.com mail.com),
     message: "%{value} is reserved." } #TODO AMIT - we need to think of more free email providers
-
-    validates :gravatar_email, format: { with: /\A[^@\s]+@([^@.\s]+\.)+[^@.\s]+\z/ }, allow_blank: true, allow_nil: true
     validates :cdn_endpoint, format: URI::regexp(%w(http https)), allow_nil: true
     #CALLBACKS
     before_create :before_create_set
@@ -65,7 +62,11 @@ class Account < ApplicationRecord
     #OTHER
 
     def template_cards
-        TemplateCard.where("account_id = ? OR is_public = true", self.id)
+        if self.username == 'pykih'
+            TemplateCard.all
+        else
+            TemplateCard.where("account_id = ? OR is_public = true", self.id)
+        end
     end
 
     def template_data
@@ -84,7 +85,6 @@ class Account < ApplicationRecord
         self.cdn_endpoint = ENV['AWS_S3_ENDPOINT']
         self.client_token = ENV['AWS_ACCESS_KEY_ID']
         self.client_secret = ENV['AWS_SECRET_ACCESS_KEY']
-        self.house_colour = "#000000"
         true
     end
 

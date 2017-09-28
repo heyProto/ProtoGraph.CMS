@@ -1,0 +1,21 @@
+<div class='col-sm-16'>
+    <div class="jumbotron">
+        <h1 class="display-5">Welcome to ProtoGraph</h1>
+        <hr class="my-4">
+        <p class='lead'>Getting started with the tool</p>
+        <ul style='list-style-type: none'>
+            <% if @account.logo_image_id.blank? %>
+                <li><%= link_to "Upload your logo & choose your house color", edit_account_path(@account) %></li>
+            <% end %>
+            <% if @account.users.count <= 1 and  @account.permission_invites.count == 0 %>
+                <li><%= link_to "Invite a team member", account_permissions_path(@account) %></li>
+            <% end %>
+            <% if @account.folders.count <= 2 %>
+                <li><%= link_to "Add a new folder", new_account_folder_path(@account) %></li>
+            <% end %>
+            <% if @account.view_casts.count <= 0 %>
+                <li><%= link_to "Add a toExplain card in sample project", new_account_folder_view_cast_path(@account, @account.folders.first), "data-turbolinks" => "false" %></li>
+            <% end %>
+        </ul>
+    </div>
+</div>
