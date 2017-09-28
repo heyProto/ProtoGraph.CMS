@@ -5,7 +5,9 @@
 <% end %>
 <div class="row">
   <div class="col-sm-10">
-    <%= render partial: "activities/index" %>
+    <% if @activities.count > 0 %>
+      <%= render partial: "activities/index" %>
+    <% end %>
   </div>
   <div class="col-sm-6">
       <nav class="github-menu">
@@ -24,6 +26,7 @@
                 </span>
             </a>
         <% end %>
-      </div>
+      </nav>
+
   </div>
 </div>
