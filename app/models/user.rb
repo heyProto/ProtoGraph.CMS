@@ -105,6 +105,8 @@ class User < ApplicationRecord
     end
 
     def welcome_user
-        WelcomeUserWorker.perform_in(1.second, self.id)
+        if Rails.env == "production"
+            WelcomeUserWorker.perform_in(1.second, self.id)
+        end
     end
 end
