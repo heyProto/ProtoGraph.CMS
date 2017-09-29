@@ -49,6 +49,7 @@ class User < ApplicationRecord
     #CALLBACKS
     before_create :before_create_set
     after_create :after_create_set
+    after_create :welcome_user
 
     #SCOPE
     #OTHER
@@ -101,5 +102,9 @@ class User < ApplicationRecord
             is_trash: true,
             is_system_generated: true
         })
+    end
+
+    def welcome_user
+        WelcomeUserWorker.perform_in(1.second, self.id)
     end
 end
