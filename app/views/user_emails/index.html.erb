@@ -1,0 +1,17 @@
+<div class="col-sm-6">
+<nav class="github-menu">
+    <span class="github-menu-heading">
+        Your registered emails
+    </span>
+    <a class="github-menu-item"><%= current_user.email %></a>
+    <% @user_emails.each do |u| %>
+        <span>
+            <a class="github-menu-item"><%= u.email %></a>
+            <%= link_to "Delete Email", user_email_path(current_user, u), method: :delete %>
+        </span>
+    <% end %>
+</nav>
+</div>
+<div class="col-sm-6">
+    <%= render partial: "form" %>
+</div>

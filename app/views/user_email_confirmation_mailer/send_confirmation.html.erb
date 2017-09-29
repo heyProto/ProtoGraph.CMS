@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+    </head>
+    <body>
+        <p>Please confirm your new email</p>
+        <p>===============================================</p><br>
+        <p>Click on this link to confirm your email</p>
+        <% link = "http://localhost:3000/users/#{@user_email.user_id}/user_emails/confirmation?confirmation_token=#{@user_email.confirmation_token}" %>
+        <%= link_to link, link, target: :_blank %>
+    </body>
+</html>

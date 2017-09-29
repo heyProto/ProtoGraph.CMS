@@ -37,6 +37,7 @@ class User < ApplicationRecord
     has_many :accounts, through: :permissions
     has_many :activities
     has_many :uploads
+    has_many :user_emails
     #ACCESSORS
     attr_accessor :username
 
