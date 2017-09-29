@@ -46,7 +46,7 @@ h6{text-transform: uppercase; font-weight: 800;}
     display: inline-block;
 }
 
-nav.navbar{border-bottom: 1px solid #F5F5F5; background: #FAFAFA !important;}
+nav.navbar{border-bottom: 1px solid #F5F5F5;}
 
 ul.nav.jignesh > li.nav-item > a.nav-link.active{ border-bottom: 4px solid #0366d6; padding-left: 0px; padding-right: 0px; margin: 0px 50px;}
 
@@ -71,6 +71,25 @@ ul.nav.jignesh > li.nav-item > a.nav-link.active{ border-bottom: 4px solid #0366
 .proto-graph-code-area-title {
     margin-bottom: 10px;
     font-weight: bold;
+}
+
+.z-yellow{
+    color: #F8C64E;
+}
+
+.z-blue{
+    color: #3673EF;
+}
+
+.z-green{
+    color: #57A859;
+}
+
+.home-subtext{
+    color: rgba(52,54,58,0.75);
+    font-size: 25px;
+    font-weight: 300;
+    line-height: 1.33;
 }
 
 .proto-graph-code {
