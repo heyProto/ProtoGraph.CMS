@@ -5,7 +5,7 @@
 </div>
 
 
-    
+
 
 <% if Rails.env.production? %>
 
@@ -44,3 +44,8 @@
     <!-- End Piwik Code -->
 
 <% end %>
+
+<script type="text/javascript" src="https://s3.amazonaws.com/assets.freshdesk.com/widget/freshwidget.js"></script>
+<script type="text/javascript">
+    FreshWidget.init("", {"queryString": "&widgetType=popup&formTitle=Have+a+question%3F&submitTitle=Send<%= current_user.present? ? "&helpdesk_ticket[requester]=#{current_user.email}" : "" %>", "utf8": "✓", "widgetType": "popup", "buttonType": "text", "buttonText": "Support", "buttonColor": "white", "buttonBg": "black", "alignment": "3", "offset": "40px", "formHeight": "500px", "url": "https://pykih.freshdesk.com"} );
+</script>

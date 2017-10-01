@@ -49,10 +49,5 @@
     var notice = <%= config.to_json.html_safe %>;
     if (notice.notify) generate_notify(notice);
   </script>
-
-  <script type="text/javascript" src="https://s3.amazonaws.com/assets.freshdesk.com/widget/freshwidget.js"></script>
-  <script type="text/javascript">
-      FreshWidget.init("", {"queryString": "&widgetType=popup&formTitle=Have+a+question%3F&submitTitle=Send", "utf8": "✓", "widgetType": "popup", "buttonType": "text", "buttonText": "Support", "buttonColor": "white", "buttonBg": "black", "alignment": "3", "offset": "40px", "formHeight": "500px", "url": "https://pykih.freshdesk.com"} );
-  </script>
 </body>
 </html>
