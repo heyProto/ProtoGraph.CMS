@@ -68,14 +68,14 @@ class Stream < ApplicationRecord
     #SCOPE
     #OTHER
 
-    def cards
+    def cards(apply_limit=true)
         query = {}
         query[:folder_id] = self.folder_ids.pluck(:entity_value) if self.folder_ids.count > 0
         query[:template_card_id] = self.template_card_ids.pluck(:entity_value) if self.template_card_ids.count > 0
         unless query.blank?
             view_cast = account.view_casts.order(created_at: :desc).where(query).where.not(folder_id: account.folders.where(is_trash: true).first.id)
             view_cast = view_cast.where.not(id: self.excluded_view_cast_ids.pluck(:entity_value)) if self.excluded_view_cast_ids.count > 0
-            view_cast = view_cast.limit(self.limit).offset(self.offset)
+            view_cast = view_cast.limit(self.limit).offset(self.offset) if apply_limit
         else
             view_cast = ViewCast.none
         end
@@ -108,7 +108,7 @@ class Stream < ApplicationRecord
             end
             cards_json = cards_json.sort_by{|d| d[self.data_group_key]}
         else
-            self.cards.each do |view_cast|
+            self.cards(false).each do |view_cast|
                 d = {}
                 d['view_cast_id'] = view_cast.datacast_identifier
                 d['schema_id'] = view_cast.template_datum.s3_identifier
@@ -181,6 +181,10 @@ class Stream < ApplicationRecord
         if cards_json.first.has_key?('date')
             cards_json = cards_json.sort_by{|d| Date.parse(d['date'])}.reverse!
         end
+
+        card_offset = self.offset || 0
+        card_limit  = self.limit.present? ? (card_offset + (self.limit - 1)) : -1
+        cards_json = cards_json[card_offset..card_limit]
 
         #Uploading the data
         encoded_file = Base64.encode64(cards_json.to_json)
