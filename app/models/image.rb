@@ -72,11 +72,14 @@ class Image < ApplicationRecord
   private
 
   def create_image_version
+    self.image.crop
     self.image.recreate_versions!
 
-    ImageVariation.create({
-      image_id:   self.id,
+    options = {
+      image_id: self.id,
       is_original: true
-    });
+    }
+
+    ImageVariation.create(options)
   end
 end

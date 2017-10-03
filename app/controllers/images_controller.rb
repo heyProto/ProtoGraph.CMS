@@ -22,7 +22,7 @@ class ImagesController < ApplicationController
         format.json { render json: {success: true, data: @image}, status: 200 }
         format.html { redirect_to account_images_path(@account), notice: 'Image added successfully' }
       else
-        format.json { render json: {success: false, errors: @image.errors.full_messages } }
+        format.json { render json: {success: false, errors: @image.errors.full_messages }, status: 400 }
         format.html { redirect_to account_images_path(@account), alert: @image.errors.full_messages }
       end
     end
@@ -42,6 +42,6 @@ class ImagesController < ApplicationController
   end
 
   def image_params
-    params.require(:image).permit(:account_id, :image, :name, :description, :tags, :tag_list)
+    params.require(:image).permit(:account_id, :image, :name, :description, :tags, :tag_list, :crop_x, :crop_y, :crop_w, :crop_h)
   end
 end

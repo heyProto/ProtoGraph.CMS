@@ -9,6 +9,13 @@
   .protograph-new-image {
     display: none;
   }
+  .image-url-container {
+    display: none;
+  }
+  .protograph-disabled-button {
+    pointer-events: none;
+    opacity: 0.4;
+  }
 </style>
 <a class="protograph-imagebank-button" data-toggle="modal" data-target="#fileUploadModal" href="#">Image Bank</a>
 <div id="root"></div>
@@ -26,7 +33,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <h4 class="modal-title">Add a new image</h4>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="modal_close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
@@ -72,6 +79,10 @@
               <%= f.input "crop_#{attribute}", as: :hidden %>
           <% end %>
         <% end %>
+        <div class="form-group image-url-container" id="image_url_container">
+          <label>Image URL</label>
+          <input type="text" name="" id="photo_url" class="form-control string" readonly>
+        </div>
       </div>
       <div class='modal-footer'>
         <input type="submit" value="Upload" form="new_image" class="btn btn-outline" id="new_image_submit_button">
@@ -174,13 +185,23 @@
       e.preventDefault();
     });
 
+    $('#new_image_submit_button').on('click', function () {
+      var $this = $(this);
+      $(this).addClass('protograph-disabled-button');
+      $('#fileUploadModal #modal_close').attr('disabled', true);
+    });
+
     $("#new_image").on('ajax:success', function (e, data, status, xhr) {
-      alert('success', event.detail[0]);
-      console.log(e, data, status, xhr, ";;;;;;;;;;;;;;;;;;;;;");
-      debugger;
+      var resonse = e.detail[0];
+      $('#image_url_container').css('display', "block");
+      $('#photo_url').val(resonse.data.image_url);
+      $('#new_image_submit_button').removeClass('protograph-disabled-button');
+      $('#fileUploadModal #modal_close').attr('disabled', false);
     }).on('ajax:error', function (e, xhr, status, error) {
-      alert('error');
-      console.log(e, xhr, status, error, "+++++++++++++++++++++");
+      var resonse = e.detail[0];
+      showAllValidationErrors(resonse.errors);
+      $('#new_image_submit_button').removeClass('protograph-disabled-button');
+      $('#fileUploadModal #modal_close').attr('disabled', false);
     });
 
   });
