@@ -16,10 +16,17 @@ class ImagesController < ApplicationController
     # end
     options[:created_by] = current_user.id
     @image = Image.new(options)
-    if @image.save
-      redirect_to account_images_path(@account), notice: "Image added successfully"
-    else
-      redirect_to account_images_path(@account), alert: @image.errors.full_messages
+
+    respond_to do |format|
+      if @image.save
+        format.html { redirect_to account_images_path(@account), notice: 'Image added successfully' }
+        format.js { render {success: true, data: @image }.to_s }
+        # format.json { render json: {success: true, data: @image.as_json}, status: 200 }
+      else
+        format.html { redirect_to account_images_path(@account), alert: @image.errors.full_messages }
+        format.json { render json: {success: false, errors: @image.errors.full_messages } }
+        # format.js { render json: {success: false, errors: @image.errors.full_messages } }
+      end
     end
   end
 
