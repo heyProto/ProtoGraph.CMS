@@ -1,6 +1,6 @@
 class ViewCastsController < ApplicationController
     before_action :authenticate_user!
-    before_action :set_view_cast, only: [:show, :edit, :recreate, :update]
+    before_action :set_view_cast, only: [:show, :edit, :destroy, :recreate, :update]
 
     def new
     end
@@ -42,6 +42,16 @@ class ViewCastsController < ApplicationController
             render :show
         end
 
+    end
+
+    def destroy
+        @view_cast.updator = current_user
+        @view_cast.folder = @account.folders.find_by(name: "Recycle Bin")
+        if @view_cast.save
+            redirect_to account_folder_view_casts_path(@account, @folder), notice: "Card was deleted successfully"
+        else
+            redirect_to account_folder_view_cast_path(@account, @folder, @view_cast), alert: "Card could not be deleted"
+        end
     end
 
     def set_view_cast
