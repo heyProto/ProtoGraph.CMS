@@ -1,4 +1,5 @@
 class RegistrationsController < Devise::RegistrationsController
+  layout "three_column_grid", only: [:new]
 
   def create
     super

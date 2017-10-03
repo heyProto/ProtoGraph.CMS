@@ -17,6 +17,7 @@ class StaticPagesController < ApplicationController
   end
 
   def totimeline
+    render layout: "three_column_grid"
   end
 
   def toquiz
@@ -28,12 +29,15 @@ class StaticPagesController < ApplicationController
   end
 
   def preparearticle
+    render layout: "three_column_grid"
   end
 
   def tocounted
+    render layout: "three_column_grid"
   end
 
   def tocoverage
+    render layout: "three_column_grid"
   end
 
   def mobbed
