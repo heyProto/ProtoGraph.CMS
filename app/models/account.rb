@@ -89,11 +89,11 @@ class Account < ApplicationRecord
     end
 
     def before_update_set
-        self.cdn_id = ENV['AWS_CDN_ID'] if self.cdn_id.blank? and self.cdn_endpoint == ENV['AWS_S3_ENDPOINT']
-        self.host = "#{AWS_API_DATACAST_URL}/cloudfront/invalidate" if self.host.blank?
-        self.cdn_endpoint = ENV['AWS_S3_ENDPOINT'] if self.cdn_endpoint.blank?
-        self.client_token = ENV['AWS_ACCESS_KEY_ID'] if self.client_token.blank?
-        self.client_secret = ENV['AWS_SECRET_ACCESS_KEY'] if self.client_secret.blank?
+        # self.cdn_id = ENV['AWS_CDN_ID'] if self.cdn_id.blank? and self.cdn_endpoint == ENV['AWS_S3_ENDPOINT']
+        # self.host = "#{AWS_API_DATACAST_URL}/cloudfront/invalidate" if self.host.blank?
+        # self.cdn_endpoint = ENV['AWS_S3_ENDPOINT'] if self.cdn_endpoint.blank?
+        # self.client_token = ENV['AWS_ACCESS_KEY_ID'] if self.client_token.blank?
+        # self.client_secret = ENV['AWS_SECRET_ACCESS_KEY'] if self.client_secret.blank?
     end
 
     def change_view_casts_house_colours
