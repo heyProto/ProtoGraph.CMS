@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170928060936) do
+ActiveRecord::Schema.define(version: 20170929160624) do
 
   create_table "accounts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "username"
@@ -100,6 +100,7 @@ ActiveRecord::Schema.define(version: 20170928060936) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "is_trash", default: false
+    t.boolean "is_archived", default: false
   end
 
   create_table "friendly_id_slugs", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -320,6 +321,17 @@ ActiveRecord::Schema.define(version: 20170928060936) do
     t.index ["template_card_id"], name: "index_uploads_on_template_card_id"
   end
 
+  create_table "user_emails", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.bigint "user_id"
+    t.string "email"
+    t.string "confirmation_token"
+    t.datetime "confirmation_sent_at"
+    t.datetime "confirmed_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_user_emails_on_user_id"
+  end
+
   create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "name", default: "", null: false
     t.string "email", default: "", null: false
@@ -363,9 +375,11 @@ ActiveRecord::Schema.define(version: 20170928060936) do
     t.boolean "is_invalidating"
     t.string "default_view"
     t.integer "article_id"
+    t.index ["slug"], name: "index_view_casts_on_slug", unique: true
   end
 
   add_foreign_key "uploads", "accounts"
   add_foreign_key "uploads", "folders"
   add_foreign_key "uploads", "template_cards"
+  add_foreign_key "user_emails", "users"
 end
