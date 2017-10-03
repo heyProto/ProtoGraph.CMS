@@ -1,0 +1,39 @@
+<div class="row">
+    <div class="col-sm-3">
+        <%= render partial: "accounts/sidebar" %>
+    </div>
+    <div class="col-sm-9">
+        <br/>
+        <h1>Your emails</h1>
+        <hr>
+        <table class="table">
+            <tbody>
+                <tr>
+                    <td><%= current_user.email %></td>
+                    <td> - </td>
+                </tr>
+                <% @user_emails.each do |u| %>
+                    <tr>
+                        <td style="border: 0px;">
+                            <%= u.email %>
+                        </td>
+                        <td style="border: 0px;">
+                            <%= link_to "Delete Email", user_email_path(current_user, u), method: :delete %>
+                        </td>
+                    </tr>
+                <% end %>
+        </table>
+    </div>
+    <div class="col-sm-4">
+        <br/>
+        <br/>
+        <br/>
+        <%= render partial: "form" %>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+    </div>
+</div>

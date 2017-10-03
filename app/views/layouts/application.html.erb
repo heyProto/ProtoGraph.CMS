@@ -8,7 +8,6 @@
 
   <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
   <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
-
   <% if Rails.env.production? %>
     <script>
       (function(_,e,rr,s){_errs=[s];var c=_.onerror;_.onerror=function(){var a=arguments;_errs.push(a);
@@ -36,15 +35,13 @@
   </div>
   <%= render partial: "layouts/footer" %>
 
-
-
-  <% config = {} %>
-  <% if notice.present? %>
-    <% config = {text: notice, notify: "success"} %>
-  <% end %>
-  <% if alert.present? %>
-    <% config = {text: alert, notify: "error"} %>
-  <% end %>
+      <% config = {} %>
+      <% if notice.present? %>
+        <% config = {text: notice, notify: "success"} %>
+      <% end %>
+      <% if alert.present? %>
+        <% config = {text: alert, notify: "error"} %>
+      <% end %>
 
   <script type="text/javascript">
     var notice = <%= config.to_json.html_safe %>;
