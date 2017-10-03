@@ -48,6 +48,15 @@ en:
     required: "%{param} is required to continue."
   user:
     not_found: 'User not found.'
+  user_email:
+    create:
+      success: "Please confirm your email with the link sent at email provided"
+      failure: "Something went wrong"
+    destroy:
+      success: "Email was destroyed successfully"
+    confirmation:
+      success: "Your email was confirmed successfully"
+      failure: "Something went wrong"
   platform_create: "The image for %{platform} will created shortly."
   platform_not_in_the_list: "The %{platform} is not in the list."
   url:

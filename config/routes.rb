@@ -6,10 +6,14 @@ Rails.application.routes.draw do
   get 'static_pages/index'
 
   resources :activities
-  devise_for :users, controllers: { registrations: 'registrations', sessions: 'sessions', passwords: "passwords", confirmations: "confirmations" } do
-      get 'sign_out', to: 'devise/sessions#destroy'
+  devise_for :users, controllers: { registrations: 'registrations', sessions: 'sessions', passwords: "passwords", confirmations: "confirmations" }  do
+    get 'sign_out', to: 'devise/sessions#destroy'
   end
 
+  resources :users do
+      resources :user_emails, only: [:index, :create, :destroy], as: :emails
+      get '/user_emails/confirmation', to: "user_emails#confirmation", as: "email_confirmation"
+  end
   get "/auth/:provider", to: lambda{ |env| [404, {}, ["Not Found"]] }, as: :oauth
   get '/auth/:provider/callback', to: 'authentications#create'
   get '/auth/failure', to: 'authentications#failure'
