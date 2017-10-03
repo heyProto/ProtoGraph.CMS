@@ -375,7 +375,6 @@ ActiveRecord::Schema.define(version: 20170929160624) do
     t.boolean "is_invalidating"
     t.string "default_view"
     t.integer "article_id"
-    t.index ["slug"], name: "index_view_casts_on_slug", unique: true
   end
 
   add_foreign_key "uploads", "accounts"

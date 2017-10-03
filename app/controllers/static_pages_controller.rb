@@ -20,9 +20,11 @@ class StaticPagesController < ApplicationController
   end
 
   def toquiz
+    render layout: "three_column_grid"
   end
 
   def toexplain
+    render layout: "three_column_grid"
   end
 
   def preparearticle

@@ -1,4 +1,5 @@
 class SessionsController < Devise::SessionsController
+  layout "three_column_grid", only: [:new]
 
   def new
     @to_explain = TemplateCard.where(name: "toExplain", is_current_version: true).first
