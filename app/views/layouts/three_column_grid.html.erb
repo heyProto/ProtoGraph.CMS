@@ -30,16 +30,18 @@
 <body data-turbolinks="<%= controller_name == "sessions" and action_name == "new" ? "false" : "true" %>">
   <%= render partial: "layouts/header" %>
   <div class="row">
-    <div class="page-banner">
-      <div class="proto-container">
-        <div class="col-sm-8 no-padding-col">
-          <%= yield :banner_col_sm_8_left %>
-        </div>
-        <div class="col-sm-8 no-padding-col">
-          <%= yield :banner_col_sm_8_right %>
+    <% if content_for?(:banner_col_sm_8_left) or content_for?(:banner_col_sm_8_right) %>
+      <div class="page-banner">
+        <div class="proto-container">
+          <div class="col-sm-8 no-padding-col">
+            <%= yield :banner_col_sm_8_left %>
+          </div>
+          <div class="col-sm-8 no-padding-col">
+            <%= yield :banner_col_sm_8_right %>
+          </div>
         </div>
       </div>
-    </div>
+    <% end %>
   </div>
   <div class="proto-container">
     <div class="br-space three-br-space"></div>
