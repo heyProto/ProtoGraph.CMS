@@ -1,6 +1,6 @@
 class StreamsController < ApplicationController
     before_action :authenticate_user!
-    before_action :set_stream, only: [:show, :edit, :update, :publish]
+    before_action :set_stream, only: [:show, :edit, :update, :destroy, :publish]
 
     def create
         @stream = @folder.streams.new(stream_params)
@@ -64,6 +64,16 @@ class StreamsController < ApplicationController
             redirect_to account_folder_stream_path(@account, @folder, @stream), notice: t('cs')
         else
             render :edit
+        end
+    end
+
+    def destroy
+        @stream.updator = current_user
+        @stream.folder = @account.folders.find_by(name: "Recycle Bin")
+        if @stream.save
+            redirect_to account_folder_streams_path(@account, @folder), notice: "Stream was deleted successfully"
+        else
+            redirect_to account_folder_stream_path(@account, @folder, @stream), alert: "Stream could not be deleted"
         end
     end
 
