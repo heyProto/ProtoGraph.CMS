@@ -1,9 +1,9 @@
 <%= content_for :banner_col_sm_8_left do %>
   <div class="hint-text">Be better at</div>
-  <h1>Story Telling</h1>
+  <h1>STORY TELLING</h1>
   <h1 class="intro-text">
     Free to use tools that solve small yet<br>
-    critical newsroom issues around engagement,<br> 
+    critical newsroom issues around engagement,<br>
     interactivity and efficiency.<br>
   </h1>
   <%= link_to "Sign up for free", new_registration_path(resource_name), class: "btn btn-primary proto-primary-btn proto-btn" %><br />
@@ -27,37 +27,37 @@
   <h3 class="z-green">Increase your story’s shelf life</h3>
   <div class="br-space one-br-space"></div>
   <p>The lifespan of a story is only as long as your distribution platform allows it. Reuse research done for the original story to release engaging story elements at regular intervals to attract new readers. Sometimes the elements of the story will travel further than the story itself.</p>
-  <div class="article-demo-image"></div>
-  <p>Example :
+  <p>Tools :
     <span class="links-div">
       <%= link_to "toQuiz", toquiz_path %>, &nbsp
       <%= link_to "toTimeline", totimeline_path %>, &nbsp
       <%= link_to "toExplain", toexplain_path %>
     </span>
   </p>
+  <iframe frameborder="0" class="juxtapose" width="100%" height="350" src="https://cdn.knightlab.com/libs/juxtapose/latest/embed/index.html?uid=b63fa9e2-a85f-11e7-b263-0edaf8f81e27"></iframe>
   <div class="br-space two-br-space"></div>
   <small>BETTER AT <b>DISTRIBUTION</b></small>
   <h3 class="z-green">Drive audiences to stories from social media</h3>
   <div class="br-space one-br-space"></div>
   <p>When a potential reader sees an article on their social media feed, there is no way to tell if that article is from a credible news source or not. toSocial helps you create branded thumbnails for Facebook, Twitter and Instagram that improve brand recall.</p>
-  <div class="article-demo-image"></div>
-  <p>Example :
+  <p>Tools :
     <span class="links-div">
       <%= link_to "toSocial", preparearticle_path %>
     </span>
-  </p> 
+  </p>
+  <div class="article-demo-image"></div>
   <div class="br-space two-br-space"></div>
   <small>BETTER AT <b>BUILDING LOYALTY</b></small>
   <h3 class="z-green">Give readers a one-stop shop for areas of their interest</h3>
   <div class="br-space one-br-space"></div>
   <p>Most news sites are organised around sections that is world, politics, etc. To build loyalty in the mind of sub community of readers, newsrooms can launch micro-pages where they can showcase a body of work by curating and aggregating content around a niche topic of interest.</p>
-  <div class="article-demo-image"></div>
-  <p>Example :
+  <p>Tools :
     <span class="links-div">
-      <%= link_to "toCoverage", tocoverage_path %>, &nbsp
-      <%= link_to "toCounted", tocounted_path %>
+      <%= link_to "toCover", tocoverage_path %>, &nbsp
+      <%= link_to "toCount", tocounted_path %>
     </span>
   </p>
+  <div class="article-demo-image"></div>
 <% end %>
 <%= content_for :proto_container_col_sm_3 do %>
   <%= simple_form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>

@@ -6,7 +6,7 @@ Rails.application.routes.draw do
   get 'static_pages/index'
 
   resources :activities
-  devise_for :users, controllers: { registrations: 'registrations', sessions: 'sessions' } do
+  devise_for :users, controllers: { registrations: 'registrations', sessions: 'sessions', passwords: "passwords", confirmations: "confirmations" }  do
     get 'sign_out', to: 'devise/sessions#destroy'
   end
 
@@ -95,8 +95,8 @@ Rails.application.routes.draw do
   get "cards/to-quiz", to: 'static_pages#toquiz', as: :toquiz
   get "cards/to-explain", to: 'static_pages#toexplain', as: :toexplain
   get "prepare-articles", to: 'static_pages#preparearticle', as: :preparearticle
-  get "pages/to-counted", to: 'static_pages#tocounted', as: :tocounted
-  get "pages/to-coverage", to: 'static_pages#tocoverage', as: :tocoverage
+  get "pages/to-count", to: 'static_pages#tocounted', as: :tocounted
+  get "pages/to-cover", to: 'static_pages#tocoverage', as: :tocoverage
   get "case-studies/mobbed", to: 'static_pages#mobbed', as: :mobbed
   get "case-studies/silenced", to: 'static_pages#silenced', as: :silenced
 
