@@ -7,6 +7,7 @@ class ImageVariationsController < ApplicationController
     options[:is_original] = false
     @image_variation = ImageVariation.new(options)
     if @image_variation.save
+      track_activity(@image_variation)
       if params[:redirect_url].present?
         redirect_to params[:redirect_url], notice: t("social.integrated", {param: @image_variation.mode.to_s.titleize})
       else

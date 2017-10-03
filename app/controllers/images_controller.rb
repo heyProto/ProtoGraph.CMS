@@ -17,6 +17,7 @@ class ImagesController < ApplicationController
     options[:created_by] = current_user.id
     @image = Image.new(options)
     if @image.save
+      track_activity(@image)
       redirect_to account_images_path(@account), notice: "Image added successfully"
     else
       redirect_to account_images_path(@account), alert: @image.errors.full_messages
@@ -28,6 +29,7 @@ class ImagesController < ApplicationController
     @image = Image.where(id: params[:id]).includes(:image_variation).first
     @image_variation = ImageVariation.new
     render layout: "application-fluid"
+    @activities = @image.activities.order("updated_at DESC").limit(30)
   end
 
   private

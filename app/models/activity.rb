@@ -16,6 +16,6 @@
 class Activity < ApplicationRecord
   belongs_to :user
   belongs_to :account
-  belongs_to :folder
+  belongs_to :folder, optional: true
   belongs_to :trackable, polymorphic: true
 end
