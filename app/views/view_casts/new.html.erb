@@ -175,7 +175,7 @@
     });
 
     $("#new_image").on('ajax:success', function (e, data, status, xhr) {
-      alert('success');
+      alert('success', event.detail[0]);
       console.log(e, data, status, xhr, ";;;;;;;;;;;;;;;;;;;;;");
       debugger;
     }).on('ajax:error', function (e, xhr, status, error) {

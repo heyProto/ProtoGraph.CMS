@@ -49,7 +49,7 @@ class Image < ApplicationRecord
   #SCOPE
   #OTHER
 
-  def as_json
+  def as_json(options = {})
     {
       id: self.id,
       redirect_to: Rails.application.routes.url_helpers.account_image_path(self.account_id, self),
@@ -62,6 +62,10 @@ class Image < ApplicationRecord
       aspectWidth: self.image_width / self.image_width.gcd(self.image_height),
       aspectHeight: self.image_height / self.image_width.gcd(self.image_height)
     }
+  end
+
+  def image_url
+    self.original_image.image_url
   end
 
   #PRIVATE

@@ -19,13 +19,11 @@ class ImagesController < ApplicationController
 
     respond_to do |format|
       if @image.save
+        format.json { render json: {success: true, data: @image}, status: 200 }
         format.html { redirect_to account_images_path(@account), notice: 'Image added successfully' }
-        format.js { render {success: true, data: @image }.to_s }
-        # format.json { render json: {success: true, data: @image.as_json}, status: 200 }
       else
-        format.html { redirect_to account_images_path(@account), alert: @image.errors.full_messages }
         format.json { render json: {success: false, errors: @image.errors.full_messages } }
-        # format.js { render json: {success: false, errors: @image.errors.full_messages } }
+        format.html { redirect_to account_images_path(@account), alert: @image.errors.full_messages }
       end
     end
   end
