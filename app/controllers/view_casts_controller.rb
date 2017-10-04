@@ -3,6 +3,7 @@ class ViewCastsController < ApplicationController
     before_action :set_view_cast, only: [:show, :edit, :destroy, :recreate, :update]
 
     def new
+        @new_image = Image.new
     end
 
     def index
@@ -26,6 +27,7 @@ class ViewCastsController < ApplicationController
     end
 
     def edit
+        @new_image = Image.new
     end
 
     def update

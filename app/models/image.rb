@@ -49,7 +49,7 @@ class Image < ApplicationRecord
   #SCOPE
   #OTHER
 
-  def as_json
+  def as_json(options = {})
     {
       id: self.id,
       redirect_to: Rails.application.routes.url_helpers.account_image_path(self.account_id, self),
@@ -64,15 +64,22 @@ class Image < ApplicationRecord
     }
   end
 
+  def image_url
+    self.original_image.image_url
+  end
+
   #PRIVATE
   private
 
   def create_image_version
+    self.image.crop
     self.image.recreate_versions!
 
-    ImageVariation.create({
-      image_id:   self.id,
+    options = {
+      image_id: self.id,
       is_original: true
-    });
+    }
+
+    ImageVariation.create(options)
   end
 end
