@@ -1,6 +1,6 @@
 class ArticlesController < ApplicationController
     before_action :authenticate_user!
-    before_action :set_article, only: [:show, :edit, :update, :remove_cover_image,:remove_twitter_image, :remove_facebook_image, :remove_instagram_image, :publish_card]
+    before_action :set_article, only: [:show, :edit, :update, :destroy, :remove_cover_image,:remove_twitter_image, :remove_facebook_image, :remove_instagram_image, :publish_card]
     layout "application-fluid"
 
     def index
@@ -103,6 +103,16 @@ class ArticlesController < ApplicationController
                 }
                 format.json { respond_with_bip(@article) }
             end
+        end
+    end
+
+    def destroy
+        @article.updator = current_user
+        @article.folder = @account.folders.find_by(name: "Recycle Bin")
+        if @article.save
+            redirect_to account_folder_articles_path(@account, @folder), notice: "Article was deleted successfully"
+        else
+            redirect_to account_folder_article_path(@account, @folder, @article), alert: "Article could not be deleted"
         end
     end
 

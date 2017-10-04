@@ -6,9 +6,7 @@
     toSocial prepares Facebook, Twitter thumbnails for an article by staming article cover image with your logo. This helps potential readers sort out links from generic news websites and click through only on those they’re genuinely interested in.
   </h1>
 <% end %>
-<%= content_for :banner_col_sm_8_right do %>
-  <div class="demo-image"></div>
-<% end %>
+
 
 <%= content_for :proto_container_col_sm_9_content_col do %>
   <div class="br-space three-br-space"></div>
@@ -30,4 +28,20 @@
 <% end %>
 
 <%= content_for :proto_container_col_sm_3 do %>
+  <p>Features</p>
+  <%= image_tag "tick.svg" %> No need to know code
+  <br/>
+  <%= image_tag "tick.svg" %> Free to use
+  <br/>
+  <%= image_tag "tick.svg" %> Supports Facebook
+  <br/>
+  <%= image_tag "tick.svg" %> Supports Twitter
+  <br/>
+  <%= image_tag "tick.svg" %> Supports Instagram
+  <hr/>
+  <p>One-time setup required</p>
+  Setup a AWS Cloudfront or Akamai CDN and point it to ProtoGraph
+  <br/>
+  <br/>
+  Either manually create images and add to your article or API integrate.
 <% end %>

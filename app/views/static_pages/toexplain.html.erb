@@ -6,9 +6,7 @@
     toExplain ensures that you don’t lose your reader’s interest in stories which are layered or complicated, by giving the right amount of context to this story.
   </h1>
 <% end %>
-<%= content_for :banner_col_sm_8_right do %>
-  <div class="demo-image"></div>
-<% end %>
+
 
 <%= content_for :proto_container_col_sm_9_content_col do %>
   <div class="br-space three-br-space"></div>
@@ -31,4 +29,24 @@
         <%= image_tag "customers/money-control.jpg", class: "rounded img-fluid" %>
       </div>
   </div>
+  <hr/>
+  <p>Other story element tools - <span class="links-div"><%= link_to "toQuiz", toquiz_path %>, &nbsp; <%= link_to "toTimeline", totimeline_path %></span></p>
+  <hr/>
+  <p>Features</p>
+  <%= image_tag "tick.svg" %> No need to know code
+  <br/>
+  <%= image_tag "tick.svg" %> Free to use
+  <br/>
+  <%= image_tag "tick.svg" %> Mobile-first
+  <br/>
+  <%= image_tag "tick.svg" %> Responsive
+  <br/>
+  <%= image_tag "tick.svg" %> SEO friendly
+  <br/>
+  <%= image_tag "tick.svg" %> Low bandwidth
+  <br/>
+  <%= image_tag "tick.svg" %> Multi-lingual
+  <hr/>
+  <p>One-time setup required</p>
+  Setup a AWS Cloudfront or Akamai CDN and point it to ProtoGraph
 <% end %>
