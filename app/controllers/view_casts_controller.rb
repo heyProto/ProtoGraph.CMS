@@ -4,7 +4,6 @@ class ViewCastsController < ApplicationController
 
     def new
         @new_image = Image.new
-        @image_variation = ImageVariation.new
     end
 
     def index
@@ -28,6 +27,7 @@ class ViewCastsController < ApplicationController
     end
 
     def edit
+        @new_image = Image.new
     end
 
     def update

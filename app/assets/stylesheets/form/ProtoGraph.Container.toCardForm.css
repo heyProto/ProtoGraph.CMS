@@ -391,3 +391,18 @@ p{
   .default-button i.icon, .default-button i.icons {
     color: #969696;
     font-size: 1.5em; }
+
+.protograph-imagebank-button {
+  float: right;
+  display: none;
+}
+.protograph-new-image {
+  display: none;
+}
+.image-url-container {
+  display: none;
+}
+.protograph-disabled-button {
+  pointer-events: none;
+  opacity: 0.4;
+}
