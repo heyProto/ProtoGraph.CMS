@@ -113,10 +113,12 @@ $(document).ready(function () {
     var resonse = e.detail[0];
     showAllValidationErrors(resonse.errors);
     $('#ui_dimmer').removeClass('active');
+    $('#image_url_container').css('display', "block");
   });
 
   $('#protograph_image_bank_button').on('click', function () {
     $('#new_image')[0].reset();
+    $('#image_url_container').css('display', "none");
     if (JCropInstance) {
       JCropInstance.destroy();
     }
