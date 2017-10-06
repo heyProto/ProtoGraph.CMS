@@ -1,37 +1,44 @@
-<div class="ten wide column">
-  <%= render partial: "accounts/header" %>
-  <div style="text-align: right;">
-    <span id='invite_members'><a>Invite people</a></span>
-    <% if @pending_invites_count != 0 %>
-    &nbsp;&nbsp; | &nbsp;&nbsp;
-    <%= link_to "Pending Invitations (#{@pending_invites_count})".html_safe, account_permission_invites_path(@account) %>
-    <% end %>
+<div class="row">
+  <div class="col-sm-3">
+    <%= render partial: "accounts/sidebar" %>
   </div>
-  <br/>
-  <div class="ui very relaxed list" style="width: 100% !important;">
-      <% @permission_invites.each do |permission_invite| %>
-        <div class="item">
-          <img class="ui avatar image" src=<%=avatar_url(permission_invite.email)%>>
-          <div class="content">
-            <div class="header">
-              <%= permission_invite.email %>
-              <span style="float: right;">
-                <%= permission_invite.ref_role_slug.titleize %>
-                <%= link_to "<i class='trash outline icon'></i>".html_safe, account_permission_invite_path(@account, permission_invite), method: :delete, data: { confirm: 'Are you sure?' } %>
-              </span>
-            </div>
-            <div class="description">Invited by <%= permission_invite.creator.name %> <%= time_ago_in_words (permission_invite.creator.created_at) %>.</div>
-          </div>
-        </div>
+  <div class="col-sm-9">
+    <br/>
+    <h1>Pending Invitations</h1>
+    <hr/>
+    <table class="table">
+        <tbody>
+            <% @permission_invites.each do |permission_invite| %>
+                <tr>
+                    <td style="border: 0px;"><img class="rounded" src=<%=avatar_url(permission_invite.email)%> style="width: 20px;">
+                    </td>
+                    <td style="border: 0px;">
+                        <%= permission_invite.email %>
+                        <div class="hint">Invited by <%= permission_invite.creator.name %> <%= time_ago_in_words (permission_invite.created_at) %>.</div>
+                    </td>
+                    <td style="border: 0px;"><%= permission_invite.ref_role_slug.titleize %>
+                    </td>
+                    <td style="border: 0px;"><%= link_to "Remove".html_safe, account_permission_invite_path(@account, permission_invite), method: :delete, data: { confirm: 'Are you sure?' } %>
+                    </td>
+                </tr>
+            <% end %>
+        </tbody>
+    </table>
+  </div>
+  <div class="col-sm-4">
+    <br/><br/><br/>
+    <div style="text-align: right;" class="hint">
+      <span id='invite_members'><a href='#' data-toggle='modal' data-target='#platform_modal'>Invite people</a></span>
+      <% if @pending_invites_count != 0 %>
+      <br/>
+      <%= link_to "Pending Invitations (#{@pending_invites_count})".html_safe, account_permission_invites_path(@account) %>
       <% end %>
     </div>
   </div>
 </div>
+
 <%= render partial: "permission_invites/form" %>
 <script>
   $('.ui.modal#platform_modal')
   .modal('attach events', '#invite_members', 'show');
 </script>
-
-<% #if current_user.id != permission.user_id %>
-  <% #link_to "<i class='trash outline icon'></i>".html_safe, account_permission_path(@account, permission), method: :delete, data: { confirm: 'Are you sure?' } %>

@@ -15,16 +15,19 @@
 #  created_at            :datetime         not null
 #  updated_at            :datetime         not null
 #  seo_blockquote        :text(65535)
-#  render_screenshot_url :text(65535)
+#  render_screenshot_key :text(65535)
 #  status                :text(65535)
 #  folder_id             :integer
+#  is_invalidating       :boolean
+#  default_view          :string(255)
+#  article_id            :integer
 #
 
 class ViewCast < ApplicationRecord
     #CONSTANTS
     Datacast_ENDPOINT = "#{ENV['AWS_S3_ENDPOINT']}"
-    Platforms = ['facebook', 'twitter', 'instagram']
     #CUSTOM TABLES
+
     #GEMS
     extend FriendlyId
     friendly_id :name, use: :slugged
@@ -35,11 +38,17 @@ class ViewCast < ApplicationRecord
     belongs_to :template_card
     belongs_to :creator, class_name: "User", foreign_key: "created_by"
     belongs_to :updator, class_name: "User", foreign_key: "updated_by"
+<<<<<<< HEAD
     has_many :piwik_metrics
-    #ACCESSORS
-    attr_accessor :dataJSON, :schemaJSON, :stop_callback
-    #VALIDATIONS
+=======
+    has_one :article
 
+>>>>>>> 82fb0f87efc7c4052ac4fb0c133abdf8be58f2f2
+    #ACCESSORS
+    attr_accessor :dataJSON, :schemaJSON, :stop_callback, :redirect_url
+    #VALIDATIONS
+    validates :slug, uniqueness: true
+    validates :folder_id, presence: true
     #CALLBACKS
     before_create :before_create_set
     after_create :after_create_set
@@ -47,6 +56,7 @@ class ViewCast < ApplicationRecord
     after_save :after_save_set
     before_destroy :before_destroy_set
     #SCOPE
+    default_scope ->{includes(:account)}
     #OTHER
 
     def remote_urls
@@ -82,6 +92,10 @@ class ViewCast < ApplicationRecord
         }
     end
 
+    def render_screenshot_url(default=false)
+        self.render_screenshot_key.present?  ? "#{default ? ENV['AWS_S3_ENDPOINT'] : self.account.cdn_endpoint}/#{self.render_screenshot_key}" : nil
+    end
+
 
     def save_png(mode="")
         payload = {}
@@ -97,17 +111,21 @@ class ViewCast < ApplicationRecord
         payload["initializer"] = template_card.git_repo_name
         payload["key"] = key
         payload["mode"] = mode.blank? ? 'screenshot' : mode
-        html_url = "#{ENV['AWS_S3_ENDPOINT']}/#{key}"
+
         response = Api::ProtoGraph::ViewCast.render_screenshot(payload)
         if response['message'].present? and response['message'] == "Data Added Successfully"
             if mode.blank?
-                self.update_columns(render_screenshot_url: html_url, updated_at: Time.now)
+                self.update_columns(render_screenshot_key: key, updated_at: Time.now)
             else
                 status_obj = JSON.parse(self.status)
                 status_obj[mode] = "success"
                 self.update_columns(status: status_obj.to_json, updated_at: Time.now)
             end
-            Api::ProtoGraph::CloudFront.invalidate(["/#{key}"], 1)
+            if self.account.cdn_id != ENV['AWS_CDN_ID']
+                Api::ProtoGraph::CloudFront.invalidate(self.account, ["/#{key}"], 1)
+            end
+            Api::ProtoGraph::CloudFront.invalidate(nil, ["/#{key}"], 1)
+
         else
             if mode.present?
                 status_obj = JSON.parse(self.status)
@@ -119,7 +137,7 @@ class ViewCast < ApplicationRecord
 
     class << self
         def create_missing_images
-            ViewCast.where(render_screenshot_url: nil).each do |view_cast|
+            ViewCast.where(render_screenshot_key: nil).each do |view_cast|
                 view_cast.save_png
             end
         end
@@ -134,30 +152,26 @@ class ViewCast < ApplicationRecord
 
     def before_create_set
         self.optionalConfigJSON = {} if self.optionalConfigJSON.blank?
+        self.default_view = self.template_card.allowed_views.first if self.default_view.blank?
     end
 
     def before_save_set
         self.datacast_identifier = SecureRandom.hex(12) if self.datacast_identifier.blank?
-        if self.status.blank?
-            self.status = {"twitter": "creating", "facebook": "creating", "instagram": "creating"}.to_json
-        end
         if self.optionalConfigJSON_changed? and self.optionalConfigJSON.present?
             key = "#{self.datacast_identifier}/view_cast.json"
             encoded_file = Base64.encode64(self.optionalConfigJSON)
             content_type = "application/json"
             resp = Api::ProtoGraph::Utility.upload_to_cdn(encoded_file, key, content_type)
         end
+        self.seo_blockquote = self.seo_blockquote.to_s.gsub('\\', '\\\\')
+        # self.seo_blockquote = self.seo_blockquote.to_s.split('`').join('\`') #.gsub('`', '\`')
+        self.seo_blockquote = self.seo_blockquote.to_s.gsub('${', '\${')
     end
 
     def after_save_set
         if self.saved_changes? and !self.stop_callback
             Thread.new do
                 sleep 1
-                if self.template_card.git_repo_name == 'ProtoGraph.Card.toSocial'
-                    ViewCast::Platforms.each do |mode|
-                        self.save_png(mode)
-                    end
-                end
                 self.save_png
                 ActiveRecord::Base.connection.close
             end

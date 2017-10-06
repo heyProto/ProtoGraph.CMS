@@ -2,32 +2,35 @@
 #
 # Table name: template_cards
 #
-#  id                  :integer          not null, primary key
-#  account_id          :integer
-#  name                :string(255)
-#  elevator_pitch      :string(255)
-#  description         :text(65535)
-#  global_slug         :string(255)
-#  is_current_version  :boolean
-#  slug                :string(255)
-#  version_series      :string(255)
-#  previous_version_id :integer
-#  version_genre       :string(255)
-#  version             :string(255)
-#  change_log          :text(65535)
-#  status              :string(255)
-#  publish_count       :integer
-#  is_public           :boolean
-#  git_url             :text(65535)
-#  git_branch          :string(255)      default("master")
-#  created_by          :integer
-#  updated_by          :integer
-#  template_datum_id   :integer
-#  created_at          :datetime         not null
-#  updated_at          :datetime         not null
-#  has_static_image    :boolean          default(FALSE)
-#  git_repo_name       :string(255)
-#  s3_identifier       :string(255)
+#  id                   :integer          not null, primary key
+#  account_id           :integer
+#  name                 :string(255)
+#  elevator_pitch       :string(255)
+#  description          :text(65535)
+#  global_slug          :string(255)
+#  is_current_version   :boolean
+#  slug                 :string(255)
+#  version_series       :string(255)
+#  previous_version_id  :integer
+#  version_genre        :string(255)
+#  version              :string(255)
+#  change_log           :text(65535)
+#  status               :string(255)
+#  publish_count        :integer
+#  is_public            :boolean
+#  git_url              :text(65535)
+#  git_branch           :string(255)      default("master")
+#  created_by           :integer
+#  updated_by           :integer
+#  template_datum_id    :integer
+#  created_at           :datetime         not null
+#  updated_at           :datetime         not null
+#  has_static_image     :boolean          default(FALSE)
+#  git_repo_name        :string(255)
+#  s3_identifier        :string(255)
+#  has_multiple_uploads :boolean          default(FALSE)
+#  has_grouping         :boolean          default(FALSE)
+#  allowed_views        :text(65535)
 #
 
 class TemplateCard < ApplicationRecord
@@ -37,6 +40,7 @@ class TemplateCard < ApplicationRecord
     #CONSTANTS
     STATUS = ["Draft", "Ready to Publish", "Published", "Deactivated"]
     CDN_BASE_URL = "#{ENV['AWS_S3_ENDPOINT']}"
+    serialize :allowed_views
 
     #CUSTOM TABLES
     #GEMS
@@ -47,7 +51,7 @@ class TemplateCard < ApplicationRecord
     belongs_to :template_datum
     belongs_to :account
     has_many :view_casts
-
+    has_many :uploads
     #ACCESSORS
     attr_accessor :previous_version_id
 
@@ -60,11 +64,10 @@ class TemplateCard < ApplicationRecord
 
     #CALLBACKS
     before_create :before_create_set
-    after_create :after_create_set
     before_destroy :before_destroy_set
 
     #SCOPE
-    #OTHER
+    scope :with_multiple_uploads, -> { where(has_multiple_uploads: true) }    #OTHER
     def slug_candidates
         ["#{self.name}-#{self.version.to_s}"]
     end
@@ -155,7 +158,8 @@ class TemplateCard < ApplicationRecord
 
     def invalidate
         begin
-            Api::ProtoGraph::CloudFront.invalidate(["/#{self.s3_identifier}/*"], 1)
+            #Write Code to invalidate all files for akamai account cdn
+            Api::ProtoGraph::CloudFront.invalidate(nil, ["/#{self.s3_identifier}/*"], 1)
         rescue
         end
     end
@@ -181,10 +185,6 @@ class TemplateCard < ApplicationRecord
             self.version = "0.0.1"
             self.is_public = false unless self.is_public.present?
         end
-        true
-    end
-
-    def after_create_set
         true
     end
 

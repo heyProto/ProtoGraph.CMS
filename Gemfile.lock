@@ -40,6 +40,8 @@ GEM
       tzinfo (~> 1.1)
     acts-as-taggable-on (5.0.0)
       activerecord (>= 4.2.8)
+    addressable (2.5.2)
+      public_suffix (>= 2.0.2, < 4.0)
     annotate (2.7.2)
       activerecord (>= 3.2, < 6.0)
       rake (>= 10.4, < 13.0)
@@ -53,6 +55,9 @@ GEM
       actionpack (>= 3.2)
       railties (>= 3.2)
     bindex (0.5.0)
+    bootstrap4-kaminari-views (1.0.0)
+      kaminari (>= 0.13)
+      rails (>= 3.1)
     brakeman (3.7.0)
     builder (3.2.3)
     byebug (9.0.6)
@@ -108,6 +113,8 @@ GEM
     jbuilder (2.7.0)
       activesupport (>= 4.2.0)
       multi_json (>= 1.2)
+    json-schema (2.8.0)
+      addressable (>= 2.4)
     jwt (1.5.6)
     kaminari (1.0.1)
       activesupport (>= 4.1.0)
@@ -178,6 +185,7 @@ GEM
       rack
     orm_adapter (0.5.0)
     polyglot (0.3.5)
+    public_suffix (3.0.0)
     puma (3.9.1)
     puma (3.9.1-java)
     rack (2.0.3)
@@ -326,6 +334,7 @@ DEPENDENCIES
   annotate
   awesome_print
   best_in_place (~> 3.0.1)
+  bootstrap4-kaminari-views
   brakeman
   byebug
   carrierwave
@@ -337,6 +346,7 @@ DEPENDENCIES
   foreman
   friendly_id (~> 5.1.0)
   jbuilder (~> 2.5)
+  json-schema
   kaminari
   listen (>= 3.0.5, < 3.2)
   mysql2
@@ -367,4 +377,4 @@ RUBY VERSION
    ruby 2.3.3p222
 
 BUNDLED WITH
-   1.15.3
+   1.16.0.pre.2

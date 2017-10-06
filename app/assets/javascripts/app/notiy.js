@@ -1,7 +1,7 @@
 function generate_notify(config) {
 
   if (!config.text) {
-    config.text = "Opps something went wrong.";
+    config.text = "Oops something went wrong.";
   }
   if (!config.notify) {
     config.notify = "success";

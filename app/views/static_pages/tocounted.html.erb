@@ -1,0 +1,64 @@
+<%= content_for :banner_col_sm_8_left do %>
+  <script src="https://cdn.protograph.pykih.com/lib/protoGraph.min.js" async></script>
+  <div class="hint-text">TOPIC PAGES</div>
+  <h1>toCount</h1>
+  <h1 class="intro-text">
+    Practice structured journalism - publish news as entries in a database, enabling readers to explore the content in ways that reveal trends and patterns.
+  </h1>
+<% end %>
+
+
+<%= content_for :proto_container_col_sm_9_content_col do %>
+  <div class="br-space three-br-space"></div>
+  <h3 class="z-green">Where can you use it?</h3>
+  <div class="br-space one-br-space"></div>
+  <p>Count units of issues that matter like farmer deaths, district profile cards, riots, books, etc.</p>
+  <div class="br-space three-br-space"></div>
+  <h3 class="z-green">Demo</h3>
+  <%= image_tag "tocounted.png", class: "img-fluid" %>
+
+  <div class="br-space three-br-space"></div>
+  <h3 class="z-green">Examples</h3>
+  <div class="br-space two-br-space"></div>
+  <div id="ProtoCard1973"><blockquote>
+  <h4>#Mobbed</h4>
+  <p>#mobbed is a public database of incidents of mob violence reported by The Indian Express from 2010 onwards. We hope this database will lead us to discover indicative insights that add to our collective understanding of the culture of mob violence in India.</p>
+  </blockquote></div><script type="text/javascript">var ProtoCard1973 = setInterval(function(){if (window.ProtoEmbed){clearInterval(ProtoCard1973)};new ProtoEmbed.initFrame(document.getElementById("ProtoCard1973"), "https://cdn.protograph.pykih.com/171fda4fca046ddf4490/index.html?view_cast_id=6348c9362446f0e8cde24f4e%26schema_id=2e86f6d67d84af232c65" , 'thumbnail')}, 200)</script>
+  <div id="ProtoCard1988"><blockquote>
+<h4>#Silenced</h4>
+<p>#silenced is an endeavour, the first in India, to track murderous attacks on journalists. This project was inspired hours after journalist Gauri Lankesh was murdered.</p>
+</blockquote></div><script src="https://cdn.protograph.pykih.com/lib/protoGraph.min.js" async></script><script type="text/javascript">var ProtoCard1988 = setInterval(function(){if (window.ProtoEmbed){clearInterval(ProtoCard1988)};new ProtoEmbed.initFrame(document.getElementById("ProtoCard1988"), "https://cdn.protograph.pykih.com/171fda4fca046ddf4490/index.html?view_cast_id=ba64419bc195c84ea501de76%26schema_id=2e86f6d67d84af232c65" , 'thumbnail')}, 200)</script>
+<% end %>
+
+<%= content_for :proto_container_col_sm_3 do %>
+  <p>Used by newsrooms like</p>
+  <div class="row">
+    <div class="col-sm-6">
+      <%= image_tag "customers/indian-express.png", class: "rounded img-fluid" %>
+    </div>
+    <div class="col-sm-6">
+      <%= image_tag "customers/newslaundry.png", class: "rounded img-fluid" %>
+    </div>
+  </div>
+  <hr/>
+  <p>Other topic page tools - <span class="links-div"><%= link_to "toCover", tocoverage_path %></span></p>
+  <hr/>
+  <p>Features</p>
+  <%= image_tag "tick.svg" %> Mobile-first
+  <br/>
+  <%= image_tag "tick.svg" %> Responsive
+  <br/>
+  <%= image_tag "tick.svg" %> Multi-lingual
+  <br/>
+  <%= image_tag "tick.svg" %> Customise to your needs
+  <br/>
+  <%= image_tag "tick.svg" %> Filters
+  <br/>
+  <%= image_tag "tick.svg" %> Maps
+  <hr/>
+  <p>One-time setup required</p>
+  <%= image_tag "cross.svg" %> &nbsp; Requires coding
+  <br/>
+  <br/>
+  Setup a AWS Cloudfront or Akamai CDN and point it to ProtoGraph
+<% end %>

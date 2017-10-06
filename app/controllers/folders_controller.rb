@@ -1,26 +1,34 @@
 class FoldersController < ApplicationController
-
   before_action :authenticate_user!
 
   def show
-    @view_casts = @folder.view_casts.order(updated_at: :desc).page(params[:page]).per(30)
-    render "view_casts/index"
+      @view_casts_count = @folder.view_casts.count
+      @streams_count = @folder.streams.count
+      @articles_count = @folder.articles.count
+      article_template_card =  TemplateCard.where(name: 'toArticle').first
+      @view_casts = @folder.view_casts.where.not(template_card_id: article_template_card.present? ? article_template_card.id : nil).order(updated_at: :desc).page(params[:page]).per(30)
+      @is_viewcasts_present = @view_casts.count != 0
+      @activities = @account.activities.where(folder_id: @folder.id).order("updated_at DESC").limit(30)
+      render layout: "application-fluid"
+  end
+
+  def new
+    @folder = @account.folders.new()
   end
 
   def edit
-    @folders = @account.folders
-    @open_modal = true
-    render "accounts/show"
+    if @folder.is_trash
+      redirect_back(fallback_location: [@account], alert: t("pd.folder"))
+    end
   end
 
   def update
     folder_params[:updated_by] = current_user.id
     if @folder.update(folder_params)
+      track_activity(@folder)
       redirect_to account_path(@account), notice: t("us")
     else
-      @folders = @account.folders
-      @open_modal = true
-      render "accounts/show"
+      render "edit"
     end
   end
 
@@ -29,11 +37,10 @@ class FoldersController < ApplicationController
     @folder.created_by = current_user.id
     @folder.updated_by = current_user.id
     if @folder.save
+      track_activity(@folder)
       redirect_to account_folder_path(@account, @folder), notice: t("cs")
     else
-      @folders = @account.folders
-      @open_modal = true
-      render "accounts/show"
+      render "new"
     end
   end
 

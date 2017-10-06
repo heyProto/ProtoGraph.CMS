@@ -1,7 +1,7 @@
 class Api::V1::TemplateCardsController < ApiController
 
     def index
-        @template_cards = @account.template_cards.where(is_current_version: true)
+        @template_cards = @account.template_cards.where(is_current_version: true).where.not(name: 'toArticle')
         render json: {template_cards: @template_cards.as_json(only: [:account_id, :id, :slug, :global_slug,:name, :template_datum_id, :git_repo_name], methods: [:account_slug, :icon_url])}
     end
 

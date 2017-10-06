@@ -1,0 +1,39 @@
+<div class='col-sm-16'>
+    <div class="jumbotron">
+        <div class="row">
+                <div class="col-sm-4">
+                    <h1>Getting Started</h1>
+                    <br/>
+                    <p class="lead">Finish following todos to ensure your account is setup.</p>
+                </div>
+                <div class="col-sm-12">
+                    <div class="getting-started_todo-list">
+                        <% if @account.logo_image_id.blank? %>
+                                <div class="getting-started_single-todo">
+                                  <div class="getting-started_todo-circle"></div>
+                                  <div class="getting-started_todo-task"><%= link_to "Upload your logo & choose your house color", edit_account_path(@account) %></div>
+                                </div>
+                        <% end %>
+                        <% if @account.users.count <= 1 and  @account.permission_invites.count == 0 %>
+                                <div class="getting-started_single-todo">
+                                  <div class="getting-started_todo-circle"></div>
+                                  <div class="getting-started_todo-task"><%= link_to "Invite a team member", account_permissions_path(@account) %></div>
+                                </div>
+                        <% end %>
+                        <% if @account.folders.count <= 2 %>
+                            <div class="getting-started_single-todo">
+                              <div class="getting-started_todo-circle"></div>
+                              <div class="getting-started_todo-task"><%= link_to "Add a new folder", new_account_folder_path(@account) %></div>
+                            </div>
+                        <% end %>
+                        <% if @account.view_casts.count <= 0 %>
+                            <div class="getting-started_single-todo">
+                              <div class="getting-started_todo-circle"></div>
+                              <div class="getting-started_todo-task"><%= link_to "Add a toExplain card in sample project", new_account_folder_view_cast_path(@account, @account.folders.first), "data-turbolinks" => "false" %></div>
+                            </div>
+                        <% end %>
+                        </div>
+                    </div>
+                </div>
+        </div>
+    </div>

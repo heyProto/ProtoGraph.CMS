@@ -18,6 +18,7 @@
 #  updated_by       :integer
 #  created_at       :datetime         not null
 #  updated_at       :datetime         not null
+#  is_logo          :boolean          default(FALSE)
 #
 
 class Image < ApplicationRecord
@@ -25,7 +26,7 @@ class Image < ApplicationRecord
   #CUSTOM TABLES
   #GEMS
   acts_as_taggable
-
+  paginates_per 100
   #ASSOCIATIONS
   belongs_to :account
   has_many :image_variation, -> {where.not(is_original: true)}
@@ -38,10 +39,17 @@ class Image < ApplicationRecord
   before_create { self.s3_identifier = SecureRandom.hex(8) }
   after_create :create_image_version
 
+  validate :check_dimensions, :on => :create, if: :is_logo?
+  def check_dimensions
+    if !image_cache.nil? and image.height > 100 and ((image.height / image.width) == 400)
+      errors.add :image, "Logo has to a square and the minimum height should be 100."
+    end
+  end
+
   #SCOPE
   #OTHER
 
-  def as_json
+  def as_json(options = {})
     {
       id: self.id,
       redirect_to: Rails.application.routes.url_helpers.account_image_path(self.account_id, self),
@@ -56,15 +64,22 @@ class Image < ApplicationRecord
     }
   end
 
+  def image_url
+    self.original_image.image_url
+  end
+
   #PRIVATE
   private
 
   def create_image_version
+    self.image.crop
     self.image.recreate_versions!
 
-    ImageVariation.create({
-      image_id:   self.id,
+    options = {
+      image_id: self.id,
       is_original: true
-    });
+    }
+
+    ImageVariation.create(options)
   end
 end

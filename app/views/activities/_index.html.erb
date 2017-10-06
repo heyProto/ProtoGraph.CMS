@@ -1,0 +1,35 @@
+<h3 style="font-weight: 200;">What's happening?</h3>
+<table class="table">
+      <% prev_user = nil %>
+      <% @activities.each do |a| %>
+          <% next if a.trackable.class.to_s == "ViewCast" and a.trackable.template_card.name == 'toArticle' %>
+          <tr>
+              <td style="width: 40px; border: 0px;">
+                  <% if a.user_id != prev_user %>
+                      <%= image_tag avatar_url(a.user.email), class: "rounded" %>
+                  <% end %>
+              </td>
+              <td style="border: 0px;">
+                  <div class="hint">
+                      <%= time_ago_in_words a.updated_at %>
+                  </div>
+                  <%= a.user.name %>
+            <%= a.action.sub(/e?$/, "ed")  %>
+            <% if a.trackable.class.to_s == "Folder" %>
+              a folder
+              <%= link_to a.trackable.name.titleize, [a.trackable.account, a.trackable] %>
+            <% elsif a.trackable.class.to_s == "ViewCast" %>
+              a card
+              <%= link_to a.trackable.name.titleize, [a.trackable.account, a.trackable.folder, a.trackable] if a.trackable.present? and a.trackable.folder.present? %>
+            <% elsif a.trackable.class.to_s == "Stream" %>
+              a stream
+              <%= link_to a.trackable.title.titleize, [a.trackable.account, a.trackable.folder, a.trackable] %>
+            <% elsif a.trackable.class.to_s == "Article" %>
+              a article
+              <%= link_to a.trackable.title.titleize, edit_account_folder_article_path(a.trackable.account, a.trackable.folder, a.trackable), "data-turbolinks" => "false" %>
+            <% end %>
+              </td>
+          </tr>
+          <% prev_user = a.user_id %>
+  <% end %>
+</table>

@@ -1,17 +1,7 @@
-<div class="ui grid" style="margin-top: 100px; margin-bottom: 30px; width: 100%; margin-left: auto; margin-right: auto;">
-    <div class="fourteen wide column">
-        <p style="font-size: 11px; text-align: right;">
-        Individual tools by <a href="https://www.icfj.org" target="_blank">International Center for Journalists</a> and ProtoGraph platform by <a href="https://pykih.com" target="_blank">Pykih</a>.
-        </p>
-    </div>
-    <div class="two wide column">
-        <% unless Rails.env.development? %>
-          <a href="https://www.instantssl.com/ssl-certificate-products/ev-mdc-ssl-certificate.html" target="_blank">
-            <img src="https://ssl.comodo.com/images/comodo_secure_seal_76x26_transp.png" alt="EV MDC SSL" width="76" height="26" style="border: 0px;"><br>
-            <span style="font-weight:bold; font-size:7pt">EV MDC SSL</span>
-          </a><br>
-        <% end %>
-    </div>
+<div class="container" style="margin-top: 40px; margin-bottom: 20px;">
+    <p style="font-size: 11px; text-align: right;">
+    Individual tools by <a href="https://www.icfj.org" target="_blank">International Center for Journalists</a> and ProtoGraph platform by <a href="https://pykih.com" target="_blank">Pykih</a>.
+    </p>
 </div>
 
 <% if Rails.env.production? %>
@@ -51,3 +41,8 @@
     <!-- End Piwik Code -->
 
 <% end %>
+
+<script type="text/javascript" src="https://s3.amazonaws.com/assets.freshdesk.com/widget/freshwidget.js"></script>
+<script type="text/javascript">
+    FreshWidget.init("", {"queryString": "&widgetType=popup&formTitle=Have+a+question%3F&submitTitle=Send<%= current_user.present? ? "&helpdesk_ticket[requester]=#{current_user.email}" : "" %>", "utf8": "✓", "widgetType": "popup", "buttonType": "text", "buttonText": "Support", "buttonColor": "white", "buttonBg": "black", "alignment": "3", "offset": "40px", "formHeight": "500px", "url": "https://pykih.freshdesk.com"} );
+</script>

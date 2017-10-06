@@ -1,0 +1,62 @@
+<script src="https://cdn.protograph.pykih.com/lib/protoGraph.min.js" async></script>
+<%= simple_form_for([@account, @folder, view_cast]) do |f| %>
+  <div class="list-group" style="font-size: 11px;">
+    <% [["Thumbnail with summary", "small_image_text"],["Thumbnail without summary", "thumbnail"],["Cover with summary", "big_image_text"],["Text only with summary", "title_text"],["Text only without summary", "title"],  ["Featured without summary", "feature_image"]].each do |c| %>
+      <!-- now we are using title_text for text only without summary, once the mode is generated, we will update it -->
+      <% enabled = Article::ENABLED_MODES[@article_modes.to_sym].include?(c[0]) %>
+      <% enabled = true if (c[1] == "feature_image" and @article.instagram_image_variation.present?) %>
+      <button class="list-group-item list-group-item-action <%= view_cast.default_view == c[1] ? "active": ""%>  <%=  enabled ? "" : "disabled" %>" name="view_cast[default_view]" value="<%= c[1] %>">
+        <%= c[0] %>
+        <small style="float: right;">
+          <% if  enabled %>
+            <a href="#" id="<%= c[1] %>" data-toggle='modal' data-target="#platform_modal">Preview</a>
+          <% end %>
+        </small>
+      </button>
+    <% end %>
+  </div>
+  <%= f.input :redirect_url, as: :hidden, input_html: {value: edit_account_folder_article_path(@account, @folder, @article)} %>
+<% end %>
+
+
+<div class="modal" id='platform_modal' data-backdrop="static">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div class='modal-title'>Article Preview</div>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div id="protoCard" style='width: 100%'>
+          <%= sanitize view_cast.seo_blockquote.to_s, tags: %w(p blockquote ul li h1 h2 h3 h4 h5 h6) %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+    var frame_loaded = false;
+    var proto_embed_test;
+    var interval = setInterval(function(){
+        if (window.ProtoEmbed) {
+          clearInterval(interval);
+          $(".list-group-item:not(.disabled) a").on("click", function(event){
+              if(!frame_loaded){
+                frame_loaded = true
+                proto_embed_test = new ProtoEmbed.initFrame(document.getElementById('protoCard'), "<%= "#{view_cast.template_card.index_html}?view_cast_id=#{view_cast.datacast_identifier}%26schema_id=#{view_cast.template_datum.s3_identifier}" %>" , this.id );
+              } else {
+                proto_embed_test.sandbox.oasis.services[0].send('change_mode', this.id);
+              }
+              event.preventDefault();
+          });
+        }
+    }, 10);
+    $("button.disabled").on("click", function(event){
+      return false;
+    })
+
+
+</script>

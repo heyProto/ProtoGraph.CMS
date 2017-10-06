@@ -1,98 +1,130 @@
-<div class="ten wide column">
-  <%= render partial: "accounts/header" %>
-  <br/>
-  <%= simple_form_for @account do |f| %>
+<%= simple_form_for @account do |f| %>
   <%= f.error_notification %>
-  <div class="form-inputs">
-    <div class="ui message">
-      <h4>How do you want members to sign up?</h4>
-      <p class="hint">Choose to make your team signup process invitation only, or allow anyone with a certain email address format to sign up.</p>
-      <%= f.input :sign_up_mode, as: :select, collection: Account::SIGN_UP_MODES.map{|z| [z, z]}, label: false, include_blank: false %>
-      <%= f.input :domain, placeholder: "E.g. google.com. Don't use common domains like gmail, outlook, yahoo, etc." %>
+  <div class="row">
+    <div class="col-sm-3">
+        <%= render partial: "accounts/sidebar" %>
     </div>
-    <br/>
+    <div class="col-sm-9">
+        <br/>
 
-    <div class="ui message">
-      <h4>CDN Configuration</h4>
-      <p class="hint">Configure your own CDN. Keep it blank to use default configurations.</p>
-      <%= f.input :cdn_provider,as: :select, collection: ["CloudFront","Akamai"], include_blank: false %>
-      <%= f.input :cdn_id, input_html: {value: @account.cdn_id == ENV['AWS_CDN_ID'] ? "" : @account.cdn_id}, label: "CDN Identifier" %>
-      <%= f.input :cdn_endpoint, as: :string, input_html: {value: @account.cdn_id == ENV['AWS_CDN_ID'] ? "" : @account.cdn_endpoint}, label: "CDN Endpoint" %>
-      <%= f.input :invalidation_endpoint, input_html: {value: @account.cdn_id == ENV['AWS_CDN_ID'] ? "" : @account.invalidation_endpoint}, as: :string, label: "Invalidation URL" %>
-      <%= f.input :authorization_header_name, input_html: {value: @account.cdn_id == ENV['AWS_CDN_ID'] ? "" : @account.invalidation_endpoint}, label: "Authorization Header" %>
-      <%= f.input :client_token  %>
-      <%= f.input :client_secret %>
-      <%= f.input :access_token, input_html: {value: @account.cdn_id == ENV['AWS_CDN_ID'] ? "" : @account.access_token} %>
+            <h1>House Colour</h1>
+            <hr/>
+            <p class="hint">Choose your brand colour. Wherever possible, we will use this colour.</p>
+            <%= f.input :house_colour, input_html: {type: :color, style: "height: 40px;"}, label: false %>
+            <br/>
+            <br/>
 
+
+        <% if current_user.is_admin_from_pykih and 1 == 2 %>
+            <div class="ui message">
+              <h4>CDN Configuration</h4>
+              <p class="hint">Configure your own CDN. Keep it blank to use default configurations.</p>
+              <%= f.input :cdn_provider,as: :select, collection: ["CloudFront","Akamai"], include_blank: false %>
+              <%= f.input :cdn_id, input_html: {value: (@account.cdn_id == ENV['AWS_CDN_ID'] and @account.cdn_endpoint == ENV["AWS_S3_ENDPOINT"])  ? "" : @account.cdn_id}, label: "CDN Identifier", hint: "Keep blank if using Akamai." %>
+              <%= f.input :cdn_endpoint, as: :string, input_html: {value: (@account.cdn_id == ENV['AWS_CDN_ID'] and @account.cdn_endpoint == ENV["AWS_S3_ENDPOINT"]) ? "" : @account.cdn_endpoint}, label: "CDN Endpoint", hint: "It should be in the format of https://cdn.protograph.pykih.com. Please do not include the trailing backslash." %>
+              <%= f.input :host, input_html: {value: (@account.cdn_id == ENV['AWS_CDN_ID'] and @account.cdn_endpoint == ENV["AWS_S3_ENDPOINT"]) ? "" : @account.host}, as: :string, label: "Host" %>
+              <%= f.input :client_token, input_html: {value: (@account.cdn_id == ENV['AWS_CDN_ID'] and @account.cdn_endpoint == ENV["AWS_S3_ENDPOINT"])? "" : @account.client_token},hint: "Used as Aws Client Access ID for cloudfront."  %>
+              <%= f.input :client_secret, input_html: {value: @account.cdn_id == ENV['AWS_CDN_ID'] ? "" : @account.client_secret}, hint: "Used as Aws Secret Access Key for cloudfront." %>
+              <%= f.input :access_token, input_html: {value: @account.cdn_id == ENV['AWS_CDN_ID'] ? "" : @account.access_token}, hint: "Keep blank if using cloudfront." %>
+            </div>
+        <% else %>
+              <% if @account.cdn_id == ENV['AWS_CDN_ID'] and @account.cdn_endpoint == ENV["AWS_S3_ENDPOINT"] %>
+              <div class="ui message" style="padding-left:  0px; padding-right: 0px;">
+                <h1 style="color: #C2002A;">Pending CDN Configuration</h1>
+                <hr/>
+                <p style="color: #C2002A;">Currently, your embeds are running of Pykih's sandbox CDN that is suitable only for testing. Unless explicitly activated, it wont not scale to handle traffic on a live news site. To activate ProtoGraph for live site use, set up your own CDN (Akamai or AWS CloudFront) and point it to <i>protograph.yoursite.com</i> and provide us with tokens and purge API end points.</p>
+                <p style="color: red;">Please contact us at <%=mail_to "team@pykih.com" %>.</p>
+              </div>
+            <% else %>
+              <div class="alert alert-primary" role="alert">
+                  <p>You are using a <%= @account.cdn_provider %> CDN. The endpoint is <%= @account.cdn_endpoint %>.</p>
+              </div>
+            <% end %>
+        <% end %>
+        <br/>
+        <div class="form-inputs">
+          <h1>How do you want members to sign up?</h1>
+          <hr/>
+          <p class="hint">Choose to make your team signup process invitation only, or allow anyone with a certain email address format to sign up.</p>
+          <%= f.input :sign_up_mode, as: :select, collection: Account::SIGN_UP_MODES.map{|z| [z, z]}, label: false, include_blank: false %>
+          <%= f.input :domain, placeholder: "E.g. google.com. Don't use common domains like gmail, outlook, yahoo, etc." %>
+          <%= f.button :submit, "Save", class: "ui button" %>
+        </div>
     </div>
-    <br/>
-
-
-    <div class="ui message">
-      <h4>Avatar</h4>
-      <p class="hint">This works like a user icon. We use <a href="http://gravatar.com/" target="_blank">Gravatar.com</a> for display pictures. Register with Gravatar with an email ID, upload a square image there (Twitter DP) and enter that email ID below.</p>
-      <%= f.input :gravatar_email, label: false %>
-      <%= image_tag avatar_url(@account.gravatar_email, 200), class: "ui small circular image" %>
+    <div class="col-sm-4">
+        <br/><br/><br/>
+      <% if @account.logo_image_id.present? %>
+        <%= image_tag(@account.logo_image.original_image.image_url, class: "rounded", style: "width: 100px;") %>
+        <br/>
+        <%= simple_form_for @account do |f| %>
+          <%= f.error_notification %>
+          <%= f.input :logo_image_id, as: :hidden, input_html: {value: nil} %>
+          <%= f.button :submit, "Remove image", class: "btn btn-sm btn-outline" %>
+        <% end %>
+      <% else %>
+        <%= image_tag("account.png", class: "rounded", style: "width: 100px;") %>
+        <br/><br/>
+        <%= f.fields_for :logo_image do |logo_image| %>
+          <%= logo_image.input :image, label: false %>
+        <% end %>
+      <% end %>
     </div>
-    <div class="form-actions">
-      <br/>
-      <%= f.button :submit, class: "ui button" %>
-    </div>
-    <br/>
-    <br/>
+  </div>
 
 
-    <% if 1 == 2 %>
-      <div class="ui message">
-        <h4>Social</h4>
-        <p class="hint">Access to your social media accounts will be used for helping you distribute content to these channels.</p>
-        <table class="ui very basic table">
-          <tr>
-            <td style="color: gray;" class="collapsing">
-              <i class='facebook f icon'></i>
-              facebook.com/<u style="color: black;"><%= @fb_auth.present? ? @fb_auth.uid : "_____________" %></u>
-            </td>
-            <td style="float: right; width: 150px;">
-              <% if @fb_auth.blank? %>
-              <%= link_to "Integrate", oauth_path({provider: :facebook, account_id: @account.id, current_user_id: current_user.id }) %>
-              <% else %>
-                 <%= link_to "<i class='trash outline icon'></i>".html_safe, account_authentication_path(@account, @fb_auth), method: :delete, data: { confirm: 'Are you sure?' } %>
-              <% end %>
-            </td>
-          </tr>
-          <tr>
-            <td style="color: gray;" class="collapsing">
-              <i class='twitter icon'></i>
-              twitter.com/<u style="color: black;"><%= @tw_auth.present? ? @tw_auth.uid : "_____________" %></u>
-            </td>
-            <td style="float: right; width: 150px;">
-              <% if @tw_auth.blank? %>
-              <%= link_to "Integrate", oauth_path({provider: :twitter, account_id: @account.id, current_user_id: current_user.id}) %>
-              <% else %>
-                 <%= link_to "<i class='trash outline icon'></i>".html_safe, account_authentication_path(@account, @tw_auth), method: :delete, data: { confirm: 'Are you sure?' } %>
-              <% end %>
-            </td>
-          </tr>
-          <tr>
-            <% if Rails.env.development? %>
+
+
+
+
+
+      <% if 1 == 2 %>
+        <div class="ui message">
+          <h4>Social</h4>
+          <p class="hint">Access to your social media accounts will be used for helping you distribute content to these channels.</p>
+          <table class="ui very basic table">
+            <tr>
               <td style="color: gray;" class="collapsing">
-                <i class='instagram icon'></i>
-                instagram.com/<u style="color: black;"><%= @insta_auth.present? ? @insta_auth.uid : "_____________" %></u>
+                <i class='facebook f icon'></i>
+                facebook.com/<u style="color: black;"><%= @fb_auth.present? ? @fb_auth.uid : "_____________" %></u>
               </td>
               <td style="float: right; width: 150px;">
-                <% if @insta_auth.blank? %>
-                  <%= link_to "Integrate", oauth_path({provider: :instagram, account_id: @account.id, current_user_id: current_user.id}) %>
+                <% if @fb_auth.blank? %>
+                <%= link_to "Integrate", oauth_path({provider: :facebook, account_id: @account.id, current_user_id: current_user.id }) %>
                 <% else %>
-                   <%= link_to "<i class='trash outline icon'></i>".html_safe, account_authentication_path(@account, @insta_auth), method: :delete, data: { confirm: 'Are you sure?' } %>
+                   <%= link_to "Remove".html_safe, account_authentication_path(@account, @fb_auth), method: :delete, data: { confirm: 'Are you sure?' } %>
                 <% end %>
               </td>
-            <% end %>
-          </tr>
-        </table>
-      </div>
+            </tr>
+            <tr>
+              <td style="color: gray;" class="collapsing">
+                <i class='twitter icon'></i>
+                twitter.com/<u style="color: black;"><%= @tw_auth.present? ? @tw_auth.uid : "_____________" %></u>
+              </td>
+              <td style="float: right; width: 150px;">
+                <% if @tw_auth.blank? %>
+                <%= link_to "Integrate", oauth_path({provider: :twitter, account_id: @account.id, current_user_id: current_user.id}) %>
+                <% else %>
+                   <%= link_to "Remove".html_safe, account_authentication_path(@account, @tw_auth), method: :delete, data: { confirm: 'Are you sure?' } %>
+                <% end %>
+              </td>
+            </tr>
+            <tr>
+              <% if Rails.env.development? %>
+                <td style="color: gray;" class="collapsing">
+                  <i class='instagram icon'></i>
+                  instagram.com/<u style="color: black;"><%= @insta_auth.present? ? @insta_auth.uid : "_____________" %></u>
+                </td>
+                <td style="float: right; width: 150px;">
+                  <% if @insta_auth.blank? %>
+                    <%= link_to "Integrate", oauth_path({provider: :instagram, account_id: @account.id, current_user_id: current_user.id}) %>
+                  <% else %>
+                     <%= link_to "Remove".html_safe, account_authentication_path(@account, @insta_auth), method: :delete, data: { confirm: 'Are you sure?' } %>
+                  <% end %>
+                </td>
+              <% end %>
+            </tr>
+          </table>
+        </div>
+      <% end %>
+
     <% end %>
-  </div>
-  <% end %>
-  <br/>
-  <br/>
-</div>

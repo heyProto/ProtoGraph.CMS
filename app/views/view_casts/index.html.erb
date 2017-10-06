@@ -1,49 +1,36 @@
-<% if @view_casts.first.blank? %>
-
-<div class="ui sixteen grid" style="width: 980px; margin-left: auto; margin-right: auto; margin-top: 100px; margin-bottom: 400px; padding-left: 30px;">
-
-    <%= image_tag "option-2.png" %>
-
-</div>
-
-<% else %>
-
-
-<script src="https://d2m6lzru8erw1k.cloudfront.net/lib/protoGraph.js"></script>
-<div style='width:100%; box-sizing: border-box'>
-    <div class="ui mini breadcrumb">
-        <%=link_to @account.username, @account, class: "section" %>
-        <i class="right angle icon divider"></i>
-        <div  class="section" ><%=@folder.name %></div>
-
+  <div class="container">
+    <% if @view_casts.first.blank? %>
+    <br/>
+    <br/>
+    <div class="blankslate blankslate-spacious">
+      <% if @folder.is_trash %>
+        <h3>There are no cards in the recycle bin.</h3>
+      <% else %>
+        <h3>No cards created yet.</h3>
+        <p>Use the [+ Add a card] button on the top right.</p>
+      <% end %>
     </div>
-    <div class="ui huge header"><%= @folder.name %></div>
+    <% else %>
+    <div class="row">
+      <% @view_casts.each do |d| %>
+      <div class="col-sm-4">
+        <%= link_to (d.article.present? ? edit_account_folder_article_path(@account, @folder, d.article) : [@account, @folder,d]), "data-turbolinks"=> false do %>
+        <div class="card" style="margin: 20px 0px; ">
 
-    <div class='card-parent-class'>
-        <% @view_casts.each do |d| %>
-            <div class="column proto-graph-card-div">
-                <%= link_to [@account, @folder,d], "data-turbolinks"=> false do %>
-                    <div class="proto-graph-card">
-                        <img class="index-card-image" src="<%= d.render_screenshot_url %>" width="100%" alt="<%= d.name %>">
-                        <!-- <div class="proto-card-highlight-gradient"></div> -->
-                        <div class="proto-card-gradient">
-                            <div class="index-card-content">
-                                <div class="index-card-title">
-                                    <%= d.name %>
-                                </div>
-                                <div class="index-card-created-by"><%= image_tag avatar_url(d.updator.email), width: "100%" %></div>
-                                <div class="index-card-extra-info">
-                                    <%= d.template_card.name %>  |  <%= time_ago_in_words(d.updated_at) %>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                <% end %>
-            </div>
+          <div class="card-footer">
+            <h4 class="card-title" style="font-weight: 400; " title="<%=d.name%>">
+              <span class="branch-ref css-truncate css-truncate-target"><%= d.name %></span>
+            </h4>
+            <small class="text-muted">
+              <%= image_tag avatar_url(d.updator.email), width: "20px", class: "rounded" %>
+              &nbsp;&nbsp;
+              <%= d.template_card.name %>  |  <%= time_ago_in_words(d.updated_at) %>
+            </small>
+          </div>
+        </div>
         <% end %>
+      </div>
+      <% end %>
     </div>
-</div>
-
-</br>
-<%= paginate @view_casts %>
-<% end %>
+    <% end %>
+    <%= paginate @view_casts, theme: 'twitter-bootstrap-4', pagination_class: "pagination-sm" %>

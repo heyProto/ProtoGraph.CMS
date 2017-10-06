@@ -22,7 +22,6 @@
 }
 
 .form-layout .proto-card-preview {
-    background: #fafafa;
     height: 100vh;
     padding-top: 15px;
 }
@@ -50,10 +49,6 @@
 
 .proto-pull-right {
     float: right;
-}
-
-.proto-grey-body {
-    background: #fafafa;
 }
 
 .protograph-menu-container {
@@ -117,5 +112,31 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%,-50%);
+}
+.list-inline {
+  padding-left: 0;
+}
+
+.list-inline > li {
+  list-style: none;
+}
+
+.btn.btn-info.btn-now, .btn.btn-warning.btn-clear {
+  display: none;
+}
+
+.protograph-imagebank-button {
+  float: right;
+  display: none;
+}
+.protograph-new-image {
+  display: none;
+}
+.image-url-container {
+  display: none;
+}
+.protograph-disabled-button {
+  pointer-events: none;
+  opacity: 0.4;
 }
 /*# sourceMappingURL=master-style.css.map */

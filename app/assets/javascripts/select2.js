@@ -1,0 +1,1 @@
+//= require ./vendors/bootstrap-tagsinput.min.js

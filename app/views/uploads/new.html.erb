@@ -1,0 +1,78 @@
+<div class="row">
+  <div class="col-sm-12">
+    <center><h3>The page reloads every 30 seconds for updating the status of your upload</h3></center><br><br>
+    <div class="row">
+      <div class="col-sm-6">
+        Please make sure there are no empty rows in the csv file<br><br>
+        <%= link_to "toReportViolence CSV headers", "/csv_templates/to_report_violence.csv", download:"" %><br>
+        <%= link_to "toExplain CSV headers", "/csv_templates/to_explain.csv", download:"" %><br>
+        <%= link_to "toReportJournalistKilling CSV headers", "/csv_templates/to_report_journalist_killing.csv", download:"" %>
+      </div>
+      <div class="col-sm-6">
+        <%= simple_form_for [:account, :folder, @upload] do |f| %>
+          <%= f.input :attachment, as: :file, required: true %>
+          <%= f.input :template_card_id, collection: @template_cards, label_method: :name, value_method: :id, include_blank: false %>
+          <%= f.hidden_field :folder_id, value: @folder.id %>
+          <%= f.hidden_field :account_id, value: @account.id %>
+          <%= f.hidden_field :user_id, value: @current_user.id %>
+          <%= f.button :submit, "Upload File", class: "ui primary button" %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+<% if @uploads.present? %>
+  <div class="row">
+    <%= @folder.name %> has <%= pluralize(@uploads.count, "upload") %>.
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th>File Name</th>
+          <th>Template Card</th>
+          <th>Status</th>
+          <th>Errors</th>
+          <th>Uploaded by</th>
+          <th>Uploaded at</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @uploads.each do |u| %>
+          <tr>
+            <td><%= link_to u.attachment.file.file.split("/")[-1], u.attachment.url, download: "" %></td>
+            <td><%= u.template_card.name %></td>
+            <td>
+              <% if u.upload_status == "completed" || u.upload_status == "waiting" %>
+                <%= u.upload_status.capitalize %></td>
+              <% elsif u.upload_status == "uploading" && u.rows_uploaded != nil %>
+                <% data_percent = u.rows_uploaded * 100 / u.total_rows %>
+                <div class="progress">
+                  <div class="progress-bar bg-info" role="progressbar" style="width: <%= data_percent %>%" aria-valuenow="<%= data_percent %>" aria-valuemin="0" aria-valuemax="100"><%= data_percent %>%</div>
+                  </div>
+                </div>
+              <% end %>
+              <td>
+                <% if u.upload_status == "waiting" || u.upload_status == "uploading" %>
+                  <p>Uploading File</p>
+                <% elsif File.exist?(Rails.root.join("public" + u.attachment.url.split("/").slice(0..-2).join("/") + "/errored_file.csv")) %>
+                  <%= link_to "Download errored file", u.attachment.url.split("/").slice(0..-2).join("/") + "/errored_file.csv" %>
+                <% else %>
+                  <p>No errors found</p>
+                <% end %>
+              </td>
+              <td><%= u.creator.name %></td>
+              <td><%= distance_of_time_in_words(u.created_at, Time.now) + " ago" %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+</div>
+<% end %>
+</div>
+
+<script type="text/javascript">
+ $(document).ready(function() {
+   setTimeout(function(){
+     window.location.reload(1);
+   }, 30000);
+ });
+</script>

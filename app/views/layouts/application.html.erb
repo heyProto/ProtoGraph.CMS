@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
   <title>ProtoGraph / Pykih</title>
   <%= csrf_meta_tags %>
@@ -8,7 +8,6 @@
 
   <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
   <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
-
   <% if Rails.env.production? %>
     <script>
       (function(_,e,rr,s){_errs=[s];var c=_.onerror;_.onerror=function(){var a=arguments;_errs.push(a);
@@ -28,26 +27,21 @@
   <% end %>
 
 </head>
-<body>
+<body data-turbolinks=<%= (controller_name == "view_casts" and ['new', 'edit'].include?(action_name)) ? "false" : "true" %>>
   <%= render partial: "layouts/header" %>
-  <div class="ui grid" style="width: 100%;margin-top: 15px;margin: 0rem !important">
-    <div class='two wide column'></div>
-    <div class='twelve wide column'>
+  <br/><br/>
+  <div class="container">
       <%= yield %>
-    </div>
-    <div class='two wide column'></div>
   </div>
-<%= render partial: "layouts/footer" %>
+  <%= render partial: "layouts/footer" %>
 
-
-
-  <% config = {} %>
-  <% if notice.present? %>
-    <% config = {text: notice, notify: "success"} %>
-  <% end %>
-  <% if alert.present? %>
-    <% config = {text: alert, notify: "error"} %>
-  <% end %>
+      <% config = {} %>
+      <% if notice.present? %>
+        <% config = {text: notice, notify: "success"} %>
+      <% end %>
+      <% if alert.present? %>
+        <% config = {text: alert, notify: "error"} %>
+      <% end %>
 
   <script type="text/javascript">
     var notice = <%= config.to_json.html_safe %>;

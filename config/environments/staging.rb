@@ -99,8 +99,8 @@ Rails.application.configure do
     address:              'smtp.gmail.com',
     port:                 587,
     domain:               'gmail.com',
-    user_name:            'protograph@pykih.com',
-    password:             'HinduOpenSystems1234806',
+    user_name:            'team@pykih.com',
+    password:             'easternwisdom1234801',
     authentication:       :plain,
     enable_starttls_auto: true
   }
@@ -110,7 +110,7 @@ Rails.application.configure do
     :deliver_with => :deliver,
     :email_prefix => "[STAGING] ",
     :sender_address => %{"protograph notifier" <protograph@pykih.com>},
-    :exception_recipients => %w{ritvvij.parrikh@pykih.com, ab@pykih.com, aashutosh.bhatt@pykih.com}
+    :exception_recipients => %w{ritvvij.parrikh@pykih.com, ab@pykih.com, aashutosh.bhatt@pykih.com, mmb@pykih.com, dhara.shah@pykih.com}
   }
 
 

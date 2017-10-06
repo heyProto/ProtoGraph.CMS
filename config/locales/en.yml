@@ -48,6 +48,15 @@ en:
     required: "%{param} is required to continue."
   user:
     not_found: 'User not found.'
+  user_email:
+    create:
+      success: "Please confirm your email with the link sent at email provided"
+      failure: "Something went wrong"
+    destroy:
+      success: "Email was destroyed successfully"
+    confirmation:
+      success: "Your email was confirmed successfully"
+      failure: "Something went wrong"
   platform_create: "The image for %{platform} will created shortly."
   platform_not_in_the_list: "The %{platform} is not in the list."
   url:
@@ -56,4 +65,14 @@ en:
     messages:
       extension_whitelist_error: "Invalid image type. Supported image types are GIF, JPEG, JPG and PNG."
       max_size_error: "Size should less than or equal to 500kB."
+  published:
+    stream: "The cards will be published shortly."
+  social:
+    integrated: "%{param} image will be generated shortly."
+  r:
+    image: "Removed Image."
+  publish:
+    article_card: "The article card is published."
+  pd:
+    folder: "Cannot edit trash folder."
 

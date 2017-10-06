@@ -19,9 +19,11 @@ gem 'dotenv-rails'
 gem 'rest-client'
 gem 'best_in_place', '~> 3.0.1'
 gem 'kaminari'
+gem 'bootstrap4-kaminari-views'
 gem "version"
 gem 'exception_notification'
 gem 'foreman'
+gem 'json-schema'
 gem 'sidekiq'
 
 #AUTHENTICATION
@@ -49,7 +51,6 @@ gem 'search_cop'
 #gem "attr_encrypted", "~> 3.0.0"
 
 gem 'acts-as-taggable-on'
-gem 'search_cop'
 
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
@@ -64,6 +65,7 @@ group :development do
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
   gem 'brakeman', :require => false
+  # gem 'switch_user'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem

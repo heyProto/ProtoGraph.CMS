@@ -1,0 +1,96 @@
+// Side menu
+//
+// A menu on the side of a page, defaults to left side. e.g. github.com/about
+
+.github-menu {
+  margin-bottom: 15px;
+  list-style: none;
+  background-color: white;
+  border: 1px solid #d8d8d8;
+  border-radius: 3px;
+}
+
+.github-menu-item {
+  position: relative;
+  display: block;
+  padding: 10px 10px;
+  border-bottom: 1px solid #eee;
+  font-size: 13px;
+
+  &:first-child {
+    border-top: 0;
+    border-top-left-radius: 2px;
+    border-top-right-radius: 2px;
+
+    &::before { border-top-left-radius: 2px; }
+  }
+
+  &:last-child {
+    border-bottom: 0;
+    border-bottom-right-radius: 2px;
+    border-bottom-left-radius: 2px;
+
+    &::before { border-bottom-left-radius: 2px; }
+  }
+
+  &:hover {
+    text-decoration: none;
+    background-color: #F9F9F9;
+  }
+
+  &.selected {
+    font-weight: 600;
+    color: black;
+    cursor: default;
+    background-color: white;
+
+    &::before {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      width: 2px;
+      content: "";
+      background-color: #D26911;
+    }
+  }
+
+  .count{
+    float: right;
+    margin-left: 5px;
+  }
+
+  .avatar {
+    float: left;
+    margin-right: 5px;
+  }
+
+}
+
+.github-menu-heading {
+  display: block;
+  padding: 8px 10px;
+  margin-top: 0;
+  margin-bottom: 0;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 20px;
+  color: black;
+  background-color: #F3F5F8;
+  border-bottom: 1px solid #eee;
+
+  &:hover {
+    text-decoration: none;
+  }
+
+  &:first-child {
+    border-top-left-radius: 2px;
+    border-top-right-radius: 2px;
+  }
+
+  &:last-child {
+    border-bottom: 0;
+    border-bottom-right-radius: 2px;
+    border-bottom-left-radius: 2px;
+  }
+}

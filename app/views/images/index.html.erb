@@ -1,124 +1,60 @@
 <%= stylesheet_link_tag "justified.css" %>
-
-<div class="sixteen wide column">
-  <div class="ui mini breadcrumb">
-    <%=link_to @account.username, @account, class: "section" %>
-    <i class="right angle icon divider"></i>
-    <div  class="section" >Image Bank</div>
+<%= stylesheet_link_tag "select2.css" %>
+<div class="container">
+  <div class="row">
+    <div class="col-sm-13">
+      <h1 style="margin-bottom: 20px; font-weight: 600; margin-top: 0px; font-size: 20px;">
+        Image Bank
+      </h1>
+    </div>
   </div>
-
-  <h1 class="ui header">Image Bank</h1>
-  <button class="ui right floated basic button" id="openFileUpload">Upload image</button>
-  <div style="clear: both;"></div>
-  <br>
-  <div id="imageContainer"></div>
-  <div class="ui modal" id="fileUploadModal"> <i class="close icon"></i>
-    <div class="header">Add a new image</div>
-    <div class="content">
-      <%= simple_form_for([@account, @image]) do |f| %>
-        <%= f.error_notification %>
-        <%= f.input :image, as: :file, required: true, hint: 'Size should less than or equal to 500kB. Supported file types are GIF, JPEG, JPG and PNG' %>
-        <div class="form-inputs">
-          <%= f.input :account_id, as: :hidden, input_html: {value: @account.id} %>
-          <%= f.input :name, required: true %>
-          <%= f.input :tag_list, collection: [], label: 'Tags', hint: "Enter a comma separated list of tags.", input_html: { id: 'tags_autocomplete', class: 'ui fluid search dropdown', multiple: true, "data-content"=>"This field is required." }, wrapper_html: { class: 'required'} %>
-          <%= f.input :description %>
+</div>
+<br/>
+<br/>
+<div class="row">
+  <div class="container">
+      <% if @images.first.present? %>
+        <div id="imageContainer" class="col-sm-16"></div>
+    <% else %>
+        <div class="blankslate blankslate-spacious">
+            <h3>No images uploaded yet.</h3>
+            <p>Use the [+ Upload image] button on the top right.</p>
         </div>
-      <% end %>
-    </div>
-    <div class="actions">
-      <input type="submit" value="Upload" form="new_image" class="ui button">
-    </div>
+    <% end %>
   </div>
-
+  <%= paginate @images %>
 </div>
 <%= javascript_include_tag "justified.js" %>
-
+<%= javascript_include_tag "select2.js" %>
 <script type="text/javascript">
   var images = <%= @images.as_json.to_json.html_safe %>;
 
-  $(document).ready( function() {
-
-    $('#openFileUpload').on('click', function () {
-      $('#fileUploadModal').modal('show');
-    });
-
-    var validation_rules = {
-      on: 'blur',
-      inline: true,
-      fields: {
-        'image[tag_list][]': {
-          identifier  : 'tags_autocomplete',
-          rules: [
-            {
-              type   : 'empty',
-              prompt : 'This is a required field.'
-            }
-          ]
-        }
-      }
-    };
-    $('#new_image').form(validation_rules);
-
+  $(document).ready(function() {
     var maxHeight = 75;
-    $('#imageContainer').empty().justifiedImages({
-      images : images,
-      rowHeight: maxHeight,
-      maxRowHeight: 75,
-      thumbnailPath: function(photo, width, height){
-        return photo.thumbnail_url;
-      },
-      getSize: function(photo){
-        return {width: photo.thumbnail_width, height: photo.thumbnail_height};
-      },
-      template: function (data) {
-        var image;
-        image = '<div class="photo-container" style="height:' + data.displayHeight + 'px;margin-right:' + data.marginRight + 'px;">';
-        image +=    '<a class="ui right corner label protograph-popup-trigger" data-clipboard-text="'+data.image_url+'" data-content="Copied" >';
-          image +=      '<i class="copy icon"></i>'
-          image +=    '</a>';
-        image +=    '<a href="'+data.redirect_to+'" data-turbolinks="false">';
-        image +=        '<img class="image-thumb" src="' + data.src + '" style="width:' + data.displayWidth + 'px;height:' + data.displayHeight + 'px;" >';
-        image +=    '</a>';
-        image += '   <div class="photograph-image-details" style="display: block;">' + data.image_width + ' x ' + data.image_height + ' (' + data.aspectWidth + ':' + data.aspectHeight + ') ' + '</div>';
-        image += '</div>';
-
-        return image;
-      },
-      margin: 20,
-      afterRenderCallback: function() {
-          new Clipboard('.protograph-popup-trigger', {
-            target: function(trigger) {
-              return trigger;
-            }
-          });
-
-           $('.protograph-popup-trigger').popup({
-              on: 'click',
-              position: 'top center',
-              onVisible: function (e) {
-                setTimeout(function() {
-                  $(e).popup('hide');
-                }, 250);
-              }
-            });
-        }
-    });
-
-    $('#new_image .ui.dropdown')
-      .dropdown({
-        fullTextSearch: true,
-        forceSelection: false,
-        saveRemoteData:false,
-        allowAdditions: true,
-        apiSettings: {
-            url: '/api/v1/tags?q={query}'
+    if (images.length) {
+      $('#imageContainer').empty().justifiedImages({
+        images: images,
+        rowHeight: maxHeight,
+        maxRowHeight: 75,
+        thumbnailPath: function(photo, width, height) {
+          return photo.thumbnail_url;
         },
-        fields: {
-          value: 'name',
-          name : 'name',
-          id: 'id'
-        }
+        getSize: function(photo) {
+          return { width: photo.thumbnail_width, height: photo.thumbnail_height };
+        },
+        template: function(data) {
+          var image;
+          image = '<div class="photo-container" style="height:' + data.displayHeight + 'px;margin-right:' + data.marginRight + 'px;">';
+          image += '<a href="' + data.redirect_to + '" data-turbolinks="false">';
+          image += '<img class="image-thumb" src="' + data.src + '" style="width:' + data.displayWidth + 'px;height:' + data.displayHeight + 'px;" >';
+          image += '</a>';
+          image += '   <div class="photograph-image-details" style="display: block;">' + data.image_width + ' x ' + data.image_height + ' (' + data.aspectWidth + ':' + data.aspectHeight + ') ' + '</div>';
+          image += '</div>';
+
+          return image;
+        },
+        margin: 20
       });
+    }
   });
 </script>

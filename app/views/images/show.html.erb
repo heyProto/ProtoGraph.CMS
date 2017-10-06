@@ -1,168 +1,64 @@
-<%= stylesheet_link_tag "justified.css" %>
-<%= stylesheet_link_tag "JCrop.css" %>
-
 <% w = @image.image_width %>
 <% h = @image.image_height %>
 
-<!-- <style type="text/css">
-  .protograph-tooltip {
-    position: absolute;
-    display: none;
-  }
-</style> -->
-
-<div class="ui mini breadcrumb">
-  <%=link_to @account.username, @account, class: "section", "data-turbolinks"=> false %>
-  <i class="right angle icon divider"></i>
-  <%=link_to "Image Bank", account_images_path(@account), class: "section", "data-turbolinks"=> false %>
-  <i class="right angle icon divider"></i>
-  <div  class="section"><%= @image.name %></div>
-</div>
-<div class="two-br-space"></div>
-<div class="sixteen wide column" style="max-height: 600px; overflow: auto;" >
-  <h1 class="ui header"><%= @image.name %></h1>
-  <h3 class="ui header protograph-image-form-heading">Original Image</h3>
-  <div class="ui fluid image" style="background: #efefef;">
-    <a class="ui right corner label" id="copyToClipboard" data-clipboard-text="<%= @image.original_image.image_url %>" data-content="Copied">
-      <i class="copy icon"></i>
-    </a>
-    <img class="ui centered image" src="<%= @image.original_image.image_url %>" style="height: 350px; width: initial !important;">
-    <div class="photograph-image-details" style="display: block;"><%= "#{w} x #{h} (#{w / w.gcd(h)} : #{h / w.gcd(h)})"%></div>
-  </div>
-</div>
-<div class="one-br-space"></div>
-<div class="sixteen wide column">
-  <div style="position: relative;">
-    <% if @image.image_variation.present? %>
-      <h3 class="ui header protograph-image-form-heading">Variations</h3>
-    <% end %>
-    <a style="position: absolute;top: 0px;right: 0px;" id="openFileUpload">Crop original image to create variation</a>
-  </div>
-  <% if @image.image_variation.present? %>
-    <div id="variationImages"></div>
-  <% end %>
-
-</div>
-
-
-<div class="ui large modal" id="imageCropperModal"> <i class="close icon"></i>
-  <div class="header">Crop Image</div>
-  <div class="content">
-    <div class="ui secondary menu" id="aspectRatioMenu">
-      <div class="header item">Quick crop:</div>
-      <a class="item active" data-width="0" data-height="0">
-        Free selection
-      </a>
-      <a class="item" data-width="2" data-height="3">
-        2:3 (Quiz Cover Image)
-      </a>
-      <a class="item" data-width="1" data-height="3">
-        1:2 (Quiz Answer Image)
-      </a>
-      <a class="item" data-width="1" data-height="1">
-        1:1 (Timeline Event Image)
-      </a>
+  <div class="container">
+    <div class="row" >
+      <div class="col-16">
+          <ol class="breadcrumb" style="background: transparent; padding-left: 0px; margin-bottom: 0px;">
+            <li class="breadcrumb-item active"><%= link_to "Image Bank", account_images_path(@account) %></li>
+          </ol>
+        <h1 style="margin-bottom: 20px; font-weight: 600; margin-top: 0px; font-size: 20px;">
+          <%= @image.name %>
+          </h1>
+        </div>
+      </div>
     </div>
-    <img class="ui centered image" src="<%= @image.original_image.image_url %>" id="cropbox" style="height: 350px;" >
-    <%= form_for ([@account, @image_variation]) do |f| %>
-      <%= f.hidden_field :image_id, value: @image.id %>
-      <% %w[x y w h].each do |attribute| %>
-          <%= f.hidden_field "crop_#{attribute}" %>
-      <% end %>
-    <% end %>
   </div>
-  <div class="actions">
-    <input type="submit" value="Crop" form="new_image_variation" class="ui button">
+<br/>
+<br/>
+
+<div class="container" >
+  <div class='row' style="background: #efefef; text-align: center;">
+    <div class='col-sm-16'>
+        <!-- <span class="oi" data-glyph="copywriting"></span> -->
+      <div class='mx-auto'>
+        <a href="<%= @image.original_image.image_url %>" target="_blank">
+          <img src="<%= @image.original_image.image_url %>" class="img-responsive"> <!-- class='mx-auto' style="height: 350px; width: initial !important;" -->
+        </a>
+        <div class="photograph-image-details" style="display: block;"><%= "#{w} x #{h} (#{w / w.gcd(h)} : #{h / w.gcd(h)})"%></div>
+      </div>
+    </div>
+  </div>
+  <br/><br/>
+  <div class="row">
+    <a id="openFileUpload" class='btn btn-primary' href='#' data-toggle='modal' data-target='#imageCropperModal'>Crop original image to create variation</a>
+    <div class="col-sm-16">
+      <div style="position: relative;">
+        <% if @image.image_variation.present? %>
+            <br/><br/>
+          <h3 class="protograph-image-form-heading">Variations</h3>
+        <% end %>
+      </div>
+      <% if @image.image_variation.present? %>
+        <div id="variationImages"></div>
+      <% end %>
+
+    </div>
   </div>
 </div>
-
-<%= javascript_include_tag "justified.js" %>
-<%= javascript_include_tag "JCrop.js" %>
 
 <script type="text/javascript">
   <% if @image.image_variation.present? %>
     var images = <%= @image.image_variation.as_json.to_json.html_safe %>;
   <% end %>
 
-  $(document).ready( function() {
-
-    $('#openFileUpload').on('click', function () {
-      $('#imageCropperModal').modal('show');
-    });
-
-    var gcd = function(a, b) {
-      if ( ! b) {
-        return a;
-      }
-
-      return gcd(b, a % b);
-    };
-
-    new Clipboard('#copyToClipboard', {
-      target: function(trigger) {
-        return trigger;
-      }
-    });
-
-    $('#copyToClipboard').popup({
-      on: 'click',
-      position: 'top center',
-      onVisible: function (e) {
-        setTimeout(function() {
-          $(e).popup('hide');
-        }, 250);
-      }
-    });
-
-    // $('.jcrop-holder').append('<div class="protograph-tooltip"></div>')
-
-    $('#aspectRatioMenu .item').on('click', function () {
-      var ref = $(this),
-        data,
-        aspectRatio;
-
-      ref
-        .addClass('active')
-        .siblings('.item')
-          .removeClass('active');
-
-      data = ref.data();
-      if (data.height > 0 && data.width > 0) {
-        aspectRatio = data.width / data.height;
-      } else {
-        aspectRatio = 0;
-      }
-
-      $('#cropbox').Jcrop({
-        setSelect: [0, 0, 420, 420],
-        onSelect: update,
-        onChange: update,
-        boxHeight: 350,
-        aspectRatio: aspectRatio
-      });
-
-    });
-
-    function update(coords) {
-      $('#image_variation_crop_x').val(coords.x);
-      $('#image_variation_crop_y').val(coords.y);
-      $('#image_variation_crop_w').val(coords.w);
-      $('#image_variation_crop_h').val(coords.h);
-    };
-
-    $('#cropbox').Jcrop({
-      // setSelect: [0, 0, 420, 420],
-      onSelect: update,
-      onChange: update,
-      boxHeight: 350
-    });
-
+  $(document).ready(function(){
     <% if @image.image_variation.present? %>
-      var maxHeight = 75;
+      var maxHeight = 150;
       $('#variationImages').empty().justifiedImages({
         images : images,
         rowHeight: maxHeight,
-        maxRowHeight: 75,
+        maxRowHeight: 150,
         thumbnailPath: function(photo, width, height){
           return photo.image_url;
         },
@@ -173,37 +69,20 @@
           var image;
 
           image = '<div class="photo-container" style="height:' + data.displayHeight + 'px;margin-right:' + data.marginRight + 'px;">';
-          image +=    '<a class="ui right corner label protograph-popup-trigger" data-clipboard-text="'+data.image_url+'" data-content="Copied" >';
-          image +=      '<i class="copy icon"></i>'
-          image +=    '</a>';
+          image +=    '<a class="protograph-popup-trigger" href="'+data.image_url+'" data-clipboard-text="'+data.image_url+'" target="_blank">';
           image +=    '<img class="image-thumb" src="' + data.src + '" style="width:' + data.displayWidth + 'px;height:' + data.displayHeight + 'px;" >';
+          image +=    '</a>';
           image += '   <div class="photograph-image-details" style="display: block;">' + data.image_width + ' x ' + data.image_height + ' (' + data.aspectWidth + ':' + data.aspectHeight + ') ' + '</div>';
           image += '</div>';
 
           return image;
         },
-        margin: 20,
-        afterRenderCallback: function() {
-          new Clipboard('.protograph-popup-trigger', {
-            target: function(trigger) {
-              return trigger;
-            }
-          });
-
-           $('.protograph-popup-trigger').popup({
-              on: 'click',
-              position: 'top center',
-              onVisible: function (e) {
-                setTimeout(function() {
-                  $(e).popup('hide');
-                }, 250);
-              }
-            });
-        }
+        margin: 20
       });
     <% end %>
-
-
-
-  });
+  })
 </script>
+<div class="modal" id="imageCropperModal"> <i class="close icon"></i>
+  <%= render partial: "images/cropper", locals: {mode: nil} %>
+</div>
+<%= render partial: "images/cropper_js" %>

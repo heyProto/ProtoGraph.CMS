@@ -4,7 +4,6 @@
 #
 #  id               :integer          not null, primary key
 #  image_id         :integer
-#  image_url        :text(65535)
 #  image_key        :text(65535)
 #  image_width      :integer
 #  image_height     :integer
@@ -17,6 +16,8 @@
 #  updated_by       :integer
 #  created_at       :datetime         not null
 #  updated_at       :datetime         not null
+#  mode             :string(255)
+#  is_social_image  :boolean
 #
 
 class ImageVariation < ApplicationRecord
@@ -25,8 +26,9 @@ class ImageVariation < ApplicationRecord
   #GEMS
   #ASSOCIATIONS
   belongs_to :image
+  delegate :account, to: :image
   #ACCESSORS
- attr_accessor :crop_x, :crop_y, :crop_w, :crop_h
+  attr_accessor :crop_x, :crop_y, :crop_w, :crop_h, :article_id
   #VALIDATIONS
   #CALLBACKS
   after_create :process_and_upload_image, if: :is_original?
@@ -34,6 +36,10 @@ class ImageVariation < ApplicationRecord
   #SCOPE
   #OTHER
   #PRIVATE
+
+  def image_url
+    "#{account.cdn_endpoint}/#{image_key}"
+  end
 
   def as_json
     {
@@ -76,7 +82,7 @@ class ImageVariation < ApplicationRecord
     data = {
       id: id,
       s3Identifier: image.s3_identifier,
-      accountSlug: image.account.slug,
+      accountSlug: account.slug,
       contentType: image.image.content_type,
       imageBlob: Base64.encode64(File.open(img_path, "rb").read()),
       thumbnailBlob: Base64.encode64(File.open(thumb_img_path, "rb").read())
@@ -102,7 +108,6 @@ class ImageVariation < ApplicationRecord
       })
 
       self.update_attributes({
-        image_url: response['data']['image_url'],
         image_key: response['data']['image_key'],
         image_width: img_w,
         image_height: img_h,
@@ -115,6 +120,7 @@ class ImageVariation < ApplicationRecord
   end
 
   def process_and_upload_image_variation
+    return true if self.is_social_image
     require "base64"
 
     temp_new_image = Image.new({crop_x: self.crop_x, crop_y: self.crop_y, crop_w: self.crop_w, crop_h: self.crop_h})
@@ -133,7 +139,7 @@ class ImageVariation < ApplicationRecord
     data = {
       id: id,
       s3Identifier: image.s3_identifier,
-      accountSlug: image.account.slug,
+      accountSlug: account.slug,
       contentType: image.image.content_type,
       imageBlob: Base64.encode64(File.open(img_path, "rb").read())
     }
@@ -149,12 +155,75 @@ class ImageVariation < ApplicationRecord
 
     if response["success"]
       self.update_attributes({
-        image_url: response['data']['image_url'],
         image_key: response['data']['image_key'],
         image_width: img_w,
         image_height: img_h
       })
     end
+
+    if self.mode.present? and self.article_id.present?
+      article = Article.friendly.find(self.article_id)
+      if self.mode == "facebook"
+        article.update_column(:facebook_uploading, true)
+      elsif self.mode == "twitter"
+        article.update_column(:twitter_uploading, true)
+      else
+        article.update_column(:instagram_uploading, true)
+      end
+      #Creating
+      key = "images/#{self.account.slug}/#{self.image.s3_identifier}/#{self.id + 1}.png"
+      a = ImageVariation.new({
+        image_id: self.image_id,
+        image_key: key,
+        image_width: self.image_width,
+        image_height: self.image_height,
+        is_social_image: true,
+        mode: self.mode
+      })
+      a.save
+      Thread.new do
+        data_json = {
+          "data": {
+            "cover_data": {
+              "cover_title": "#{article.genre}",
+              "logo_image": {
+                "image": "#{article.account.logo_image.original_image.image_url}"
+              }
+            }
+          }
+        }
+
+        data_json["data".to_sym]["cover_data".to_sym]["#{(self.mode == "facebook"  or self.mode == "twitter") ? "fb_image" : "instagram_image" }"] = {
+          "image": "#{self.image_url}"
+        }
+
+        payload = {}
+        payload["js"] = "https://cdn.protograph.pykih.com/Assets/toSocial/card.min.js?no-cache=true"
+        payload["css"] = "https://cdn.protograph.pykih.com/Assets/toSocial/card.min.css?no-cache=true"
+        payload["data_url"] = data_json.to_json
+        payload["schema_json"] = ""
+        payload["configuration_url"] = ""
+        payload["configuration_schema"] = ""
+        payload["initializer"] = "ProtoGraph.Card.toSocial"
+        payload["key"] = key
+        payload["mode"] = self.mode
+
+        response = Api::ProtoGraph::ViewCast.render_screenshot(payload)
+        if response['message'].present? and response['message'] == "Data Added Successfully"
+          if self.mode == "facebook"
+            article.update_columns(og_image_variation_id: a.id, facebook_uploading: false)
+
+          elsif self.mode == "twitter"
+            article.update_columns(twitter_image_variation_id: a.id, twitter_uploading: false)
+          else
+            article.update_columns(instagram_image_variation_id: a.id, instagram_uploading: false)
+          end
+
+        end
+        ActiveRecord::Base.connection.close
+      end
+    end
+
   end
 
 end

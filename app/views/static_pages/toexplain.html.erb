@@ -1,0 +1,52 @@
+<%= content_for :banner_col_sm_8_left do %>
+  <script src="https://cdn.protograph.pykih.com/lib/protoGraph.min.js" async></script>
+  <div class="hint-text">Story Elements</div>
+  <h1>toExplain</h1>
+  <h1 class="intro-text">
+    toExplain ensures that you don’t lose your reader’s interest in stories which are layered or complicated, by giving the right amount of context to this story.
+  </h1>
+<% end %>
+
+
+<%= content_for :proto_container_col_sm_9_content_col do %>
+  <div class="br-space three-br-space"></div>
+  <h3 class="z-green">Where can you use it?</h3>
+  <div class="br-space one-br-space"></div>
+  <p>With news breaking at the speed of light and stories continue to unfold every hour  (think Brexit, Charlottesville), context becomes key to understanding evolving narratives. toExplain ensures that context isn’t lost for readers when they land on a page involving a complex, evolving story. toExplain helps you build this context for your reader and ensure a greater share of his time.</p>
+  <div class="br-space three-br-space"></div>
+  <h3 class="z-green">Demo</h3>
+  <div id="ProtoCard302"><blockquote>
+    <h3>What is Price to Earnings (PE) multiple?</h3>
+    <p>Current market price divided by earnings per share gives you the price to earning multiple, also known as PE multiple. If stock price Rs 150 and EPS Rs 20, then the PE multiple will be Rs 150 divided by Rs 20= 7.5. PE multiple indicates how cheap or expensive a stock is. It also reflects what the market is willing to pay for a stock based on expected earnings. If the multiple is high, then it means that the investors are expecting a high growth in the earnings. Conversely, a low PE means low expectations on earnings. Remember, the company may exceed analyst expectations or fall short.</p>
+  </blockquote></div>
+  <script type="text/javascript">var ProtoCard302 = setInterval(function(){if (window.ProtoEmbed){clearInterval(ProtoCard302)};new ProtoEmbed.initFrame(document.getElementById("ProtoCard302"), "https://cdn.protograph.pykih.com/f96a388525160ed7/index.html?view_cast_id=59a96875ddb397caca319bc4%26schema_id=2e804dc00b362f24" , "laptop")}, 200)</script>
+<% end %>
+
+<%= content_for :proto_container_col_sm_3 do %>
+  <p>Used by newsrooms like</p>
+  <div class="row">
+      <div class="col-sm-6">
+        <%= image_tag "customers/money-control.jpg", class: "rounded img-fluid" %>
+      </div>
+  </div>
+  <hr/>
+  <p>Other story element tools - <span class="links-div"><%= link_to "toQuiz", toquiz_path %>, &nbsp; <%= link_to "toTimeline", totimeline_path %></span></p>
+  <hr/>
+  <p>Features</p>
+  <%= image_tag "tick.svg" %> No need to know code
+  <br/>
+  <%= image_tag "tick.svg" %> Free to use
+  <br/>
+  <%= image_tag "tick.svg" %> Mobile-first
+  <br/>
+  <%= image_tag "tick.svg" %> Responsive
+  <br/>
+  <%= image_tag "tick.svg" %> SEO friendly
+  <br/>
+  <%= image_tag "tick.svg" %> Low bandwidth
+  <br/>
+  <%= image_tag "tick.svg" %> Multi-lingual
+  <hr/>
+  <p>One-time setup required</p>
+  Setup a AWS Cloudfront or Akamai CDN and point it to ProtoGraph
+<% end %>
