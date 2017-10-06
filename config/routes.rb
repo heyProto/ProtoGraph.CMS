@@ -14,6 +14,8 @@ Rails.application.routes.draw do
       resources :user_emails, only: [:index, :create, :destroy], as: :emails
       get '/user_emails/confirmation', to: "user_emails#confirmation", as: "email_confirmation"
   end
+  get "online_users", to: "admins#online_users", as: :online_users
+
   get "/auth/:provider", to: lambda{ |env| [404, {}, ["Not Found"]] }, as: :oauth
   get '/auth/:provider/callback', to: 'authentications#create'
   get '/auth/failure', to: 'authentications#failure'
@@ -21,7 +23,6 @@ Rails.application.routes.draw do
   get "/card/:id", to: "template_cards#demo", as: :demo_template_card
 
   get "/planned-homepage", to: "static_pages#index2"
-
 
   namespace :api do
     namespace :v1 do

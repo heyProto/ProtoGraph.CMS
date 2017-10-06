@@ -2,6 +2,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception, unless: :json_request?
   protect_from_forgery with: :null_session, if: :json_request?
   before_action :sudo
+  after_action :user_activity
 
   def json_request?
     request.format.json?
@@ -29,6 +30,9 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def user_activity
+    current_user.try :touch
+  end
   private
 
   def sudo

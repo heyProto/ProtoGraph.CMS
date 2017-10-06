@@ -53,6 +53,7 @@ class User < ApplicationRecord
     after_create :welcome_user
 
     #SCOPE
+    scope :online, -> { where('updated_at > ?', 10.minutes.ago) }
     #OTHER
 
     def permission_object(accid, s="Active")
@@ -74,6 +75,10 @@ class User < ApplicationRecord
 
     def self.from_omniauth(auth)
       user = User.where(:email => auth.info.email).first_or_initialize
+    end
+
+    def online?
+      updated_at > 10.minutes.ago
     end
     #PRIVATE
     private
