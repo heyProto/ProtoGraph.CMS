@@ -31,5 +31,23 @@ class PiwikMetric < ApplicationRecord
   #CALLBACKS
   #SCOPE
   #OTHER
+  class << self
+    def create_or_update(datacast_identifier, piwik_module, piwik_metric_name, piwik_metric_type, piwik_metric_value)
+      metric = PiwikMetric.where({
+                                   datacast_identifier: datacast_identifier,
+                                   piwik_module: piwik_module,
+                                   piwik_metric_name: piwik_metric_name,
+                                   piwik_metric_type: piwik_metric_type,
+                                 }).first
+
+      metric = TrackableMetric.create({
+                                        datacast_identifier: datacast_identifier,
+                                        piwik_module: piwik_module,
+                                        piwik_metric_name: piwik_metric_name,
+                                        piwik_metric_type: piwik_metric_type,
+                                      }) if metric.blank?
+      metric.update_column(:piwik_metric_value, piwik_metric_value)
+    end
+  end
   #PRIVATE
 end

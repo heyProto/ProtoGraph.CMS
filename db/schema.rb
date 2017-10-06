@@ -10,11 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-<<<<<<< HEAD
-ActiveRecord::Schema.define(version: 20170826080800) do
-=======
 ActiveRecord::Schema.define(version: 20170929160624) do
->>>>>>> 82fb0f87efc7c4052ac4fb0c133abdf8be58f2f2
 
   create_table "accounts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "username"
@@ -103,6 +99,7 @@ ActiveRecord::Schema.define(version: 20170929160624) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "is_trash", default: false
+    t.boolean "is_archived", default: false
   end
 
   create_table "friendly_id_slugs", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -175,7 +172,6 @@ ActiveRecord::Schema.define(version: 20170929160624) do
     t.datetime "updated_at", null: false
   end
 
-<<<<<<< HEAD
   create_table "piwik_metrics", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "datacast_identifier"
     t.string "piwik_module"
@@ -184,7 +180,8 @@ ActiveRecord::Schema.define(version: 20170929160624) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "piwik_metric_type"
-=======
+  end
+
   create_table "ref_codes", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer "account_id"
     t.string "key"
@@ -195,7 +192,6 @@ ActiveRecord::Schema.define(version: 20170929160624) do
     t.integer "updated_by"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
->>>>>>> 82fb0f87efc7c4052ac4fb0c133abdf8be58f2f2
   end
 
   create_table "ref_roles", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
