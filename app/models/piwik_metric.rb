@@ -24,8 +24,8 @@ class PiwikMetric < ApplicationRecord
   #CUSTOM TABLES
   #GEMS
   #ASSOCIATIONS
-  belongs_to :view_cast, class_name: "ViewCast",
-             foreign_key: "datacast_identifier", primary_key: "datacast_identifier"
+  # belongs_to :view_cast, class_name: "ViewCast",
+  #            foreign_key: "datacast_identifier", primary_key: "datacast_identifier"
   #ACCESSORS
   #VALIDATIONS
   #CALLBACKS

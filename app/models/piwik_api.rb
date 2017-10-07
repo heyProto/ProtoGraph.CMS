@@ -49,10 +49,10 @@ class PiwikApi < ApplicationRecord
             format: "json",
             idSite: ENV["PIWIK_ID_SITE"],
             token_auth: ENV["PIWIK_TOKEN_AUTH"],
-            period: period,
+            period: "range",
             method: "VisitsSummary.get",
             date: from_date + "," + to_date,
-            segment: segment,
+            segment: segment
           }
         }
       )
@@ -139,7 +139,7 @@ class PiwikApi < ApplicationRecord
         return {value: total_time_spent / visitor_count}
       rescue Exception => e
         return { success: false }
-      end      
+      end
     end
 
     def get_all_custom_dimensions
