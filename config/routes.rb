@@ -17,9 +17,6 @@ Rails.application.routes.draw do
   get "/auth/:provider", to: lambda{ |env| [404, {}, ["Not Found"]] }, as: :oauth
   get '/auth/:provider/callback', to: 'authentications#create'
   get '/auth/failure', to: 'authentications#failure'
-
-  get "/card/:id", to: "template_cards#demo", as: :demo_template_card
-
   get "/planned-homepage", to: "static_pages#index2"
 
 
