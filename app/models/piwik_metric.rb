@@ -36,7 +36,6 @@ class PiwikMetric < ApplicationRecord
   #OTHER
   class << self
     def create_or_update(pm)
-      # datacast_identifier, piwik_module, piwik_metric_name, piwik_metric_type="", piwik_metric_value)
       options = {
         datacast_identifier: pm[:datacast_identifier],
         piwik_module: pm[:piwik_module],
@@ -49,7 +48,7 @@ class PiwikMetric < ApplicationRecord
 
       metric = PiwikMetric.create(options) if metric.blank?
 
-      metric.update_column(:piwik_metric_value, pm[:piwik_metric_value])
+      metric.update_column(:piwik_metric_value, pm[:piwik_metric_value]r)
     end
   end
   #PRIVATE
