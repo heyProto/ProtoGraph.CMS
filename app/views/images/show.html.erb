@@ -23,7 +23,7 @@
         <!-- <span class="oi" data-glyph="copywriting"></span> -->
       <div class='mx-auto'>
         <a href="<%= @image.original_image.image_url %>" target="_blank">
-          <img src="<%= @image.original_image.image_url %>" class="img-responsive"> <!-- class='mx-auto' style="height: 350px; width: initial !important;" -->
+          <img src="<%= @image.original_image.image_url %>" class="img-responsive" id="main_image"> <!-- class='mx-auto' style="height: 350px; width: initial !important;" -->
         </a>
         <div class="photograph-image-details" style="display: block;"><%= "#{w} x #{h} (#{w / w.gcd(h)} : #{h / w.gcd(h)})"%></div>
       </div>
