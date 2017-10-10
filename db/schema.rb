@@ -99,7 +99,6 @@ ActiveRecord::Schema.define(version: 20170929160624) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "is_trash", default: false
-    t.boolean "is_archived", default: false
   end
 
   create_table "friendly_id_slugs", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -306,8 +305,8 @@ ActiveRecord::Schema.define(version: 20170929160624) do
     t.integer "publish_count"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "s3_identifier"
     t.string "status"
+    t.string "s3_identifier"
     t.index ["slug"], name: "index_template_data_on_slug", unique: true
   end
 

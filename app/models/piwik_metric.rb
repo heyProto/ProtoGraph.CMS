@@ -24,28 +24,32 @@ class PiwikMetric < ApplicationRecord
   #CUSTOM TABLES
   #GEMS
   #ASSOCIATIONS
-  # belongs_to :view_cast, class_name: "ViewCast",
+  # belongs_to :view_cast, class_name: "ViewCast",Events
   #            foreign_key: "datacast_identifier", primary_key: "datacast_identifier"
   #ACCESSORS
   #VALIDATIONS
   #CALLBACKS
   #SCOPE
+  scope :page_views, -> { where(piwik_module: 'Events', piwik_metric_name: 'page_view') }
+  scope :loads, -> { where(piwik_module: 'Events', piwik_metric_name: 'loaded') }
+
   #OTHER
   class << self
-    def create_or_update(datacast_identifier, piwik_module, piwik_metric_name, piwik_metric_type, piwik_metric_value)
+    def create_or_update(datacast_identifier, piwik_module, piwik_metric_name="", piwik_metric_type, piwik_metric_value)
       metric = PiwikMetric.where({
-                                   datacast_identifier: datacast_identifier,
-                                   piwik_module: piwik_module,
-                                   piwik_metric_name: piwik_metric_name,
-                                   piwik_metric_type: piwik_metric_type,
-                                 }).first
+        datacast_identifier: datacast_identifier,
+        piwik_module: piwik_module,
+        piwik_metric_name: piwik_metric_name,
+        piwik_metric_type: piwik_metric_type,
+      }).first
 
-      metric = TrackableMetric.create({
-                                        datacast_identifier: datacast_identifier,
-                                        piwik_module: piwik_module,
-                                        piwik_metric_name: piwik_metric_name,
-                                        piwik_metric_type: piwik_metric_type,
-                                      }) if metric.blank?
+      metric = PiwikMetric.create({
+        datacast_identifier: datacast_identifier,
+        piwik_module: piwik_module,
+        piwik_metric_name: piwik_metric_name,
+        piwik_metric_type: piwik_metric_type,
+      }) if metric.blank?
+
       metric.update_column(:piwik_metric_value, piwik_metric_value)
     end
   end

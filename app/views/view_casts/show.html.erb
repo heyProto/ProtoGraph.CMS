@@ -83,6 +83,11 @@
                           <td><strong><%= @view_cast.id %></strong></td>
                       </tr>
                       <tr>
+                          <td>Page View</td>
+                          <td>:</td>
+                          <td><%= @page_views.present? ? @page_views : '-' %></td>
+                      </tr>
+                      <tr>
                           <td>On</td>
                           <td>:</td>
                           <td><%= @view_cast.updated_at.strftime("%e %b %Y") %></td>
