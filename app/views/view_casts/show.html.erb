@@ -85,7 +85,7 @@
                       <tr>
                           <td>Page View</td>
                           <td>:</td>
-                          <td><%= @page_views.present? ? @page_views : '-' %></td>
+                          <td><%= @page_views.present? ? @page_views.piwik_metric_value : '-' %></td>
                       </tr>
                       <tr>
                           <td>On</td>
