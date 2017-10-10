@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170929160624) do
+ActiveRecord::Schema.define(version: 20171010092006) do
 
   create_table "accounts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "username"
@@ -27,8 +27,9 @@ ActiveRecord::Schema.define(version: 20170929160624) do
     t.string "client_token"
     t.string "access_token"
     t.string "client_secret"
+    t.text "logo_url"
     t.integer "logo_image_id"
-    t.string "house_colour"
+    t.string "house_colour", default: "#000000"
     t.index ["domain"], name: "index_accounts_on_domain"
     t.index ["slug"], name: "index_accounts_on_slug", unique: true
     t.index ["username"], name: "index_accounts_on_username", unique: true
@@ -90,6 +91,16 @@ ActiveRecord::Schema.define(version: 20170929160624) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "colour_swatches", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.integer "red"
+    t.integer "green"
+    t.integer "blue"
+    t.integer "image_id"
+    t.boolean "is_dominant", default: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "folders", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer "account_id"
     t.string "name"
@@ -99,6 +110,7 @@ ActiveRecord::Schema.define(version: 20170929160624) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "is_trash", default: false
+    t.boolean "is_archived", default: false
   end
 
   create_table "friendly_id_slugs", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -206,6 +218,16 @@ ActiveRecord::Schema.define(version: 20170929160624) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "stream_view_casts_sort_indices", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.integer "stream_id"
+    t.integer "account_id"
+    t.integer "view_cast_id"
+    t.string "sort_column_name"
+    t.text "sort_column_value"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "streams", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "title"
     t.string "slug"
@@ -225,6 +247,8 @@ ActiveRecord::Schema.define(version: 20170929160624) do
     t.integer "offset"
     t.boolean "is_grouped_data_stream", default: false
     t.string "data_group_key"
+    t.string "sort_order_column"
+    t.string "sort_order"
     t.index ["description"], name: "index_streams_on_description", type: :fulltext
     t.index ["title"], name: "index_streams_on_title", type: :fulltext
   end
@@ -295,8 +319,8 @@ ActiveRecord::Schema.define(version: 20170929160624) do
     t.integer "publish_count"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "s3_identifier"
     t.string "status"
+    t.string "s3_identifier"
     t.index ["slug"], name: "index_template_data_on_slug", unique: true
   end
 
@@ -327,6 +351,7 @@ ActiveRecord::Schema.define(version: 20170929160624) do
     t.datetime "confirmed_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "is_primary_email", default: false
     t.index ["user_id"], name: "index_user_emails_on_user_id"
   end
 
