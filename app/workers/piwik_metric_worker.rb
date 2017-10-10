@@ -3,16 +3,20 @@ class PiwikMetricWorker
   sidekiq_options backtrace: true
 
   def perform
-
     today = Date.today.strftime('%Y-%m-%d')
     metrics = PiwikApi.get_event("2017-01-01", today)
     if metrics.class == Array
       ### Loop Over all the metrics
       metrics.each do |m|
-        datacast_identifier, action = m['label'].split('-').each {|e| e.strip}
+        datacast_identifier, action = m['label'].split('-').map {|e| e.strip}
         view_cast = ViewCast.find_by_datacast_identifier(datacast_identifier)
         if view_cast.present?
-          PiwikMetric.create_or_update(datacast_identifier, "Events", action, piwik_metric_value=m["nb_visits"])
+          PiwikMetric.create_or_update({
+            datacast_identifier: datacast_identifier,
+            piwik_module: "Events",
+            piwik_metric_name: action,
+            piwik_metric_value: m["nb_visits"]
+          })
         end
       end
     end
