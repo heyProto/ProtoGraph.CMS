@@ -48,7 +48,7 @@ class PiwikMetric < ApplicationRecord
 
       metric = PiwikMetric.create(options) if metric.blank?
 
-      metric.update_column(:piwik_metric_value, pm[:piwik_metric_value]r)
+      metric.update_column(:piwik_metric_value, pm[:piwik_metric_value])
     end
   end
   #PRIVATE
