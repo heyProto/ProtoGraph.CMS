@@ -23,6 +23,7 @@ class ViewCastsController < ApplicationController
         @view_casts_count = @folder.view_casts.count
         @streams_count = @folder.streams.count
         @articles_count = @folder.articles.count
+        @page_views = @view_cast.piwik_metrics.where(piwik_module: 'Events', piwik_metric_name: 'page_view').first
         render layout: "application-fluid"
     end
 
