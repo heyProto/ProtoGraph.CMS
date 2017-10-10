@@ -40,16 +40,16 @@
         <% end %>
       </div>
       <% if @image.image_variation.present? %>
-        <div id="variationImages"></div>
+        <div class="function" id="variationImages"></div>
       <% end %>
 
       <div class="image-colours">
-        <div class="dominant">
+        <div class="function dominant">
           <h3>Dominant Color</h3>
           <% dom_colour =  @image.colour_swatches.dominant.first%>
           <div class="swatch" style="background-color: rgb(<%= dom_colour.red %>, <%= dom_colour.green %>, <%= dom_colour.blue %>);"></div>
         </div>
-        <div class="palette">
+        <div class="function palette">
           <h3>Palette</h3>
           <div class="swatches">
             <% @image.colour_swatches.palette.each do |colour| %>
@@ -119,5 +119,8 @@
  }
  .image-colours {
    text-align: center;
+ }
+ .function {
+   margin-bottom: 1.5rem;
  }
 </style>
