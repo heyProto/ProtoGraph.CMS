@@ -18,6 +18,10 @@
 //= require ./app/notiy
 //= require turbolinks
 //= require best_in_place
+// For use with color thief
+//= require ./vendors/quantize.js
+//= require ./vendors/color-thief.min.js
+
 
 $(document).on('turbolinks:load', function (e) {
   // $('.ui.dropdown').dropdown();
