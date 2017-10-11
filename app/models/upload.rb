@@ -34,12 +34,12 @@ class Upload < ApplicationRecord
   validates :folder, presence: true
   validates :upload_status, inclusion: { in: Upload::UPLOAD_STATUSES }
   #CALLBACKS
-  after_create :validate_csv
+  after_commit :validate_csv, on: :create
   #SCOPE
 
   #OTHER
   def validate_csv
-    CsvVerificationWorker.perform_at(3.seconds.from_now, self.id)
+    CsvVerificationWorker.perform_async(self.id)
   end
 
   def validate_headers

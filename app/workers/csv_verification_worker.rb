@@ -16,7 +16,7 @@ class CsvVerificationWorker
     if @upload.template_card.has_grouping
       # Need to group multiple rows so we cannot read one line at a time
       csv_data = CSV.read(@upload.attachment.file.file, headers: true).map {|row| row.to_hash}
-      stdout, stderr, status = Open3.capture3("echo #{csv_data.to_json.to_json} | jq -f ref/jq_filter/jq_filter_#{@upload.template_card.name}.jq")
+      stdout, stderr, status = Open3.capture3("echo #{csv_data.to_json.gsub('\n', '\\n').to_json} | jq -f ref/jq_filter/jq_filter_#{@upload.template_card.name}.jq")
       if stdout.present?
         card_array_filtered = JSON.parse(stdout)
       end
