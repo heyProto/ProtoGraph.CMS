@@ -17,6 +17,12 @@ class PiwikMetricWorker
             piwik_metric_name: action,
             piwik_metric_value: m["nb_visits"]
           })
+          PiwikMetric.create_or_update({
+            datacast_identifier: datacast_identifier,
+            piwik_module: "Events",
+            piwik_metric_name: 'nb_uniq_visitors',
+            piwik_metric_value: m["sum_daily_nb_uniq_visitors"]
+          })
         end
       end
     end
