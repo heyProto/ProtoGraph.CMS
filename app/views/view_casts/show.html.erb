@@ -83,14 +83,22 @@
                           <td><strong><%= @view_cast.id %></strong></td>
                       </tr>
                       <tr>
-                          <td>Page View</td>
-                          <td>:</td>
-                          <td><%= @page_views.present? ? @page_views.piwik_metric_value : '-' %></td>
-                      </tr>
-                      <tr>
                           <td>On</td>
                           <td>:</td>
                           <td><%= @view_cast.updated_at.strftime("%e %b %Y") %></td>
+                      </tr>
+                      <tr>
+                        <td colspan="3" style="padding-top: 25px;"><strong>Analytics</strong></td>
+                      </tr>
+                      <tr>
+                        <td>Page View</td>
+                        <td>:</td>
+                        <td><%= @page_views.present? ? @page_views.piwik_metric_value : '-' %></td>
+                      </tr>
+                      <tr>
+                        <td>Unique Visitors</td>
+                        <td>:</td>
+                        <td><%= @unique_visitors.present? ? @unique_visitors.piwik_metric_value : '-' %></td>
                       </tr>
                   </table>
             </div>

@@ -30,8 +30,9 @@ class PiwikMetric < ApplicationRecord
   #VALIDATIONS
   #CALLBACKS
   #SCOPE
-  scope :page_views, -> { where(piwik_module: 'Events', piwik_metric_name: 'page_view') }
-  scope :loads, -> { where(piwik_module: 'Events', piwik_metric_name: 'loaded') }
+  scope :page_views, -> { where(piwik_module: 'Events', piwik_metric_name: 'page_view').first }
+  scope :loads, -> { where(piwik_module: 'Events', piwik_metric_name: 'loaded').first }
+  scope :unique_visitors, -> { where(piwik_module: 'Events', piwik_metric_name: 'nb_uniq_visitors').first }
 
   #OTHER
   class << self

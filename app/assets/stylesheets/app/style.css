@@ -149,3 +149,10 @@ h3{
     letter-spacing: 0.5px;
     padding: 10px 15px;
 }
+.protograph-eye {
+	height: 20px;
+	float: right;
+}
+.protograph-eye.disabled-eye {
+	opacity: 0.2;
+}
