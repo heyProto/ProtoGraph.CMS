@@ -86,7 +86,7 @@ Rails.application.configure do
     config.logger    = ActiveSupport::TaggedLogging.new(logger)
   end
 
-  FROM_EMAIL = "protograph@pykih.com"
+  FROM_EMAIL = "Protograph Internals <dev.pykih@gmail.com>"
   config.active_record.dump_schema_after_migration = false
   BASE_URL = "https://protograph.pykih.com"
   AWS_API_DATACAST_URL = "https://d9y49oyask.execute-api.ap-south-1.amazonaws.com/production"
