@@ -88,7 +88,7 @@ Rails.application.configure do
 
   config.action_mailer.default_url_options = { host: "https://protograph-staging.pykih.com" }
 
-  FROM_EMAIL = "protograph-staging@pykih.com"
+  FROM_EMAIL = "Protograph Internals  <dev.pykih@gmail.com>"
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
   BASE_URL = "https://protograph-staging.pykih.com"
@@ -99,8 +99,8 @@ Rails.application.configure do
     address:              'smtp.gmail.com',
     port:                 587,
     domain:               'gmail.com',
-    user_name:            'team@pykih.com',
-    password:             'easternwisdom1234801',
+    user_name:            'dev.pykih@gmail.com',
+    password:             'indianmonsoon1234801',
     authentication:       :plain,
     enable_starttls_auto: true
   }
