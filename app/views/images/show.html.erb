@@ -43,21 +43,23 @@
         <div class="function" id="variationImages"></div>
       <% end %>
 
-      <div class="image-colours">
-        <div class="function dominant">
-          <h3>Dominant Color</h3>
-          <% dom_colour =  @image.colour_swatches.dominant.first%>
-          <div class="swatch" style="background-color: rgb(<%= dom_colour.red %>, <%= dom_colour.green %>, <%= dom_colour.blue %>);"></div>
-        </div>
-        <div class="function palette">
-          <h3>Palette</h3>
-          <div class="swatches">
-            <% @image.colour_swatches.palette.each do |colour| %>
-              <div class="swatch" style="background-color: rgb(<%= colour.red %>, <%= colour.green %>, <%= colour.blue %>);"></div>
-            <% end %>
+      <% if @image.colour_swatches.present? %>
+        <div class="image-colours">
+          <div class="function dominant">
+            <h3>Dominant Color</h3>
+            <% dom_colour =  @image.colour_swatches.dominant.first%>
+            <div class="swatch" style="background-color: rgb(<%= dom_colour.red %>, <%= dom_colour.green %>, <%= dom_colour.blue %>);"></div>
+          </div>
+          <div class="function palette">
+            <h3>Palette</h3>
+            <div class="swatches">
+              <% @image.colour_swatches.palette.each do |colour| %>
+                <div class="swatch" style="background-color: rgb(<%= colour.red %>, <%= colour.green %>, <%= colour.blue %>);"></div>
+              <% end %>
+            </div>
           </div>
         </div>
-      </div>
+      <% end %>
     </div>
   </div>
 </div>
