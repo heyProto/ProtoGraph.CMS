@@ -78,7 +78,7 @@ class Api::ProtoGraph
                         params[:credentials] = creds
                         invalidation_items = []
                         items.each do |item|
-                            invalidation_items << "#{account.cdn_endpoint.sub(/^https?\:\/\//, '')}/#{item}"
+                            invalidation_items << "#{account.cdn_endpoint}#{item}"
                         end
                         params["invalidation_items"] = invalidation_items
                     end
