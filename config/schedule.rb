@@ -13,7 +13,7 @@
 #   rake "some:great:rake:task"
 # end
 #
-every 1.days do
+every 6.hours do
   rake "piwik:fetch_metrics"
 end
 
