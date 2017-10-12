@@ -28,9 +28,9 @@
             </small>
             <% page_views = d.piwik_metrics.page_views %>
             <% if page_views.present? %>
-              <%= image_tag "eye", class: 'protograph-eye', "data-toggle" => "tooltip", "data-placement"=>"top", "title" =>"Page Views: #{page_views.piwik_metric_value}" %>
+              <%= image_tag "eye.png", class: 'protograph-eye', "data-toggle" => "tooltip", "data-placement"=>"top", "title" =>"Page Views: #{page_views.piwik_metric_value}" %>
             <% else %>
-              <%= image_tag "eye", class: 'protograph-eye disabled-eye' %>
+              <%= image_tag "eye.png", class: 'protograph-eye disabled-eye' %>
             <% end %>
           </div>
         </div>
