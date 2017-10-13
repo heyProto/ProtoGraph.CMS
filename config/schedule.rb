@@ -13,6 +13,7 @@
 #   rake "some:great:rake:task"
 # end
 #
+set :output, {:error => "log/cron_error_log.log", :standard => "log/cron_log.log"}
 every 6.hours do
   rake "piwik:fetch_metrics"
 end
