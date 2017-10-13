@@ -31,9 +31,12 @@ class Image < ApplicationRecord
   belongs_to :account
   has_many :image_variation, -> {where.not(is_original: true)}
   has_one :original_image, -> {where(is_original: true)}, class_name: "ImageVariation", foreign_key: "image_id"
+  has_many :colour_swatches
   #ACCESSORS
   attr_accessor :tag_list, :crop_x, :crop_y, :crop_w, :crop_h
   mount_uploader :image, ImageUploader
+  attr_accessor :dominant_colour
+  attr_accessor :colour_palette
   #VALIDATIONS
   #CALLBACKS
   before_create { self.s3_identifier = SecureRandom.hex(8) }
@@ -45,7 +48,7 @@ class Image < ApplicationRecord
       errors.add :image, "Logo has to a square and the minimum height should be 100."
     end
   end
-
+  after_commit :add_colour_swatches, on: :create
   #SCOPE
   #OTHER
 
@@ -66,6 +69,20 @@ class Image < ApplicationRecord
 
   def image_url
     self.original_image.image_url
+  end
+
+  def add_colour_swatches
+      colour_dom = JSON.parse(self.dominant_colour)
+      colour_pal = JSON.parse(self.colour_palette)
+      self.colour_swatches.create(red: colour_dom[0],
+                                  green: colour_dom[1],
+                                  blue: colour_dom[2],
+                                  is_dominant: true)
+      colour_pal.each do |colour|
+          self.colour_swatches.create(red: colour[0],
+                                      green: colour[1],
+                                      blue: colour[2])
+      end
   end
 
   #PRIVATE
