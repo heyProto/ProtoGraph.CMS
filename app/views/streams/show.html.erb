@@ -108,7 +108,10 @@
                             </td>
                         </tr>
                     </table>
-                <%= link_to "Edit the Stream", edit_account_folder_stream_path(@account, @folder, @stream) %>
+                    <%= link_to "Edit the Stream", edit_account_folder_stream_path(@account, @folder, @stream) %>
+                    <% unless @stream.folder.name == "Recycle Bin" %>
+                        | <%= link_to "Delete the Stream", [@account, @folder, @stream], method: :delete, data: {confirm: "Are you sure you want to delete this stream"} %>
+                    <% end %>
                 <br/>
             </div>
         </div>

@@ -88,21 +88,18 @@
             <ul class="navbar-nav mr-auto" style="margin-left: 0px !important; margin-right: auto;">
                 <%= render partial: "layouts/dropdown_teams" %>
             </ul>
-              <ul class="navbar-nav mr-auto">
-                <li class="nav-item dropdown">
-                  <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                      <%= image_tag avatar_url(current_user.email), class: "rounded", style: "width: 20px;" %>
-                  </a>
-                  <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                    <%= link_to 'Profile', edit_user_registration_path(@account), class: "dropdown-item" %>
-                    <%= link_to "Sign out", destroy_user_session_path, class: "dropdown-item" %>
-                  </div>
-                </li>
-              </ul>
-
+            <ul class="navbar-nav mr-auto">
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <%= image_tag avatar_url(current_user.email), class: "rounded", style: "width: 20px;" %>
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                  <%= link_to 'Profile', edit_user_registration_path(@account), class: "dropdown-item" %>
+                  <%= link_to "Sign out", destroy_user_session_path, class: "dropdown-item" %>
+                </div>
+              </li>
+            </ul>
         </div>
       </nav>
     <% end %>
 <% end %>
-<br/>
-<br/>

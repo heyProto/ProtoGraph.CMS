@@ -67,8 +67,8 @@ class ImageVariation < ApplicationRecord
     og_thumbnail_url = image.image.thumb.url
     og_image_url = image.image.url
 
-    thumb_img_path = "#{Rails.root.to_s}/public#{og_thumbnail_url}"
-    img_path = "#{Rails.root.to_s}/public#{og_image_url}"
+    thumb_img_path = CGI.unescape "#{Rails.root.to_s}/public#{og_thumbnail_url}"
+    img_path = CGI.unescape "#{Rails.root.to_s}/public#{og_image_url}"
 
     thumb_img = Magick::Image.ping(thumb_img_path).first
     img = Magick::Image.ping(img_path).first

@@ -1,0 +1,65 @@
+<div class="modal fade" id="fileUploadModal" data-backdrop="static" data-keyboard="false">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Add a new image</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="modal_close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <%= simple_form_for([@account, @new_image],html: {"data-remote" => "true"}) do |f| %>
+          <%= f.error_notification %>
+          <%= f.input :image, as: :file, required: true, hint: 'Size should less than or equal to 500kB. Supported file types are GIF, JPEG, JPG and PNG', input_html: {onChange: "readURL(this)"} %>
+          <div id="image_container" class="protograph-new-image">
+            <nav class="navbar navbar-expand-lg navbar-light bg-light" id="aspectRatioMenu">
+              <a class="navbar-brand" href="#">Quick crop:</a>
+              <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                  <li class="nav-item item active" data-width="0" data-height="0">
+                    <a class="nav-link" href='#'>
+                      Free selection
+                    </a>
+                  </li>
+                  <li class="nav-item item" data-width="2" data-height="3">
+                    <a class="nav-link" href='#'>
+                      2:3 (Quiz Cover Image)
+                    </a>
+                  </li>
+                  <li class="nav-item item" data-width="2" data-height="1">
+                    <a class="nav-link" href='#'>
+                      2:1 (Quiz Answer Image)
+                    </a>
+                  </li>
+                  <li class="nav-item item" data-width="1" data-height="1">
+                    <a class="nav-link" href='#'>
+                      1:1 (Timeline Event Image)
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </nav>
+            <img class="ui centered image" id="cropbox" src="#"/>
+          </div>
+          <%= f.input :account_id, as: :hidden, input_html: {value: @account.id} %>
+          <%= f.input :name, required: true %>
+          <%#= f.input :tag_list, collection: [], label: 'Tags', hint: "Enter a comma separated list of tags.", input_html: { id: 'tags_autocomplete', class: 'ui fluid search dropdown', multiple: true, "data-content"=>"This field is required." }, wrapper_html: { class: 'required'} %>
+          <%= f.input :description %>
+          <% %w[x y w h].each do |attribute| %>
+              <%= f.input "crop_#{attribute}", as: :hidden %>
+          <% end %>
+        <% end %>
+        <div class="form-group image-url-container" id="image_url_container">
+          <label>Image URL</label>
+          <input type="text" name="" id="photo_url" class="form-control string" readonly>
+        </div>
+      </div>
+      <div class='modal-footer'>
+        <input type="submit" value="Upload" form="new_image" class="btn btn-outline" id="new_image_submit_button">
+      </div>
+      <div class="ui dimmer" id="ui_dimmer">
+        <div class="ui loader"></div>
+      </div>
+    </div>
+  </div>
+</div>

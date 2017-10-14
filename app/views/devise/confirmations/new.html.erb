@@ -1,13 +1,11 @@
-<div class="row">
-<div class="col-4 align-self-center" style="margin-left: auto; margin-right: auto; margin-top: 40px;">
-<%= simple_form_for(resource, as: resource_name, url: confirmation_path(resource_name), html: { method: :post }) do |f| %>
-          <%= f.error_notification %>
-          <%= f.input :email, autofocus: true, value: (resource.pending_reconfirmation? ? resource.unconfirmed_email : resource.email) %>
-          <%= f.submit "Resend confirmation instructions", class: "btn btn-primary" %>
+<%= content_for :proto_container_col_sm_9_content_col do %>
+    <div class="row">
+        <%= simple_form_for(resource, as: resource_name, url: confirmation_path(resource_name), html: { method: :post }) do |f| %>
+            <%= f.error_notification %>
+            <%= f.input :email, autofocus: true, value: (resource.pending_reconfirmation? ? resource.unconfirmed_email : resource.email) %>
+            <%= f.submit "Resend confirmation instructions", class: "btn btn-primary" %>
         <% end %>
         <br/>
-
         <%= render "devise/shared/links" %>
-
-</div>
-</div>
+    </div>
+<% end %>

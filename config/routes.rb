@@ -6,16 +6,17 @@ Rails.application.routes.draw do
   get 'static_pages/index'
 
   resources :activities
-  devise_for :users, controllers: { registrations: 'registrations', sessions: 'sessions' } do
-      get 'sign_out', to: 'devise/sessions#destroy'
+  devise_for :users, controllers: { registrations: 'registrations', sessions: 'sessions', passwords: "passwords", confirmations: "confirmations" }  do
+    get 'sign_out', to: 'devise/sessions#destroy'
   end
 
+  resources :users do
+      resources :user_emails, only: [:index, :create, :destroy], as: :emails
+      get '/user_emails/confirmation', to: "user_emails#confirmation", as: "email_confirmation"
+  end
   get "/auth/:provider", to: lambda{ |env| [404, {}, ["Not Found"]] }, as: :oauth
   get '/auth/:provider/callback', to: 'authentications#create'
   get '/auth/failure', to: 'authentications#failure'
-
-  get "/card/:id", to: "template_cards#demo", as: :demo_template_card
-
   get "/planned-homepage", to: "static_pages#index2"
 
 
@@ -90,8 +91,8 @@ Rails.application.routes.draw do
   get "cards/to-quiz", to: 'static_pages#toquiz', as: :toquiz
   get "cards/to-explain", to: 'static_pages#toexplain', as: :toexplain
   get "prepare-articles", to: 'static_pages#preparearticle', as: :preparearticle
-  get "pages/to-counted", to: 'static_pages#tocounted', as: :tocounted
-  get "pages/to-coverage", to: 'static_pages#tocoverage', as: :tocoverage
+  get "pages/to-count", to: 'static_pages#tocounted', as: :tocounted
+  get "pages/to-cover", to: 'static_pages#tocoverage', as: :tocoverage
   get "case-studies/mobbed", to: 'static_pages#mobbed', as: :mobbed
   get "case-studies/silenced", to: 'static_pages#silenced', as: :silenced
 

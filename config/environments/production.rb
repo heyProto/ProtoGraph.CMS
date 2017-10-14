@@ -86,7 +86,7 @@ Rails.application.configure do
     config.logger    = ActiveSupport::TaggedLogging.new(logger)
   end
 
-  FROM_EMAIL = "protograph@pykih.com"
+  FROM_EMAIL = "Protograph Internals <dev.pykih@gmail.com>"
   config.active_record.dump_schema_after_migration = false
   BASE_URL = "https://protograph.pykih.com"
   AWS_API_DATACAST_URL = "https://d9y49oyask.execute-api.ap-south-1.amazonaws.com/production"
@@ -96,8 +96,8 @@ Rails.application.configure do
     address:              'smtp.gmail.com',
     port:                 587,
     domain:               'gmail.com',
-    user_name:            'team@pykih.com',
-    password:             'easternwisdom1234801',
+    user_name:            'dev.pykih@gmail.com',
+    password:             'indianmonsoon1234801',
     authentication:       :plain,
     enable_starttls_auto: true
   }

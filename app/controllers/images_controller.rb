@@ -16,11 +16,16 @@ class ImagesController < ApplicationController
     # end
     options[:created_by] = current_user.id
     @image = Image.new(options)
-    if @image.save
-      track_activity(@image)
-      redirect_to account_images_path(@account), notice: "Image added successfully"
-    else
-      redirect_to account_images_path(@account), alert: @image.errors.full_messages
+
+    respond_to do |format|
+      if @image.save
+        track_activity(@image)
+        format.json { render json: {success: true, data: @image}, status: 200 }
+        format.html { redirect_to account_images_path(@account), notice: 'Image added successfully' }
+      else
+        format.json { render json: {success: false, errors: @image.errors.full_messages }, status: 400 }
+        format.html { redirect_to account_images_path(@account), alert: @image.errors.full_messages }
+      end
     end
   end
 
@@ -39,6 +44,6 @@ class ImagesController < ApplicationController
   end
 
   def image_params
-    params.require(:image).permit(:account_id, :image, :name, :description, :tags, :tag_list)
+    params.require(:image).permit(:account_id, :image, :name, :description, :tags, :tag_list, :crop_x, :crop_y, :crop_w, :crop_h, :dominant_colour, :colour_palette)
   end
 end

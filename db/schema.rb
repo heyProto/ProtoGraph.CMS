@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170929160624) do
+ActiveRecord::Schema.define(version: 20171010092006) do
 
   create_table "accounts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "username"
@@ -27,9 +27,8 @@ ActiveRecord::Schema.define(version: 20170929160624) do
     t.string "client_token"
     t.string "access_token"
     t.string "client_secret"
-    t.text "logo_url"
     t.integer "logo_image_id"
-    t.string "house_colour", default: "#000000"
+    t.string "house_colour"
     t.index ["domain"], name: "index_accounts_on_domain"
     t.index ["slug"], name: "index_accounts_on_slug", unique: true
     t.index ["username"], name: "index_accounts_on_username", unique: true
@@ -87,6 +86,16 @@ ActiveRecord::Schema.define(version: 20170929160624) do
     t.datetime "token_expires_at"
     t.integer "created_by"
     t.integer "updated_by"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "colour_swatches", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.integer "red"
+    t.integer "green"
+    t.integer "blue"
+    t.integer "image_id"
+    t.boolean "is_dominant", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -171,6 +180,16 @@ ActiveRecord::Schema.define(version: 20170929160624) do
     t.integer "updated_by"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "piwik_metrics", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string "datacast_identifier"
+    t.string "piwik_module"
+    t.string "piwik_metric_name"
+    t.integer "piwik_metric_value"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "piwik_metric_type"
   end
 
   create_table "ref_codes", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -297,8 +316,8 @@ ActiveRecord::Schema.define(version: 20170929160624) do
     t.integer "publish_count"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "status"
     t.string "s3_identifier"
+    t.string "status"
     t.index ["slug"], name: "index_template_data_on_slug", unique: true
   end
 

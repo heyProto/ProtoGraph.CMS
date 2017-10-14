@@ -26,6 +26,12 @@
               &nbsp;&nbsp;
               <%= d.template_card.name %>  |  <%= time_ago_in_words(d.updated_at) %>
             </small>
+            <% page_views = d.piwik_metrics.page_views %>
+            <% if page_views.present? %>
+              <%= image_tag "eye.png", class: 'protograph-eye', "data-toggle" => "tooltip", "data-placement"=>"top", "title" =>"Page Views: #{page_views.piwik_metric_value}" %>
+            <% else %>
+              <%= image_tag "eye.png", class: 'protograph-eye disabled-eye' %>
+            <% end %>
           </div>
         </div>
         <% end %>
@@ -34,3 +40,9 @@
     </div>
     <% end %>
     <%= paginate @view_casts, theme: 'twitter-bootstrap-4', pagination_class: "pagination-sm" %>
+
+<script type="text/javascript">
+  $(document).ready(function() {
+    $('[data-toggle="tooltip"]').tooltip();
+  });
+</script>

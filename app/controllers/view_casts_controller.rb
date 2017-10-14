@@ -1,8 +1,9 @@
 class ViewCastsController < ApplicationController
     before_action :authenticate_user!
-    before_action :set_view_cast, only: [:show, :edit, :recreate, :update]
+    before_action :set_view_cast, only: [:show, :edit, :destroy, :recreate, :update]
 
     def new
+        @new_image = Image.new
     end
 
     def index
@@ -22,10 +23,14 @@ class ViewCastsController < ApplicationController
         @view_casts_count = @folder.view_casts.count
         @streams_count = @folder.streams.count
         @articles_count = @folder.articles.count
+        piwik_metrics = @view_cast.piwik_metrics
+        @page_views = piwik_metrics.page_views
+        @unique_visitors = piwik_metrics.unique_visitors
         render layout: "application-fluid"
     end
 
     def edit
+        @new_image = Image.new
     end
 
     def update
@@ -42,6 +47,16 @@ class ViewCastsController < ApplicationController
             render :show
         end
 
+    end
+
+    def destroy
+        @view_cast.updator = current_user
+        @view_cast.folder = @account.folders.find_by(name: "Recycle Bin")
+        if @view_cast.save
+            redirect_to account_folder_view_casts_path(@account, @folder), notice: "Card was deleted successfully"
+        else
+            redirect_to account_folder_view_cast_path(@account, @folder, @view_cast), alert: "Card could not be deleted"
+        end
     end
 
     def set_view_cast

@@ -28,13 +28,16 @@ class User < ApplicationRecord
     #CONSTANTS
     #CUSTOM TABLES
     #GEMS
-    devise :database_authenticatable, :registerable, :confirmable, :recoverable, :rememberable, :trackable, :validatable #, :omniauthable
+  devise :database_authenticatable, :registerable, :confirmable,
+         :recoverable, :rememberable, :trackable, :validatable,
+         :omniauthable, omniauth_providers: [:twitter]
 
     #ASSOCIATIONS
     has_many :permissions, ->{where(status: "Active")}
     has_many :accounts, through: :permissions
     has_many :activities
     has_many :uploads
+    has_many :user_emails
     #ACCESSORS
     attr_accessor :username
 
@@ -47,6 +50,7 @@ class User < ApplicationRecord
     #CALLBACKS
     before_create :before_create_set
     after_create :after_create_set
+    after_create :welcome_user
 
     #SCOPE
     #OTHER
@@ -68,6 +72,9 @@ class User < ApplicationRecord
         end
     end
 
+    def self.from_omniauth(auth)
+      user = User.where(:email => auth.info.email).first_or_initialize
+    end
     #PRIVATE
     private
 
@@ -96,5 +103,11 @@ class User < ApplicationRecord
             is_trash: true,
             is_system_generated: true
         })
+    end
+
+    def welcome_user
+        if Rails.env == "production"
+            WelcomeUserWorker.perform_in(1.second, self.id)
+        end
     end
 end

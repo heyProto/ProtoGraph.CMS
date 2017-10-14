@@ -13,9 +13,10 @@
 #   rake "some:great:rake:task"
 # end
 #
-# every 4.days do
-#   runner "AnotherModel.prune_old_records"
-# end
+set :output, {:error => "log/cron_error_log.log", :standard => "log/cron_log.log"}
+every 6.hours do
+  rake "piwik:fetch_metrics"
+end
 
 # Learn more: http://github.com/javan/whenever
 every 2.hours do
