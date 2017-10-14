@@ -42,6 +42,6 @@ class ImagesController < ApplicationController
   end
 
   def image_params
-    params.require(:image).permit(:account_id, :image, :name, :description, :tags, :tag_list, :crop_x, :crop_y, :crop_w, :crop_h)
+    params.require(:image).permit(:account_id, :image, :name, :description, :tags, :tag_list, :crop_x, :crop_y, :crop_w, :crop_h, :dominant_colour, :colour_palette)
   end
 end
