@@ -27,9 +27,8 @@ ActiveRecord::Schema.define(version: 20171010092006) do
     t.string "client_token"
     t.string "access_token"
     t.string "client_secret"
-    t.text "logo_url"
     t.integer "logo_image_id"
-    t.string "house_colour", default: "#000000"
+    t.string "house_colour"
     t.index ["domain"], name: "index_accounts_on_domain"
     t.index ["slug"], name: "index_accounts_on_slug", unique: true
     t.index ["username"], name: "index_accounts_on_username", unique: true
@@ -228,16 +227,6 @@ ActiveRecord::Schema.define(version: 20171010092006) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "stream_view_casts_sort_indices", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.integer "stream_id"
-    t.integer "account_id"
-    t.integer "view_cast_id"
-    t.string "sort_column_name"
-    t.text "sort_column_value"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
   create_table "streams", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "title"
     t.string "slug"
@@ -257,8 +246,6 @@ ActiveRecord::Schema.define(version: 20171010092006) do
     t.integer "offset"
     t.boolean "is_grouped_data_stream", default: false
     t.string "data_group_key"
-    t.string "sort_order_column"
-    t.string "sort_order"
     t.index ["description"], name: "index_streams_on_description", type: :fulltext
     t.index ["title"], name: "index_streams_on_title", type: :fulltext
   end
@@ -361,7 +348,6 @@ ActiveRecord::Schema.define(version: 20171010092006) do
     t.datetime "confirmed_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.boolean "is_primary_email", default: false
     t.index ["user_id"], name: "index_user_emails_on_user_id"
   end
 
