@@ -19,8 +19,9 @@ class ImageVariationsController < ApplicationController
   end
 
   def show
-    @image = @image_variation.image
-    @image_variations = ImageVariation.where(image_id: @image_variation.image_id, is_original: false).where.not(id: @image_variation.id)
+      redirect_to account_image_path(@account, @image_variation.image)
+    #   @image = @image_variation.image
+    # @image_variations = ImageVariation.where(image_id: @image_variation.image_id, is_original: false).where.not(id: @image_variation.id)
   end
 
   def download

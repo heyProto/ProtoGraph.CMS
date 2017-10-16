@@ -31,7 +31,7 @@
                   an image
                   <%= link_to a.trackable.name, [a.trackable.account, a.trackable], "data-turbolinks" => "false" %>
                 <% elsif a.trackable.class.to_s == "ImageVariation" %>
-                  an image from
+                  a <%= link_to "variation", a.trackable.image_url %> from
                   <%= link_to a.trackable.image.name.titleize, [a.trackable.account, a.trackable], "data-turbolinks" => "false" %>
 
                 <% end %>
