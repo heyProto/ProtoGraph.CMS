@@ -1,0 +1,21 @@
+<% unless @online_users.count > 0 %>
+  <h1>No users online currently</h1>
+<% else %>
+<h1><%= pluralize(@online_users.count, "User") %> online currently</h1>
+<table class="table">
+  <thead>
+    <tr>
+      <th>Email</th>
+      <th>Last Seen at</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @online_users.each do |u| %>
+    <tr>
+      <td><%= u.email %></td>
+      <td><%= time_ago_in_words u.updated_at %> ago</td>
+    </tr>
+    <% end %>
+  </tbody>
+</table>
+<% end %>

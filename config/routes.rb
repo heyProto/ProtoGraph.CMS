@@ -14,11 +14,15 @@ Rails.application.routes.draw do
       resources :user_emails, only: [:index, :create, :destroy], as: :emails
       get '/user_emails/confirmation', to: "user_emails#confirmation", as: "email_confirmation"
   end
+
+  namespace :admin do
+    get "online_users", to: "online_users#index", as: :online_users
+  end
+
   get "/auth/:provider", to: lambda{ |env| [404, {}, ["Not Found"]] }, as: :oauth
   get '/auth/:provider/callback', to: 'authentications#create'
   get '/auth/failure', to: 'authentications#failure'
   get "/planned-homepage", to: "static_pages#index2"
-
 
   namespace :api do
     namespace :v1 do
