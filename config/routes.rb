@@ -15,7 +15,9 @@ Rails.application.routes.draw do
       get '/user_emails/confirmation', to: "user_emails#confirmation", as: "email_confirmation"
   end
 
-  get "admin/online_users", to: "admins#online_users", as: :admin_online_users
+  namespace :admin do
+    get "online_users", to: "online_users#index", as: :online_users
+  end
 
   get "/auth/:provider", to: lambda{ |env| [404, {}, ["Not Found"]] }, as: :oauth
   get '/auth/:provider/callback', to: 'authentications#create'

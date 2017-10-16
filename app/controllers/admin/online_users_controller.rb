@@ -1,7 +1,7 @@
-class AdminsController < ApplicationController
+class Admin::OnlineUsersController < ApplicationController
   before_action :sudo_pykih_admin
 
-  def online_users
+  def index
     @online_users = User.online
   end
 end
