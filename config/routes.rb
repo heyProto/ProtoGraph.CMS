@@ -14,7 +14,8 @@ Rails.application.routes.draw do
       resources :user_emails, only: [:index, :create, :destroy], as: :emails
       get '/user_emails/confirmation', to: "user_emails#confirmation", as: "email_confirmation"
   end
-  get "online_users", to: "admins#online_users", as: :online_users
+
+  get "admin/online_users", to: "admins#online_users", as: :admin_online_users
 
   get "/auth/:provider", to: lambda{ |env| [404, {}, ["Not Found"]] }, as: :oauth
   get '/auth/:provider/callback', to: 'authentications#create'
