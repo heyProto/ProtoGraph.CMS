@@ -31,6 +31,7 @@ class Image < ApplicationRecord
   belongs_to :account
   has_many :image_variation, -> {where.not(is_original: true)}
   has_one :original_image, -> {where(is_original: true)}, class_name: "ImageVariation", foreign_key: "image_id"
+  has_many :activities
   has_many :colour_swatches
   #ACCESSORS
   attr_accessor :tag_list, :crop_x, :crop_y, :crop_w, :crop_h

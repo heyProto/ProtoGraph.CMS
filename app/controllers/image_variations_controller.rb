@@ -7,6 +7,7 @@ class ImageVariationsController < ApplicationController
     options[:is_original] = false
     @image_variation = ImageVariation.new(options)
     if @image_variation.save
+      track_activity(@image_variation)
       if params[:redirect_url].present?
         redirect_to params[:redirect_url], notice: t("social.integrated", {param: @image_variation.mode.to_s.titleize})
       else
@@ -18,8 +19,9 @@ class ImageVariationsController < ApplicationController
   end
 
   def show
-    @image = @image_variation.image
-    @image_variations = ImageVariation.where(image_id: @image_variation.image_id, is_original: false).where.not(id: @image_variation.id)
+      redirect_to account_image_path(@account, @image_variation.image)
+    #   @image = @image_variation.image
+    # @image_variations = ImageVariation.where(image_id: @image_variation.image_id, is_original: false).where.not(id: @image_variation.id)
   end
 
   def download
