@@ -73,16 +73,18 @@ class Image < ApplicationRecord
   end
 
   def add_colour_swatches
-      colour_dom = JSON.parse(self.dominant_colour)
-      colour_pal = JSON.parse(self.colour_palette)
-      self.colour_swatches.create(red: colour_dom[0],
-                                  green: colour_dom[1],
-                                  blue: colour_dom[2],
-                                  is_dominant: true)
-      colour_pal.each do |colour|
-          self.colour_swatches.create(red: colour[0],
-                                      green: colour[1],
-                                      blue: colour[2])
+      unless colour_dom.nil? and colour_pal.nil?
+          colour_dom = JSON.parse(self.dominant_colour)
+          colour_pal = JSON.parse(self.colour_palette)
+          self.colour_swatches.create(red: colour_dom[0],
+                                      green: colour_dom[1],
+                                      blue: colour_dom[2],
+                                      is_dominant: true)
+          colour_pal.each do |colour|
+            self.colour_swatches.create(red: colour[0],
+                                        green: colour[1],
+                                        blue: colour[2])
+          end
       end
   end
 
