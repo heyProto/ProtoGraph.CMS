@@ -73,7 +73,7 @@ class Image < ApplicationRecord
   end
 
   def add_colour_swatches
-      unless colour_dom.nil? and colour_pal.nil?
+      unless self.colour_palette.nil? and self.dominant_colour.nil?
           colour_dom = JSON.parse(self.dominant_colour)
           colour_pal = JSON.parse(self.colour_palette)
           self.colour_swatches.create(red: colour_dom[0],
