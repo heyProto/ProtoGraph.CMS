@@ -21,8 +21,6 @@
 #  offset                 :integer
 #  is_grouped_data_stream :boolean          default(FALSE)
 #  data_group_key         :string(255)
-#  sort_order_column      :string(255)
-#  sort_order             :string(255)
 #
 
 class Stream < ApplicationRecord

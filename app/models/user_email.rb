@@ -10,7 +10,6 @@
 #  confirmed_at         :datetime
 #  created_at           :datetime         not null
 #  updated_at           :datetime         not null
-#  is_primary_email     :boolean          default(FALSE)
 #
 
 class UserEmail < ApplicationRecord
