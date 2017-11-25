@@ -11,6 +11,7 @@
 #  updated_by    :integer
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
+#  is_hidden     :boolean          default(FALSE)
 #
 
 class Permission < ApplicationRecord
@@ -36,6 +37,7 @@ class Permission < ApplicationRecord
     before_create :before_create_set
 
     #SCOPE
+    scope :not_hidden, -> { where(is_hidden: false) }
     #OTHER
     #PRIVATE
     private
