@@ -14,7 +14,7 @@ class PermissionInvitesController < ApplicationController
 
   def create
     @permission_invite = PermissionInvite.new(permission_invite_params)
-    user = User.where(email: @permission_invite.email).first
+    user = UserEmail.find_by(email: @permission_invite.email).user
     if user.present?
       user.create_permission(@account.id, @permission_invite.ref_role_slug)
       redirect_to account_permissions_url(@account), notice: t("permission_invite.add")
