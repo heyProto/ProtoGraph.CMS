@@ -17,8 +17,9 @@
 #  client_token  :string(255)
 #  access_token  :string(255)
 #  client_secret :string(255)
+#  logo_url      :text(65535)
 #  logo_image_id :integer
-#  house_colour  :string(255)
+#  house_colour  :string(255)      default("#000000")
 #
 
 class Account < ApplicationRecord
@@ -58,6 +59,7 @@ class Account < ApplicationRecord
     before_create :before_create_set
     before_update :before_update_set
     before_update :change_view_casts_house_colours, if: :house_colour_changed?
+    after_create :after_create_set
     #SCOPE
     #OTHER
 
@@ -71,6 +73,18 @@ class Account < ApplicationRecord
 
     def template_data
         TemplateDatum.where("account_id = ? OR is_public = true", self.id)
+    end
+
+    def create_sudo_permission(role)
+        pykih_admin = User.find_by(email: "ab@pykih.com")
+        Permission.create(
+          is_hidden: true,
+          created_by: pykih_admin.id,
+          updated_by: pykih_admin.id,
+          account_id: self.id,
+          user_id: pykih_admin.id,
+          ref_role_slug: role
+        )
     end
 
     #PRIVATE
@@ -98,5 +112,9 @@ class Account < ApplicationRecord
 
     def change_view_casts_house_colours
         ColorUpdateWorker.perform_in(1.seconds, self.id)
+    end
+
+    def after_create_set
+        create_sudo_permission("owner")
     end
 end
