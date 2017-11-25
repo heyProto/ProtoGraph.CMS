@@ -81,17 +81,6 @@ class User < ApplicationRecord
       updated_at > 10.minutes.ago
     end
 
-    def create_sudo_permission(role)
-      pykih_admin = User.find_by(email: "ab@pykih.com")
-      Permission.create(
-        is_hidden: true,
-        created_by: pykih_admin.id,
-        updated_by: pykih_admin.id,
-        account_id: self.id,
-        user_id: pykih_admin.id,
-        ref_role_slug: role
-      )
-    end
     #PRIVATE
     private
 
@@ -120,7 +109,6 @@ class User < ApplicationRecord
             is_trash: true,
             is_system_generated: true
         })
-        create_sudo_permission("owner") unless self.email == "ab@pykih.com"
     end
 
     def welcome_user
