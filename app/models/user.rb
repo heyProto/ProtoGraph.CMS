@@ -38,6 +38,7 @@ class User < ApplicationRecord
     has_many :activities
     has_many :uploads
     has_many :user_emails
+    has_many :authentications
     #ACCESSORS
     attr_accessor :username
 
@@ -73,7 +74,34 @@ class User < ApplicationRecord
     end
 
     def self.from_omniauth(auth)
-      user = User.where(:email => auth.info.email).first_or_initialize
+      authentication = Authentication.where(:provider => auth.provider,
+                                            :uid => auth.uid.to_s,
+                                            :access_token => auth.credentials.token,
+                                            :access_token_secret => auth.credentials.secret).first_or_initialize
+      if authentication.user.blank?
+        user = User.find_by(email: auth["info"]["email"])
+        if user.present?
+          authentication.user = user
+          authentication.save
+          return user
+        end
+        user = User.new
+        user.email = auth['info']['email']
+        user.name = auth["info"]["name"]
+        user.username = auth["info"]["nickname"] || auth["info"]["name"]
+        user.skip_confirmation!
+        user.password = Devise.friendly_token[0, 20]
+        user.fetch_details(auth)
+        user.save
+        authentication.user = user
+        authentication.save
+      end
+      authentication.user
+    end
+
+    def fetch_details(auth)
+      self.name = auth.info.name
+      self.email = auth.info.email
     end
 
     def online?
