@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171124131306) do
+ActiveRecord::Schema.define(version: 20171127081959) do
 
   create_table "accounts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "username"
@@ -75,7 +75,6 @@ ActiveRecord::Schema.define(version: 20171124131306) do
   end
 
   create_table "authentications", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.integer "account_id"
     t.string "provider"
     t.string "uid"
     t.text "info"
@@ -85,10 +84,10 @@ ActiveRecord::Schema.define(version: 20171124131306) do
     t.string "access_token_secret"
     t.string "refresh_token"
     t.datetime "token_expires_at"
-    t.integer "created_by"
-    t.integer "updated_by"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "user_id"
+    t.index ["user_id"], name: "index_authentications_on_user_id"
   end
 
   create_table "colour_swatches", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
