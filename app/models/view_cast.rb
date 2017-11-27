@@ -21,6 +21,8 @@
 #  is_invalidating       :boolean
 #  default_view          :string(255)
 #  article_id            :integer
+#  is_indexed            :boolean
+#  indexing_errors       :text(65535)
 #
 
 class ViewCast < ApplicationRecord

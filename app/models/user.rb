@@ -46,13 +46,13 @@ class User < ApplicationRecord
     validates :email, presence: true, uniqueness: { case_sensitive: false }, format: { with: /\A[^@\s]+@([^@.\s]+\.)+[^@.\s]+\z/ }
     validates :username, presence: true, length: { in: 3..24 }, format: { with: /\A[a-z0-9A-Z_]{4,16}\z/ }, on: :create
     validate  :is_username_unique, on: :create
-
     #CALLBACKS
     before_create :before_create_set
     after_create :after_create_set
     after_create :welcome_user
-
+    after_commit :add_user_email, on: [:create]
     #SCOPE
+    scope :online, -> { where('updated_at > ?', 10.minutes.ago) }
     #OTHER
 
     def permission_object(accid, s="Active")
@@ -60,13 +60,13 @@ class User < ApplicationRecord
     end
 
     def is_admin_from_pykih
-        ["ritvvij.parrikh@pykih.com", "rp@pykih.com", "ab@pykih.com", "dhara.shah@pykih.com"].index(self.email).present? ? true : false
+        ["ritvvij.parrikh@pykih.com", "rp@pykih.com", "ab@pykih.com", "dhara.shah@pykih.com", "aashutosh.bhatt@pykih.com"].index(self.email).present? ? true : false
     end
 
     def create_permission(accid, r)
         p = Permission.where(user_id: self.id, account_id: accid).first
         if p.present?
-            p.update_attributes(status: "Active", ref_role_slug: r, updated_by: self.id)
+            p.update_attributes(status: "Active", ref_role_slug: r, updated_by: self.id, is_hidden: false)
         else
             Permission.create(user_id: self.id, account_id: accid, created_by: self.id, updated_by: self.id, ref_role_slug: r)
         end
@@ -74,6 +74,22 @@ class User < ApplicationRecord
 
     def self.from_omniauth(auth)
       user = User.where(:email => auth.info.email).first_or_initialize
+    end
+
+    def online?
+      updated_at > 10.minutes.ago
+    end
+
+    def add_user_email
+      # All user emails are handled by UserEmail model.
+      # The user_email created with the same email as
+      # the user is created with is primary email
+      UserEmail.create(
+        user_id: self.id,
+        email: self.email,
+        confirmed_at: Time.now,
+        is_primary_email: 1
+      )
     end
     #PRIVATE
     private

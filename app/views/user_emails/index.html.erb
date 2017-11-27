@@ -8,17 +8,17 @@
         <hr>
         <table class="table">
             <tbody>
-                <tr>
-                    <td><%= current_user.email %></td>
-                    <td> - </td>
-                </tr>
                 <% @user_emails.each do |u| %>
                     <tr>
                         <td style="border: 0px;">
-                            <%= u.email %>
+                          <%= u.email %>
                         </td>
                         <td style="border: 0px;">
+                          <% unless u.is_primary_email %>
                             <%= link_to "Delete Email", user_email_path(current_user, u), method: :delete %>
+                          <% else %>
+                            <p>-</p>
+                          <% end %>
                         </td>
                     </tr>
                 <% end %>

@@ -19,6 +19,7 @@ class ImagesController < ApplicationController
 
     respond_to do |format|
       if @image.save
+        track_activity(@image)
         format.json { render json: {success: true, data: @image}, status: 200 }
         format.html { redirect_to account_images_path(@account), notice: 'Image added successfully' }
       else
@@ -33,6 +34,7 @@ class ImagesController < ApplicationController
     @image = Image.where(id: params[:id]).includes(:image_variation).first
     @image_variation = ImageVariation.new
     render layout: "application-fluid"
+    @activities = @image.activities.order("updated_at DESC").limit(30)
   end
 
   private
@@ -42,6 +44,6 @@ class ImagesController < ApplicationController
   end
 
   def image_params
-    params.require(:image).permit(:account_id, :image, :name, :description, :tags, :tag_list, :crop_x, :crop_y, :crop_w, :crop_h)
+    params.require(:image).permit(:account_id, :image, :name, :description, :tags, :tag_list, :crop_x, :crop_y, :crop_w, :crop_h, :dominant_colour, :colour_palette)
   end
 end

@@ -4,6 +4,7 @@
             "language": .language,
             "district":.district,
             "forest_score":.forest_score | tonumber,
+            "total_reporting_area":.total_reporting_area | tonumber,
             "land_score":.land_score | tonumber,
             "population_score": .population_score | tonumber,
             "area_under_forest": {

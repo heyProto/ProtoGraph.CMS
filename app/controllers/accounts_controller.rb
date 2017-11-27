@@ -15,7 +15,7 @@ class AccountsController < ApplicationController
   end
 
   def edit
-    @people_count = @account.users.count
+    @people_count = @account.permissions.not_hidden.count
     @pending_invites_count = @account.permission_invites.count
     @fb_auth = @account.authentications.fb_auth.first
     @tw_auth = @account.authentications.tw_auth.first

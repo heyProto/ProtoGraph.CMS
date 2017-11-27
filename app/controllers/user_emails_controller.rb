@@ -17,7 +17,7 @@ class UserEmailsController < ApplicationController
                 UserEmailConfirmationMailer.send_confirmation(@user_email.id).deliver_later
                 format.html { redirect_to user_emails_path(current_user), notice: I18n.t(".user_email.create.success") }
             else
-                format.html { redirect_to user_emails_path(current_user), alert: I18n.t(".user_email.create.failure") }
+                format.html { redirect_to user_emails_path(current_user), alert: @user_email.errors.full_messages }
             end
         end
     end

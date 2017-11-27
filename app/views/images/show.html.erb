@@ -23,7 +23,7 @@
         <!-- <span class="oi" data-glyph="copywriting"></span> -->
       <div class='mx-auto'>
         <a href="<%= @image.original_image.image_url %>" target="_blank">
-          <img src="<%= @image.original_image.image_url %>" class="img-responsive"> <!-- class='mx-auto' style="height: 350px; width: initial !important;" -->
+          <img src="<%= @image.original_image.image_url %>" class="img-responsive" id="main_image" crossorigin="anonymous"> <!-- class='mx-auto' style="height: 350px; width: initial !important;" -->
         </a>
         <div class="photograph-image-details" style="display: block;"><%= "#{w} x #{h} (#{w / w.gcd(h)} : #{h / w.gcd(h)})"%></div>
       </div>
@@ -40,9 +40,26 @@
         <% end %>
       </div>
       <% if @image.image_variation.present? %>
-        <div id="variationImages"></div>
+        <div class="function" id="variationImages"></div>
       <% end %>
 
+      <% if @image.colour_swatches.present? %>
+        <div class="image-colours">
+          <div class="function dominant">
+            <h3>Dominant Color</h3>
+            <% dom_colour =  @image.colour_swatches.dominant.first%>
+            <div class="swatch" style="background-color: rgb(<%= dom_colour.red %>, <%= dom_colour.green %>, <%= dom_colour.blue %>);"></div>
+          </div>
+          <div class="function palette">
+            <h3>Palette</h3>
+            <div class="swatches">
+              <% @image.colour_swatches.palette.each do |colour| %>
+                <div class="swatch" style="background-color: rgb(<%= colour.red %>, <%= colour.green %>, <%= colour.blue %>);"></div>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      <% end %>
     </div>
   </div>
 </div>
@@ -86,3 +103,26 @@
   <%= render partial: "images/cropper", locals: {mode: nil} %>
 </div>
 <%= render partial: "images/cropper_js" %>
+
+<style>
+ .dominant .swatch {
+   width: 6rem;
+   height: 3rem;
+   display: inline-block;
+ }
+ .swatches .swatch {
+   width: 4rem;
+   height: 2.7rem;
+   display: inline-block;
+ }
+ .swatches {
+   display: block;
+   box-sizing: border-box;
+ }
+ .image-colours {
+   text-align: center;
+ }
+ .function {
+   margin-bottom: 1.5rem;
+ }
+</style>

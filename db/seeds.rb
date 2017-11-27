@@ -67,7 +67,7 @@ t_political_leadership = TemplateDatum.create({name: "toPoliticalLeadership", ve
 t_land_use = TemplateDatum.create({name: "toLandUse", version: "0.0.1", s3_identifier: "cca2142e67a4aa8acdd8"})
 t_water_exploitation = TemplateDatum.create({name: "toWaterExploitation", version: "0.0.1", s3_identifier: "1d5501e535539ee8020d"})
 t_article = TemplateDatum.create({name: "toArticle", version: "0.0.1", s3_identifier: "2e86f6d67d84af232c65"})
-
+t_move_to_a_new_city = TemplateDatum.create({name: "toMoveToANewCity", version: "0.0.1", s3_identifier: "50eae7c3be01f481b47"})
 
 puts "----> Creating Template Cards"
 
@@ -85,3 +85,4 @@ TemplateCard.create({git_url: "git@github.com:pykih/ProtoGraph.Card.toPoliticalL
 TemplateCard.create({git_url: "git@github.com:pykih/ProtoGraph.Card.toLandUse.git", name: "toLandUse", git_branch: "master", git_repo_name: "ProtoGraph.Card.toLandUse", status: "published", is_public: false, account_id: pykih_account.id, created_by: user_id, updated_by: user_id, template_datum_id: t_land_use.id, elevator_pitch: "", description: "", s3_identifier: "d884e08a38f267a689d1", has_multiple_uploads: true, allowed_views: ["laptop", "mobile"]})
 TemplateCard.create({git_url: "git@github.com:pykih/ProtoGraph.Card.toWaterExploitation.git", name: "toWaterExploitation", git_branch: "master", git_repo_name: "ProtoGraph.Card.toWaterExploitation", status: "published", is_public: false, account_id: pykih_account.id, created_by: user_id, updated_by: user_id, template_datum_id: t_water_exploitation.id, elevator_pitch: "", description: "", s3_identifier: "ab7f37b31fb91496a7d7", has_multiple_uploads: true, allowed_views: ["laptop", "mobile"]})
 TemplateCard.create({git_url: "git@github.com:pykih/ProtoGraph.Card.toArticle.git", name: "toArticle", git_branch: "master", git_repo_name: "ProtoGraph.Card.toArticle", status: "published", is_public: false, account_id: pykih_account.id, created_by: user_id, updated_by: user_id, template_datum_id: t_article.id, elevator_pitch: "", description: "", s3_identifier: "171fda4fca046ddf4490", allowed_views: ["big_image_text", "feature_image", "thumbnail", "title_text", "small_image_text"]})
+TemplateCard.create({git_url: "git@github.com:pykih/ProtoGraph.Card.toMoveToANewCity.git", name: "toMoveToANewCity", git_branch: "master", git_repo_name: "ProtoGraph.Card.toMoveToANewCity", status: "published", is_public: false, account_id: pykih_account.id, created_by: user_id, updated_by: user_id, template_datum_id: t_move_to_a_new_city.id, elevator_pitch: "", description: "", s3_identifier: "21931558341c201c8a44",has_multiple_uploads: true, allowed_views: ["laptop", "mobile"]})
