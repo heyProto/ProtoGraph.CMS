@@ -16,6 +16,7 @@
  *= require vendors/github-blankslate.css
  *= require vendors/open-iconic.min.css
  *= require vendors/theme.css
+ *= require vendors/select2.min.css
  *= require app/style.css
  *= require_self
  */
