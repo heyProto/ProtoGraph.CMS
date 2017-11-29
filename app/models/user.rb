@@ -73,35 +73,15 @@ class User < ApplicationRecord
         end
     end
 
-    def self.from_omniauth(auth)
-      authentication = Authentication.where(:provider => auth.provider,
-                                            :uid => auth.uid.to_s,
-                                            :access_token => auth.credentials.token,
-                                            :access_token_secret => auth.credentials.secret).first_or_initialize
-      if authentication.user.blank?
-        user = User.find_by(email: auth["info"]["email"])
-        if user.present?
-          authentication.user = user
-          authentication.save
-          return user
-        end
-        user = User.new
-        user.email = auth['info']['email']
-        user.name = auth["info"]["name"]
-        user.username = auth["info"]["nickname"] || auth["info"]["name"]
-        user.skip_confirmation!
-        user.password = Devise.friendly_token[0, 20]
-        user.fetch_details(auth)
-        user.save
-        authentication.user = user
-        authentication.save
-      end
-      authentication.user
+    def apply_omniauth(auth)
+      self.authentications.build(provider: auth['provider'], uid: auth['uid'],
+                                 access_token: auth['credentials'].token,
+                                 access_token_secret: auth['credentials'].secret,
+                                 email: auth.info.email)
     end
-
-    def fetch_details(auth)
-      self.name = auth.info.name
-      self.email = auth.info.email
+    
+    def password_required?
+      authentications.empty? && super
     end
 
     def online?

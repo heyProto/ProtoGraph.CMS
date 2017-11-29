@@ -1,13 +1,23 @@
 class User::OmniauthCallbacksController < Devise::OmniauthCallbacksController
+  include AuthenticationsHelper
   def twitter
-    @user = User.from_omniauth(request.env["omniauth.auth"])
-    if @user.persisted?
-      sign_in_and_redirect @user, :event => :authentication
-      set_flash_message(:notice, :success, :kind => "Twitter") if is_navigational_format?
+    ## If a user is signed in
+    # Adds an authentication for the current user
+
+    auth = request.env['omniauth.auth']
+    authentication = Authentication.find_by(provider: auth['provider'], uid:  auth['uid'].to_s)
+    user = User.find_by(email: auth.info.email)
+    if authentication
+      sign_in_user(authentication)
+    elsif current_user
+      add_new_oauth(authentication, auth)
+    elsif user.present?
+      user.apply_omniauth(auth)
+      sign_in_user(u.authentications.first)
     else
-      session["devise.user_attributes"] = @user.attributes
-      redirect_to new_user_registration_url
+      create_new_user(auth)
     end
+
   end
 
   def failure
