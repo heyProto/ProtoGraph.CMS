@@ -21,7 +21,7 @@ module AuthenticationsHelper
     user.name = auth["info"]["name"]
     if Account.find_by(username: auth.info.nickname).nil?
       username = auth.info.nickname
-    elsif Account.find_by(username: auth.info.name).nil?
+    elsif Account.where(username: [auth.info.name, auth.info.name.gsub(/\s+/, "_")]).empty?
       username = auth.info.name.gsub(/\s+/, "_")
     else
       username = auth.info.nickname + SecureRandom.hex(1)
