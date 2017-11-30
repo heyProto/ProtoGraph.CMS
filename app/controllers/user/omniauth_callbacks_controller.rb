@@ -20,7 +20,7 @@ class User::OmniauthCallbacksController < Devise::OmniauthCallbacksController
       add_new_oauth(authentication, auth)
     elsif user.present?
       user.apply_omniauth(auth)
-      sign_in_user(u.authentications.first)
+      sign_in_user(user.authentications.first)
     else
       create_new_user(auth)
     end

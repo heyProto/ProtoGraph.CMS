@@ -30,10 +30,8 @@ module AuthenticationsHelper
     user.username = username
     user.apply_omniauth(auth)
     if user.save 
-      asd
       sign_in_and_redirect user
     else
-      asd
       redirect_to new_user_registration_path
     end
   end
