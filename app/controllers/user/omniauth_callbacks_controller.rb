@@ -13,11 +13,11 @@ class User::OmniauthCallbacksController < Devise::OmniauthCallbacksController
     if current_user.present?
       if (current_user.email != auth.info.email) and authentication.present?
         redirect_to edit_user_registration_path, alert: "Twitter user is associated with another account" and return
+      else
+        add_new_oauth(authentication, auth)
       end
     elsif authentication
       sign_in_user(authentication)
-    elsif current_user
-      add_new_oauth(authentication, auth)
     elsif user.present?
       user.apply_omniauth(auth)
       sign_in_user(user.authentications.first)
