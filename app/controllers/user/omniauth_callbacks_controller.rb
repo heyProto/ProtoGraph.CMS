@@ -10,8 +10,10 @@ class User::OmniauthCallbacksController < Devise::OmniauthCallbacksController
 
     # User is signed in and tries to login
     # with email twitter email other than account email
-    if (current_user.email != auth.info.email) and authentication.present?
-      redirect_to edit_user_registration_path, alert: "Twitter user is associated with another account" and return
+    if current_user.present?
+      if (current_user.email != auth.info.email) and authentication.present?
+        redirect_to edit_user_registration_path, alert: "Twitter user is associated with another account" and return
+      end
     elsif authentication
       sign_in_user(authentication)
     elsif current_user
