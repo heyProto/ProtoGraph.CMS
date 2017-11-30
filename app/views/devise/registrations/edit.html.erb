@@ -31,13 +31,14 @@
     <p class="hint">To change the profile image, register with <a href="http://gravatar.com/" target="_blank">gravatar.com</a> with email ID <%= current_user.email %> and upload a square image there (Twitter DP).</p>
     <br/>
     <br/>
-    <%- resource_class.omniauth_providers.each do |provider| %>
-      <%= link_to "Add Twitter Authentication", public_send("#{resource_class.name.downcase}_#{provider.to_s}_omniauth_authorize_path") %><br />
-    <% end -%>
-    <br/>
-    <br/>
-    <% if current_user.authentications.present? %>
-      <h4>You have <%= pluralize(current_user.authentications.count, "Authentication") %></h4>
+    <% unless current_user.authentications.present? %>
+      <%- resource_class.omniauth_providers.each do |provider| %>
+        <%= link_to "Add Twitter Authentication", public_send("#{resource_class.name.downcase}_#{provider.to_s}_omniauth_authorize_path") %><br />
+      <% end -%>
+      <br/>
+      <br/>
+    <% else current_user.authentications.present? %>
+      <h4>Your Twitter Authentication</h4>
       <table class="table">
         <tbody>
           <% current_user.authentications.each do |a| %>

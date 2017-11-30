@@ -7,7 +7,12 @@ class User::OmniauthCallbacksController < Devise::OmniauthCallbacksController
     auth = request.env['omniauth.auth']
     authentication = Authentication.find_by(provider: auth['provider'], uid:  auth['uid'].to_s)
     user = User.find_by(email: auth.info.email)
-    if authentication
+
+    # User is signed in and tries to login
+    # with email twitter email other than account email
+    if (current_user.email != auth.info.email) and authentication.present?
+      redirect_to edit_user_registration_path, alert: "Twitter user is associated with another account" and return
+    elsif authentication
       sign_in_user(authentication)
     elsif current_user
       add_new_oauth(authentication, auth)
@@ -21,7 +26,6 @@ class User::OmniauthCallbacksController < Devise::OmniauthCallbacksController
   end
 
   def failure
-    flash[:errors] = "Something went wrong"
-    redirect_to root_url
+    redirect_to root_url, alert: "Something went wrong"
   end
 end
