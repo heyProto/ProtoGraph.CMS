@@ -45,7 +45,8 @@ class Account < ApplicationRecord
     has_many :images
     has_many :uploads
     has_many :ref_codes
-
+    has_many :audios
+    has_many :audio_variations
     #ACCESSORS
     #VALIDATIONS
     validates :username, presence: true, uniqueness: { case_sensitive: false }, length: { in: 3..24 }, format: { with: /\A[a-z0-9A-Z_]{4,16}\z/ }

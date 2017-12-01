@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171127081959) do
+ActiveRecord::Schema.define(version: 20171201132621) do
 
   create_table "accounts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "username"
@@ -71,6 +71,34 @@ ActiveRecord::Schema.define(version: 20171127081959) do
     t.boolean "facebook_uploading", default: false
     t.boolean "twitter_uploading", default: false
     t.boolean "instagram_uploading", default: false
+  end
+
+  create_table "audio_variations", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.integer "account_id"
+    t.string "audio_id"
+    t.string "integer"
+    t.integer "start_time"
+    t.integer "end_time"
+    t.boolean "is_original"
+    t.integer "total_time"
+    t.string "subtitle_file_path"
+    t.integer "created_by"
+    t.integer "updated_by"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "audios", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.integer "account_id"
+    t.string "name"
+    t.text "description"
+    t.string "s3_identifier"
+    t.integer "total_time"
+    t.string "created_by"
+    t.integer "updated_by"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["s3_identifier"], name: "index_audios_on_s3_identifier", unique: true
   end
 
   create_table "authentications", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
