@@ -86,18 +86,24 @@ ActiveRecord::Schema.define(version: 20171201132621) do
     t.integer "updated_by"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["account_id"], name: "index_audio_variations_on_account_id"
+    t.index ["audio_id"], name: "index_audio_variations_on_audio_id"
+    t.index ["id"], name: "index_audio_variations_on_id", unique: true
   end
 
   create_table "audios", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer "account_id"
     t.string "name"
+    t.string "audio"
     t.text "description"
     t.string "s3_identifier"
     t.integer "total_time"
-    t.string "created_by"
+    t.integer "created_by"
     t.integer "updated_by"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["account_id"], name: "index_audios_on_account_id"
+    t.index ["id"], name: "index_audios_on_id", unique: true
     t.index ["s3_identifier"], name: "index_audios_on_s3_identifier", unique: true
   end
 

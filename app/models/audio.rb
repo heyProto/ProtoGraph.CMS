@@ -5,10 +5,11 @@
 #  id            :integer          not null, primary key
 #  account_id    :integer
 #  name          :string(255)
+#  audio         :string(255)
 #  description   :text(65535)
 #  s3_identifier :string(255)
 #  total_time    :integer
-#  created_by    :string(255)
+#  created_by    :integer
 #  updated_by    :integer
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
