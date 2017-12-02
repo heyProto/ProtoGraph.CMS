@@ -14,5 +14,8 @@ class CreateAudioVariations < ActiveRecord::Migration[5.1]
 
       t.timestamps
     end
+    add_index :audio_variations, :account_id
+    add_index :audio_variations, :id, unique: true
+    add_index :audio_variations, :audio_id
   end
 end
