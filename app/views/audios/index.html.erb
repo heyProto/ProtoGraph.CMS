@@ -1,0 +1,58 @@
+<div class="container">
+  <div class="row">
+    <div class="col-sm-13">
+      <h1 style="margin-bottom: 20px; font-weight: 600; margin-top: 0px; font-size: 20px;">
+        Audio Bank
+      </h1>
+    </div>
+  </div>
+</div>
+<br/>
+<br/>
+<div class="row">
+  <div class="container">
+    <% if @audios.first.present? %>
+      <div id="audioContainer" class="col-sm-16"></div>
+    <% else %>
+      <div class="blankslate blankslate-spacious">
+        <h3>No audios uploaded yet.</h3>
+        <p>Use the [+ Upload audio] button on the top right.</p>
+      </div>
+    <% end %>
+  </div>
+  <%= paginate @audios %>
+</div>
+<%= javascript_include_tag "justified.js" %>
+
+<script type="text/javascript">
+ var audios = <%= @audios.as_json.to_json.html_safe %>;
+
+ $(document).ready(function() {
+   var maxHeight = 75;
+   if (audios.length) {
+     $('#audioContainer').empty().justifiedAudios({
+       audios: audios,
+       rowHeight: maxHeight,
+       maxRowHeight: 75,
+       thumbnailPath: function(photo, width, height) {
+         return photo.thumbnail_url;
+       },
+       getSize: function(photo) {
+         return { width: photo.thumbnail_width, height: photo.thumbnail_height };
+       },
+       template: function(data) {
+         var audio;
+         audio = '<div class="photo-container" style="height:' + data.displayHeight + 'px;margin-right:' + data.marginRight + 'px;">';
+         audio += '<a href="' + data.redirect_to + '" data-turbolinks="false">';
+         audio += '<img class="audio-thumb" src="' + data.src + '" style="width:' + data.displayWidth + 'px;height:' + data.displayHeight + 'px;" >';
+         audio += '</a>';
+         audio += '   <div class="photograph-audio-details" style="display: block;">' + data.audio_width + ' x ' + data.audio_height + ' (' + data.aspectWidth + ':' + data.aspectHeight + ') ' + '</div>';
+         audio += '</div>';
+
+         return audio;
+       },
+       margin: 20
+     });
+   }
+ });
+</script>

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171201132621) do
+ActiveRecord::Schema.define(version: 20171211100234) do
 
   create_table "accounts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "username"
@@ -74,7 +74,6 @@ ActiveRecord::Schema.define(version: 20171201132621) do
   end
 
   create_table "audio_variations", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.integer "account_id"
     t.string "audio_id"
     t.string "integer"
     t.integer "start_time"
@@ -86,7 +85,7 @@ ActiveRecord::Schema.define(version: 20171201132621) do
     t.integer "updated_by"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["account_id"], name: "index_audio_variations_on_account_id"
+    t.text "audio_key"
     t.index ["audio_id"], name: "index_audio_variations_on_audio_id"
     t.index ["id"], name: "index_audio_variations_on_id", unique: true
   end
