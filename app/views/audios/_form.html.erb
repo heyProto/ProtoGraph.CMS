@@ -1,0 +1,26 @@
+<div class="modal" id="fileUploadModal">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Add a new audio</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <%= simple_form_for([@account, @new_audio]) do |f| %>
+          <%= f.error_notification %>
+          <%= f.input :audio, as: :file, required: true, hint: 'Supported file types are MP3, WAV and WMA', input_html: {onChange: "readURL(this)"} %>
+          <img id="preview_audio" src="#" alt="" style='max-height: 200px' />
+          <%= f.input :account_id, as: :hidden, input_html: {value: @account.id} %>
+          <%= f.input :name, required: true %>
+          <%#= f.input :tag_list, collection: [], label: 'Tags', hint: "Enter a comma separated list of tags.", input_html: { id: 'tags_autocomplete', class: 'ui fluid search dropdown', multiple: true, "data-content"=>"This field is required." }, wrapper_html: { class: 'required'} %>
+          <%= f.input :description %>
+        <% end %>
+      </div>
+      <div class='modal-footer'>
+        <input type="submit" value="Upload" form="new_audio" class="btn btn-outline">
+      </div>
+    </div>
+  </div>
+</div>

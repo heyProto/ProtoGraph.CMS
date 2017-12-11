@@ -18,8 +18,11 @@
 class Audio < ApplicationRecord
   #CONSTANTS
   #CUSTOM TABLES
+  include Associable
+
   #GEMS
   acts_as_taggable
+  mount_uploader :audio, AudioUploader
   #ASSOCIATIONS
   belongs_to :account
   has_many :audio_variations
@@ -29,8 +32,30 @@ class Audio < ApplicationRecord
   #VALIDATIONS
   #CALLBACKS
   before_create { self.s3_identifier = SecureRandom.hex(8) }
-  after_create :create_audio_version
+  after_commit :create_audio_version, on: :create
   #SCOPE
   #OTHER
+
+  def as_json(options = {})
+    {
+      id: self.id,
+      redirect_to: Rails.application.routes.url_helpers.account_audio_path(self.account_id, self),
+      audio_url: self.original_audio.audio_url,
+      total_time: self.total_time
+    }
+  end
+
+  def audio_url
+    self.original_audio.audio_url
+  end
+
+  def create_audio_version
+    options = {
+      audio_id: self.id,
+      is_original: true
+    }
+
+    AudioVariation.create!(options)
+  end
   #PRIVATE
 end
