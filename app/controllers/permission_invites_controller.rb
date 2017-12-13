@@ -14,7 +14,8 @@ class PermissionInvitesController < ApplicationController
 
   def create
     @permission_invite = PermissionInvite.new(permission_invite_params)
-    user = UserEmail.find_by(email: @permission_invite.email).user
+    user_email = UserEmail.find_by(email: @permission_invite.email)
+    user = user_email.nil? ? nil : user_email.user
     if user.present?
       user.create_permission(@account.id, @permission_invite.ref_role_slug)
       redirect_to account_permissions_url(@account), notice: t("permission_invite.add")
@@ -23,11 +24,12 @@ class PermissionInvitesController < ApplicationController
         PermissionInvites.invite(current_user, @account, @permission_invite.email).deliver
         redirect_to account_permissions_url(@account), notice: t("permission_invite.invite")
       else
-        @permissions = @account.permissions.includes(:user)
+        @permissions = @account.permissions.includes(:user).page params[:page]
         @permission_invites = @account.permission_invites
         @people_count = @account.users.count
         @pending_invites_count = @account.permission_invites.count
         @permission_invites = @account.permission_invites
+        @show_modal = true
         render "permissions/index"
       end
     end
