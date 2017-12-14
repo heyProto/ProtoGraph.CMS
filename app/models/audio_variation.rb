@@ -22,8 +22,8 @@ class AudioVariation < ApplicationRecord
   #CUSTOM TABLES
   #GEMS
   #ASSOCIATIONS
-  delegate :account, to: :audio
   belongs_to :audio
+  delegate :account, to: :audio
   #ACCESSORS
   #VALIDATIONS
   #CALLBACKS
@@ -58,7 +58,7 @@ class AudioVariation < ApplicationRecord
     })
 
     response = JSON.parse(response);
-    self.update_attribute(
+    self.update_columns(
       {
         audio_key: response["data"]["audio_key"]
       }
