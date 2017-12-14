@@ -1,0 +1,96 @@
+<div class="container">
+  <div class="row" >
+    <div class="col-16">
+      <ol class="breadcrumb" style="background: transparent; padding-left: 0px; margin-bottom: 0px;">
+        <li class="breadcrumb-item active"><%= link_to "Audio Bank", account_audios_path(@account) %></li>
+      </ol>
+      <h1 style="margin-bottom: 20px; font-weight: 600; margin-top: 0px; font-size: 20px;">
+        <%= @audio.name %>
+      </h1>
+    </div>
+  </div>
+</div>
+</div>
+<br/>
+<br/>
+
+<div class="container" >
+  <div class='row' style="background: #efefef; text-align: center;">
+    <div class='col-sm-16'>
+      <div id="audio_waveform">
+
+      </div>
+      <audio src="<%= @audio.audio.url %>" id="main_audio" crossOrigin="anonymous" controls style="width: inherit;"></audio>
+    </div>
+  </div>
+  <br/><br/>
+  <div class="row">
+    <a id="openFileUpload" class='btn btn-primary' href='#' data-toggle='modal' data-target='#audioCropperModal'>Crop original audio to create variation</a>
+    <div class="col-sm-16">
+      <div style="position: relative;">
+        <% if @audio.audio_variation.present? %>
+          <br/><br/>
+          <h3 class="protograph-audio-form-heading">Variations</h3>
+        <% end %>
+      </div>
+      <% if @audio.audio_variation.present? %>
+        <div class="function" id="variationAudios"></div>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<script>
+ $(document).ready(function(){
+   var freqs = new Uint8Array(200);
+   var audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+   var audioElement = document.getElementById('main_audio');
+   var audioSrc = audioCtx.createMediaElementSource(audioElement);
+   var analyser = audioCtx.createAnalyser();
+   var aud = document.getElementById("main_audio");
+   var y = d3.scaleLinear()
+             .domain([0,255])
+             .rangeRound([-25, 25]);
+   // var dur = d3.scaleLinear()
+   // 		.domain([0,200])
+   // 		.rangeRound([0,aud.duration])
+   var cont = d3.select("#audio_waveform");
+   // cont.attr('width', '600').attr('height', '180');
+
+   var area = d3.area()
+                .x(function(d,i){ return x(i) })
+                .y0(function(d){ return (height / 4)-y(d) })
+                .y1(function(d){ return height - (height / 4)+y(d)})
+                .curve(d3.curveNatural);
+   audioSrc.connect(analyser);
+   audioSrc.connect(audioCtx.destination);
+   var height = cont.node().getBoundingClientRect().height;
+   var width = cont.node().getBoundingClientRect().width;
+   console.log(cont.node().getBoundingClientRect());
+   var svg = cont.append('svg').attr('height', height).attr('width', width).style('background-color', '#2d3741');
+   var x = d3.scaleLinear()
+             .domain([0,200])
+             .range([0, width]);
+   svg.append('path')
+      .attr('d',area(freqs))
+      .attr('stroke','#1be3bc')
+      .attr('fill','#1be3bc')
+      .attr('stroke-width','4px')
+      .attr('id','abc');
+
+   function renderChart() {
+     requestAnimationFrame(renderChart);
+     analyser.getByteFrequencyData(freqs);
+     svg.select('#abc')
+        .attr('d',area(freqs))
+   }
+   renderChart();
+ })
+</script>
+
+<style>
+ #audio_waveform{
+   height: 300px;
+   width: inherit;
+ }
+</style>

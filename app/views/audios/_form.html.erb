@@ -11,7 +11,10 @@
         <%= simple_form_for([@account, @new_audio]) do |f| %>
           <%= f.error_notification %>
           <%= f.input :audio, as: :file, required: true, hint: 'Supported file types are MP3, WAV and WMA', input_html: {onChange: "readURL(this)"} %>
-          <img id="preview_audio" src="#" alt="" style='max-height: 200px' />
+		  <div id="preview_audio">
+            <div id="preview_audio_waveform" style="width: inherit;"></div>
+            <audio id="preview_audio_audio" crossOrigin="anonymous"></audio>
+          </div>
           <%= f.input :account_id, as: :hidden, input_html: {value: @account.id} %>
           <%= f.input :name, required: true %>
           <%#= f.input :tag_list, collection: [], label: 'Tags', hint: "Enter a comma separated list of tags.", input_html: { id: 'tags_autocomplete', class: 'ui fluid search dropdown', multiple: true, "data-content"=>"This field is required." }, wrapper_html: { class: 'required'} %>
@@ -24,3 +27,75 @@
     </div>
   </div>
 </div>
+
+<%= javascript_include_tag "https://d3js.org/d3.v4.min.js" %>
+
+<script type="text/javascript">
+ function readURL(input) {
+   if (input.files && input.files[0]) {
+     var reader = new FileReader();
+     reader.onload = function (e) {
+       $("#preview_audio_audio").attr('src', e.target.result)
+       $("#preview_audio_audio").attr('controls', 'controls')
+       createWaveform();
+       $('#audio_name').val(input.files[0].name.replace(/\.[^/.]+$/, ""));
+     }
+     reader.readAsDataURL(input.files[0]);
+   } else {
+     $("#preview_audio_audio").attr('src', "");
+     $('#audio_name').val("");
+   }
+ };
+
+ function createWaveform() {
+   var freqs = new Uint8Array(200);
+   var audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+   var audioElement = document.getElementById('preview_audio_audio');
+   var audioSrc = audioCtx.createMediaElementSource(audioElement);
+   var analyser = audioCtx.createAnalyser();
+   var aud = document.getElementById("preview_audio_audio");
+   var y = d3.scaleLinear()
+			 .domain([0,255])
+	    	 .rangeRound([-25, 25]);
+   // var dur = d3.scaleLinear()
+   // 		.domain([0,200])
+   // 		.rangeRound([0,aud.duration])
+   var cont = d3.select("#preview_audio_waveform");
+   // cont.attr('width', '600').attr('height', '180');
+
+   var area = d3.area()
+		   		.x(function(d,i){ return x(i) })
+		   		.y0(function(d){ return (height / 4)-y(d) })
+		   		.y1(function(d){ return height - (height / 4)+y(d)})
+		   		.curve(d3.curveNatural);
+   audioSrc.connect(analyser);
+   audioSrc.connect(audioCtx.destination);
+   var height = cont.node().getBoundingClientRect().height;
+   var width = cont.node().getBoundingClientRect().width;
+   console.log(cont.node().getBoundingClientRect());
+   var svg = cont.append('svg').attr('height',height).attr('width',width).style('background-color','#2d3741');
+   var x = d3.scaleLinear()
+		     .domain([0,200])
+		     .range([0, width]);
+   svg.append('path')
+	  .attr('d',area(freqs))
+	  .attr('stroke','#1be3bc')
+	  .attr('fill','#1be3bc')
+	  .attr('stroke-width','4px')
+	  .attr('id','abc');
+
+   function renderChart() {
+	 requestAnimationFrame(renderChart);
+	 analyser.getByteFrequencyData(freqs);
+	 svg.select('#abc')
+		.attr('d',area(freqs))
+   }
+   renderChart();
+ }
+</script>
+<style>
+ #preview_audio_waveform{
+   height:180px;
+   width:600px;
+ }
+</style>

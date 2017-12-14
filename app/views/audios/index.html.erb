@@ -7,12 +7,27 @@
     </div>
   </div>
 </div>
-<br/>
-<br/>
 <div class="row">
   <div class="container">
     <% if @audios.first.present? %>
-      <div id="audioContainer" class="col-sm-16"></div>
+      <div id="audioContainer" class="col-sm-16">
+        <row>
+          <% @audios.each do |a| %>
+            <div class="col-sm-4">
+              <%= link_to [@account, a], "data-turbolinks": false do %>
+                <div class="card" style="margin: 20px 0px;">
+                  <div class="card-footer">
+                    <h4 class="card-title" style="font-weight: 400; " title="<%=a.name%>">
+                      <span class="branch-ref css-truncate css-truncate-target" style="display: inline-block;"><%= a.name %></span>
+                      <span><audio src="<%= a.audio.url %>" controls style="width: 170px"></audio></span>
+                    </h4>
+                  </div>
+                </div>
+              <% end %>
+            </div>
+          <% end %>
+        </row>
+      </div>
     <% else %>
       <div class="blankslate blankslate-spacious">
         <h3>No audios uploaded yet.</h3>
@@ -22,37 +37,3 @@
   </div>
   <%= paginate @audios %>
 </div>
-<%= javascript_include_tag "justified.js" %>
-
-<script type="text/javascript">
- var audios = <%= @audios.as_json.to_json.html_safe %>;
-
- $(document).ready(function() {
-   var maxHeight = 75;
-   if (audios.length) {
-     $('#audioContainer').empty().justifiedAudios({
-       audios: audios,
-       rowHeight: maxHeight,
-       maxRowHeight: 75,
-       thumbnailPath: function(photo, width, height) {
-         return photo.thumbnail_url;
-       },
-       getSize: function(photo) {
-         return { width: photo.thumbnail_width, height: photo.thumbnail_height };
-       },
-       template: function(data) {
-         var audio;
-         audio = '<div class="photo-container" style="height:' + data.displayHeight + 'px;margin-right:' + data.marginRight + 'px;">';
-         audio += '<a href="' + data.redirect_to + '" data-turbolinks="false">';
-         audio += '<img class="audio-thumb" src="' + data.src + '" style="width:' + data.displayWidth + 'px;height:' + data.displayHeight + 'px;" >';
-         audio += '</a>';
-         audio += '   <div class="photograph-audio-details" style="display: block;">' + data.audio_width + ' x ' + data.audio_height + ' (' + data.aspectWidth + ':' + data.aspectHeight + ') ' + '</div>';
-         audio += '</div>';
-
-         return audio;
-       },
-       margin: 20
-     });
-   }
- });
-</script>
