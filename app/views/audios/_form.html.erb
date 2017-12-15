@@ -47,6 +47,14 @@
    }
  };
 
+ // Hiding the div first as the styling for height and width have already been applied.
+ // the selector.css() method only removes styling applied via javascript
+ // The styling for height and width have been applied via styling because
+ // d3 requires it at DOM creation.
+ $(document).ready(function(){
+   $("#preview_audio_waveform").css("display", "none");
+ });
+
  function createWaveform() {
    var freqs = new Uint8Array(200);
    var audioCtx = new (window.AudioContext || window.webkitAudioContext)();
@@ -61,7 +69,7 @@
    // 		.domain([0,200])
    // 		.rangeRound([0,aud.duration])
    var cont = d3.select("#preview_audio_waveform");
-   // cont.attr('width', '600').attr('height', '180');
+   $("#preview_audio_waveform").css("display", "");
 
    var area = d3.area()
 		   		.x(function(d,i){ return x(i) })

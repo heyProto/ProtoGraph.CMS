@@ -89,13 +89,11 @@ class AudioVariation < ApplicationRecord
     })
 
     response = JSON.parse(response);
-    if response["data"] && response["data"]["audio_key"]
-      self.update_columns(
-        {
-          audio_key: response["data"]["audio_key"]
-        }
-      )
-    end
+    self.update_columns(
+      {
+        audio_key: response["data"]["audio_key"]
+      }
+    )
   end
 
   def is_original?
