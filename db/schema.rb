@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171211100234) do
+ActiveRecord::Schema.define(version: 20171215160421) do
 
   create_table "accounts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "username"
@@ -74,8 +74,7 @@ ActiveRecord::Schema.define(version: 20171211100234) do
   end
 
   create_table "audio_variations", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.string "audio_id"
-    t.string "integer"
+    t.integer "audio_id"
     t.integer "start_time"
     t.integer "end_time"
     t.boolean "is_original"

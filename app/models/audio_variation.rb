@@ -22,6 +22,7 @@ class AudioVariation < ApplicationRecord
   #CUSTOM TABLES
   #GEMS
   #ASSOCIATIONS
+  include Associable
   belongs_to :audio
   delegate :account, to: :audio
   #ACCESSORS
@@ -63,6 +64,38 @@ class AudioVariation < ApplicationRecord
         audio_key: response["data"]["audio_key"]
       }
     )
+  end
+
+  def process_and_upload_audio_variation
+    require "base64"
+    audio = self.audio
+
+    audio_path = CGI.unescape "#{Rails.root.to_s}/public#{audio.audio.url}"
+
+    data = {
+      audioVariationId: id,
+      s3Identifier: audio.s3_identifier,
+      accountSlug: account.slug,
+      audioBlob: Base64.encode64(File.open(audio_path, "rb").read()),
+      startTime: start_time,
+      endTime: end_time
+    }
+
+    url = "#{AWS_API_DATACAST_URL}/audios"
+    response = RestClient.post(url, data.to_json, {
+      content_type: :json,
+      accept: :json,
+      "x-api-key" => ENV['AWS_API_KEY']
+    })
+
+    response = JSON.parse(response);
+    if response["data"] && response["data"]["audio_key"]
+      self.update_columns(
+        {
+          audio_key: response["data"]["audio_key"]
+        }
+      )
+    end
   end
 
   def is_original?
