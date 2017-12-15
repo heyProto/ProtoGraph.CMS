@@ -53,7 +53,9 @@ class Audio < ApplicationRecord
   def create_audio_version
     options = {
       audio_id: self.id,
-      is_original: true
+      is_original: true,
+      created_by: created_by,
+      updated_by: updated_by
     }
 
     AudioVariation.create!(options)
