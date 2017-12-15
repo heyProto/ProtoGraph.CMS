@@ -29,15 +29,16 @@ class AudiosController < ApplicationController
     @audio_variation = AudioVariation.new
     render layout: "application-fluid"
     @activities = @audio.activities.order("updated_at DESC").limit(30)
+    @audio_variation = AudioVariation.new
   end
 
   private
 
   def set_audio
-    @audio = Audio.find(params[:id]) if params[:id]
+    @audio = Audio.find(params[:id])
   end
 
   def audio_params
-    params.require(:audio).permit(:account_id, :audio, :name, :description, :tags, :tag_list, :crop_x, :crop_y, :crop_w, :crop_h, :dominant_colour, :colour_palette)
+    params.require(:audio).permit(:account_id, :audio, :name, :description, :tags, :tag_list, :start_time, :end_times)
   end
 end
