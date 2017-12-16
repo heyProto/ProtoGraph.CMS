@@ -37,7 +37,7 @@
                   an audio
                   <%= link_to a.trackable.name, [a.trackable.account, a.trackable], "data-turbolinks" => "false" %>
                 <% elsif a.trackable.class.to_s == "AudioVariation" %>
-                  a <%= link_to "variation", a.trackable.audio_url %> from audio
+                  a <%= link_to "variation", a.trackable.audio_url, "target": "_blank" %> from audio
                   <%= link_to a.trackable.audio.name.titleize, [a.trackable.account, a.trackable.audio], "data-turbolinks" => "false" %>
                 <% end %>
               </td>

@@ -33,14 +33,18 @@
           <h3 class="protograph-audio-form-heading">Variations</h3>
           <% @audio.audio_variation.order("created_at DESC").each do |a| %>
             <div class="col-sm-4">
-              <div class="card" style="margin: 20px 0px;">
-                <div class="card-footer">
-                  <h4 class="card-title" style="font-weight: 400; " title="<%=a.id%>">
-                    <span class="branch-ref css-truncate css-truncate-target" style="display: inline-block;"><%= a.id %></span>
-                    <span><audio src="<%= a.audio_url %>" controls style="width: 180px"></audio></span>
-                  </h4>
+              <%= link_to a.audio_url, "data-turbolinks": false, target: "_blank" do %>
+                <div class="card" style="margin: 20px 0px;">
+                  <div class="card-footer">
+                    <h4 class="card-title" style="font-weight: 400; " title="<%=a.id%>">
+                      <span class="branch-ref css-truncate css-truncate-target" style="display: inline-block;"><%= a.id %></span>
+                      <span>
+                        <!-- <audio src="<%= a.audio_url %>" controls style="width: 180px"></audio> -->
+                      </span>
+                    </h4>
+                  </div>
                 </div>
-              </div>
+              <% end %>
             </div>
           <% end %>
         <% end %>
