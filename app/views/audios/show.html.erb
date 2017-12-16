@@ -25,17 +25,26 @@
   </div>
   <br/><br/>
   <div class="row">
-    <a id="openFileUpload" class='btn btn-primary' href='#' data-toggle='modal' data-target='#audioCropperModal' onClick="setMinMax()">Crop original audio to create variation</a>
+    <a id="openFileUpload" class='btn btn-primary' href='#' data-toggle='modal' data-target='#audioCropperModal'>Crop original audio to create variation</a>
     <div class="col-sm-16">
       <div style="position: relative;">
         <% if @audio.audio_variation.present? %>
           <br/><br/>
           <h3 class="protograph-audio-form-heading">Variations</h3>
+          <% @audio.audio_variation.each do |a| %>
+            <div class="col-sm-4">
+              <div class="card" style="margin: 20px 0px;">
+                <div class="card-footer">
+                  <h4 class="card-title" style="font-weight: 400; " title="<%=a.id%>">
+                    <span class="branch-ref css-truncate css-truncate-target" style="display: inline-block;"><%= a.id %></span>
+                    <span><audio src="<%= a.audio_url %>" controls style="width: 180px"></audio></span>
+                  </h4>
+                </div>
+              </div>
+            </div>
+          <% end %>
         <% end %>
       </div>
-      <% if @audio.audio_variation.present? %>
-        <div class="function" id="variationAudios"></div>
-      <% end %>
     </div>
   </div>
 </div>

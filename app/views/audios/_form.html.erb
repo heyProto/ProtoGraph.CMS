@@ -16,13 +16,14 @@
             <audio id="preview_audio_audio" crossOrigin="anonymous"></audio>
           </div>
           <%= f.input :account_id, as: :hidden, input_html: {value: @account.id} %>
+          <%= f.input :total_time, as: :hidden  %>
           <%= f.input :name, required: true %>
           <%#= f.input :tag_list, collection: [], label: 'Tags', hint: "Enter a comma separated list of tags.", input_html: { id: 'tags_autocomplete', class: 'ui fluid search dropdown', multiple: true, "data-content"=>"This field is required." }, wrapper_html: { class: 'required'} %>
           <%= f.input :description %>
         <% end %>
       </div>
       <div class='modal-footer'>
-        <input type="submit" value="Upload" form="new_audio" class="btn btn-outline">
+        <input type="submit" value="Upload" form="new_audio" class="btn btn-outline" onclick="setTotalTime()">
       </div>
     </div>
   </div>
@@ -35,10 +36,12 @@
    if (input.files && input.files[0]) {
      var reader = new FileReader();
      reader.onload = function (e) {
-       $("#preview_audio_audio").attr('src', e.target.result)
-       $("#preview_audio_audio").attr('controls', 'controls')
-       createWaveform();
+       $("#preview_audio_audio")
+         .attr('src', e.target.result)
+         .attr('controls', 'controls')
        $('#audio_name').val(input.files[0].name.replace(/\.[^/.]+$/, ""));
+       // Render waveform on div
+       createWaveform();
      }
      reader.readAsDataURL(input.files[0]);
    } else {
@@ -47,13 +50,28 @@
    }
  };
 
- // Hiding the div first as the styling for height and width have already been applied.
- // the selector.css() method only removes styling applied via javascript
- // The styling for height and width have been applied via styling because
- // d3 requires it at DOM creation.
  $(document).ready(function(){
+   // Hiding the div first as the styling for height and width have already been applied.
+   // the selector.css() method only removes styling applied via javascript
+   // The styling for height and width have been applied via styling because
+   // d3 requires it at DOM creation.
    $("#preview_audio_waveform").css("display", "none");
  });
+
+ function setTotalTime(){
+   // Set the value for total length by getting the duration of audiotag
+   $("#audio_total_time").val(duration("preview_audio_audio"));
+   console.log("Time duration: " + String(duration("preview_audio_audio")))
+ }
+
+ // Get duration of audio tag file
+ function duration(selectorId){
+   var audio = document.getElementById(selectorId);
+   if(audio.readyState > 0){
+     seconds = parseInt(audio.duration);
+     return(seconds)
+   }
+ }
 
  function createWaveform() {
    var freqs = new Uint8Array(200);
