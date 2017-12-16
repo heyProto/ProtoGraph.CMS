@@ -84,10 +84,13 @@ Rails.application.routes.draw do
       resources :uploads, only: [:new, :create]
     end
     resources :images, only: [:index, :create, :show]
+    resources :audios, only: [:index, :create, :show]
     resources :image_variations, only: [:create, :show] do
       post :download, on: :member
     end
-
+    resources :audio_variations, only: [:create, :show] do
+      post :download, on: :member
+    end
   end
 
   get "docs", to: 'docs#index', as: :docs
