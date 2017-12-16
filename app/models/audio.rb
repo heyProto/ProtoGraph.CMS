@@ -18,12 +18,12 @@
 class Audio < ApplicationRecord
   #CONSTANTS
   #CUSTOM TABLES
-  include Associable
 
   #GEMS
   acts_as_taggable
   paginates_per 100
   #ASSOCIATIONS
+  include Associable
   belongs_to :account
   has_many :audio_variation, -> {where.not(is_original: true)}
   has_one :original_audio, -> {where(is_original: true)}, class_name: "AudioVariation", foreign_key: "audio_id"

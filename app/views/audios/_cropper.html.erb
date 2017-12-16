@@ -12,9 +12,8 @@
       </audio>
       <%= simple_form_for ([@account, @audio_variation]) do |f| %>
         <%= f.input :audio_id,as: :hidden, input_html: {value: @audio.id} %>
-        <% %w[start_time end_time].each do |attribute| %>
-          <%= f.input attribute %>
-        <% end %>
+        <%= f.input :start_time, input_html: {min: "0", max: @audio.total_time, onChange: "checkEndTime()", value: "0"} %>
+        <%= f.input :end_time, input_html: {min: "0", max: @audio.total_time, onChange: "checkEndTime()", value: @audio.total_time} %>
       <% end %>
     </div>
     <div class='modal-footer'>
@@ -32,14 +31,12 @@
    }
  }
 
- function setMinMax(){
-   var maxDuration = String(duration("audio-player"))
-   $("#audio_variation_start_time")
-     .attr("max", maxDuration)
-     .attr("min", "0")
-
-   $("#audio_variation_end_time")
-     .attr("max", maxDuration)
-     .attr("min", "0")
+ //Dont let start_time be bigger than end_time
+ function checkEndTime(){
+   start_time = parseInt($("#audio_variation_start_time").val())
+   end_time = parseInt($("#audio_variation_end_time").val())
+     if(end_time < start_time){
+       $("#audio_variation_end_time").val(start_time)
+     }
  }
 </script>

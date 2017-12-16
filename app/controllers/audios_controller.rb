@@ -2,7 +2,7 @@ class AudiosController < ApplicationController
   before_action :authenticate_user!
 
   def index
-    @audios = @account.audios.order(:created_at).page params[:page]
+    @audios = @account.audios.order("created_at DESC").page params[:page]
     @new_audio = Audio.new
     render layout: "application-fluid"
   end
@@ -39,6 +39,6 @@ class AudiosController < ApplicationController
   end
 
   def audio_params
-    params.require(:audio).permit(:account_id, :audio, :name, :description, :tags, :tag_list, :start_time, :end_times)
+    params.require(:audio).permit(:account_id, :audio, :name, :description, :total_time)
   end
 end
