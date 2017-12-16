@@ -31,7 +31,7 @@
         <% if @audio.audio_variation.present? %>
           <br/><br/>
           <h3 class="protograph-audio-form-heading">Variations</h3>
-          <% @audio.audio_variation.each do |a| %>
+          <% @audio.audio_variation.order("created_at DESC").each do |a| %>
             <div class="col-sm-4">
               <div class="card" style="margin: 20px 0px;">
                 <div class="card-footer">
