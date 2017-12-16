@@ -21,6 +21,10 @@
 #  offset                 :integer
 #  is_grouped_data_stream :boolean          default(FALSE)
 #  data_group_key         :string(255)
+#  sort_order_column      :string(255)
+#  sort_order             :string(255)
+#  include_data           :boolean
+#  flatten_data           :boolean
 #  filter_query           :text(65535)
 #  data_group_value       :string(255)
 #

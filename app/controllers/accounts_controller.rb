@@ -17,6 +17,9 @@ class AccountsController < ApplicationController
   def edit
     @people_count = @account.permissions.not_hidden.count
     @pending_invites_count = @account.permission_invites.count
+    @fb_auth = @account.authentications.fb_auth.first
+    @tw_auth = @account.authentications.tw_auth.first
+    @insta_auth = @account.authentications.insta_auth.first
     if @account.logo_image_id.nil?
       @account.build_logo_image
     end

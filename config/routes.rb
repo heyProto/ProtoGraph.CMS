@@ -6,19 +6,12 @@ Rails.application.routes.draw do
   get 'static_pages/index'
 
   resources :activities
-  devise_for :users, controllers: {
-               registrations: 'user/registrations',
-               sessions: 'user/sessions',
-               passwords: "user/passwords",
-               confirmations: "user/confirmations",
-               omniauth_callbacks: "user/omniauth_callbacks"
-             }  do
+  devise_for :users, controllers: { registrations: 'registrations', sessions: 'sessions', passwords: "passwords", confirmations: "confirmations" }  do
     get 'sign_out', to: 'devise/sessions#destroy'
   end
 
   resources :users do
       resources :user_emails, only: [:index, :create, :destroy], as: :emails
-      resources :authentications, only: [:index], as: :authentications
       get '/user_emails/confirmation', to: "user_emails#confirmation", as: "email_confirmation"
   end
 

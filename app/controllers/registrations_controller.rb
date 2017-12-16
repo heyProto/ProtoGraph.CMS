@@ -1,4 +1,4 @@
-class User::RegistrationsController < Devise::RegistrationsController
+class RegistrationsController < Devise::RegistrationsController
   layout "three_column_grid", only: [:new, :create]
 
   def create
