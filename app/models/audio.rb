@@ -21,7 +21,7 @@ class Audio < ApplicationRecord
 
   #GEMS
   acts_as_taggable
-  paginates_per 100
+  paginates_per 25
   #ASSOCIATIONS
   include Associable
   belongs_to :account
