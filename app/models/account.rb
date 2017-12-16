@@ -17,9 +17,8 @@
 #  client_token  :string(255)
 #  access_token  :string(255)
 #  client_secret :string(255)
-#  logo_url      :text(65535)
 #  logo_image_id :integer
-#  house_colour  :string(255)      default("#000000")
+#  house_colour  :string(255)
 #
 
 class Account < ApplicationRecord
@@ -37,7 +36,6 @@ class Account < ApplicationRecord
     has_many :permissions, ->{where(status: "Active")}
     has_many :users, through: :permissions
     has_many :permission_invites
-    has_many :authentications
     has_many :view_casts
     has_many :folders
     has_many :uploads

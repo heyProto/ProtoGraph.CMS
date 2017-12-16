@@ -1,0 +1,41 @@
+<div class="row">
+  <div class="col-sm-3">
+    <%= render partial: "accounts/sidebar" %>
+  </div>
+  <div class="col-sm-9">
+    <br/>
+    <% unless @authentications.present? %>
+      <br/>
+      <br/>
+      <br/>
+      <br/>
+      <h3>You are not connected to any social media apps</h3>
+      <%- User.omniauth_providers.each do |provider| %>
+        <%= link_to "Add #{provider.to_s.capitalize} Authentication", public_send("#{User.name.downcase}_#{provider.to_s}_omniauth_authorize_path") %><br />
+      <% end -%>
+    <% else %>
+      <h1>Your authentications</h1>
+      <hr>
+      <table class="table">
+        <tbody>
+          <% @authentications.each do |u| %>
+            <tr>
+              <td style="border: 0px;">
+                <%= u.provider.capitalize %>
+              </td>
+              <td style="border: 0px;">
+                <%= u.email %>
+              </td>
+            </tr>
+          <% end %>
+      </table>
+    <% end %>
+  </div>
+  <div class="col-sm-4">
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+  </div>
+</div>

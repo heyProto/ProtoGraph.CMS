@@ -33,10 +33,10 @@
 class Article < ApplicationRecord
     #CONSTANTS
     ENABLED_MODES = {
-        "11": ["Thumbnail with summary", "Thumbnail without summary", "Cover with summary","Text only with summary","Text only without summary"],
-        "10": ["Thumbnail without summary"],
-        "01": ["Text only with summary"],
-        "00": ["Text only without summary"]
+        "11": ["small_image_text", "thumbnail", "big_image_text", "title_text", "title", "col4_big_image_text"],
+        "10": ["thumbnail"],
+        "01": ["title_text"],
+        "00": ["title"]
     }
 
     #ASSOCIATIONS
