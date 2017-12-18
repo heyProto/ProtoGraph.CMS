@@ -35,7 +35,7 @@ class AudiosController < ApplicationController
   private
 
   def set_audio
-    @audio = Audio.find(params[:id])
+    @audio = @account.audios.find(params[:id])
   end
 
   def audio_params
