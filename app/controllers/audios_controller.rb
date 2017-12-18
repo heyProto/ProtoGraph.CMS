@@ -1,5 +1,6 @@
 class AudiosController < ApplicationController
   before_action :authenticate_user!
+  before_action :set_audio, only: [:show]
 
   def index
     @audios = @account.audios.order("created_at DESC").page params[:page]
@@ -25,7 +26,6 @@ class AudiosController < ApplicationController
 
   def show
     @new_audio = Audio.new
-    @audio = Audio.where(id: params[:id]).includes(:audio_variation).first
     @audio_variation = AudioVariation.new
     render layout: "application-fluid"
     @activities = @audio.activities.order("updated_at DESC").limit(30)
