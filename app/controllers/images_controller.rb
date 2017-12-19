@@ -3,7 +3,12 @@ class ImagesController < ApplicationController
   before_action :set_image, only: [:show]
 
   def index
-    @images = @account.images.order(:created_at).page params[:page]
+    @q = @account.images.ransack(params[:q])
+    if params[:q].present?
+      @images = @q.result(distinct: true).order(:created_at).page params[:page]
+    else
+      @images = @account.images.order(:created_at).page params[:page]
+    end
     @new_image = Image.new
     render layout: "application-fluid"
   end
@@ -31,6 +36,7 @@ class ImagesController < ApplicationController
   end
 
   def show
+    @q = @account.images.ransack(params[:q])
     @new_image = Image.new
     @image_variation = ImageVariation.new
     render layout: "application-fluid"

@@ -25,6 +25,7 @@ class Image < ApplicationRecord
   #CONSTANTS
   #CUSTOM TABLES
   #GEMS
+
   acts_as_taggable
   paginates_per 100
   #ASSOCIATIONS
