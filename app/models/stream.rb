@@ -35,16 +35,8 @@ class Stream < ApplicationRecord
     }
     #GEMS
     include Associable
-    include SearchCop
     extend FriendlyId
     friendly_id :title, use: :slugged
-
-    search_scope :search do
-        attributes :title, :description
-
-        options :title, :type => :fulltext
-        options :description, :type => :fulltext
-    end
 
 
     #ASSOCIATIONS

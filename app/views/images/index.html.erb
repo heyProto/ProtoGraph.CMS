@@ -2,24 +2,32 @@
 <%= stylesheet_link_tag "select2.css" %>
 <div class="container">
   <div class="row">
-    <div class="col-sm-13">
+    <div class="col-sm-10">
       <h1 style="margin-bottom: 20px; font-weight: 600; margin-top: 0px; font-size: 20px;">
         Image Bank
       </h1>
     </div>
+    <div class="col-sm-6">
+      <% if @account.images.present? %>
+        <%= render partial: "images/search_form" %>
+      <% end %>
+    </div>
   </div>
-</div>
-<br/>
-<br/>
-<div class="row">
-  <div class="container">
-      <% if @images.first.present? %>
-        <div id="imageContainer" class="col-sm-16"></div>
-    <% else %>
+  <br/>
+  <br/>
+  <div class="row">
+    <div class="container">
+      <% if (params[:q].present? and @images.blank?) %>
         <div class="blankslate blankslate-spacious">
-            <h3>No images uploaded yet.</h3>
-            <p>Use the [+ Upload image] button on the top right.</p>
-        </div>
+        <h3>No images related to "<%= params[:q].values[0] %>" found</h3>
+      </div>
+    <% elsif @account.images.first.present? %>
+      <div id="imageContainer" class="col-sm-16"></div>
+    <% else %>
+      <div class="blankslate blankslate-spacious">
+        <h3>No images uploaded yet.</h3>
+        <p>Use the [+ Upload image] button on the top right.</p>
+      </div>
     <% end %>
   </div>
   <%= paginate @images %>
