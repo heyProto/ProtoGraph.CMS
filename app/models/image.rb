@@ -35,24 +35,26 @@ class Image < ApplicationRecord
   has_many :activities
   has_many :colour_swatches
   #ACCESSORS
-  attr_accessor :tag_list, :crop_x, :crop_y, :crop_w, :crop_h
+  attr_accessor :tags_list, :crop_x, :crop_y, :crop_w, :crop_h
   mount_uploader :image, ImageUploader
   attr_accessor :dominant_colour
   attr_accessor :colour_palette
   #VALIDATIONS
+  validate :check_dimensions, :on => :create, if: :is_logo?
   #CALLBACKS
   before_create { self.s3_identifier = SecureRandom.hex(8) }
   after_create :create_image_version
+  after_create :add_tags
 
-  validate :check_dimensions, :on => :create, if: :is_logo?
+  after_commit :add_colour_swatches, on: :create
+  #SCOPE
+  #OTHER
+
   def check_dimensions
     if !image_cache.nil? and image.height > 100 and ((image.height / image.width) == 400)
       errors.add :image, "Logo has to a square and the minimum height should be 100."
     end
   end
-  after_commit :add_colour_swatches, on: :create
-  #SCOPE
-  #OTHER
 
   def as_json(options = {})
     {
@@ -87,6 +89,10 @@ class Image < ApplicationRecord
                                         blue: colour[2])
           end
       end
+  end
+
+  def add_tags
+    self.tag_list.add(self.tags_list, parse: true) if not self.tags_list.nil?
   end
 
   #PRIVATE

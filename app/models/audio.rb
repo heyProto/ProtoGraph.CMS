@@ -30,7 +30,7 @@ class Audio < ApplicationRecord
   has_many :activities
   mount_uploader :audio, AudioUploader
   #ACCESSORS
-  attr_accessor :tag_list
+  attr_accessor :tags_list
   #VALIDATIONS
   #CALLBACKS
   before_create { self.s3_identifier = SecureRandom.hex(8) }
@@ -64,7 +64,7 @@ class Audio < ApplicationRecord
   end
 
   def add_tags
-    true
+    self.tag_list.add(self.tags_list, parse: true) if not self.tags_list.nil?
   end
   #PRIVATE
 end

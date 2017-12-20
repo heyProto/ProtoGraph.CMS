@@ -4,6 +4,7 @@ class ImagesController < ApplicationController
 
   def index
     @q = @account.images.ransack(params[:q])
+    @tags = Tag.all
     if params[:q].present?
       @images = @q.result(distinct: true).order(:created_at).page params[:page]
     else
@@ -37,6 +38,7 @@ class ImagesController < ApplicationController
 
   def show
     @q = @account.images.ransack(params[:q])
+    @tags = Tag.all
     @new_image = Image.new
     @image_variation = ImageVariation.new
     render layout: "application-fluid"
@@ -50,6 +52,6 @@ class ImagesController < ApplicationController
   end
 
   def image_params
-    params.require(:image).permit(:account_id, :image, :name, :description, :tags, :tag_list, :crop_x, :crop_y, :crop_w, :crop_h, :dominant_colour, :colour_palette)
+    params.require(:image).permit(:account_id, :image, :name, :description, :tags_list, :crop_x, :crop_y, :crop_w, :crop_h, :dominant_colour, :colour_palette)
   end
 end
