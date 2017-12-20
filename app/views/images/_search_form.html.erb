@@ -1,7 +1,7 @@
 <%= search_form_for @q, url: account_images_path(@account), class: "form-group form-inline" do |f| %>
   <div class="form-group">
     <%= f.label :search_images, class: "sr-only control-label" %>
-    <%= f.search_field :name_or_description_cont, class: "form-control form-control-sm" %>
+    <%= f.search_field :tags_name_or_name_or_description_cont, class: "form-control form-control-sm" %>
   </div>
   <div class="form-group">
     <%= f.submit :search, class: "btn btn-outline" %>
