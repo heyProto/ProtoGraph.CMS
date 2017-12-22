@@ -18,6 +18,7 @@
 #  updated_at       :datetime         not null
 #  mode             :string(255)
 #  is_social_image  :boolean
+#  is_smart_cropped :boolean          default(FALSE)
 #
 
 class ImageVariation < ApplicationRecord
@@ -33,6 +34,7 @@ class ImageVariation < ApplicationRecord
   #CALLBACKS
   after_create :process_and_upload_image, if: :is_original?
   after_create :process_and_upload_image_variation, if: :not_is_original?
+  after_commit :process_and_upload_smart_cropped_variation, if: :is_smart_cropped?, on: [:create]
   #SCOPE
   #OTHER
   #PRIVATE
@@ -58,6 +60,34 @@ class ImageVariation < ApplicationRecord
 
   def not_is_original?
     not self.is_original?
+  end
+
+  def process_and_upload_smart_cropped_variation
+    data = {
+      imageVariationId: id,
+      s3Identifier: image.s3_identifier,
+      accountSlug: account.slug,
+      originalImageLink: image.original_image.image_url
+    }
+
+    url = "#{AWS_API_DATACAST_URL}/images/smartcrop"
+    response = RestClient.post(url, data.to_json, {
+      content_type: :json,
+      accept: :json,
+      "x-api-key" => ENV['AWS_API_KEY']
+    })
+
+    response = JSON.parse(response);
+
+    if response["success"]
+      self.update_columns(
+        {
+          image_key: response["data"]["image_key"],
+          image_height: response["data"]["image_height"],
+          image_width: response["data"]["image_width"]
+        }
+      )
+    end
   end
 
   def process_and_upload_image
@@ -120,7 +150,7 @@ class ImageVariation < ApplicationRecord
   end
 
   def process_and_upload_image_variation
-    return true if self.is_social_image
+    return true if (self.is_social_image or self.is_smart_cropped)
     require "base64"
 
     temp_new_image = Image.new({crop_x: self.crop_x, crop_y: self.crop_y, crop_w: self.crop_w, crop_h: self.crop_h})
