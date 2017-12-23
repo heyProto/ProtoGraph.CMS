@@ -31,7 +31,6 @@ class AudiosController < ApplicationController
   end
 
   def show
-    @q = @account.audios.ransack(params[:q])
     @tags = Tag.all
     @new_audio = Audio.new
     @audio_variation = AudioVariation.new
