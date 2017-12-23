@@ -51,7 +51,8 @@ class ImageVariation < ApplicationRecord
       image_width: self.image_width,
       image_height: self.image_height,
       aspectWidth: self.image_width / self.image_width.gcd(self.image_height),
-      aspectHeight: self.image_height / self.image_width.gcd(self.image_height)
+      aspectHeight: self.image_height / self.image_width.gcd(self.image_height),
+      is_smart_cropped: is_smart_cropped
     }
   end
 
