@@ -37,7 +37,6 @@ class ImagesController < ApplicationController
   end
 
   def show
-    @q = @account.images.ransack(params[:q])
     @tags = Tag.all
     @new_image = Image.new
     @image_variation = ImageVariation.new
