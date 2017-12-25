@@ -33,7 +33,7 @@ class Image < ApplicationRecord
   has_many :image_variation, -> {where.not(is_original: true)}
   has_one :original_image, -> {where(is_original: true)}, class_name: "ImageVariation", foreign_key: "image_id"
   has_many :activities
-  has_many :colour_swatches
+  has_many :colour_swatches, dependent: :destroy
   #ACCESSORS
   attr_accessor :tags_list, :crop_x, :crop_y, :crop_w, :crop_h
   mount_uploader :image, ImageUploader
@@ -76,17 +76,27 @@ class Image < ApplicationRecord
   end
 
   def add_colour_swatches
+      require "ntc"
       unless (self.colour_palette.nil? and self.dominant_colour.nil?) or (self.colour_palette.blank? or self.dominant_colour.blank?)
           colour_dom = JSON.parse(self.dominant_colour)
           colour_pal = JSON.parse(self.colour_palette)
+
+          # Dominant colour name
+          colour_hex = colour_dom.map{|a| a.to_s(16) }.join("")
+          colour_name = Ntc.new(colour_hex).name[1]
+          # Ntc gives [hex_value of closest, name of closest, true if exact match]
           self.colour_swatches.create(red: colour_dom[0],
                                       green: colour_dom[1],
                                       blue: colour_dom[2],
+                                      name: colour_name,
                                       is_dominant: true)
           colour_pal.each do |colour|
+            colour_hex = colour.map{|a| a.to_s(16) }.join("")
+            colour_name = Ntc.new(colour_hex).name[1]
             self.colour_swatches.create(red: colour[0],
                                         green: colour[1],
-                                        blue: colour[2])
+                                        blue: colour[2],
+                                        name: colour_name)
           end
       end
   end

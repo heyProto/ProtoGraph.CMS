@@ -46,6 +46,7 @@ gem 'whenever'
 gem 'rmagick'
 gem 'carrierwave'
 gem 'ransack'
+gem 'ntc', github: "moizmb/name-that-colour", require: false
 
 #Encryption
 #gem "attr_encrypted", "~> 3.0.0"
