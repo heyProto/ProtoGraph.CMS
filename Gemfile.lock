@@ -1,3 +1,9 @@
+GIT
+  remote: https://github.com/moizmb/name-that-colour.git
+  revision: 0a6e1ac94619155c095fb1f0b7c248175f77408c
+  specs:
+    ntc (0.0.1)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -353,6 +359,7 @@ DEPENDENCIES
   kaminari
   listen (>= 3.0.5, < 3.2)
   mysql2
+  ntc!
   omniauth
   omniauth-facebook
   omniauth-instagram
