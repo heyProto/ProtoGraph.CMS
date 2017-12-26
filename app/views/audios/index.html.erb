@@ -44,10 +44,10 @@
       </div>
     </div>
     <div class="col-sm-3">
-      <h1 style="margin-bottom: 20px; font-weight: 600; margin-top: 0px; font-size: 20px;">
-        Search Audio Bank
-      </h1>
       <% if @account.audios.present? %>
+        <h1 style="margin-bottom: 20px; font-weight: 600; margin-top: 0px; font-size: 20px;">
+          Search Audio Bank
+        </h1>
         <%= render partial: "audios/search_form" %>
       <% end %>
     </div>
