@@ -1,0 +1,11 @@
+<h4><%= link_to "Link Sources", admin_ref_link_sources_path %></h4>
+<br />
+<br>
+
+<%= simple_form_for [:admin, @ref_link_source] do |f| %>
+  <%= f.input :name, placeholder: "Name" %>
+  <%= f.input :url, as: :string, placeholder: "Url with http or https" %>
+  <%= f.input :favicon_url, as: :string, placeholder: "Favicon URL with http or https" %>
+
+  <%= f.button :submit, class: "btn btn-sm btn-white" %>
+<% end %>
