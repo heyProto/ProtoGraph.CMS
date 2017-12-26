@@ -19,7 +19,39 @@
     <%= f.search_field :colour_swatches_name_cont, class: "form-control form-control-sm", placeholder: "Colour" %>
   </div>
 
+  <div id="colorpicker"></div>
+
+  <input type="hidden" id="color_hex">
+
   <div class="form-group">
     <%= f.submit :search, class: "btn btn-outline" %>
   </div>
 <% end %>
+
+<%= stylesheet_link_tag "farbtastic.css" %>
+
+<%= javascript_include_tag "ntc.js" %>
+<%= javascript_include_tag "farbtastic.js" %>
+
+
+<%# The search form for colour works by first getting the colour from
+the colour picker in the form of an RGB hex value. The javascript below
+uses ntc.js to turn that into a named colour and puts that value in
+the search input box %>
+
+<script type="text/javascript">
+ $(document).ready(function(){
+   $("#colorpicker")
+     .farbtastic("#color_hex");
+
+   var picker = $.farbtastic('#colorpicker');
+   picker.linkTo(callback);
+ });
+
+ function callback(color){
+   color_name = ntc.name(color)[1];
+   $("#q_colour_swatches_name_cont").val(color_name);
+   $("#q_colour_swatches_name_cont").css("background-color", color);
+   $("#q_colour_swatches_name_cont").attr("title", color_name);
+ };
+</script>
