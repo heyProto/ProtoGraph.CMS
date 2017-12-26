@@ -1,9 +1,10 @@
 <script src="https://cdn.protograph.pykih.com/lib/protoGraph.min.js" async></script>
 <%= simple_form_for([@account, @folder, view_cast]) do |f| %>
   <div class="list-group" style="font-size: 11px;">
-    <% [["Thumbnail with summary", "small_image_text"],["Thumbnail without summary", "thumbnail"],["Cover with summary", "big_image_text"],["Text only with summary", "title_text"],["Text only without summary", "title"],  ["Featured without summary", "feature_image"]].each do |c| %>
+    <% [["Col7 Thumbnail with summary", "small_image_text"],["Col7 Thumbnail without summary", "thumbnail"],["Col7 Cover with summary", "big_image_text"],["Col7 Text only with summary", "title_text"],["Col7 Text only without summary", "title"], ["Col7 Featured without summary", "feature_image"],["Col4 Cover with summary", "col4_big_image_text"]].each do |c| %>
+
       <!-- now we are using title_text for text only without summary, once the mode is generated, we will update it -->
-      <% enabled = Article::ENABLED_MODES[@article_modes.to_sym].include?(c[0]) %>
+      <% enabled = Article::ENABLED_MODES[@article_modes.to_sym].include?(c[1]) %>
       <% enabled = true if (c[1] == "feature_image" and @article.instagram_image_variation.present?) %>
       <button class="list-group-item list-group-item-action <%= view_cast.default_view == c[1] ? "active": ""%>  <%=  enabled ? "" : "disabled" %>" name="view_cast[default_view]" value="<%= c[1] %>">
         <%= c[0] %>
@@ -64,6 +65,4 @@
     $("button.disabled").on("click", function(event){
       return false;
     })
-
-
 </script>
