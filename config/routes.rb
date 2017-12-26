@@ -17,6 +17,8 @@ Rails.application.routes.draw do
 
   namespace :admin do
     get "online_users", to: "online_users#index", as: :online_users
+    resources :ref_link_sources
+    get "publish", to: "ref_link_sources#publish", as: :publish_ref_link_sources
   end
 
   get "/auth/:provider", to: lambda{ |env| [404, {}, ["Not Found"]] }, as: :oauth
