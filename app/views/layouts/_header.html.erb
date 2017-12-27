@@ -16,7 +16,9 @@
             <%=  image_tag("proto-logo.png", style: "height: 25px; margin-top: 0px;", class: "d-inline-block align-top") %>
           </a>
             <ul class="navbar-nav mr-auto" style="margin-left: 0px !important; margin-right: auto;">
-              <%= render partial: "layouts/dropdown_teams" %>
+              <% unless is_admins_controller %>
+                <%= render partial: "layouts/dropdown_teams" %>
+              <% end %>
               <% if @folder.present? and @folder.id.present? %>
                 <li class="nav-item">
                   <a class="nav-link">/</a>
@@ -90,7 +92,9 @@
             <%=  image_tag("_logo.png", style: "width: 30px;", class: "d-inline-block align-top") %>
           </a>
             <ul class="navbar-nav mr-auto" style="margin-left: 0px !important; margin-right: auto;">
+              <% unless is_admins_controller %>
                 <%= render partial: "layouts/dropdown_teams" %>
+              <% end %>
             </ul>
             <ul class="navbar-nav mr-auto">
               <li class="nav-item dropdown">
