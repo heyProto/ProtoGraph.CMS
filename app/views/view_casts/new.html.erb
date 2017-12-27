@@ -10,6 +10,7 @@
     window.baseURL = "<%= BASE_URL %>/api/v1";
     window.accountSlug = "<%= @account.slug %>";
     window.folderSlug = "<%= @folder.slug %>";
+    window.houseColours = '<%= [@account.house_colour, @account.reverse_house_colour].to_s.html_safe %>';
     var JCropInstance;
 </script>
 

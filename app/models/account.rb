@@ -2,24 +2,25 @@
 #
 # Table name: accounts
 #
-#  id            :integer          not null, primary key
-#  username      :string(255)
-#  slug          :string(255)
-#  domain        :string(255)
-#  status        :string(255)
-#  sign_up_mode  :string(255)
-#  created_at    :datetime         not null
-#  updated_at    :datetime         not null
-#  cdn_provider  :string(255)
-#  cdn_id        :string(255)
-#  host          :text(65535)
-#  cdn_endpoint  :text(65535)
-#  client_token  :string(255)
-#  access_token  :string(255)
-#  client_secret :string(255)
-#  logo_url      :text(65535)
-#  logo_image_id :integer
-#  house_colour  :string(255)      default("#000000")
+#  id                   :integer          not null, primary key
+#  username             :string(255)
+#  slug                 :string(255)
+#  domain               :string(255)
+#  status               :string(255)
+#  sign_up_mode         :string(255)
+#  created_at           :datetime         not null
+#  updated_at           :datetime         not null
+#  cdn_provider         :string(255)
+#  cdn_id               :string(255)
+#  host                 :text(65535)
+#  cdn_endpoint         :text(65535)
+#  client_token         :string(255)
+#  access_token         :string(255)
+#  client_secret        :string(255)
+#  logo_url             :text(65535)
+#  logo_image_id        :integer
+#  house_colour         :string(255)      default("#000000")
+#  reverse_house_colour :string(255)      default("#ffffff")
 #
 
 class Account < ApplicationRecord
