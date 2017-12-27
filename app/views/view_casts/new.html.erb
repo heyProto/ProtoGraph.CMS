@@ -10,7 +10,8 @@
     window.baseURL = "<%= BASE_URL %>/api/v1";
     window.accountSlug = "<%= @account.slug %>";
     window.folderSlug = "<%= @folder.slug %>";
-    window.ref_link_sources_url = "https://dnt71st2q6cqr.cloudfront.net/Assets/ref_link_sources.json"
+    window.ref_link_sources_url = "#{ENV["AWS_S3_ENDPOINT"]}/Assets/ref_link_sources.json"
+    window.houseColours = '<%= [@account.house_colour, @account.reverse_house_colour].to_s.html_safe %>';
     var JCropInstance;
 </script>
 
