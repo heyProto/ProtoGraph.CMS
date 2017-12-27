@@ -14,7 +14,7 @@
           <tr>
             <th>Name</th>
             <th>URL</th>
-            <th>favicon_url</th>
+            <th>Favicon</th>
             <th></th>
           </tr>
         </thead>
@@ -23,8 +23,8 @@
             <tr>
               <td><%= s.name.titleize %></td>
               <td><%= link_to s.url, s.url, target: "_blank" %></td>
-              <td><%= link_to s.favicon_url, s.favicon_url, target: "_blank" %></td>
-              <td><%= link_to "Edit Link", edit_admin_ref_link_source_path(s) %></td>
+              <td><%= image_tag s.favicon_url, size: "16x16" %></td>
+              <td><%= link_to "Edit Link Source", edit_admin_ref_link_source_path(s) %></td>
             </tr>
           <% end %>
         </tbody>

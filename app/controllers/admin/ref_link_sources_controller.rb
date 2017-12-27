@@ -1,7 +1,7 @@
 class Admin::RefLinkSourcesController < ApplicationController
   before_action :authenticate_user!
   before_action :sudo_pykih_admin
-  before_action :set_ref_link_source, only: [:edit]
+  before_action :set_ref_link_source, only: [:edit, :update]
 
   def index
     @ref_link_sources = RefLinkSource.all
@@ -19,6 +19,16 @@ class Admin::RefLinkSourcesController < ApplicationController
       redirect_to admin_ref_link_sources_path, notice: "Link Source created succesfully"      
     else
       redirect_to admin_ref_link_sources_path, alert: "Link Source could not be created"      
+    end
+  end
+
+  def update
+    @ref_link_source.update(ref_link_source_params)
+    @ref_link_source.updator = current_user
+    if @ref_link_source.save
+      redirect_to admin_ref_link_sources_path, notice: "Link Source updated succesfully"      
+    else
+      redirect_to admin_ref_link_sources_path, alert: "Link Source could not be updated"      
     end
   end
 
