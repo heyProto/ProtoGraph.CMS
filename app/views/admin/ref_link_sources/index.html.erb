@@ -1,7 +1,8 @@
 <div class="row">
   <% if !@ref_link_sources.present? %>
     <div class="col-sm-16">
-      <h1>No Link Sources Present</h1>
+      <h1 style="display: inline-block;">No Link Sources Present</h1>
+      <%= link_to '+ Add a Link Source', new_admin_ref_link_source_path, data: {turbolinks: false}, class: "btn btn-sm btn-primary right-align", style: "float: right;" %>
     </div>
   <% else %>
     <div class="col-sm-16">
