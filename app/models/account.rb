@@ -21,6 +21,8 @@
 #  logo_image_id        :integer
 #  house_colour         :string(255)      default("#000000")
 #  reverse_house_colour :string(255)      default("#ffffff")
+#  font_colour          :string(255)      default("#ffffff")
+#  reverse_font_colour  :string(255)      default("#ffffff")
 #
 
 class Account < ApplicationRecord
