@@ -10,6 +10,7 @@
 #  is_dominant :boolean          default(FALSE)
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
+#  name        :string(255)
 #
 
 class ColourSwatch < ApplicationRecord

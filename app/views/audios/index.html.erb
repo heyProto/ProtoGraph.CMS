@@ -1,40 +1,56 @@
 <div class="container">
   <div class="row">
-    <div class="col-sm-13">
+    <div class=<%= @account.audios.present? ? "col-sm-13" : "col-sm-16" %>>
       <h1 style="margin-bottom: 20px; font-weight: 600; margin-top: 0px; font-size: 20px;">
         Audio Bank
       </h1>
-    </div>
-  </div>
-</div>
-<div class="row">
-  <div class="container">
-    <% if @audios.first.present? %>
-      <div id="audioContainer" class="col-sm-16">
-        <row>
-          <% @audios.each do |a| %>
-            <div class="col-sm-4">
-              <%= link_to [@account, a], "data-turbolinks": false do %>
-                <div class="card" style="margin: 20px 0px;">
-                  <div class="card-footer">
-                    <h4 class="card-title" style="font-weight: 400; " title="<%=a.name%>">
-                      <span class="branch-ref css-truncate css-truncate-target" style="display: inline-block;"><%= a.name %></span>
-                      <br/><br/>
-                      <div><audio src="<%= a.audio.url %>" controls style="width: 200px"></audio></div>
-                    </h4>
+      <div class="row">
+        <div class="container">
+          <% if (params[:q].present? and @audios.blank?) %>
+            <div class="blankslate blankslate-spacious">
+              <%# Print all params without nil or blank space %>
+              <% h = params[:q].as_json.keep_if {|k, v| v != nil and v != ""} %>
+              <% search_params = [] %>
+              <% h.each {|k, v| search_params << "#{k.split("_")[0]} containing \"#{v}\""} %>
+              <h3>No audios with <%= search_params.join(" and ") %> found</h3>
+            </div>
+          <% elsif @account.audios.first.present? %>
+            <div id="audioContainer" class="col-sm-16">
+              <row>
+                <% @audios.each do |a| %>
+                  <div class="col-sm-4">
+                    <%= link_to [@account, a], "data-turbolinks": false do %>
+                      <div class="card" style="margin: 20px 0px;">
+                        <div class="card-footer">
+                          <h4 class="card-title" style="font-weight: 400; " title="<%=a.name%>">
+                            <span class="branch-ref css-truncate css-truncate-target" style="display: inline-block;"><%= a.name %></span>
+                            <br/><br/>
+                            <div><audio src="<%= a.audio.url %>" controls style="width: 200px"></audio></div>
+                          </h4>
+                        </div>
+                      </div>
+                    <% end %>
                   </div>
-                </div>
-              <% end %>
+                <% end %>
+              </row>
+            </div>
+          <% else %>
+            <div class="blankslate blankslate-spacious">
+              <h3>No audios uploaded yet.</h3>
+              <p>Use the [+ Upload image] button on the top right.</p>
             </div>
           <% end %>
-        </row>
+        </div>
       </div>
-    <% else %>
-      <div class="blankslate blankslate-spacious">
-        <h3>No audios uploaded yet.</h3>
-        <p>Use the [+ Upload audio] button on the top right.</p>
-      </div>
-    <% end %>
+    </div>
+    <div class="col-sm-3">
+      <% if @account.audios.present? %>
+        <h1 style="margin-bottom: 20px; font-weight: 600; margin-top: 0px; font-size: 20px;">
+          Search Audio Bank
+        </h1>
+        <%= render partial: "audios/search_form" %>
+      <% end %>
+    </div>
   </div>
 </div>
 <div class="container">

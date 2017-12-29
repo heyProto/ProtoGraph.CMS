@@ -18,8 +18,9 @@
           <%= f.input :account_id, as: :hidden, input_html: {value: @account.id} %>
           <%= f.input :total_time, as: :hidden  %>
           <%= f.input :name, required: true %>
-          <%#= f.input :tag_list, collection: [], label: 'Tags', hint: "Enter a comma separated list of tags.", input_html: { id: 'tags_autocomplete', class: 'ui fluid search dropdown', multiple: true, "data-content"=>"This field is required." }, wrapper_html: { class: 'required'} %>
+          <%= f.input :tag_list, collection: @tags, label: 'Tags', input_html: { multiple: true, id: 'tags_autocomplete' } %>
           <%= f.input :description %>
+          <%= f.input :tags_list, as: :hidden %>
         <% end %>
       </div>
       <div class='modal-footer'>
@@ -125,3 +126,22 @@
    width:600px;
  }
 </style>
+
+<script>
+ // Allow extra tags to be added in selects multiselect
+ $(document).ready(function(){
+   $("#tags_autocomplete").select2({
+     width: '100%',
+     tags: true,
+     tokenSeparators: [',', ' ']
+   });
+ });
+
+ //Set tag list on form submit
+ $("#new_audio").submit(function(event){
+   var values = $("#tags_autocomplete").select2('data');
+   var valuesString = values.map(function(i) {return i.text}).join(",");
+   $("#audio_tags_list").val(valuesString);
+   console.log(valuesString)
+ });
+</script>

@@ -11,4 +11,4 @@ Rails.application.config.assets.paths << Rails.root.join('node_modules')
 # Precompile additional assets.
 # application.js, application.css, and all non-JS/CSS in the app/assets
 # folder are already added.
-Rails.application.config.assets.precompile += %w( app/file_uploader.js ProtoGraph.Container.toCardForm.js ProtoGraph.Container.toCardForm.css justified.js justified.css JCrop.js JCrop.css select2.js select2.css imageCropper.js )
+Rails.application.config.assets.precompile += %w( app/file_uploader.js ProtoGraph.Container.toCardForm.js ProtoGraph.Container.toCardForm.css justified.js justified.css JCrop.js JCrop.css select2.js select2.css imageCropper.js farbtastic.css farbtastic.js ntc.js)

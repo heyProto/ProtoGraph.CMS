@@ -3,7 +3,13 @@ class AudiosController < ApplicationController
   before_action :set_audio, only: [:show]
 
   def index
-    @audios = @account.audios.order("created_at DESC").page params[:page]
+    @q = @account.audios.ransack(params[:q])
+    @tags = Tag.all
+    if params[:q].present?
+      @audios = @q.result(distinct: true).order(:created_at).page params[:page]
+    else
+      @audios = @account.audios.order("created_at DESC").page params[:page]
+    end
     @new_audio = Audio.new
     render layout: "application-fluid"
   end
@@ -25,6 +31,7 @@ class AudiosController < ApplicationController
   end
 
   def show
+    @tags = Tag.all
     @new_audio = Audio.new
     @audio_variation = AudioVariation.new
     render layout: "application-fluid"
@@ -39,6 +46,6 @@ class AudiosController < ApplicationController
   end
 
   def audio_params
-    params.require(:audio).permit(:account_id, :audio, :name, :description, :total_time)
+    params.require(:audio).permit(:account_id, :audio, :name, :description, :total_time, :tags_list)
   end
 end
