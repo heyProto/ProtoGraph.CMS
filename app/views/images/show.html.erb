@@ -84,8 +84,8 @@
         },
         template: function (data) {
           var image;
-
           image = '<div class="photo-container" style="height:' + data.displayHeight + 'px;margin-right:' + data.marginRight + 'px;">';
+          image +=    (data.is_smart_cropped ? '<span class="label label-primary" style="z-index: 1000;position: absolute;background-color: #d9534f;">Smart Cropped</span>' : "");
           image +=    '<a class="protograph-popup-trigger" href="'+data.image_url+'" data-clipboard-text="'+data.image_url+'" target="_blank">';
           image +=    '<img class="image-thumb" src="' + data.src + '" style="width:' + data.displayWidth + 'px;height:' + data.displayHeight + 'px;" >';
           image +=    '</a>';

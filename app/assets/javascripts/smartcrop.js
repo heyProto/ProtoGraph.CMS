@@ -1,0 +1,1 @@
+//= require ./vendors/smartcrop.js

@@ -37,7 +37,7 @@ class ImageVariationsController < ApplicationController
 
 
   def image_variation_params
-    params.require(:image_variation).permit(:image_id, :created_by, :crop_x, :crop_y, :crop_w, :crop_h, :mode, :article_id)
+    params.require(:image_variation).permit(:image_id, :created_by, :crop_x, :crop_y, :crop_w, :crop_h, :mode, :article_id, :is_smart_cropped)
   end
 
 end
