@@ -1,5 +1,6 @@
 class ImagesController < ApplicationController
   before_action :authenticate_user!
+  before_action :set_image, only: [:show]
 
   def index
     @images = @account.images.order(:created_at).page params[:page]
@@ -31,7 +32,6 @@ class ImagesController < ApplicationController
 
   def show
     @new_image = Image.new
-    @image = Image.where(id: params[:id]).includes(:image_variation).first
     @image_variation = ImageVariation.new
     render layout: "application-fluid"
     @activities = @image.activities.order("updated_at DESC").limit(30)
@@ -40,7 +40,7 @@ class ImagesController < ApplicationController
   private
 
   def set_image
-    @image = Image.find(params[:id]) if params[:id]
+    @image = @account.images.find(params[:id])
   end
 
   def image_params

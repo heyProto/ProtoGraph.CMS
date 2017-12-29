@@ -45,10 +45,15 @@
                       <% elsif controller_name == "articles" and action_name != "new"  %>
                         <li class="nav-item"><%= link_to '+ Prepare an article', new_account_folder_article_path(@account, @folder), data: {turbolinks: false}, class: "nav-link btn btn-sm btn-primary", style: "margin-top: 5px;" %></li>
                       <% end %>
+
                   <% elsif controller_name == "images" and action_name != "new"  %>
                       <li class="nav-item"><%= link_to '+ Upload an image', "#", class: "nav-link btn btn-sm btn-primary",style: "margin-top: 5px;", "data-toggle" => "modal", "data-target" => "#fileUploadModal" %></li>
-
                       <%= render partial: "images/form" %>
+
+                  <% elsif controller_name == "audios" and action_name != "new"  %>
+                      <li class="nav-item"><%= link_to '+ Upload an audio', "#", class: "nav-link btn btn-sm btn-primary",style: "margin-top: 5px;", "data-toggle" => "modal", "data-target" => "#fileUploadModal" %></li>
+                      <%= render partial: "audios/form" %>
+
                   <% end %>
                   <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -63,6 +68,7 @@
                         <%= link_to "Add multiple cards", account_folder_uploads_path(@account, @folder), "data-turbolinks"=> false, class: "dropdown-item" %>
                       <% end %>
                       <%= link_to "Image Bank", account_images_path(@account), "data-turbolinks"=> false, class: "dropdown-item"  %>
+                      <%= link_to "Audio Bank", account_audios_path(@account), "data-turbolinks"=> false, class: "dropdown-item"  %>
                       <%= link_to "Team Settings", edit_account_path(@account), class: "dropdown-item" %>
                     </div>
                   </li>

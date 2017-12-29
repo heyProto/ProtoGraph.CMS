@@ -1,0 +1,42 @@
+<div class="modal-dialog modal-lg" role="document">
+  <div class="modal-content">
+    <div class="modal-header">
+      <div class='modal-title'>Crop Audio</div>
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <audio src="<%= @audio.audio.url %>" id="audio-player" controls>
+        Your web browser does not support playing audio
+      </audio>
+      <%= simple_form_for ([@account, @audio_variation]) do |f| %>
+        <%= f.input :audio_id,as: :hidden, input_html: {value: @audio.id} %>
+        <%= f.input :start_time, input_html: {min: "0", max: @audio.total_time, onChange: "checkEndTime()", value: "0"} %>
+        <%= f.input :end_time, input_html: {min: "0", max: @audio.total_time, onChange: "checkEndTime()", value: @audio.total_time} %>
+      <% end %>
+    </div>
+    <div class='modal-footer'>
+      <input type="submit" value="Crop" form="new_audio_variation" class="btn btn-outline">
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+ function duration(selectorId){
+   var audio = document.getElementById(selectorId);
+   if(audio.readyState > 0){
+     seconds = parseInt(audio.duration);
+     return(seconds)
+   }
+ }
+
+ //Dont let start_time be bigger than end_time
+ function checkEndTime(){
+   start_time = parseInt($("#audio_variation_start_time").val())
+   end_time = parseInt($("#audio_variation_end_time").val())
+     if(end_time < start_time){
+       $("#audio_variation_end_time").val(start_time)
+     }
+ }
+</script>
