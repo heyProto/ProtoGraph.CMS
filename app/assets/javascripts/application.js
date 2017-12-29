@@ -21,6 +21,7 @@
 // For use with color thief
 //= require ./vendors/quantize.js
 //= require ./vendors/color-thief.min.js
+//= require ./vendors/select2.full.min.js
 
 
 $(document).on('turbolinks:load', function (e) {
