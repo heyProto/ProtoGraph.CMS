@@ -25,9 +25,11 @@ class Authentication < ApplicationRecord
   #CUSTOM TABLES
   #GEMS
   #ASSOCIATIONS
-  has_one :creator, class_name: 'User', primary_key: 'created_by', foreign_key: 'id'
+  belongs_to :user
   #ACCESSORS
   #VALIDATIONS
+  validates_presence_of :uid, :provider
+  validates_uniqueness_of :uid, scope: :provider
   #CALLBACKS
   #SCOPE
   scope :fb_auth, -> {where provider: 'facebook'}
@@ -35,24 +37,6 @@ class Authentication < ApplicationRecord
   scope :insta_auth, -> {where provider: 'instagram'}
   #PRIVATE
   #OTHER
-
-  class << self
-    def from_omniauth(auth, account_id, current_user_id)
-      where(provider: auth.provider, uid: auth.uid, account_id: account_id).first_or_initialize.tap do |a|
-        a.account_id = account_id
-        a.uid = auth.uid
-        a.info = auth.info.to_json
-        a.name = auth.info.name
-        a.email = auth.info.email
-        a.access_token = auth.credentials.token
-        a.access_token_secret = auth.credentials.secret
-        a.refresh_token = auth.credentials.refresh_token
-        a.token_expires_at = Time.at(auth.credentials.expires_at) if auth.credentials.expires_at.present?
-        a.created_by = current_user_id
-        a.save!
-      end
-    end
-  end
 
   def refresh_access_token
     if self.provider == 'facebook'

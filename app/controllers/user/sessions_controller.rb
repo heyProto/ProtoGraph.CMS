@@ -1,4 +1,4 @@
-class SessionsController < Devise::SessionsController
+class User::SessionsController < Devise::SessionsController
     layout "three_column_grid", only: [:new]
 
     def new
