@@ -38,6 +38,7 @@ class User < ApplicationRecord
     has_many :activities
     has_many :uploads
     has_many :user_emails
+    has_many :authentications
     #ACCESSORS
     attr_accessor :username
 
@@ -72,8 +73,15 @@ class User < ApplicationRecord
         end
     end
 
-    def self.from_omniauth(auth)
-      user = User.where(:email => auth.info.email).first_or_initialize
+    def apply_omniauth(auth)
+      self.authentications.build(provider: auth['provider'], uid: auth['uid'],
+                                 access_token: auth['credentials'].token,
+                                 access_token_secret: auth['credentials'].secret,
+                                 email: auth.info.email)
+    end
+
+    def password_required?
+      authentications.empty? && super
     end
 
     def online?

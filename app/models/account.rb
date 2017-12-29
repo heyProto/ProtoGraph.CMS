@@ -40,7 +40,6 @@ class Account < ApplicationRecord
     has_many :permissions, ->{where(status: "Active")}
     has_many :users, through: :permissions
     has_many :permission_invites
-    has_many :authentications
     has_many :view_casts
     has_many :folders
     has_many :uploads
