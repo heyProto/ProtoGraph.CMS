@@ -73,6 +73,10 @@ class AccountsController < ApplicationController
   def template_cards
   end
 
+  def publishers
+    @ref_link_sources = RefLinkSource.all
+  end
+
   private
 
     def account_params
