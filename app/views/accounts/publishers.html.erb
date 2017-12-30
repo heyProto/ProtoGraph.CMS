@@ -1,0 +1,23 @@
+<div class="row">
+  <div class="col-sm-3">
+      <%= render partial: "accounts/sidebar" %>
+  </div>
+  <div class="col-sm-9">
+    <br/>
+    <h1>Publishers</h1>
+    <hr/>
+    <table class="table">
+      <tbody>
+        <% @ref_link_sources.each do |s| %>
+          <tr>
+            <td style="border: 0px;">
+              <%= image_tag(s.favicon_url, size: "16x16", class: "rounded") %>
+              <%= link_to s.name.titleize, s.url, target: "_blank" %>
+            </td>
+          </tr>
+        <% end %>
+    </table>
+  </div>
+  <div class="col-sm-4">
+  </div>
+</div>

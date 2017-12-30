@@ -51,6 +51,7 @@ Rails.application.routes.draw do
   end
 
   resources :accounts do
+    get "publishers", on: :collection
     resources :ref_codes
     resources :permissions do
       get "change_role", on: :member
