@@ -73,6 +73,9 @@ en:
     image: "Removed Image."
   publish:
     article_card: "The article card is published."
+    ref_link_sources: "The publishers are exported."
+    failure: "Failed to export."
   pd:
     folder: "Cannot edit trash folder."
+
 

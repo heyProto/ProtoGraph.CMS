@@ -13,9 +13,9 @@
                         <td style="border: 0px;">
                           <%= u.email %>
                         </td>
-                        <td style="border: 0px;">
+                        <td style="border: 0px;text-align: right">
                           <% unless u.is_primary_email %>
-                            <%= link_to "Delete Email", user_email_path(current_user, u), method: :delete %>
+                            <%= link_to "Remove", user_email_path(current_user, u), method: :delete %>
                           <% else %>
                             <p>-</p>
                           <% end %>

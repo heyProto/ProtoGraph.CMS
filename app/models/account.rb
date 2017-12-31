@@ -17,9 +17,8 @@
 #  client_token         :string(255)
 #  access_token         :string(255)
 #  client_secret        :string(255)
-#  logo_url             :text(65535)
 #  logo_image_id        :integer
-#  house_colour         :string(255)      default("#000000")
+#  house_colour         :string(255)
 #  reverse_house_colour :string(255)      default("#ffffff")
 #  font_colour          :string(255)      default("#ffffff")
 #  reverse_font_colour  :string(255)      default("#ffffff")

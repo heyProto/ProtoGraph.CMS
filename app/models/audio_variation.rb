@@ -3,8 +3,7 @@
 # Table name: audio_variations
 #
 #  id                 :integer          not null, primary key
-#  audio_id           :string(255)
-#  integer            :string(255)
+#  audio_id           :integer
 #  start_time         :integer
 #  end_time           :integer
 #  is_original        :boolean

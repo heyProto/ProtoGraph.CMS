@@ -23,8 +23,10 @@ Rails.application.routes.draw do
 
   namespace :admin do
     get "online_users", to: "online_users#index", as: :online_users
-    resources :ref_link_sources
-    get "publish", to: "ref_link_sources#publish", as: :publish_ref_link_sources
+  end
+
+  resources :ref_link_sources do
+    post "publish", on: :collection
   end
 
   get "/auth/:provider", to: lambda{ |env| [404, {}, ["Not Found"]] }, as: :oauth
@@ -51,7 +53,6 @@ Rails.application.routes.draw do
   end
 
   resources :accounts do
-    get "publishers", on: :collection
     resources :ref_codes
     resources :permissions do
       get "change_role", on: :member
