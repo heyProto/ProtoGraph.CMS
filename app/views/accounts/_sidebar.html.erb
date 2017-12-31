@@ -18,7 +18,9 @@
     <% end %>
 <% end %>
 
-<nav class="github-menu">
+<% if current_user.can_publish_link_sources %>
+  <nav class="github-menu">
     <span class="github-menu-heading">Reference List</span>
-    <%= link_to "Publishers", publishers_accounts_path, class: (controller_name == "accounts" and action_name == "publishers") ? "github-menu-item selected" : "github-menu-item" %>
-</nav>
+    <%= link_to "Publishers", ref_link_sources_path, class: (controller_name == "accounts" and action_name == "publishers") ? "github-menu-item selected" : "github-menu-item" %>
+  </nav>
+<% end %>

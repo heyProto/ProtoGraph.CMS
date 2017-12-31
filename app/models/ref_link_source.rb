@@ -21,9 +21,9 @@ class RefLinkSource < ApplicationRecord
   belongs_to :updator, class_name: "User", foreign_key: "updated_by"
   #ACCESSORS
   #VALIDATIONS
-  validates :name, presence: true
-  validates :favicon_url, presence: true
-  validates :url, presence: true
+  validates :name, presence: true, uniqueness: true
+  validates :favicon_url, presence: true, uniqueness: {scope: :name}
+  validates :url, presence: true, uniqueness: {scope: [:name, :favicon_url]}
   #CALLBACKS
   #SCOPE
   #OTHER

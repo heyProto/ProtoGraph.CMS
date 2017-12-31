@@ -1,0 +1,7 @@
+<%= simple_form_for @ref_link_source do |f| %>
+  <%= f.input :name, placeholder: "Name" %>
+  <%= f.input :url, as: :string, placeholder: "Url with http or https", hint: 'Remove the trailing / from the url' %>
+  <%= f.input :favicon_url, as: :string, placeholder: "Favicon URL with http or https"  %>
+
+  <%= f.submit "Add", class: "btn btn-sm btn-white" %>
+<% end %>
