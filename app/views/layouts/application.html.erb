@@ -30,7 +30,7 @@
 <body data-turbolinks=<%= (controller_name == "view_casts" and ['new', 'edit'].include?(action_name)) ? "false" : "true" %>>
   <%= render partial: "layouts/header" %>
   <br/><br/>
-  <div class="container">
+  <div class="container protograph-container">
       <%= yield %>
   </div>
   <%= render partial: "layouts/footer" %>
