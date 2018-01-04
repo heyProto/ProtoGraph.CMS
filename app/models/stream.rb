@@ -21,10 +21,6 @@
 #  offset                 :integer
 #  is_grouped_data_stream :boolean          default(FALSE)
 #  data_group_key         :string(255)
-#  sort_order_column      :string(255)
-#  sort_order             :string(255)
-#  include_data           :boolean
-#  flatten_data           :boolean
 #  filter_query           :text(65535)
 #  data_group_value       :string(255)
 #
@@ -39,16 +35,8 @@ class Stream < ApplicationRecord
     }
     #GEMS
     include Associable
-    include SearchCop
     extend FriendlyId
     friendly_id :title, use: :slugged
-
-    search_scope :search do
-        attributes :title, :description
-
-        options :title, :type => :fulltext
-        options :description, :type => :fulltext
-    end
 
 
     #ASSOCIATIONS

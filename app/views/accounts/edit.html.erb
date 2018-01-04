@@ -11,6 +11,12 @@
             <hr/>
             <p class="hint">Choose your brand colour. Wherever possible, we will use this colour.</p>
             <%= f.input :house_colour, input_html: {type: :color, style: "height: 40px;"}, label: false %>
+            <p class="hint">Choose your reverse brand colour. Wherever possible, we will use this colour to complement your brand colour.</p>
+            <%= f.input :reverse_house_colour, input_html: {type: :color, style: "height: 40px;"}, label: false %>
+            <p class="hint">Choose your font colour. Wherever possible, we will use this colour for text.</p>
+            <%= f.input :font_colour, input_html: {type: :color, style: "height: 40px;"}, label: false %>
+            <p class="hint">Choose your reverse font colour. Wherever possible, we will use this colour to complement your font colour.</p>
+            <%= f.input :reverse_font_colour, input_html: {type: :color, style: "height: 40px;"}, label: false %>
             <br/>
             <br/>
 

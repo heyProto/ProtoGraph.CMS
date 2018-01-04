@@ -2,25 +2,26 @@
 #
 # Table name: users
 #
-#  id                     :integer          not null, primary key
-#  name                   :string(255)      default(""), not null
-#  email                  :string(255)      default(""), not null
-#  access_token           :string(255)
-#  encrypted_password     :string(255)      default(""), not null
-#  reset_password_token   :string(255)
-#  reset_password_sent_at :datetime
-#  remember_created_at    :datetime
-#  sign_in_count          :integer          default(0), not null
-#  current_sign_in_at     :datetime
-#  last_sign_in_at        :datetime
-#  current_sign_in_ip     :string(255)
-#  last_sign_in_ip        :string(255)
-#  confirmation_token     :string(255)
-#  confirmed_at           :datetime
-#  confirmation_sent_at   :datetime
-#  unconfirmed_email      :string(255)
-#  created_at             :datetime         not null
-#  updated_at             :datetime         not null
+#  id                       :integer          not null, primary key
+#  name                     :string(255)      default(""), not null
+#  email                    :string(255)      default(""), not null
+#  access_token             :string(255)
+#  encrypted_password       :string(255)      default(""), not null
+#  reset_password_token     :string(255)
+#  reset_password_sent_at   :datetime
+#  remember_created_at      :datetime
+#  sign_in_count            :integer          default(0), not null
+#  current_sign_in_at       :datetime
+#  last_sign_in_at          :datetime
+#  current_sign_in_ip       :string(255)
+#  last_sign_in_ip          :string(255)
+#  confirmation_token       :string(255)
+#  confirmed_at             :datetime
+#  confirmation_sent_at     :datetime
+#  unconfirmed_email        :string(255)
+#  created_at               :datetime         not null
+#  updated_at               :datetime         not null
+#  can_publish_link_sources :boolean          default(FALSE)
 #
 
 class User < ApplicationRecord
@@ -38,6 +39,7 @@ class User < ApplicationRecord
     has_many :activities
     has_many :uploads
     has_many :user_emails
+    has_many :authentications
     #ACCESSORS
     attr_accessor :username
 
@@ -72,8 +74,15 @@ class User < ApplicationRecord
         end
     end
 
-    def self.from_omniauth(auth)
-      user = User.where(:email => auth.info.email).first_or_initialize
+    def apply_omniauth(auth)
+      self.authentications.build(provider: auth['provider'], uid: auth['uid'],
+                                 access_token: auth['credentials'].token,
+                                 access_token_secret: auth['credentials'].secret,
+                                 email: auth.info.email)
+    end
+
+    def password_required?
+      authentications.empty? && super
     end
 
     def online?

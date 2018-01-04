@@ -17,9 +17,6 @@ class AccountsController < ApplicationController
   def edit
     @people_count = @account.permissions.not_hidden.count
     @pending_invites_count = @account.permission_invites.count
-    @fb_auth = @account.authentications.fb_auth.first
-    @tw_auth = @account.authentications.tw_auth.first
-    @insta_auth = @account.authentications.insta_auth.first
     if @account.logo_image_id.nil?
       @account.build_logo_image
     end
@@ -76,10 +73,14 @@ class AccountsController < ApplicationController
   def template_cards
   end
 
+  def publishers
+    @ref_link_sources = RefLinkSource.all
+  end
+
   private
 
     def account_params
-      params.require(:account).permit(:username, :slug, :domain, :status, :sign_up_mode, :host, :cdn_id, :cdn_provider, :cdn_endpoint, :client_token, :access_token, :client_secret, :logo_image_id, :house_colour, logo_image_attributes: [:image])
+      params.require(:account).permit(:username, :slug, :domain, :status, :sign_up_mode, :host, :cdn_id, :cdn_provider, :cdn_endpoint, :client_token, :access_token, :client_secret, :logo_image_id, :house_colour, :reverse_house_colour, :font_colour, :reverse_font_colour, logo_image_attributes: [:image])
     end
 
 end

@@ -16,7 +16,9 @@
             <%=  image_tag("proto-logo.png", style: "height: 25px; margin-top: 0px;", class: "d-inline-block align-top") %>
           </a>
             <ul class="navbar-nav mr-auto" style="margin-left: 0px !important; margin-right: auto;">
-              <%= render partial: "layouts/dropdown_teams" %>
+              <% unless is_admins_controller %>
+                <%= render partial: "layouts/dropdown_teams" %>
+              <% end %>
               <% if @folder.present? and @folder.id.present? %>
                 <li class="nav-item">
                   <a class="nav-link">/</a>
@@ -45,10 +47,15 @@
                       <% elsif controller_name == "articles" and action_name != "new"  %>
                         <li class="nav-item"><%= link_to '+ Prepare an article', new_account_folder_article_path(@account, @folder), data: {turbolinks: false}, class: "nav-link btn btn-sm btn-primary", style: "margin-top: 5px;" %></li>
                       <% end %>
+
                   <% elsif controller_name == "images" and action_name != "new"  %>
                       <li class="nav-item"><%= link_to '+ Upload an image', "#", class: "nav-link btn btn-sm btn-primary",style: "margin-top: 5px;", "data-toggle" => "modal", "data-target" => "#fileUploadModal" %></li>
-
                       <%= render partial: "images/form" %>
+
+                  <% elsif controller_name == "audios" and action_name != "new"  %>
+                      <li class="nav-item"><%= link_to '+ Upload an audio', "#", class: "nav-link btn btn-sm btn-primary",style: "margin-top: 5px;", "data-toggle" => "modal", "data-target" => "#fileUploadModal" %></li>
+                      <%= render partial: "audios/form" %>
+
                   <% end %>
                   <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -63,6 +70,7 @@
                         <%= link_to "Add multiple cards", account_folder_uploads_path(@account, @folder), "data-turbolinks"=> false, class: "dropdown-item" %>
                       <% end %>
                       <%= link_to "Image Bank", account_images_path(@account), "data-turbolinks"=> false, class: "dropdown-item"  %>
+                      <%= link_to "Audio Bank", account_audios_path(@account), "data-turbolinks"=> false, class: "dropdown-item"  %>
                       <%= link_to "Team Settings", edit_account_path(@account), class: "dropdown-item" %>
                     </div>
                   </li>
@@ -89,7 +97,9 @@
             <%=  image_tag("_logo.png", style: "width: 30px;", class: "d-inline-block align-top") %>
           </a>
             <ul class="navbar-nav mr-auto" style="margin-left: 0px !important; margin-right: auto;">
+              <% unless is_admins_controller %>
                 <%= render partial: "layouts/dropdown_teams" %>
+              <% end %>
             </ul>
             <ul class="navbar-nav mr-auto">
               <li class="nav-item dropdown">

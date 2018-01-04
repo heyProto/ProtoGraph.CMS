@@ -2,24 +2,26 @@
 #
 # Table name: accounts
 #
-#  id            :integer          not null, primary key
-#  username      :string(255)
-#  slug          :string(255)
-#  domain        :string(255)
-#  status        :string(255)
-#  sign_up_mode  :string(255)
-#  created_at    :datetime         not null
-#  updated_at    :datetime         not null
-#  cdn_provider  :string(255)
-#  cdn_id        :string(255)
-#  host          :text(65535)
-#  cdn_endpoint  :text(65535)
-#  client_token  :string(255)
-#  access_token  :string(255)
-#  client_secret :string(255)
-#  logo_url      :text(65535)
-#  logo_image_id :integer
-#  house_colour  :string(255)      default("#000000")
+#  id                   :integer          not null, primary key
+#  username             :string(255)
+#  slug                 :string(255)
+#  domain               :string(255)
+#  status               :string(255)
+#  sign_up_mode         :string(255)
+#  created_at           :datetime         not null
+#  updated_at           :datetime         not null
+#  cdn_provider         :string(255)
+#  cdn_id               :string(255)
+#  host                 :text(65535)
+#  cdn_endpoint         :text(65535)
+#  client_token         :string(255)
+#  access_token         :string(255)
+#  client_secret        :string(255)
+#  logo_image_id        :integer
+#  house_colour         :string(255)
+#  reverse_house_colour :string(255)      default("#ffffff")
+#  font_colour          :string(255)      default("#ffffff")
+#  reverse_font_colour  :string(255)      default("#ffffff")
 #
 
 class Account < ApplicationRecord
@@ -37,7 +39,6 @@ class Account < ApplicationRecord
     has_many :permissions, ->{where(status: "Active")}
     has_many :users, through: :permissions
     has_many :permission_invites
-    has_many :authentications
     has_many :view_casts
     has_many :folders
     has_many :uploads
@@ -47,7 +48,8 @@ class Account < ApplicationRecord
     has_many :images
     has_many :uploads
     has_many :ref_codes
-
+    has_many :audios
+    has_many :audio_variations
     #ACCESSORS
     #VALIDATIONS
     validates :username, presence: true, uniqueness: { case_sensitive: false }, length: { in: 3..24 }, format: { with: /\A[a-z0-9A-Z_]{4,16}\z/ }

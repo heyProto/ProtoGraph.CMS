@@ -1,4 +1,4 @@
-class PasswordsController < Devise::PasswordsController
+class User::PasswordsController < Devise::PasswordsController
     layout "three_column_grid"
 
     def new

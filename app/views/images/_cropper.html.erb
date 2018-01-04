@@ -72,17 +72,23 @@
                   1:1 (Timeline Event Image)
                 </a>
               </li>
+              <li class="nav-item item" data-width="0" data-height="0" data-crop-type="smart">
+                <a class="nav-link" href='#'>
+                  Smart Crop
+                </a>
+              </li>
             <% end %>
           </ul>
         </div>
       </nav>
-      <img class="ui centered image" src="<%= @image.original_image.image_url %>" id="cropbox" style="height: 350px;" >
+      <img class="ui centered image" src="<%= @image.original_image.image_url %>" id="cropbox" style="height: 350px;" crossorigin="anonymous">
       <%= simple_form_for ([@account, @image_variation]) do |f| %>
         <%= f.input :image_id,as: :hidden,input_html: {value: @image.id} %>
         <% %w[x y w h].each do |attribute| %>
             <%= f.input "crop_#{attribute}", as: :hidden %>
         <% end %>
         <%= f.input :mode, as: :hidden, input_html: {value: mode.present? ? mode : nil} %>
+        <%= f.input :is_smart_cropped, as: :hidden %>
         <% if @article.present? and @article.id.present? %>
           <%= f.input :article_id, as: :hidden,input_html: {value: @article.id } %>
           <input type='hidden' name='redirect_url' value="<%= edit_account_folder_article_path(@account, @folder, @article) %>" />

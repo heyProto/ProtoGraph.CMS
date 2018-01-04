@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171124131306) do
+ActiveRecord::Schema.define(version: 20171231112418) do
 
   create_table "accounts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "username"
@@ -29,6 +29,9 @@ ActiveRecord::Schema.define(version: 20171124131306) do
     t.string "client_secret"
     t.integer "logo_image_id"
     t.string "house_colour"
+    t.string "reverse_house_colour", default: "#ffffff"
+    t.string "font_colour", default: "#ffffff"
+    t.string "reverse_font_colour", default: "#ffffff"
     t.index ["domain"], name: "index_accounts_on_domain"
     t.index ["slug"], name: "index_accounts_on_slug", unique: true
     t.index ["username"], name: "index_accounts_on_username", unique: true
@@ -73,8 +76,39 @@ ActiveRecord::Schema.define(version: 20171124131306) do
     t.boolean "instagram_uploading", default: false
   end
 
-  create_table "authentications", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+  create_table "audio_variations", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.integer "audio_id"
+    t.integer "start_time"
+    t.integer "end_time"
+    t.boolean "is_original"
+    t.integer "total_time"
+    t.string "subtitle_file_path"
+    t.integer "created_by"
+    t.integer "updated_by"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.text "audio_key"
+    t.index ["audio_id"], name: "index_audio_variations_on_audio_id"
+    t.index ["id"], name: "index_audio_variations_on_id", unique: true
+  end
+
+  create_table "audios", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer "account_id"
+    t.string "name"
+    t.string "audio"
+    t.text "description"
+    t.string "s3_identifier"
+    t.integer "total_time"
+    t.integer "created_by"
+    t.integer "updated_by"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id"], name: "index_audios_on_account_id"
+    t.index ["id"], name: "index_audios_on_id", unique: true
+    t.index ["s3_identifier"], name: "index_audios_on_s3_identifier", unique: true
+  end
+
+  create_table "authentications", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "provider"
     t.string "uid"
     t.text "info"
@@ -84,10 +118,10 @@ ActiveRecord::Schema.define(version: 20171124131306) do
     t.string "access_token_secret"
     t.string "refresh_token"
     t.datetime "token_expires_at"
-    t.integer "created_by"
-    t.integer "updated_by"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "user_id"
+    t.index ["user_id"], name: "index_authentications_on_user_id"
   end
 
   create_table "colour_swatches", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -98,6 +132,7 @@ ActiveRecord::Schema.define(version: 20171124131306) do
     t.boolean "is_dominant", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "name"
   end
 
   create_table "folders", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -140,6 +175,7 @@ ActiveRecord::Schema.define(version: 20171124131306) do
     t.datetime "updated_at", null: false
     t.string "mode"
     t.boolean "is_social_image"
+    t.boolean "is_smart_cropped", default: false
   end
 
   create_table "images", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -199,6 +235,16 @@ ActiveRecord::Schema.define(version: 20171124131306) do
     t.string "val"
     t.boolean "is_default"
     t.integer "sort_order"
+    t.integer "created_by"
+    t.integer "updated_by"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "ref_link_sources", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string "name"
+    t.text "url"
+    t.text "favicon_url"
     t.integer "created_by"
     t.integer "updated_by"
     t.datetime "created_at", null: false
@@ -374,6 +420,7 @@ ActiveRecord::Schema.define(version: 20171124131306) do
     t.string "unconfirmed_email"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "can_publish_link_sources", default: false
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true

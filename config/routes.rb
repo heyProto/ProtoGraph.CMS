@@ -6,7 +6,13 @@ Rails.application.routes.draw do
   get 'static_pages/index'
 
   resources :activities
-  devise_for :users, controllers: { registrations: 'registrations', sessions: 'sessions', passwords: "passwords", confirmations: "confirmations" }  do
+  devise_for :users, controllers: {
+               registrations: 'user/registrations',
+               sessions: 'user/sessions',
+               passwords: "user/passwords",
+               confirmations: "user/confirmations",
+               omniauth_callbacks: "user/omniauth_callbacks"
+             } do
     get 'sign_out', to: 'devise/sessions#destroy'
   end
 
@@ -17,6 +23,10 @@ Rails.application.routes.draw do
 
   namespace :admin do
     get "online_users", to: "online_users#index", as: :online_users
+  end
+
+  resources :ref_link_sources do
+    post "publish", on: :collection
   end
 
   get "/auth/:provider", to: lambda{ |env| [404, {}, ["Not Found"]] }, as: :oauth
@@ -77,10 +87,13 @@ Rails.application.routes.draw do
       resources :uploads, only: [:new, :create]
     end
     resources :images, only: [:index, :create, :show]
+    resources :audios, only: [:index, :create, :show]
     resources :image_variations, only: [:create, :show] do
       post :download, on: :member
     end
-
+    resources :audio_variations, only: [:create, :show] do
+      post :download, on: :member
+    end
   end
 
   get "docs", to: 'docs#index', as: :docs

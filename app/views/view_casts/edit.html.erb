@@ -5,6 +5,7 @@
 <a class="protograph-imagebank-button" data-toggle="modal" data-target="#fileUploadModal" href="#" id="protograph_image_bank_button">Image Bank</a>
 <div class="clearfix"></div>
 <div id="root"></div>
+<div class="clearfix"></div>
 
 <%= javascript_include_tag "JCrop.js" %>
 <script type="text/javascript">
@@ -12,7 +13,7 @@
     window.baseURL = "<%= BASE_URL %>/api/v1";
     window.accountSlug = "<%= @account.slug %>";
     window.folderSlug = "<%= @folder.slug %>";
-    window.ref_link_sources_url = "https://dnt71st2q6cqr.cloudfront.net/Assets/ref_link_sources.json"
+    window.ref_link_sources_url = "<%= "#{ENV["AWS_S3_ENDPOINT"]}/Assets/ref_link_sources.json" %>";
     window.viewCast = <%= @view_cast.to_json(include: [template_card: {only: [:account_id, :id, :slug, :global_slug,:name, :elevator_pitch,:template_datum_id, :git_repo_name], methods: [:account_slug, :files, :versions]}], methods: [:remote_urls]).html_safe %>
     var JCropInstance;
 </script>

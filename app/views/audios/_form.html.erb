@@ -1,0 +1,147 @@
+<div class="modal" id="fileUploadModal">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Add a new audio</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <%= simple_form_for([@account, @new_audio]) do |f| %>
+          <%= f.error_notification %>
+          <%= f.input :audio, as: :file, required: true, hint: 'Supported file types are MP3, WAV and WMA', input_html: {onChange: "readURL(this)"} %>
+		  <div id="preview_audio">
+            <div id="preview_audio_waveform" style="width: inherit;"></div>
+            <audio id="preview_audio_audio" crossOrigin="anonymous"></audio>
+          </div>
+          <%= f.input :account_id, as: :hidden, input_html: {value: @account.id} %>
+          <%= f.input :total_time, as: :hidden  %>
+          <%= f.input :name, required: true %>
+          <%= f.input :tag_list, collection: @tags, label: 'Tags', input_html: { multiple: true, id: 'tags_autocomplete' } %>
+          <%= f.input :description %>
+          <%= f.input :tags_list, as: :hidden %>
+        <% end %>
+      </div>
+      <div class='modal-footer'>
+        <input type="submit" value="Upload" form="new_audio" class="btn btn-outline" onclick="setTotalTime()">
+      </div>
+    </div>
+  </div>
+</div>
+
+<%= javascript_include_tag "https://d3js.org/d3.v4.min.js" %>
+
+<script type="text/javascript">
+ function readURL(input) {
+   if (input.files && input.files[0]) {
+     var reader = new FileReader();
+     reader.onload = function (e) {
+       $("#preview_audio_audio")
+         .attr('src', e.target.result)
+         .attr('controls', 'controls')
+       $('#audio_name').val(input.files[0].name.replace(/\.[^/.]+$/, ""));
+       // Render waveform on div
+       createWaveform();
+     }
+     reader.readAsDataURL(input.files[0]);
+   } else {
+     $("#preview_audio_audio").attr('src', "");
+     $('#audio_name').val("");
+   }
+ };
+
+ $(document).ready(function(){
+   // Hiding the div first as the styling for height and width have already been applied.
+   // the selector.css() method only removes styling applied via javascript
+   // The styling for height and width have been applied via styling because
+   // d3 requires it at DOM creation.
+   $("#preview_audio_waveform").css("display", "none");
+ });
+
+ function setTotalTime(){
+   // Set the value for total length by getting the duration of audiotag
+   $("#audio_total_time").val(duration("preview_audio_audio"));
+   console.log("Time duration: " + String(duration("preview_audio_audio")))
+ }
+
+ // Get duration of audio tag file
+ function duration(selectorId){
+   var audio = document.getElementById(selectorId);
+   if(audio.readyState > 0){
+     seconds = parseInt(audio.duration);
+     return(seconds)
+   }
+ }
+
+ function createWaveform() {
+   var freqs = new Uint8Array(200);
+   var audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+   var audioElement = document.getElementById('preview_audio_audio');
+   var audioSrc = audioCtx.createMediaElementSource(audioElement);
+   var analyser = audioCtx.createAnalyser();
+   var aud = document.getElementById("preview_audio_audio");
+   var y = d3.scaleLinear()
+			 .domain([0,255])
+	    	 .rangeRound([-25, 25]);
+   // var dur = d3.scaleLinear()
+   // 		.domain([0,200])
+   // 		.rangeRound([0,aud.duration])
+   var cont = d3.select("#preview_audio_waveform");
+   $("#preview_audio_waveform").css("display", "");
+
+   var area = d3.area()
+		   		.x(function(d,i){ return x(i) })
+		   		.y0(function(d){ return (height / 4)-y(d) })
+		   		.y1(function(d){ return height - (height / 4)+y(d)})
+		   		.curve(d3.curveNatural);
+   audioSrc.connect(analyser);
+   audioSrc.connect(audioCtx.destination);
+   var height = cont.node().getBoundingClientRect().height;
+   var width = cont.node().getBoundingClientRect().width;
+   console.log(cont.node().getBoundingClientRect());
+   var svg = cont.append('svg').attr('height',height).attr('width',width).style('background-color','#2d3741');
+   var x = d3.scaleLinear()
+		     .domain([0,200])
+		     .range([0, width]);
+   svg.append('path')
+	  .attr('d',area(freqs))
+	  .attr('stroke','#1be3bc')
+	  .attr('fill','#1be3bc')
+	  .attr('stroke-width','4px')
+	  .attr('id','abc');
+
+   function renderChart() {
+	 requestAnimationFrame(renderChart);
+	 analyser.getByteFrequencyData(freqs);
+	 svg.select('#abc')
+		.attr('d',area(freqs))
+   }
+   renderChart();
+ }
+</script>
+<style>
+ #preview_audio_waveform{
+   height:180px;
+   width:600px;
+ }
+</style>
+
+<script>
+ // Allow extra tags to be added in selects multiselect
+ $(document).ready(function(){
+   $("#tags_autocomplete").select2({
+     width: '100%',
+     tags: true,
+     tokenSeparators: [',', ' ']
+   });
+ });
+
+ //Set tag list on form submit
+ $("#new_audio").submit(function(event){
+   var values = $("#tags_autocomplete").select2('data');
+   var valuesString = values.map(function(i) {return i.text}).join(",");
+   $("#audio_tags_list").val(valuesString);
+   console.log(valuesString)
+ });
+</script>
