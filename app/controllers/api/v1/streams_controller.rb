@@ -9,6 +9,9 @@ class Api::V1::StreamsController < ApiController
     @stream.creator = @user
     if @stream.save
       track_activity(@stream)
+      unless @stream.cards.count == 0
+        @stream.publish_cards
+      end
       render json: {stream: @stream.as_json, redirect_path: account_folder_stream_path(@account, @folder, @stream), message: "Stream created successfully"}, status: 200
     else
       render json: {errors: @stream.errors.as_json}, status: 422
@@ -18,19 +21,13 @@ class Api::V1::StreamsController < ApiController
   def update
     if @stream.update(stream_params)
       @stream.updator = @user
+      unless @stream.cards.count == 0
+        @stream.publish_cards
+      end
       track_activity(@stream)
       render json: {stream: @stream.as_json, redirect_path: account_folder_stream_path(@account, @folder, @stream), message: "Stream updated successfully"}, status: 200
     else
       render json: {errors: @stream.errors.as_json}, status: 422
-    end
-  end
-
-  def publish
-    unless @stream.cards.count == 0
-      @stream.publish_cards
-      render json: {message: "Stream published successfully"}, status: 200
-    else
-      render json: {error_message: "No view_casts present for the stream. At least one view_cast is required to publish stream"}, status: 422
     end
   end
 
@@ -39,7 +36,7 @@ class Api::V1::StreamsController < ApiController
   def set_stream
     @folder = @account.folders.friendly.find(@folder.slug)
     if @folder.present?
-      @stream =  @folder.streams.friendly.find(params[:id])
+      @stream =  @folder.streams.find(params[:id])
     else
       render(json: {error_message: "Stream not found"}, status: 404) and return
     end
