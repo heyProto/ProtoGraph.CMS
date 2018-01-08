@@ -9,7 +9,6 @@ class Api::V1::StreamsController < ApiController
     @stream.creator = @user
     if @stream.save
       track_activity(@stream)
-      @stream.publish_cards
       render json: {stream: @stream.as_json, redirect_path: account_folder_stream_path(@account, @folder, @stream), message: "Stream created successfully"}, status: 200
     else
       render json: {errors: @stream.errors.as_json}, status: 422
@@ -17,10 +16,9 @@ class Api::V1::StreamsController < ApiController
   end
 
   def update
-    @stream.updator = @user
-    if @stream.save
+    if @stream.update(stream_params)
+      @stream.updator = @user
       track_activity(@stream)
-      @stream.publish_cards
       render json: {stream: @stream.as_json, redirect_path: account_folder_stream_path(@account, @folder, @stream), message: "Stream updated successfully"}, status: 200
     else
       render json: {errors: @stream.errors.as_json}, status: 422
@@ -28,8 +26,12 @@ class Api::V1::StreamsController < ApiController
   end
 
   def publish
-    @stream.publish
-    render json: {message: "Stream published successfully"}, status: 200
+    unless @view_casts.count == 0
+      @stream.publish
+      render json: {message: "Stream published successfully"}, status: 200
+    else
+      render json: {error_message: "No view_casts present for the stream. At least one view_cast is required to publish stream"}, status: 422
+    end
   end
 
   private
