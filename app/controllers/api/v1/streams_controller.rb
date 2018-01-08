@@ -26,8 +26,8 @@ class Api::V1::StreamsController < ApiController
   end
 
   def publish
-    unless @view_casts.count == 0
-      @stream.publish
+    unless @stream.cards.count == 0
+      @stream.publish_cards
       render json: {message: "Stream published successfully"}, status: 200
     else
       render json: {error_message: "No view_casts present for the stream. At least one view_cast is required to publish stream"}, status: 422
