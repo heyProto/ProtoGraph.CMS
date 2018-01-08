@@ -31,12 +31,21 @@ class Api::V1::StreamsController < ApiController
     end
   end
 
+  def publish
+    unless @stream.cards.count == 0
+      @stream.publish_cards
+      render json: {message: "Stream published successfully"}, status: 200
+    else
+      render json: {error_message: "No view_casts present for the stream. At least one view_cast is required to publish stream"}, status: 422
+    end
+  end
+
   private
 
   def set_stream
     @folder = @account.folders.friendly.find(@folder.slug)
     if @folder.present?
-      @stream =  @folder.streams.find(params[:id])
+      @stream =  @folder.streams.friendly.find(params[:id])
     else
       render(json: {error_message: "Stream not found"}, status: 404) and return
     end
