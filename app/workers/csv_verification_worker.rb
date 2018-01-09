@@ -158,6 +158,10 @@ class CsvVerificationWorker
               toRainfall: {
                 name: "data/district",
                 seo_blockquote_text: ""
+              },
+              WaterExploitation: {
+                name: "data/district",
+                seo_blockquote_text: ""
               }
             }
 
