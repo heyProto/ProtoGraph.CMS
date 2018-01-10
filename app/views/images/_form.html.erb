@@ -14,9 +14,7 @@
           <img id="preview_image" src="#" alt="" style='max-height: 200px' />
           <%= f.input :account_id, as: :hidden, input_html: {value: @account.id} %>
           <%= f.input :name, required: true %>
-          <%= f.input :tag_list, collection: @tags, label: 'Tags', input_html: { multiple: true, id: 'tags_autocomplete' } %>
           <%= f.input :description %>
-          <%= f.input :tags_list, as: :hidden %>
           <%= f.hidden_field :dominant_colour, value: nil %>
           <%= f.hidden_field :colour_palette, value: nil %>
         <% end %>
@@ -59,23 +57,5 @@
              $("#image_colour_palette").val(JSON.stringify(pal_colours))
          }
      });
- });
-</script>
-<script>
- // Allow extra tags to be added in selects multiselect
- $(document).ready(function(){
-   $("#tags_autocomplete").select2({
-     width: '100%',
-     tags: true,
-     tokenSeparators: [',', ' ']
-   });
- });
-
- //Set tag list on form submit
- $("#new_image").submit(function(event){
-   var values = $("#tags_autocomplete").select2('data');
-   var valuesString = values.map(function(i) {return i.text}).join(",");
-   $("#image_tags_list").val(valuesString);
-   console.log(valuesString)
  });
 </script>

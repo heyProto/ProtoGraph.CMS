@@ -17,7 +17,6 @@ class StreamsController < ApplicationController
     def index
       @view_casts_count = @folder.view_casts.count
       @streams_count = @folder.streams.count
-      @articles_count = @folder.articles.count
       @is_viewcasts_present = @account.view_casts.count > 0
       @streams = @folder.streams.order(updated_at: :desc).page(params[:page]).per(30)
       render layout: "application-fluid"
@@ -27,7 +26,6 @@ class StreamsController < ApplicationController
         @stream = @folder.streams.new(account_id: @account.id)
         @view_casts_count = @folder.view_casts.count
         @streams_count = @folder.streams.count
-        @articles_count = @folder.articles.count
         @view_casts_id_list = []
         @is_viewcasts_present = @view_casts_count != 0
         render layout: "application-fluid"
@@ -40,7 +38,6 @@ class StreamsController < ApplicationController
         @template_cards = @account.template_cards.where(id: @stream.card_list)
         @is_viewcasts_present = @view_casts_count != 0
         @streams_count = @folder.streams.count
-        @articles_count = @folder.articles.count
         render layout: "application-fluid"
     end
 
@@ -51,7 +48,6 @@ class StreamsController < ApplicationController
         @stream.excluded_view_cast_id_list = @stream.excluded_view_cast_ids.pluck(:entity_value).join(",")
         @view_casts_count = @folder.view_casts.count
         @streams_count = @folder.streams.count
-        @articles_count = @folder.articles.count
         @is_viewcasts_present = @view_casts_count != 0
         render layout: "application-fluid"
     end
@@ -89,7 +85,7 @@ class StreamsController < ApplicationController
     private
 
     def stream_params
-        params.require(:stream).permit(:account_id, :folder_id, :title, :description, :created_by, :updated_by, :limit, :offset,card_list: [], folder_list: [], tag_list: [], view_cast_id_list: [], excluded_view_cast_id_list: [])
+        params.require(:stream).permit(:account_id, :folder_id, :title, :description, :created_by, :updated_by, :limit, :offset,card_list: [], folder_list: [], view_cast_id_list: [], excluded_view_cast_id_list: [])
     end
 
     def set_stream

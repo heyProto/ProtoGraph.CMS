@@ -20,7 +20,6 @@ class Audio < ApplicationRecord
   #CUSTOM TABLES
 
   #GEMS
-  acts_as_taggable
   paginates_per 24
   #ASSOCIATIONS
   include Associable
@@ -30,11 +29,9 @@ class Audio < ApplicationRecord
   has_many :activities
   mount_uploader :audio, AudioUploader
   #ACCESSORS
-  attr_accessor :tags_list
   #VALIDATIONS
   #CALLBACKS
   before_create { self.s3_identifier = SecureRandom.hex(8) }
-  after_create :add_tags
   after_commit :create_audio_version, on: :create
   #SCOPE
   #OTHER
@@ -63,8 +60,5 @@ class Audio < ApplicationRecord
     AudioVariation.create!(options)
   end
 
-  def add_tags
-    self.tag_list.add(self.tags_list, parse: true) if not self.tags_list.nil?
-  end
   #PRIVATE
 end

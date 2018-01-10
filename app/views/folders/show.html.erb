@@ -30,17 +30,6 @@
           <% end %>
         </div>
       </div>
-      <div class="card">
-        <div class="card-body">
-          <h4 class="card-title" style="text-align: center; font-weight: 400;"><%= link_to "Prepare articles <span class='badge badge-pill badge-secondary'>#{@articles_count}</span>".html_safe, account_folder_articles_path(@account, @folder) %></h4>
-          <hr style="margin-left: 20px; margin-right: 20px;"/>
-          <% unless @folder.is_trash %>
-            <div style='text-align: center;'>
-              <%= link_to '+ Prepare an article', new_account_folder_article_path(@account, @folder), data: {turbolinks: false}, class: "nav-link btn btn-sm btn-primary", style: "margin-top: 5px;" %>
-            </div>
-          <% end %>
-        </div>
-      </div>
     </div>
     <br/>
     <br/>

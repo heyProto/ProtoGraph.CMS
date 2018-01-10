@@ -4,7 +4,6 @@ class FoldersController < ApplicationController
   def show
       @view_casts_count = @folder.view_casts.count
       @streams_count = @folder.streams.count
-      @articles_count = @folder.articles.count
       article_template_card =  TemplateCard.where(name: 'toArticle').first
       @view_casts = @folder.view_casts.where.not(template_card_id: article_template_card.present? ? article_template_card.id : nil).order(updated_at: :desc).page(params[:page]).per(30)
       @is_viewcasts_present = @view_casts.count != 0
@@ -47,7 +46,7 @@ class FoldersController < ApplicationController
   private
 
     def folder_params
-      params.require(:folder).permit(:account_id, :name, :created_by, :updated_by)
+      params.require(:folder).permit(:account_id, :name, :created_by, :updated_by, :site_id)
     end
 
 end

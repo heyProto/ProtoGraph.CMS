@@ -12,6 +12,7 @@
 #  updated_at  :datetime         not null
 #  is_trash    :boolean          default(FALSE)
 #  is_archived :boolean          default(FALSE)
+#  site_id     :integer
 #
 
 class Folder < ApplicationRecord
@@ -26,9 +27,9 @@ class Folder < ApplicationRecord
 
     #ASSOCIATIONS
     belongs_to :account
+    belongs_to :site
     has_many :streams
     has_many :uploads
-    has_many :articles
     has_many :activities
     has_many :uploads
     #ACCESSORS

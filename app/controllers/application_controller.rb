@@ -23,9 +23,9 @@ class ApplicationController < ActionController::Base
   def track_activity(trackable, action = params[:action])
     if @account.present?
       if @folder.present?
-          current_user.activities.create!(action: action, trackable: trackable, account_id: @account.id, folder_id: @folder.id)
+          current_user.activities.create!(action: action, trackable: trackable, account_id: @account.id, folder_id: @folder.id, site_id: @site.id)
       else
-          current_user.activities.create!(action: action, trackable: trackable, account_id: @account.id)
+          current_user.activities.create!(action: action, trackable: trackable, account_id: @account.id, site_id: @site.id)
       end
     end
   end
@@ -43,8 +43,10 @@ class ApplicationController < ActionController::Base
       elsif controller_name == "folders" and params[:id].present?
         @folder = @account.folders.friendly.find(params[:id])
       end
+      @site = @account.site
     elsif controller_name == "accounts" and params[:id].present?
       @account = Account.friendly.find(params[:id])
+      @site = @account.site
     end
   	if user_signed_in?
       @accounts = current_user.accounts

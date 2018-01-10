@@ -29,7 +29,6 @@ class AccountsController < ApplicationController
     end
     if a_params["logo_image_attributes"].present?
       a_params["logo_image_attributes"]["name"] = @account.username + "_avatar"
-      a_params["logo_image_attributes"]["tag_list"] = ['avatar']
       a_params["logo_image_attributes"]["account_id"] = @account.id
       a_params["logo_image_attributes"]["created_by"] = current_user.id
       a_params["logo_image_attributes"]["updated_by"] = current_user.id

@@ -22,7 +22,7 @@
                 <%= image_tag "trash-icon.jpg", style: "height: 12px;margin-bottom: 2px;" if folder.is_trash %>
                 <%= folder.name.titleize %>
                 <span class="count badge badge-pill badge-secondary" style="font-size: 0.81em; font-weight: 200;">
-                    <%= folder.view_casts.count + folder.streams.count + folder.articles.count %>
+                    <%= folder.view_casts.count + folder.streams.count %>
                 </span>
             </a>
         <% end %>

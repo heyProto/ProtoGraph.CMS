@@ -19,7 +19,7 @@
             <div class="row">
               <% @view_casts.each do |d| %>
               <div class="col-sm-5">
-                <%= link_to (d.article.present? ? edit_account_folder_article_path(d.account, d.folder, d.article) : [d.account, d.folder,d]), "data-turbolinks"=> false do %>
+                <%= link_to [d.account, d.folder,d], "data-turbolinks"=> false do %>
                 <div class="card card-inverse" style="margin: 20px 0px; ">
                   <div class="card-footer">
                     <h4 class="card-title" style="font-weight: 400" title="<%=d.name%>">

@@ -23,6 +23,7 @@
 #  data_group_key         :string(255)
 #  filter_query           :text(65535)
 #  data_group_value       :string(255)
+#  site_id                :integer
 #
 
 class Stream < ApplicationRecord
@@ -41,6 +42,7 @@ class Stream < ApplicationRecord
 
     #ASSOCIATIONS
     belongs_to :folder
+    belongs_to :account
     has_many :folder_ids, ->{folders}, class_name: "StreamEntity", foreign_key: "stream_id"
     has_many :template_card_ids, ->{template_cards}, class_name: "StreamEntity", foreign_key: "stream_id"
     has_many :view_cast_ids, ->{view_casts}, class_name: "StreamEntity", foreign_key: "stream_id"
@@ -49,7 +51,6 @@ class Stream < ApplicationRecord
     #ACCESSORS
     attr_accessor :folder_list
     attr_accessor :card_list #Template Card list
-    attr_accessor :tag_list
     attr_accessor :view_cast_id_list
     attr_accessor :excluded_view_cast_id_list
     #VALIDATIONS
@@ -244,16 +245,6 @@ class Stream < ApplicationRecord
             self.excluded_view_cast_ids.where(entity_value: (prev_excluded_view_cast_ids - self.excluded_view_cast_id_list)).delete_all
         end
 
-        #Creating Tag entities from tag_list
-        # if self.tag_list.present?
-        #     self.tag_list = self.tag_list.reject(&:empty?)
-
-        #     prev_tag_ids = self.stream_entities.where(entity_type: "tag_id").pluck(:entity_value)
-        #     self.tag_list.each do |t|
-        #         self.stream_entities.create({entity_type: "tag_id",entity_value: t})
-        #     end
-        #     self.stream_entities.where(entity_type: "tag_id").where(entity_value: [prev_tag_ids - self.tag_list]).delete_all
-        # end
         #Creating Card entities from card_list
         if self.card_list.present?
             self.card_list = self.card_list.reject(&:empty?)

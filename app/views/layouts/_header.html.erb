@@ -32,9 +32,6 @@
                 <% elsif controller_name == "view_casts" %>
                   <li class="nav-item"><a class="nav-link">/</a></li>
                   <li class="nav-item"><%= link_to "Cards", account_folder_view_casts_path(@account, @folder), class: "nav-link"%></li>
-                <% elsif controller_name == "articles" %>
-                  <li class="nav-item"><a class="nav-link">/</a></li>
-                  <li class="nav-item"><%= link_to "Prepare articles", account_folder_articles_path(@account, @folder), class: "nav-link"%></li>
                 <% end %>
               <% end %>
             </ul>
@@ -44,8 +41,6 @@
                         <li class="nav-item"><%= link_to '+ Add a card', new_account_folder_view_cast_path(@account, @folder), data: {turbolinks: false}, class: "nav-link btn btn-sm btn-primary", style: "margin-top: 5px;" %></li>
                       <% elsif controller_name == "streams" and action_name != "new"  %>
                         <li class="nav-item"><%= link_to '+ Add a stream', new_account_folder_stream_path(@account, @folder), data: {turbolinks: false}, class: "nav-link btn btn-sm btn-primary", style: "margin-top: 5px;" %></li>
-                      <% elsif controller_name == "articles" and action_name != "new"  %>
-                        <li class="nav-item"><%= link_to '+ Prepare an article', new_account_folder_article_path(@account, @folder), data: {turbolinks: false}, class: "nav-link btn btn-sm btn-primary", style: "margin-top: 5px;" %></li>
                       <% end %>
 
                   <% elsif controller_name == "images" and action_name != "new"  %>

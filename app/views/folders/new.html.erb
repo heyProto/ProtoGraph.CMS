@@ -4,6 +4,7 @@
           <hr/>
         <%= simple_form_for [@account, @folder] do |f| %>
             <%= f.input :name, required: true %>
+            <%= f.input :site_id, as: :hidden, input_html: {value: @site.id} %>
             <%= f.button :submit, "Save", class: "ui primary button" %>
         <% end %>
       </div>

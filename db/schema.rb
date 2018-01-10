@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171231112418) do
+ActiveRecord::Schema.define(version: 20180110203120) do
 
   create_table "accounts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "username"
@@ -27,9 +27,8 @@ ActiveRecord::Schema.define(version: 20171231112418) do
     t.string "client_token"
     t.string "access_token"
     t.string "client_secret"
-    t.text "logo_url"
     t.integer "logo_image_id"
-    t.string "house_colour", default: "#000000"
+    t.string "house_colour"
     t.string "reverse_house_colour", default: "#ffffff"
     t.string "font_colour", default: "#ffffff"
     t.string "reverse_font_colour", default: "#ffffff"
@@ -47,34 +46,7 @@ ActiveRecord::Schema.define(version: 20171231112418) do
     t.datetime "updated_at", null: false
     t.integer "folder_id"
     t.integer "account_id"
-  end
-
-  create_table "articles", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.integer "account_id"
-    t.integer "folder_id"
-    t.integer "cover_image_id"
-    t.string "title"
-    t.text "summary"
-    t.text "content"
-    t.string "genre"
-    t.text "og_image_variation_id"
-    t.integer "og_image_width"
-    t.integer "og_image_height"
-    t.text "twitter_image_variation_id"
-    t.integer "created_by"
-    t.integer "updated_by"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.text "url"
-    t.string "slug"
-    t.integer "instagram_image_variation_id"
-    t.string "author"
-    t.datetime "article_datetime"
-    t.integer "view_cast_id"
-    t.string "default_view"
-    t.boolean "facebook_uploading", default: false
-    t.boolean "twitter_uploading", default: false
-    t.boolean "instagram_uploading", default: false
+    t.integer "site_id"
   end
 
   create_table "audio_variations", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -122,6 +94,7 @@ ActiveRecord::Schema.define(version: 20171231112418) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "user_id"
+    t.integer "site_id"
     t.index ["user_id"], name: "index_authentications_on_user_id"
   end
 
@@ -146,6 +119,7 @@ ActiveRecord::Schema.define(version: 20171231112418) do
     t.datetime "updated_at", null: false
     t.boolean "is_trash", default: false
     t.boolean "is_archived", default: false
+    t.integer "site_id"
   end
 
   create_table "friendly_id_slugs", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -158,19 +132,6 @@ ActiveRecord::Schema.define(version: 20171231112418) do
     t.index ["slug", "sluggable_type"], name: "index_friendly_id_slugs_on_slug_and_sluggable_type"
     t.index ["sluggable_id"], name: "index_friendly_id_slugs_on_sluggable_id"
     t.index ["sluggable_type"], name: "index_friendly_id_slugs_on_sluggable_type"
-  end
-
-  create_table "git_projects", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.string "project_name"
-    t.string "s3_identifier"
-    t.text "git_url"
-    t.datetime "last_published_at"
-    t.string "root_folder", default: "/"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.text "status"
-    t.string "parent_type"
-    t.integer "parent_id"
   end
 
   create_table "image_variations", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -233,28 +194,6 @@ ActiveRecord::Schema.define(version: 20171231112418) do
     t.boolean "is_hidden", default: false
   end
 
-  create_table "piwik_metrics", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.string "datacast_identifier"
-    t.string "piwik_module"
-    t.string "piwik_metric_name"
-    t.integer "piwik_metric_value"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.string "piwik_metric_type"
-  end
-
-  create_table "ref_codes", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.integer "account_id"
-    t.string "key"
-    t.string "val"
-    t.boolean "is_default"
-    t.integer "sort_order"
-    t.integer "created_by"
-    t.integer "updated_by"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
   create_table "ref_link_sources", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "name"
     t.text "url"
@@ -277,6 +216,14 @@ ActiveRecord::Schema.define(version: 20171231112418) do
     t.index ["slug"], name: "index_ref_roles_on_slug", unique: true
   end
 
+  create_table "sites", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.integer "account_id"
+    t.string "name"
+    t.string "domain"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "stream_entities", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer "stream_id"
     t.string "entity_type"
@@ -284,16 +231,6 @@ ActiveRecord::Schema.define(version: 20171231112418) do
     t.boolean "is_excluded"
     t.integer "created_by"
     t.integer "updated_by"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "stream_view_casts_sort_indices", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.integer "stream_id"
-    t.integer "account_id"
-    t.integer "view_cast_id"
-    t.string "sort_column_name"
-    t.text "sort_column_value"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -317,12 +254,9 @@ ActiveRecord::Schema.define(version: 20171231112418) do
     t.integer "offset"
     t.boolean "is_grouped_data_stream", default: false
     t.string "data_group_key"
-    t.string "sort_order_column"
-    t.string "sort_order"
-    t.boolean "include_data"
-    t.boolean "flatten_data"
     t.text "filter_query"
     t.string "data_group_value"
+    t.integer "site_id"
     t.index ["description"], name: "index_streams_on_description", type: :fulltext
     t.index ["title"], name: "index_streams_on_title", type: :fulltext
   end
@@ -344,12 +278,6 @@ ActiveRecord::Schema.define(version: 20171231112418) do
     t.index ["taggable_type"], name: "index_taggings_on_taggable_type"
     t.index ["tagger_id", "tagger_type"], name: "index_taggings_on_tagger_id_and_tagger_type"
     t.index ["tagger_id"], name: "index_taggings_on_tagger_id"
-  end
-
-  create_table "tags", id: :integer, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.string "name", collation: "utf8_bin"
-    t.integer "taggings_count", default: 0
-    t.index ["name"], name: "index_tags_on_name", unique: true
   end
 
   create_table "template_cards", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -393,8 +321,8 @@ ActiveRecord::Schema.define(version: 20171231112418) do
     t.integer "publish_count"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "status"
     t.string "s3_identifier"
+    t.string "status"
     t.index ["slug"], name: "index_template_data_on_slug", unique: true
   end
 
@@ -425,7 +353,7 @@ ActiveRecord::Schema.define(version: 20171231112418) do
     t.datetime "confirmed_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.boolean "is_primary_email", default: false
+    t.boolean "is_primary_email"
     t.index ["user_id"], name: "index_user_emails_on_user_id"
   end
 
@@ -472,9 +400,6 @@ ActiveRecord::Schema.define(version: 20171231112418) do
     t.integer "folder_id"
     t.boolean "is_invalidating"
     t.string "default_view"
-    t.integer "article_id"
-    t.boolean "is_indexed"
-    t.text "indexing_errors"
     t.index ["slug"], name: "index_view_casts_on_slug", unique: true
   end
 

@@ -9,7 +9,6 @@ class ViewCastsController < ApplicationController
     def index
         @view_casts_count = @folder.view_casts.count
         @streams_count = @folder.streams.count
-        @articles_count = @folder.articles.count
         @view_casts = @folder.view_casts.order(updated_at: :desc).page(params[:page]).per(30)
         @is_viewcasts_present = @view_casts.count != 0
     end
@@ -22,10 +21,6 @@ class ViewCastsController < ApplicationController
         @view_cast_seo_blockquote = @view_cast.seo_blockquote.to_s.split('`').join('\`')
         @view_casts_count = @folder.view_casts.count
         @streams_count = @folder.streams.count
-        @articles_count = @folder.articles.count
-        piwik_metrics = @view_cast.piwik_metrics
-        @page_views = piwik_metrics.page_views
-        @unique_visitors = piwik_metrics.unique_visitors
         render layout: "application-fluid"
     end
 

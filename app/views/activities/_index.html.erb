@@ -24,9 +24,6 @@
                 <% elsif a.trackable.class.to_s == "Stream" %>
                   a stream
                   <%= link_to a.trackable.title.titleize, [a.trackable.account, a.trackable.folder, a.trackable] %>
-                <% elsif a.trackable.class.to_s == "Article" %>
-                  an article
-                  <%= link_to a.trackable.title.titleize, edit_account_folder_article_path(a.trackable.account, a.trackable.folder, a.trackable), "data-turbolinks" => "false" %>
                 <% elsif a.trackable.class.to_s == "Image" %>
                   an image
                   <%= link_to a.trackable.name, [a.trackable.account, a.trackable], "data-turbolinks" => "false" %>

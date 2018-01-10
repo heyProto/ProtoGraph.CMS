@@ -48,12 +48,10 @@ Rails.application.routes.draw do
       get '/oembed', to: "utilities#oembed"
       resources :view_casts, only: [:show]
       resources :template_data, only: [:create]
-      resources :tags, only: [:index]
     end
   end
 
   resources :accounts do
-    resources :ref_codes
     resources :permissions do
       get "change_role", on: :member
     end
@@ -77,14 +75,7 @@ Rails.application.routes.draw do
         post :publish, on: :member
         resources :stream_entities, only: [:create, :destroy]
       end
-      resources :uploads, only: [:index, :create]
-      resources :articles do
-        put "remove_cover_image", on: :member
-        put "remove_facebook_image", on: :member
-        put "remove_twitter_image", on: :member
-        put "remove_instagram_image", on: :member
-      end
-      resources :uploads, only: [:new, :create]
+      resources :uploads, only: [:new, :create, :index]
     end
     resources :images, only: [:index, :create, :show]
     resources :audios, only: [:index, :create, :show]

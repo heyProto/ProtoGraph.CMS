@@ -26,7 +26,6 @@ class Image < ApplicationRecord
   #CUSTOM TABLES
   #GEMS
 
-  acts_as_taggable
   paginates_per 100
   #ASSOCIATIONS
   belongs_to :account
@@ -35,7 +34,7 @@ class Image < ApplicationRecord
   has_many :activities
   has_many :colour_swatches, dependent: :destroy
   #ACCESSORS
-  attr_accessor :tags_list, :crop_x, :crop_y, :crop_w, :crop_h
+  attr_accessor :crop_x, :crop_y, :crop_w, :crop_h
   mount_uploader :image, ImageUploader
   attr_accessor :dominant_colour
   attr_accessor :colour_palette
@@ -44,7 +43,6 @@ class Image < ApplicationRecord
   #CALLBACKS
   before_create { self.s3_identifier = SecureRandom.hex(8) }
   after_create :create_image_version
-  after_create :add_tags
 
   after_commit :add_colour_swatches, on: :create
   #SCOPE
@@ -99,10 +97,6 @@ class Image < ApplicationRecord
                                         name: colour_name)
           end
       end
-  end
-
-  def add_tags
-    self.tag_list.add(self.tags_list, parse: true) if not self.tags_list.nil?
   end
 
   #PRIVATE
