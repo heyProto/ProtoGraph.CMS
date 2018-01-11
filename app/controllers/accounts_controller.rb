@@ -47,13 +47,13 @@ class AccountsController < ApplicationController
   def create
     @account = Account.new(account_params)
     if @account.save
-      RefCode.seed(@account.id, current_user.id)
       current_user.create_permission(@account.id, "owner")
       folder = Folder.create({
         account_id: @account.id,
         name: "Sample Project",
         created_by: current_user.id,
-        updated_by: current_user.id
+        updated_by: current_user.id,
+        site_id: @account.site.id
       })
       folder = Folder.create({
         account_id: @account.id,
@@ -61,7 +61,8 @@ class AccountsController < ApplicationController
         created_by: current_user.id,
         updated_by: current_user.id,
         is_trash: true,
-        is_system_generated: true
+        is_system_generated: true,
+        site_id: @account.site.id
       })
       redirect_to @account, notice: t("cs")
     else

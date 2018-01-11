@@ -25,6 +25,9 @@
 #  data_group_value       :string(255)
 #  site_id                :integer
 #  include_data           :boolean          default(FALSE)
+#  is_automated_stream    :boolean          default(FALSE)
+#  col_name               :string(255)
+#  col_id                 :integer
 #
 
 class Stream < ApplicationRecord
@@ -42,8 +45,7 @@ class Stream < ApplicationRecord
 
 
     #ASSOCIATIONS
-    belongs_to :folder
-    belongs_to :account
+    belongs_to :folder, optional: true
     has_many :folder_ids, ->{folders}, class_name: "StreamEntity", foreign_key: "stream_id"
     has_many :template_card_ids, ->{template_cards}, class_name: "StreamEntity", foreign_key: "stream_id"
     has_many :view_cast_ids, ->{view_casts}, class_name: "StreamEntity", foreign_key: "stream_id"
@@ -65,19 +67,30 @@ class Stream < ApplicationRecord
     #OTHER
 
     def cards(apply_limit=true)
-        query = {}
-        query[:folder_id] = self.folder_ids.pluck(:entity_value) if self.folder_ids.count > 0
-        query[:template_card_id] = self.template_card_ids.pluck(:entity_value) if self.template_card_ids.count > 0
-        unless query.blank?
-            view_cast = account.view_casts.order(created_at: :desc).where(query).where.not(folder_id: account.folders.where(is_trash: true).first.id)
-            view_cast = view_cast.where.not(id: self.excluded_view_cast_ids.pluck(:entity_value)) if self.excluded_view_cast_ids.count > 0
-            view_cast = view_cast.limit(self.limit).offset(self.offset) if apply_limit
+        if is_automated_stream
+            if col_name == "Site"
+                site = Site.find(col_id)
+                view_casts = site.view_casts.limit(self.limit).offset(self.offset)
+            else col_name == "RefCategory"
+                ref_cat = RefCategory.find(col_id)
+                view_casts = ref_cat.view_casts.limit(self.limit).offset(self.offset)
+            end
+            return view_casts
         else
-            view_cast = ViewCast.none
+            query = {}
+            query[:folder_id] = self.folder_ids.pluck(:entity_value) if self.folder_ids.count > 0
+            query[:template_card_id] = self.template_card_ids.pluck(:entity_value) if self.template_card_ids.count > 0
+            unless query.blank?
+                view_cast = account.view_casts.order(created_at: :desc).where(query).where.not(folder_id: account.folders.where(is_trash: true).first.id)
+                view_cast = view_cast.where.not(id: self.excluded_view_cast_ids.pluck(:entity_value)) if self.excluded_view_cast_ids.count > 0
+                view_cast = view_cast.limit(self.limit).offset(self.offset) if apply_limit
+            else
+                view_cast = ViewCast.none
+            end
+            view_cast_or = self.view_cast_ids.present? ? account.view_casts.where(id: self.view_cast_ids.pluck(:entity_value)).where.not(folder_id: account.folders.where(is_trash: true).first.id) : ViewCast.none
+            view_casts = view_cast + view_cast_or
+            return view_casts
         end
-        view_cast_or = self.view_cast_ids.present? ? account.view_casts.where(id: self.view_cast_ids.pluck(:entity_value)).where.not(folder_id: account.folders.where(is_trash: true).first.id) : ViewCast.none
-        view_casts = view_cast + view_cast_or
-        return view_casts
     end
 
     def publish_cards

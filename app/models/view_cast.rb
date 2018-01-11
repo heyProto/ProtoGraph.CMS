@@ -50,7 +50,7 @@ class ViewCast < ApplicationRecord
     before_create :before_create_set
     after_create :after_create_set
     before_save :before_save_set
-    #after_save :after_save_set
+    after_save :after_save_set
     before_destroy :before_destroy_set
     #SCOPE
     default_scope ->{includes(:account)}
@@ -165,15 +165,9 @@ class ViewCast < ApplicationRecord
         self.seo_blockquote = self.seo_blockquote.to_s.gsub('${', '\${')
     end
 
-    # def after_save_set
-    #     if self.saved_changes? and !self.stop_callback
-    #         Thread.new do
-    #             sleep 1
-    #             self.save_png
-    #             ActiveRecord::Base.connection.close
-    #         end
-    #     end
-    # end
+    def after_save_set
+        # Update the streams
+    end
 
     def after_create_set
         template_card = self.template_card

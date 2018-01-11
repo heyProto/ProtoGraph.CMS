@@ -111,6 +111,27 @@ class User < ApplicationRecord
         self.access_token = SecureRandom.hex(24)
     end
 
+    def after_create_set
+        a = Account.create(username: self.username)
+        self.create_permission(a.id, "owner")
+        Folder.create({
+            account_id: a.id,
+            name: "Sample Project",
+            created_by: self.id,
+            updated_by: self.id,
+            site_id: a.site.id
+        })
+        Folder.create({
+            account_id: a.id,
+            name: "Recycle Bin",
+            created_by: self.id,
+            updated_by: self.id,
+            is_trash: true,
+            is_system_generated: true,
+            site_id: a.site.id
+        })
+    end
+
     def welcome_user
         if Rails.env == "production"
             WelcomeUserWorker.perform_in(1.second, self.id)

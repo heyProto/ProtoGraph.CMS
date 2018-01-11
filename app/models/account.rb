@@ -117,6 +117,7 @@ class Account < ApplicationRecord
     end
 
     def after_create_set
+        Site.create({account_id: self.id, name: self.username, domain: self.domain})
         create_sudo_permission("owner")
     end
 end
