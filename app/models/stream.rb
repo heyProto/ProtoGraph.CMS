@@ -166,6 +166,10 @@ class Stream < ApplicationRecord
                     d["is_case_registered"] = data["when_and_where_it_occur"]["is_case_registered"]
                     d["lat"] = data["when_and_where_it_occur"]["lat"]
                     d["lng"] = data["when_and_where_it_occur"]["lng"]
+                elsif (view_cast.template_card.name == 'WaterExploitation' or self.include_data)
+                    res = JSON.parse(RestClient.get(view_cast.data_url).body)
+                    data = res['data']
+                    d.merge!(data)
                 end
                 d['iframe_url']= "#{view_cast.template_card.index_html(self.account)}?view_cast_id=#{view_cast.datacast_identifier}%26schema_id=#{view_cast.template_datum.s3_identifier}"
                 d['default_view'] = "#{view_cast.default_view}"

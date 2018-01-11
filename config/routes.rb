@@ -42,6 +42,8 @@ Rails.application.routes.draw do
         end
         resources :folders, only: [] do
           resources :datacasts, only: [:create, :update]
+          resources :streams, only: [:create, :update]
+          post "/streams/:id/publish", to: "streams#publish", as: :publish_stream
         end
       end
       get '/iframely', to: "utilities#iframely"
