@@ -20,7 +20,6 @@
 #  folder_id             :integer
 #  is_invalidating       :boolean
 #  default_view          :string(255)
-#  article_id            :integer
 #
 
 class ViewCast < ApplicationRecord
