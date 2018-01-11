@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180110203120) do
+ActiveRecord::Schema.define(version: 20180110211110) do
 
   create_table "accounts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "username"
@@ -194,6 +194,16 @@ ActiveRecord::Schema.define(version: 20180110203120) do
     t.boolean "is_hidden", default: false
   end
 
+  create_table "ref_categories", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.integer "site_id"
+    t.string "category"
+    t.string "name"
+    t.integer "parent_category_id"
+    t.text "stream_url"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "ref_link_sources", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "name"
     t.text "url"
@@ -216,12 +226,34 @@ ActiveRecord::Schema.define(version: 20180110203120) do
     t.index ["slug"], name: "index_ref_roles_on_slug", unique: true
   end
 
+  create_table "ref_tags", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.integer "site_id"
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "site_view_casts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.integer "site_id"
+    t.integer "view_cast_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "sites", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer "account_id"
     t.string "name"
     t.string "domain"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.text "description"
+    t.string "primary_language"
+    t.text "default_seo_keywords"
+    t.string "house_colour"
+    t.string "reverse_house_colour"
+    t.string "font_colour"
+    t.string "reverse_font_colour"
+    t.text "stream_url"
   end
 
   create_table "stream_entities", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
