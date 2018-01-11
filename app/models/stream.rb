@@ -23,6 +23,8 @@
 #  data_group_key         :string(255)
 #  filter_query           :text(65535)
 #  data_group_value       :string(255)
+#  site_id                :integer
+#  include_data           :boolean          default(FALSE)
 #
 
 class Stream < ApplicationRecord
@@ -164,7 +166,7 @@ class Stream < ApplicationRecord
                     d["is_case_registered"] = data["when_and_where_it_occur"]["is_case_registered"]
                     d["lat"] = data["when_and_where_it_occur"]["lat"]
                     d["lng"] = data["when_and_where_it_occur"]["lng"]
-                elsif view_cast.template_card.name == 'WaterExploitation'
+                elsif (view_cast.template_card.name == 'WaterExploitation' or self.include_data)
                     res = JSON.parse(RestClient.get(view_cast.data_url).body)
                     data = res['data']
                     d.merge!(data)
