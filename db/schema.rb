@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180110211110) do
+ActiveRecord::Schema.define(version: 20180111115421) do
 
   create_table "accounts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "username"
@@ -289,6 +289,7 @@ ActiveRecord::Schema.define(version: 20180110211110) do
     t.text "filter_query"
     t.string "data_group_value"
     t.integer "site_id"
+    t.boolean "include_data", default: false
     t.index ["description"], name: "index_streams_on_description", type: :fulltext
     t.index ["title"], name: "index_streams_on_title", type: :fulltext
   end
@@ -432,6 +433,10 @@ ActiveRecord::Schema.define(version: 20180110211110) do
     t.integer "folder_id"
     t.boolean "is_invalidating"
     t.string "default_view"
+    t.string "genre"
+    t.string "sub_genre"
+    t.string "series"
+    t.string "by_line"
     t.index ["slug"], name: "index_view_casts_on_slug", unique: true
   end
 

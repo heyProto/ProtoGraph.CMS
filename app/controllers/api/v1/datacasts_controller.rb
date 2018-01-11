@@ -8,6 +8,12 @@ class Api::V1::DatacastsController < ApiController
         view_cast.account_id = @account.id
         view_cast.created_by = @user.id
         view_cast.updated_by = @user.id
+        if view_cast.template_card.name == 'toStory'
+            view_cast.by_line = datacast_params['data']["by_line"]
+            view_cast.genre = datacast_params['data']["genre"]
+            view_cast.sub_genre = datacast_params['data']["subgenre"]
+            view_cast.series = datacast_params['data']["series"]
+        end
         if view_cast.save
             track_activity(view_cast)
             payload["api_slug"] = view_cast.datacast_identifier
@@ -32,6 +38,12 @@ class Api::V1::DatacastsController < ApiController
         payload["source"]  = "form"
         payload["api_slug"] = view_cast.datacast_identifier
         payload["schema_url"] = view_cast.template_datum.schema_json
+        if view_cast.template_card.name == 'toStory'
+            view_cast.by_line = datacast_params['data']["by_line"]
+            view_cast.genre = datacast_params['data']["genre"]
+            view_cast.sub_genre = datacast_params['data']["subgenre"]
+            view_cast.series = datacast_params['data']["series"]
+        end
         r = Api::ProtoGraph::Datacast.update(payload)
         if r.has_key?("errorMessage")
             render json: {error_message: r['errorMessage']}, status: 422

@@ -20,6 +20,10 @@
 #  folder_id             :integer
 #  is_invalidating       :boolean
 #  default_view          :string(255)
+#  genre                 :string(255)
+#  sub_genre             :string(255)
+#  series                :string(255)
+#  by_line               :string(255)
 #
 
 class ViewCast < ApplicationRecord
@@ -46,7 +50,7 @@ class ViewCast < ApplicationRecord
     before_create :before_create_set
     after_create :after_create_set
     before_save :before_save_set
-    after_save :after_save_set
+    #after_save :after_save_set
     before_destroy :before_destroy_set
     #SCOPE
     default_scope ->{includes(:account)}
@@ -161,15 +165,15 @@ class ViewCast < ApplicationRecord
         self.seo_blockquote = self.seo_blockquote.to_s.gsub('${', '\${')
     end
 
-    def after_save_set
-        if self.saved_changes? and !self.stop_callback
-            Thread.new do
-                sleep 1
-                self.save_png
-                ActiveRecord::Base.connection.close
-            end
-        end
-    end
+    # def after_save_set
+    #     if self.saved_changes? and !self.stop_callback
+    #         Thread.new do
+    #             sleep 1
+    #             self.save_png
+    #             ActiveRecord::Base.connection.close
+    #         end
+    #     end
+    # end
 
     def after_create_set
         template_card = self.template_card
