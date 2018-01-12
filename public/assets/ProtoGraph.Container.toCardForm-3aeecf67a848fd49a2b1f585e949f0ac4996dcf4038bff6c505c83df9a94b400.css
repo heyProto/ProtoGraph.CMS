@@ -484,111 +484,111 @@ p{
     color: #969696;
     font-size: 1.5em; }
 .proto-container {
-    max-width: 1280px;
-    width: 100%;
-    margin: 0 auto;
+  max-width: 1280px;
+  width: 100%;
+  margin: 0 auto;
 }
 
 .proto-navbar {
-    padding: 5px 0px;
-    border-bottom: 1px solid #efefef;
-    background: white;
+  padding: 5px 0px;
+  border-bottom: 1px solid #efefef;
+  background: white;
 }
 
 .proto-navbar .round-image {
-    height: 45px;
-    width: 45px;
-    overflow: hidden;
-    border-radius: 50px;
+  height: 45px;
+  width: 45px;
+  overflow: hidden;
+  border-radius: 50px;
 }
 
 .form-layout .proto-card-form {
-    padding-top: 15px;
+  padding-top: 15px;
 }
 
 .form-layout .proto-card-preview {
-    height: 100vh;
-    padding-top: 15px;
+  height: 100vh;
+  padding-top: 15px;
 }
 
 .default-button {
-    border: 1px solid #c5c5c5;
-    display: inline-block;
-    padding: 2px;
-    border-radius: 4px;
+  border: 1px solid #c5c5c5;
+  display: inline-block;
+  padding: 2px;
+  border-radius: 4px;
 }
 
 .default-button i.icon,
 .default-button i.icons {
-    color: #969696;
-    font-size: 1.5em;
+  color: #969696;
+  font-size: 1.5em;
 }
 
 .section-title-text {
-    font-size: 1.5em;
-    padding: 0px;
-    padding-bottom: 15px;
-    font-weight: bold;
-    display: inline-block;
+  font-size: 1.5em;
+  padding: 0px;
+  padding-bottom: 15px;
+  font-weight: bold;
+  display: inline-block;
 }
 
 .proto-pull-right {
-    float: right;
+  float: right;
 }
 
 .protograph-menu-container {
-    text-align: center;
-    margin-bottom: 15px;
+  text-align: center;
+  margin-bottom: 15px;
 }
 
 .protograph-disable {
-    pointer-events: none;
-    cursor: default;
+  pointer-events: none;
+  cursor: default;
 }
 
 .protograph-scroll-form {
-    overflow: scroll;
-    height: 100vh;
+  overflow: auto;
+  height: 85vh;
 }
 
 .ui.styled.fluid.accordion:empty {
-    display: none;
+  display: none;
 }
 
 #protograph_embed_editQuiz {
-    position: relative;
+  position: relative;
 }
 
 .protograph-toQuiz-overlay {
-    display: none;
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    z-index: 1040;
-    background-color: #000;
-    opacity: 0.6;
-    /*pointer-events: none;*/
+  display: none;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1040;
+  background-color: #000;
+  opacity: 0.6;
+  /*pointer-events: none;*/
 }
 
 .protograph-toQuiz-rerender-quiz {
-    display: none !important;
-    z-index: 1050 !important;
-    position: absolute;
-    top: 50%;
-    left: 45%;
-    pointer-events: all;
-    animation: jiggle 2s infinite ease-in;
+  display: none !important;
+  z-index: 1050 !important;
+  position: absolute;
+  top: 50%;
+  left: 45%;
+  pointer-events: all;
+  animation: jiggle 2s infinite ease-in;
 }
 
 .protograph-toQuiz-no-pointerEvents {
-    pointer-events: none;
+  pointer-events: none;
 }
 
 .protograph-toQuiz-overlay.active,
 .protograph-toQuiz-rerender-quiz.active {
-    display: block !important;
+  display: block !important;
 }
 
 .protograph-loader-container {
@@ -629,7 +629,316 @@ p{
   margin: 40px auto;
 }
 /*# sourceMappingURL=master-style.css.map */
+/*!
+ * # Semantic UI 0.0.8 - Calendar
+ * http://github.com/semantic-org/semantic-ui/
+ *
+ *
+ * Released under the MIT license
+ * http://opensource.org/licenses/MIT
+ *
+ */
+.ui.calendar .ui.popup{max-width:none;padding:0;border:none;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}.ui.calendar .calendar:focus{outline:0}.ui.calendar .ui.popup .ui.grid{display:block;white-space:nowrap}.ui.calendar .ui.popup .ui.grid>.column{width:auto}.ui.calendar .ui.table.minute,.ui.calendar .ui.table.month,.ui.calendar .ui.table.year{min-width:15em}.ui.calendar .ui.table.day{min-width:18em}.ui.calendar .ui.table.hour{min-width:20em}.ui.calendar .ui.table tr td,.ui.calendar .ui.table tr th{padding:.5em;white-space:nowrap}.ui.calendar .ui.table tr th{border-left:none}.ui.calendar .ui.table tr th .icon{margin:0}.ui.calendar .ui.table tr:first-child th{position:relative;padding-left:0;padding-right:0}.ui.calendar .ui.table.day tr:first-child th{border:none}.ui.calendar .ui.table.day tr:nth-child(2) th{padding-top:.2em;padding-bottom:.3em}.ui.calendar .ui.table tr td{padding-left:.1em;padding-right:.1em}.ui.calendar .ui.table tr .link{cursor:pointer}.ui.calendar .ui.table tr .prev.link{width:14.28571429%;position:absolute;left:0}.ui.calendar .ui.table tr .next.link{width:14.28571429%;position:absolute;right:0}.ui.calendar .ui.table tr .disabled{pointer-events:none;color:rgba(40,40,40,.3)}.ui.calendar .ui.table tr td.today{font-weight:700}.ui.calendar .ui.table tr td.range{background:rgba(0,0,0,.05);color:rgba(0,0,0,.95);box-shadow:none}.ui.calendar .ui.table.inverted tr td.range{background:rgba(255,255,255,.08);color:#fff;box-shadow:none}.ui.calendar .calendar.active .ui.table tbody tr td.focus,.ui.calendar .calendar.active .ui.table.inverted tbody tr td.focus,.ui.calendar .calendar:focus .ui.table tbody tr td.focus,.ui.calendar .calendar:focus .ui.table.inverted tbody tr td.focus{box-shadow:inset 0 0 0 1px #85B7D9}
+@import url('https://fonts.googleapis.com/css?family=Bitter:400,700|Cabin:400,400i,500,700');
+
+.navbar{
+	color: white;
+	height: 70px;
+	padding: 20px;
+	box-sizing: border-box;
+	background: linear-gradient(to bottom, #333333, rgba(51, 51, 51, 0));
+	font-family: 'Cabin', sans-serif;
+	font-size: 12px;
+	text-transform: uppercase;
+	z-index: 999;
+}
+
+.branding{
+	float: left;
+	font-family: 'Bitter', serif;
+	/*font-weight: bold;*/
+	font-size: 20px;
+	margin-right: 25px;
+}
+
+.nav-links{
+	float: left;
+}
+
+.single-link{
+	float: left;
+	padding: 7px 15px;
+}
+
+.right-float-div{
+	float: right;
+}
+
+body {
+  margin: 0px !important; }
+
+.proto-grid-container {
+  width: 1300px;
+  margin-left: auto;
+  margin-right: auto;
+  position: relative;
+  padding-left: 20px;
+  box-sizing: border-box;
+  overflow-x: hidden; }
+
+.proto-col {
+  display: inline-table;
+  margin-right: 20px;
+  position: relative;
+  float: left;
+  box-sizing: border-box; }
+
+.col-1 {
+  width: 60px; }
+
+.col-2 {
+  width: 140px; }
+
+.col-3 {
+  width: 220px; }
+
+.col-4 {
+  width: 300px; }
+
+.col-5 {
+  width: 380px; }
+
+.col-6 {
+  width: 460px; }
+
+.col-7 {
+  width: 540px; }
+
+.col-8 {
+  width: 620px; }
+
+.col-9 {
+  width: 700px; }
+
+.col-10 {
+  width: 780px; }
+
+.col-11 {
+  width: 860px; }
+
+.col-12 {
+  width: 940px; }
+
+.col-13 {
+  width: 1020px; }
+
+.col-14 {
+  width: 1100px; }
+
+.col-15 {
+  width: 1180px; }
+
+.col-16 {
+  width: 1260px; }
+
+.col-1.parent-col {
+  width: 80px; }
+
+.col-2.parent-col {
+  width: 160px; }
+
+.col-3.parent-col {
+  width: 240px; }
+
+.col-4.parent-col {
+  width: 320px; }
+
+.col-5.parent-col {
+  width: 400px; }
+
+.col-6.parent-col {
+  width: 480px; }
+
+.col-7.parent-col {
+  width: 560px; }
+
+.col-8.parent-col {
+  width: 640px; }
+
+.col-9.parent-col {
+  width: 720px; }
+
+.col-10.parent-col {
+  width: 800px; }
+
+.col-11.parent-col {
+  width: 880px; }
+
+.col-12.parent-col {
+  width: 960px; }
+
+.col-13.parent-col {
+  width: 1040px; }
+
+.col-14.parent-col {
+  width: 1120px; }
+
+.col-15.parent-col {
+  width: 1200px; }
+
+.col-16.parent-col {
+  width: 1280px; }
+
+.parent-col {
+  margin-right: 0px !important;
+  margin-bottom: 0px !important;
+  background: transparent !important; }
+
+.col-1.pull-left-col {
+  width: 80px; }
+
+.col-2.pull-left-col {
+  width: 160px; }
+
+.col-3.pull-left-col {
+  width: 240px; }
+
+.col-4.pull-left-col {
+  width: 320px; }
+
+.col-5.pull-left-col {
+  width: 400px; }
+
+.col-6.pull-left-col {
+  width: 480px; }
+
+.col-7.pull-left-col {
+  width: 560px; }
+
+.col-8.pull-left-col {
+  width: 640px; }
+
+.col-9.pull-left-col {
+  width: 720px; }
+
+.col-10.pull-left-col {
+  width: 800px; }
+
+.col-11.pull-left-col {
+  width: 880px; }
+
+.col-12.pull-left-col {
+  width: 960px; }
+
+.col-13.pull-left-col {
+  width: 1040px; }
+
+.col-14.pull-left-col {
+  width: 1120px; }
+
+.col-15.pull-left-col {
+  width: 1200px; }
+
+.col-16.pull-left-col {
+  width: 1280px; }
+
+.pull-left-col {
+  margin-left: -20px;
+  padding-left: 20px; }
+
+.col-1-offset {
+  margin-left: 60px;
+  padding-left: 20px; }
+
+.col-2-offset {
+  margin-left: 140px;
+  padding-left: 20px; }
+
+.col-3-offset {
+  margin-left: 220px;
+  padding-left: 20px; }
+
+.col-4-offset {
+  margin-left: 300px;
+  padding-left: 20px; }
+
+.col-5-offset {
+  margin-left: 380px;
+  padding-left: 20px; }
+
+.col-6-offset {
+  margin-left: 460px;
+  padding-left: 20px; }
+
+.col-7-offset {
+  margin-left: 540px;
+  padding-left: 20px; }
+
+.col-8-offset {
+  margin-left: 620px;
+  padding-left: 20px; }
+
+.col-9-offset {
+  margin-left: 700px;
+  padding-left: 20px; }
+
+.col-10-offset {
+  margin-left: 780px;
+  padding-left: 20px; }
+
+.col-11-offset {
+  margin-left: 860px;
+  padding-left: 20px; }
+
+.col-12-offset {
+  margin-left: 940px;
+  padding-left: 20px; }
+
+.col-13-offset {
+  margin-left: 1020px;
+  padding-left: 20px; }
+
+.col-14-offset {
+  margin-left: 1100px;
+  padding-left: 20px; }
+
+.col-15-offset {
+  margin-left: 1180px;
+  padding-left: 20px; }
+
+.col-16-offset {
+  margin-left: 1260px;
+  padding-left: 20px; }
+
+@media only screen and (max-width: 500px) {
+  .proto-grid-container {
+    width: 100%;
+    padding-left: 0px; }
+
+  .col-7 {
+    width: 100%; }
+
+  .col-16 {
+    width: 100%; }
+
+  .col-4 {
+    margin-left: 50%;
+    transform: translate(-50%, 0); }
+
+  .col-3 {
+    width: 300px;
+    margin-left: 50%;
+    transform: translate(-50%, 0); }
+
+  .col-2 {
+    width: 300px;
+    margin-left: 50%;
+    transform: translate(-50%, 0); } }
+
+/*# sourceMappingURL=grid.css.map */
 /*
+
+
 
 
 

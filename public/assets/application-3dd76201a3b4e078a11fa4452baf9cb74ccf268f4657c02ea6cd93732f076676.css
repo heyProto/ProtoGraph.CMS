@@ -321,7 +321,7 @@
     border-radius: 6px
 }
 
-/* line 5, /Users/amitbadheka/work/protograph.cms/app/assets/stylesheets/vendors/github-menu.scss */
+/* line 5, /home/moiz/Desktop/Pykih/ProtoGraph.CMS/app/assets/stylesheets/vendors/github-menu.scss */
 .github-menu {
   margin-bottom: 15px;
   list-style: none;
@@ -330,7 +330,7 @@
   border-radius: 3px;
 }
 
-/* line 13, /Users/amitbadheka/work/protograph.cms/app/assets/stylesheets/vendors/github-menu.scss */
+/* line 13, /home/moiz/Desktop/Pykih/ProtoGraph.CMS/app/assets/stylesheets/vendors/github-menu.scss */
 .github-menu-item {
   position: relative;
   display: block;
@@ -338,39 +338,39 @@
   border-bottom: 1px solid #eee;
   font-size: 13px;
 }
-/* line 20, /Users/amitbadheka/work/protograph.cms/app/assets/stylesheets/vendors/github-menu.scss */
+/* line 20, /home/moiz/Desktop/Pykih/ProtoGraph.CMS/app/assets/stylesheets/vendors/github-menu.scss */
 .github-menu-item:first-child {
   border-top: 0;
   border-top-left-radius: 2px;
   border-top-right-radius: 2px;
 }
-/* line 25, /Users/amitbadheka/work/protograph.cms/app/assets/stylesheets/vendors/github-menu.scss */
+/* line 25, /home/moiz/Desktop/Pykih/ProtoGraph.CMS/app/assets/stylesheets/vendors/github-menu.scss */
 .github-menu-item:first-child::before {
   border-top-left-radius: 2px;
 }
-/* line 28, /Users/amitbadheka/work/protograph.cms/app/assets/stylesheets/vendors/github-menu.scss */
+/* line 28, /home/moiz/Desktop/Pykih/ProtoGraph.CMS/app/assets/stylesheets/vendors/github-menu.scss */
 .github-menu-item:last-child {
   border-bottom: 0;
   border-bottom-right-radius: 2px;
   border-bottom-left-radius: 2px;
 }
-/* line 33, /Users/amitbadheka/work/protograph.cms/app/assets/stylesheets/vendors/github-menu.scss */
+/* line 33, /home/moiz/Desktop/Pykih/ProtoGraph.CMS/app/assets/stylesheets/vendors/github-menu.scss */
 .github-menu-item:last-child::before {
   border-bottom-left-radius: 2px;
 }
-/* line 36, /Users/amitbadheka/work/protograph.cms/app/assets/stylesheets/vendors/github-menu.scss */
+/* line 36, /home/moiz/Desktop/Pykih/ProtoGraph.CMS/app/assets/stylesheets/vendors/github-menu.scss */
 .github-menu-item:hover {
   text-decoration: none;
   background-color: #F9F9F9;
 }
-/* line 41, /Users/amitbadheka/work/protograph.cms/app/assets/stylesheets/vendors/github-menu.scss */
+/* line 41, /home/moiz/Desktop/Pykih/ProtoGraph.CMS/app/assets/stylesheets/vendors/github-menu.scss */
 .github-menu-item.selected {
   font-weight: 600;
   color: black;
   cursor: default;
   background-color: white;
 }
-/* line 47, /Users/amitbadheka/work/protograph.cms/app/assets/stylesheets/vendors/github-menu.scss */
+/* line 47, /home/moiz/Desktop/Pykih/ProtoGraph.CMS/app/assets/stylesheets/vendors/github-menu.scss */
 .github-menu-item.selected::before {
   position: absolute;
   top: 0;
@@ -380,18 +380,18 @@
   content: "";
   background-color: #D26911;
 }
-/* line 58, /Users/amitbadheka/work/protograph.cms/app/assets/stylesheets/vendors/github-menu.scss */
+/* line 58, /home/moiz/Desktop/Pykih/ProtoGraph.CMS/app/assets/stylesheets/vendors/github-menu.scss */
 .github-menu-item .count {
   float: right;
   margin-left: 5px;
 }
-/* line 63, /Users/amitbadheka/work/protograph.cms/app/assets/stylesheets/vendors/github-menu.scss */
+/* line 63, /home/moiz/Desktop/Pykih/ProtoGraph.CMS/app/assets/stylesheets/vendors/github-menu.scss */
 .github-menu-item .avatar {
   float: left;
   margin-right: 5px;
 }
 
-/* line 70, /Users/amitbadheka/work/protograph.cms/app/assets/stylesheets/vendors/github-menu.scss */
+/* line 70, /home/moiz/Desktop/Pykih/ProtoGraph.CMS/app/assets/stylesheets/vendors/github-menu.scss */
 .github-menu-heading {
   display: block;
   padding: 8px 10px;
@@ -404,16 +404,16 @@
   background-color: #F3F5F8;
   border-bottom: 1px solid #eee;
 }
-/* line 82, /Users/amitbadheka/work/protograph.cms/app/assets/stylesheets/vendors/github-menu.scss */
+/* line 82, /home/moiz/Desktop/Pykih/ProtoGraph.CMS/app/assets/stylesheets/vendors/github-menu.scss */
 .github-menu-heading:hover {
   text-decoration: none;
 }
-/* line 86, /Users/amitbadheka/work/protograph.cms/app/assets/stylesheets/vendors/github-menu.scss */
+/* line 86, /home/moiz/Desktop/Pykih/ProtoGraph.CMS/app/assets/stylesheets/vendors/github-menu.scss */
 .github-menu-heading:first-child {
   border-top-left-radius: 2px;
   border-top-right-radius: 2px;
 }
-/* line 91, /Users/amitbadheka/work/protograph.cms/app/assets/stylesheets/vendors/github-menu.scss */
+/* line 91, /home/moiz/Desktop/Pykih/ProtoGraph.CMS/app/assets/stylesheets/vendors/github-menu.scss */
 .github-menu-heading:last-child {
   border-bottom: 0;
   border-bottom-right-radius: 2px;
