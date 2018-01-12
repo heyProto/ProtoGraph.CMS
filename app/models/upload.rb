@@ -24,6 +24,7 @@ class Upload < ApplicationRecord
   #CUSTOM TABLES
   #GEMS
   #ASSOCIATIONS
+  belongs_to :account
   belongs_to :template_card
   belongs_to :folder
   include Associable
