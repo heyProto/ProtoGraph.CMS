@@ -30,6 +30,8 @@ class Site < ApplicationRecord
     has_many :activities
     has_many :site_view_casts
     has_many :view_casts, through: :site_view_casts
+    has_many :ref_categories
+    has_one :stream, primary_key: "stream_id", foreign_key: "id"
     #ACCESSORS
     #VALIDATIONS
     validates :name, presence: true, uniqueness: {scope: :account}

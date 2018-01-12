@@ -19,12 +19,14 @@ class RefCategory < ApplicationRecord
     #GEMS
     #ASSOCIATIONS
     belongs_to :site
+    has_one :stream, foreign_key: 'id', primary_key: 'stream_id'
     #ACCESSORS
     #VALIDATIONS
     validates :name, presence: true, uniqueness: {scope: :site}
     validates :category, inclusion: {in: ["genre", "sub_genre", "series"]}
     validates :parent_category_id, presence: true, if: "category=='sub_genre'"
     #CALLBACKS
+    after_create :after_create_set
     #SCOPE
     #OTHER
     #PRIVATE
@@ -34,4 +36,23 @@ class RefCategory < ApplicationRecord
     end
 
     private
+
+    def after_create_set
+        s = Stream.create!({
+            is_automated_stream: true,
+            col_name: "RefCategory",
+            col_id: self.id,
+            account_id: self.site.account_id,
+            title: self.name,
+            description: "#{self.name} stream",
+            limit: 50
+        })
+
+        Thread.new do
+            s.publish_cards
+            ActiveRecord::Base.connection.close
+        end
+
+        self.update_columns(stream_url: "#{s.account.cdn_endpoint}/#{s.cdn_key}", stream_id: s.id)
+    end
 end
