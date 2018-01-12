@@ -1,6 +1,6 @@
 development:
   adapter: mysql2
-  database: pykih_publishing_dev
+  database: pykih_publishing_dev2
   username: developer
   password: developer
   host: localhost
