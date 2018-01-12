@@ -29,8 +29,20 @@ class CsvVerificationWorker
     else
       CSV.foreach(@upload.attachment.file.file, headers: true) do |row|
         total_rows += 1
-        stdout, stderr, status = Open3.capture3("echo #{row.to_h.to_json.gsub('\n', '\\n').to_json} | jq -f ref/jq_filter/jq_filter_#{@upload.template_card.name}.jq")
+        stdout, stderr, status = Open3.capture3("echo #{row.to_h.compact.to_json.gsub('\n', '\\n').to_json} | jq -f ref/jq_filter/jq_filter_#{@upload.template_card.name}.jq")
         if stdout.present?
+          if @upload.template_card.name == "toStory"
+            o = JSON.parse(stdout)
+            domain = URI.parse(o['data']["url"]).host
+            ref_link = RefLinkSource.where("url LIKE ?", "%#{domain}").first
+            if ref_link
+              o['data']["domainurl"] = ref_link.url
+              o['data']["faviconurl"] = ref_link.favicon_url
+              o['data']["publishername"] = ref_link.name
+            end
+            o['data']['publishedat'] =  Date.parse(o['data']['publishedat']).strftime('%Y-%m-%dT%l:%M:%S%z') if o['data']['publishedat'].present?
+            stdout = o.to_json
+          end
           card_array_filtered << stdout
         elsif stderr.present?
           filtering_errors << [row_number, stderr]
@@ -89,23 +101,21 @@ class CsvVerificationWorker
   end
 
   def all_params(card_data)
-    name, seo_blockquote_text = get_view_cast_details(card_data)
+    name, seo_blockquote_text, optional_config_json = get_view_cast_details(card_data)
     {
       datacast: card_data,
       view_cast: {
-        account_id: @account,
+        account_id: @upload.account_id,
         template_datum_id: @upload.template_card.template_datum.id,
         name: name,
         template_card_id: @upload.template_card.id,
         seo_blockquote: "<blockquote><h3>#{name}</h3><p>#{seo_blockquote_text}</p></blockquote>",
-        optionalConfigJSON: "{}",
-        # source: source
+        optionalConfigJSON: optional_config_json,
       }
     }
   end
 
   def get_view_cast_details(card_data)
-    puts card_data
     # converts card_data keys to symbols because of data retrieval in different cards
     # card_data = card_data.symbolize_keys
     params = {toReportViolence: {
@@ -120,10 +130,14 @@ class CsvVerificationWorker
                   data/the_people_involved/victim_names,
                   data/the_people_involved/victim_social_classification,
                   data/the_people_involved/accused_names,
-                  data/the_people_involved/accused_social_classification"},
+                  data/the_people_involved/accused_social_classification",
+                optional_config_json: "{}"
+              },
               toExplain: {
                 name: "data/explainer_header",
-                seo_blockquote_text: "data/explainer_text"},
+                seo_blockquote_text: "data/explainer_text",
+                optional_config_json: "{}"
+              },
               toReportJournalistKilling: {
                 name: "data/details_about_journalist/name",
                 seo_blockquote_text: "data/when_and_where_it_occur/date,
@@ -134,34 +148,52 @@ class CsvVerificationWorker
                   data/when_and_where_it_occur/accused_names,
                   data/details_about_journalist/journalist_body_of_work,
                   data/when_and_where_it_occur/description_of_attack,
-                  data/details_about_journalist/beat"},
+                  data/details_about_journalist/beat",
+                optional_config_json: "{}"
+              },
               toDistrictProfile: {
                 name: "data/district",
                 seo_blockquote_text: "data/population,
                   data/area,
                   data/rural,
                   data/urban,
-                  data/description"
+                  data/description",
+                optional_config_json: "{}"
               },
               toPoliticalLeadership: {
                 name: "data/district",
-                seo_blockquote_text: ""
+                seo_blockquote_text: "",
+                optional_config_json: "{}"
               },
               toWaterExploitation: {
                 name: "data/district",
-                seo_blockquote_text: ""
+                seo_blockquote_text: "",
+                optional_config_json: "{}"
               },
               toLandUse: {
                 name: "data/district",
-                seo_blockquote_text: ""
+                seo_blockquote_text: "",
+                optional_config_json: "{}"
               },
               toRainfall: {
                 name: "data/district",
-                seo_blockquote_text: ""
+                seo_blockquote_text: "",
+                optional_config_json: "{}"
               },
               WaterExploitation: {
                 name: "data/district",
-                seo_blockquote_text: ""
+                seo_blockquote_text: "",
+                optional_config_json: "{}"
+              },
+              toStory: {
+                name: "data/headline",
+                seo_blockquote_text: "",
+                optional_config_json: {
+                  "house_color": "#{@upload.account.house_colour}",
+                  "inverse_house_color": "#{@upload.account.reverse_house_colour}",
+                  "house_font_color": "#{@upload.account.font_colour}",
+                  "inverse_house_font_color": "#{@upload.account.reverse_font_colour}"
+                }.to_json
               }
             }
 
@@ -181,7 +213,9 @@ class CsvVerificationWorker
       seo_text = seo_blockquote_text.to_s + "</p>\n<p>" + seo_text
     end
 
-    return name, seo_text
+    optional_config_json = params[@upload.template_card.name.to_sym][:optional_config_json]
+
+    return name, seo_text, optional_config_json
   end
 end
 
