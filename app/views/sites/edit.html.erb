@@ -1,0 +1,41 @@
+<%= simple_form_for @account do |f| %>
+  <%= f.error_notification %>
+  <div class="row">
+    <div class="col-sm-3">
+      <%= render partial: "accounts/sidebar" %>
+    </div>
+    <div class="col-sm-9">
+      <h1>House Colour</h1>
+      <hr/>
+      <p class="hint">Choose your brand colour. Wherever possible, we will use this colour.</p>
+      <%= f.input :house_colour, input_html: {type: :color, style: "height: 40px;"}, label: false %>
+      <p class="hint">Choose your reverse brand colour. Wherever possible, we will use this colour to complement your brand colour.</p>
+      <%= f.input :reverse_house_colour, input_html: {type: :color, style: "height: 40px;"}, label: false %>
+      <p class="hint">Choose your font colour. Wherever possible, we will use this colour for text.</p>
+      <%= f.input :font_colour, input_html: {type: :color, style: "height: 40px;"}, label: false %>
+      <p class="hint">Choose your reverse font colour. Wherever possible, we will use this colour to complement your font colour.</p>
+      <%= f.input :reverse_font_colour, input_html: {type: :color, style: "height: 40px;"}, label: false %>
+      <br/>
+      <br/>
+    </div>
+    <div class="col-sm-4">
+        <br/><br/><br/>
+      <% if @account.logo_image_id.present? %>
+        <%= image_tag(@account.logo_image.original_image.image_url, class: "rounded", style: "width: 100px;") %>
+        <br/>
+        <%= simple_form_for @account do |f| %>
+          <%= f.error_notification %>
+          <%= f.input :logo_image_id, as: :hidden, input_html: {value: nil} %>
+          <%= f.button :submit, "Remove image", class: "btn btn-sm btn-outline" %>
+        <% end %>
+      <% else %>
+        <%= image_tag("account.png", class: "rounded", style: "width: 100px;") %>
+        <br/><br/>
+        <%= f.fields_for :logo_image do |logo_image| %>
+          <%= logo_image.input :image, label: false %>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+
+<% end %>
