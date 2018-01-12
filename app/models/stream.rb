@@ -23,8 +23,8 @@
 #  data_group_key         :string(255)
 #  filter_query           :text(65535)
 #  data_group_value       :string(255)
-#  site_id                :integer
 #  include_data           :boolean          default(FALSE)
+#  order_by_type          :string(255)
 #
 
 class Stream < ApplicationRecord
@@ -176,10 +176,13 @@ class Stream < ApplicationRecord
                 cards_json << d
             end
         end
-
         #Sorting the data
-        if cards_json.first.has_key?('date')
-            cards_json = cards_json.sort_by{|d| Date.parse(d['date'])}.reverse!
+        if self.include_data and self.order_by_key.present?
+            if self.order_by_value == "desc"
+                cards_json = cards_json.sort_by{|d| d[order_by_key].present? ? (order_by_type == 'date' ? Date.parse(d[order_by_key]) : d[order_by_key] ) : nil }.reverse!
+            else
+                cards_json = cards_json.sort_by{|d| d[order_by_key].present? ? (order_by_type == 'date' ? Date.parse(d[order_by_key]) : d[order_by_key] ) : nil }
+            end
         end
 
         card_offset = self.offset || 0
