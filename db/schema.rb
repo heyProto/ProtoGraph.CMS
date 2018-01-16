@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180111204156) do
+ActiveRecord::Schema.define(version: 20180116125842) do
 
   create_table "accounts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "username"
@@ -170,6 +170,35 @@ ActiveRecord::Schema.define(version: 20180111204156) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "is_logo", default: false
+  end
+
+  create_table "page_streams", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.integer "page_id"
+    t.integer "stream_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "pages", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.integer "site_id"
+    t.integer "account_id"
+    t.string "folder_id"
+    t.string "headline"
+    t.text "meta_description"
+    t.datetime "publised_date"
+    t.boolean "is_published"
+    t.text "summary"
+    t.string "alignment"
+    t.boolean "isinteractive"
+    t.string "genre"
+    t.string "sub_genre"
+    t.string "series"
+    t.string "by_line"
+    t.integer "cover_image_id"
+    t.integer "created_by"
+    t.integer "updated_by"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "permission_invites", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|

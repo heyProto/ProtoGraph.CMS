@@ -78,6 +78,7 @@ Rails.application.routes.draw do
         resources :stream_entities, only: [:create, :destroy]
       end
       resources :uploads, only: [:new, :create, :index]
+      resources :pages
     end
     resources :images, only: [:index, :create, :show]
     resources :audios, only: [:index, :create, :show]
