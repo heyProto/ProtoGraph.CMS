@@ -34,13 +34,13 @@ class Site < ApplicationRecord
     has_one :stream, primary_key: "stream_id", foreign_key: "id"
     #ACCESSORS
     #VALIDATIONS
-    validates :name, presence: true, uniqueness: {scope: :account}
+    # validates :name, presence: true, uniqueness: {scope: :account}
 
     validates :domain, format: {:with => /[a-zA-Z0-9][a-zA-Z0-9-]{1,61}[a-zA-Z0-9]\.[a-zA-Z]{2,}/ }, allow_blank: true, allow_nil: true, length: { in: 3..240 }, exclusion: { in: %w(gmail.com outlook.com yahoo.com mail.com),
     message: "%{value} is reserved." }
     #CALLBACKS
-    before_create :before_create_set
-    after_create :after_create_set
+    # before_create :before_create_set
+    # after_create :after_create_set
     #SCOPE
     #OTHER
     #PRIVATE
