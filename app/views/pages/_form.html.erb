@@ -1,0 +1,25 @@
+<%= simple_form_for(@page) do |f| %>
+  <%= f.error_notification %>
+
+  <div class="form-inputs">
+    <%= f.input :site_id %>
+    <%= f.input :account_id %>
+    <%= f.input :folder_id %>
+    <%= f.input :headline %>
+    <%= f.input :meta_description %>
+    <%= f.input :publised_date %>
+    <%= f.input :is_published %>
+    <%= f.input :summary %>
+    <%= f.input :alignment %>
+    <%= f.input :isinteractive %>
+    <%= f.input :genre %>
+    <%= f.input :sub_genre %>
+    <%= f.input :series %>
+    <%= f.input :by_line %>
+    <%= f.input :cover_image_id %>
+  </div>
+
+  <div class="form-actions">
+    <%= f.button :submit %>
+  </div>
+<% end %>
