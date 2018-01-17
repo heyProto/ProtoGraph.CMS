@@ -75,6 +75,7 @@ t_company_profile = TemplateDatum.create({name: "toCompanyProfile", version: "0.
 t_question = TemplateDatum.create({name: "toQuestion", version: "0.0.1", s3_identifier: "5543c8a38aa361c40fd8"})
 t_media = TemplateDatum.create({name: "toMedia", version: "0.0.1", s3_identifier: "a755f29aa44bac02f904"})
 t_survey_scores = TemplateDatum.create({name: "toSurveyScores", version: "0.0.1", s3_identifier: "2efee30aeed147ff9f9e"})
+t_stink_cover = TemplateDatum.create({name: "toSurveyScores", version: "0.0.1", s3_identifier: "66fa0ac4fcf3fa5b1401"})
 
 puts "----> Creating Template Cards"
 
