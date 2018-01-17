@@ -5,7 +5,7 @@ h2{font-size: 1.7em; line-height: 30px; font-weight: 600;}
 h3{font-size: 1.1em; line-height: 20px; font-weight: 600;}
 h4{font-size: 1em; line-height: 20px; font-weight: 600;}
 .control-label{font-size: 0.9em; font-weight: 200; margin-bottom: 0px; padding-bottom: 0px;}
-.help-block, .hint{ font-size: 11px; color: gray; padding-top: 2px; font-style: italic;}
+.help-block, .hint{ font-size: 11px; color: gray; padding-top: 2px; font-style: italic; line-height: 13px;}
 .dropdown-item{ font-size: 0.81em !important;}
 .dropdown-menu{margin: 0px !important;}
 .bg-light{background: white !important;}

@@ -1,3 +1,54 @@
+<div class="row">
+    <div class="col-sm-6" style="padding: 0px; margin-left: auto; margin-right: auto;">
+        <h1><span style="font-weight: 200;">Account Settings:</span> <%= @account.username %></h1>
+        <br/>
+        <h3>How do you want members to sign up?</h3>
+        <hr/>
+        <div style="margin-left: 50px;">
+            <p class="hint">Choose to make your team signup process invitation only, or allow anyone with a certain email address format to sign up.</p>
+            <%= simple_form_for @account do |f| %>
+              <%= f.error_notification %>
+              <div class="form-inputs">
+                <%= f.input :sign_up_mode, as: :select, collection: Account::SIGN_UP_MODES.map{|z| [z, z]}, label: false, include_blank: false %>
+                <%= f.input :domain, placeholder: "E.g. google.com. Don't use common domains like gmail, outlook, yahoo, etc." %>
+                <%= f.button :submit, "Save", class: "btn btn-light" %>
+              </div>
+            <% end %>
+        </div>
+        <br/>
+        <h3>Logo</h3>
+        <hr/>
+        <div style="margin-left: 50px;">
+            <% if @account.logo_image_id.present? %>
+              <%= image_tag(@account.logo_image.original_image.image_url, class: "rounded", style: "width: 100px;") %>
+              <br/>
+              <%= simple_form_for @account do |f| %>
+                <%= f.error_notification %>
+                <%= f.input :logo_image_id, as: :hidden, input_html: {value: nil} %>
+                <%= f.button :submit, "Remove image", class: "btn btn-light" %>
+              <% end %>
+            <% else %>
+              <%= image_tag("account.png", class: "rounded", style: "width: 100px;") %>
+              <br/><br/>
+              <%= simple_form_for @account do |f| %>
+                <%= f.error_notification %>
+                <%= f.fields_for :logo_image do |logo_image| %>
+                  <%= logo_image.input :image, label: false %>
+                <% end %>
+                <%= f.button :submit, "Save", class: "btn btn-light" %>
+              <% end %>
+            <% end %>
+        </div>
+        <br/>
+        <h3>Owners of this account</h3>
+        <hr/>
+        <div style="margin-left: 50px;">
+            j
+        </div>
+    </div>
+</div>
+
+
 <%= simple_form_for @account do |f| %>
   <%= f.error_notification %>
   <div class="row">
@@ -47,33 +98,6 @@
               </div>
             <% end %>
         <% end %>
-        <br/>
-        <div class="form-inputs">
-          <h1>How do you want members to sign up?</h1>
-          <hr/>
-          <p class="hint">Choose to make your team signup process invitation only, or allow anyone with a certain email address format to sign up.</p>
-          <%= f.input :sign_up_mode, as: :select, collection: Account::SIGN_UP_MODES.map{|z| [z, z]}, label: false, include_blank: false %>
-          <%= f.input :domain, placeholder: "E.g. google.com. Don't use common domains like gmail, outlook, yahoo, etc." %>
-          <%= f.button :submit, "Save", class: "ui button" %>
-        </div>
-    </div>
-    <div class="col-sm-4">
-        <br/><br/><br/>
-      <% if @account.logo_image_id.present? %>
-        <%= image_tag(@account.logo_image.original_image.image_url, class: "rounded", style: "width: 100px;") %>
-        <br/>
-        <%= simple_form_for @account do |f| %>
-          <%= f.error_notification %>
-          <%= f.input :logo_image_id, as: :hidden, input_html: {value: nil} %>
-          <%= f.button :submit, "Remove image", class: "btn btn-sm btn-outline" %>
-        <% end %>
-      <% else %>
-        <%= image_tag("account.png", class: "rounded", style: "width: 100px;") %>
-        <br/><br/>
-        <%= f.fields_for :logo_image do |logo_image| %>
-          <%= logo_image.input :image, label: false %>
-        <% end %>
-      <% end %>
     </div>
   </div>
 
