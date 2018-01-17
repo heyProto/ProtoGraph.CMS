@@ -1,7 +1,7 @@
 class AccountsController < ApplicationController
 
   before_action :authenticate_user!
-  before_action :sudo_role_can_account_settings, only: [:edit, :update]
+  before_action :sudo_role_can_account_settings, only: [:update]
 
   #Your Accounts - Switch Accounts
   def index
@@ -12,14 +12,6 @@ class AccountsController < ApplicationController
     @folders = @account.folders
     @folder = Folder.new
     @activities = @account.activities.order("updated_at DESC").limit(30)
-  end
-
-  def edit
-    @people_count = @account.permissions.not_hidden.count
-    @pending_invites_count = @account.permission_invites.count
-    if @account.logo_image_id.nil?
-      @account.build_logo_image
-    end
   end
 
   def update
@@ -36,14 +28,14 @@ class AccountsController < ApplicationController
     end
 
     if @account.update(a_params)
-      redirect_to edit_account_path(@account), notice: t("us")
+      redirect_to account_permissions_path(@account), notice: t("us")
     else
       @people_count = @account.users.count
       @pending_invites_count = @account.permission_invites.count
-      render :edit
+      render account_permissions_path(@account)
     end
   end
-
+  
   def create
     @account = Account.new(account_params)
     if @account.save
