@@ -1,9 +1,3 @@
-<br/>
-<nav class="github-menu">
-    <span class="github-menu-heading">Personal Settings</span>
-    <%= link_to "Account", edit_user_registration_path(@account), class: controller_name == "registrations" ? "github-menu-item selected" : "github-menu-item" %>
-</nav>
-
 <% if @account.present? %>
     <% if @account.id.present? %>
         <br/>
@@ -13,11 +7,4 @@
           <%= link_to "People (#{@people_count})", account_permissions_path(@account), class: ((controller_name == "permissions" or controller_name == "permission_invites") ? "github-menu-item selected" : "github-menu-item") %>
         </nav>
     <% end %>
-<% end %>
-
-<% if current_user.can_publish_link_sources %>
-  <nav class="github-menu">
-    <span class="github-menu-heading">Reference List</span>
-    <%= link_to "Publishers", ref_link_sources_path, class: (controller_name == "accounts" and action_name == "publishers") ? "github-menu-item selected" : "github-menu-item" %>
-  </nav>
 <% end %>
