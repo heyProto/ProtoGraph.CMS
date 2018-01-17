@@ -10,6 +10,10 @@
       <%= f.input :excluded_view_cast_id_list, input_html: { class: 'ui search fluid dropdown', multiple: true, "data-role" => "tagsinput" }, label: "Excluded Card IDs" %>
       <%= f.input :limit %>
       <%= f.input :offset %>
+      <%= f.input :order_by_key, label: "Sort Key" %>
+      <%= f.input :order_by_value, label: "Sort Order", collection: [["Descending", "desc"], ["Ascending", 'asc']] %>
+      <%= f.input :order_by_type, label: "Sort Column type", collection: [["Date", 'date'], ["String", "string", "Number", "number"]]   %>
+      <%= f.input :include_data, as: :boolean, label: "Include Data" %>
       <%= f.submit (controller_name == 'streams' and ["show", "edit", "update"].include?(action_name)) ? "Update the Stream" : "Create a new Stream", class: 'btn btn-primary' %>
     <% end %>
   </div>

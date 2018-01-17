@@ -73,8 +73,8 @@ t_story = TemplateDatum.create({name: "toStory", version: "0.0.1", s3_identifier
 t_water = TemplateDatum.create({name: "WaterExploitation", version: "0.0.1", s3_identifier: "599bd2e6d7c222338c15"})
 t_company_profile = TemplateDatum.create({name: "toCompanyProfile", version: "0.0.1", s3_identifier: "14c17492ee0b0724"})
 t_question = TemplateDatum.create({name: "toQuestion", version: "0.0.1", s3_identifier: "5543c8a38aa361c40fd8"})
-t_media = TemplateDatum.create({name: "toMedia", version: "0.0.1", s3_identfier: "a755f29aa44bac02f904"})
-
+t_media = TemplateDatum.create({name: "toMedia", version: "0.0.1", s3_identifier: "a755f29aa44bac02f904"})
+t_survey_scores = TemplateDatum.create({name: "toSurveyScores", version: "0.0.1", s3_identifier: "2efee30aeed147ff9f9e"})
 
 puts "----> Creating Template Cards"
 
@@ -99,3 +99,4 @@ TemplateCard.create({git_url: "git@bitbucket.org:pykih_/protograph.card.towatere
 TemplateCard.create({git_url: "git@bitbucket.org:pykih_/protograph.card.tocompanyprofile.git", name: "toCompanyProfile", git_branch: "master", git_repo_name: "ProtoGraph.Card.toCompanyProfile", status: "published", is_public: false, account_id: pykih_account.id, created_by: user_id, updated_by: user_id, template_datum_id: t_company_profile.id, elevator_pitch: "", description: "", s3_identifier: "49e1db2feaeab4734f51",has_multiple_uploads: false, allowed_views: ["col7", "col4", "col3"]})
 TemplateCard.create({git_url: "git@bitbucket.org:pykih_/protograph.card.toquestion.git", name: "toQuestion", git_branch: "master", git_repo_name: "ProtoGraph.Card.toQuestion", status: "published", is_public: false, account_id: pykih_account.id, created_by: user_id, updated_by: user_id, template_datum_id: t_question.id, elevator_pitch: "", description: "", s3_identifier: "22c19a0c9a5f5c05bf66",has_multiple_uploads: false, allowed_views: ["col7", "col4", "col3"]})
 TemplateCard.create({git_url: "git@bitbucket.org:pykih_/protograph.card.tomedia.git", name: "toMedia", git_branch: "master", git_repo_name: "ProtoGraph.Card.toMedia", status: "published", is_public: false, account_id: pykih_account.id, created_by: user_id, updated_by: user_id, template_datum_id: t_media.id, elevator_pitch: "", description: "", s3_identifier: "346cad2b4c1598679cfe",has_multiple_uploads: false, allowed_views: ["col7", "col4", "col3"]})
+TemplateCard.create({git_url: "git@bitbucket.org:pykih_/protograph.card.toSurveyScores.git", name: "toSurveyScores", git_branch: "master", git_repo_name: "ProtoGraph.Card.toSurveyScores", status: "published", is_public: false, account_id: pykih_account.id, created_by: user_id, updated_by: user_id, template_datum_id: t_survey_scores.id, elevator_pitch: "", description: "", s3_identifier: "25d44080867a4cd6b430",has_multiple_uploads: false, allowed_views: ["col7", "col4", "col3"]})

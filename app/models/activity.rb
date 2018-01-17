@@ -11,7 +11,6 @@
 #  updated_at     :datetime         not null
 #  folder_id      :integer
 #  account_id     :integer
-#  site_id        :integer
 #
 
 class Activity < ApplicationRecord

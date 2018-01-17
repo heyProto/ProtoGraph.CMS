@@ -324,6 +324,7 @@ ActiveRecord::Schema.define(version: 20180116125842) do
     t.boolean "is_automated_stream", default: false
     t.string "col_name"
     t.integer "col_id"
+    t.string "order_by_type"
     t.index ["description"], name: "index_streams_on_description", type: :fulltext
     t.index ["title"], name: "index_streams_on_title", type: :fulltext
   end

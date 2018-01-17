@@ -12,7 +12,6 @@
 #  updated_at  :datetime         not null
 #  is_trash    :boolean          default(FALSE)
 #  is_archived :boolean          default(FALSE)
-#  site_id     :integer
 #
 
 class Folder < ApplicationRecord
