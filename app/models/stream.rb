@@ -23,6 +23,7 @@
 #  data_group_key         :string(255)
 #  filter_query           :text(65535)
 #  data_group_value       :string(255)
+#  site_id                :integer
 #  include_data           :boolean          default(FALSE)
 #  is_automated_stream    :boolean          default(FALSE)
 #  col_name               :string(255)
