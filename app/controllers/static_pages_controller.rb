@@ -2,7 +2,11 @@ class StaticPagesController < ApplicationController
 
   def index
     if current_user
-  		redirect_to account_path(current_user.accounts.first)
+      if current_user.accounts.count  == 1
+        redirect_to account_path(current_user.accounts.first)
+      else
+        redirect_to user_path(current_user)
+      end
     else
       redirect_to new_user_session_path
   	end

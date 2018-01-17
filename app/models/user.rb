@@ -41,16 +41,17 @@ class User < ApplicationRecord
     has_many :user_emails
     has_many :authentications
     #ACCESSORS
-    attr_accessor :username
+    attr_accessor :username, :domain
 
     #VALIDATIONS
     validates :name, presence: true, length: { in: 3..24 }
     validates :email, presence: true, uniqueness: { case_sensitive: false }, format: { with: /\A[^@\s]+@([^@.\s]+\.)+[^@.\s]+\z/ }
-    validates :username, presence: true, length: { in: 3..24 }, format: { with: /\A[a-z0-9A-Z_]{4,16}\z/ }, on: :create
+    validates :username, length: { in: 3..24 }, format: { with: /\A[a-z0-9A-Z_]{4,16}\z/ },allow_nil: true, allow_blank: true
+    validates :domain, format: {with: /[a-zA-Z0-9][a-zA-Z0-9-]{1,61}[a-zA-Z0-9]\.[a-zA-Z]{2,}/ }, allow_blank: true, allow_nil: true, length: { in: 3..240 }, exclusion: { in: %w(gmail.com outlook.com yahoo.com mail.com)}
     validate  :is_username_unique, on: :create
+    validate  :is_domain_unique, on: :create
     #CALLBACKS
     before_create :before_create_set
-    after_create :after_create_set
     after_create :welcome_user
     after_commit :add_user_email, on: [:create]
     #SCOPE
@@ -100,36 +101,40 @@ class User < ApplicationRecord
         is_primary_email: 1
       )
     end
+
+
+    class << self
+        def check_for_access(email)
+            is_present = PermissionInvite.where(email: email).first.present?
+            if email.present?
+                d = email.split("@").last
+                if d.present?
+                    a = Account.where(domain: d, sign_up_mode: "Any email from your domain").first
+                    if a.present?
+                       belongs_to_company = true
+                    end
+                end
+            end
+            return (is_present or belongs_to_company)
+        end
+    end
     #PRIVATE
     private
 
     def is_username_unique
-        errors.add(:username, "already taken") if Account.where(username: self.username).first.present?
+        if self.username
+            errors.add(:username, "already taken") if Account.where(username: self.username).first.present?
+        end
+    end
+
+    def is_domain_unique
+        if self.domain
+            errors.add(:domain, "already taken") if Account.where(username: self.domain).first.present?
+        end
     end
 
     def before_create_set
         self.access_token = SecureRandom.hex(24)
-    end
-
-    def after_create_set
-        a = Account.create(username: self.username)
-        self.create_permission(a.id, "owner")
-        Folder.create({
-            account_id: a.id,
-            name: "Sample Project",
-            created_by: self.id,
-            updated_by: self.id,
-            site_id: a.site.id
-        })
-        Folder.create({
-            account_id: a.id,
-            name: "Recycle Bin",
-            created_by: self.id,
-            updated_by: self.id,
-            is_trash: true,
-            is_system_generated: true,
-            site_id: a.site.id
-        })
     end
 
     def welcome_user
