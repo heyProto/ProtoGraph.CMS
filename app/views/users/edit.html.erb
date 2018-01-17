@@ -22,7 +22,7 @@
             <div style="margin-left: 50px;">
                 <% @accounts_member.each do |account| %>
                     <%= image_tag (account.logo_image.nil? ?  "account.png" : account.logo_image.original_image.image_url), height: "20px", class: "rounded" %>
-                    <%= link_to account.username, account_path(account) %>
+                    <%= account.username %>
                     <br/>
                 <% end %>
             </div>
@@ -32,15 +32,9 @@
         <div style="margin-left: 50px;">
             <% @accounts_owned.each do |account| %>
                 <%= image_tag (account.logo_image.nil? ?  "account.png" : account.logo_image.original_image.image_url), height: "20px", class: "rounded" %>
-                <%= link_to account.username, account_path(account) %>
-                <br/><br/>
+                <%= link_to account.username, edit_account_path(account) %> 
+                <p class="hint">Click to configure</p>
             <% end %>
-        
-        
-        
-        
-        
-        
             <%= simple_form_for @account do |f| %>
             <%= f.input :username, id: :account_username, hint: "Choose wisely. You cannot change it later." %>
             <%= f.submit "Add a new account", class: "btn btn-light" %>

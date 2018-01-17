@@ -64,7 +64,6 @@
                       <% end %>
                       <%= link_to "Image Bank", account_images_path(@account), "data-turbolinks"=> false, class: "dropdown-item"  %>
                       <%= link_to "Audio Bank", account_audios_path(@account), "data-turbolinks"=> false, class: "dropdown-item"  %>
-                      <%= link_to "Team Settings", edit_account_path(@account), class: "dropdown-item" %>
                     </div>
                   </li>
                   <li class="nav-item dropdown">
@@ -105,10 +104,10 @@
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                   <% if current_user.is_admin_from_pykih %>
-                    <%= link_to 'Online users', admin_online_users_path, class: "dropdown-item" %>
+                    <%= link_to 'Online users', admin_online_users_path, class: "dropdown-item", class: "dropdown-item", style: "color: gold;" %>
                   <% end %>
                   <% if current_user.can_publish_link_sources %>
-                      <%= link_to "Ref: Publishers", ref_link_sources_path, class: "dropdown-item" %>
+                      <%= link_to "Ref: Publishers", ref_link_sources_path, class: "dropdown-item", class: "dropdown-item", style: "color: gold;" %>
                   <% end %>
                   <%= link_to 'Profile', edit_user_path(current_user), class: "dropdown-item" %>
                   <%= link_to 'Settings', edit_user_registration_path, class: "dropdown-item" %>
