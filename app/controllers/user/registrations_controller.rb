@@ -1,5 +1,17 @@
 class User::RegistrationsController < Devise::RegistrationsController
   layout "three_column_grid", only: [:new, :create]
+  
+  def edit
+    @user_email = UserEmail.new
+    @user_emails = current_user.user_emails
+    super
+  end
+  
+  def update
+    @user_email = UserEmail.new
+    @user_emails = current_user.user_emails
+    super
+  end
 
   def create
     if User.check_for_access(sign_up_params["email"]) and sign
