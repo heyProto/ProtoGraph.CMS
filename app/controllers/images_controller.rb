@@ -5,9 +5,9 @@ class ImagesController < ApplicationController
   def index
     @q = @account.images.ransack(params[:q])
     if params[:q].present?
-      @images = @q.result(distinct: true).order(:created_at).page params[:page]
+      @images = @q.result(distinct: true).order("created_at desc").page params[:page]
     else
-      @images = @account.images.order(:created_at).page params[:page]
+      @images = @account.images.order("created_at desc").page params[:page]
     end
     @new_image = Image.new
     render layout: "application-fluid"

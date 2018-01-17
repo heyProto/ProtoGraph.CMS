@@ -3,11 +3,6 @@ class AccountsController < ApplicationController
   before_action :authenticate_user!
   before_action :sudo_role_can_account_settings, only: [:update]
 
-  #Your Accounts - Switch Accounts
-  def index
-    @account = Account.new
-  end
-
   def show
     @folders = @account.folders
     @folder = Folder.new
@@ -63,13 +58,6 @@ class AccountsController < ApplicationController
       @accounts_member = Account.where(id: current_user.permissions.where.not(ref_role_slug: "owner").pluck(:account_id).uniq)
       render "users/edit"
     end
-  end
-
-  def template_cards
-  end
-
-  def publishers
-    @ref_link_sources = RefLinkSource.all
   end
 
   private
