@@ -41,23 +41,21 @@
         <div class="col-sm-3">
             <br/>
             <br/>
-            <% unless @view_casts.count == 0 %>
-                <%= link_to "Publish the Stream", publish_account_folder_stream_path(@account, @folder, @stream),"data-turbolinks"=> false, class: "btn btn-outline", method: :post %>
-            <% end %>
+            <%= link_to "Publish the Stream", publish_account_folder_stream_path(@account, @folder, @stream),"data-turbolinks"=> false, class: "btn btn-outline", method: :post %>
             <br/>
             <br/>
             <div class="hint">
 
                     <table class="table table-sm hint">
+                        <tr>
+                            <td>JSON URL
+                            </td>
+                            <td>&nbsp;:&nbsp;
+                            </td>
+                            <td><%= link_to "Here", "#{@account.cdn_endpoint}/#{@stream.cdn_key}", target: "blank" %>
+                            </td>
+                        </tr>
                         <% if @stream.last_published_at and @view_casts.count > 0 %>
-                            <tr>
-                                <td>JSON URL
-                                </td>
-                                <td>&nbsp;:&nbsp;
-                                </td>
-                                <td><%= link_to "Here", "#{@account.cdn_endpoint}/#{@stream.cdn_key}", target: "blank" %>
-                                </td>
-                            </tr>
                             <tr>
                                 <td>Last publised at
                                 </td>

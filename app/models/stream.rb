@@ -58,6 +58,7 @@ class Stream < ApplicationRecord
     validates :data_group_key, presence: true, if: :is_grouped_data_stream
     #CALLBACKS
     before_create :before_create_set
+    after_create :after_create_set
     after_save :after_save_set
     after_save :update_card_count
 
@@ -219,6 +220,14 @@ class Stream < ApplicationRecord
 
     def before_create_set
         self.datacast_identifier = SecureRandom.hex(12) if self.datacast_identifier.blank?
+    end
+
+    def after_create_set
+        Thread.new do
+            sleep 1
+            self.publish_cards
+            ActiveRecord::Base.connection.close
+        end
     end
 
     def after_save_set
