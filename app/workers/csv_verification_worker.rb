@@ -40,7 +40,7 @@ class CsvVerificationWorker
               o['data']["faviconurl"] = ref_link.favicon_url
               o['data']["publishername"] = ref_link.name
             end
-            o['data']['publishedat'] =  Date.parse(o['data']['publishedat']).strftime('%Y-%m-%dT%l:%M:%S%z') if o['data']['publishedat'].present?
+            o['data']['publishedat'] =  Date.parse(o['data']['publishedat']).strftime('%Y-%m-%dT%l:%M:%S') if o['data']['publishedat'].present?
             stdout = o.to_json
           end
           card_array_filtered << stdout
