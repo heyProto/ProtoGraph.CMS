@@ -75,7 +75,7 @@
                       <% if current_user.is_admin_from_pykih %>
                         <%= link_to 'Online users', admin_online_users_path, class: "dropdown-item" %>
                       <% end %>
-                      <%= link_to 'Settings', edit_user_registration_path(@account), class: "dropdown-item" %>
+                      <%= link_to 'Settings', edit_user_registration_path, class: "dropdown-item" %>
                       <%= link_to "Sign out", destroy_user_session_path, class: "dropdown-item" %>
                     </div>
                   </li>
@@ -103,7 +103,7 @@
                   <% if current_user.is_admin_from_pykih %>
                     <%= link_to 'Online users', admin_online_users_path, class: "dropdown-item" %>
                   <% end %>
-                  <%= link_to 'Profile', edit_user_registration_path(@account), class: "dropdown-item" %>
+                  <%= link_to 'Settings', edit_user_registration_path, class: "dropdown-item" %>
                   <%= link_to "Sign out", destroy_user_session_path, class: "dropdown-item" %>
                 </div>
               </li>
