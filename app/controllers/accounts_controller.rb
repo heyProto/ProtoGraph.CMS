@@ -64,9 +64,12 @@ class AccountsController < ApplicationController
         is_system_generated: true,
         site_id: @account.site.id
       })
-      redirect_to @account, notice: t("cs")
+      redirect_to edit_user_path(current_user), notice: t("cs")
     else
-      render :index
+      @user = current_user
+      @accounts_owned = Account.where(id: current_user.permissions.where(ref_role_slug: "owner").pluck(:account_id).uniq)
+      @accounts_member = Account.where(id: current_user.permissions.where.not(ref_role_slug: "owner").pluck(:account_id).uniq)
+      render "users/edit"
     end
   end
 

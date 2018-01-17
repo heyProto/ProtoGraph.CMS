@@ -2,48 +2,10 @@
     <div class="col-sm-6" style="padding: 0px; margin-left: auto; margin-right: auto;">
         <h1>Settings</h1>
         <br/>
-        <h3>Profile</h3>
+        <h3>Email settings</h3>
         <hr/>
         <div style="margin-left: 50px;">
-            <%= image_tag avatar_url(current_user.email, 200), class: "rounded" %>
-            <br/>
-            <p class="hint">To change the profile image, register with <a href="http://gravatar.com/" target="_blank">gravatar.com</a> with email ID <%= current_user.email %> and upload a square image there (Twitter DP).</p>
-            <%= simple_form_for(@user, html: { method: :put }) do |f| %>
-              <%= f.error_notification %>
-              <%= f.input :name %>
-              <%= f.input :email, label: "Primary Email ID" %>
-              <%= f.button :submit, value: "Save", class: "btn btn-light" %>
-            <% end %>
-            <br/>
-        </div>
-        <h3>Simplify login options</h3>
-        <hr/>
-        <div style="margin-left: 50px;">
-            <h4 style="margin-bottom: 20px;">Sign in using Social Networks</h4>
-            <% unless current_user.authentications.present? %>
-              <%- resource_class.omniauth_providers.each do |provider| %>
-                <%= link_to "Add Twitter Authentication", public_send("#{resource_class.name.downcase}_#{provider.to_s}_omniauth_authorize_path") %><br />
-              <% end -%>
-              <br/>
-              <br/>
-            <% else current_user.authentications.present? %>
-              <h4>Your Twitter Authentication</h4>
-              <table class="table">
-                <tbody>
-                  <% current_user.authentications.each do |a| %>
-                    <tr>
-                      <td style="border: 0px;">
-                        <%= a.provider.capitalize %>
-                      </td>
-                      <td style="border: 0px;">
-                        <%= a.email %>
-                      </td>
-                    </tr>
-                  <% end %>
-                </tbody>
-              </table>
-            <% end %>
-            <h4 style="margin-bottom: 20px;">Sign in with any of your email IDs</h4>
+            <p>Add your secondary email IDs to ProtoGraph so others can invite you with your secondary email IDs.</p>
             <table class="table">
                 <tbody>
                     <% @user_emails.each do |u| %>
@@ -69,6 +31,36 @@
 
               <%= f.submit "Add", class: "btn btn-light" %>
             <% end %>
+            <br/>
+            <br/>
+        </div>
+        <h3>Connections</h3>
+        <hr/>
+        <div style="margin-left: 50px;">
+            <% unless current_user.authentications.present? %>
+              <div class="row">
+                  <div class="col-sm-10">
+                      <h4>Connect to Twitter</h4>
+                      <p class="hint">You will be able to login to ProtoGraph using your Twitter auth. We will never post to Twitter or message your friends without your permission.</p>
+                  </div>
+                  <div class="col-sm-2">
+                        <%- resource_class.omniauth_providers.each do |provider| %>
+                          <%= link_to "Authenticate", public_send("#{resource_class.name.downcase}_#{provider.to_s}_omniauth_authorize_path") %><br />
+                        <% end -%>
+                  </div>
+              </div>
+            <% else current_user.authentications.present? %>
+              <div class="row">
+                  <div class="col-sm-10">
+                      <h4>You are connected to Twitter</h4>
+                      <p class="hint">We will never post to Twitter or message your followers without your permission.</p>
+                  </div>
+                  <div class="col-sm-2">
+                        <%= current_user.authentications.first.email %>
+                  </div>
+              </div>
+            <% end %>
+            
         </div>
         <br/>    
         <h3>Password</h3>
@@ -86,7 +78,7 @@
             <% end %>
         </div>
         <br/>    
-        <h3>API</h3>
+        <h3>Integration tokens</h3>
         <hr/>
         <div style="margin-left: 50px;">
             <p><%= current_user.access_token %> </p>
