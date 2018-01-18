@@ -31,7 +31,7 @@
             <%= simple_form_for [@account, @site] do |f| %>
               <%= f.error_notification %>
               <%= f.input :house_colour, input_html: {type: :color, style: "height: 40px;"}, label: "House Color", hint: "Choose your brand colour. Wherever possible, we will use this colour.", required: true %>
-              <%= f.input :reverse_house_colour, input_html: {type: :color, style: "height: 40px;"}, label: "Reverse House Color", hint: "Choose a color that is diagonally opposite from your House Color on the color wheel. All sponsored articles will be colored with Reverse House Color.", required: true %>              
+              <%= f.input :reverse_house_colour, input_html: {type: :color, style: "height: 40px;"}, label: "Reverse House Color", hint: "Choose a color that is diagonally opposite from your House Color on the color wheel. All sponsored articles will be colored with Reverse House Color.", required: true %>
               <%= f.input :font_colour, input_html: {type: :color, style: "height: 40px;"}, label: "Font Color on House Color", required: true %>
               <%= f.input :reverse_font_colour, input_html: {type: :color, style: "height: 40px;"}, label: "Font Color on Reverse House Color", required: true %>
               <%= f.button :submit, "Save", class: "btn btn-light" %>
@@ -41,7 +41,15 @@
         <h3>AWS Configuration</h3>
         <hr/>
         <div style="margin-left: 50px;">
-            o
+            <%= simple_form_for [@account, @site] do |f| %>
+                <%= f.error_notification %>
+                <%= f.input :cdn_id, input_html: {value: @site.is_cdn_id_from_env? ? nil : @site.cdn_id } %>
+                <%= f.input :host, input_html: {value:  @site.is_host_from_env? ? nil : @site.host } %>
+                <%= f.input :cdn_endpoint, input_html: {value: @site.is_cdn_endpoint_from_env? ? nil : @site.cdn_endpoint} %>
+                <%= f.input :client_token, input_html: {value: @site.is_client_token_from_env? ? nil : @site.client_token} %>
+                <%= f.input :client_secret, input_html: {value: @site.is_client_secret_from_env? ? nil : @site.client_secret} %>
+                <%= f.button :submit, "Save", class: "btn btn-light" %>
+            <% end %>
         </div>
     </div>
 </div>
