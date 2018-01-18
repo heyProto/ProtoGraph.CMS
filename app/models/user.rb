@@ -46,10 +46,6 @@ class User < ApplicationRecord
     #VALIDATIONS
     validates :name, presence: true, length: { in: 3..24 }
     validates :email, presence: true, uniqueness: { case_sensitive: false }, format: { with: /\A[^@\s]+@([^@.\s]+\.)+[^@.\s]+\z/ }
-    validates :username, length: { in: 3..24 }, format: { with: /\A[a-z0-9A-Z_]{4,16}\z/ },allow_nil: true, allow_blank: true
-    validates :domain, format: {with: /[a-zA-Z0-9][a-zA-Z0-9-]{1,61}[a-zA-Z0-9]\.[a-zA-Z]{2,}/ }, allow_blank: true, allow_nil: true, length: { in: 3..240 }, exclusion: { in: %w(gmail.com outlook.com yahoo.com mail.com)}
-    validate  :is_username_unique, on: :create
-    validate  :is_domain_unique, on: :create
     #CALLBACKS
     before_create :before_create_set
     after_create :welcome_user
@@ -121,17 +117,6 @@ class User < ApplicationRecord
     #PRIVATE
     private
 
-    def is_username_unique
-        if self.username
-            errors.add(:username, "already taken") if Account.where(username: self.username).first.present?
-        end
-    end
-
-    def is_domain_unique
-        if self.domain
-            errors.add(:domain, "already taken") if Account.where(username: self.domain).first.present?
-        end
-    end
 
     def before_create_set
         self.access_token = SecureRandom.hex(24)

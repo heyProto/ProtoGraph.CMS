@@ -25,15 +25,10 @@ RefRole.create(name: "Editor", slug: "editor",
                 can_template_design_do: false,
                 can_template_design_publish: false, sort_order: 2)
 
-RefRole.create(name: "Developer", slug: "developer",
+RefRole.create(name: "Doer", slug: "doer",
                 can_account_settings: false,
                 can_template_design_do: true,
                 can_template_design_publish: false, sort_order: 100)
-
-RefRole.create(name: "Writer", slug: "writer",
-                can_account_settings: false,
-                can_template_design_do: false,
-                can_template_design_publish: false, sort_order: 1)
 
 puts "----> Creating users and permissions"
 users = [["ritvvij.parrikh@pykih.com", "Ritvvij Parrikh" ,"ritvvijparrikh"], ["ab@pykih.com", "Amit Badheka", "amitbadheka"]]
@@ -75,6 +70,7 @@ t_company_profile = TemplateDatum.create({name: "toCompanyProfile", version: "0.
 t_question = TemplateDatum.create({name: "toQuestion", version: "0.0.1", s3_identifier: "5543c8a38aa361c40fd8"})
 t_media = TemplateDatum.create({name: "toMedia", version: "0.0.1", s3_identifier: "a755f29aa44bac02f904"})
 t_survey_scores = TemplateDatum.create({name: "toSurveyScores", version: "0.0.1", s3_identifier: "2efee30aeed147ff9f9e"})
+t_stink_cover = TemplateDatum.create({name: "toManualScavengerCoverVizCard", version: "0.0.1", s3_identifier: "66fa0ac4fcf3fa5b1401"})
 
 puts "----> Creating Template Cards"
 
@@ -100,3 +96,4 @@ TemplateCard.create({git_url: "git@bitbucket.org:pykih_/protograph.card.tocompan
 TemplateCard.create({git_url: "git@bitbucket.org:pykih_/protograph.card.toquestion.git", name: "toQuestion", git_branch: "master", git_repo_name: "ProtoGraph.Card.toQuestion", status: "published", is_public: false, account_id: pykih_account.id, created_by: user_id, updated_by: user_id, template_datum_id: t_question.id, elevator_pitch: "", description: "", s3_identifier: "22c19a0c9a5f5c05bf66",has_multiple_uploads: false, allowed_views: ["col7", "col4", "col3"]})
 TemplateCard.create({git_url: "git@bitbucket.org:pykih_/protograph.card.tomedia.git", name: "toMedia", git_branch: "master", git_repo_name: "ProtoGraph.Card.toMedia", status: "published", is_public: false, account_id: pykih_account.id, created_by: user_id, updated_by: user_id, template_datum_id: t_media.id, elevator_pitch: "", description: "", s3_identifier: "346cad2b4c1598679cfe",has_multiple_uploads: false, allowed_views: ["col7", "col4", "col3"]})
 TemplateCard.create({git_url: "git@bitbucket.org:pykih_/protograph.card.toSurveyScores.git", name: "toSurveyScores", git_branch: "master", git_repo_name: "ProtoGraph.Card.toSurveyScores", status: "published", is_public: false, account_id: pykih_account.id, created_by: user_id, updated_by: user_id, template_datum_id: t_survey_scores.id, elevator_pitch: "", description: "", s3_identifier: "25d44080867a4cd6b430",has_multiple_uploads: false, allowed_views: ["col7", "col4", "col3"]})
+TemplateCard.create({git_url: "git@bitbucket.org:pykih_/protograph.card.tomanualscavengercovervizcard.git", name: "toManualScavengerCoverVizCard", git_branch: "master", git_repo_name: "ProtoGraph.Card.toManualScavengerCoverVizCard", status: "published", is_public: false, account_id: pykih_account.id, created_by: user_id, updated_by: user_id, template_datum_id: t_stink_cover.id, elevator_pitch: "", description: "", s3_identifier: "3dcab1e230b429d5a921",has_multiple_uploads: false, allowed_views: ["col16", "col4"]})

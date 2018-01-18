@@ -50,6 +50,9 @@ class ApplicationController < ActionController::Base
     end
   	if user_signed_in?
       @accounts = current_user.accounts
+      if @accounts.count == 0 and !(controller_name = 'accounts' and ['new', 'create'].include?(action_name)) and !devise_controller?
+        redirect_to new_account_path, notice: t("ac.mandatory") and return
+      end
   		@on_an_account_page = (@account.present? and @account.id.present?)
       if @on_an_account_page
         @permission = current_user.permission_object(@account.id)
