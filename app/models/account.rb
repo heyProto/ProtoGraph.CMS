@@ -2,14 +2,21 @@
 #
 # Table name: accounts
 #
-#  id           :integer          not null, primary key
-#  username     :string(255)
-#  slug         :string(255)
-#  domain       :string(255)
-#  status       :string(255)
-#  sign_up_mode :string(255)
-#  created_at   :datetime         not null
-#  updated_at   :datetime         not null
+#  id            :integer          not null, primary key
+#  username      :string(255)
+#  slug          :string(255)
+#  domain        :string(255)
+#  status        :string(255)
+#  sign_up_mode  :string(255)
+#  created_at    :datetime         not null
+#  updated_at    :datetime         not null
+#  cdn_provider  :string(255)
+#  cdn_id        :string(255)
+#  host          :text(65535)
+#  cdn_endpoint  :text(65535)
+#  client_token  :string(255)
+#  access_token  :string(255)
+#  client_secret :string(255)
 #
 
 class Account < ApplicationRecord
@@ -45,7 +52,6 @@ class Account < ApplicationRecord
     #CALLBACKS
     before_create :before_create_set
     before_update :before_update_set
-    before_update :change_view_casts_house_colours, if: :house_colour_changed?
     after_create :after_create_set
     #SCOPE
     #OTHER
@@ -109,10 +115,6 @@ class Account < ApplicationRecord
         # self.cdn_endpoint = ENV['AWS_S3_ENDPOINT'] if self.cdn_endpoint.blank?
         # self.client_token = ENV['AWS_ACCESS_KEY_ID'] if self.client_token.blank?
         # self.client_secret = ENV['AWS_SECRET_ACCESS_KEY'] if self.client_secret.blank?
-    end
-
-    def change_view_casts_house_colours
-        ColorUpdateWorker.perform_in(1.seconds, self.id)
     end
 
     def after_create_set

@@ -57,28 +57,28 @@ class Api::ProtoGraph
 
         class << self
 
-            def invalidate(account=nil, items, quantity)
+            def invalidate(site=nil, items, quantity)
                 url = "#{AWS_API_DATACAST_URL}/cloudfront/invalidate"
-                if account.present?
+                if site.present?
                     params = {}
-                    if account.cdn_provider == "CloudFront"
-                        params[:source] = account.cdn_provider
+                    if site.cdn_provider == "CloudFront"
+                        params[:source] = site.cdn_provider
                         params[:quantity] = quantity
-                        params[:distribution_id] = account.cdn_id
-                        creds = {'aws_access_key_id': account.client_token, 'aws_secret_access_key': account.client_secret}
+                        params[:distribution_id] = site.cdn_id
+                        creds = {'aws_access_key_id': site.client_token, 'aws_secret_access_key': account.client_secret}
                         params[:credentials] = creds
                         params[:invalidation_items] = items
                     else
                         params[:source] = "Akamai"
                         creds = {}
-                        creds[:host] = account.host
-                        creds[:client_secret] = account.client_secret
-                        creds[:client_token] = account.client_token
-                        creds[:access_token] = account.access_token
+                        creds[:host] = site.host
+                        creds[:client_secret] = site.client_secret
+                        creds[:client_token] = site.client_token
+                        creds[:access_token] = site.access_token
                         params[:credentials] = creds
                         invalidation_items = []
                         items.each do |item|
-                            invalidation_items << "#{account.cdn_endpoint}#{item}"
+                            invalidation_items << "#{site.cdn_endpoint}#{item}"
                         end
                         params["invalidation_items"] = invalidation_items
                     end

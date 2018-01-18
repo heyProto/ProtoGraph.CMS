@@ -117,8 +117,8 @@ class TemplateCard < ApplicationRecord
         self.siblings.as_json(only: [:account_id, :id, :slug, :global_slug,:name, :elevator_pitch], methods: [:account_slug, :icon_url])
     end
 
-    def base_url(account=nil)
-        "#{account.present? ? account.cdn_endpoint : TemplateCard::CDN_BASE_URL}/#{self.s3_identifier}"
+    def base_url(site=nil)
+        "#{site.present? ? site.cdn_endpoint : TemplateCard::CDN_BASE_URL}/#{self.s3_identifier}"
     end
 
     def js

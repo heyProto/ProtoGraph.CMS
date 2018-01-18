@@ -118,33 +118,33 @@ class Site < ApplicationRecord
             limit: 50
         })
 
-        self.update_columns(stream_url: "#{self.account.cdn_endpoint}/#{stream.cdn_key}", stream_id: stream.id)
+        self.update_columns(stream_url: "#{self.cdn_endpoint}/#{stream.cdn_key}", stream_id: stream.id)
 
-        ["genderand", "mobbed", 'jaljagran'].each do |series|
-            cat = RefCategory.create({
-                site_id: self.id,
-                category: "series",
-                name: series
-            })
+        # ["genderand", "mobbed", 'jaljagran'].each do |series|
+        #     cat = RefCategory.create({
+        #         site_id: self.id,
+        #         category: "series",
+        #         name: series
+        #     })
 
-           s = Stream.create!({
-                is_automated_stream: true,
-                col_name: "RefCategory",
-                col_id: cat.id,
-                updated_by: user_id,
-                created_by: user_id,
-                account_id: account_id,
-                title: self.name,
-                description: "#{series} stream",
-                limit: 50
-            })
+        #    s = Stream.create!({
+        #         is_automated_stream: true,
+        #         col_name: "RefCategory",
+        #         col_id: cat.id,
+        #         updated_by: user_id,
+        #         created_by: user_id,
+        #         account_id: account_id,
+        #         title: self.name,
+        #         description: "#{series} stream",
+        #         limit: 50
+        #     })
 
-            Thread.new do
-                s.publish_cards
-                ActiveRecord::Base.connection.close
-            end
+        #     Thread.new do
+        #         s.publish_cards
+        #         ActiveRecord::Base.connection.close
+        #     end
 
-            cat.update_columns(stream_url: "#{account.cdn_endpoint}/#{s.cdn_key}", stream_id: s.id)
-        end
+        #     cat.update_columns(stream_url: "#{site.cdn_endpoint}/#{s.cdn_key}", stream_id: s.id)
+        # end
     end
 end

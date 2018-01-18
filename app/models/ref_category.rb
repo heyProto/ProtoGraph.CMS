@@ -24,12 +24,12 @@ class RefCategory < ApplicationRecord
     has_one :stream, foreign_key: 'id', primary_key: 'stream_id'
     belongs_to :creator, class_name: "User", foreign_key: "created_by"
     belongs_to :updator, class_name: "User", foreign_key: "updated_by"
-    
+
     #ACCESSORS
     #VALIDATIONS
     validates :name, presence: true, uniqueness: {scope: :site}
     validates :category, inclusion: {in: ["intersection", "sub intersection", "series"]}
-    
+
     #CALLBACKS
     after_create :after_create_set
     #SCOPE
@@ -58,6 +58,6 @@ class RefCategory < ApplicationRecord
             ActiveRecord::Base.connection.close
         end
 
-        self.update_columns(stream_url: "#{s.account.cdn_endpoint}/#{s.cdn_key}", stream_id: s.id)
+        self.update_columns(stream_url: "#{s.stream.cdn_endpoint}/#{s.cdn_key}", stream_id: s.id)
     end
 end

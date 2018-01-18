@@ -52,7 +52,7 @@
                             </td>
                             <td>&nbsp;:&nbsp;
                             </td>
-                            <td><%= link_to "Here", "#{@account.cdn_endpoint}/#{@stream.cdn_key}", target: "blank" %>
+                            <td><%= link_to "Here", "#{@site.cdn_endpoint}/#{@stream.cdn_key}", target: "blank" %>
                             </td>
                         </tr>
                         <% if @stream.last_published_at and @view_casts.count > 0 %>

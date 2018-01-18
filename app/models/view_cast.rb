@@ -2,28 +2,27 @@
 #
 # Table name: view_casts
 #
-#  id                    :integer          not null, primary key
-#  account_id            :integer
-#  datacast_identifier   :string(255)
-#  template_card_id      :integer
-#  template_datum_id     :integer
-#  name                  :string(255)
-#  optionalConfigJSON    :text(65535)
-#  slug                  :string(255)
-#  created_by            :integer
-#  updated_by            :integer
-#  created_at            :datetime         not null
-#  updated_at            :datetime         not null
-#  seo_blockquote        :text(65535)
-#  render_screenshot_key :text(65535)
-#  status                :text(65535)
-#  folder_id             :integer
-#  is_invalidating       :boolean
-#  default_view          :string(255)
-#  genre                 :string(255)
-#  sub_genre             :string(255)
-#  series                :string(255)
-#  by_line               :string(255)
+#  id                  :integer          not null, primary key
+#  account_id          :integer
+#  datacast_identifier :string(255)
+#  template_card_id    :integer
+#  template_datum_id   :integer
+#  name                :string(255)
+#  optionalConfigJSON  :text(65535)
+#  slug                :string(255)
+#  created_by          :integer
+#  updated_by          :integer
+#  created_at          :datetime         not null
+#  updated_at          :datetime         not null
+#  seo_blockquote      :text(65535)
+#  status              :text(65535)
+#  folder_id           :integer
+#  is_invalidating     :boolean
+#  default_view        :string(255)
+#  genre               :string(255)
+#  sub_genre           :string(255)
+#  series              :string(255)
+#  by_line             :string(255)
 #
 
 class ViewCast < ApplicationRecord
@@ -77,65 +76,6 @@ class ViewCast < ApplicationRecord
 
     def cdn_url
         "#{Datacast_ENDPOINT}/#{self.datacast_identifier}/view_cast.json"
-    end
-
-    def social_urls(account)
-        {
-            "twitter": "#{account.cdn_endpoint}/#{self.datacast_identifier}/#{self.id}_twitter.png",
-            "facebook": "#{account.cdn_endpoint}/#{self.datacast_identifier}/#{self.id}_facebook.png",
-            "instagram": "#{account.cdn_endpoint}/#{self.datacast_identifier}/#{self.id}_instagram.png"
-        }
-    end
-
-    def render_screenshot_url(default=false)
-        self.render_screenshot_key.present?  ? "#{default ? ENV['AWS_S3_ENDPOINT'] : self.account.cdn_endpoint}/#{self.render_screenshot_key}" : nil
-    end
-
-
-    def save_png(mode="")
-        payload = {}
-        key = "#{self.datacast_identifier}/#{self.id}#{ mode.present? ? "_#{mode}" : ""}.png"
-        template_card = self.template_card
-        files = template_card.files
-        payload["js"] = files[:js] + "?no-cache=true"
-        payload["css"] = files[:css] + "?no-cache=true"
-        payload["data_url"] = self.data_url
-        payload["schema_json"] = self.schema_json
-        payload["configuration_url"] = self.cdn_url
-        payload["configuration_schema"] = files[:configuration_schema]
-        payload["initializer"] = template_card.git_repo_name
-        payload["key"] = key
-        payload["mode"] = mode.blank? ? 'screenshot' : mode
-
-        response = Api::ProtoGraph::ViewCast.render_screenshot(payload)
-        if response['message'].present? and response['message'] == "Data Added Successfully"
-            if mode.blank?
-                self.update_columns(render_screenshot_key: key, updated_at: Time.now)
-            else
-                status_obj = JSON.parse(self.status)
-                status_obj[mode] = "success"
-                self.update_columns(status: status_obj.to_json, updated_at: Time.now)
-            end
-            if self.account.cdn_id != ENV['AWS_CDN_ID']
-                Api::ProtoGraph::CloudFront.invalidate(self.account, ["/#{key}"], 1)
-            end
-            Api::ProtoGraph::CloudFront.invalidate(nil, ["/#{key}"], 1)
-
-        else
-            if mode.present?
-                status_obj = JSON.parse(self.status)
-                status_obj[mode] = false
-                self.update_columns(status: status_obj.to_json, updated_at: Time.now)
-            end
-        end
-    end
-
-    class << self
-        def create_missing_images
-            ViewCast.where(render_screenshot_key: nil).each do |view_cast|
-                view_cast.save_png
-            end
-        end
     end
 
     def should_generate_new_friendly_id?

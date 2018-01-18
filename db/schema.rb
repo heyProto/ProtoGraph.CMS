@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180118134451) do
+ActiveRecord::Schema.define(version: 20180118144007) do
 
   create_table "accounts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "username"
@@ -20,6 +20,13 @@ ActiveRecord::Schema.define(version: 20180118134451) do
     t.string "sign_up_mode"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "cdn_provider"
+    t.string "cdn_id"
+    t.text "host"
+    t.text "cdn_endpoint"
+    t.string "client_token"
+    t.string "access_token"
+    t.string "client_secret"
     t.index ["domain"], name: "index_accounts_on_domain"
     t.index ["slug"], name: "index_accounts_on_slug", unique: true
     t.index ["username"], name: "index_accounts_on_username", unique: true
@@ -450,7 +457,6 @@ ActiveRecord::Schema.define(version: 20180118134451) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.text "seo_blockquote"
-    t.text "render_screenshot_key"
     t.text "status"
     t.integer "folder_id"
     t.boolean "is_invalidating"
