@@ -15,7 +15,7 @@
 #
 
 class Permission < ApplicationRecord
-
+  
     #CONSTANTS
     #CUSTOM TABLES
     #GEMS

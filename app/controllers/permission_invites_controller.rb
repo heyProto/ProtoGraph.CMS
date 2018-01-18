@@ -36,8 +36,13 @@ class PermissionInvitesController < ApplicationController
   end
 
   def destroy
+    with_only_account = @permission_invite.site_id.blank?
     @permission_invite.destroy
-    redirect_to account_permissions_url(@account), notice: t("permission_invite.removed")
+    if with_only_account
+      redirect_to edit_account_url(@account), notice: t("permission_invite.removed")
+    else
+      redirect_to account_permissions_url(@account), notice: t("permission_invite.removed")
+    end
   end
 
   private

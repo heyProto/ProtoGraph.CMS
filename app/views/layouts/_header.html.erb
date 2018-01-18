@@ -68,7 +68,7 @@
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                       <h6 class="dropdown-header" style="font-size: 11px;">Account: <%= @account.username %></h6>
-                      <%= link_to "Settings", account_permissions_path(@account), "data-turbolinks"=> false, class: "dropdown-item" %>
+                      <%= link_to "Settings", edit_account_path(@account), "data-turbolinks"=> false, class: "dropdown-item" %>
                       <%= link_to "Image Bank", account_images_path(@account), "data-turbolinks"=> false, class: "dropdown-item"  %>
                       <% if 1 == 2 %>
                           <%= link_to "Audio Bank", account_audios_path(@account), "data-turbolinks"=> false, class: "dropdown-item"  %>

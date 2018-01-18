@@ -2,9 +2,30 @@ class AccountsController < ApplicationController
 
   before_action :authenticate_user!
   before_action :sudo_role_can_account_settings, only: [:update]
+  
+  def edit
+    @permissions = @account.permissions.not_hidden.where(ref_role_slug: "owner").includes(:user).page params[:page]
+    @permission_invite = PermissionInvite.new
+    @permission_invites = @account.permission_invites.where(ref_role_slug: "owner")
+    @people_count = @account.permissions.not_hidden.where(ref_role_slug: "owner").count
+    @pending_invites_count = @account.permission_invites.where(ref_role_slug: "owner").count
+    @permission_invites = @account.permission_invites.where(ref_role_slug: "owner")
+    
+    @people_count = @account.permissions.not_hidden.where(ref_role_slug: "owner").count
+    @pending_invites_count = @account.permission_invites.where(ref_role_slug: "owner").count
+    
+    
 
-  def new
-    @account = Account.new
+
+
+
+
+
+    
+    
+    if @account.logo_image_id.nil?
+      @account.build_logo_image
+    end
   end
 
   def show
@@ -27,11 +48,11 @@ class AccountsController < ApplicationController
     end
 
     if @account.update(a_params)
-      redirect_to account_permissions_path(@account), notice: t("us")
+      redirect_to edit_account_path(@account), notice: t("us")
     else
       @people_count = @account.users.count
       @pending_invites_count = @account.permission_invites.count
-      render account_permissions_path(@account)
+      render edit_account_path(@account)
     end
   end
 
