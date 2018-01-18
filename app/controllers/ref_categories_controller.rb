@@ -5,9 +5,9 @@ class RefCategoriesController < ApplicationController
   before_action :set_ref_category, only: [:show, :edit, :update, :destroy]
 
   def index
-    @all_series = RefCategory.where(category: "series")
-    @all_intersections = RefCategory.where(category: "intersections")
-    @all_sub_intersections = RefCategory.where(category: "sub_intersections")
+    @all_series = @site.ref_categories.where(category: "series").order(:name)
+    @all_intersections = @site.ref_categories.where(category: "intersections").order(:name)
+    @all_sub_intersections = @site.ref_categories.where(category: "sub_intersections").order(:name)
     @series = RefCategory.new
     @intersection = RefCategory.new
     @sub_intersection = RefCategory.new

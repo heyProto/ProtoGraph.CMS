@@ -14,20 +14,18 @@
                 <tr>
                   <th>Name</th>
                   <th>Is disabled</th>
-                  <th>Created by</th>
                   <th>Updated by</th>
                   <th colspan="1"></th>
                 </tr>
               </thead>
 
               <tbody>
-                <% @ref_categories.each do |ref_category| %>
+                <% @all_series.each do |ref_category| %>
                   <tr>
                     <td><%= ref_category.name %></td>
                     <td><%= ref_category.is_disabled %></td>
-                    <td><%= ref_category.created_by %></td>
-                    <td><%= ref_category.updated_by %></td>
-                    <td><%= link_to 'x', ref_category, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+                    <td class="hint"><%= ref_category.updator.name %></td>
+                    <td><%= link_to 'x', [@account, @site, @ref_category], method: :delete, data: { confirm: 'Are you sure?' } %></td>
                   </tr>
                 <% end %>
               </tbody>
@@ -48,11 +46,11 @@
               </thead>
 
               <tbody>
-                <% @ref_categories.each do |ref_category| %>
+                <% @all_intersections.each do |ref_category| %>
                   <tr>
                     <td><%= ref_category.name %></td>
-                    <td><%= ref_category.updated_by %></td>
-                    <td><%= link_to 'x', ref_category, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+                    <td class="hint"><%= ref_category.updator.name %></td>
+                    <td><%= link_to 'x', [@account, @site, @ref_category], method: :delete, data: { confirm: 'Are you sure?' } %></td>
                   </tr>
                 <% end %>
               </tbody>
@@ -73,11 +71,11 @@
               </thead>
 
               <tbody>
-                <% @ref_categories.each do |ref_category| %>
+                <% @all_sub_intersections.each do |ref_category| %>
                   <tr>
                     <td><%= ref_category.name %></td>
-                    <td><%= ref_category.updated_by %></td>
-                    <td><%= link_to 'x', ref_category, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+                    <td class="hint"><%= ref_category.updator.name %></td>
+                    <td><%= link_to 'x', [@account, @site, @ref_category], method: :delete, data: { confirm: 'Are you sure?' } %></td>
                   </tr>
                 <% end %>
               </tbody>

@@ -110,52 +110,6 @@
 
 <%= simple_form_for @account do |f| %>
   <%= f.error_notification %>
-  <div class="row">
-    <div class="col-sm-9">
-        <br/>
-
-            <h1>House Colour</h1>
-            <hr/>
-            <p class="hint">Choose your brand colour. Wherever possible, we will use this colour.</p>
-            <%= f.input :house_colour, input_html: {type: :color, style: "height: 40px;"}, label: false %>
-            <p class="hint">Choose your reverse brand colour. Wherever possible, we will use this colour to complement your brand colour.</p>
-            <%= f.input :reverse_house_colour, input_html: {type: :color, style: "height: 40px;"}, label: false %>
-            <p class="hint">Choose your font colour. Wherever possible, we will use this colour for text.</p>
-            <%= f.input :font_colour, input_html: {type: :color, style: "height: 40px;"}, label: false %>
-            <p class="hint">Choose your reverse font colour. Wherever possible, we will use this colour to complement your font colour.</p>
-            <%= f.input :reverse_font_colour, input_html: {type: :color, style: "height: 40px;"}, label: false %>
-            <br/>
-            <br/>
-
-
-        <% if current_user.is_admin_from_pykih and 1 == 2 %>
-            <div class="ui message">
-              <h4>CDN Configuration</h4>
-              <p class="hint">Configure your own CDN. Keep it blank to use default configurations.</p>
-              <%= f.input :cdn_provider,as: :select, collection: ["CloudFront","Akamai"], include_blank: false %>
-              <%= f.input :cdn_id, input_html: {value: (@account.cdn_id == ENV['AWS_CDN_ID'] and @account.cdn_endpoint == ENV["AWS_S3_ENDPOINT"])  ? "" : @account.cdn_id}, label: "CDN Identifier", hint: "Keep blank if using Akamai." %>
-              <%= f.input :cdn_endpoint, as: :string, input_html: {value: (@account.cdn_id == ENV['AWS_CDN_ID'] and @account.cdn_endpoint == ENV["AWS_S3_ENDPOINT"]) ? "" : @account.cdn_endpoint}, label: "CDN Endpoint", hint: "It should be in the format of https://cdn.protograph.pykih.com. Please do not include the trailing backslash." %>
-              <%= f.input :host, input_html: {value: (@account.cdn_id == ENV['AWS_CDN_ID'] and @account.cdn_endpoint == ENV["AWS_S3_ENDPOINT"]) ? "" : @account.host}, as: :string, label: "Host" %>
-              <%= f.input :client_token, input_html: {value: (@account.cdn_id == ENV['AWS_CDN_ID'] and @account.cdn_endpoint == ENV["AWS_S3_ENDPOINT"])? "" : @account.client_token},hint: "Used as Aws Client Access ID for cloudfront."  %>
-              <%= f.input :client_secret, input_html: {value: @account.cdn_id == ENV['AWS_CDN_ID'] ? "" : @account.client_secret}, hint: "Used as Aws Secret Access Key for cloudfront." %>
-              <%= f.input :access_token, input_html: {value: @account.cdn_id == ENV['AWS_CDN_ID'] ? "" : @account.access_token}, hint: "Keep blank if using cloudfront." %>
-            </div>
-        <% else %>
-              <% if @account.cdn_id == ENV['AWS_CDN_ID'] and @account.cdn_endpoint == ENV["AWS_S3_ENDPOINT"] %>
-              <div class="ui message" style="padding-left:  0px; padding-right: 0px;">
-                <h1 style="color: #C2002A;">Pending CDN Configuration</h1>
-                <hr/>
-                <p style="color: #C2002A;">Currently, your embeds are running of Pykih's sandbox CDN that is suitable only for testing. Unless explicitly activated, it wont not scale to handle traffic on a live news site. To activate ProtoGraph for live site use, set up your own CDN (Akamai or AWS CloudFront) and point it to <i>protograph.yoursite.com</i> and provide us with tokens and purge API end points.</p>
-                <p style="color: red;">Please contact us at <%=mail_to "team@pykih.com" %>.</p>
-              </div>
-            <% else %>
-              <div class="alert alert-primary" role="alert">
-                  <p>You are using a <%= @account.cdn_provider %> CDN. The endpoint is <%= @account.cdn_endpoint %>.</p>
-              </div>
-            <% end %>
-        <% end %>
-    </div>
-  </div>
 
 
 
@@ -163,7 +117,7 @@
 
 
 
-      <% if 1 == 2 %>
+      <% if 1 == 1 %>
         <div class="ui message">
           <h4>Social</h4>
           <p class="hint">Access to your social media accounts will be used for helping you distribute content to these channels.</p>
