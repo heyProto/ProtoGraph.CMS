@@ -3,6 +3,10 @@ class AccountsController < ApplicationController
   before_action :authenticate_user!
   before_action :sudo_role_can_account_settings, only: [:update]
 
+  def new
+    @account = Account.new
+  end
+
   def show
     @folders = @account.folders
     @folder = Folder.new
@@ -30,7 +34,7 @@ class AccountsController < ApplicationController
       render account_permissions_path(@account)
     end
   end
-  
+
   def create
     @account = Account.new(account_params)
     if @account.save
@@ -51,19 +55,20 @@ class AccountsController < ApplicationController
         is_system_generated: true,
         site_id: @account.site.id
       })
-      redirect_to edit_user_path(current_user), notice: t("cs")
+      redirect_to account_path(@account), notice: t("cs")
     else
-      @user = current_user
-      @accounts_owned = Account.where(id: current_user.permissions.where(ref_role_slug: "owner").pluck(:account_id).uniq)
-      @accounts_member = Account.where(id: current_user.permissions.where.not(ref_role_slug: "owner").pluck(:account_id).uniq)
-      render "users/edit"
+      if @account.coming_from_new
+        render "accounts/new"
+      else
+        render "users/edit"
+      end
     end
   end
 
   private
 
     def account_params
-      params.require(:account).permit(:username, :slug, :domain, :status, :sign_up_mode, :host, :cdn_id, :cdn_provider, :cdn_endpoint, :client_token, :access_token, :client_secret, :logo_image_id, :house_colour, :reverse_house_colour, :font_colour, :reverse_font_colour, logo_image_attributes: [:image])
+      params.require(:account).permit(:username, :slug, :domain, :status, :sign_up_mode, :host, :cdn_id, :cdn_provider, :cdn_endpoint, :client_token, :access_token, :client_secret, :logo_image_id, :house_colour, :reverse_house_colour, :font_colour, :reverse_font_colour, :coming_from_new, logo_image_attributes: [:image])
     end
 
 end

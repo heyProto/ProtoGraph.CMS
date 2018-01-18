@@ -77,5 +77,7 @@ en:
     failure: "Failed to export."
   pd:
     folder: "Cannot edit trash folder."
+  ac:
+    mandatory: "You need to create a team before continuing."
 
 

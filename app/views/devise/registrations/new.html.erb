@@ -1,32 +1,12 @@
 <%= content_for :proto_container_col_sm_9_content_col do %>
     <div class="row">
-        <%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name), remote: true) do |f| %>
+        <%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
             <%= f.error_notification %>
             <%= f.input :name, autofocus: true, required: true, placeholder: "What your friends call you?" %>
             <%= f.input :email, required: true %>
             <%= f.input :password, required: true, autocomplete: "off", required: true, placeholder: "6 characters minimum." %>
             <%= f.input :password_confirmation, autocomplete: "off", required: true %>
-
-
-            <div class='hidden' style='display:none'>
-                <h3>Add Site here</h3>
-            </div>
-
             <%= f.button :submit, value: "Sign up", class: 'btn btn-primary' %>
         <% end %>
     </div>
-
-
-    <script type="text/javascript">
-        $(document).ready(function(){
-            $("form#new_user").bind("ajax:success", function(e, data, status, xhr){
-                if (e.detail[0].success){
-                  alert();
-                }
-                else{
-                  $(".hidden").show();
-                }
-            });
-        });
-    </script>
 <% end %>

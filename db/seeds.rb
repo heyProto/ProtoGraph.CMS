@@ -25,15 +25,10 @@ RefRole.create(name: "Editor", slug: "editor",
                 can_template_design_do: false,
                 can_template_design_publish: false, sort_order: 2)
 
-RefRole.create(name: "Developer", slug: "developer",
+RefRole.create(name: "Doer", slug: "doer",
                 can_account_settings: false,
                 can_template_design_do: true,
                 can_template_design_publish: false, sort_order: 100)
-
-RefRole.create(name: "Writer", slug: "writer",
-                can_account_settings: false,
-                can_template_design_do: false,
-                can_template_design_publish: false, sort_order: 1)
 
 puts "----> Creating users and permissions"
 users = [["ritvvij.parrikh@pykih.com", "Ritvvij Parrikh" ,"ritvvijparrikh"], ["ab@pykih.com", "Amit Badheka", "amitbadheka"]]
