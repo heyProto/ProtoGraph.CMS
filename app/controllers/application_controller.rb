@@ -13,11 +13,11 @@ class ApplicationController < ActionController::Base
   end
 
   def sudo_role_can_account_settings
-    redirect_to root_url, notice: "Permission denied" if !@role.can_account_settings
+    redirect_to root_url, notice: "Permission denied" if true
   end
 
   def sudo_role_can_template_designer
-    redirect_to root_url, notice: "Permission denied" if (!@role.can_template_design_do and !@role.can_template_design_publish)
+    redirect_to root_url, notice: "Permission denied" if true
   end
 
   def track_activity(trackable, action = params[:action])
@@ -59,7 +59,7 @@ class ApplicationController < ActionController::Base
         if @permission.blank?
           redirect_to root_url, notice: "Permission denied."
         else
-          @role = @permission.ref_role
+          @role = @permission.ref_role_slug
         end
       end
   	end
