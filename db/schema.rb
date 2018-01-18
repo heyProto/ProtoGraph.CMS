@@ -279,6 +279,11 @@ ActiveRecord::Schema.define(version: 20180118144007) do
     t.string "client_secret"
     t.integer "favicon_id"
     t.integer "logo_image_id"
+    t.text "facebook_url"
+    t.text "twitter_url"
+    t.text "instagram_url"
+    t.text "youtube_url"
+    t.string "g_a_tracking_id"
   end
 
   create_table "stream_entities", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
