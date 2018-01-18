@@ -64,6 +64,7 @@ class Stream < ApplicationRecord
     after_create :after_create_set
     after_save :after_save_set
     after_save :update_card_count
+    before_destroy :before_destroy_set
 
     #SCOPE
     #OTHER
@@ -284,6 +285,14 @@ class Stream < ApplicationRecord
                 self.template_card_ids.create({entity_type: "template_card_id",entity_value: c})
             end
             self.template_card_ids.where(entity_value: (prev_card_ids - self.card_list)).delete_all
+        end
+    end
+
+    def before_destroy_set
+        begin
+            Api::ProtoGraph::Utility.remove_from_cdn("#{self.cdn_key}")
+            Api::ProtoGraph::CloudFront.invalidate(nil, ["/#{self.cdn_key}"], 1)
+        rescue => e
         end
     end
 

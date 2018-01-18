@@ -2,15 +2,17 @@
 #
 # Table name: ref_categories
 #
-#  id                 :integer          not null, primary key
-#  site_id            :integer
-#  category           :string(255)
-#  name               :string(255)
-#  parent_category_id :integer
-#  stream_url         :text(65535)
-#  created_at         :datetime         not null
-#  updated_at         :datetime         not null
-#  stream_id          :integer
+#  id          :integer          not null, primary key
+#  site_id     :integer
+#  category    :string(255)
+#  name        :string(255)
+#  stream_url  :text(65535)
+#  created_at  :datetime         not null
+#  updated_at  :datetime         not null
+#  stream_id   :integer
+#  is_disabled :boolean
+#  created_by  :integer
+#  updated_by  :integer
 #
 
 class RefCategory < ApplicationRecord
