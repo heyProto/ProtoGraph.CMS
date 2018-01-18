@@ -47,15 +47,15 @@
                       <h4>CDN Configuration</h4>
                       <p class="hint">Configure your own CDN. Keep it blank to use default configurations.</p>
                       <%= f.input :cdn_provider,as: :select, collection: ["CloudFront","Akamai"], include_blank: false %>
-                      <%= f.input :cdn_id, input_html: {value: (@account.cdn_id == ENV['AWS_CDN_ID'] and @account.cdn_endpoint == ENV["AWS_S3_ENDPOINT"])  ? "" : @account.cdn_id}, label: "CDN Identifier", hint: "Keep blank if using Akamai." %>
-                      <%= f.input :cdn_endpoint, as: :string, input_html: {value: (@account.cdn_id == ENV['AWS_CDN_ID'] and @account.cdn_endpoint == ENV["AWS_S3_ENDPOINT"]) ? "" : @account.cdn_endpoint}, label: "CDN Endpoint", hint: "It should be in the format of https://cdn.protograph.pykih.com. Please do not include the trailing backslash." %>
-                      <%= f.input :host, input_html: {value: (@account.cdn_id == ENV['AWS_CDN_ID'] and @account.cdn_endpoint == ENV["AWS_S3_ENDPOINT"]) ? "" : @account.host}, as: :string, label: "Host" %>
-                      <%= f.input :client_token, input_html: {value: (@account.cdn_id == ENV['AWS_CDN_ID'] and @account.cdn_endpoint == ENV["AWS_S3_ENDPOINT"])? "" : @account.client_token},hint: "Used as Aws Client Access ID for cloudfront."  %>
-                      <%= f.input :client_secret, input_html: {value: @account.cdn_id == ENV['AWS_CDN_ID'] ? "" : @account.client_secret}, hint: "Used as Aws Secret Access Key for cloudfront." %>
-                      <%= f.input :access_token, input_html: {value: @account.cdn_id == ENV['AWS_CDN_ID'] ? "" : @account.access_token}, hint: "Keep blank if using cloudfront." %>
+                      <%= f.input :cdn_id, input_html: {value: (@site.cdn_id == ENV['AWS_CDN_ID'] and @site.cdn_endpoint == ENV["AWS_S3_ENDPOINT"])  ? "" : @site.cdn_id}, label: "CDN Identifier", hint: "Keep blank if using Akamai." %>
+                      <%= f.input :cdn_endpoint, as: :string, input_html: {value: (@site.cdn_id == ENV['AWS_CDN_ID'] and @site.cdn_endpoint == ENV["AWS_S3_ENDPOINT"]) ? "" : @site.cdn_endpoint}, label: "CDN Endpoint", hint: "It should be in the format of https://cdn.protograph.pykih.com. Please do not include the trailing backslash." %>
+                      <%= f.input :host, input_html: {value: (@site.cdn_id == ENV['AWS_CDN_ID'] and @site.cdn_endpoint == ENV["AWS_S3_ENDPOINT"]) ? "" : @site.host}, as: :string, label: "Host" %>
+                      <%= f.input :client_token, input_html: {value: (@site.cdn_id == ENV['AWS_CDN_ID'] and @site.cdn_endpoint == ENV["AWS_S3_ENDPOINT"])? "" : @account.client_token},hint: "Used as Aws Client Access ID for cloudfront."  %>
+                      <%= f.input :client_secret, input_html: {value: @site.cdn_id == ENV['AWS_CDN_ID'] ? "" : @site.client_secret}, hint: "Used as Aws Secret Access Key for cloudfront." %>
+                      <%= f.input :access_token, input_html: {value: @site.cdn_id == ENV['AWS_CDN_ID'] ? "" : @site.access_token}, hint: "Keep blank if using cloudfront." %>
                     </div>
                 <% else %>
-                      <% if @account.cdn_id == ENV['AWS_CDN_ID'] and @account.cdn_endpoint == ENV["AWS_S3_ENDPOINT"] %>
+                      <% if @site.cdn_id == ENV['AWS_CDN_ID'] and @site.cdn_endpoint == ENV["AWS_S3_ENDPOINT"] %>
                       <div class="ui message" style="padding-left:  0px; padding-right: 0px;">
                         <h1 style="color: #C2002A;">Pending CDN Configuration</h1>
                         <hr/>
@@ -64,7 +64,7 @@
                       </div>
                     <% else %>
                       <div class="alert alert-primary" role="alert">
-                          <p>You are using a <%= @account.cdn_provider %> CDN. The endpoint is <%= @account.cdn_endpoint %>.</p>
+                          <p>You are using a <%= @site.cdn_provider %> CDN. The endpoint is <%= @site.cdn_endpoint %>.</p>
                       </div>
                     <% end %>
                 <% end %>
