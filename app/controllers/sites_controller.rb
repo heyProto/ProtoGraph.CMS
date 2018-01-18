@@ -5,9 +5,16 @@ class SitesController < ApplicationController
 
 
   def edit
+    if @site.logo_image_id.nil?
+      @site.build_logo_image
+    end
+    if @site.favicon_id.nil?
+      @site.build_favicon
+    end
   end
 
   def update
+    ss
     respond_to do |format|
       if @site.update(site_params)
         format.html { redirect_to edit_account_site_path(@account, @site), notice: 'site was successfully updated.' }

@@ -24,6 +24,8 @@
 #  client_token         :string(255)
 #  access_token         :string(255)
 #  client_secret        :string(255)
+#  favicon_id           :integer
+#  logo_image_id        :integer
 #
 
 class Site < ApplicationRecord
@@ -39,7 +41,10 @@ class Site < ApplicationRecord
     has_many :view_casts, through: :site_view_casts
     has_many :ref_categories
     has_one :stream, primary_key: "stream_id", foreign_key: "id"
+    belongs_to :logo_image, class_name: "Image", foreign_key: "logo_image_id", primary_key: "id", optional: true
+    belongs_to :favicon, class_name: "Image", foreign_key: "favicon_id", primary_key: "id", optional: true
     #ACCESSORS
+    accepts_nested_attributes_for :logo_image, :favicon
     #VALIDATIONS
     # validates :name, presence: true, uniqueness: {scope: :account}
 

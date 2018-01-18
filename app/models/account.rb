@@ -2,26 +2,14 @@
 #
 # Table name: accounts
 #
-#  id                   :integer          not null, primary key
-#  username             :string(255)
-#  slug                 :string(255)
-#  domain               :string(255)
-#  status               :string(255)
-#  sign_up_mode         :string(255)
-#  created_at           :datetime         not null
-#  updated_at           :datetime         not null
-#  cdn_provider         :string(255)
-#  cdn_id               :string(255)
-#  host                 :text(65535)
-#  cdn_endpoint         :text(65535)
-#  client_token         :string(255)
-#  access_token         :string(255)
-#  client_secret        :string(255)
-#  logo_image_id        :integer
-#  house_colour         :string(255)
-#  reverse_house_colour :string(255)      default("#ffffff")
-#  font_colour          :string(255)      default("#ffffff")
-#  reverse_font_colour  :string(255)      default("#ffffff")
+#  id           :integer          not null, primary key
+#  username     :string(255)
+#  slug         :string(255)
+#  domain       :string(255)
+#  status       :string(255)
+#  sign_up_mode :string(255)
+#  created_at   :datetime         not null
+#  updated_at   :datetime         not null
 #
 
 class Account < ApplicationRecord
@@ -33,7 +21,6 @@ class Account < ApplicationRecord
     #GEMS
     extend FriendlyId
     friendly_id :username, use: :slugged
-    # mount_uploader :logo_url, ImageUploader
 
     #ASSOCIATIONS
     has_many :permissions, ->{where(status: "Active")}, dependent: :destroy
@@ -43,11 +30,10 @@ class Account < ApplicationRecord
     has_many :folders, dependent: :destroy
     has_many :uploads, dependent: :destroy
     has_many :activities, dependent: :destroy
-    belongs_to :logo_image, class_name: "Image", foreign_key: "logo_image_id", primary_key: "id", optional: true
     has_many :images, dependent: :destroy
     has_many :uploads, dependent: :destroy
     has_many :audios, dependent: :destroy
-    has_one :site,dependent: :destroy, dependent: :destroy #change it to many later
+    has_one :site,dependent: :destroy #change it to many later
     #ACCESSORS
     attr_accessor :coming_from_new
     #VALIDATIONS

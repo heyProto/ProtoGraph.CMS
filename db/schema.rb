@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180118123828) do
+ActiveRecord::Schema.define(version: 20180118132240) do
 
   create_table "accounts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "username"
@@ -20,7 +20,6 @@ ActiveRecord::Schema.define(version: 20180118123828) do
     t.string "sign_up_mode"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "logo_image_id"
     t.index ["domain"], name: "index_accounts_on_domain"
     t.index ["slug"], name: "index_accounts_on_slug", unique: true
     t.index ["username"], name: "index_accounts_on_username", unique: true
@@ -283,6 +282,8 @@ ActiveRecord::Schema.define(version: 20180118123828) do
     t.string "client_token"
     t.string "access_token"
     t.string "client_secret"
+    t.integer "favicon_id"
+    t.integer "logo_image_id"
   end
 
   create_table "stream_entities", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|

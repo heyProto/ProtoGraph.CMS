@@ -2,7 +2,7 @@ class AccountsController < ApplicationController
 
   before_action :authenticate_user!
   before_action :sudo_role_can_account_settings, only: [:update]
-  
+
   def edit
     @permissions = @account.permissions.not_hidden.where(ref_role_slug: "owner").includes(:user).page params[:page]
     @permission_invite = PermissionInvite.new
@@ -10,22 +10,9 @@ class AccountsController < ApplicationController
     @people_count = @account.permissions.not_hidden.where(ref_role_slug: "owner").count
     @pending_invites_count = @account.permission_invites.where(ref_role_slug: "owner").count
     @permission_invites = @account.permission_invites.where(ref_role_slug: "owner")
-    
+
     @people_count = @account.permissions.not_hidden.where(ref_role_slug: "owner").count
     @pending_invites_count = @account.permission_invites.where(ref_role_slug: "owner").count
-    
-    
-
-
-
-
-
-
-    
-    
-    if @account.logo_image_id.nil?
-      @account.build_logo_image
-    end
   end
 
   def show

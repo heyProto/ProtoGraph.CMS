@@ -23,6 +23,28 @@
             <p class="hint">This works like a user icon and appears in previews of your publication content throughout Medium. It is square and should be at least 60 × 60px in size.</p>
             <p>Publication logo</p>
             <p class="hint">This logo appears at the top of all your publication’s stories. It should have a transparent background, and be at least 600px wide and 72px tall.</p>
+            <div style="margin-left: 50px;">
+              <% if @site.logo_image_id.present? %>
+                <%= image_tag(@site.logo_image.original_image.image_url, class: "rounded", style: "width: 100px;") %>
+                <br/>
+                <%= simple_form_for [@account, @site] do |f| %>
+                  <%= f.error_notification %>
+                  <%= f.input :logo_image_id, as: :hidden, input_html: {value: nil} %>
+                  <%= f.button :submit, "Remove image", class: "btn btn-light" %>
+                <% end %>
+              <% else %>
+                <%= image_tag("account.png", class: "rounded", style: "width: 100px;") %>
+                <br/><br/>
+                <%= simple_form_for [@account, @site] do |f| %>
+                  <%= f.error_notification %>
+
+                  <%= f.fields_for :logo_image do |logo_image| %>
+                    <%= logo_image.input :image, label: false %>
+                  <% end %>
+                  <%= f.button :submit, "Upload", class: "btn btn-light" %>
+                <% end %>
+              <% end %>
+            </div>
             <p>Publication favicon</p>
             <p class="hint">This is used by mobile browsers to represent a page, appearing in browser tabs and similar places. It is square and should be at least 128 × 128px in size.</p>
         </div>

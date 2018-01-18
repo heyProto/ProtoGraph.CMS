@@ -16,30 +16,6 @@
             <% end %>
         </div>
         <br/>
-        <h3>Logo</h3>
-        <hr/>
-        <div style="margin-left: 50px;">
-            <% if @account.logo_image_id.present? %>
-              <%= image_tag(@account.logo_image.original_image.image_url, class: "rounded", style: "width: 100px;") %>
-              <br/>
-              <%= simple_form_for @account do |f| %>
-                <%= f.error_notification %>
-                <%= f.input :logo_image_id, as: :hidden, input_html: {value: nil} %>
-                <%= f.button :submit, "Remove image", class: "btn btn-light" %>
-              <% end %>
-            <% else %>
-              <%= image_tag("account.png", class: "rounded", style: "width: 100px;") %>
-              <br/><br/>
-              <%= simple_form_for @account do |f| %>
-                <%= f.error_notification %>
-                <%= f.fields_for :logo_image do |logo_image| %>
-                  <%= logo_image.input :image, label: false %>
-                <% end %>
-                <%= f.button :submit, "Save", class: "btn btn-light" %>
-              <% end %>
-            <% end %>
-        </div>
-        <br/>
         <h3>Owners of this account</h3>
         <hr/>
         <div style="margin-left: 50px;">
