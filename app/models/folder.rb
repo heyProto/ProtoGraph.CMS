@@ -28,17 +28,16 @@ class Folder < ApplicationRecord
     #ASSOCIATIONS
     belongs_to :account
     belongs_to :site
-    has_many :streams
-    has_many :uploads
+    has_many :streams, dependent: :destroy
+    has_many :uploads, dependent: :destroy
     has_many :activities
-    has_many :uploads
+    has_many :uploads, dependent: :destroy
     #ACCESSORS
     attr_accessor :is_system_generated
     #VALIDATIONS
     validates :name, exclusion: {in: ["Recycle Bin"], message: "Is a reserved name."}, unless: :is_system_generated
     validates :name, uniqueness: {scope: [:account], message: "Folder name is already used."}
-
-    has_many :view_casts
+    has_many :view_casts, dependent: :destroy
 
 
     #CALLBACKS
