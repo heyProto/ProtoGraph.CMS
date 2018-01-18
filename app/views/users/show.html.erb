@@ -18,12 +18,3 @@
       </tbody>
   </table>
 </div>
-<div class="col-sm-4">
-  <br/>
-  <br/>
-  <br/>
-  <%= simple_form_for @account do |f| %>
-  <%= f.input :username, id: :account_username, hint: "Choose wisely. You cannot change it later." %>
-  <%= f.submit "Create a new Team", class: "btn btn-sm btn-white" %>
-  <% end %>
-</div>

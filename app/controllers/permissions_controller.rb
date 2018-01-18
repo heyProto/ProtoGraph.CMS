@@ -10,6 +10,12 @@ class PermissionsController < ApplicationController
     @people_count = @account.permissions.not_hidden.count
     @pending_invites_count = @account.permission_invites.count
     @permission_invites = @account.permission_invites
+    
+    @people_count = @account.permissions.not_hidden.count
+    @pending_invites_count = @account.permission_invites.count
+    if @account.logo_image_id.nil?
+      @account.build_logo_image
+    end
   end
 
   def change_role

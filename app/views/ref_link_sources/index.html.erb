@@ -1,41 +1,33 @@
 <div class="row">
-  <div class="col-sm-3">
-      <%= render partial: "accounts/sidebar" %>
-  </div>
-  <div class="col-sm-9">
-    <br/>
-    <h1 style='float:left'>Publishers</h1>
-    <% if @ref_link_sources.count > 0%>
-      &nbsp &nbsp
-      <%= link_to 'Export', publish_ref_link_sources_path, style: "float: right;margin-top:5px", method: 'post'  %>
-    <% end %>
-    <hr/>
-    <table class="table">
-      <tbody>
-        <% @ref_link_sources.each do |s| %>
-          <tr>
-            <td style="border: 0px;">
-              <%= image_tag(s.favicon_url, size: "16x16", class: "rounded") %>
-              <%= link_to s.name.titleize, s.url, target: "_blank" %>
-            </td>
-            <td style="border: 0px;text-align: right">
-              <%= link_to "Remove", ref_link_source_path(s), method: :delete %>
-            </td>
-          </tr>
+    <div class="col-sm-6" style="padding: 0px; margin-left: auto; margin-right: auto;">
+        <h1>Reference Table: Publishers</h1>
+        <br/>
+        <% if @ref_link_sources.count > 0%>
+          &nbsp &nbsp
+          <%= link_to 'Export', publish_ref_link_sources_path, style: "float: right;margin-top:5px", method: 'post'  %>
         <% end %>
-    </table>
-  </div>
-  <div class="col-sm-4">
-    <br/>
-    <br/>
-    <br/>
-    <%= render partial: "ref_link_sources/form" %>
-    <br/>
-    <br/>
-    <br/>
-    <br/>
-    <br/>
-    <br/>
-  </div>
-  <br/>
+        <hr/>
+        <%= simple_form_for @ref_link_source do |f| %>
+          <%= f.input :name, placeholder: "Name" %>
+          <%= f.input :url, as: :string, placeholder: "Url with http or https", hint: 'Remove the trailing / from the url' %>
+          <%= f.input :favicon_url, as: :string, placeholder: "Favicon URL with http or https"  %>
+
+          <%= f.submit "Add new reference link", class: "btn btn-light" %>
+        <% end %>
+        <hr/>
+        <table class="table">
+          <tbody>
+            <% @ref_link_sources.each do |s| %>
+              <tr>
+                <td style="border: 0px;">
+                  <%= image_tag(s.favicon_url, size: "16x16", class: "rounded") %>
+                  <%= link_to s.name.titleize, s.url, target: "_blank" %>
+                </td>
+                <td style="border: 0px;text-align: right">
+                  <%= link_to "x", ref_link_source_path(s), method: :delete %>
+                </td>
+              </tr>
+            <% end %>
+        </table>
+    </div>
 </div>

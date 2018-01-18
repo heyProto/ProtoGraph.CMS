@@ -1,25 +1,12 @@
 class AccountsController < ApplicationController
 
   before_action :authenticate_user!
-  before_action :sudo_role_can_account_settings, only: [:edit, :update]
-
-  #Your Accounts - Switch Accounts
-  def index
-    @account = Account.new
-  end
+  before_action :sudo_role_can_account_settings, only: [:update]
 
   def show
     @folders = @account.folders
     @folder = Folder.new
     @activities = @account.activities.order("updated_at DESC").limit(30)
-  end
-
-  def edit
-    @people_count = @account.permissions.not_hidden.count
-    @pending_invites_count = @account.permission_invites.count
-    if @account.logo_image_id.nil?
-      @account.build_logo_image
-    end
   end
 
   def update
@@ -36,14 +23,14 @@ class AccountsController < ApplicationController
     end
 
     if @account.update(a_params)
-      redirect_to edit_account_path(@account), notice: t("us")
+      redirect_to account_permissions_path(@account), notice: t("us")
     else
       @people_count = @account.users.count
       @pending_invites_count = @account.permission_invites.count
-      render :edit
+      render account_permissions_path(@account)
     end
   end
-
+  
   def create
     @account = Account.new(account_params)
     if @account.save
@@ -64,17 +51,13 @@ class AccountsController < ApplicationController
         is_system_generated: true,
         site_id: @account.site.id
       })
-      redirect_to @account, notice: t("cs")
+      redirect_to edit_user_path(current_user), notice: t("cs")
     else
-      render :index
+      @user = current_user
+      @accounts_owned = Account.where(id: current_user.permissions.where(ref_role_slug: "owner").pluck(:account_id).uniq)
+      @accounts_member = Account.where(id: current_user.permissions.where.not(ref_role_slug: "owner").pluck(:account_id).uniq)
+      render "users/edit"
     end
-  end
-
-  def template_cards
-  end
-
-  def publishers
-    @ref_link_sources = RefLinkSource.all
   end
 
   private
