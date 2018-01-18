@@ -46,7 +46,7 @@
                       <%= render partial: "audios/form" %>
 
                   <% end %>
-                  
+                  <% if @site.present? %>
                   <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                       Site: <%= @site.domain %>
@@ -60,7 +60,7 @@
                       <%= link_to 'Categories', account_site_ref_categories_path(@account, @site), class: "dropdown-item" %>
                     </div>
                   </li>
-                  
+                  <% end %>
                   
                   <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
