@@ -22,7 +22,7 @@ class SitesController < ApplicationController
   private
 
   def site_params
-    params.require(:site).permit(:account_id, :name, :domain, :description, :primary_language, :default_seo_keywords, :house_colour, :reverse_house_colour, :font_colour, :reverse_font_colour, :stream_url, :stream_id, :cdn_provider, :cdn_id, :host, :cdn_endpoint, :client_token, :access_token, :client_secret)
+    params.require(:site).permit(:account_id, :name, :domain, :description, :primary_language, :default_seo_keywords, :house_colour, :reverse_house_colour, :font_colour, :reverse_font_colour, :stream_url, :stream_id, :cdn_provider, :cdn_id, :host, :cdn_endpoint, :client_token, :access_token, :client_secret, :facebook_url, :twitter_url, :instagram_url, :youtube_url)
   end
 
 end

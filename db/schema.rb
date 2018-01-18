@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180118134451) do
+ActiveRecord::Schema.define(version: 20180118142427) do
 
   create_table "accounts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "username"
@@ -271,6 +271,10 @@ ActiveRecord::Schema.define(version: 20180118134451) do
     t.string "client_token"
     t.string "access_token"
     t.string "client_secret"
+    t.text "facebook_url"
+    t.text "twitter_url"
+    t.text "instagram_url"
+    t.text "youtube_url"
   end
 
   create_table "stream_entities", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
