@@ -76,7 +76,7 @@ class AccountsController < ApplicationController
   private
 
     def account_params
-      params.require(:account).permit(:username, :slug, :domain, :status, :sign_up_mode, :host, :cdn_id, :cdn_provider, :cdn_endpoint, :client_token, :access_token, :client_secret, :logo_image_id, :house_colour, :reverse_house_colour, :font_colour, :reverse_font_colour, :coming_from_new, logo_image_attributes: [:image])
+      params.require(:account).permit(:username, :slug, :domain, :status, :sign_up_mode, :host, :cdn_id, :cdn_provider, :cdn_endpoint, :client_token, :access_token, :client_secret, :logo_image_id, :house_colour, :reverse_house_colour, :font_colour, :reverse_font_colour, :coming_from_new)
     end
 
 end

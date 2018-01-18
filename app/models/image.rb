@@ -19,6 +19,7 @@
 #  created_at       :datetime         not null
 #  updated_at       :datetime         not null
 #  is_logo          :boolean          default(FALSE)
+#  is_favicon       :boolean          default(FALSE)
 #
 
 class Image < ApplicationRecord
@@ -39,7 +40,8 @@ class Image < ApplicationRecord
   attr_accessor :dominant_colour
   attr_accessor :colour_palette
   #VALIDATIONS
-  validate :check_dimensions, :on => :create, if: :is_logo?
+  validate :check_dimensions_for_logo, :on => :create, if: :is_logo?
+  validate :check_dimensions_for_favicon, :on => :create, if: :is_favicon?
   #CALLBACKS
   before_create { self.s3_identifier = SecureRandom.hex(8) }
   after_create :create_image_version
@@ -48,9 +50,15 @@ class Image < ApplicationRecord
   #SCOPE
   #OTHER
 
-  def check_dimensions
-    if !image_cache.nil? and image.height > 50 and ((image.height / image.width) == 400)
-      errors.add :image, "Logo has to a square and the minimum height should be 100."
+  def check_dimensions_for_logo
+    if !image_cache.nil? and image.height > 50 and ((image.height / image.width) != 1)
+      errors.add :image, "Logo has to a square and the minimum height should be 50."
+    end
+  end
+
+  def check_dimensions_for_favicon
+    if !image_cache.nil? and image.height < 100 and (image.height / image.width != 1)
+      errors.add :image, "Favicon can be square and the maximum height should be 100."
     end
   end
 

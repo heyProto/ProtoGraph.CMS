@@ -54,6 +54,10 @@
 
                   <%= f.fields_for :logo_image do |logo_image| %>
                     <%= logo_image.input :image, label: false %>
+                    <%= logo_image.input :created_by, as: :hidden, input_html: {value: current_user.id} %>
+                    <%= logo_image.input :updated_by, as: :hidden, input_html: {value: current_user.id} %>
+                    <%= logo_image.input :account_id, as: :hidden, input_html: {value: @account.id}  %>
+                    <%= logo_image.input :is_logo, as: :hidden, input_html: {value: true } %>
                   <% end %>
                   <%= f.button :submit, "Upload", class: "btn btn-light" %>
                 <% end %>
@@ -61,6 +65,32 @@
             </div>
             <p>Publication favicon</p>
             <p class="hint">This is used by mobile browsers to represent a page, appearing in browser tabs and similar places. It is square and should be at least 128 × 128px in size.</p>
+
+            <div style="margin-left: 50px;">
+              <% if @site.favicon_id.present? %>
+                <%= image_tag(@site.favicon.original_image.image_url, class: "rounded", style: "max-width: 100px;") %>
+                <br/>
+                <%= simple_form_for [@account, @site] do |f| %>
+                  <%= f.error_notification %>
+                  <%= f.input :favicon_id, as: :hidden, input_html: {value: nil} %>
+                  <%= f.button :submit, "Remove image", class: "btn btn-light" %>
+                <% end %>
+              <% else %>
+                <br/><br/>
+                <%= simple_form_for [@account, @site] do |f| %>
+                  <%= f.error_notification %>
+
+                  <%= f.fields_for :favicon do |favicon| %>
+                    <%= favicon.input :image, label: false %>
+                    <%= favicon.input :created_by, as: :hidden, input_html: {value: current_user.id} %>
+                    <%= favicon.input :updated_by, as: :hidden, input_html: {value: current_user.id} %>
+                    <%= favicon.input :account_id, as: :hidden, input_html: {value: @account.id}  %>
+                    <%= favicon.input :is_favicon, as: :hidden, input_html: {value: true } %>
+                  <% end %>
+                  <%= f.button :submit, "Upload", class: "btn btn-light" %>
+                <% end %>
+              <% end %>
+            </div>
         </div>
         <br/>
         <div style="margin-left: 50px;">
