@@ -17,6 +17,13 @@
 #  reverse_font_colour  :string(255)
 #  stream_url           :text(65535)
 #  stream_id            :integer
+#  cdn_provider         :string(255)
+#  cdn_id               :string(255)
+#  host                 :text(65535)
+#  cdn_endpoint         :text(65535)
+#  client_token         :string(255)
+#  access_token         :string(255)
+#  client_secret        :string(255)
 #
 
 class Site < ApplicationRecord
