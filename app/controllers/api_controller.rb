@@ -25,7 +25,7 @@ class ApiController < ApplicationController
                 if @permission.blank?
                     render_permission_not_found
                 else
-                    @role = @permission.ref_role
+                    @role = @permission.ref_role_slug
                 end
             end
         end
