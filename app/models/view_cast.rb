@@ -79,10 +79,6 @@ class ViewCast < ApplicationRecord
         "#{Datacast_ENDPOINT}/#{self.datacast_identifier}/view_cast.json"
     end
 
-    def remove_file
-        Api::ProtoGraph::Utility.remove_from_cdn(self.cdn_url)
-    end
-
     def social_urls(account)
         {
             "twitter": "#{account.cdn_endpoint}/#{self.datacast_identifier}/#{self.id}_twitter.png",

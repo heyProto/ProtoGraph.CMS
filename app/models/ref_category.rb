@@ -22,6 +22,9 @@ class RefCategory < ApplicationRecord
     #ASSOCIATIONS
     belongs_to :site
     has_one :stream, foreign_key: 'id', primary_key: 'stream_id'
+    belongs_to :creator, class_name: "User", foreign_key: "created_by"
+    belongs_to :updator, class_name: "User", foreign_key: "updated_by"
+    
     #ACCESSORS
     #VALIDATIONS
     validates :name, presence: true, uniqueness: {scope: :site}

@@ -33,23 +33,21 @@ class Account < ApplicationRecord
     #GEMS
     extend FriendlyId
     friendly_id :username, use: :slugged
-    mount_uploader :logo_url, ImageUploader
+    # mount_uploader :logo_url, ImageUploader
 
     #ASSOCIATIONS
-    has_many :permissions, ->{where(status: "Active")}
+    has_many :permissions, ->{where(status: "Active")}, dependent: :destroy
     has_many :users, through: :permissions
-    has_many :permission_invites
-    has_many :view_casts
-    has_many :folders
-    has_many :uploads
-    has_many :activities
+    has_many :permission_invites, dependent: :destroy
+    has_many :view_casts, dependent: :destroy
+    has_many :folders, dependent: :destroy
+    has_many :uploads, dependent: :destroy
+    has_many :activities, dependent: :destroy
     belongs_to :logo_image, class_name: "Image", foreign_key: "logo_image_id", primary_key: "id", optional: true
-    accepts_nested_attributes_for :logo_image
-    has_many :images
-    has_many :uploads
-    has_many :audios
-    has_many :audio_variations
-    has_one :site #change it to many later
+    has_many :images, dependent: :destroy
+    has_many :uploads, dependent: :destroy
+    has_many :audios, dependent: :destroy
+    has_one :site,dependent: :destroy, dependent: :destroy #change it to many later
     #ACCESSORS
     attr_accessor :coming_from_new
     #VALIDATIONS
@@ -89,6 +87,20 @@ class Account < ApplicationRecord
           ref_role_slug: role
         )
     end
+
+    #DEPENDENT DESTROY
+    # Account.where(id: a).delete_all
+    # Folder.where(account_id: a).delete_all
+    # Permission.where(account_id: a).delete_all
+    # PermissionInvite.where(account_id: a).delete_all
+    # Image.where(account_id: a).delete_all
+    # ImageVariation.where(account_id: a).delete_all
+    # Audio.where(account_id: a).delete_all
+    # AudioVariation.where(account_id: a).delete_all
+    # Stream.where(account_id: a).delete_all
+    # Site.where(account_id: a).delete_all
+    # RefCategory.where(account_id: a).delete_all
+    # Activity.where(account_id: a).delete_all
 
     #PRIVATE
     private
