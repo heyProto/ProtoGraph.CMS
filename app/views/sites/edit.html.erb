@@ -1,41 +1,47 @@
-<%= simple_form_for @account do |f| %>
-  <%= f.error_notification %>
-  <div class="row">
-    <div class="col-sm-3">
-      <%= render partial: "accounts/sidebar" %>
-    </div>
-    <div class="col-sm-9">
-      <h1>House Colour</h1>
-      <hr/>
-      <p class="hint">Choose your brand colour. Wherever possible, we will use this colour.</p>
-      <%= f.input :house_colour, input_html: {type: :color, style: "height: 40px;"}, label: false %>
-      <p class="hint">Choose your reverse brand colour. Wherever possible, we will use this colour to complement your brand colour.</p>
-      <%= f.input :reverse_house_colour, input_html: {type: :color, style: "height: 40px;"}, label: false %>
-      <p class="hint">Choose your font colour. Wherever possible, we will use this colour for text.</p>
-      <%= f.input :font_colour, input_html: {type: :color, style: "height: 40px;"}, label: false %>
-      <p class="hint">Choose your reverse font colour. Wherever possible, we will use this colour to complement your font colour.</p>
-      <%= f.input :reverse_font_colour, input_html: {type: :color, style: "height: 40px;"}, label: false %>
-      <br/>
-      <br/>
-    </div>
-    <div class="col-sm-4">
-        <br/><br/><br/>
-      <% if @account.logo_image_id.present? %>
-        <%= image_tag(@account.logo_image.original_image.image_url, class: "rounded", style: "width: 100px;") %>
+<div class="row">
+    <div class="col-sm-6" style="padding: 0px; margin-left: auto; margin-right: auto;">
+        <h1><span style="font-weight: 200;">Site Settings:</span> <%= @site.domain %></h1>
         <br/>
-        <%= simple_form_for @account do |f| %>
-          <%= f.error_notification %>
-          <%= f.input :logo_image_id, as: :hidden, input_html: {value: nil} %>
-          <%= f.button :submit, "Remove image", class: "btn btn-sm btn-outline" %>
-        <% end %>
-      <% else %>
-        <%= image_tag("account.png", class: "rounded", style: "width: 100px;") %>
-        <br/><br/>
-        <%= f.fields_for :logo_image do |logo_image| %>
-          <%= logo_image.input :image, label: false %>
-        <% end %>
-      <% end %>
+        <h3>Info</h3>
+        <hr/>
+        <div style="margin-left: 50px;">
+            <%= simple_form_for [@account, @site] do |f| %>
+              <%= f.error_notification %>
+              <%= f.input :name, required: true %>
+              <%= f.input :domain, required: true %>
+              <%= f.input :description, required: true, hint: "This will be used in footers, search results, and other places." %>
+              <%= f.input :primary_language, as: :select, collection: [["English", "English"], ["Hindi", "Hindi"]], include_blank: false %>
+              <%= f.input :default_seo_keywords, required: true, hint: "These default keywords will be used on homepage." %>
+              <%= f.button :submit, "Save", class: "btn btn-light" %>
+            <% end %>
+        </div>
+        <br/>
+        <h3>Theme</h3>
+        <hr/>
+        <div style="margin-left: 50px;">
+            <p>Publication avatar*</p>
+            <p class="hint">This works like a user icon and appears in previews of your publication content throughout Medium. It is square and should be at least 60 × 60px in size.</p>
+            <p>Publication logo</p>
+            <p class="hint">This logo appears at the top of all your publication’s stories. It should have a transparent background, and be at least 600px wide and 72px tall.</p>
+            <p>Publication favicon</p>
+            <p class="hint">This is used by mobile browsers to represent a page, appearing in browser tabs and similar places. It is square and should be at least 128 × 128px in size.</p>
+        </div>
+        <br/>
+        <div style="margin-left: 50px;">
+            <%= simple_form_for [@account, @site] do |f| %>
+              <%= f.error_notification %>
+              <%= f.input :house_colour, input_html: {type: :color, style: "height: 40px;"}, label: "House Color", hint: "Choose your brand colour. Wherever possible, we will use this colour.", required: true %>
+              <%= f.input :reverse_house_colour, input_html: {type: :color, style: "height: 40px;"}, label: "Reverse House Color", hint: "Choose a color that is diagonally opposite from your House Color on the color wheel. All sponsored articles will be colored with Reverse House Color.", required: true %>              
+              <%= f.input :font_colour, input_html: {type: :color, style: "height: 40px;"}, label: "Font Color on House Color", required: true %>
+              <%= f.input :reverse_font_colour, input_html: {type: :color, style: "height: 40px;"}, label: "Font Color on Reverse House Color", required: true %>
+              <%= f.button :submit, "Save", class: "btn btn-light" %>
+            <% end %>
+        </div>
+        <br/>
+        <h3>AWS Configuration</h3>
+        <hr/>
+        <div style="margin-left: 50px;">
+            o
+        </div>
     </div>
-  </div>
-
-<% end %>
+</div>

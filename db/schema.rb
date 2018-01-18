@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180116125842) do
+ActiveRecord::Schema.define(version: 20180118012133) do
 
   create_table "accounts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "username"
@@ -227,11 +227,13 @@ ActiveRecord::Schema.define(version: 20180116125842) do
     t.integer "site_id"
     t.string "category"
     t.string "name"
-    t.integer "parent_category_id"
     t.text "stream_url"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "stream_id"
+    t.boolean "is_disabled"
+    t.integer "created_by"
+    t.integer "updated_by"
   end
 
   create_table "ref_link_sources", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|

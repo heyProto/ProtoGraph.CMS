@@ -23,8 +23,8 @@ class RefCategory < ApplicationRecord
     #ACCESSORS
     #VALIDATIONS
     validates :name, presence: true, uniqueness: {scope: :site}
-    validates :category, inclusion: {in: ["genre", "sub_genre", "series"]}
-    validates :parent_category_id, presence: true, if: "category=='sub_genre'"
+    validates :category, inclusion: {in: ["intersection", "sub intersection", "series"]}
+    
     #CALLBACKS
     after_create :after_create_set
     #SCOPE

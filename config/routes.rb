@@ -58,6 +58,9 @@ Rails.application.routes.draw do
       get "change_role", on: :member
     end
     resources :permission_invites
+    resources :sites do
+      resources :ref_categories
+    end
     resources :authentications
 
     resources :folders do

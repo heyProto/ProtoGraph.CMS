@@ -1,0 +1,87 @@
+<div class="row">
+    <div class="col-sm-6" style="padding: 0px; margin-left: auto; margin-right: auto;">
+        <h1><span style="font-weight: 200;">Site Categories:</span> <%= @site.domain %></h1>
+        <br/>
+    </div>        
+</div>    
+<div class="row">
+    <div class="col-sm-4">
+        <h3>Series</h3>
+        <hr/>
+        <div style="margin-left: 50px;">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Is disabled</th>
+                  <th>Created by</th>
+                  <th>Updated by</th>
+                  <th colspan="1"></th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <% @ref_categories.each do |ref_category| %>
+                  <tr>
+                    <td><%= ref_category.name %></td>
+                    <td><%= ref_category.is_disabled %></td>
+                    <td><%= ref_category.created_by %></td>
+                    <td><%= ref_category.updated_by %></td>
+                    <td><%= link_to 'x', ref_category, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <h3>Intersections</h3>
+        <hr/>
+        <div style="margin-left: 50px;">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Updated by</th>
+                  <th colspan="1"></th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <% @ref_categories.each do |ref_category| %>
+                  <tr>
+                    <td><%= ref_category.name %></td>
+                    <td><%= ref_category.updated_by %></td>
+                    <td><%= link_to 'x', ref_category, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <h3>Sub Intersections</h3>
+        <hr/>
+        <div style="margin-left: 50px;">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Updated by</th>
+                  <th colspan="1"></th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <% @ref_categories.each do |ref_category| %>
+                  <tr>
+                    <td><%= ref_category.name %></td>
+                    <td><%= ref_category.updated_by %></td>
+                    <td><%= link_to 'x', ref_category, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
+        </div>
+    </div>
+</div>
