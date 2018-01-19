@@ -40,8 +40,6 @@ class ViewCast < ApplicationRecord
     belongs_to :template_card
     belongs_to :creator, class_name: "User", foreign_key: "created_by"
     belongs_to :updator, class_name: "User", foreign_key: "updated_by"
-    has_many :site_view_casts
-    has_many :sites, through: :site_view_casts
     #ACCESSORS
     attr_accessor :dataJSON, :schemaJSON, :stop_callback, :redirect_url
     #VALIDATIONS
@@ -105,7 +103,7 @@ class ViewCast < ApplicationRecord
 
     def after_save_set
         # Update the streams
-        StreamUpdateWorker.perform_async(self.id)
+        # StreamUpdateWorker.perform_async(self.id)
     end
 
     def after_create_set
@@ -113,7 +111,6 @@ class ViewCast < ApplicationRecord
         template_card.update_attributes(publish_count: (template_card.publish_count.to_i + 1))
         template_datum = self.template_datum
         template_datum.update_attributes(publish_count: (template_datum.publish_count.to_i + 1))
-        SiteViewCast.create({site_id: self.account.site.id, view_cast_id: self.id})
     end
 
     def before_destroy_set

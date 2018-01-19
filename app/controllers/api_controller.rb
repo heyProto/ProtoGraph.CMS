@@ -10,9 +10,9 @@ class ApiController < ApplicationController
     def track_activity(trackable, action = params[:action])
     if @account.present?
       if @folder.present?
-          @user.activities.create!(action: action, trackable: trackable, account_id: @account.id, folder_id: @folder.id)
+          @user.activities.create!(action: action, trackable: trackable, account_id: @account.id, folder_id: @folder.id, site_id: @site.id)
       else
-          @user.activities.create!(action: action, trackable: trackable, account_id: @account.id)
+          @user.activities.create!(action: action, trackable: trackable, account_id: @account.id, site_id: @site.id)
       end
     end
   end
