@@ -3,8 +3,6 @@ Rails.application.routes.draw do
   require 'sidekiq/web'
   mount Sidekiq::Web => '/sidekiq'
 
-  get 'static_pages/index'
-
   resources :activities
   devise_for :users, controllers: {
                registrations: 'user/registrations',
@@ -110,6 +108,8 @@ Rails.application.routes.draw do
   get "pages/to-cover", to: 'static_pages#tocoverage', as: :tocoverage
   get "case-studies/mobbed", to: 'static_pages#mobbed', as: :mobbed
   get "case-studies/silenced", to: 'static_pages#silenced', as: :silenced
+  get "pages/toquiz2", to: 'static_pages#toquiz2', as: :toquiz2
+  get "pages/totimeline2", to: 'static_pages#totimeline2', as: :totimeline2
 
   get "features", to: 'static_pages#features', as: :features
   get '/auth/:provider/callback', to: 'authentications#create'
