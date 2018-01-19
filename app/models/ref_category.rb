@@ -13,7 +13,7 @@
 #  is_disabled :boolean
 #  created_by  :integer
 #  updated_by  :integer
-#  count       :integer
+#  count       :integer          default(0)
 #
 
 class RefCategory < ApplicationRecord

@@ -16,6 +16,9 @@
       <li class="nav-item">
         <%= link_to  "Sub Intersection", sub_intersection_account_site_path(@account,@site), class: "nav-link #{action_name === 'sub_intersection' ? 'active' : ''}" %>
       </li>
+      <li class="nav-item">
+        <%= link_to  "Tag", tag_account_site_path(@account,@site), class: "nav-link #{action_name === 'tag' ? 'active' : ''}" %>
+      </li>
     </ul>
 
     <div style="margin-left: 50px;">
@@ -46,9 +49,17 @@
               <td>
                 <% if not ref_category.is_disabled %>
                   <% if ref_category.count > 0 %>
-                    <%= link_to 'Disable', disable_account_site_ref_category_path(@account, @site, ref_category), method: :put, data: { confirm: 'Are you sure?' } %>
+                    <% if @genre != 'tag' %>
+                      <%= link_to 'Disable', disable_account_site_ref_category_path(@account, @site, ref_category), method: :put, data: { confirm: 'Are you sure?' } %>
+                    <% else %>
+                      <%= link_to 'Disable', disable_account_site_ref_tag_path(@account, @site, ref_category), method: :put, data: { confirm: 'Are you sure?' } %>
+                    <% end %>
                   <% else %>
-                    <%= link_to 'x', account_site_ref_category_path(@account, @site, ref_category), method: :delete, data: { confirm: 'Are you sure?' } %>
+                    <% if @genre != 'tag' %>
+                      <%= link_to 'x', account_site_ref_category_path(@account, @site, ref_category), method: :delete, data: { confirm: 'Are you sure?' } %>
+                    <% else %>
+                      <%= link_to 'x', account_site_ref_tag_path(@account, @site, ref_category), method: :delete, data: { confirm: 'Are you sure?' } %>
+                    <% end %>
                   <% end %>
                 <% end %>
               </td>

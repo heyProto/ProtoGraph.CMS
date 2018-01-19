@@ -65,6 +65,11 @@ Rails.application.routes.draw do
       get "/series", to: "ref_categories#series", on: :member
       get "/intersection", to: "ref_categories#intersection", on: :member
       get "/sub_intersection", to: "ref_categories#sub_intersection", on: :member
+      get "/tag", to: "ref_categories#tag", on: :member
+
+      resources :ref_tags, except: [:index, :create, :show] do
+        put '/disable', to: "ref_tags#disable", on: :member
+      end
     end
     resources :authentications
 

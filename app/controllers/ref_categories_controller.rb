@@ -2,16 +2,8 @@ class RefCategoriesController < ApplicationController
 
   before_action :authenticate_user!
   # before_action :sudo_role_can_account_settings, only: [:edit, :update]
-  before_action :set_ref_category, only: [:show, :edit, :update, :destroy, :disable]
+  before_action :set_entity, only: [:update, :destroy, :disable]
 
-  def index
-    # @all_series = @site.ref_categories.where(genre: "series").order(:name)
-    # @all_intersections = @site.ref_categories.where(genre: "intersections").order(:name)
-    # @all_sub_intersections = @site.ref_categories.where(genre: "sub intersections").order(:name)
-    # @series = RefCategory.new
-    # @intersection = RefCategory.new
-    # @sub_intersection = RefCategory.new
-  end
 
   def series
     @genre = "series"
@@ -34,12 +26,23 @@ class RefCategoriesController < ApplicationController
     render :index
   end
 
+  def tag
+    @genre = "tag"
+    @data = @site.ref_tags.order(:name)
+    @instance = RefTag.new
+    render :index
+  end
+
   def create
-    @ref_category = RefCategory.new(ref_category_params)
+    if entity_params[:genre] != 'tag'
+      @ref_category = RefCategory.new(entity_params)
+    else
+      @ref_category = RefTag.new(entity_params)
+    end
     @ref_category.created_by = current_user.id
     @ref_category.updated_by = current_user.id
       if @ref_category.save
-        @notice = 'Ref category was successfully created.'
+        @notice = 'Created successfully.'
         custom_redirect_to
       else
         case @ref_category.genre
@@ -49,14 +52,16 @@ class RefCategoriesController < ApplicationController
           redirect_to intersection_account_site_path(@account, @site), alert: @ref_category.errors.full_messages
         when 'sub intersection'
           redirect_to sub_intersection_account_site_path(@account, @site), alert: @ref_category.errors.full_messages
+        when 'tag'
+          redirect_to tag_account_site_path(@account, @site), alert: @ref_category.errors.full_messages
         end
       end
   end
 
   def update
     respond_to do |format|
-      if @ref_category.update_attributes(ref_category_params)
-        @notice = 'Ref Category was successfully updated.'
+      if @ref_category.update_attributes(entity_params)
+        @notice = 'Updated successfully.'
         format.json { respond_with_bip(@ref_category) }
         format.html { custom_redirect_to }
       else
@@ -83,6 +88,8 @@ class RefCategoriesController < ApplicationController
           format.html { redirect_to intersection_account_site_path(@account, @site), notice: "Destroyed"}
         when 'sub intersection'
           format.html { redirect_to sub_intersection_account_site_path(@account, @site), notice: "Destroyed"}
+        else 'tag'
+          format.html { redirect_to tag_account_site_path(@account, @site), notice: "Destroyed"}
         end
     end
   end
@@ -95,16 +102,22 @@ class RefCategoriesController < ApplicationController
       redirect_to intersection_account_site_path(@account, @site), notice: @notice
     when 'sub intersection'
       redirect_to sub_intersection_account_site_path(@account, @site), notice: @notice
+    else
+      redirect_to tag_account_site_path(@account, @site), notice: @notice
     end
   end
 
   private
 
-    def set_ref_category
+    def set_entity
       @ref_category = RefCategory.find(params[:id])
     end
 
-    def ref_category_params
-      params.require(:ref_category).permit(:site_id, :genre, :name, :is_disabled, :created_by, :updated_by)
+    def entity_params
+      if params[:ref_category].present?
+        params.require(:ref_category).permit(:site_id, :genre, :name, :is_disabled, :created_by, :updated_by)
+      else
+        params.require(:ref_tag).permit(:site_id, :genre, :name, :is_disabled, :created_by, :updated_by)
+      end
     end
 end

@@ -45,6 +45,7 @@ class Site < ApplicationRecord
     has_many :streams
     has_many :activities
     has_many :ref_categories
+    has_many :ref_tags
     has_one :stream, primary_key: "stream_id", foreign_key: "id"
     belongs_to :logo_image, class_name: "Image", foreign_key: "logo_image_id", primary_key: "id", optional: true
     belongs_to :favicon, class_name: "Image", foreign_key: "favicon_id", primary_key: "id", optional: true
