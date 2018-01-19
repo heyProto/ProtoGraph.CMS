@@ -42,8 +42,6 @@ class Site < ApplicationRecord
     has_many :folders
     has_many :streams
     has_many :activities
-    has_many :site_view_casts
-    has_many :view_casts, through: :site_view_casts
     has_many :ref_categories
     has_one :stream, primary_key: "stream_id", foreign_key: "id"
     belongs_to :logo_image, class_name: "Image", foreign_key: "logo_image_id", primary_key: "id", optional: true
