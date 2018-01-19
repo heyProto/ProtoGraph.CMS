@@ -1,8 +1,8 @@
 source 'https://rubygems.org'
 
-git_source(:github) do |repo_name|
+git_source(:bitbucket) do |repo_name|
   repo_name = "#{repo_name}/#{repo_name}" unless repo_name.include?("/")
-  "https://github.com/#{repo_name}.git"
+  "https://bitbucket.org/#{repo_name}"
 end
 
 ruby "2.3.3"
@@ -46,7 +46,7 @@ gem 'whenever'
 gem 'rmagick'
 gem 'carrierwave'
 gem 'ransack'
-gem 'ntc', github: "moizmb/name-that-colour", require: false
+gem 'ntc', bitbucket: "pykih_/name-that-colour", require: false
 
 #Encryption
 #gem "attr_encrypted", "~> 3.0.0"
