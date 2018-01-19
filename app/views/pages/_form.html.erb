@@ -1,0 +1,42 @@
+<%= simple_form_for(@page) do |f| %>
+  <%= f.error_notification %>
+
+  <div class="form-inputs">
+    <%= f.input :id %>
+    <%= f.input :account_id %>
+    <%= f.input :site_id %>
+    <%= f.input :folder_id %>
+    <%= f.input :headline %>
+    <%= f.input :meta_tags %>
+    <%= f.input :meta_description %>
+    <%= f.input :summary %>
+    <%= f.input :layout %>
+    <%= f.input :byline %>
+    <%= f.input :byline_stream %>
+    <%= f.input :cover_image_url %>
+    <%= f.input :cover_image_url_7_column %>
+    <%= f.input :cover_image_url_facebook %>
+    <%= f.input :cover_image_url_square %>
+    <%= f.input :cover_image_alignment %>
+    <%= f.input :is_sponsored %>
+    <%= f.input :is_interactive %>
+    <%= f.input :has_data %>
+    <%= f.input :has_image_other_than_cover %>
+    <%= f.input :has_audio %>
+    <%= f.input :has_video %>
+    <%= f.input :is_published %>
+    <%= f.input :published_at %>
+    <%= f.input :url %>
+    <%= f.input :ref_category_series_id %>
+    <%= f.input :ref_category_intersection_id %>
+    <%= f.input :ref_category_sub_intersection_id %>
+    <%= f.input :view_cast_id %>
+    <%= f.input :page_object_url %>
+    <%= f.input :created_by %>
+    <%= f.input :updated_by %>
+  </div>
+
+  <div class="form-actions">
+    <%= f.button :submit %>
+  </div>
+<% end %>

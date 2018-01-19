@@ -4,7 +4,7 @@
 #
 #  id               :integer          not null, primary key
 #  user_id          :integer
-#  account_id       :integer
+#  permissible_id   :integer
 #  ref_role_slug    :string(255)
 #  status           :string(255)
 #  created_by       :integer
@@ -13,7 +13,6 @@
 #  updated_at       :datetime         not null
 #  is_hidden        :boolean          default(FALSE)
 #  permissible_type :string(255)
-#  permissible_id   :integer
 #
 
 class Permission < ApplicationRecord
