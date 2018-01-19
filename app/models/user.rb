@@ -35,7 +35,7 @@ class User < ApplicationRecord
 
     #ASSOCIATIONS
     has_many :permissions, ->{where(status: "Active")}
-    has_many :accounts, through: :permissions
+    has_many :accounts, through: :permissions, source: :permissible, source_type: "Account"
     has_many :activities
     has_many :uploads
     has_many :user_emails
