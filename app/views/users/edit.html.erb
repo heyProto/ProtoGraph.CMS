@@ -21,7 +21,6 @@
             <hr/>
             <div style="margin-left: 50px;">
                 <% @accounts_member.each do |account| %>
-                    <%= image_tag (account.logo_image.nil? ?  "account.png" : account.logo_image.original_image.image_url), height: "20px", class: "rounded" %>
                     <%= account.username %>
                     <br/>
                 <% end %>
@@ -31,8 +30,7 @@
         <hr/>
         <div style="margin-left: 50px;">
             <% @accounts_owned.each do |account| %>
-                <%= image_tag (account.logo_image.nil? ?  "account.png" : account.logo_image.original_image.image_url), height: "20px", class: "rounded" %>
-                <%= link_to account.username, account_permissions_path(account) %> 
+                <%= link_to account.username, account_permissions_path(account) %>
                 <p class="hint">Click to configure</p>
             <% end %>
             <%= simple_form_for @account do |f| %>

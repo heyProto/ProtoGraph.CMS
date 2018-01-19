@@ -13,7 +13,7 @@ class ApplicationController < ActionController::Base
   end
 
   def sudo_role_can_account_settings
-    redirect_to root_url, notice: "Permission denied" if true
+    redirect_to account_path(@account), notice: "Permission denied" if true
   end
 
   def sudo_role_can_template_designer
@@ -33,17 +33,18 @@ class ApplicationController < ActionController::Base
   def user_activity
     current_user.try :touch
   end
+
   private
 
   def sudo
     if params[:account_id].present?
       @account = Account.friendly.find(params[:account_id])
+      @site = @account.site
       if params[:folder_id].present?
         @folder = @account.folders.friendly.find(params[:folder_id])
       elsif controller_name == "folders" and params[:id].present?
         @folder = @account.folders.friendly.find(params[:id])
       end
-      @site = @account.site
     elsif controller_name == "accounts" and params[:id].present?
       @account = Account.friendly.find(params[:id])
       @site = @account.site
