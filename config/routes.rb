@@ -59,7 +59,12 @@ Rails.application.routes.draw do
     end
     resources :permission_invites
     resources :sites do
-      resources :ref_categories
+      resources :ref_categories, except: [:index] do
+        put '/disable', to: "ref_categories#disable", on: :member
+      end
+      get "/series", to: "ref_categories#series", on: :member
+      get "/intersection", to: "ref_categories#intersection", on: :member
+      get "/sub_intersection", to: "ref_categories#sub_intersection", on: :member
     end
     resources :authentications
 

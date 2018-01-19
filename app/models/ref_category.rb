@@ -4,7 +4,7 @@
 #
 #  id          :integer          not null, primary key
 #  site_id     :integer
-#  category    :string(255)
+#  genre       :string(255)
 #  name        :string(255)
 #  stream_url  :text(65535)
 #  created_at  :datetime         not null
@@ -13,6 +13,7 @@
 #  is_disabled :boolean
 #  created_by  :integer
 #  updated_by  :integer
+#  count       :integer
 #
 
 class RefCategory < ApplicationRecord
@@ -27,20 +28,25 @@ class RefCategory < ApplicationRecord
 
     #ACCESSORS
     #VALIDATIONS
-    validates :name, presence: true, uniqueness: {scope: :site}
-    validates :category, inclusion: {in: ["intersection", "sub intersection", "series"]}
+    validates :name, presence: true, uniqueness: {scope: :site}, length: { in: 3..15 }
+    validates :genre, inclusion: {in: ["intersection", "sub intersection", "series"]}
 
     #CALLBACKS
-    after_create :after_create_set
+    # after_create :after_create_set
+    before_update :before_update_set
     #SCOPE
     #OTHER
     #PRIVATE
 
     def view_casts
-        ViewCast.where("#{category}": self.name)
+        ViewCast.where("#{genre}": self.name)
     end
 
     private
+
+    def before_update_set
+        self.is_disabled = true if self.count > 0
+    end
 
     def after_create_set
         s = Stream.create!({
@@ -58,6 +64,6 @@ class RefCategory < ApplicationRecord
             ActiveRecord::Base.connection.close
         end
 
-        self.update_columns(stream_url: "#{s.stream.cdn_endpoint}/#{s.cdn_key}", stream_id: s.id)
+        self.update_columns(stream_url: "#{s.site.cdn_endpoint}/#{s.cdn_key}", stream_id: s.id)
     end
 end

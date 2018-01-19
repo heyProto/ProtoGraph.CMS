@@ -19,3 +19,8 @@
  *= require app/style.css
  *= require_self
  */
+
+ .proto-restrict-remove {
+     text-decoration: line-through;
+     color: lightgrey;
+ }
