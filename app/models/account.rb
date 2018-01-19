@@ -7,7 +7,6 @@
 #  slug          :string(255)
 #  domain        :string(255)
 #  status        :string(255)
-#  sign_up_mode  :string(255)
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
 #  cdn_provider  :string(255)
@@ -22,17 +21,15 @@
 class Account < ApplicationRecord
 
     #CONSTANTS
-    SIGN_UP_MODES = ["Invitation only", "Any email from your domain"]
-
     #CUSTOM TABLES
     #GEMS
     extend FriendlyId
     friendly_id :username, use: :slugged
 
     #ASSOCIATIONS
-    has_many :permissions, ->{where(status: "Active")}, dependent: :destroy
+    has_many :permissions, ->{where(status: "Active", permissible_type: 'Account')}, foreign_key: "permissible_id", dependent: :destroy
     has_many :users, through: :permissions
-    has_many :permission_invites, dependent: :destroy
+    has_many :permission_invites, ->{where(permissible_type: 'Account')}, foreign_key: "permissible_id", dependent: :destroy
     has_many :view_casts, dependent: :destroy
     has_many :folders, dependent: :destroy
     has_many :uploads, dependent: :destroy

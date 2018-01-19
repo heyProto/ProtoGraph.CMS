@@ -32,6 +32,7 @@ class Folder < ApplicationRecord
     has_many :uploads, dependent: :destroy
     has_many :activities
     has_many :uploads, dependent: :destroy
+    has_many :pages
     #ACCESSORS
     attr_accessor :is_system_generated
     #VALIDATIONS

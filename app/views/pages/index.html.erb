@@ -1,0 +1,89 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Pages</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Id</th>
+      <th>Account</th>
+      <th>Site</th>
+      <th>Folder</th>
+      <th>Headline</th>
+      <th>Meta tags</th>
+      <th>Meta description</th>
+      <th>Summary</th>
+      <th>Layout</th>
+      <th>Byline</th>
+      <th>Byline stream</th>
+      <th>Cover image url</th>
+      <th>Cover image url 7 column</th>
+      <th>Cover image url facebook</th>
+      <th>Cover image url square</th>
+      <th>Cover image alignment</th>
+      <th>Is sponsored</th>
+      <th>Is interactive</th>
+      <th>Has data</th>
+      <th>Has image other than cover</th>
+      <th>Has audio</th>
+      <th>Has video</th>
+      <th>Is published</th>
+      <th>Published at</th>
+      <th>Url</th>
+      <th>Ref category series</th>
+      <th>Ref category intersection</th>
+      <th>Ref category sub intersection</th>
+      <th>View cast</th>
+      <th>Page object url</th>
+      <th>Created by</th>
+      <th>Updated by</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @pages.each do |page| %>
+      <tr>
+        <td><%= page.id %></td>
+        <td><%= page.account_id %></td>
+        <td><%= page.site_id %></td>
+        <td><%= page.folder_id %></td>
+        <td><%= page.headline %></td>
+        <td><%= page.meta_tags %></td>
+        <td><%= page.meta_description %></td>
+        <td><%= page.summary %></td>
+        <td><%= page.layout %></td>
+        <td><%= page.byline %></td>
+        <td><%= page.byline_stream %></td>
+        <td><%= page.cover_image_url %></td>
+        <td><%= page.cover_image_url_7_column %></td>
+        <td><%= page.cover_image_url_facebook %></td>
+        <td><%= page.cover_image_url_square %></td>
+        <td><%= page.cover_image_alignment %></td>
+        <td><%= page.is_sponsored %></td>
+        <td><%= page.is_interactive %></td>
+        <td><%= page.has_data %></td>
+        <td><%= page.has_image_other_than_cover %></td>
+        <td><%= page.has_audio %></td>
+        <td><%= page.has_video %></td>
+        <td><%= page.is_published %></td>
+        <td><%= page.published_at %></td>
+        <td><%= page.url %></td>
+        <td><%= page.ref_category_series_id %></td>
+        <td><%= page.ref_category_intersection_id %></td>
+        <td><%= page.ref_category_sub_intersection_id %></td>
+        <td><%= page.view_cast_id %></td>
+        <td><%= page.page_object_url %></td>
+        <td><%= page.created_by %></td>
+        <td><%= page.updated_by %></td>
+        <td><%= link_to 'Show', page %></td>
+        <td><%= link_to 'Edit', edit_page_path(page) %></td>
+        <td><%= link_to 'Destroy', page, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Page', new_page_path %>

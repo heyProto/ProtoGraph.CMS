@@ -35,7 +35,7 @@ class User < ApplicationRecord
 
     #ASSOCIATIONS
     has_many :permissions, ->{where(status: "Active")}
-    has_many :accounts, through: :permissions
+    has_many :accounts, through: :permissions, source: :permissible, source_type: "Account"
     has_many :activities
     has_many :uploads
     has_many :user_emails
@@ -55,7 +55,7 @@ class User < ApplicationRecord
     #OTHER
 
     def permission_object(accid, s="Active")
-        Permission.where(user_id: self.id, account_id: accid, status: s).first
+        Permission.where(user_id: self.id,  permissible_id: accid, permissible_type: 'Account', status: s).first
     end
 
     def is_admin_from_pykih
@@ -63,11 +63,11 @@ class User < ApplicationRecord
     end
 
     def create_permission(accid, r)
-        p = Permission.where(user_id: self.id, account_id: accid).first
+        p = Permission.where(user_id: self.id, permissible_id: accid, permissible_type: 'Account').first
         if p.present?
             p.update_attributes(status: "Active", ref_role_slug: r, updated_by: self.id, is_hidden: false)
         else
-            Permission.create(user_id: self.id, account_id: accid, created_by: self.id, updated_by: self.id, ref_role_slug: r)
+            Permission.create(user_id: self.id, permissible_id: accid, permissible_type: 'Account', created_by: self.id, updated_by: self.id, ref_role_slug: r)
         end
     end
 

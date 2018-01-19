@@ -42,7 +42,6 @@ class RefCategoriesController < ApplicationController
         @notice = 'Ref category was successfully created.'
         custom_redirect_to
       else
-        puts  @ref_category.errors.full_messages, "sdklaspodjapsjd"
         case @ref_category.genre
         when 'series'
           redirect_to series_account_site_path(@account, @site), alert: @ref_category.errors.full_messages

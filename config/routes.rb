@@ -69,6 +69,7 @@ Rails.application.routes.draw do
     resources :authentications
 
     resources :folders do
+      resources :pages
       resources :template_data do
         resources :template_cards, only: [:new] do
           post "/create_version/:version_genre", to: "template_cards#create_version", on: :member, as: :create_version

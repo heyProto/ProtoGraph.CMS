@@ -31,10 +31,12 @@
 #  instagram_url        :text(65535)
 #  youtube_url          :text(65535)
 #  g_a_tracking_id      :string(255)
+#  sign_up_mode         :string(255)
 #
 
 class Site < ApplicationRecord
     #CONSTANTS
+    SIGN_UP_MODES = ["Invitation only", "Any email from your domain"]
     #CUSTOM TABLES
     #GEMS
     #ASSOCIATIONS

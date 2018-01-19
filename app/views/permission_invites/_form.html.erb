@@ -25,7 +25,7 @@
             <%= f.hidden_field :updated_by, value: current_user.id %>
 
             <%= f.input :email, id: :permission_invite_email, required: true, autofocus: true %>
-            <%= f.input :ref_role_slug, as: :select, label: "Role", collection: [["Doer", "doer"], ["Editor", "editor"]], include_blank: false %>
+            <%= f.input :ref_role_slug, as: :select, label: "Role", collection: Permission::REF_ROLES, include_blank: false %>
             <%= f.submit "Invite", class: "btn btn-outline" %>
             <% end %>
         </div>

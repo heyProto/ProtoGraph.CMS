@@ -10,14 +10,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180119075812) do
+ActiveRecord::Schema.define(version: 20180119095442) do
 
   create_table "accounts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "username"
     t.string "slug"
     t.string "domain"
     t.string "status"
-    t.string "sign_up_mode"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "cdn_provider"
@@ -168,6 +167,51 @@ ActiveRecord::Schema.define(version: 20180119075812) do
     t.boolean "is_favicon", default: false
   end
 
+  create_table "page_streams", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.integer "page_id"
+    t.integer "stream_id"
+    t.integer "created_by"
+    t.integer "updated_by"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "pages", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.integer "account_id"
+    t.integer "site_id"
+    t.integer "folder_id"
+    t.string "headline"
+    t.string "meta_tags"
+    t.text "meta_description"
+    t.text "summary"
+    t.string "layout"
+    t.string "byline"
+    t.string "byline_stream"
+    t.text "cover_image_url"
+    t.text "cover_image_url_7_column"
+    t.text "cover_image_url_facebook"
+    t.text "cover_image_url_square"
+    t.string "cover_image_alignment"
+    t.boolean "is_sponsored"
+    t.boolean "is_interactive"
+    t.boolean "has_data"
+    t.boolean "has_image_other_than_cover"
+    t.boolean "has_audio"
+    t.boolean "has_video"
+    t.boolean "is_published"
+    t.datetime "published_at"
+    t.text "url"
+    t.integer "ref_category_series_id"
+    t.integer "ref_category_intersection_id"
+    t.integer "ref_category_sub_intersection_id"
+    t.integer "view_cast_id"
+    t.text "page_object_url"
+    t.integer "created_by"
+    t.integer "updated_by"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "permission_invites", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer "account_id"
     t.string "email"
@@ -176,11 +220,13 @@ ActiveRecord::Schema.define(version: 20180119075812) do
     t.integer "updated_by"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "permissible_type"
+    t.integer "permissible_id"
   end
 
   create_table "permissions", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer "user_id"
-    t.integer "account_id"
+    t.integer "permissible_id"
     t.string "ref_role_slug"
     t.string "status"
     t.integer "created_by"
@@ -188,6 +234,7 @@ ActiveRecord::Schema.define(version: 20180119075812) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "is_hidden", default: false
+    t.string "permissible_type"
   end
 
   create_table "ref_categories", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -250,6 +297,7 @@ ActiveRecord::Schema.define(version: 20180119075812) do
     t.text "instagram_url"
     t.text "youtube_url"
     t.string "g_a_tracking_id"
+    t.string "sign_up_mode"
   end
 
   create_table "stream_entities", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
