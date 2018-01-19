@@ -6,18 +6,19 @@
 </div>
 <div class="row">
   <div class="col-sm-16">
-    <ul class="nav nav-tabs">
+<ul class="nav nav-pills">
+     
       <li class="nav-item">
         <%= link_to  "Series", series_account_site_path(@account,@site), class: "nav-link #{action_name === 'series' ? 'active' : ''}" %>
       </li>
       <li class="nav-item">
-        <%= link_to  "Intersection", intersection_account_site_path(@account,@site), class: "nav-link #{action_name === 'intersection' ? 'active' : ''}" %>
+        <%= link_to  "Intersections", intersection_account_site_path(@account,@site), class: "nav-link #{action_name === 'intersection' ? 'active' : ''}" %>
       </li>
       <li class="nav-item">
-        <%= link_to  "Sub Intersection", sub_intersection_account_site_path(@account,@site), class: "nav-link #{action_name === 'sub_intersection' ? 'active' : ''}" %>
+        <%= link_to  "Sub Intersections", sub_intersection_account_site_path(@account,@site), class: "nav-link #{action_name === 'sub_intersection' ? 'active' : ''}" %>
       </li>
       <li class="nav-item">
-        <%= link_to  "Tag", tag_account_site_path(@account,@site), class: "nav-link #{action_name === 'tag' ? 'active' : ''}" %>
+        <%= link_to  "Tags", tag_account_site_path(@account,@site), class: "nav-link #{action_name === 'tag' ? 'active' : ''}" %>
       </li>
     </ul>
 

@@ -296,13 +296,13 @@ ActiveRecord::Schema.define(version: 20180119161917) do
     t.string "client_token"
     t.string "access_token"
     t.string "client_secret"
-    t.integer "favicon_id"
-    t.integer "logo_image_id"
     t.text "facebook_url"
     t.text "twitter_url"
     t.text "instagram_url"
     t.text "youtube_url"
     t.string "g_a_tracking_id"
+    t.integer "favicon_id"
+    t.integer "logo_image_id"
     t.string "sign_up_mode"
   end
 
