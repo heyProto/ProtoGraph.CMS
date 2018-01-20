@@ -39,6 +39,10 @@
                         <li class="nav-item"><%= link_to '+ Add a card', new_account_folder_view_cast_path(@account, @folder), data: {turbolinks: false}, class: "nav-link btn btn-sm btn-primary", style: "margin-top: 5px;" %></li>
                       <% elsif controller_name == "streams" and action_name != "new"  %>
                         <li class="nav-item"><%= link_to '+ Add a stream', new_account_folder_stream_path(@account, @folder), data: {turbolinks: false}, class: "nav-link btn btn-sm btn-primary", style: "margin-top: 5px;" %></li>
+                      <% elsif controller_name == "pages" and action_name != "new"  %>
+                        <li class="nav-item">
+                          <%= link_to '+ Add a page', new_account_folder_page_path(@account, @folder), data: {turbolinks: false}, class: "nav-link btn btn-sm btn-primary", style: "margin-top: 5px;" %>
+                        </li>
                       <% end %>
 
                   <% elsif controller_name == "audios" and action_name != "new"  %>

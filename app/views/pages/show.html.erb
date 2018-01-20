@@ -1,164 +1,165 @@
 <p id="notice"><%= notice %></p>
 
 <p>
-  <strong>Id:</strong>
-  <%= @page.id %>
-</p>
-
-<p>
-  <strong>Account:</strong>
-  <%= @page.account_id %>
-</p>
-
-<p>
-  <strong>Site:</strong>
-  <%= @page.site_id %>
-</p>
-
-<p>
-  <strong>Folder:</strong>
-  <%= @page.folder_id %>
-</p>
-
-<p>
   <strong>Headline:</strong>
-  <%= @page.headline %>
+  <%= best_in_place @page, :headline, url: [@account, @folder, @page] %>
+  <%#= @page.headline %>
 </p>
 
 <p>
   <strong>Meta tags:</strong>
-  <%= @page.meta_tags %>
+  <%= best_in_place @page, :meta_tags, url: [@account, @folder, @page] %>
+  <%#= @page.meta_tags %>
 </p>
 
 <p>
   <strong>Meta description:</strong>
-  <%= @page.meta_description %>
+  <%= best_in_place @page, :meta_description, url: [@account, @folder, @page], :as => :textarea %>
+  <%#= @page.meta_description %>
 </p>
 
 <p>
   <strong>Summary:</strong>
-  <%= @page.summary %>
+  <%= best_in_place @page, :summary, url: [@account, @folder, @page], :as => :textarea, url: [@account, @folder, @page] %>
+  <%#= @page.summary %>
 </p>
 
 <p>
   <strong>Layout:</strong>
-  <%= @page.layout %>
+  <%= best_in_place @page, :layout, :as => :select, collection: @layout, url: [@account, @folder, @page] %>
+  <%#= @page.layout %>
 </p>
 
 <p>
   <strong>Byline:</strong>
-  <%= @page.byline %>
+  <%= best_in_place @page, :byline, url: [@account, @folder, @page] %>
+  <%#= @page.byline %>
 </p>
 
 <p>
   <strong>Byline stream:</strong>
-  <%= @page.byline_stream %>
+  <%= best_in_place @page, :byline_stream, url: [@account, @folder, @page] %>
+  <%#= @page.byline_stream %>
 </p>
 
 <p>
   <strong>Cover image url:</strong>
-  <%= @page.cover_image_url %>
+  <%= best_in_place @page, :cover_image_url, url: [@account, @folder, @page] %>
+  <%#= @page.cover_image_url %>
 </p>
 
 <p>
   <strong>Cover image url 7 column:</strong>
-  <%= @page.cover_image_url_7_column %>
+  <%= best_in_place @page, :cover_image_url_7_column, url: [@account, @folder, @page] %>
+  <%#= @page.cover_image_url_7_column %>
 </p>
 
+<!--
 <p>
   <strong>Cover image url facebook:</strong>
-  <%= @page.cover_image_url_facebook %>
+  <%#= @page.cover_image_url_facebook %>
 </p>
 
 <p>
   <strong>Cover image url square:</strong>
-  <%= @page.cover_image_url_square %>
-</p>
+  <%#= @page.cover_image_url_square %>
+</p> -->
 
 <p>
   <strong>Cover image alignment:</strong>
-  <%= @page.cover_image_alignment %>
+  <%= best_in_place @page, :cover_image_alignment, :as => :select, collection: @cover_image_alignment, url: [@account, @folder, @page] %>
+  <%#= @page.cover_image_alignment %>
 </p>
 
 <p>
   <strong>Is sponsored:</strong>
-  <%= @page.is_sponsored %>
+  <%= best_in_place @page, :cover_image_alignment, as: :checkbox, collection: {true: "Yes", false: "No"}, url: [@account, @folder, @page] %>
+  <%#= @page.is_sponsored %>
 </p>
 
-<p>
+<!-- <p>
   <strong>Is interactive:</strong>
-  <%= @page.is_interactive %>
-</p>
+  <%#= @page.is_interactive %>
+</p> -->
 
 <p>
   <strong>Has data:</strong>
-  <%= @page.has_data %>
+  <%= best_in_place @page, :has_data, as: :checkbox, collection: {true: "Yes", false: "No"}, url: [@account, @folder, @page] %>
+  <%#= @page.has_data %>
 </p>
 
 <p>
   <strong>Has image other than cover:</strong>
-  <%= @page.has_image_other_than_cover %>
+  <%= best_in_place @page, :has_image_other_than_cover, as: :checkbox, collection: {true: "Yes", false: "No"}, url: [@account, @folder, @page] %>
+  <%#= @page.has_image_other_than_cover %>
 </p>
 
 <p>
   <strong>Has audio:</strong>
-  <%= @page.has_audio %>
+  <%= best_in_place @page, :has_audio, as: :checkbox, collection: {true: "Yes", false: "No"}, url: [@account, @folder, @page] %>
+  <%#= @page.has_audio %>
 </p>
 
 <p>
   <strong>Has video:</strong>
-  <%= @page.has_video %>
+  <%= best_in_place @page, :has_video, as: :checkbox, collection: {true: "Yes", false: "No"}, url: [@account, @folder, @page] %>
+  <%#= @page.has_video %>
 </p>
 
 <p>
   <strong>Is published:</strong>
-  <%= @page.is_published %>
+  <%= best_in_place @page, :is_published, as: :checkbox, collection: {true: "Yes", false: "No"}, url: [@account, @folder, @page] %>
+  <%#= @page.is_published %>
 </p>
 
-<p>
+<!-- <p>
   <strong>Published at:</strong>
-  <%= @page.published_at %>
-</p>
+  <%#= @page.published_at %>
+</p> -->
 
 <p>
   <strong>Url:</strong>
-  <%= @page.url %>
+  <%= best_in_place @page, :url, url: [@account, @folder, @page], :as => :textarea %>
+  <%#= @page.url %>
 </p>
 
 <p>
   <strong>Ref category series:</strong>
-  <%= @page.ref_category_series_id %>
+  <%= best_in_place @page, :ref_category_series_id, :as => :select, collection: @ref_series, url: [@account, @folder, @page] %>
+  <%#= @page.ref_category_series_id %>
 </p>
 
 <p>
   <strong>Ref category intersection:</strong>
-  <%= @page.ref_category_intersection_id %>
+  <%= best_in_place @page, :ref_category_intersection_id, :as => :select, collection: @ref_intersection, url: [@account, @folder, @page] %>
+  <%#= @page.ref_category_intersection_id %>
 </p>
 
 <p>
   <strong>Ref category sub intersection:</strong>
-  <%= @page.ref_category_sub_intersection_id %>
+  <%= best_in_place @page, :ref_category_sub_intersection_id, :as => :select, collection: @ref_sub_intersection, url: [@account, @folder, @page] %>
+  <%#= @page.ref_category_sub_intersection_id %>
 </p>
 
-<p>
+<!-- <p>
   <strong>View cast:</strong>
-  <%= @page.view_cast_id %>
-</p>
+  <%#= @page.view_cast_id %>
+</p> -->
 
-<p>
+<!-- <p>
   <strong>Page object url:</strong>
-  <%= @page.page_object_url %>
-</p>
+  <%#= @page.page_object_url %>
+</p> -->
 
-<p>
+<!-- <p>
   <strong>Created by:</strong>
-  <%= @page.created_by %>
+  <%#= @page.created_by %>
 </p>
 
 <p>
   <strong>Updated by:</strong>
-  <%= @page.updated_by %>
-</p>
+  <%#= @page.updated_by %>
+</p> -->
 
 <%#= link_to 'Edit', edit_page_path(@page) %> |
 <%#= link_to 'Back', pages_path %>
