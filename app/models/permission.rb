@@ -29,6 +29,7 @@ class Permission < ApplicationRecord
     belongs_to :creator, class_name: "User", foreign_key: "created_by"
     belongs_to :updator, class_name: "User", foreign_key: "updated_by"
     belongs_to :permissible, polymorphic: true
+    belongs_to :permission_role, foreign_key: 'ref_role_slug', primary_key: 'slug'
 
     #ACCESSORS
     #VALIDATIONS
@@ -44,6 +45,7 @@ class Permission < ApplicationRecord
     scope :account_permissions, -> { where(permissible_type: "Account") }
     scope :site_permissions, -> { where(permissible_type: "Site") }
     #OTHER
+
     #PRIVATE
     private
 

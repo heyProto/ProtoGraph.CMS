@@ -1,15 +1,16 @@
 class PermissionInvitesController < ApplicationController
 
-  before_action :authenticate_user!, :sudo_role_can_account_settings
+  before_action :authenticate_user!#, :sudo_role_can_account_settings
   before_action :set_permission_invite, only: [:show, :edit, :update, :destroy]
 
   def index
-    @permissions = @account.permissions.includes(:user).page params[:page]
+    @permissions = @site.permissions.not_hidden.includes(:user).page params[:page]
     @permission_invite = PermissionInvite.new
-    @permission_invites = @account.permission_invites
-    @people_count = @account.users.count
-    @pending_invites_count = @account.permission_invites.count
-    @permission_invites = @account.permission_invites
+    @permission_invites = @site.permission_invites
+    @people_count = @site.permissions.not_hidden.count
+    @pending_invites_count = @site.permission_invites.count
+    @permission_invites = @site.permission_invites
+    @permission_roles = PermissionRole.where.not(slug: "owner").pluck(:name, :slug)
   end
 
   def create
@@ -30,7 +31,7 @@ class PermissionInvitesController < ApplicationController
         @pending_invites_count = @account.permission_invites.count
         @permission_invites = @account.permission_invites
         @show_modal = true
-        render "permissions/index"
+        render "permission_invites/index"
       end
     end
   end
@@ -52,6 +53,6 @@ class PermissionInvitesController < ApplicationController
     end
 
     def permission_invite_params
-      params.require(:permission_invite).permit(:account_id, :email, :ref_role_slug, :created_by, :updated_by)
+      params.require(:permission_invite).permit(:email, :ref_role_slug, :created_by, :updated_by, :permissible_type, :permissible_id)
     end
 end

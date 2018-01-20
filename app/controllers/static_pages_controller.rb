@@ -52,4 +52,12 @@ class StaticPagesController < ApplicationController
   def silenced
   end
 
+  def toquiz2
+    render layout: "application-sites"
+  end
+
+  def totimeline2
+    render layout: "application-sites"
+  end
+
 end

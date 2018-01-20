@@ -57,6 +57,7 @@ class ApplicationController < ActionController::Base
   		@on_an_account_page = (@account.present? and @account.id.present?)
       if @on_an_account_page
         @permission = current_user.permission_object(@account.id)
+        @permission_role = @permission.permission_role
         if @permission.blank?
           redirect_to root_url, notice: "Permission denied."
         else

@@ -95,7 +95,8 @@
               <% end %>
             </div>
             <% end %>
-            <%= f.hidden_field :account_id, value: @account.id %>
+            <%= f.hidden_field :permissible_type, value: "Account" %>
+            <%= f.hidden_field :permissible_id, value: @account.id %>
             <%= f.hidden_field :created_by, value: current_user.id %>
             <%= f.hidden_field :updated_by, value: current_user.id %>
             <%= f.input :email, id: :permission_invite_email, required: true, autofocus: true %>

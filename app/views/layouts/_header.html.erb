@@ -56,7 +56,7 @@
                         <%= link_to "Add multiple cards", account_folder_uploads_path(@account, @folder), "data-turbolinks"=> false, class: "dropdown-item" %>
                       <% end %>
                       <%= link_to "Settings", edit_account_site_path(@account, @site), "data-turbolinks"=> false, class: "dropdown-item"  %>
-                      <%= link_to 'People', nil, class: "dropdown-item" %>
+                      <%= link_to 'People', account_site_permission_invites_path(@account, @site), class: "dropdown-item" %>
                       <%= link_to 'Categories', series_account_site_path(@account, @site), class: "dropdown-item" %>
                     </div>
                   </li>
