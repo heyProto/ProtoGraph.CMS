@@ -27,7 +27,7 @@ class PagesController < ApplicationController
     if @page.save
       redirect_to account_folder_pages_path(@account, @folder), notice: 'Page was successfully created.'
     else
-      render :new
+      render :new, alert: @page.errors.full_messages
     end
   end
 
@@ -36,13 +36,13 @@ class PagesController < ApplicationController
     if @page.update(page_params)
       redirect_to @page, notice: 'Page was successfully updated.'
     else
-      render :edit
+      render :edit, alert: @page.errors.full_messages
     end
   end
 
   def destroy
     @page.destroy
-    redirect_to pages_url, notice: 'Page was successfully destroyed.'
+    redirect_to account_folder_pages_path(@account, @folder), notice: 'Page was successfully destroyed.'
   end
 
   private

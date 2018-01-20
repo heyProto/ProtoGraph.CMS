@@ -15,24 +15,15 @@
     <%= f.input :byline_stream %>
     <%= f.input :cover_image_url, hint: "Image width: 1260px and 5:3 aspect ratio",required: true %>
     <%= f.input :cover_image_url_7_column, hint: "Image width: 540px and 5:3 aspect ratio" %>
-    <%#= f.input :cover_image_url_facebook %>
-    <%#= f.input :cover_image_url_square %>
     <%= f.input :cover_image_alignment, collection: @cover_image_alignment, selected: "horizontal", required: true %>
     <%= f.input :is_sponsored %>
     <%= f.input :has_data %>
     <%= f.input :has_image_other_than_cover %>
     <%= f.input :has_audio %>
     <%= f.input :has_video %>
-    <%#= f.input :is_interactive %>
     <%= f.input :is_published %>
-    <%= f.input :url %>
-    <%#= f.input :page_object_url %>
     <%= f.input :meta_tags %>
     <%= f.input :meta_description %>
-    <%#= f.input :published_at %>
-    <%#= f.input :view_cast_id %>
-    <%#= f.input :created_by %>
-    <%#= f.input :updated_by %>
   </div>
 
   <div class="form-actions">
