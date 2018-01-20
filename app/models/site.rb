@@ -32,6 +32,7 @@
 #  youtube_url          :text(65535)
 #  g_a_tracking_id      :string(255)
 #  sign_up_mode         :string(255)
+#  default_role         :string(255)
 #
 
 class Site < ApplicationRecord
@@ -48,6 +49,11 @@ class Site < ApplicationRecord
     has_one :stream, primary_key: "stream_id", foreign_key: "id"
     belongs_to :logo_image, class_name: "Image", foreign_key: "logo_image_id", primary_key: "id", optional: true
     belongs_to :favicon, class_name: "Image", foreign_key: "favicon_id", primary_key: "id", optional: true
+    has_many :permissions, ->{where(status: "Active", permissible_type: 'Site')}, foreign_key: "permissible_id", dependent: :destroy
+    has_many :users, through: :permissions
+    has_many :permission_invites, ->{where(permissible_type: 'Site')}, foreign_key: "permissible_id", dependent: :destroy
+
+
     #ACCESSORS
     accepts_nested_attributes_for :logo_image, :favicon
     #VALIDATIONS

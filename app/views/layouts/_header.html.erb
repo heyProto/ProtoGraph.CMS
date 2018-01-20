@@ -56,12 +56,12 @@
                         <%= link_to "Add multiple cards", account_folder_uploads_path(@account, @folder), "data-turbolinks"=> false, class: "dropdown-item" %>
                       <% end %>
                       <%= link_to "Settings", edit_account_site_path(@account, @site), "data-turbolinks"=> false, class: "dropdown-item"  %>
-                      <%= link_to 'People', nil, class: "dropdown-item" %>
+                      <%= link_to 'People', account_site_permission_invites_path(@account, @site), class: "dropdown-item" %>
                       <%= link_to 'Categories', account_site_ref_categories_path(@account, @site), class: "dropdown-item" %>
                     </div>
                   </li>
                   <% end %>
-                  
+
                   <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                       <%= image_tag avatar_url(current_user.email), class: "rounded", style: "width: 20px;" %>

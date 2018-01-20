@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180119095442) do
+ActiveRecord::Schema.define(version: 20180120090128) do
 
   create_table "accounts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "username"
@@ -213,7 +213,7 @@ ActiveRecord::Schema.define(version: 20180119095442) do
   end
 
   create_table "permission_invites", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.integer "account_id"
+    t.integer "permissible_id"
     t.string "email"
     t.string "ref_role_slug"
     t.integer "created_by"
@@ -221,7 +221,37 @@ ActiveRecord::Schema.define(version: 20180119095442) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "permissible_type"
-    t.integer "permissible_id"
+  end
+
+  create_table "permission_roles", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.integer "created_by"
+    t.integer "updated_by"
+    t.string "name"
+    t.string "slug"
+    t.boolean "can_change_account_settings"
+    t.boolean "can_add_image_bank"
+    t.boolean "can_see_all_image_bank"
+    t.boolean "can_add_site"
+    t.boolean "can_change_site_settings"
+    t.boolean "can_add_site_people"
+    t.boolean "can_add_site_categories"
+    t.boolean "can_disable_site_categories"
+    t.boolean "can_add_site_tags"
+    t.boolean "can_remove_site_tags"
+    t.boolean "can_add_folders"
+    t.boolean "can_see_all_folders"
+    t.boolean "can_add_folder_people"
+    t.boolean "can_add_view_casts"
+    t.boolean "can_see_all_view_casts"
+    t.boolean "can_delete_view_casts"
+    t.boolean "can_add_streams"
+    t.boolean "can_delete_streams"
+    t.boolean "can_see_all_streams"
+    t.boolean "can_add_pages"
+    t.boolean "can_edit_pages"
+    t.boolean "can_see_all_pages"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "permissions", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -297,6 +327,7 @@ ActiveRecord::Schema.define(version: 20180119095442) do
     t.text "youtube_url"
     t.string "g_a_tracking_id"
     t.string "sign_up_mode"
+    t.string "default_role"
   end
 
   create_table "stream_entities", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|

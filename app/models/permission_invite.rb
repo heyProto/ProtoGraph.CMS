@@ -3,7 +3,7 @@
 # Table name: permission_invites
 #
 #  id               :integer          not null, primary key
-#  account_id       :integer
+#  permissible_id   :integer
 #  email            :string(255)
 #  ref_role_slug    :string(255)
 #  created_by       :integer
@@ -11,7 +11,6 @@
 #  created_at       :datetime         not null
 #  updated_at       :datetime         not null
 #  permissible_type :string(255)
-#  permissible_id   :integer
 #
 
 class PermissionInvite < ApplicationRecord
@@ -23,10 +22,9 @@ class PermissionInvite < ApplicationRecord
     belongs_to :permissible, polymorphic: true
     belongs_to :creator, class_name: "User", foreign_key: "created_by"
     belongs_to :updator, class_name: "User", foreign_key: "updated_by"
-    belongs_to :permissible, polymorphic: true
 
 
-    #ACCESSORS
+    #ACCESSOR
     #VALIDATIONS
     validates :permissible_type, presence: true
     validates :permissible_id, presence: true
@@ -43,7 +41,7 @@ class PermissionInvite < ApplicationRecord
     private
 
     def is_unique_row?
-        errors.add(:email, "already invited.") if Permission.where(permissible_type: self.permissible_type, permissible_id: self.permissible_id, user_id: self.user_id).first.present?
+        errors.add(:email, "already invited.") if PermissionInvite.where(permissible_type: self.permissible_type, permissible_id: self.permissible_id, email: self.email).first.present?
         true
     end
 
