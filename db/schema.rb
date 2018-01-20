@@ -10,7 +10,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
+<<<<<<< HEAD
 ActiveRecord::Schema.define(version: 20180120090128) do
+=======
+ActiveRecord::Schema.define(version: 20180119161917) do
+>>>>>>> 17643a0089eea5809bd1316a3bf54747df1a097a
 
   create_table "accounts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "username"
@@ -269,7 +273,7 @@ ActiveRecord::Schema.define(version: 20180120090128) do
 
   create_table "ref_categories", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer "site_id"
-    t.string "category"
+    t.string "genre"
     t.string "name"
     t.text "stream_url"
     t.datetime "created_at", null: false
@@ -278,6 +282,7 @@ ActiveRecord::Schema.define(version: 20180120090128) do
     t.boolean "is_disabled"
     t.integer "created_by"
     t.integer "updated_by"
+    t.integer "count", default: 0
   end
 
   create_table "ref_link_sources", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -295,6 +300,12 @@ ActiveRecord::Schema.define(version: 20180120090128) do
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.text "stream_url"
+    t.integer "stream_id"
+    t.boolean "is_disabled"
+    t.boolean "created_by"
+    t.boolean "updated_by"
+    t.integer "count", default: 0
   end
 
   create_table "sites", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -319,13 +330,13 @@ ActiveRecord::Schema.define(version: 20180120090128) do
     t.string "client_token"
     t.string "access_token"
     t.string "client_secret"
-    t.integer "favicon_id"
-    t.integer "logo_image_id"
     t.text "facebook_url"
     t.text "twitter_url"
     t.text "instagram_url"
     t.text "youtube_url"
     t.string "g_a_tracking_id"
+    t.integer "favicon_id"
+    t.integer "logo_image_id"
     t.string "sign_up_mode"
     t.string "default_role"
   end
