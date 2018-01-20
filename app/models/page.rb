@@ -39,7 +39,7 @@
 #
 
 class Page < ApplicationRecord
-  
+
   #CONSTANTS
   #CUSTOM TABLES
   #GEMS
@@ -50,22 +50,23 @@ class Page < ApplicationRecord
   belongs_to :series, class_name: "RefCategory", foreign_key: :ref_category_series_id
   belongs_to :intersection, class_name: "RefCategory", foreign_key: :ref_category_intersection_id
   belongs_to :sub_intersection, class_name: "RefCategory", foreign_key: :ref_category_sub_intersection_id
-  belongs_to :view_cast
+  # belongs_to :view_cast
   belongs_to :creator, class_name: "User", foreign_key: "created_by"
   belongs_to :updator, class_name: "User", foreign_key: "updated_by"
   has_many :page_streams
   has_many :streams, through: :page_streams
-  
+
   #ACCESSORS
   #VALIDATIONS
   #CALLBACKS
   before_create :before_create_set
-  
+  before_save :before_save_set
+  after_create :create_page_streams
   #SCOPE
   #OTHER
   #PRIVATE
   private
-  
+
   def before_create_set
     self.is_interactive = false                       if self.is_interactive.blank?
     self.has_data = false                             if self.has_data.blank?
@@ -76,14 +77,36 @@ class Page < ApplicationRecord
     self.is_published = false                         if self.is_published.blank?
     true
   end
-  
+
   def before_save_set
     if self.has_data == true or self.has_image_other_than_cover == true or self.has_audio == true or self.has_video == true
       self.is_interactive = true
     end
     true
   end
-  
+
+  def create_page_streams
+    case self.layout
+    when 'section'
+      streams = ["Homepage-16c-Hero", "Homepage-7c", "Homepage-4c", "Homepage-3c", "Homepage-2c"]
+    when 'article'
+      streams = ["Story-Narrative", "Story-Related"]
+    when 'grid'
+      streams = []
+    else
+      streams = []
+    end
+    streams.each do |s|
+      s = Stream.create!({
+        account_id: self.account_id,
+        site_id: self.site_id,
+        title: "#{self.id}-#{s}",
+        description: "#{self.id}-#{s} stream #{self.summary}"
+      })
+    end
+    true
+  end
+
 end
 
 
