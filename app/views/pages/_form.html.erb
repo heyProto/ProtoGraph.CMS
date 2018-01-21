@@ -4,15 +4,17 @@
             <%= f.error_notification %>
             <%= debug @page.errors.messages %>
             <div class="form-inputs">
-                <%= f.hidden_field :account_id, value: @account.id %>
-                <%= f.hidden_field :site_id, value: @site.id %>
-                <%= f.hidden_field :folder_id, value: @folder.id %>
-                <%= f.input :layout, collection: @layout, selected: "article", required: true %>
+                <% if @page.id.blank? %>
+                    <%= f.hidden_field :account_id, value: @account.id %>
+                    <%= f.hidden_field :site_id, value: @site.id %>
+                    <%= f.hidden_field :folder_id, value: @folder.id %>
+                    <%= f.input :layout, collection: @layout, selected: "article", required: true %>
+                <% end %>
                 <%= f.input :headline, required: true, minlength: 50 , maxlength: 90 %>                
                 <%= f.input :summary, minlength: 50 , maxlength: 220 %>
                 <p><b>Cover</b></p>
-                <%= f.input :cover_image_url, hint: "Image width: 1260px and 5:3 aspect ratio",required: true %>
-                <%= f.input :cover_image_url_7_column, hint: "Image width: 540px and 5:3 aspect ratio" %>
+                <%= f.input :cover_image_url, hint: "1260px width. 5:3 aspect ratio",required: true %>
+                <%= f.input :cover_image_url_7_column, hint: "540px width. 5:3 aspect ratio" %>
                 <%= f.input :cover_image_alignment, collection: @cover_image_alignment, selected: "horizontal", required: true %>
                 <%= f.input :is_published, label: "&nbsp; Is Published?".html_safe, hint: "Until you want the Story Card to be published live on your site, do not mark the article as published." %>
                 <div class="form-actions">
