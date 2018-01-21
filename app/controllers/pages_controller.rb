@@ -6,11 +6,7 @@ class PagesController < ApplicationController
   end
 
   def show
-    @ref_series = RefCategory.where(site_id: @site.id, genre: "series", is_disabled: [false, nil]).order(:name).map {|r| [r.id, "#{r.name}"]}
-    @ref_intersection = RefCategory.where(site_id: @site.id, genre: "intersection", is_disabled: [false, nil]).order(:name).map {|r| [r.id, "#{r.name}"]}
-    @ref_sub_intersection = RefCategory.where(site_id: @site.id, genre: "sub intersection", is_disabled: [false, nil]).order(:name).map {|r| [ r.id, "#{r.name}"]}
-    @layout = ['section', 'data grid', 'article'].map {|r| [r, "#{r.titlecase}"]}
-    @cover_image_alignment = ['vertical', 'horizontal'].map {|r| [r, "#{r.titlecase}"]}
+    redirect_to edit_account_folder_page_path(@account, @folder, @page)
   end
 
   def new
@@ -23,6 +19,10 @@ class PagesController < ApplicationController
   end
 
   def edit
+    @ref_series = RefCategory.where(site_id: @site.id, genre: "series", is_disabled: [false, nil]).order(:name).map {|r| ["#{r.name}", r.id]}
+    @ref_intersection = RefCategory.where(site_id: @site.id, genre: "intersection", is_disabled: [false, nil]).order(:name).map {|r| ["#{r.name}", r.id]}
+    @ref_sub_intersection = RefCategory.where(site_id: @site.id, genre: "sub intersection", is_disabled: [false, nil]).order(:name).map {|r| ["#{r.name}", r.id]}
+    @cover_image_alignment = ['vertical', 'horizontal'].map {|r| ["#{r.titlecase}", r]}
   end
 
   def create
@@ -46,7 +46,7 @@ class PagesController < ApplicationController
     respond_to do |format|
       if @page.update_attributes(page_params)
         format.json { respond_with_bip(@page) }
-        format.html { redirect_to @page, notice: 'Page was successfully updated.' }
+        format.html { redirect_to account_folder_page_path(@account, @folder, @page), notice: 'Page was successfully updated.' }
       else
         format.json { respond_with_bip(@page) }
         format.html { render :action => "edit", alert: @page.errors.full_messages }

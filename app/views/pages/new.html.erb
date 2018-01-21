@@ -6,7 +6,46 @@
         <div class="col-sm-2">
             <br/>
         </div>
-</div>
-<%= render 'form', page: @page %>
+</div>        
 
-<!-- <%#= link_to 'Back', pages_path %> -->
+            <%= simple_form_for(@page, url: account_folder_pages_path(@account, @folder), method: :post) do |f| %>
+                <div class="row">
+                    <div class="col-sm-6" style="margin-left: auto; margin-right: auto;">
+                        <%= f.error_notification %>
+                        <div class="form-inputs">
+                            <% if @page.id.blank? %>
+                                <%= f.hidden_field :account_id, value: @account.id %>
+                                <%= f.hidden_field :site_id, value: @site.id %>
+                                <%= f.hidden_field :folder_id, value: @folder.id %>
+                                <%= f.input :layout, collection: @layout, selected: "article", required: true %>
+                            <% end %>
+                            <%= f.input :headline, required: true, minlength: 50 , maxlength: 90 %>                
+                            <%= f.input :summary, minlength: 50 , maxlength: 220 %>
+                            <p><b>Cover</b></p>
+                            <%= f.input :cover_image_url, hint: "1260px width. 5:3 aspect ratio",required: true %>
+                            <%= f.input :cover_image_url_7_column, hint: "540px width. 5:3 aspect ratio" %>
+                            <%= f.input :cover_image_alignment, collection: @cover_image_alignment, selected: "horizontal", required: true %>
+                            <%= f.input :is_published, label: "&nbsp; Is Published?".html_safe, hint: "Until you want the Story Card to be published live on your site, do not mark the article as published." %>
+                            <div class="form-actions">
+                              <%= f.button :submit %>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-2">
+                        <div class="form-inputs">
+                            <%= f.input :ref_category_series_id, label: "Series", collection: @ref_series, include_blank: true  %>
+                            <%= f.input :ref_category_intersection_id, label: "Intersection", collection: @ref_intersection, include_blank: true %>
+                            <%= f.input :ref_category_sub_intersection_id, label: "Sub Intersection", collection: @ref_sub_intersection, include_blank: true %>
+                            <%= f.input :byline, required: true, label: "Display Byline", hint: "What byline do you want on the website?" %>
+                            <%= f.input :is_sponsored, label: "&nbsp; Is Sponsored?".html_safe %>
+                            <p><b>Story elements:</b></p>
+                            <%= f.input :has_data, label: "&nbsp; Data or charts?".html_safe %>
+                            <%= f.input :has_image_other_than_cover, label: "&nbsp; Image?".html_safe %>
+                            <%= f.input :has_audio, label: "&nbsp; Audio?".html_safe %>
+                            <%= f.input :has_video, label: "&nbsp; Video?".html_safe %>
+                            <%= f.input :meta_tags %>
+                            <%= f.input :meta_description %>
+                        </div>
+                    </div>
+                </div>
+            <% end %>
