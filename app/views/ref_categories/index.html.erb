@@ -5,8 +5,8 @@
     </div>
 </div>
 <div class="row">
-  <div class="col-sm-16">
-<ul class="nav nav-pills">
+  <div class="col-sm-6" style="margin-left: auto; margin-right: auto;">
+<ul class="nav nav-tabs justify-content-center" style="margin-left: auto; margin-right: auto;">
      
       <li class="nav-item">
         <%= link_to  "Series", series_account_site_path(@account,@site), class: "nav-link #{action_name === 'series' ? 'active' : ''}" %>
@@ -21,53 +21,47 @@
         <%= link_to  "Tags", tag_account_site_path(@account,@site), class: "nav-link #{action_name === 'tag' ? 'active' : ''}" %>
       </li>
     </ul>
-
-    <div style="margin-left: 50px;">
-      <br>
-      <table class="table">
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Updated by</th>
-            <th colspan="1"></th>
-          </tr>
-        </thead>
-
-        <tbody>
-          <%= render partial: "form" %>
-          <% @data.each do |ref_category| %>
-            <tr>
-              <td>
-                <% if ref_category.is_disabled %>
-                  <span class="proto-restrict-remove"><%= ref_category.name %></span>
-                <% else %>
-                  <%= best_in_place ref_category, :name, url: [@account, @site, ref_category] %>
-                <% end %>
-              </td>
-              <td class="hint">
-                <%= ref_category.updator.name %>
-              </td>
-              <td>
-                <% if not ref_category.is_disabled %>
-                  <% if ref_category.count > 0 %>
-                    <% if @genre != 'tag' %>
-                      <%= link_to 'Disable', disable_account_site_ref_category_path(@account, @site, ref_category), method: :put, data: { confirm: 'Are you sure?' } %>
-                    <% else %>
-                      <%= link_to 'Disable', disable_account_site_ref_tag_path(@account, @site, ref_category), method: :put, data: { confirm: 'Are you sure?' } %>
+    <br>
+    <% if @data.first.blank? %>
+        <div class="hint">No rows yet</div>
+    <% else %>
+              <table class="table table-sm table-responsive">
+                <tbody>
+                  <% @data.each do |ref_category| %>
+                    <tr>
+                      <td style="border: 0px;">
+                        <% if ref_category.is_disabled %>
+                          <span class="proto-restrict-remove"><%= ref_category.name %></span>
+                        <% else %>
+                          <%= best_in_place ref_category, :name, url: [@account, @site, ref_category] %>
+                        <% end %>
+                        <div class="hint"><%= ref_category.updator.name %></div>
+                      </td>
+                      <td style="border: 0px;">
+                        <% if not ref_category.is_disabled %>
+                          <% if ref_category.count > 0 %>
+                            <% if @genre != 'tag' %>
+                              <%= link_to 'Disable', disable_account_site_ref_category_path(@account, @site, ref_category), method: :put, data: { confirm: 'Are you sure?' } %>
+                            <% else %>
+                              <%= link_to 'Disable', disable_account_site_ref_tag_path(@account, @site, ref_category), method: :put, data: { confirm: 'Are you sure?' } %>
+                            <% end %>
+                          <% else %>
+                            <% if @genre != 'tag' %>
+                              <%= link_to 'x', account_site_ref_category_path(@account, @site, ref_category), method: :delete, data: { confirm: 'Are you sure?' } %>
+                            <% else %>
+                              <%= link_to 'x', account_site_ref_tag_path(@account, @site, ref_category), method: :delete, data: { confirm: 'Are you sure?' } %>
+                            <% end %>
+                          <% end %>
+                        <% end %>
+                      </td>
+                    </tr>
                     <% end %>
-                  <% else %>
-                    <% if @genre != 'tag' %>
-                      <%= link_to 'x', account_site_ref_category_path(@account, @site, ref_category), method: :delete, data: { confirm: 'Are you sure?' } %>
-                    <% else %>
-                      <%= link_to 'x', account_site_ref_tag_path(@account, @site, ref_category), method: :delete, data: { confirm: 'Are you sure?' } %>
-                    <% end %>
-                  <% end %>
-                <% end %>
-              </td>
-            </tr>
-            <% end %>
-        </tbody>
-      </table>
-    </div>
+                </tbody>
+              </table>
+
+    <% end %>
+  </div>
+  <div class="col-sm-2">
+      <%= render partial: "form" %>
   </div>
 </div>

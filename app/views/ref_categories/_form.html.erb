@@ -6,13 +6,13 @@
 
   <div class="form-inputs">
     <td>
-      <%= f.input :name %>
+      <%= f.input :name, required: true, minlength: 3 , maxlength: 15 %>
     </td>
   </div>
   <td></td>
   <div class="form-actions">
     <td>
-      <%= f.button :submit, value: "Add" %>
+      <%= f.button :submit, value: "Add", class: "btn btn-light" %>
     </td>
   </div>
   <% end %>
