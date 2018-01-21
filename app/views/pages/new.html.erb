@@ -33,9 +33,11 @@
                     </div>
                     <div class="col-sm-2">
                         <div class="form-inputs">
+                            <p><b>Classification:</b></p>
                             <%= f.input :ref_category_series_id, label: "Series", collection: @ref_series, include_blank: true  %>
                             <%= f.input :ref_category_intersection_id, label: "Intersection", collection: @ref_intersection, include_blank: true %>
                             <%= f.input :ref_category_sub_intersection_id, label: "Sub Intersection", collection: @ref_sub_intersection, include_blank: true %>
+                            <p><b>By:</b></p>
                             <%= f.input :byline, required: true, label: "Display Byline", hint: "What byline do you want on the website?" %>
                             <%= f.input :is_sponsored, label: "&nbsp; Is Sponsored?".html_safe %>
                             <p><b>Story elements:</b></p>
@@ -43,6 +45,7 @@
                             <%= f.input :has_image_other_than_cover, label: "&nbsp; Image?".html_safe %>
                             <%= f.input :has_audio, label: "&nbsp; Audio?".html_safe %>
                             <%= f.input :has_video, label: "&nbsp; Video?".html_safe %>
+                            <p><b>SEO:</b></p>
                             <%= f.input :meta_tags %>
                             <%= f.input :meta_description %>
                         </div>

@@ -24,15 +24,16 @@
 #  client_token         :string(255)
 #  access_token         :string(255)
 #  client_secret        :string(255)
-#  favicon_id           :integer
-#  logo_image_id        :integer
 #  facebook_url         :text(65535)
 #  twitter_url          :text(65535)
 #  instagram_url        :text(65535)
 #  youtube_url          :text(65535)
 #  g_a_tracking_id      :string(255)
+#  favicon_id           :integer
+#  logo_image_id        :integer
 #  sign_up_mode         :string(255)
 #  default_role         :string(255)
+#  story_card_style     :string(255)
 #
 
 class Site < ApplicationRecord
@@ -109,6 +110,7 @@ class Site < ApplicationRecord
         self.cdn_endpoint = ENV['AWS_S3_ENDPOINT']
         self.client_token = ENV['AWS_ACCESS_KEY_ID']
         self.client_secret = ENV['AWS_SECRET_ACCESS_KEY']
+        self.story_card_style = 'Clear: Color'
         true
     end
 
