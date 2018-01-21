@@ -49,9 +49,9 @@ class Page < ApplicationRecord
   belongs_to :account
   belongs_to :site
   belongs_to :folder
-  belongs_to :series, class_name: "RefCategory", foreign_key: :ref_category_series_id
-  belongs_to :intersection, class_name: "RefCategory", foreign_key: :ref_category_intersection_id
-  belongs_to :sub_intersection, class_name: "RefCategory", foreign_key: :ref_category_sub_intersection_id
+  belongs_to :series, class_name: "RefCategory", foreign_key: :ref_category_series_id, optional: true
+  belongs_to :intersection, class_name: "RefCategory", foreign_key: :ref_category_intersection_id, optional: true
+  belongs_to :sub_intersection, class_name: "RefCategory", foreign_key: :ref_category_sub_intersection_id, optional: true
   belongs_to :view_cast, optional: true
   belongs_to :creator, class_name: "User", foreign_key: "created_by"
   belongs_to :updator, class_name: "User", foreign_key: "updated_by"
