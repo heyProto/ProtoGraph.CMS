@@ -1,0 +1,60 @@
+.col-2-story-card{
+	background: #fafafa;
+	height: 250px;
+	width: 140px;
+	display: inline-block;
+	margin-bottom: 20px;
+	float: left;
+	position: relative;
+	padding: 12px;
+	box-sizing: border-box;
+}
+
+.bottom-pull-div{
+	position: absolute;
+	bottom: 12px;
+}
+
+.col-2-story-card .article-title{
+	font-size: 14px;
+	color: #333;
+	font-family: bitter;
+	font-weight: 900;
+	display: inline-block;
+	margin-top: 12px;
+	margin-bottom: 12px;
+	max-width: 116px;
+	max-height: 125px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: 19px;
+}
+
+.col-2-story-card .by-line{
+	font-size: 10px;
+	color: rgba(51, 51, 51, 0.6);
+	font-family: cabin;
+	font-weight: 100;
+	letter-spacing: 0.5px;
+}
+
+.col-2-story-card .card-tags .series-name{
+	background: transparent;
+	padding-left: 0px;
+}
+
+.col-2-story-card .card-tags .series-name .gener{
+	margin-left: 0px;
+}
+
+
+
+
+@media only screen and (max-width: 500px){
+	.col-2-story-card{
+		margin-right: 20px;
+	}
+	div.col-2> div:nth-of-type(even) {
+	    margin-right: 0px;
+	}
+}
