@@ -61,7 +61,7 @@ class Page < ApplicationRecord
   #ACCESSORS
   #VALIDATIONS
   validates :headline, presence: true, length: { in: 50..90 }
-  validates :summary, length: { in: 100..220 }, allow_blank: true
+  validates :summary, length: { in: 50..220 }, allow_blank: true
   #CALLBACKS
   before_create :before_create_set
 

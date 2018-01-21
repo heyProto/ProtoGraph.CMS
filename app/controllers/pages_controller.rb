@@ -32,6 +32,11 @@ class PagesController < ApplicationController
     if @page.save
       redirect_to account_folder_pages_path(@account, @folder), notice: 'Page was successfully created.'
     else
+      @ref_series = RefCategory.where(site_id: @site.id, genre: "series", is_disabled: [false, nil]).order(:name).map {|r| ["#{r.name}", r.id]}
+      @ref_intersection = RefCategory.where(site_id: @site.id, genre: "intersection", is_disabled: [false, nil]).order(:name).map {|r| ["#{r.name}", r.id]}
+      @ref_sub_intersection = RefCategory.where(site_id: @site.id, genre: "sub intersection", is_disabled: [false, nil]).order(:name).map {|r| ["#{r.name}", r.id]}
+      @layout = ['section', 'data grid', 'article'].map {|r| ["#{r.titlecase}", r]}
+      @cover_image_alignment = ['vertical', 'horizontal'].map {|r| ["#{r.titlecase}", r]}
       render :new, alert: @page.errors.full_messages
     end
   end

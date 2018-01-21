@@ -77,6 +77,8 @@ h1.intro-text{
 	text-transform: none;
 }
 
+.has-error > .help-block{color: red;}
+
 .content-col{
 	width: 551.25px;
 }
