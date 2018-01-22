@@ -1,11 +1,12 @@
 <div class="row">
     <div class="col-sm-6" style="padding: 0px; margin-left: auto; margin-right: auto;">
-        <h3>People</h3>
-        <hr/>
+        <h3 style='text-align: left;float: left'>People</h3>
+        <span style="text-align: right;float: right" class="hint">
+            <span id='invite_members'><a href='#' data-toggle='modal' data-target='#platform_modal'>Invite people</a></span>
+        </span>
+        <div style='clear: both'></div>
+        <hr style="margin-top: 0px"/>
         <div style="margin-left: 50px;">
-            <div style="text-align: right;" class="hint">
-                <span id='invite_members'><a href='#' data-toggle='modal' data-target='#platform_modal'>Invite people</a></span>
-            </div>
             <table class="table table-hover">
                 <tbody>
                     <% @permissions.each do |permission| %>
@@ -26,7 +27,7 @@
                             </td>
                             <td style="border: 0px;">
                                 <% if current_user.id != permission.user_id and permission.status != "Deactivated" %>
-                                    <%= link_to "Remove".html_safe, account_permission_path(@account,   permission), method: :delete, data: { confirm: 'Are you sure?' } %>
+                                    <%= link_to "Remove".html_safe, account_permission_path(@account,   permission, redirect_url: account_site_permission_invites_path(@account, @site)), method: :delete, data: { confirm: 'Are you sure?' } %>
                                 <% end %>
                             </td>
                         </tr>
@@ -36,7 +37,8 @@
             </table>
             <% if @pending_invites_count != 0 %>
                 <br/>
-                <h4>Pending Invites</h4>
+                <h3>Pending Invites</h3>
+                <hr/>
                 <table class="table">
                     <tbody>
                         <% @permission_invites.each do |permission_invite| %>
@@ -51,7 +53,7 @@
                                         </div>
                                 </td>
                                 <td style="border: 0px;">
-                                    <%= link_to "Remove".html_safe, account_permission_invite_path(@account, permission_invite), method: :delete, data: { confirm: 'Are you sure?' } %>
+                                    <%= link_to "Remove".html_safe, account_permission_invite_path(@account, permission_invite,redirect_url: account_site_permission_invites_path(@account, @site)), method: :delete, data: { confirm: 'Are you sure?' } %>
                                 </td>
                             </tr>
                         <% end %>
@@ -92,6 +94,7 @@
                         <%= f.hidden_field :created_by, value: current_user.id %>
                         <%= f.hidden_field :updated_by, value: current_user.id %>
                         <%= f.input :email, id: :permission_invite_email, required: true, autofocus: true %>
+                        <%= f.hidden_field :redirect_url, value: account_site_permission_invites_path(@account, @site) %>
                         <%= f.input :ref_role_slug, collection: @permission_roles, include_blank: false %>
                         <%= f.submit "Invite", class: "btn btn-light" %>
                     <% end %>

@@ -18,12 +18,12 @@ class PermissionInvitesController < ApplicationController
     per = UserEmail.find_by(email: @permission_invite.email)
     user = per.present? ? per.user : nil
     if user.present?
-      user.create_permission(@account.id, @permission_invite.ref_role_slug)
-      redirect_to account_permissions_url(@account), notice: t("permission_invite.add")
+      user.create_permission(permission_invite_params[:permissible_type], permission_invite_params[:permissible_id], @permission_invite.ref_role_slug)
+      redirect_to permission_invite_params[:redirect_url], notice: t("permission_invite.add")
     else
       if @permission_invite.save
         PermissionInvites.invite(current_user, @account, @permission_invite.email).deliver
-        redirect_to account_permissions_url(@account), notice: t("permission_invite.invite")
+        redirect_to permission_invite_params[:redirect_url], notice: t("permission_invite.invite")
       else
         @permissions = @account.permissions.includes(:user).page params[:page]
         @permission_invites = @account.permission_invites
@@ -37,13 +37,8 @@ class PermissionInvitesController < ApplicationController
   end
 
   def destroy
-    with_only_account = @permission_invite.site_id.blank?
     @permission_invite.destroy
-    if with_only_account
-      redirect_to edit_account_url(@account), notice: t("permission_invite.removed")
-    else
-      redirect_to account_permissions_url(@account), notice: t("permission_invite.removed")
-    end
+    redirect_to params[:redirect_url], notice: t("permission_invite.removed")
   end
 
   private
@@ -53,6 +48,6 @@ class PermissionInvitesController < ApplicationController
     end
 
     def permission_invite_params
-      params.require(:permission_invite).permit(:email, :ref_role_slug, :created_by, :updated_by, :permissible_type, :permissible_id)
+      params.require(:permission_invite).permit(:email, :ref_role_slug, :created_by, :updated_by, :permissible_type, :permissible_id, :redirect_url)
     end
 end

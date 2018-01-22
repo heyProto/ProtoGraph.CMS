@@ -39,7 +39,7 @@
                             </td>
                             <td  style="border: 0px;">
                                 <% if current_user.id != permission.user_id and permission.status != "Deactivated" %>
-                                <%= link_to "Remove".html_safe, account_permission_path(@account,   permission), method: :delete, data: { confirm: 'Are you sure?' } %>
+                                <%= link_to "Remove".html_safe, account_permission_path(@account,   permission, redirect_url: edit_account_path(@account)), method: :delete, data: { confirm: 'Are you sure?' } %>
                                 <% end %>
                             </td>
                         </tr>
@@ -60,7 +60,7 @@
                                     <%= permission_invite.email %>
                                     <div class="hint">Invited by <%= permission_invite.creator.name %> <%= time_ago_in_words (permission_invite.created_at) %>.</div>
                                 </td>
-                                <td style="border: 0px;"><%= link_to "Remove".html_safe, account_permission_invite_path(@account, permission_invite), method: :delete, data: { confirm: 'Are you sure?' } %>
+                                <td style="border: 0px;"><%= link_to "Remove".html_safe, account_permission_invite_path(@account, permission_invite, redirect_url: edit_account_path(@account)), method: :delete, data: { confirm: 'Are you sure?' } %>
                                 </td>
                             </tr>
                         <% end %>
@@ -100,6 +100,7 @@
             <%= f.hidden_field :created_by, value: current_user.id %>
             <%= f.hidden_field :updated_by, value: current_user.id %>
             <%= f.input :email, id: :permission_invite_email, required: true, autofocus: true %>
+            <%= f.hidden_field :redirect_url, value: edit_account_path(@account) %>
             <%= f.input :ref_role_slug, as: :hidden, input_html: {value: "owner"} %>
             <%= f.submit "Invite", class: "btn btn-light" %>
             <% end %>

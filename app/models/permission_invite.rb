@@ -25,6 +25,7 @@ class PermissionInvite < ApplicationRecord
 
 
     #ACCESSOR
+    attr_accessor :redirect_url
     #VALIDATIONS
     validates :permissible_type, presence: true
     validates :permissible_id, presence: true

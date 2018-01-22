@@ -1,6 +1,6 @@
 class PermissionsController < ApplicationController
 
-  before_action :authenticate_user!, :sudo_role_can_account_settings
+  before_action :authenticate_user!#, :sudo_role_can_account_settings
   before_action :set_permission, only: [:change_role, :destroy]
 
   def change_role
@@ -10,13 +10,8 @@ class PermissionsController < ApplicationController
   end
 
   def destroy
-    if @permission.site_id.blank?
-      @permission.update_attributes(status: "Deactivated")
-      redirect_to edit_account_path(@account), notice: t("ds")
-    else
-      @permission.update_attributes(status: "Deactivated")
-      redirect_to nil, notice: t("ds")
-    end
+    @permission.update_attributes(status: "Deactivated")
+    redirect_to params[:redirect_url], notice: t("ds")
   end
 
   private
