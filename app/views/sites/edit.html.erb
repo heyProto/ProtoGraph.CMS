@@ -38,8 +38,6 @@
         <h3>Theme</h3>
         <hr/>
         <div style="margin-left: 50px;">
-            <p>Publication avatar*</p>
-            <p class="hint">This works like a user icon and appears in previews of your publication content throughout Medium. It is square and should be at least 60 × 60px in size.</p>
             <p>Publication logo</p>
             <p class="hint">This logo appears at the top of all your publication’s stories. It should have a transparent background, and be at least 600px wide and 72px tall.</p>
             <div style="margin-left: 50px;">
@@ -68,6 +66,7 @@
                 <% end %>
               <% end %>
             </div>
+            <br/>
             <p>Publication favicon</p>
             <p class="hint">This is used by mobile browsers to represent a page, appearing in browser tabs and similar places. It is square and should be at least 128 × 128px in size.</p>
 
@@ -105,6 +104,7 @@
               <%= f.input :reverse_house_colour, input_html: {type: :color, style: "height: 40px;"}, label: "Reverse House Color", hint: "Choose a color that is diagonally opposite from your House Color on the color wheel. All sponsored articles will be colored with Reverse House Color.", required: true %>
               <%= f.input :font_colour, input_html: {type: :color, style: "height: 40px;"}, label: "Font Color on House Color", required: true %>
               <%= f.input :reverse_font_colour, input_html: {type: :color, style: "height: 40px;"}, label: "Font Color on Reverse House Color", required: true %>
+              <%= f.input :story_card_style, as: :select, collection: [["Clear: Color", "Clear: Color"], ["Clear: Black & White", "Clear: Black & White"], ["Blur: Color", "Blur: Color"]], label: "Story card Style", include_blank: false %>
               <%= f.button :submit, "Save", class: "btn btn-light" %>
             <% end %>
         </div>
