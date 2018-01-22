@@ -14,6 +14,7 @@
 #  created_by  :integer
 #  updated_by  :integer
 #  count       :integer          default(0)
+#  name_html   :string(255)
 #
 
 class RefCategory < ApplicationRecord
@@ -46,6 +47,9 @@ class RefCategory < ApplicationRecord
 
     def before_update_set
         self.is_disabled = true if self.count > 0
+        self.name = ActionView::Base.full_sanitizer.sanitize(self.name)
+        self.name_html = self.name if self.name_html.blank?
+        true
     end
 
     def after_create_set

@@ -12,7 +12,7 @@
 #  is_disabled :boolean
 #  created_by  :boolean
 #  updated_by  :boolean
-#  count       :integer
+#  count       :integer          default(0)
 #
 
 class RefTag < ApplicationRecord

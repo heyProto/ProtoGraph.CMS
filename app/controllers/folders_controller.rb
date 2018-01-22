@@ -8,6 +8,8 @@ class FoldersController < ApplicationController
       @view_casts = @folder.view_casts.where.not(template_card_id: article_template_card.present? ? article_template_card.id : nil).order(updated_at: :desc).page(params[:page]).per(30)
       @is_viewcasts_present = @view_casts.count != 0
       @activities = @account.activities.where(folder_id: @folder.id).order("updated_at DESC").limit(30)
+      @page_count = @folder.pages.count
+      @page = Page.new
       render layout: "application-fluid"
   end
 
