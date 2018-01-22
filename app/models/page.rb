@@ -125,7 +125,7 @@ class Page < ApplicationRecord
   def create_story_card
     site = self.site
     self.update_column(:published_at, Time.now)
-    if self.view_cast_id.nil? and self.is_published == true
+    if self.is_published == true
       if self.view_cast.present?
         view_cast = self.view_cast
         view_cast.update({
