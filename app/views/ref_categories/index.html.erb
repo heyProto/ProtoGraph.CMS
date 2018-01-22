@@ -31,12 +31,21 @@
                     <tr>
                       <td style="border: 0px;">
                         <% if ref_category.is_disabled %>
-                          <span class="proto-restrict-remove"><%= ref_category.name %></span>
+                          <span class="proto-restrict-remove"><%= ref_category.name %></span>        
                         <% else %>
-                          <%= best_in_place ref_category, :name, url: [@account, @site, ref_category] %>
+                              <%= best_in_place ref_category, :name, url: [@account, @site, ref_category] %>
                         <% end %>
                         <div class="hint"><%= ref_category.updator.name %></div>
                       </td>
+                      <% if @genre == "series" %>
+                          <td style="border: 0px;">
+                              <% if ref_category.name_html.present? %>
+                                  <%= ref_category.name_html.html_safe %>
+                              <% end %>
+                          </td>
+                      <% end %>
+                      
+                      
                       <td style="border: 0px;">
                         <% if not ref_category.is_disabled %>
                           <% if ref_category.count > 0 %>
@@ -62,6 +71,20 @@
     <% end %>
   </div>
   <div class="col-sm-2">
-      <%= render partial: "form" %>
+      <%= simple_form_for(@instance, url: account_site_ref_categories_path(@account, @site), method: :post) do |f| %>
+      <%= f.error_notification %>
+      <%= f.hidden_field :genre, value: @genre %>
+      <%= f.hidden_field :site_id, value: @site.id %>
+
+      <div class="form-inputs">
+          <%= f.input :name, required: true, minlength: 3 , maxlength: 15 %>
+        <% if @genre == "series" %>
+            <%= f.input :name_html, as: :text, label: "Brand the series", hint: "Use HTML (span tag) to add CSS. Note, the length of the series cannot be more than 15 characters.", required: true, minlength: 3 , maxlength: 50 %>
+        <% end %>
+      </div>
+      <div class="form-actions">
+          <%= f.button :submit, value: "Add", class: "btn btn-light" %>
+      </div>
+      <% end %>
   </div>
 </div>

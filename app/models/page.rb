@@ -62,16 +62,15 @@ class Page < ApplicationRecord
   #VALIDATIONS
   validates :headline, presence: true, length: { in: 50..90 }
   validates :summary, length: { in: 50..220 }, allow_blank: true
+  
   #CALLBACKS
   before_create :before_create_set
-
   before_save :before_save_set
-
   after_create :create_page_streams
   after_create :create_story_card
   after_create :push_json_to_s3
-
   after_update :create_story_card
+  
   #SCOPE
   #OTHER
   #PRIVATE
@@ -99,25 +98,26 @@ class Page < ApplicationRecord
   end
 
   def create_page_streams
+    streams = []
     case self.layout
     when 'section'
-      streams = ["Homepage-16c-Hero", "Homepage-7c", "Homepage-4c", "Homepage-3c", "Homepage-2c"]
+      streams = ["Section_16c_Hero", "Section_7c", "Section_4c", "Section_3c", "Section_2c"]
     when 'article'
-      streams = ["Story-Narrative", "Story-Related"]
-    when 'grid'
-      streams = []
-    else
-      streams = []
+      streams = ["Story_Narrative", "Story_Related"]
     end
     streams.each do |s|
-      s = Stream.create!({
+      v = Stream.create!({
         col_name: "Page",
         col_id: self.id,
         account_id: self.account_id,
         site_id: self.site_id,
-        title: "#{self.id}-#{s}",
+        folder_id: self.folder_id,
+        created_by: self.created_by,
+        updated_by: self.updated_by,
+        title: "#{self.id}_#{s}",
         description: "#{self.id}-#{s} stream #{self.summary}"
       })
+      PageStream.create!(page_id: self.id, stream_id: v.id, created_by: self.created_by, updated_by: self.updated_by)
     end
     true
   end
@@ -187,7 +187,8 @@ class Page < ApplicationRecord
         "reverse_font_colour": site.reverse_font_colour,
         "logo_url": site.logo_image.present? ? site.logo_image.thumbnail_url : "",
         "favicon_url": site.favicon.present? ? site.favicon.thumbnail_url : "",
-        "ga_code": site.g_a_tracking_id
+        "ga_code": site.g_a_tracking_id,
+        "story_card_style": site.story_card_style
       },
       "streams": Stream.where(col_name: 'Page', col_id: self.id).map {|e| "#{Datacast_ENDPOINT}/#{self.datacast_identifier}/index.json"},
       "page": self.as_json
