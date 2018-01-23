@@ -32,6 +32,7 @@ class Permission < ApplicationRecord
     belongs_to :permission_role, foreign_key: 'ref_role_slug', primary_key: 'slug'
 
     #ACCESSORS
+    attr_accessor :redirect_url
     #VALIDATIONS
     validates :user_id, presence: true
     validates :ref_role_slug, presence: true

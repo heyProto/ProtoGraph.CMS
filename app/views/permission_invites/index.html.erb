@@ -25,6 +25,13 @@
                                     <% end %>
                             </td>
                             <td style="border: 0px;">
+                                <%= simple_form_for(permission, url: change_role_account_site_permission_path(@account, @site, permission), class: "permission_forms", method: :put) do |f| %>
+                                    <%= f.hidden_field :updated_by, value: current_user.id %>
+                                    <%= f.hidden_field :redirect_url, value: account_site_permission_invites_path(@account, @site) %>
+                                    <%= f.input :ref_role_slug, collection: @permission_roles, include_blank: false, label: false, input_html: {class: "permission_select"} %>
+                                <% end %>
+                            </td>
+                            <td style="border: 0px;">
                                 <% if current_user.id != permission.user_id and permission.status != "Deactivated" %>
                                     <%= link_to "Remove".html_safe, account_permission_path(@account,   permission, redirect_url: account_site_permission_invites_path(@account, @site)), method: :delete, data: { confirm: 'Are you sure?' } %>
                                 <% end %>
@@ -102,3 +109,11 @@
         </div>
     </div>
 </div>
+
+<script type="text/javascript">
+    $(document).on("turbolinks:load", function(){
+        $(".permission_select").on("change", function(){
+            $(this).parents('form').submit();
+        });
+    });
+</script>

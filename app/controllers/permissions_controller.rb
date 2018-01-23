@@ -5,8 +5,8 @@ class PermissionsController < ApplicationController
 
   def change_role
     @permission = Permission.find(params[:id])
-    @permission.update_attributes(ref_role_slug: params[:r])
-    redirect_to nil, notice: "Successfully updated."
+    @permission.update_attributes(permission_params)
+    redirect_to permission_params[:redirect_url] , notice: "Successfully updated."
   end
 
   def destroy
@@ -21,6 +21,6 @@ class PermissionsController < ApplicationController
     end
 
     def permission_params
-      params.require(:permission).permit(:user_id, :account_id, :ref_role_slug, :status, :created_by, :updated_by)
+      params.require(:permission).permit(:user_id, :account_id, :ref_role_slug, :status, :created_by, :updated_by, :redirect_url)
     end
 end
