@@ -155,6 +155,7 @@ b{
     background: #fafafa;
     border-radius: 4px;
     padding: 20px;
+    box-shadow: 0px 2px 2px lightgrey;
 }
 
 .sign-up-area abbr[data-original-title],.sign-up-area abbr[title]{
