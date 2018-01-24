@@ -29,6 +29,7 @@
 #  col_name               :string(255)
 #  col_id                 :integer
 #  order_by_type          :string(255)
+#  is_open                :boolean
 #
 
 class Stream < ApplicationRecord
@@ -47,10 +48,13 @@ class Stream < ApplicationRecord
 
     #ASSOCIATIONS
     belongs_to :folder, optional: true
+    belongs_to :site
     has_many :folder_ids, ->{folders}, class_name: "StreamEntity", foreign_key: "stream_id"
     has_many :template_card_ids, ->{template_cards}, class_name: "StreamEntity", foreign_key: "stream_id"
     has_many :view_cast_ids, ->{view_casts}, class_name: "StreamEntity", foreign_key: "stream_id"
     has_many :excluded_view_cast_ids, ->{excluded_view_casts}, class_name: "StreamEntity", foreign_key: "stream_id"
+    has_many :permissions, ->{where(status: "Active", permissible_type: 'Stream')}, foreign_key: "permissible_id", dependent: :destroy
+    has_many :users, through: :permissions
 
     #ACCESSORS
     attr_accessor :folder_list

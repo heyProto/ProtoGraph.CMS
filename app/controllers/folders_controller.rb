@@ -1,5 +1,7 @@
 class FoldersController < ApplicationController
   before_action :authenticate_user!
+  before_action :sudo_can_see_all_folders, only: [:show]
+  before_action :sudo_role_can_folder_settings, only: [:edit, :update]
 
   def show
       @view_casts_count = @folder.view_casts.count
@@ -21,13 +23,14 @@ class FoldersController < ApplicationController
     if @folder.is_trash
       redirect_back(fallback_location: [@account], alert: t("pd.folder"))
     end
+    @folder.collaborator_lists = @folder.users.pluck(:id)
   end
 
   def update
     folder_params[:updated_by] = current_user.id
     if @folder.update(folder_params)
       track_activity(@folder)
-      redirect_to account_path(@account), notice: t("us")
+      redirect_to account_site_folder_path(@account, @site, @folder), notice: t("us")
     else
       render "edit"
     end
@@ -39,7 +42,7 @@ class FoldersController < ApplicationController
     @folder.updated_by = current_user.id
     if @folder.save
       track_activity(@folder)
-      redirect_to account_folder_path(@account, @folder), notice: t("cs")
+      redirect_to account_site_folder_path(@account, @site, @folder), notice: t("cs")
     else
       render "new"
     end
@@ -48,7 +51,7 @@ class FoldersController < ApplicationController
   private
 
     def folder_params
-      params.require(:folder).permit(:account_id, :name, :created_by, :updated_by, :site_id)
+      params.require(:folder).permit(:account_id, :name, :created_by, :updated_by, :site_id, :is_open, collaborator_lists: [])
     end
 
 end

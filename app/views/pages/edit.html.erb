@@ -7,7 +7,7 @@
             <br/>
         </div>
 </div>
-            <%= simple_form_for(@page, url: account_folder_page_path(@account, @folder), method: :put) do |f| %>
+            <%= simple_form_for(@page, url: account_site_folder_page_path(@account, @site, @folder), method: :put) do |f| %>
                 <div class="row">
                     <div class="col-sm-6" style="margin-left: auto; margin-right: auto;">
                         <%= f.error_notification %>
@@ -31,7 +31,7 @@
                         <% if @page.streams.first.present? %>
                                 <h4>Streams:</h4>
                                 <% @page.streams.each do |s| %>
-                                    <%= s.title%>: <%= link_to "Edit", edit_account_folder_stream_path(@account, @folder, s)%> |
+                                    <%= s.title%>: <%= link_to "Edit", edit_account_site_folder_stream_path(@account, @site, @folder, s)%> |
                                     <%= link_to truncate("#{ENV['AWS_S3_ENDPOINT']}/#{s.datacast_identifier}/index.json", length: 40), "#{ENV['AWS_S3_ENDPOINT']}/#{s.datacast_identifier}/index.json", target: "_blank" %>
                                     <br/>
                                 <% end %>

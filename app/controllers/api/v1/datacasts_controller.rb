@@ -6,6 +6,7 @@ class Api::V1::DatacastsController < ApiController
         payload["source"]  = params[:source] || "form"
         view_cast = @folder.view_casts.new(view_cast_params)
         view_cast.account_id = @account.id
+        view_cast.site_id = @site.id
         view_cast.created_by = @user.id
         view_cast.updated_by = @user.id
         if view_cast.template_card.name == 'toStory'
@@ -23,7 +24,7 @@ class Api::V1::DatacastsController < ApiController
                 view_cast.destroy
                 render json: {error_message: r['errorMessage']}, status: 422
             else
-                render json: {view_cast: view_cast.as_json(methods: [:remote_urls]), redirect_path: account_folder_view_cast_url(@account, @folder, view_cast) }, status: 200
+                render json: {view_cast: view_cast.as_json(methods: [:remote_urls]), redirect_path: account_site_folder_view_cast_url(@account, @site, @folder, view_cast) }, status: 200
             end
 
         else
@@ -57,7 +58,7 @@ class Api::V1::DatacastsController < ApiController
                 Api::ProtoGraph::CloudFront.invalidate(@site, ["/#{view_cast.datacast_identifier}/data.json","/#{view_cast.datacast_identifier}/view_cast.json"], 2)
             end
             Api::ProtoGraph::CloudFront.invalidate(nil, ["/#{view_cast.datacast_identifier}/*"], 1)
-            render json: {view_cast: view_cast.as_json(methods: [:remote_urls]), redirect_path: account_folder_view_cast_url(@account, @folder, view_cast) }, status: 200
+            render json: {view_cast: view_cast.as_json(methods: [:remote_urls]), redirect_path: account_site_folder_view_cast_url(@account, @site, @folder, view_cast) }, status: 200
         end
     end
 

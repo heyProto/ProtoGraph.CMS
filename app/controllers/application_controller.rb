@@ -9,15 +9,63 @@ class ApplicationController < ActionController::Base
   end
 
   def sudo_pykih_admin
-    redirect_to root_url, notice: "Permission denied." if !current_user.is_admin_from_pykih
+    redirect_to root_url, notice: "Permission denied." unless current_user.is_admin_from_pykih and return
   end
 
   def sudo_role_can_account_settings
-    redirect_to account_path(@account), notice: "Permission denied" if true
+    redirect_to account_site_path(@account, @site), notice: "Permission denied" unless @permission_role.can_change_account_settings and return
+  end
+
+  def sudo_role_can_site_settings
+    redirect_to account_site_path(@account, @site), notice: "Permission denied" unless @permission_role.can_change_site_settings and return
+  end
+
+  def sudo_role_can_add_site_people
+    redirect_to account_site_path(@account, @site), notice: "Permission denied" unless @permission_role.can_add_site_people and return
+  end
+
+  def sudo_role_can_add_site_categories
+    redirect_to account_site_path(@account, @site), notice: "Permission denied" unless @permission_role.can_add_site_categories and return
+  end
+
+  def sudo_role_can_disable_site_categories
+    redirect_to account_site_path(@account, @site), notice: "Permission denied" unless @permission_role.can_disable_site_categories and return
+  end
+
+  def sudo_role_can_folder_settings
+    redirect_to account_site_path(@account, @site), notice: "Permission denied" unless @permission_role.can_add_folder_people and return
+  end
+
+  def sudo_role_can_add_site_tags
+    redirect_to account_site_path(@account, @site), notice: "Permission denied" unless @permission_role.can_add_site_tags and return
+  end
+
+  def sudo_can_see_all_folders
+    if !@permission_role.can_see_all_folders and @folder.users.pluck(:user_id).uniq.include?(current_user.id)
+      redirect_to account_site_path(@account, @site), notice: "Permission denied" and return
+    end
+  end
+
+  def sudo_can_see_all_view_casts
+    if !@permission_role.can_see_all_view_casts and @view_cast.users.pluck(:user_id).uniq.include?(current_user.id)
+      redirect_to account_site_path(@account, @site), notice: "Permission denied" and return
+    end
+  end
+
+  def sudo_can_see_all_pages
+    if !@permission_role.can_see_all_pages and @page.users.pluck(:user_id).uniq.include?(current_user.id)
+      redirect_to account_site_path(@account, @site), notice: "Permission denied" and return
+    end
+  end
+
+  def sudo_can_see_all_streams
+    if !@permission_role.can_see_all_streams and @stream.users.pluck(:user_id).uniq.include?(current_user.id)
+      redirect_to account_site_path(@account, @site), notice: "Permission denied" and return
+    end
   end
 
   def sudo_role_can_template_designer
-    redirect_to root_url, notice: "Permission denied" if true
+    redirect_to root_url, notice: "Permission denied" and return
   end
 
   def track_activity(trackable, action = params[:action])
@@ -56,11 +104,11 @@ class ApplicationController < ActionController::Base
       end
   		@on_an_account_page = (@account.present? and @account.id.present?)
       if @on_an_account_page
-        @permission = current_user.permission_object(@account.id)
-        @permission_role = @permission.permission_role
+        @permission = current_user.owner_role(@account.id) || current_user.permission_object(@site.id)
         if @permission.blank?
-          redirect_to root_url, notice: "Permission denied."
+          redirect_to root_url, notice: "Permission denied." and return
         else
+          @permission_role = @permission.permission_role
           @role = @permission.ref_role_slug
         end
       end

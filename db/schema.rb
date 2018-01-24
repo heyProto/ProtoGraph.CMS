@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180121131026) do
+ActiveRecord::Schema.define(version: 20180124134138) do
 
   create_table "accounts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "username"
@@ -114,6 +114,7 @@ ActiveRecord::Schema.define(version: 20180121131026) do
     t.boolean "is_trash", default: false
     t.boolean "is_archived", default: false
     t.integer "site_id"
+    t.boolean "is_open"
   end
 
   create_table "friendly_id_slugs", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -211,6 +212,7 @@ ActiveRecord::Schema.define(version: 20180121131026) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "datacast_identifier"
+    t.boolean "is_open"
   end
 
   create_table "permission_invites", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -378,6 +380,7 @@ ActiveRecord::Schema.define(version: 20180121131026) do
     t.string "col_name"
     t.integer "col_id"
     t.string "order_by_type"
+    t.boolean "is_open"
     t.index ["description"], name: "index_streams_on_description", type: :fulltext
     t.index ["title"], name: "index_streams_on_title", type: :fulltext
   end
@@ -524,6 +527,8 @@ ActiveRecord::Schema.define(version: 20180121131026) do
     t.string "sub_genre"
     t.string "series"
     t.string "by_line"
+    t.integer "site_id"
+    t.boolean "is_open"
     t.index ["slug"], name: "index_view_casts_on_slug", unique: true
   end
 

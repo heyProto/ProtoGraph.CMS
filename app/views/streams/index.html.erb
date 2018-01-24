@@ -37,7 +37,7 @@
                             <%= image_tag avatar_url(stream.updator.email), width: "20px" %>
                         <% end %>
                     </td>
-                    <td><%= link_to stream.title, [@account, @folder, stream] %>
+                    <td><%= link_to stream.title, [@account, @site, @folder, stream] %>
                     </td>
                     <td><p class="hint"><%= "#{stream.card_count} <span class='hint'>#{'card'.pluralize(stream.card_count)}</span>".html_safe %></p>
                     </td>

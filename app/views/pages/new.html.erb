@@ -6,9 +6,9 @@
         <div class="col-sm-2">
             <br/>
         </div>
-</div>        
+</div>
 
-            <%= simple_form_for(@page, url: account_folder_pages_path(@account, @folder), method: :post) do |f| %>
+            <%= simple_form_for(@page, url: account_site_folder_pages_path(@account, @site, @folder), method: :post) do |f| %>
                 <div class="row">
                     <div class="col-sm-6" style="margin-left: auto; margin-right: auto;">
                         <%= f.error_notification %>
@@ -19,7 +19,7 @@
                                 <%= f.hidden_field :folder_id, value: @folder.id %>
                                 <%= f.input :layout, collection: @layout, selected: "article", required: true %>
                             <% end %>
-                            <%= f.input :headline, required: true, minlength: 50 , maxlength: 90 %>                
+                            <%= f.input :headline, required: true, minlength: 50 , maxlength: 90 %>
                             <%= f.input :summary, minlength: 50 , maxlength: 220 %>
                             <p><b>Cover</b></p>
                             <%= f.input :cover_image_url, hint: "1260px width. 5:3 aspect ratio",required: true %>

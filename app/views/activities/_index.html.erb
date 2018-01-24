@@ -17,13 +17,13 @@
                 <%= a.action.sub(/e?$/, "ed")  %>
                 <% if a.trackable.class.to_s == "Folder" %>
                   a folder
-                  <%= link_to a.trackable.name.titleize, [a.trackable.account, a.trackable] %>
+                  <%= link_to a.trackable.name.titleize, [a.trackable.account, a.trackable.site, a.trackable] %>
                 <% elsif a.trackable.class.to_s == "ViewCast" %>
                   a card
-                  <%= link_to a.trackable.name.titleize, [a.trackable.account, a.trackable.folder, a.trackable] if a.trackable.present? and a.trackable.folder.present? %>
+                  <%= link_to a.trackable.name.titleize, [a.trackable.account, a.trackable.site, a.trackable.folder, a.trackable] if a.trackable.present? and a.trackable.folder.present? %>
                 <% elsif a.trackable.class.to_s == "Stream" %>
                   a stream
-                  <%= link_to a.trackable.title.titleize, [a.trackable.account, a.trackable.folder, a.trackable] %>
+                  <%= link_to a.trackable.title.titleize, [a.trackable.account, a.trackable.site, a.trackable.folder, a.trackable] %>
                 <% elsif a.trackable.class.to_s == "Image" %>
                   an image
                   <%= link_to a.trackable.name, [a.trackable.account, a.trackable], "data-turbolinks" => "false" %>

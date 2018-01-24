@@ -73,30 +73,32 @@ Rails.application.routes.draw do
       resources :ref_tags, except: [:index, :create, :show] do
         put '/disable', to: "ref_tags#disable", on: :member
       end
+
+      resources :folders do
+        resources :pages
+        resources :template_data do
+          resources :template_cards, only: [:new] do
+            post "/create_version/:version_genre", to: "template_cards#create_version", on: :member, as: :create_version
+          end
+        end
+
+        resources :template_cards do
+          get 'flip_public_private', 'move_to_next_status', on: :member
+        end
+
+        resources :view_casts
+
+        resources :streams do
+          post :publish, on: :member
+          resources :stream_entities, only: [:create, :destroy]
+        end
+        resources :uploads, only: [:new, :create, :index]
+        resources :pages
+      end
+
     end
     resources :authentications
 
-    resources :folders do
-      resources :pages
-      resources :template_data do
-        resources :template_cards, only: [:new] do
-          post "/create_version/:version_genre", to: "template_cards#create_version", on: :member, as: :create_version
-        end
-      end
-
-      resources :template_cards do
-        get 'flip_public_private', 'move_to_next_status', on: :member
-      end
-
-      resources :view_casts
-
-      resources :streams do
-        post :publish, on: :member
-        resources :stream_entities, only: [:create, :destroy]
-      end
-      resources :uploads, only: [:new, :create, :index]
-      resources :pages
-    end
     resources :images, only: [:index, :create, :show]
     resources :audios, only: [:index, :create, :show]
     resources :image_variations, only: [:create, :show] do

@@ -8,22 +8,22 @@
                 </div>
                 <div class="col-sm-12">
                     <div class="getting-started_todo-list">
-                        <% if @account.users.count <= 1 and  @account.permission_invites.count == 0 %>
+                        <% if @site.users.count <= 1 and  @site.permission_invites.count == 0 %>
                                 <div class="getting-started_single-todo">
                                   <div class="getting-started_todo-circle"></div>
-                                  <div class="getting-started_todo-task"><%= link_to "Invite a team member", edit_account_path(@account) %></div>
+                                  <div class="getting-started_todo-task"><%= link_to "Invite a team member", edit_account_site_path(@account, @site) %></div>
                                 </div>
                         <% end %>
-                        <% if @account.folders.count <= 2 %>
+                        <% if @site.folders.count <= 2 %>
                             <div class="getting-started_single-todo">
                               <div class="getting-started_todo-circle"></div>
-                              <div class="getting-started_todo-task"><%= link_to "Add a new folder", new_account_folder_path(@account) %></div>
+                              <div class="getting-started_todo-task"><%= link_to "Add a new folder", new_account_site_folder_path(@account, @site) %></div>
                             </div>
                         <% end %>
-                        <% if @account.view_casts.count <= 0 %>
+                        <% if @site.view_casts.count <= 0 %>
                             <div class="getting-started_single-todo">
                               <div class="getting-started_todo-circle"></div>
-                              <div class="getting-started_todo-task"><%= link_to "Add a toExplain card in sample project", new_account_folder_view_cast_path(@account, @account.folders.first), "data-turbolinks" => "false" %></div>
+                              <div class="getting-started_todo-task"><%= link_to "Add a toExplain card in sample project", new_account_site_folder_view_cast_path(@account, @site, @site.folders.first), "data-turbolinks" => "false" %></div>
                             </div>
                         <% end %>
                         </div>

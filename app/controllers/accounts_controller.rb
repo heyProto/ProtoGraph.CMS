@@ -1,7 +1,11 @@
 class AccountsController < ApplicationController
 
   before_action :authenticate_user!
-  before_action :sudo_role_can_account_settings, only: [:update]
+  before_action :sudo_role_can_account_settings, only: [:edit, :update]
+
+  def new
+    @account = Account.new
+  end
 
   def edit
     @permissions = @account.permissions.not_hidden.where(ref_role_slug: "owner").includes(:user).page params[:page]
@@ -15,38 +19,29 @@ class AccountsController < ApplicationController
     @pending_invites_count = @account.permission_invites.where(ref_role_slug: "owner").count
   end
 
-  def show
-    @folders = @account.folders
-    @folder = Folder.new
-    @activities = @account.activities.order("updated_at DESC").limit(30)
-  end
-
   def update
     a_params = account_params
-    if params["commit"] == "Save" and a_params["logo_image_id"].blank?
-      a_params.delete("logo_image_id")
-    end
-    if a_params["logo_image_attributes"].present?
-      a_params["logo_image_attributes"]["name"] = @account.username + "_avatar"
-      a_params["logo_image_attributes"]["account_id"] = @account.id
-      a_params["logo_image_attributes"]["created_by"] = current_user.id
-      a_params["logo_image_attributes"]["updated_by"] = current_user.id
-      a_params["logo_image_attributes"]["is_logo"] = true
-    end
-
     if @account.update(a_params)
       redirect_to edit_account_path(@account), notice: t("us")
     else
+      @permissions = @account.permissions.not_hidden.where(ref_role_slug: "owner").includes(:user).page params[:page]
       @people_count = @account.users.count
-      @pending_invites_count = @account.permission_invites.count
-      render edit_account_path(@account)
+      @permission_invite = PermissionInvite.new
+      @permission_invites = @account.permission_invites.where(ref_role_slug: "owner")
+      @people_count = @account.permissions.not_hidden.where(ref_role_slug: "owner").count
+      @pending_invites_count = @account.permission_invites.where(ref_role_slug: "owner").count
+      @permission_invites = @account.permission_invites.where(ref_role_slug: "owner")
+
+      @people_count = @account.permissions.not_hidden.where(ref_role_slug: "owner").count
+      @pending_invites_count = @account.permission_invites.where(ref_role_slug: "owner").count
+      render "edit"
     end
   end
 
   def create
     @account = Account.new(account_params)
     if @account.save
-      current_user.create_permission(@account.id, "owner")
+      current_user.create_permission( "Account", @account.id, "owner")
       folder = Folder.create({
         account_id: @account.id,
         name: "Sample Project",
@@ -63,7 +58,7 @@ class AccountsController < ApplicationController
         is_system_generated: true,
         site_id: @account.site.id
       })
-      redirect_to account_path(@account), notice: t("cs")
+      redirect_to account_site_path(@account, @account.site), notice: t("cs")
     else
       if @account.coming_from_new
         render "accounts/new"

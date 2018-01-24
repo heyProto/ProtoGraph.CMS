@@ -13,6 +13,7 @@
 #  is_trash    :boolean          default(FALSE)
 #  is_archived :boolean          default(FALSE)
 #  site_id     :integer
+#  is_open     :boolean
 #
 
 class Folder < ApplicationRecord
@@ -33,8 +34,10 @@ class Folder < ApplicationRecord
     has_many :activities
     has_many :uploads, dependent: :destroy
     has_many :pages
+    has_many :permissions, ->{where(status: "Active", permissible_type: 'Folder')}, foreign_key: "permissible_id", dependent: :destroy
+    has_many :users, through: :permissions
     #ACCESSORS
-    attr_accessor :is_system_generated
+    attr_accessor :is_system_generated, :collaborator_lists
     #VALIDATIONS
     validates :name, exclusion: {in: ["Recycle Bin"], message: "Is a reserved name."}, unless: :is_system_generated
     validates :name, uniqueness: {scope: [:account], message: "Folder name is already used."}
@@ -42,6 +45,7 @@ class Folder < ApplicationRecord
 
 
     #CALLBACKS
+    after_save :after_save_set
 
     def move_friendly_id_error_to_name
         errors.add :name, *errors.delete(:friendly_id) if errors[:friendly_id].present?
@@ -53,5 +57,17 @@ class Folder < ApplicationRecord
     end
     #PRIVATE
     private
+
+    def after_save_set
+        if self.collaborator_lists.present?
+            self.collaborator_lists = self.collaborator_lists.reject(&:empty?)
+            prev_collaborator_ids = self.permissions.pluck(:user_id)
+            self.collaborator_lists.each do |c|
+                user = User.find(c)
+                a = user.create_permission("Folder", self.id, "contributor")
+            end
+            self.permissions.where(permissible_id: (prev_collaborator_ids - self.collaborator_lists.map{|a| a.to_i})).update_all(status: 'Deactivated')
+        end
+    end
 
 end

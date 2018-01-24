@@ -1,6 +1,6 @@
 class PermissionsController < ApplicationController
 
-  before_action :authenticate_user!#, :sudo_role_can_account_settings
+  before_action :authenticate_user!, :sudo_role_can_add_site_people
   before_action :set_permission, only: [:change_role, :destroy]
 
   def change_role

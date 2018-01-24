@@ -1,7 +1,8 @@
 class RefCategoriesController < ApplicationController
 
   before_action :authenticate_user!
-  # before_action :sudo_role_can_account_settings, only: [:edit, :update]
+  before_action :sudo_role_can_add_site_categories, only: [:create]
+  before_action :sudo_role_can_disable_site_categories, only: [:update]
   before_action :set_entity, only: [:update, :destroy, :disable]
 
 

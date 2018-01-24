@@ -37,6 +37,7 @@
 #  created_at                       :datetime         not null
 #  updated_at                       :datetime         not null
 #  datacast_identifier              :string(255)
+#  is_open                          :boolean
 #
 
 class Page < ApplicationRecord
@@ -57,12 +58,14 @@ class Page < ApplicationRecord
   belongs_to :updator, class_name: "User", foreign_key: "updated_by"
   has_many :page_streams
   has_many :streams, through: :page_streams
+  has_many :permissions, ->{where(status: "Active", permissible_type: 'Page')}, foreign_key: "permissible_id", dependent: :destroy
+  has_many :users, through: :permissions
 
   #ACCESSORS
   #VALIDATIONS
   validates :headline, presence: true, length: { in: 50..90 }
   validates :summary, length: { in: 50..220 }, allow_blank: true
-  
+
   #CALLBACKS
   before_create :before_create_set
   before_save :before_save_set
@@ -70,7 +73,7 @@ class Page < ApplicationRecord
   after_create :create_story_card
   after_create :push_json_to_s3
   after_update :create_story_card
-  
+
   #SCOPE
   #OTHER
   #PRIVATE

@@ -1,6 +1,6 @@
 <div class=container>
   <div class='col-8'>
-    <%= simple_form_for(@stream, url: [@account, @folder, @stream]) do |f| %>
+    <%= simple_form_for(@stream, url: [@account, @site, @folder, @stream]) do |f| %>
       <%= f.input :title, required: true %>
       <%= f.input :account_id, as: :hidden, input_html: {value: @account.id} %>
       <%= f.input :description, as: :string, required: true %>

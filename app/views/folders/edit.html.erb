@@ -1,9 +1,21 @@
 <div class="row">
-      <div class="col-4 align-self-center" style="margin-left: auto; margin-right: auto; margin-top: 40px;">
-        <%= simple_form_for [@account, @folder] do |f| %>
+    <div class="col-4 align-self-center" style="margin-left: auto; margin-right: auto; margin-top: 40px;">
+        <%= simple_form_for [@account, @site, @folder] do |f| %>
             <%= f.input :name, required: true %>
             <%= f.input :site_id, as: :hidden, input_html: {value: @site.id} %>
+            <% if @site.users.count > 0 %>
+                <%=  f.input :collaborator_lists,  collection: @site.users.pluck(:name, :id), input_html: { class: 'ui search fluid dropdown', multiple: true}, label: "Add Collaborators" %>
+            <% end %>
             <%= f.button :submit, "Save", class: "ui primary button" %>
         <% end %>
-      </div>
+    </div>
 </div>
+
+
+<script type="text/javascript">
+    $(document).on("turbolinks:load", function () {
+        $('.ui.dropdown').dropdown({
+            allowAdditions: false,
+        });
+    });
+</script>

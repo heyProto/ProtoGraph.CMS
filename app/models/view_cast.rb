@@ -23,6 +23,8 @@
 #  sub_genre           :string(255)
 #  series              :string(255)
 #  by_line             :string(255)
+#  site_id             :integer
+#  is_open             :boolean
 #
 
 class ViewCast < ApplicationRecord
@@ -38,10 +40,13 @@ class ViewCast < ApplicationRecord
     belongs_to :folder
     belongs_to :template_datum
     belongs_to :template_card
+    belongs_to :site
     belongs_to :creator, class_name: "User", foreign_key: "created_by"
     belongs_to :updator, class_name: "User", foreign_key: "updated_by"
+    has_many :permissions, ->{where(status: "Active", permissible_type: 'ViewCast')}, foreign_key: "permissible_id", dependent: :destroy
+    has_many :users, through: :permissions
     #ACCESSORS
-    attr_accessor :dataJSON, :schemaJSON, :stop_callback, :redirect_url
+    attr_accessor :dataJSON, :schemaJSON, :stop_callback, :redirect_url, :collaborator_lists
     #VALIDATIONS
     validates :slug, uniqueness: true
     validates :folder_id, presence: true
@@ -104,6 +109,15 @@ class ViewCast < ApplicationRecord
     def after_save_set
         # Update the streams
         # StreamUpdateWorker.perform_async(self.id)
+        if self.collaborator_lists.present?
+            self.collaborator_lists = self.collaborator_lists.reject(&:empty?)
+            prev_collaborator_ids = self.permissions.pluck(:user_id)
+            self.collaborator_lists.each do |c|
+                user = User.find(c)
+                a = user.create_permission("ViewCast", self.id, "contributor")
+            end
+            self.permissions.where(permissible_id: (prev_collaborator_ids - self.collaborator_lists.map{|a| a.to_i})).update_all(status: 'Deactivated')
+        end
     end
 
     def after_create_set

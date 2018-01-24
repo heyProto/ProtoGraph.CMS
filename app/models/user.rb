@@ -54,8 +54,12 @@ class User < ApplicationRecord
     scope :online, -> { where('updated_at > ?', 10.minutes.ago) }
     #OTHER
 
-    def permission_object(accid, s="Active")
-        Permission.where(user_id: self.id,  permissible_id: accid, permissible_type: 'Account', status: s).first
+    def permission_object(site_id, s="Active")
+        Permission.where(user_id: self.id,  permissible_id: site_id, permissible_type: 'Site', status: s).first
+    end
+
+    def owner_role(account_id, s="Active")
+        Permission.where(user_id: self.id,  permissible_id: account_id, permissible_type: 'Account', ref_role_slug: "owner", status: s).first
     end
 
     def is_admin_from_pykih
@@ -67,8 +71,9 @@ class User < ApplicationRecord
         if p.present?
             p.update_attributes(status: "Active", ref_role_slug: r, updated_by: self.id, is_hidden: false)
         else
-            Permission.create(user_id: self.id, permissible_id: permissible_id, permissible_type: permissible_type, created_by: self.id, updated_by: self.id, ref_role_slug: r)
+            p = Permission.create(user_id: self.id, permissible_id: permissible_id, permissible_type: permissible_type, created_by: self.id, updated_by: self.id, ref_role_slug: r)
         end
+        p
     end
 
     def apply_omniauth(auth)
@@ -96,6 +101,10 @@ class User < ApplicationRecord
         confirmed_at: Time.now,
         is_primary_email: 1
       )
+    end
+
+    def folders
+        Folder.where(id: self.permissions.where(permissible_type: "Folder").pluck(:permissible_id))
     end
 
 

@@ -1,5 +1,6 @@
 class StreamsController < ApplicationController
     before_action :authenticate_user!
+    before_action :sudo_can_see_all_streams, only: [:show, :edit, :update]
     before_action :set_stream, only: [:show, :edit, :update, :destroy, :publish]
 
     def create
@@ -8,7 +9,7 @@ class StreamsController < ApplicationController
         @stream.updated_by = current_user.id
         if @stream.save
             track_activity(@stream)
-            redirect_to account_folder_stream_path(@account, @folder, @stream), notice: t('cs')
+            redirect_to account_site_folder_stream_path(@account, @site, @folder, @stream), notice: t('cs')
         else
             render :new
         end
@@ -57,7 +58,7 @@ class StreamsController < ApplicationController
         s_params[:updated_by] = current_user.id
         if @stream.update(s_params)
             track_activity(@stream)
-            redirect_to account_folder_stream_path(@account, @folder, @stream), notice: t('cs')
+            redirect_to account_site_folder_stream_path(@account, @site, @folder, @stream), notice: t('cs')
         else
             render :edit
         end
@@ -67,9 +68,9 @@ class StreamsController < ApplicationController
         @stream.updator = current_user
         @stream.folder = @account.folders.find_by(name: "Recycle Bin")
         if @stream.save
-            redirect_to account_folder_streams_path(@account, @folder), notice: "Stream was deleted successfully"
+            redirect_to account_site_folder_streams_path(@account, @site, @folder), notice: "Stream was deleted successfully"
         else
-            redirect_to account_folder_stream_path(@account, @folder, @stream), alert: "Stream could not be deleted"
+            redirect_to account_site_folder_stream_path(@account, @site, @folder, @stream), alert: "Stream could not be deleted"
         end
     end
 
@@ -79,7 +80,7 @@ class StreamsController < ApplicationController
             track_activity(@stream)
             ActiveRecord::Base.connection.close
         end
-        redirect_to account_folder_stream_path(@account, @folder, @stream), notice: t("published.stream")
+        redirect_to account_site_folder_stream_path(@account, @site, @folder, @stream), notice: t("published.stream")
     end
 
     private

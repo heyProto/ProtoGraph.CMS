@@ -30,7 +30,7 @@
         <hr/>
         <div style="margin-left: 50px;">
             <% @accounts_owned.each do |account| %>
-                <%= link_to account.username, account_permissions_path(account) %>
+                <%= link_to account.username, edit_account_path(account) %>
                 <p class="hint">Click to configure</p>
             <% end %>
             <%= simple_form_for @account do |f| %>

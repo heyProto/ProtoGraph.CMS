@@ -1,7 +1,14 @@
 class SitesController < ApplicationController
 
   before_action :authenticate_user!
-  # before_action :sudo_role_can_account_settings, only: [:edit, :update]
+  before_action :sudo_role_can_add_site, only: [:new, :create]
+  before_action :sudo_role_can_site_settings, only: [:edit, :update]
+
+  def show
+    @folders = @permission_role.can_see_all_folders ? @site.folders : @user.folders(@site)
+    @folder = Folder.new
+    @activities = @account.activities.order("updated_at DESC").limit(30)
+  end
 
 
   def edit
@@ -28,7 +35,7 @@ class SitesController < ApplicationController
                                  :house_colour, :reverse_house_colour, :font_colour, :reverse_font_colour, :stream_url,
                                  :stream_id, :cdn_provider, :cdn_id, :host, :cdn_endpoint, :client_token, :access_token, :story_card_style,
                                  :client_secret, :facebook_url, :twitter_url, :instagram_url, :youtube_url, :g_a_tracking_id, :logo_image_id, :favicon_id, :default_role, :sign_up_mode,
-                                 logo_image_attributes: [:image, :account_id, :is_logo, :created_by, :updated_by], 
+                                 logo_image_attributes: [:image, :account_id, :is_logo, :created_by, :updated_by],
                                  favicon_attributes: [:image, :account_id, :is_favicon, :created_by, :updated_by])
   end
 

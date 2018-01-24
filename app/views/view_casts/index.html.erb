@@ -14,7 +14,7 @@
     <div class="row">
       <% @view_casts.each do |d| %>
       <div class="col-sm-4">
-        <%= link_to [@account, @folder,d], "data-turbolinks"=> false do %>
+        <%= link_to [@account, @site,  @folder,d], "data-turbolinks"=> false do %>
         <div class="card" style="margin: 20px 0px; ">
 
           <div class="card-footer">

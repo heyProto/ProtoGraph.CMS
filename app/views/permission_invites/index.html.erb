@@ -117,3 +117,9 @@
         });
     });
 </script>
+
+<% if @show_modal.present? and @show_modal %>
+  <script type="text/javascript">
+    $('#platform_modal').modal("show");
+  </script>
+<% end %>

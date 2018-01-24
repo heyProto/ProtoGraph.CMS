@@ -51,8 +51,10 @@ class Permission < ApplicationRecord
     private
 
     def is_unique_row?
-        errors.add(:user_id, "already invited.") if Permission.where(permissible_type: self.permissible_type, permissible_id: self.permissible_id, user_id: self.user_id).first.present?
-        true
+        if Permission.where(permissible_type: self.permissible_type, permissible_id: self.permissible_id, user_id: self.user_id, status: "Active").first.present?
+            errors.add(:user_id, "already invited.")
+            return false
+        end
     end
 
     def before_create_set

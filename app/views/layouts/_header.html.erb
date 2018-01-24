@@ -10,7 +10,7 @@
     <% if @on_an_account_page %>
       <nav class="navbar navbar-expand-lg navbar bg-light">
         <div class="bootstrap-container container" style="padding-left: 0px;">
-          <a class="navbar-brand" href=<%= account_path(@account) %>>
+          <a class="navbar-brand" href=<%= account_site_path(@account, @site) %>>
             <%=  image_tag("proto-logo.png", style: "margin-top: 7px;", class: "d-inline-block align-top") %>
           </a>
             <ul class="navbar-nav mr-auto" style="margin-left: 0px !important; margin-right: auto;">
@@ -22,48 +22,47 @@
                   <a class="nav-link">/</a>
                 </li>
                 <li class="nav-item">
-                  <%= link_to @folder.name, account_folder_path(@account, @folder), class: "nav-link" %>
+                  <%= link_to @folder.name, account_site_folder_path(@account, @site, @folder), class: "nav-link" %>
                 </li>
                 <% if controller_name == "streams" %>
                   <li class="nav-item"><a class="nav-link">/</a></li>
-                  <li class="nav-item"><%= link_to "Streams", account_folder_streams_path(@account, @folder), class: "nav-link"%></li>
+                  <li class="nav-item"><%= link_to "Streams", account_site_folder_streams_path(@account, @site, @folder), class: "nav-link"%></li>
                 <% elsif controller_name == "view_casts" %>
                   <li class="nav-item"><a class="nav-link">/</a></li>
-                  <li class="nav-item"><%= link_to "Cards", account_folder_view_casts_path(@account, @folder), class: "nav-link"%></li>
+                  <li class="nav-item"><%= link_to "Cards", account_site_folder_view_casts_path(@account, @site, @folder), class: "nav-link"%></li>
                 <% end %>
               <% end %>
             </ul>
             <ul class="navbar-nav ml-auto">
                   <% if @folder.present? and @folder.id.present? and !@folder.is_trash %>
                       <% if controller_name == "view_casts" and action_name != "new" %>
-                        <li class="nav-item"><%= link_to '+ Add a card', new_account_folder_view_cast_path(@account, @folder), data: {turbolinks: false}, class: "nav-link btn btn-sm btn-primary", style: "margin-top: 5px;" %></li>
+                        <li class="nav-item"><%= link_to '+ Add a card', new_account_site_folder_view_cast_path(@account, @site, @folder), data: {turbolinks: false}, class: "nav-link btn btn-sm btn-primary", style: "margin-top: 5px;" %></li>
                       <% elsif controller_name == "streams" and action_name != "new"  %>
-                        <li class="nav-item"><%= link_to '+ Add a stream', new_account_folder_stream_path(@account, @folder), data: {turbolinks: false}, class: "nav-link btn btn-sm btn-primary", style: "margin-top: 5px;" %></li>
+                        <li class="nav-item"><%= link_to '+ Add a stream', new_account_site_folder_stream_path(@account, @site, @folder), data: {turbolinks: false}, class: "nav-link btn btn-sm btn-primary", style: "margin-top: 5px;" %></li>
                       <% elsif controller_name == "pages" and action_name != "new"  %>
                         <li class="nav-item">
-                          <%= link_to '+ Add a page', new_account_folder_page_path(@account, @folder), data: {turbolinks: false}, class: "nav-link btn btn-sm btn-primary", style: "margin-top: 5px;" %>
+                          <%= link_to '+ Add a page', new_account_site_folder_page_path(@account, @site, @folder), data: {turbolinks: false}, class: "nav-link btn btn-sm btn-primary", style: "margin-top: 5px;" %>
                         </li>
                       <% end %>
 
                   <% elsif controller_name == "audios" and action_name != "new"  %>
                       <li class="nav-item"><%= link_to '+ Upload an audio', "#", class: "nav-link btn btn-sm btn-primary",style: "margin-top: 5px;", "data-toggle" => "modal", "data-target" => "#fileUploadModal" %></li>
                       <%= render partial: "audios/form" %>
-
                   <% end %>
                   <% if @site.present? %>
-                  <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                      Site: <%= @site.domain %>
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                      <% if controller_name == "folders" and @folder.id.present? and current_user.is_admin_from_pykih %>
-                        <%= link_to "Add multiple cards", account_folder_uploads_path(@account, @folder), "data-turbolinks"=> false, class: "dropdown-item" %>
-                      <% end %>
-                      <%= link_to "Settings", edit_account_site_path(@account, @site), "data-turbolinks"=> false, class: "dropdown-item"  %>
-                      <%= link_to 'People', account_site_permission_invites_path(@account, @site), class: "dropdown-item" %>
-                      <%= link_to 'Categories', series_account_site_path(@account, @site), class: "dropdown-item" %>
-                    </div>
-                  </li>
+                    <li class="nav-item dropdown">
+                      <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Site: <%= @site.name %>
+                      </a>
+                      <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                        <% if controller_name == "folders" and @folder.id.present? and current_user.is_admin_from_pykih %>
+                          <%= link_to "Add multiple cards", account_site_folder_uploads_path(@account, @site, @folder), "data-turbolinks"=> false, class: "dropdown-item" %>
+                        <% end %>
+                        <%= link_to "Settings", edit_account_site_path(@account, @site), "data-turbolinks"=> false, class: "dropdown-item"  %>
+                        <%= link_to 'People', account_site_permission_invites_path(@account, @site), class: "dropdown-item" %>
+                        <%= link_to 'Categories', series_account_site_path(@account, @site), class: "dropdown-item" %>
+                      </div>
+                    </li>
                   <% end %>
 
                   <li class="nav-item dropdown">

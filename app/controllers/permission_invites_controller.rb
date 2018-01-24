@@ -1,6 +1,6 @@
 class PermissionInvitesController < ApplicationController
 
-  before_action :authenticate_user!#, :sudo_role_can_account_settings
+  before_action :authenticate_user!, :sudo_role_can_add_site_people
   before_action :set_permission_invite, only: [:show, :edit, :update, :destroy]
 
   def index
@@ -18,8 +18,22 @@ class PermissionInvitesController < ApplicationController
     per = UserEmail.find_by(email: @permission_invite.email)
     user = per.present? ? per.user : nil
     if user.present?
-      user.create_permission(permission_invite_params[:permissible_type], permission_invite_params[:permissible_id], @permission_invite.ref_role_slug)
-      redirect_to permission_invite_params[:redirect_url], notice: t("permission_invite.add")
+      a = user.create_permission(permission_invite_params[:permissible_type], permission_invite_params[:permissible_id], @permission_invite.ref_role_slug)
+      if a.id.present?
+        redirect_to permission_invite_params[:redirect_url], notice: t("permission_invite.add")
+      else
+        a.errors.each do |key, value|
+          @permission_invite.errors.add(:email, value)
+        end
+        @permissions = @site.permissions.not_hidden.includes(:user).page params[:page]
+        @permission_invites = @site.permission_invites
+        @people_count = @site.permissions.not_hidden.count
+        @pending_invites_count = @site.permission_invites.count
+        @permission_invites = @site.permission_invites
+        @permission_roles = PermissionRole.where.not(slug: "owner").pluck(:name, :slug)
+        @show_modal = true
+        render "permission_invites/index"
+      end
     else
       if @permission_invite.save
         PermissionInvites.invite(current_user, @account, @permission_invite.email).deliver

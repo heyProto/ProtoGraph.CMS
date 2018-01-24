@@ -65,18 +65,6 @@ class Account < ApplicationRecord
         TemplateDatum.where("account_id = ? OR is_public = true", self.id)
     end
 
-    def create_sudo_permission(role)
-        pykih_admin = User.find_by(email: "ab@pykih.com")
-        Permission.create(
-          is_hidden: true,
-          created_by: pykih_admin.id,
-          updated_by: pykih_admin.id,
-          account_id: self.id,
-          user_id: pykih_admin.id,
-          ref_role_slug: role
-        )
-    end
-
     #DEPENDENT DESTROY
     # Account.where(id: a).delete_all
     # Folder.where(account_id: a).delete_all
@@ -96,7 +84,6 @@ class Account < ApplicationRecord
 
     def before_create_set
         self.slug = self.username
-        self.sign_up_mode = "Invitation only"
         self.cdn_provider = "CloudFront"
         self.cdn_id = ENV['AWS_CDN_ID']
         self.host = "#{AWS_API_DATACAST_URL}/cloudfront/invalidate"
@@ -116,6 +103,5 @@ class Account < ApplicationRecord
 
     def after_create_set
         Site.create({account_id: self.id, name: self.username, domain: self.domain})
-        create_sudo_permission("owner")
     end
 end
