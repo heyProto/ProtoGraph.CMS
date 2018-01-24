@@ -4,14 +4,6 @@
             <h1  style="text-align: center">
               <%= @folder.name %>
             </h1>
-            <div class="dropdown" style='float: right; position: absolute;right: 1%; top: 0'>
-              <a class="dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Developer Tools
-              </a>
-              <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                <%= link_to "Streams <span class='badge badge-pill badge-secondary'>#{@streams_count}</span>".html_safe, account_folder_streams_path(@account, @folder), class: "dropdown-item" %>
-              </div>
-            </div>
         </div>
     </div>
     <div class='one-br-space'></div>
