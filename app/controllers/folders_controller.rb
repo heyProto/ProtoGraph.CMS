@@ -3,7 +3,6 @@ class FoldersController < ApplicationController
 
   def show
       @view_casts_count = @folder.view_casts.where.not(template_card_id: TemplateCard.to_story_cards_ids).count
-      @streams_count = @folder.streams.count
       @view_casts = @folder.view_casts.where.not(template_card_id: TemplateCard.to_story_cards_ids).order(updated_at: :desc).page(params[:page]).per(30)
       @is_viewcasts_present = @view_casts.count != 0
       @activities = @account.activities.where(folder_id: @folder.id).order("updated_at DESC").limit(30)
