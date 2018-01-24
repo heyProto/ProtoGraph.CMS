@@ -7,7 +7,7 @@
 #  site_id                          :integer
 #  folder_id                        :integer
 #  headline                         :string(255)
-#  meta_tags                        :string(255)
+#  meta_keywords                    :string(255)
 #  meta_description                 :text(65535)
 #  summary                          :text(65535)
 #  layout                           :string(255)
@@ -104,12 +104,12 @@ class Page < ApplicationRecord
     streams = []
     case self.layout
     when 'section'
-      streams = ["Section_16c_Hero", "Section_7c", "Section_4c", "Section_3c", "Section_2c"]
+      streams = [["Section_16c_Hero", "Hero"], ["Section_7c", "Originals"], ["Section_4c", "Digests"], ["Section_3c", "Feed"], ["Section_2c", "Opinions"]]
     when 'article'
-      streams = ["Story_Narrative", "Story_Related"]
+      streams = [["Story_Narrative", "#{self.id}_Section_7c"], ["Story_Related", "#{self.id}_Section_7c"]]
     end
     streams.each do |s|
-      v = Stream.create!({
+      stream = Stream.create!({
         col_name: "Page",
         col_id: self.id,
         account_id: self.account_id,
@@ -117,10 +117,19 @@ class Page < ApplicationRecord
         folder_id: self.folder_id,
         created_by: self.created_by,
         updated_by: self.updated_by,
-        title: "#{self.id}_#{s}",
-        description: "#{self.id}-#{s} stream #{self.summary}"
+        title: "#{self.id}_#{s.first}",
+        description: "#{self.id}-#{s.first} stream #{self.summary}"
       })
-      PageStream.create!(page_id: self.id, stream_id: v.id, created_by: self.created_by, updated_by: self.updated_by)
+
+      page_stream = PageStream.create!({
+        page_id: self.id,
+        stream_id: stream.id,
+        name_of_stream: s.last,
+        created_by: self.created_by,
+        updated_by: self.updated_by
+      })
+
+      # PagesWorker.perform_async(self.id, stream.id, page_stream.id)
     end
     true
   end
@@ -177,6 +186,11 @@ class Page < ApplicationRecord
 
   def push_json_to_s3
     site = self.site
+    streams =  Stream.where(col_name: 'Page', col_id: self.id).select(:id, :title, :datacast_identifier).map do |e|
+      h = e.as_json
+      h['url'] = "#{Datacast_ENDPOINT}/#{e.datacast_identifier}/index.json"
+      h
+    end
     json = {
       "site_attributes": {
         "dis_qus_integration": "",
@@ -193,7 +207,7 @@ class Page < ApplicationRecord
         "ga_code": site.g_a_tracking_id,
         "story_card_style": site.story_card_style
       },
-      "streams": Stream.where(col_name: 'Page', col_id: self.id).map {|e| "#{Datacast_ENDPOINT}/#{self.datacast_identifier}/index.json"},
+      "streams": streams,
       "page": self.as_json
     }
     key = "#{self.datacast_identifier}/page.json"

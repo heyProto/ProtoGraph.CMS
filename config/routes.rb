@@ -94,8 +94,8 @@ Rails.application.routes.draw do
         end
         resources :uploads, only: [:new, :create, :index]
         resources :pages
+        resources :page_streams, only: [:update]
       end
-
     end
     resources :authentications
 

@@ -26,6 +26,7 @@ class PagesController < ApplicationController
     @ref_sub_intersection = RefCategory.where(site_id: @site.id, genre: "sub intersection", is_disabled: [false, nil]).order(:name).map {|r| ["#{r.name}", r.id]}
     @cover_image_alignment = ['vertical', 'horizontal'].map {|r| ["#{r.titlecase}", r]}
     @view_cast = @page.view_cast if @page.view_cast_id.present?
+    @page_streams = @page.page_streams
   end
 
   def create
@@ -69,6 +70,6 @@ class PagesController < ApplicationController
     end
 
     def page_params
-      params.require(:page).permit(:id, :account_id, :site_id, :folder_id, :headline, :meta_tags, :meta_description, :summary, :layout, :byline, :byline_stream, :cover_image_url, :cover_image_url_7_column, :cover_image_url_facebook, :cover_image_url_square, :cover_image_alignment, :is_sponsored, :is_interactive, :has_data, :has_image_other_than_cover, :has_audio, :has_video, :is_published, :published_at, :url, :ref_category_series_id, :ref_category_intersection_id, :ref_category_sub_intersection_id, :view_cast_id, :page_object_url, :created_by, :updated_by)
+      params.require(:page).permit(:id, :account_id, :site_id, :folder_id, :headline, :meta_keywords, :meta_description, :summary, :layout, :byline, :byline_stream, :cover_image_url, :cover_image_url_7_column, :cover_image_url_facebook, :cover_image_url_square, :cover_image_alignment, :is_sponsored, :is_interactive, :has_data, :has_image_other_than_cover, :has_audio, :has_video, :is_published, :published_at, :url, :ref_category_series_id, :ref_category_intersection_id, :ref_category_sub_intersection_id, :view_cast_id, :page_object_url, :created_by, :updated_by)
     end
 end

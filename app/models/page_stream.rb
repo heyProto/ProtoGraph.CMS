@@ -2,13 +2,14 @@
 #
 # Table name: page_streams
 #
-#  id         :integer          not null, primary key
-#  page_id    :integer
-#  stream_id  :integer
-#  created_by :integer
-#  updated_by :integer
-#  created_at :datetime         not null
-#  updated_at :datetime         not null
+#  id             :integer          not null, primary key
+#  page_id        :integer
+#  stream_id      :integer
+#  created_by     :integer
+#  updated_by     :integer
+#  created_at     :datetime         not null
+#  updated_at     :datetime         not null
+#  name_of_stream :string(255)
 #
 
 class PageStream < ApplicationRecord

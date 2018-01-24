@@ -36,6 +36,25 @@
                                     <br/>
                                 <% end %>
                         <% end %>
+                        <% if @page_streams.present? %>
+                            <br>
+                            <h4>Page Headings</h4>
+                            <% if @page.layout != 'section' %>
+                                <% @page_streams.each do |ps| %>
+                                    <div>
+                                        <%= label_tag :name_of_stream, "#{ps.stream.title.split('_Section_').last}", class: "control-label optional" %> -
+                                        <%= ps.name_of_stream %>
+                                    </div>
+                                <% end %>
+                            <% else %>
+                                <% @page_streams.each do |ps| %>
+                                    <div>
+                                        <%= label_tag :name_of_stream, "#{ps.stream.title.split('_Section_').last}", class: "control-label optional" %> -
+                                        <%= best_in_place ps, :name_of_stream, url: [@account, @folder, ps] %>
+                                    </div>
+                                <% end %>
+                            <% end%>
+                        <% end %>
                         <% if @page.view_cast_id.present? %>
                             <br/>
                             <h4>Story Card:</h4>
@@ -57,7 +76,7 @@
                             <%= f.input :has_audio, label: "&nbsp; Audio?".html_safe %>
                             <%= f.input :has_video, label: "&nbsp; Video?".html_safe %>
                             <p><b>SEO:</b></p>
-                            <%= f.input :meta_tags %>
+                            <%= f.input :meta_keywords %>
                             <%= f.input :meta_description %>
                         </div>
                     </div>

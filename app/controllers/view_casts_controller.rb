@@ -8,9 +8,9 @@ class ViewCastsController < ApplicationController
     end
 
     def index
-        @view_casts_count = @folder.view_casts.count
+        @view_casts_count = @folder.view_casts.where.not(template_card_id: TemplateCard.to_story_cards_ids).count
         @streams_count = @folder.streams.count
-        @view_casts = @folder.view_casts.order(updated_at: :desc).page(params[:page]).per(30)
+        @view_casts = @folder.view_casts.where.not(template_card_id: TemplateCard.to_story_cards_ids).order(updated_at: :desc).page(params[:page]).per(30)
         @is_viewcasts_present = @view_casts.count != 0
     end
 
