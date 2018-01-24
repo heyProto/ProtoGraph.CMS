@@ -14,14 +14,6 @@ class StreamsController < ApplicationController
         end
     end
 
-    def index
-      @view_casts_count = @folder.view_casts.count
-      @streams_count = @folder.streams.count
-      @is_viewcasts_present = @account.view_casts.count > 0
-      @streams = @folder.streams.order(updated_at: :desc).page(params[:page]).per(30)
-      render layout: "application-fluid"
-    end
-
     def new
         @stream = @folder.streams.new(account_id: @account.id)
         @view_casts_count = @folder.view_casts.count
@@ -67,7 +59,7 @@ class StreamsController < ApplicationController
         @stream.updator = current_user
         @stream.folder = @account.folders.find_by(name: "Recycle Bin")
         if @stream.save
-            redirect_to account_folder_streams_path(@account, @folder), notice: "Stream was deleted successfully"
+            redirect_to account_folder_path(@account, @folder), notice: "Stream was deleted successfully"
         else
             redirect_to account_folder_stream_path(@account, @folder, @stream), alert: "Stream could not be deleted"
         end
