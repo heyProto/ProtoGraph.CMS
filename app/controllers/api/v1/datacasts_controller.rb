@@ -9,6 +9,7 @@ class Api::V1::DatacastsController < ApiController
         view_cast.site_id = @site.id
         view_cast.created_by = @user.id
         view_cast.updated_by = @user.id
+        view_cast.collaborator_lists << current_user.id if @permission_role == 'contributor'
         if view_cast.template_card.name == 'toStory'
             view_cast.by_line = datacast_params['data']["by_line"]
             view_cast.genre = datacast_params['data']["genre"]

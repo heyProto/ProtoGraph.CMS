@@ -38,6 +38,7 @@ class FoldersController < ApplicationController
     @folder = @account.folders.new(folder_params)
     @folder.created_by = current_user.id
     @folder.updated_by = current_user.id
+    @stream.collaborator_lists << current_user.id if @permission_role == 'contributor'
     if @folder.save
       track_activity(@folder)
       redirect_to account_site_folder_path(@account, @site, @folder), notice: t("cs")

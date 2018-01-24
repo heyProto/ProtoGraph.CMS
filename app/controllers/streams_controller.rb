@@ -7,6 +7,7 @@ class StreamsController < ApplicationController
         @stream = @folder.streams.new(stream_params)
         @stream.created_by = current_user.id
         @stream.updated_by = current_user.id
+        @stream.collaborator_lists << current_user.id if @permission_role == 'contributor'
         if @stream.save
             track_activity(@stream)
             redirect_to account_site_folder_stream_path(@account, @site, @folder, @stream), notice: t('cs')

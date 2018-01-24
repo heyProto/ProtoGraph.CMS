@@ -33,6 +33,7 @@ class PagesController < ApplicationController
     @page = Page.new(page_params)
     @page.created_by = current_user.id
     @page.updated_by = current_user.id
+    @stream.collaborator_lists << current_user.id if @permission_role == 'contributor'
     if @page.save
       redirect_to account_site_folder_pages_path(@account, @site, @folder), notice: 'Page was successfully created.'
     else
