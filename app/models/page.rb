@@ -62,7 +62,7 @@ class Page < ApplicationRecord
   #VALIDATIONS
   validates :headline, presence: true, length: { in: 50..90 }
   validates :summary, length: { in: 50..220 }, allow_blank: true
-  
+
   #CALLBACKS
   before_create :before_create_set
   before_save :before_save_set
@@ -70,7 +70,7 @@ class Page < ApplicationRecord
   after_create :create_story_card
   after_create :push_json_to_s3
   after_update :create_story_card
-  
+
   #SCOPE
   #OTHER
   #PRIVATE
@@ -174,6 +174,11 @@ class Page < ApplicationRecord
 
   def push_json_to_s3
     site = self.site
+    streams =  Stream.where(col_name: 'Page', col_id: self.id).select(:id, :title, :datacast_identifier).map do |e|
+      h = e.as_json
+      h['url'] = "#{Datacast_ENDPOINT}/#{e.datacast_identifier}/index.json"
+      h
+    end
     json = {
       "site_attributes": {
         "dis_qus_integration": "",
@@ -190,7 +195,7 @@ class Page < ApplicationRecord
         "ga_code": site.g_a_tracking_id,
         "story_card_style": site.story_card_style
       },
-      "streams": Stream.where(col_name: 'Page', col_id: self.id).map {|e| "#{Datacast_ENDPOINT}/#{self.datacast_identifier}/index.json"},
+      "streams": streams,
       "page": self.as_json
     }
     key = "#{self.datacast_identifier}/page.json"
