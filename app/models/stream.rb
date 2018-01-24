@@ -51,6 +51,7 @@ class Stream < ApplicationRecord
     has_many :template_card_ids, ->{template_cards}, class_name: "StreamEntity", foreign_key: "stream_id"
     has_many :view_cast_ids, ->{view_casts}, class_name: "StreamEntity", foreign_key: "stream_id"
     has_many :excluded_view_cast_ids, ->{excluded_view_casts}, class_name: "StreamEntity", foreign_key: "stream_id"
+    has_many :page_streams
 
     #ACCESSORS
     attr_accessor :folder_list

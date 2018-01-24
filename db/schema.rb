@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180121131026) do
+ActiveRecord::Schema.define(version: 20180124135642) do
 
   create_table "accounts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "username"
@@ -174,6 +174,7 @@ ActiveRecord::Schema.define(version: 20180121131026) do
     t.integer "updated_by"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "name_of_stream"
   end
 
   create_table "pages", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -181,7 +182,7 @@ ActiveRecord::Schema.define(version: 20180121131026) do
     t.integer "site_id"
     t.integer "folder_id"
     t.string "headline"
-    t.string "meta_tags"
+    t.string "meta_keywords"
     t.text "meta_description"
     t.text "summary"
     t.string "layout"

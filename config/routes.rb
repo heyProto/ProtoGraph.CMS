@@ -96,6 +96,7 @@ Rails.application.routes.draw do
       end
       resources :uploads, only: [:new, :create, :index]
       resources :pages
+      resources :page_streams, only: [:update]
     end
     resources :images, only: [:index, :create, :show]
     resources :audios, only: [:index, :create, :show]

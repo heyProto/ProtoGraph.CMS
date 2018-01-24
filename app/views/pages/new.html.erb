@@ -6,7 +6,7 @@
         <div class="col-sm-2">
             <br/>
         </div>
-</div>        
+</div>
 
             <%= simple_form_for(@page, url: account_folder_pages_path(@account, @folder), method: :post) do |f| %>
                 <div class="row">
@@ -19,7 +19,7 @@
                                 <%= f.hidden_field :folder_id, value: @folder.id %>
                                 <%= f.input :layout, collection: @layout, selected: "article", required: true %>
                             <% end %>
-                            <%= f.input :headline, required: true, minlength: 50 , maxlength: 90 %>                
+                            <%= f.input :headline, required: true, minlength: 50 , maxlength: 90 %>
                             <%= f.input :summary, minlength: 50 , maxlength: 220 %>
                             <p><b>Cover</b></p>
                             <%= f.input :cover_image_url, hint: "1260px width. 5:3 aspect ratio",required: true %>
@@ -46,7 +46,7 @@
                             <%= f.input :has_audio, label: "&nbsp; Audio?".html_safe %>
                             <%= f.input :has_video, label: "&nbsp; Video?".html_safe %>
                             <p><b>SEO:</b></p>
-                            <%= f.input :meta_tags %>
+                            <%= f.input :meta_keywords %>
                             <%= f.input :meta_description %>
                         </div>
                     </div>

@@ -104,6 +104,7 @@ class TemplateCard < ApplicationRecord
     end
 
     def account_slug
+        puts self.account.inspect
         self.account.slug
     end
 
