@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180124135642) do
+ActiveRecord::Schema.define(version: 20180125132555) do
 
   create_table "accounts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "username"
@@ -186,7 +186,6 @@ ActiveRecord::Schema.define(version: 20180124135642) do
     t.string "meta_keywords"
     t.text "meta_description"
     t.text "summary"
-    t.string "layout"
     t.string "byline"
     t.string "byline_stream"
     t.text "cover_image_url"
@@ -214,6 +213,7 @@ ActiveRecord::Schema.define(version: 20180124135642) do
     t.datetime "updated_at", null: false
     t.string "datacast_identifier"
     t.boolean "is_open"
+    t.integer "template_page_id"
   end
 
   create_table "permission_invites", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -449,6 +449,30 @@ ActiveRecord::Schema.define(version: 20180124135642) do
     t.string "s3_identifier"
     t.string "status"
     t.index ["slug"], name: "index_template_data_on_slug", unique: true
+  end
+
+  create_table "template_pages", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string "name"
+    t.text "description"
+    t.text "global_slug"
+    t.boolean "is_current_version"
+    t.string "slug"
+    t.string "version_series"
+    t.integer "previous_version_id"
+    t.string "version_genre"
+    t.string "version"
+    t.text "change_log"
+    t.string "status"
+    t.integer "publish_count"
+    t.boolean "is_public"
+    t.string "git_url"
+    t.string "git_branch"
+    t.string "git_repo_name"
+    t.string "s3_identifier"
+    t.integer "created_by"
+    t.integer "updated_by"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "uploads", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|

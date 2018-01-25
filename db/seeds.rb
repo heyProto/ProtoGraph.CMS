@@ -99,3 +99,43 @@ TemplateCard.create({git_url: "git@bitbucket.org:pykih_/protograph.card.tomedia.
 TemplateCard.create({git_url: "git@bitbucket.org:pykih_/protograph.card.toSurveyScores.git", name: "toSurveyScores", git_branch: "master", git_repo_name: "ProtoGraph.Card.toSurveyScores", status: "published", is_public: false, account_id: pykih_account.id, created_by: user_id, updated_by: user_id, template_datum_id: t_survey_scores.id, elevator_pitch: "", description: "", s3_identifier: "25d44080867a4cd6b430",has_multiple_uploads: false, allowed_views: ["col7", "col4", "col3"]})
 TemplateCard.create({git_url: "git@bitbucket.org:pykih_/protograph.card.tomanualscavengercovervizcard.git", name: "toManualScavengerCoverVizCard", git_branch: "master", git_repo_name: "ProtoGraph.Card.toManualScavengerCoverVizCard", status: "published", is_public: false, account_id: pykih_account.id, created_by: user_id, updated_by: user_id, template_datum_id: t_stink_cover.id, elevator_pitch: "", description: "", s3_identifier: "3dcab1e230b429d5a921",has_multiple_uploads: false, allowed_views: ["col16", "col4"]})
 TemplateCard.create({git_url: "git@bitbucket.org:pykih_/protograph.card.composecard.git", name: "ComposeCard", git_branch: "master", git_repo_name: "ProtoGraph.Card.ComposeCard", status: "published", is_public: true, account_id: pykih_account.id, created_by: user_id, updated_by: user_id, template_datum_id: t_compose_card.id, elevator_pitch: "", description: "", s3_identifier: "8c7f4a1291ed39c16d26",has_multiple_uploads: false, allowed_views: ["col7", "col4"]})
+
+
+TemplatePage.create({
+  name: "section",
+  git_url: "",
+  git_branch: "master",
+  git_repo_name: "",
+  status: "published",
+  is_public: true,
+  description: "",
+  s3_identifier: "014521f868f5c2e01cf7",
+  created_by: user_id,
+  updated_by: user_id
+})
+
+TemplatePage.create({
+  name: "article",
+  git_url: "",
+  git_branch: "master",
+  git_repo_name: "",
+  status: "published",
+  is_public: true,
+  description: "",
+  s3_identifier: "0f0626a32cd514568f6f",
+  created_by: user_id,
+  updated_by: user_id
+})
+
+TemplatePage.create({
+  name: "data grid",
+  git_url: "",
+  git_branch: "master",
+  git_repo_name: "",
+  status: "published",
+  is_public: true,
+  description: "",
+  s3_identifier: "41108c78d5b87f84dc73",
+  created_by: user_id,
+  updated_by: user_id
+})

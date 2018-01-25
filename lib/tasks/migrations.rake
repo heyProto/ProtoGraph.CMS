@@ -64,4 +64,11 @@ namespace :migrations do
 
   end
 
+  task :migrate_page_layout => :environment do
+    Page.all.each do |p|
+      tp = TemplatePage.where(name: p.layout).first
+      p.update_column(:template_page_id, tp.id) if tp.present?
+    end
+  end
+
 end

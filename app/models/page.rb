@@ -10,7 +10,6 @@
 #  meta_keywords                    :string(255)
 #  meta_description                 :text(65535)
 #  summary                          :text(65535)
-#  layout                           :string(255)
 #  byline                           :string(255)
 #  byline_stream                    :string(255)
 #  cover_image_url                  :text(65535)
@@ -38,6 +37,7 @@
 #  updated_at                       :datetime         not null
 #  datacast_identifier              :string(255)
 #  is_open                          :boolean
+#  template_page_id                 :integer
 #
 
 class Page < ApplicationRecord
@@ -56,6 +56,7 @@ class Page < ApplicationRecord
   belongs_to :view_cast, optional: true
   belongs_to :creator, class_name: "User", foreign_key: "created_by"
   belongs_to :updator, class_name: "User", foreign_key: "updated_by"
+  belongs_to :template_page
   has_many :page_streams
   has_many :streams, through: :page_streams
   has_many :permissions, ->{where(status: "Active", permissible_type: 'Page')}, foreign_key: "permissible_id", dependent: :destroy
@@ -69,10 +70,13 @@ class Page < ApplicationRecord
   #CALLBACKS
   before_create :before_create_set
   before_save :before_save_set
+
   after_create :create_page_streams
   after_create :create_story_card
   after_create :push_json_to_s3
+
   after_update :create_story_card
+  after_update :push_json_to_s3
 
   #SCOPE
   #OTHER
@@ -102,7 +106,7 @@ class Page < ApplicationRecord
 
   def create_page_streams
     streams = []
-    case self.layout
+    case self.template_page.name
     when 'section'
       streams = [["Section_16c_Hero", "Hero"], ["Section_7c", "Originals"], ["Section_4c", "Digests"], ["Section_3c", "Feed"], ["Section_2c", "Opinions"]]
     when 'article'
@@ -128,8 +132,6 @@ class Page < ApplicationRecord
         created_by: self.created_by,
         updated_by: self.updated_by
       })
-
-      # PagesWorker.perform_async(self.id, stream.id, page_stream.id)
     end
     true
   end
@@ -186,6 +188,7 @@ class Page < ApplicationRecord
 
   def push_json_to_s3
     site = self.site
+
     streams = self.page_streams.includes(:stream).map do |e|
       k = e.stream.as_json
       h = {}
@@ -196,6 +199,10 @@ class Page < ApplicationRecord
       h['name_of_stream'] = e.name_of_stream
       h
     end
+
+    page = self.as_json
+    page['layout'] = self.template_page.as_json
+
     json = {
       "site_attributes": {
         "dis_qus_integration": "",
@@ -213,14 +220,16 @@ class Page < ApplicationRecord
         "story_card_style": site.story_card_style
       },
       "streams": streams,
-      "page": self.as_json
+      "page": page
     }
     key = "#{self.datacast_identifier}/page.json"
     encoded_file = Base64.encode64(json.to_json)
     content_type = "application/json"
     resp = Api::ProtoGraph::Utility.upload_to_cdn(encoded_file, key, content_type)
     self.update_column(:page_object_url, "#{Datacast_ENDPOINT}/#{key}")
+
     PagesWorker.perform_async(self.id)
+
     true
   end
 
