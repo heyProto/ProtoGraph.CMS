@@ -35,7 +35,7 @@ class User < ApplicationRecord
 
     #ASSOCIATIONS
     has_many :permissions, ->{where(status: "Active")}
-    has_many :accounts, through: :permissions, source: :permissible, source_type: "Account"
+    # has_many :accounts, through: :permissions, source: :permissible, source_type: "Account"
     has_many :activities
     has_many :uploads
     has_many :user_emails
@@ -103,8 +103,28 @@ class User < ApplicationRecord
       )
     end
 
-    def folders
-        Folder.where(id: self.permissions.where(permissible_type: "Folder").pluck(:permissible_id))
+    def accounts
+        account_ids = self.permissions.where(permissible_type: "Account").pluck(:permissible_id)
+        permissions.where(permissible_type: "Site").each do |s|
+            account_ids << s.permissible.account_id
+        end
+        Account.where(id: account_ids)
+    end
+
+    def folders(site)
+        site.folders.where(id: self.permissions.where(permissible_type: "Folder").pluck(:permissible_id))
+    end
+
+    def view_casts(folder)
+        folder.view_casts.where(id: self.permissions.where(permissible_type: "ViewCast").pluck(:permissible_id))
+    end
+
+    def streams(folder)
+        folder.streams.where(id: self.permissions.where(permissible_type: "Stream").pluck(:permissible_id))
+    end
+
+    def pages(folder)
+        folder.pages.where(id: self.permissions.where(permissible_type: "Page").pluck(:permissible_id))
     end
 
 

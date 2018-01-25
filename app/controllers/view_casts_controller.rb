@@ -1,7 +1,7 @@
 class ViewCastsController < ApplicationController
     before_action :authenticate_user!
-    before_action :sudo_can_see_all_view_casts, only: [:show, :edit, :update]
     before_action :set_view_cast, only: [:show, :edit, :destroy, :recreate, :update]
+    before_action :sudo_can_see_all_view_casts, only: [:show, :edit, :update]
 
     def new
         @new_image = Image.new
@@ -10,7 +10,7 @@ class ViewCastsController < ApplicationController
     def index
         @view_casts_count = @folder.view_casts.where.not(template_card_id: TemplateCard.to_story_cards_ids).count
         @streams_count = @folder.streams.count
-        @view_casts = @folder.view_casts.where.not(template_card_id: TemplateCard.to_story_cards_ids).order(updated_at: :desc).page(params[:page]).per(30)
+        @view_casts = @permission_role.can_see_all_view_casts ? @folder.view_casts.where.not(template_card_id: TemplateCard.to_story_cards_ids).order(updated_at: :desc).page(params[:page]).per(30) : current_user.view_casts(@folder).order(updated_at: :desc).page(params[:page]).per(30)
         @is_viewcasts_present = @view_casts.count != 0
     end
 

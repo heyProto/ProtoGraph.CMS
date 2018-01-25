@@ -20,7 +20,7 @@
                   <%= link_to a.trackable.name.titleize, [a.trackable.account, a.trackable.site, a.trackable] %>
                 <% elsif a.trackable.class.to_s == "ViewCast" %>
                   a card
-                  <%= link_to a.trackable.name.titleize, [a.trackable.account, a.trackable.site, a.trackable.folder, a.trackable] if a.trackable.present? and a.trackable.folder.present? %>
+                  <%= link_to a.trackable.name.titleize, [a.trackable.account, a.trackable.site, a.trackable.folder, a.trackable],"data-turbolinks" => "false" if a.trackable.present? and a.trackable.folder.present? %>
                 <% elsif a.trackable.class.to_s == "Stream" %>
                   a stream
                   <%= link_to a.trackable.title.titleize, [a.trackable.account, a.trackable.site, a.trackable.folder, a.trackable] %>

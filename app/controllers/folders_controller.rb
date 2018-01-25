@@ -5,9 +5,9 @@ class FoldersController < ApplicationController
 
   def show
       @view_casts_count = @folder.view_casts.where.not(template_card_id: TemplateCard.to_story_cards_ids).count
-      @view_casts = @folder.view_casts.where.not(template_card_id: TemplateCard.to_story_cards_ids).order(updated_at: :desc).page(params[:page]).per(30)
+      @view_casts = @permission_role.can_see_all_view_casts ? @folder.view_casts.where.not(template_card_id: TemplateCard.to_story_cards_ids).order(updated_at: :desc).page(params[:page]).per(30) : current_user.view_casts(@folder).order(updated_at: :desc).page(params[:page]).per(30)
       @is_viewcasts_present = @view_casts.count != 0
-      @activities = @account.activities.where(folder_id: @folder.id).order("updated_at DESC").limit(30)
+      @activities = [] # @account.activities.where(folder_id: @folder.id).order("updated_at DESC").limit(30) Need to update the logic for permission
       @page_count = @folder.pages.count
       @page = Page.new
       render layout: "application-fluid"
@@ -38,7 +38,7 @@ class FoldersController < ApplicationController
     @folder = @account.folders.new(folder_params)
     @folder.created_by = current_user.id
     @folder.updated_by = current_user.id
-    @stream.collaborator_lists << current_user.id if @permission_role == 'contributor'
+    @folder.collaborator_lists = ["#{current_user.id}"] if ["contributor", "writer"].include?(@permission_role.slug)
     if @folder.save
       track_activity(@folder)
       redirect_to account_site_folder_path(@account, @site, @folder), notice: t("cs")

@@ -41,19 +41,19 @@ class ApplicationController < ActionController::Base
   end
 
   def sudo_can_see_all_folders
-    if !@permission_role.can_see_all_folders and @folder.users.pluck(:user_id).uniq.include?(current_user.id)
+    if !@permission_role.can_see_all_folders and @folder.users.pluck(:user_id).uniq.exclude?(current_user.id)
       redirect_to account_site_path(@account, @site), notice: "Permission denied" and return
     end
   end
 
   def sudo_can_see_all_view_casts
-    if !@permission_role.can_see_all_view_casts and @view_cast.users.pluck(:user_id).uniq.include?(current_user.id)
+    if !@permission_role.can_see_all_view_casts and @view_cast.users.pluck(:user_id).uniq.exclude?(current_user.id)
       redirect_to account_site_path(@account, @site), notice: "Permission denied" and return
     end
   end
 
   def sudo_can_see_all_pages
-    if !@permission_role.can_see_all_pages and @page.users.pluck(:user_id).uniq.include?(current_user.id)
+    if !@permission_role.can_see_all_pages and @page.users.pluck(:user_id).uniq.exclude?(current_user.id)
       redirect_to account_site_path(@account, @site), notice: "Permission denied" and return
     end
   end

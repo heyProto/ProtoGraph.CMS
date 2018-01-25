@@ -7,7 +7,7 @@ class StreamsController < ApplicationController
         @stream = @folder.streams.new(stream_params)
         @stream.created_by = current_user.id
         @stream.updated_by = current_user.id
-        @stream.collaborator_lists << current_user.id if @permission_role == 'contributor'
+        @stream.collaborator_lists = ["#{current_user.id}"] if ["contributor", "writer"].include?(@permission_role.slug)
         if @stream.save
             track_activity(@stream)
             redirect_to account_site_folder_stream_path(@account, @site, @folder, @stream), notice: t('cs')
@@ -79,7 +79,7 @@ class StreamsController < ApplicationController
     private
 
     def stream_params
-        params.require(:stream).permit(:account_id, :folder_id, :title, :description, :created_by, :updated_by, :limit, :offset, :order_by_key, :order_by_value, :include_data, :order_by_type,card_list: [], folder_list: [], view_cast_id_list: [], excluded_view_cast_id_list: [])
+        params.require(:stream).permit(:account_id, :folder_id, :title, :description, :created_by, :updated_by, :limit, :offset, :order_by_key, :order_by_value, :include_data, :order_by_type,card_list: [], folder_list: [], view_cast_id_list: [], excluded_view_cast_id_list: [], collaborator_lists: [])
     end
 
     def set_stream
