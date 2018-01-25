@@ -20,14 +20,6 @@ class StaticPagesController < ApplicationController
   def features
   end
 
-  def totimeline
-    render layout: "three_column_grid"
-  end
-
-  def toquiz
-    render layout: "three_column_grid"
-  end
-
   def toexplain
     render layout: "three_column_grid"
   end
@@ -50,11 +42,11 @@ class StaticPagesController < ApplicationController
   def silenced
   end
 
-  def toquiz2
+  def toquiz
     render layout: "application-sites"
   end
 
-  def totimeline2
+  def totimeline
     render layout: "application-sites"
   end
 

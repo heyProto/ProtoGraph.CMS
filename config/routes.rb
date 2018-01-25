@@ -117,16 +117,14 @@ Rails.application.routes.draw do
   get "docs/cards/publishing", to: 'docs#cards_publishing', as: :docs_cards_publishing
   get "docs/streams", to: 'docs#streams', as: :docs_streams
 
-  get "cards/to-timeline", to: 'static_pages#totimeline', as: :totimeline
-  get "cards/to-quiz", to: 'static_pages#toquiz', as: :toquiz
   get "cards/to-explain", to: 'static_pages#toexplain', as: :toexplain
   get "prepare-articles", to: 'static_pages#preparearticle', as: :preparearticle
   get "pages/to-count", to: 'static_pages#tocounted', as: :tocounted
   get "pages/to-cover", to: 'static_pages#tocoverage', as: :tocoverage
   get "case-studies/mobbed", to: 'static_pages#mobbed', as: :mobbed
   get "case-studies/silenced", to: 'static_pages#silenced', as: :silenced
-  get "pages/toquiz2", to: 'static_pages#toquiz2', as: :toquiz2
-  get "pages/totimeline2", to: 'static_pages#totimeline2', as: :totimeline2
+  get "cards/to-quiz", to: 'static_pages#toquiz', as: :toquiz
+  get "cards/to-timeline", to: 'static_pages#totimeline', as: :totimeline
 
   get "features", to: 'static_pages#features', as: :features
   get '/auth/:provider/callback', to: 'authentications#create'
