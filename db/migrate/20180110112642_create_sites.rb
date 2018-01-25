@@ -25,7 +25,7 @@ class CreateSites < ActiveRecord::Migration[5.1]
           account_id: account.id,
           name: account.username,
           domain: account.domain
-      )}
+      })
     end
 
     # Adding Site Id
