@@ -17,12 +17,5 @@ class CreateRefCategoriesz < ActiveRecord::Migration[5.1]
       t.timestamps
     end
 
-    create_table :site_view_casts do |t|
-      t.integer :site_id
-      t.integer :view_cast_id
-
-      t.timestamps
-    end
-
   end
 end
