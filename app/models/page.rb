@@ -186,9 +186,14 @@ class Page < ApplicationRecord
 
   def push_json_to_s3
     site = self.site
-    streams =  Stream.where(col_name: 'Page', col_id: self.id).select(:id, :title, :datacast_identifier).map do |e|
-      h = e.as_json
-      h['url'] = "#{Datacast_ENDPOINT}/#{e.datacast_identifier}/index.json"
+    streams = self.page_streams.includes(:stream).map do |e|
+      k = e.stream.as_json
+      h = {}
+      h['id'] = k['id']
+      h['title'] = k['title']
+      h['datacast_identifier'] = k['datacast_identifier']
+      h['url'] = "#{Datacast_ENDPOINT}/#{k['datacast_identifier']}/index.json"
+      h['name_of_stream'] = e.name_of_stream
       h
     end
     json = {

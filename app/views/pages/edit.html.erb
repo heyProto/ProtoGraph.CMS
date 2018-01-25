@@ -50,7 +50,7 @@
                                 <% @page_streams.each do |ps| %>
                                     <div>
                                         <%= label_tag :name_of_stream, "#{ps.stream.title.split('_Section_').last}", class: "control-label optional" %> -
-                                        <%= best_in_place ps, :name_of_stream, url: [@account, @folder, ps] %>
+                                        <%= best_in_place ps, :name_of_stream, url: [@account, @site, @folder, ps] %>
                                     </div>
                                 <% end %>
                             <% end%>

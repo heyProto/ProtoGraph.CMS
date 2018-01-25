@@ -1,4 +1,4 @@
-class Pages::SectionWorker
+class Pages::ArticleWorker
   include Sidekiq::Worker
   sidekiq_options :backtrace => true
   # 4 269 9
@@ -11,14 +11,14 @@ class Pages::SectionWorker
 
     @streams_mapping = {}
     @streams.each do |s|
-      column = s['title'].split('_Section_').last;
+      column = s['title'].split('_Story_').last;
       @streams_mapping[column] = s
     end
 
-    section_template = File.read(Rails.root.join('app/views/pages/section.html.erb'))
-    renderer = ERB.new(section_template)
+    article_template = File.read(Rails.root.join('app/views/pages/article.html.erb'))
+    renderer = ERB.new(article_template)
     output = renderer.result()
-    key = "#{@page.datacast_identifier}/section.html"
+    key = "#{@page.datacast_identifier}/article.html"
     encoded_file = Base64.encode64(output)
     content_type = "text/html"
     resp = Api::ProtoGraph::Utility.upload_to_cdn(encoded_file, key, content_type)
