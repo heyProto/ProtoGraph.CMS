@@ -40,19 +40,13 @@ a.orange {
 }
 
 .ui.form .field>label{
-    font-weight: 400 !important;
+    font-weight: 200 !important;
     font-size: 0.81em !important;
     color: black !important;
 }
 
 .ui.menu.clear .item:before{
         width: 0px !important;
-}
-
-h5{
-    color: gray;
-    font-weight: 100 !important;
-    font-size: 12px;
 }
 
 p.ui.horizontal.divider.header{

@@ -4,14 +4,6 @@
             <h1  style="text-align: center">
               <%= @folder.name %>
             </h1>
-            <div class="dropdown" style='float: right; position: absolute;right: 1%; top: 0'>
-              <a class="dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Developer Tools
-              </a>
-              <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                <%= link_to "Streams <span class='badge badge-pill badge-secondary'>#{@streams_count}</span>".html_safe, account_folder_streams_path(@account, @folder), class: "dropdown-item" %>
-              </div>
-            </div>
         </div>
     </div>
     <div class='one-br-space'></div>
@@ -21,22 +13,23 @@
     <div class="card-deck">
       <div class="card">
         <div class="card-body">
-          <h4 class="card-title" style="text-align: center; font-weight: 400;"><%= link_to "Cards <span class='badge badge-pill badge-secondary'>#{@view_casts_count}</span>".html_safe, account_folder_view_casts_path(@account, @folder) %></h4>
+          <h4 class="card-title" style="text-align: center; font-weight: 400;"><%= link_to "Cards <span class='badge badge-pill badge-secondary'>#{@view_casts_count}</span>".html_safe, account_site_folder_view_casts_path(@account, @site, @folder) %></h4>
           <hr style="margin-left: 20px; margin-right: 20px;"/>
           <% unless @folder.is_trash %>
             <div style='text-align: center;'>
-              <%= link_to '+ Add a card', new_account_folder_view_cast_path(@account, @folder), data: {turbolinks: false}, class: "nav-link btn btn-sm btn-primary", style: "margin-top: 5px;" %>
+              <%= link_to '+ Add a card', new_account_site_folder_view_cast_path(@account, @site, @folder), data: {turbolinks: false}, class: "nav-link btn btn-sm btn-primary", style: "margin-top: 5px;" %>
             </div>
           <% end %>
         </div>
       </div>
       <div class="card">
         <div class="card-body">
-          <h4 class="card-title" style="text-align: center; font-weight: 400;"><%= link_to "Prepare articles <span class='badge badge-pill badge-secondary'>#{@articles_count}</span>".html_safe, account_folder_articles_path(@account, @folder) %></h4>
-          <hr style="margin-left: 20px; margin-right: 20px;"/>
+          <h4 class="card-title" style="text-align: center; font-weight: 400;">
+            <%= link_to "Pages <span class='badge badge-pill badge-secondary'>#{@page_count}</span>".html_safe, account_site_folder_pages_path(@account, @site, @folder) %></h4>
+          <hr style="margin-left: 20px; margin-right: 20px;" />
           <% unless @folder.is_trash %>
             <div style='text-align: center;'>
-              <%= link_to '+ Prepare an article', new_account_folder_article_path(@account, @folder), data: {turbolinks: false}, class: "nav-link btn btn-sm btn-primary", style: "margin-top: 5px;" %>
+              <%= link_to '+ Add a page', new_account_site_folder_page_path(@account, @site, @folder), data: {turbolinks: false}, class: "nav-link btn btn-sm btn-primary", style: "margin-top: 5px;" %>
             </div>
           <% end %>
         </div>

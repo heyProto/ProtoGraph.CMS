@@ -1,7 +1,6 @@
 /*
  *= require ./vendors/jquery.justified.css
  */
-
 .photo-container:hover .photograph-image-details {
   display: block;
 }

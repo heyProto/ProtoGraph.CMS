@@ -32,9 +32,12 @@
             <tbody>
                 <% @streams.each do |stream| %>
                 <tr>
-                    <td style="width: 10%;"><%= image_tag avatar_url(stream.updator.email), width: "20px" %>
+                    <td style="width: 10%;">
+                        <% if stream.updator.present? %>
+                            <%= image_tag avatar_url(stream.updator.email), width: "20px" %>
+                        <% end %>
                     </td>
-                    <td><%= link_to stream.title.titleize, [@account, @folder, stream] %>
+                    <td><%= link_to stream.title, [@account, @site, @folder, stream] %>
                     </td>
                     <td><p class="hint"><%= "#{stream.card_count} <span class='hint'>#{'card'.pluralize(stream.card_count)}</span>".html_safe %></p>
                     </td>

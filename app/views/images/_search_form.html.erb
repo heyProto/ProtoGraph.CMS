@@ -1,17 +1,12 @@
 <%= search_form_for @q, url: account_images_path(@account), class: "form-group" do |f| %>
   <div class="form-group">
-    <%= f.label :name_cont, class: "sr-only control-label" %>
-    <%= f.search_field :name_cont, class: "form-control form-control-sm", placeholder: "Name" %>
+    <% f.label :name_cont, class: "sr-only control-label" %>
+    <% f.search_field :name_cont, class: "form-control form-control-sm", placeholder: "Name" %>
   </div>
 
   <div class="form-group">
-    <%= f.label :search_by_description, class: "sr-only control-label" %>
-    <%= f.search_field :description_cont, class: "form-control form-control-sm", placeholder: "Description" %>
-  </div>
-
-  <div class="form-group">
-    <%= f.label :search_by_tags, class: "sr-only control-label" %>
-    <%= f.search_field :tags_name_cont, class: "form-control form-control-sm", placeholder: "Tags" %>
+    <% f.label :search_by_description, class: "sr-only control-label" %>
+    <% f.search_field :description_cont, class: "form-control form-control-sm", placeholder: "Description" %>
   </div>
 
   <div class="form-group">
@@ -24,7 +19,7 @@
   <input type="hidden" id="color_hex">
 
   <div class="form-group">
-    <%= f.submit :search, class: "btn btn-outline" %>
+    <%= f.submit "Search", class: "btn btn-light" %>
   </div>
 <% end %>
 

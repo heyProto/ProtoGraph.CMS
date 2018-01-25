@@ -6,8 +6,16 @@ class Api::V1::DatacastsController < ApiController
         payload["source"]  = params[:source] || "form"
         view_cast = @folder.view_casts.new(view_cast_params)
         view_cast.account_id = @account.id
+        view_cast.site_id = @site.id
         view_cast.created_by = @user.id
         view_cast.updated_by = @user.id
+        view_cast.collaborator_lists = ["#{current_user.id}"] if ["contributor", "writer"].include?(@permission_role.slug)
+        if view_cast.template_card.name == 'toStory'
+            view_cast.by_line = datacast_params['data']["by_line"]
+            view_cast.genre = datacast_params['data']["genre"]
+            view_cast.sub_genre = datacast_params['data']["subgenre"]
+            view_cast.series = datacast_params['data']["series"]
+        end
         if view_cast.save
             track_activity(view_cast)
             payload["api_slug"] = view_cast.datacast_identifier
@@ -17,7 +25,7 @@ class Api::V1::DatacastsController < ApiController
                 view_cast.destroy
                 render json: {error_message: r['errorMessage']}, status: 422
             else
-                render json: {view_cast: view_cast.as_json(methods: [:remote_urls]), redirect_path: account_folder_view_cast_url(@account, @folder, view_cast) }, status: 200
+                render json: {view_cast: view_cast.as_json(methods: [:remote_urls]), redirect_path: account_site_folder_view_cast_url(@account, @site, @folder, view_cast) }, status: 200
             end
 
         else
@@ -32,6 +40,12 @@ class Api::V1::DatacastsController < ApiController
         payload["source"]  = "form"
         payload["api_slug"] = view_cast.datacast_identifier
         payload["schema_url"] = view_cast.template_datum.schema_json
+        if view_cast.template_card.name == 'toStory'
+            view_cast.by_line = datacast_params['data']["by_line"]
+            view_cast.genre = datacast_params['data']["genre"]
+            view_cast.sub_genre = datacast_params['data']["subgenre"]
+            view_cast.series = datacast_params['data']["series"]
+        end
         r = Api::ProtoGraph::Datacast.update(payload)
         if r.has_key?("errorMessage")
             render json: {error_message: r['errorMessage']}, status: 422
@@ -41,11 +55,11 @@ class Api::V1::DatacastsController < ApiController
             updating_params[:is_invalidating] = true
             view_cast.update_attributes(updating_params)
             track_activity(view_cast)
-            if @account.cdn_id != ENV['AWS_CDN_ID']
-                Api::ProtoGraph::CloudFront.invalidate(@account, ["/#{view_cast.datacast_identifier}/data.json","/#{view_cast.datacast_identifier}/view_cast.json"], 2)
+            if @site.cdn_id != ENV['AWS_CDN_ID']
+                Api::ProtoGraph::CloudFront.invalidate(@site, ["/#{view_cast.datacast_identifier}/data.json","/#{view_cast.datacast_identifier}/view_cast.json"], 2)
             end
             Api::ProtoGraph::CloudFront.invalidate(nil, ["/#{view_cast.datacast_identifier}/*"], 1)
-            render json: {view_cast: view_cast.as_json(methods: [:remote_urls]), redirect_path: account_folder_view_cast_url(@account, @folder, view_cast) }, status: 200
+            render json: {view_cast: view_cast.as_json(methods: [:remote_urls]), redirect_path: account_site_folder_view_cast_url(@account, @site, @folder, view_cast) }, status: 200
         end
     end
 

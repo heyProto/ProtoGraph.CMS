@@ -1,14 +1,11 @@
-<%= content_for :proto_container_col_sm_9_content_col do %>
-      <div class="row">
-            <%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
-                  <%= f.error_notification %>
 
-                  <%= f.input :name, autofocus: true, required: true, placeholder: "What your friends call you?" %>
-                  <%= f.input :username, required: true, placeholder: "What is your twitter username?", hint: "Choose wisely. You cannot change it later. Only alphanumeric characters are allowed."  %>
-                  <%= f.input :email, required: true %>
-                  <%= f.input :password, required: true, autocomplete: "off", required: true, placeholder: "6 characters minimum." %>
-                  <%= f.input :password_confirmation, autocomplete: "off", required: true %>
-                  <%= f.button :submit, value: "Sign up", class: 'btn btn-primary' %>
-            <% end %>
-      </div>
-<% end %>
+    <div class="row sign-up-area">
+        <%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+            <%= f.error_notification %>
+            <%= f.input :name, autofocus: true, required: true, placeholder: "What your friends call you?" %>
+            <%= f.input :email, required: true %>
+            <%= f.input :password, required: true, autocomplete: "off", required: true, placeholder: "6 characters minimum." %>
+            <%= f.input :password_confirmation, autocomplete: "off", required: true %>
+            <%= f.button :submit, value: "Sign up", class: 'btn btn-primary' %>
+        <% end %>
+    </div>

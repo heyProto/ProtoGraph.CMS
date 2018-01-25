@@ -2,8 +2,7 @@
     <nav class="navbar navbar-expand-lg navbar bg-light">
         <div class="container proto-container" style="padding-left: 0px;">
             <a class="navbar-brand" href=<%= root_url %>>
-              <%=  image_tag("icfj.png", style: "height: 25px; margin-top: 0px;", class: "d-inline-block align-top rounded") %>
-              <%=  image_tag("proto-logo.png", style: "height: 25px; margin-top: 0px;", class: "d-inline-block align-top") %>
+              <%=  image_tag("proto-logo.png", style: "margin-top: 7px;", class: "d-inline-block align-top") %>
             </a>
         </div>
     </nav>
@@ -11,12 +10,11 @@
     <% if @on_an_account_page %>
       <nav class="navbar navbar-expand-lg navbar bg-light">
         <div class="bootstrap-container container" style="padding-left: 0px;">
-          <a class="navbar-brand" href=<%= account_path(@account) %>>
-            <%=  image_tag("icfj.png", style: "height: 25px; margin-top: 0px;", class: "d-inline-block align-top rounded") %>
-            <%=  image_tag("proto-logo.png", style: "height: 25px; margin-top: 0px;", class: "d-inline-block align-top") %>
+          <a class="navbar-brand" href=<%= account_site_path(@account, @site) %>>
+            <%=  image_tag("proto-logo.png", style: "margin-top: 7px;", class: "d-inline-block align-top") %>
           </a>
             <ul class="navbar-nav mr-auto" style="margin-left: 0px !important; margin-right: auto;">
-              <% unless is_admins_controller %>
+              <% if !is_admins_controller or (controller_name != 'accounts' and ['new','create'].include?(action_name)) %>
                 <%= render partial: "layouts/dropdown_teams" %>
               <% end %>
               <% if @folder.present? and @folder.id.present? %>
@@ -24,65 +22,70 @@
                   <a class="nav-link">/</a>
                 </li>
                 <li class="nav-item">
-                  <%= link_to @folder.name, account_folder_path(@account, @folder), class: "nav-link" %>
+                  <%= link_to @folder.name, account_site_folder_path(@account, @site, @folder), class: "nav-link" %>
                 </li>
                 <% if controller_name == "streams" %>
                   <li class="nav-item"><a class="nav-link">/</a></li>
-                  <li class="nav-item"><%= link_to "Streams", account_folder_streams_path(@account, @folder), class: "nav-link"%></li>
+                  <li class="nav-item"><%= link_to "Streams", account_site_folder_streams_path(@account, @site, @folder), class: "nav-link"%></li>
                 <% elsif controller_name == "view_casts" %>
                   <li class="nav-item"><a class="nav-link">/</a></li>
-                  <li class="nav-item"><%= link_to "Cards", account_folder_view_casts_path(@account, @folder), class: "nav-link"%></li>
-                <% elsif controller_name == "articles" %>
-                  <li class="nav-item"><a class="nav-link">/</a></li>
-                  <li class="nav-item"><%= link_to "Prepare articles", account_folder_articles_path(@account, @folder), class: "nav-link"%></li>
+                  <li class="nav-item"><%= link_to "Cards", account_site_folder_view_casts_path(@account, @site, @folder), class: "nav-link"%></li>
                 <% end %>
               <% end %>
             </ul>
             <ul class="navbar-nav ml-auto">
                   <% if @folder.present? and @folder.id.present? and !@folder.is_trash %>
                       <% if controller_name == "view_casts" and action_name != "new" %>
-                        <li class="nav-item"><%= link_to '+ Add a card', new_account_folder_view_cast_path(@account, @folder), data: {turbolinks: false}, class: "nav-link btn btn-sm btn-primary", style: "margin-top: 5px;" %></li>
+                        <li class="nav-item"><%= link_to '+ Add a card', new_account_site_folder_view_cast_path(@account, @site, @folder), data: {turbolinks: false}, class: "nav-link btn btn-sm btn-primary", style: "margin-top: 5px;" %></li>
                       <% elsif controller_name == "streams" and action_name != "new"  %>
-                        <li class="nav-item"><%= link_to '+ Add a stream', new_account_folder_stream_path(@account, @folder), data: {turbolinks: false}, class: "nav-link btn btn-sm btn-primary", style: "margin-top: 5px;" %></li>
-                      <% elsif controller_name == "articles" and action_name != "new"  %>
-                        <li class="nav-item"><%= link_to '+ Prepare an article', new_account_folder_article_path(@account, @folder), data: {turbolinks: false}, class: "nav-link btn btn-sm btn-primary", style: "margin-top: 5px;" %></li>
+                        <li class="nav-item"><%= link_to '+ Add a stream', new_account_site_folder_stream_path(@account, @site, @folder), data: {turbolinks: false}, class: "nav-link btn btn-sm btn-primary", style: "margin-top: 5px;" %></li>
+                      <% elsif controller_name == "pages" and action_name != "new"  %>
+                        <li class="nav-item">
+                          <%= link_to '+ Add a page', new_account_site_folder_page_path(@account, @site, @folder), data: {turbolinks: false}, class: "nav-link btn btn-sm btn-primary", style: "margin-top: 5px;" %>
+                        </li>
                       <% end %>
-
-                  <% elsif controller_name == "images" and action_name != "new"  %>
-                      <li class="nav-item"><%= link_to '+ Upload an image', "#", class: "nav-link btn btn-sm btn-primary",style: "margin-top: 5px;", "data-toggle" => "modal", "data-target" => "#fileUploadModal" %></li>
-                      <%= render partial: "images/form" %>
 
                   <% elsif controller_name == "audios" and action_name != "new"  %>
                       <li class="nav-item"><%= link_to '+ Upload an audio', "#", class: "nav-link btn btn-sm btn-primary",style: "margin-top: 5px;", "data-toggle" => "modal", "data-target" => "#fileUploadModal" %></li>
                       <%= render partial: "audios/form" %>
-
                   <% end %>
-                  <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                      <% if @account.logo_image_id.present? %>
-                        <%= image_tag(@account.logo_image.original_image.image_url, class: "rounded", style: "width: 20px;", alt: @account.username) %>
-                      <% else %>
-                        <%= image_tag("account.png", class: "rounded", style: "width: 20px;", alt: @account.username) %>
-                      <% end %>
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                      <% if controller_name == "folders" and @folder.id.present? and current_user.is_admin_from_pykih %>
-                        <%= link_to "Add multiple cards", account_folder_uploads_path(@account, @folder), "data-turbolinks"=> false, class: "dropdown-item" %>
-                      <% end %>
-                      <%= link_to "Image Bank", account_images_path(@account), "data-turbolinks"=> false, class: "dropdown-item"  %>
-                      <%= link_to "Audio Bank", account_audios_path(@account), "data-turbolinks"=> false, class: "dropdown-item"  %>
-                      <%= link_to "Team Settings", edit_account_path(@account), class: "dropdown-item" %>
-                    </div>
-                  </li>
+                  <% if @site.present? %>
+                    <li class="nav-item dropdown">
+                      <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Site: <%= @site.name %>
+                      </a>
+                      <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                        <% if controller_name == "folders" and @folder.id.present? and current_user.is_admin_from_pykih %>
+                          <%= link_to "Add multiple cards", account_site_folder_uploads_path(@account, @site, @folder), "data-turbolinks"=> false, class: "dropdown-item" %>
+                        <% end %>
+                        <%= link_to "Settings", edit_account_site_path(@account, @site), "data-turbolinks"=> false, class: "dropdown-item"  %>
+                        <%= link_to 'People', account_site_permission_invites_path(@account, @site), class: "dropdown-item" %>
+                        <%= link_to 'Categories', series_account_site_path(@account, @site), class: "dropdown-item" %>
+                      </div>
+                    </li>
+                  <% end %>
+
                   <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                       <%= image_tag avatar_url(current_user.email), class: "rounded", style: "width: 20px;" %>
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                      <% if current_user.is_admin_from_pykih %>
-                        <%= link_to 'Online users', admin_online_users_path, class: "dropdown-item" %>
+                      <h6 class="dropdown-header" style="font-size: 11px;">Account: <%= @account.username %></h6>
+                      <%= link_to "Settings", edit_account_path(@account), "data-turbolinks"=> false, class: "dropdown-item" %>
+                      <%= link_to "Image Bank", account_images_path(@account), "data-turbolinks"=> false, class: "dropdown-item"  %>
+                      <% if 1 == 2 %>
+                          <%= link_to "Audio Bank", account_audios_path(@account), "data-turbolinks"=> false, class: "dropdown-item"  %>
                       <% end %>
-                      <%= link_to 'Settings', edit_user_registration_path(@account), class: "dropdown-item" %>
+                      <div class="dropdown-divider"></div>
+                      <h6 class="dropdown-header" style="font-size: 11px;">Me</h6>
+                      <% if current_user.is_admin_from_pykih %>
+                        <%= link_to 'Online users', admin_online_users_path, class: "dropdown-item", style: "color: gold;" %>
+                      <% end %>
+                      <% if current_user.can_publish_link_sources %>
+                          <%= link_to "Ref: Publishers", ref_link_sources_path, class: "dropdown-item", style: "color: gold;" %>
+                      <% end %>
+                      <%= link_to 'Profile', edit_user_path(current_user), class: "dropdown-item" %>
+                      <%= link_to 'Settings', edit_user_registration_path, class: "dropdown-item" %>
                       <%= link_to "Sign out", destroy_user_session_path, class: "dropdown-item" %>
                     </div>
                   </li>
@@ -94,10 +97,10 @@
       <nav class="navbar navbar-expand-lg navbar bg-light">
         <div class="container" style="padding-left: 0px;">
           <a class="navbar-brand" href=<%= root_url %>>
-            <%=  image_tag("_logo.png", style: "width: 30px;", class: "d-inline-block align-top") %>
+            <%=  image_tag("proto-logo.png", style: "margin-top: 7px;", class: "d-inline-block align-top") %>
           </a>
             <ul class="navbar-nav mr-auto" style="margin-left: 0px !important; margin-right: auto;">
-              <% unless is_admins_controller %>
+              <%  if !is_admins_controller and (controller_name != 'accounts' and ['new','create'].include?(action_name))  %>
                 <%= render partial: "layouts/dropdown_teams" %>
               <% end %>
             </ul>
@@ -108,9 +111,13 @@
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                   <% if current_user.is_admin_from_pykih %>
-                    <%= link_to 'Online users', admin_online_users_path, class: "dropdown-item" %>
+                    <%= link_to 'Online users', admin_online_users_path, class: "dropdown-item", class: "dropdown-item", style: "color: gold;" %>
                   <% end %>
-                  <%= link_to 'Profile', edit_user_registration_path(@account), class: "dropdown-item" %>
+                  <% if current_user.can_publish_link_sources %>
+                      <%= link_to "Ref: Publishers", ref_link_sources_path, class: "dropdown-item", class: "dropdown-item", style: "color: gold;" %>
+                  <% end %>
+                  <%= link_to 'Profile', edit_user_path(current_user), class: "dropdown-item" %>
+                  <%= link_to 'Settings', edit_user_registration_path, class: "dropdown-item" %>
                   <%= link_to "Sign out", destroy_user_session_path, class: "dropdown-item" %>
                 </div>
               </li>

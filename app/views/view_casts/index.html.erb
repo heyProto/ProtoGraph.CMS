@@ -14,7 +14,7 @@
     <div class="row">
       <% @view_casts.each do |d| %>
       <div class="col-sm-4">
-        <%= link_to (d.article.present? ? edit_account_folder_article_path(@account, @folder, d.article) : [@account, @folder,d]), "data-turbolinks"=> false do %>
+        <%= link_to [@account, @site,  @folder,d], "data-turbolinks"=> false do %>
         <div class="card" style="margin: 20px 0px; ">
 
           <div class="card-footer">
@@ -26,12 +26,6 @@
               &nbsp;&nbsp;
               <%= d.template_card.name %>  |  <%= time_ago_in_words(d.updated_at) %>
             </small>
-            <% page_views = d.piwik_metrics.page_views %>
-            <% if page_views.present? %>
-              <%= image_tag "eye.png", class: 'protograph-eye', "data-toggle" => "tooltip", "data-placement"=>"top", "title" =>"Page Views: #{page_views.piwik_metric_value}" %>
-            <% else %>
-              <%= image_tag "eye.png", class: 'protograph-eye disabled-eye' %>
-            <% end %>
           </div>
         </div>
         <% end %>

@@ -4,11 +4,10 @@ class ImagesController < ApplicationController
 
   def index
     @q = @account.images.ransack(params[:q])
-    @tags = Tag.all
     if params[:q].present?
-      @images = @q.result(distinct: true).order(:created_at).page params[:page]
+      @images = @q.result(distinct: true).order("created_at desc").page params[:page]
     else
-      @images = @account.images.order(:created_at).page params[:page]
+      @images = @account.images.order("created_at desc").page params[:page]
     end
     @new_image = Image.new
     render layout: "application-fluid"
@@ -16,11 +15,6 @@ class ImagesController < ApplicationController
 
   def create
     options = image_params
-    # tag_list = params["image"]["tag_list"].reject { |c| c.empty? }
-
-    # if tag_list.present?
-    #   options[:tag_list] = tag_list
-    # end
     options[:created_by] = current_user.id
     @image = Image.new(options)
 
@@ -37,7 +31,6 @@ class ImagesController < ApplicationController
   end
 
   def show
-    @tags = Tag.all
     @new_image = Image.new
     @image_variation = ImageVariation.new
     render layout: "application-fluid"
@@ -51,6 +44,6 @@ class ImagesController < ApplicationController
   end
 
   def image_params
-    params.require(:image).permit(:account_id, :image, :name, :description, :tags_list, :crop_x, :crop_y, :crop_w, :crop_h, :dominant_colour, :colour_palette)
+    params.require(:image).permit(:account_id, :image, :name, :description, :crop_x, :crop_y, :crop_w, :crop_h, :dominant_colour, :colour_palette)
   end
 end

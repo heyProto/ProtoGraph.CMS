@@ -2,25 +2,29 @@
 #
 # Table name: view_casts
 #
-#  id                    :integer          not null, primary key
-#  account_id            :integer
-#  datacast_identifier   :string(255)
-#  template_card_id      :integer
-#  template_datum_id     :integer
-#  name                  :string(255)
-#  optionalConfigJSON    :text(65535)
-#  slug                  :string(255)
-#  created_by            :integer
-#  updated_by            :integer
-#  created_at            :datetime         not null
-#  updated_at            :datetime         not null
-#  seo_blockquote        :text(65535)
-#  render_screenshot_key :text(65535)
-#  status                :text(65535)
-#  folder_id             :integer
-#  is_invalidating       :boolean
-#  default_view          :string(255)
-#  article_id            :integer
+#  id                  :integer          not null, primary key
+#  account_id          :integer
+#  datacast_identifier :string(255)
+#  template_card_id    :integer
+#  template_datum_id   :integer
+#  name                :string(255)
+#  optionalConfigJSON  :text(65535)
+#  slug                :string(255)
+#  created_by          :integer
+#  updated_by          :integer
+#  created_at          :datetime         not null
+#  updated_at          :datetime         not null
+#  seo_blockquote      :text(65535)
+#  status              :text(65535)
+#  folder_id           :integer
+#  is_invalidating     :boolean
+#  default_view        :string(255)
+#  genre               :string(255)
+#  sub_genre           :string(255)
+#  series              :string(255)
+#  by_line             :string(255)
+#  site_id             :integer
+#  is_open             :boolean
 #
 
 class ViewCast < ApplicationRecord
@@ -36,12 +40,13 @@ class ViewCast < ApplicationRecord
     belongs_to :folder
     belongs_to :template_datum
     belongs_to :template_card
+    belongs_to :site
     belongs_to :creator, class_name: "User", foreign_key: "created_by"
     belongs_to :updator, class_name: "User", foreign_key: "updated_by"
-    has_many :piwik_metrics, class_name: "PiwikMetric", primary_key: "datacast_identifier", foreign_key: "datacast_identifier"
-    has_one :article
+    has_many :permissions, ->{where(status: "Active", permissible_type: 'ViewCast')}, foreign_key: "permissible_id", dependent: :destroy
+    has_many :users, through: :permissions
     #ACCESSORS
-    attr_accessor :dataJSON, :schemaJSON, :stop_callback, :redirect_url
+    attr_accessor :dataJSON, :schemaJSON, :stop_callback, :redirect_url, :collaborator_lists
     #VALIDATIONS
     validates :slug, uniqueness: true
     validates :folder_id, presence: true
@@ -76,69 +81,6 @@ class ViewCast < ApplicationRecord
         "#{Datacast_ENDPOINT}/#{self.datacast_identifier}/view_cast.json"
     end
 
-    def remove_file
-        Api::ProtoGraph::Utility.remove_from_cdn(self.cdn_url)
-    end
-
-    def social_urls(account)
-        {
-            "twitter": "#{account.cdn_endpoint}/#{self.datacast_identifier}/#{self.id}_twitter.png",
-            "facebook": "#{account.cdn_endpoint}/#{self.datacast_identifier}/#{self.id}_facebook.png",
-            "instagram": "#{account.cdn_endpoint}/#{self.datacast_identifier}/#{self.id}_instagram.png"
-        }
-    end
-
-    def render_screenshot_url(default=false)
-        self.render_screenshot_key.present?  ? "#{default ? ENV['AWS_S3_ENDPOINT'] : self.account.cdn_endpoint}/#{self.render_screenshot_key}" : nil
-    end
-
-
-    def save_png(mode="")
-        payload = {}
-        key = "#{self.datacast_identifier}/#{self.id}#{ mode.present? ? "_#{mode}" : ""}.png"
-        template_card = self.template_card
-        files = template_card.files
-        payload["js"] = files[:js] + "?no-cache=true"
-        payload["css"] = files[:css] + "?no-cache=true"
-        payload["data_url"] = self.data_url
-        payload["schema_json"] = self.schema_json
-        payload["configuration_url"] = self.cdn_url
-        payload["configuration_schema"] = files[:configuration_schema]
-        payload["initializer"] = template_card.git_repo_name
-        payload["key"] = key
-        payload["mode"] = mode.blank? ? 'screenshot' : mode
-
-        response = Api::ProtoGraph::ViewCast.render_screenshot(payload)
-        if response['message'].present? and response['message'] == "Data Added Successfully"
-            if mode.blank?
-                self.update_columns(render_screenshot_key: key, updated_at: Time.now)
-            else
-                status_obj = JSON.parse(self.status)
-                status_obj[mode] = "success"
-                self.update_columns(status: status_obj.to_json, updated_at: Time.now)
-            end
-            if self.account.cdn_id != ENV['AWS_CDN_ID']
-                Api::ProtoGraph::CloudFront.invalidate(self.account, ["/#{key}"], 1)
-            end
-            Api::ProtoGraph::CloudFront.invalidate(nil, ["/#{key}"], 1)
-
-        else
-            if mode.present?
-                status_obj = JSON.parse(self.status)
-                status_obj[mode] = false
-                self.update_columns(status: status_obj.to_json, updated_at: Time.now)
-            end
-        end
-    end
-
-    class << self
-        def create_missing_images
-            ViewCast.where(render_screenshot_key: nil).each do |view_cast|
-                view_cast.save_png
-            end
-        end
-    end
-
     def should_generate_new_friendly_id?
         name_changed?
     end
@@ -165,12 +107,16 @@ class ViewCast < ApplicationRecord
     end
 
     def after_save_set
-        if self.saved_changes? and !self.stop_callback
-            Thread.new do
-                sleep 1
-                self.save_png
-                ActiveRecord::Base.connection.close
+        # Update the streams
+        # StreamUpdateWorker.perform_async(self.id)
+        if self.collaborator_lists.present?
+            self.collaborator_lists = self.collaborator_lists.reject(&:empty?)
+            prev_collaborator_ids = self.permissions.pluck(:user_id)
+            self.collaborator_lists.each do |c|
+                user = User.find(c)
+                a = user.create_permission("ViewCast", self.id, "contributor")
             end
+            self.permissions.where(permissible_id: (prev_collaborator_ids - self.collaborator_lists.map{|a| a.to_i})).update_all(status: 'Deactivated')
         end
     end
 

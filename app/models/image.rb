@@ -19,6 +19,7 @@
 #  created_at       :datetime         not null
 #  updated_at       :datetime         not null
 #  is_logo          :boolean          default(FALSE)
+#  is_favicon       :boolean          default(FALSE)
 #
 
 class Image < ApplicationRecord
@@ -26,33 +27,38 @@ class Image < ApplicationRecord
   #CUSTOM TABLES
   #GEMS
 
-  acts_as_taggable
   paginates_per 100
   #ASSOCIATIONS
   belongs_to :account
-  has_many :image_variation, -> {where.not(is_original: true)}
-  has_one :original_image, -> {where(is_original: true)}, class_name: "ImageVariation", foreign_key: "image_id"
+  has_many :image_variation, -> {where.not(is_original: true)}, dependent: :destroy
+  has_one :original_image, -> {where(is_original: true)}, class_name: "ImageVariation", foreign_key: "image_id", dependent: :destroy
   has_many :activities
   has_many :colour_swatches, dependent: :destroy
   #ACCESSORS
-  attr_accessor :tags_list, :crop_x, :crop_y, :crop_w, :crop_h
+  attr_accessor :crop_x, :crop_y, :crop_w, :crop_h
   mount_uploader :image, ImageUploader
   attr_accessor :dominant_colour
   attr_accessor :colour_palette
   #VALIDATIONS
-  validate :check_dimensions, :on => :create, if: :is_logo?
+  validate :check_dimensions_for_logo, :on => :create, if: :is_logo?
+  validate :check_dimensions_for_favicon, :on => :create, if: :is_favicon?
   #CALLBACKS
   before_create { self.s3_identifier = SecureRandom.hex(8) }
   after_create :create_image_version
-  after_create :add_tags
 
   after_commit :add_colour_swatches, on: :create
   #SCOPE
   #OTHER
 
-  def check_dimensions
-    if !image_cache.nil? and image.height > 100 and ((image.height / image.width) == 400)
-      errors.add :image, "Logo has to a square and the minimum height should be 100."
+  def check_dimensions_for_logo
+    if !image_cache.nil? and image.height > 50 and ((image.height / image.width) != 1)
+      errors.add :image, "Logo has to a square and the minimum height should be 50."
+    end
+  end
+
+  def check_dimensions_for_favicon
+    if !image_cache.nil? and image.height < 100 and (image.height / image.width != 1)
+      errors.add :image, "Favicon can be square and the maximum height should be 100."
     end
   end
 
@@ -99,10 +105,6 @@ class Image < ApplicationRecord
                                         name: colour_name)
           end
       end
-  end
-
-  def add_tags
-    self.tag_list.add(self.tags_list, parse: true) if not self.tags_list.nil?
   end
 
   #PRIVATE

@@ -27,11 +27,6 @@
         <i class="copy icon"></i>
       </button>
     </div>
-    <div class="one-br-space"></div>
-    <% if @image.tag_list.present? %>
-      <h5 class="ui header protograph-image-form-heading">Tags</h5>
-      <div><%= @image.tag_list.join(', ') %></div>
-    <% end %>
   </div>
   <div class="ten wide column" style="background: #fafafa; max-height: 600px; overflow: auto;">
     <img class="ui centered image" src="<%= @image.original_image.image_url %>" style="height: 350px;">

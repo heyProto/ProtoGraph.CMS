@@ -11,73 +11,31 @@
         <a class="navbar-brand" href="#">Quick crop:</a>
         <div class="collapse navbar-collapse" id="navbarNav">
           <ul class="navbar-nav">
-            <% if controller_name == "articles" %>
-              <% if @article.og_image_variation_id.present? %>
-                <li class="nav-item item disabled" data-width="2" data-height="1">
-                  <a class="nav-link disabled" href="#">
-                    Facebook Image
-                  </a>
-                </li>
-              <% else %>
-                <li class="nav-item item" id='facebook' data-width="2" data-height="1">
-                  <a class="nav-link" data-width="2" data-height="1">
-                    Facebook Image
-                  </a>
-                </li>
-              <% end %>
-              <% if  @article.twitter_image_variation_id.present? %>
-                <li class="nav-item item disabled" id='facebook' data-width="2" data-height="1">
-                  <a class="nav-link disabled" href="#">
-                    Twitter Image
-                  </a>
-                </li>
-              <% else %>
-                <li class="nav-item item" id='twitter' data-width="2" data-height="1">
-                  <a class="nav-link" %>
-                    Twitter Image
-                  </a>
-                </li>
-              <% end %>
-              <% if @article.instagram_image_variation_id.present? %>
-                <li class="nav-item disabled" id='instagram' data-width="2" data-height="1">
-                  <a class="nav-link disabled" href="#">
-                    Instagram Image
-                  </a>
-                </li>
-              <% else %>
-                <li class="nav-item item" id='instagram'  data-width="1" data-height="1">
-                  <a class="nav-link" %>
-                    Instagram Image
-                  </a>
-                </li>
-              <% end %>
-            <% else %>
-              <li class="nav-item item active" data-width="0" data-height="0">
-                <a class="nav-link" href='#'>
-                  Free selection
-                </a>
-              </li>
-              <li class="nav-item item" data-width="2" data-height="3">
-                <a class="nav-link" href='#'>
-                  2:3 (Quiz Cover Image)
-                </a>
-              </li>
-              <li class="nav-item item" data-width="2" data-height="1">
-                <a class="nav-link" href='#'>
-                  2:1 (Quiz Answer Image)
-                </a>
-              </li>
-              <li class="nav-item item" data-width="1" data-height="1">
-                <a class="nav-link" href='#'>
-                  1:1 (Timeline Event Image)
-                </a>
-              </li>
-              <li class="nav-item item" data-width="0" data-height="0" data-crop-type="smart">
-                <a class="nav-link" href='#'>
-                  Smart Crop
-                </a>
-              </li>
-            <% end %>
+            <li class="nav-item item active" data-width="0" data-height="0">
+              <a class="nav-link" href='#'>
+                Free selection
+              </a>
+            </li>
+            <li class="nav-item item" data-width="2" data-height="3">
+              <a class="nav-link" href='#'>
+                2:3 (Quiz Cover Image)
+              </a>
+            </li>
+            <li class="nav-item item" data-width="2" data-height="1">
+              <a class="nav-link" href='#'>
+                2:1 (Quiz Answer Image)
+              </a>
+            </li>
+            <li class="nav-item item" data-width="1" data-height="1">
+              <a class="nav-link" href='#'>
+                1:1 (Timeline Event Image)
+              </a>
+            </li>
+            <li class="nav-item item" data-width="0" data-height="0" data-crop-type="smart">
+              <a class="nav-link" href='#'>
+                Smart Crop
+              </a>
+            </li>
           </ul>
         </div>
       </nav>
@@ -89,10 +47,6 @@
         <% end %>
         <%= f.input :mode, as: :hidden, input_html: {value: mode.present? ? mode : nil} %>
         <%= f.input :is_smart_cropped, as: :hidden %>
-        <% if @article.present? and @article.id.present? %>
-          <%= f.input :article_id, as: :hidden,input_html: {value: @article.id } %>
-          <input type='hidden' name='redirect_url' value="<%= edit_account_folder_article_path(@account, @folder, @article) %>" />
-        <% end %>
       <% end %>
     </div>
     <div class='modal-footer'>

@@ -1,0 +1,42 @@
+<div class="row">
+    <div class="col-sm-6" style="padding: 0px; margin-left: auto; margin-right: auto;">
+        <h1>Profile</h1>
+        <br/>
+        <h3>Tell your colleagues who are you?</h3>
+        <hr/>
+        <div style="margin-left: 50px;">
+            <%= image_tag avatar_url(current_user.email, 200), class: "rounded" %>
+            <br/>
+            <p class="hint">To change the profile image, register with <a href="http://gravatar.com/" target="_blank">gravatar.com</a> with email ID <%= current_user.email %> and upload a square image there (Twitter DP).</p>
+            <%= simple_form_for(@user, html: { method: :put }) do |f| %>
+              <%= f.error_notification %>
+              <%= f.input :name %>
+              <%= f.input :email, label: "Primary Email ID" %>
+              <%= f.button :submit, value: "Save", class: "btn btn-light" %>
+            <% end %>
+            <br/>
+        </div>
+        <% if @accounts_member.first.present? %>
+            <h3>Accounts that you are part of</h3>
+            <hr/>
+            <div style="margin-left: 50px;">
+                <% @accounts_member.each do |account| %>
+                    <%= account.username %>
+                    <br/>
+                <% end %>
+            </div>
+        <% end %>
+        <h3>Accounts you own</h3>
+        <hr/>
+        <div style="margin-left: 50px;">
+            <% @accounts_owned.each do |account| %>
+                <%= link_to account.username, edit_account_path(account) %>
+                <p class="hint">Click to configure</p>
+            <% end %>
+            <%= simple_form_for @account do |f| %>
+            <%= f.input :username, id: :account_username, hint: "Choose wisely. You cannot change it later." %>
+            <%= f.submit "Add a new account", class: "btn btn-light" %>
+            <% end %>
+        </div>
+    </div>
+</div>
