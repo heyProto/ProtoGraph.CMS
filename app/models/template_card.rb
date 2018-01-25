@@ -71,9 +71,9 @@ class TemplateCard < ApplicationRecord
     def slug_candidates
         ["#{self.name}-#{self.version.to_s}"]
     end
-    
+
     def self.to_story_cards_ids
-      TemplateCard.where(name: "toStory").pluck(:id).uniq
+      TemplateCard.where(name: ["toArticle", "toStory"]).pluck(:id).uniq
     end
 
     def deep_copy_across_versions

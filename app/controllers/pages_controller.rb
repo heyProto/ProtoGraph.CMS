@@ -4,7 +4,7 @@ class PagesController < ApplicationController
   before_action :sudo_can_see_all_pages, only: [:show, :edit, :update]
 
   def index
-    @pages = @folder.pages.order(updated_at: :desc).page(params[:page]).per(30)
+    @pages = @permission_role.can_see_all_pages ? @folder.pages.order(updated_at: :desc).page(params[:page]).per(30) : current_user.pages(@folder).order(updated_at: :desc).page(params[:page]).per(30)
   end
 
   def show
@@ -33,7 +33,7 @@ class PagesController < ApplicationController
     @page = Page.new(page_params)
     @page.created_by = current_user.id
     @page.updated_by = current_user.id
-    @stream.collaborator_lists << current_user.id if @permission_role == 'contributor'
+    @page.collaborator_lists = ["#{current_user.id}"] if ["contributor", "writer"].include?(@permission_role.slug)
     if @page.save
       redirect_to account_site_folder_pages_path(@account, @site, @folder), notice: 'Page was successfully created.'
     else
@@ -71,6 +71,6 @@ class PagesController < ApplicationController
     end
 
     def page_params
-      params.require(:page).permit(:id, :account_id, :site_id, :folder_id, :headline, :meta_keywords, :meta_description, :summary, :layout, :byline, :byline_stream, :cover_image_url, :cover_image_url_7_column, :cover_image_url_facebook, :cover_image_url_square, :cover_image_alignment, :is_sponsored, :is_interactive, :has_data, :has_image_other_than_cover, :has_audio, :has_video, :is_published, :published_at, :url, :ref_category_series_id, :ref_category_intersection_id, :ref_category_sub_intersection_id, :view_cast_id, :page_object_url, :created_by, :updated_by)
+      params.require(:page).permit(:id, :account_id, :site_id, :folder_id, :headline, :meta_keywords, :meta_description, :summary, :layout, :byline, :byline_stream, :cover_image_url, :cover_image_url_7_column, :cover_image_url_facebook, :cover_image_url_square, :cover_image_alignment, :is_sponsored, :is_interactive, :has_data, :has_image_other_than_cover, :has_audio, :has_video, :is_published, :published_at, :url, :ref_category_series_id, :ref_category_intersection_id, :ref_category_sub_intersection_id, :view_cast_id, :page_object_url, :created_by, :updated_by, collaborator_lists: [])
     end
 end

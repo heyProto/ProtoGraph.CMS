@@ -62,6 +62,7 @@ class Page < ApplicationRecord
   has_many :users, through: :permissions
 
   #ACCESSORS
+  attr_accessor :collaborator_lists
   #VALIDATIONS
   validates :headline, presence: true, length: { in: 50..90 }
   validates :summary, length: { in: 50..220 }, allow_blank: true
@@ -73,6 +74,7 @@ class Page < ApplicationRecord
   after_create :create_story_card
   after_create :push_json_to_s3
   after_update :create_story_card
+  after_save :after_save_set
 
   #SCOPE
   #OTHER
@@ -252,5 +254,17 @@ class Page < ApplicationRecord
     data["data"]["col7imageurl"] = self.cover_image_url_7_column.to_s if self.cover_image_url_7_column.present?
     data
   end
+
+  def after_save_set
+        if self.collaborator_lists.present?
+            self.collaborator_lists = self.collaborator_lists.reject(&:empty?)
+            prev_collaborator_ids = self.permissions.pluck(:user_id)
+            self.collaborator_lists.each do |c|
+                user = User.find(c)
+                a = user.create_permission("Page", self.id, "contributor")
+            end
+            self.permissions.where(permissible_id: (prev_collaborator_ids - self.collaborator_lists.map{|a| a.to_i})).update_all(status: 'Deactivated')
+        end
+    end
 
 end

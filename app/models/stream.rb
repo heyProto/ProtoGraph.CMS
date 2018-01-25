@@ -63,6 +63,7 @@ class Stream < ApplicationRecord
     attr_accessor :card_list #Template Card list
     attr_accessor :view_cast_id_list
     attr_accessor :excluded_view_cast_id_list
+    attr_accessor :collaborator_lists
     #VALIDATIONS
     validates :data_group_key, presence: true, if: :is_grouped_data_stream
     #CALLBACKS
@@ -291,6 +292,16 @@ class Stream < ApplicationRecord
                 self.template_card_ids.create({entity_type: "template_card_id",entity_value: c})
             end
             self.template_card_ids.where(entity_value: (prev_card_ids - self.card_list)).delete_all
+        end
+
+        if self.collaborator_lists.present?
+            self.collaborator_lists = self.collaborator_lists.reject(&:empty?)
+            prev_collaborator_ids = self.permissions.pluck(:user_id)
+            self.collaborator_lists.each do |c|
+                user = User.find(c)
+                a = user.create_permission("Stream", self.id, "contributor")
+            end
+            self.permissions.where(permissible_id: (prev_collaborator_ids - self.collaborator_lists.map{|a| a.to_i})).update_all(status: 'Deactivated')
         end
     end
 
