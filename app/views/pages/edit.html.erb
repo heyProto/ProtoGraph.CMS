@@ -1,0 +1,95 @@
+<div class="row">
+        <div class="col-sm-6" style="margin-left: auto; margin-right: auto;">
+            <h1>Edit Page</h1>
+            <br/><br/>
+        </div>
+        <div class="col-sm-2">
+            <br/>
+        </div>
+</div>
+            <%= simple_form_for(@page, url: account_site_folder_page_path(@account, @site, @folder), method: :put) do |f| %>
+                <div class="row">
+                    <div class="col-sm-6" style="margin-left: auto; margin-right: auto;">
+                        <%= f.error_notification %>
+                        <div class="form-inputs">
+                            <%= f.input :headline, required: true, minlength: 50 , maxlength: 90 %>
+                            <%= f.input :summary, minlength: 50 , maxlength: 220 %>
+                            <p><b>Cover</b></p>
+                            <%= f.input :cover_image_url, hint: "1260px width. 5:3 aspect ratio",required: true %>
+                            <%= f.input :cover_image_url_7_column, hint: "540px width. 5:3 aspect ratio" %>
+                            <%= f.input :cover_image_alignment, collection: @cover_image_alignment, selected: "horizontal", required: true %>
+                            <%= f.input :is_published, label: "&nbsp; Is Published?".html_safe, hint: "Until you want the Story Card to be published live on your site, do not mark the article as published." %>
+                            <div class="form-actions">
+                              <%= f.button :submit %>
+                            </div>
+                        </div>
+                        <hr/>
+                        <h4>Page Object:</h4>
+                        <p>
+                            <%= link_to truncate(@page.page_object_url, length: 50), @page.page_object_url, target: "_blank" %>
+                        </p>
+                        <% if @page.streams.first.present? %>
+                                <h4>Streams:</h4>
+                                <% @page.streams.each do |s| %>
+                                    <%= s.title%>: <%= link_to "Edit", edit_account_site_folder_stream_path(@account, @site, @folder, s)%> |
+                                    <%= link_to truncate("#{ENV['AWS_S3_ENDPOINT']}/#{s.datacast_identifier}/index.json", length: 40), "#{ENV['AWS_S3_ENDPOINT']}/#{s.datacast_identifier}/index.json", target: "_blank" %>
+                                    <br/>
+                                <% end %>
+                        <% end %>
+                        <% if @page_streams.present? %>
+                            <br>
+                            <h4>Page Headings</h4>
+                            <% if @page.layout != 'section' %>
+                                <% @page_streams.each do |ps| %>
+                                    <div>
+                                        <%= label_tag :name_of_stream, "#{ps.stream.title.split('_Section_').last}", class: "control-label optional" %> -
+                                        <%= ps.name_of_stream %>
+                                    </div>
+                                <% end %>
+                            <% else %>
+                                <% @page_streams.each do |ps| %>
+                                    <div>
+                                        <%= label_tag :name_of_stream, "#{ps.stream.title.split('_Section_').last}", class: "control-label optional" %> -
+                                        <%= best_in_place ps, :name_of_stream, url: [@account, @folder, ps] %>
+                                    </div>
+                                <% end %>
+                            <% end%>
+                        <% end %>
+                        <% if @page.view_cast_id.present? %>
+                            <br/>
+                            <h4>Story Card:</h4>
+                            <div id="protoCard"></div>
+                        <% end %>
+                    </div>
+                    <div class="col-sm-2">
+                        <div class="form-inputs">
+                            <p><b>Classification:</b></p>
+                            <%= f.input :ref_category_series_id, label: "Series", collection: @ref_series, include_blank: true  %>
+                            <%= f.input :ref_category_intersection_id, label: "Intersection", collection: @ref_intersection, include_blank: true %>
+                            <%= f.input :ref_category_sub_intersection_id, label: "Sub Intersection", collection: @ref_sub_intersection, include_blank: true %>
+                            <p><b>By:</b></p>
+                            <%= f.input :byline, required: true, label: "Display Byline", hint: "What byline do you want on the website?" %>
+                            <%= f.input :is_sponsored, label: "&nbsp; Is Sponsored?".html_safe %>
+                            <p><b>Story elements:</b></p>
+                            <%= f.input :has_data, label: "&nbsp; Data or charts?".html_safe %>
+                            <%= f.input :has_image_other_than_cover, label: "&nbsp; Image?".html_safe %>
+                            <%= f.input :has_audio, label: "&nbsp; Audio?".html_safe %>
+                            <%= f.input :has_video, label: "&nbsp; Video?".html_safe %>
+                            <p><b>SEO:</b></p>
+                            <%= f.input :meta_keywords %>
+                            <%= f.input :meta_description %>
+                        </div>
+                    </div>
+                </div>
+            <% end %>
+<% if @view_cast.present? %>
+    <script src="https://cdn.protograph.pykih.com/lib/protoGraph.min.js" async></script>
+    <script>
+        var interval = setInterval(function () {
+            if (window.ProtoEmbed) {
+                clearInterval(interval);
+                var proto_embed_test = new ProtoEmbed.initFrame(document.getElementById('protoCard'), "<%= "#{@view_cast.template_card.index_html }?view_cast_id=#{ @view_cast.datacast_identifier }%26schema_id=#{ @view_cast.template_datum.s3_identifier }" %>", "col4");
+            }
+        },200)
+    </script>
+<% end %>

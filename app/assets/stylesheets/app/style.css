@@ -77,6 +77,8 @@ h1.intro-text{
 	text-transform: none;
 }
 
+.has-error > .help-block{color: red;}
+
 .content-col{
 	width: 551.25px;
 }
@@ -94,13 +96,6 @@ p{
 	box-shadow: 0px 3px 10px lightgrey;
 }
 
-.article-demo-image{
-	width: 100%;
-	height: 250px;
-	background: #fafafa;
-	margin-bottom: 10px;
-}
-
 .two-br-space{
 	width: 100%;
 	display: inline-block;
@@ -114,13 +109,6 @@ p{
 
 b{
 	font-weight: 800;
-}
-
-h3{
-	display: block;
-    font-size: 22px;
-    font-weight: 600;
-    line-height: 26px;
 }
 
 .links-div{
@@ -158,4 +146,56 @@ h3{
 }
 .container.protograph-container{
 
+}
+
+.sign-up-area .simple_form{
+	margin-left: 50%;
+    transform: translate(-50%,0%);
+    width: 300px;
+    background: #fafafa;
+    border-radius: 4px;
+    padding: 20px;
+    box-shadow: 0px 2px 2px lightgrey;
+}
+
+.sign-up-area abbr[data-original-title],.sign-up-area abbr[title]{
+	text-decoration: none;
+}
+
+.sign-up-area .control-label{
+	text-transform: uppercase;
+    font-size: 11px;
+    margin-bottom: 5px;
+    color: #979797;
+    letter-spacing: 0.5px;
+}
+
+.sign-up-area .form-control{
+	border: 1px solid #efefef;
+    font-size: 14px;
+    font-weight: 100;
+    color: #333;
+    border-radius: 4px;
+    padding: 10px;
+}
+
+.sign-up-area .btn-primary{
+	width: 150px;
+    margin-top: 20px;
+    margin-left: 50%;
+    transform: translate(-50%,0%);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 100;
+    font-size: 14px;
+}
+
+.sign-up-area .form-control:focus{
+	outline: 1px solid #0179fb;
+	border-radius: 4px;
+	-moz-outline-radius: 4px;
+}
+
+.sign-up-area .form-group{
+	margin-bottom: 10px;
 }

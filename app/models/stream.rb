@@ -23,8 +23,13 @@
 #  data_group_key         :string(255)
 #  filter_query           :text(65535)
 #  data_group_value       :string(255)
+#  site_id                :integer
 #  include_data           :boolean          default(FALSE)
+#  is_automated_stream    :boolean          default(FALSE)
+#  col_name               :string(255)
+#  col_id                 :integer
 #  order_by_type          :string(255)
+#  is_open                :boolean
 #
 
 class Stream < ApplicationRecord
@@ -42,16 +47,20 @@ class Stream < ApplicationRecord
 
 
     #ASSOCIATIONS
-    belongs_to :folder
+    belongs_to :folder, optional: true
+    belongs_to :site
     has_many :folder_ids, ->{folders}, class_name: "StreamEntity", foreign_key: "stream_id"
     has_many :template_card_ids, ->{template_cards}, class_name: "StreamEntity", foreign_key: "stream_id"
     has_many :view_cast_ids, ->{view_casts}, class_name: "StreamEntity", foreign_key: "stream_id"
     has_many :excluded_view_cast_ids, ->{excluded_view_casts}, class_name: "StreamEntity", foreign_key: "stream_id"
+    has_many :permissions, ->{where(status: "Active", permissible_type: 'Stream')}, foreign_key: "permissible_id", dependent: :destroy
+    has_many :users, through: :permissions
+    has_many :page_streams
+    has_many :pages, through: :page_streams
 
     #ACCESSORS
     attr_accessor :folder_list
     attr_accessor :card_list #Template Card list
-    attr_accessor :tag_list
     attr_accessor :view_cast_id_list
     attr_accessor :excluded_view_cast_id_list
     #VALIDATIONS
@@ -61,24 +70,36 @@ class Stream < ApplicationRecord
     after_create :after_create_set
     after_save :after_save_set
     after_save :update_card_count
+    before_destroy :before_destroy_set
 
     #SCOPE
     #OTHER
 
     def cards(apply_limit=true)
-        query = {}
-        query[:folder_id] = self.folder_ids.pluck(:entity_value) if self.folder_ids.count > 0
-        query[:template_card_id] = self.template_card_ids.pluck(:entity_value) if self.template_card_ids.count > 0
-        unless query.blank?
-            view_cast = account.view_casts.order(created_at: :desc).where(query).where.not(folder_id: account.folders.where(is_trash: true).first.id)
-            view_cast = view_cast.where.not(id: self.excluded_view_cast_ids.pluck(:entity_value)) if self.excluded_view_cast_ids.count > 0
-            view_cast = view_cast.limit(self.limit).offset(self.offset) if apply_limit
+        if is_automated_stream
+            if col_name == "Site"
+                site = Site.find(col_id)
+                view_casts = site.view_casts.limit(self.limit).offset(self.offset)
+            else col_name == "RefCategory"
+                ref_cat = RefCategory.find(col_id)
+                view_casts = ref_cat.view_casts.limit(self.limit).offset(self.offset)
+            end
+            return view_casts
         else
-            view_cast = ViewCast.none
+            query = {}
+            query[:folder_id] = self.folder_ids.pluck(:entity_value) if self.folder_ids.count > 0
+            query[:template_card_id] = self.template_card_ids.pluck(:entity_value) if self.template_card_ids.count > 0
+            unless query.blank?
+                view_cast = account.view_casts.order(created_at: :desc).where(query).where.not(folder_id: account.folders.where(is_trash: true).first.id)
+                view_cast = view_cast.where.not(id: self.excluded_view_cast_ids.pluck(:entity_value)) if self.excluded_view_cast_ids.count > 0
+                view_cast = view_cast.limit(self.limit).offset(self.offset) if apply_limit
+            else
+                view_cast = ViewCast.none
+            end
+            view_cast_or = self.view_cast_ids.present? ? account.view_casts.where(id: self.view_cast_ids.pluck(:entity_value)).where.not(folder_id: account.folders.where(is_trash: true).first.id) : ViewCast.none
+            view_casts = view_cast + view_cast_or
+            return view_casts
         end
-        view_cast_or = self.view_cast_ids.present? ? account.view_casts.where(id: self.view_cast_ids.pluck(:entity_value)).where.not(folder_id: account.folders.where(is_trash: true).first.id) : ViewCast.none
-        view_casts = view_cast + view_cast_or
-        return view_casts
     end
 
     def publish_cards
@@ -96,7 +117,7 @@ class Stream < ApplicationRecord
                     end
                 end
                 if view_cast.template_card.name == 'toDistrictProfile'
-                    district_obj[group_key]["screen_shot_url"] = view_cast.render_screenshot_url
+                    # district_obj[group_key]["screen_shot_url"] = view_cast.render_screenshot_url
                 end
             end
             district_obj.each do |key, value|
@@ -109,7 +130,7 @@ class Stream < ApplicationRecord
                 d = {}
                 d['view_cast_id'] = view_cast.datacast_identifier
                 d['schema_id'] = view_cast.template_datum.s3_identifier
-                d['screen_shot_url'] = view_cast.render_screenshot_url
+                # d['screen_shot_url'] = view_cast.render_screenshot_url
                 if view_cast.template_card.name == 'toReportViolence'
                     res = JSON.parse(RestClient.get(view_cast.data_url).body)
                     data = res['data']
@@ -195,7 +216,7 @@ class Stream < ApplicationRecord
         content_type = "application/json"
         resp = Api::ProtoGraph::Utility.upload_to_cdn(encoded_file, self.cdn_key, content_type)
         if self.account.cdn_id != ENV['AWS_CDN_ID']
-            Api::ProtoGraph::CloudFront.invalidate(self.account, ["/#{self.datacast_identifier}/index.json"], 1)
+            Api::ProtoGraph::CloudFront.invalidate(self.site, ["/#{self.datacast_identifier}/index.json"], 1)
         end
         Api::ProtoGraph::CloudFront.invalidate(nil, ["/#{self.datacast_identifier}/index.json"], 1)
 
@@ -262,16 +283,6 @@ class Stream < ApplicationRecord
             self.excluded_view_cast_ids.where(entity_value: (prev_excluded_view_cast_ids - self.excluded_view_cast_id_list)).delete_all
         end
 
-        #Creating Tag entities from tag_list
-        # if self.tag_list.present?
-        #     self.tag_list = self.tag_list.reject(&:empty?)
-
-        #     prev_tag_ids = self.stream_entities.where(entity_type: "tag_id").pluck(:entity_value)
-        #     self.tag_list.each do |t|
-        #         self.stream_entities.create({entity_type: "tag_id",entity_value: t})
-        #     end
-        #     self.stream_entities.where(entity_type: "tag_id").where(entity_value: [prev_tag_ids - self.tag_list]).delete_all
-        # end
         #Creating Card entities from card_list
         if self.card_list.present?
             self.card_list = self.card_list.reject(&:empty?)
@@ -280,6 +291,14 @@ class Stream < ApplicationRecord
                 self.template_card_ids.create({entity_type: "template_card_id",entity_value: c})
             end
             self.template_card_ids.where(entity_value: (prev_card_ids - self.card_list)).delete_all
+        end
+    end
+
+    def before_destroy_set
+        begin
+            Api::ProtoGraph::Utility.remove_from_cdn("#{self.cdn_key}")
+            Api::ProtoGraph::CloudFront.invalidate(nil, ["/#{self.cdn_key}"], 1)
+        rescue => e
         end
     end
 

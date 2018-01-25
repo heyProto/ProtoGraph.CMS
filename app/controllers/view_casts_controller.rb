@@ -1,5 +1,6 @@
 class ViewCastsController < ApplicationController
     before_action :authenticate_user!
+    before_action :sudo_can_see_all_view_casts, only: [:show, :edit, :update]
     before_action :set_view_cast, only: [:show, :edit, :destroy, :recreate, :update]
 
     def new
@@ -7,10 +8,9 @@ class ViewCastsController < ApplicationController
     end
 
     def index
-        @view_casts_count = @folder.view_casts.count
+        @view_casts_count = @folder.view_casts.where.not(template_card_id: TemplateCard.to_story_cards_ids).count
         @streams_count = @folder.streams.count
-        @articles_count = @folder.articles.count
-        @view_casts = @folder.view_casts.order(updated_at: :desc).page(params[:page]).per(30)
+        @view_casts = @folder.view_casts.where.not(template_card_id: TemplateCard.to_story_cards_ids).order(updated_at: :desc).page(params[:page]).per(30)
         @is_viewcasts_present = @view_casts.count != 0
     end
 
@@ -22,10 +22,7 @@ class ViewCastsController < ApplicationController
         @view_cast_seo_blockquote = @view_cast.seo_blockquote.to_s.split('`').join('\`')
         @view_casts_count = @folder.view_casts.count
         @streams_count = @folder.streams.count
-        @articles_count = @folder.articles.count
-        piwik_metrics = @view_cast.piwik_metrics
-        @page_views = piwik_metrics.page_views
-        @unique_visitors = piwik_metrics.unique_visitors
+        @view_cast.collaborator_lists = @view_cast.users.pluck(:id)
         render layout: "application-fluid"
     end
 
@@ -41,7 +38,7 @@ class ViewCastsController < ApplicationController
             if @view_cast.redirect_url.present?
                 redirect_to @view_cast.redirect_url, notice: t('us')
             else
-                redirect_to account_folder_view_cast_path(@account, @view_cast.folder, @view_cast), notice: t('us')
+                redirect_to account_site_folder_view_cast_path(@account, @site, @view_cast.folder, @view_cast), notice: t('us')
             end
         else
             render :show
@@ -53,9 +50,9 @@ class ViewCastsController < ApplicationController
         @view_cast.updator = current_user
         @view_cast.folder = @account.folders.find_by(name: "Recycle Bin")
         if @view_cast.save
-            redirect_to account_folder_view_casts_path(@account, @folder), notice: "Card was deleted successfully"
+            redirect_to account_site_folder_view_casts_path(@account, @site, @folder), notice: "Card was deleted successfully"
         else
-            redirect_to account_folder_view_cast_path(@account, @folder, @view_cast), alert: "Card could not be deleted"
+            redirect_to account_site_folder_view_cast_path(@account, @site, @folder, @view_cast), alert: "Card could not be deleted"
         end
     end
 
@@ -66,7 +63,7 @@ class ViewCastsController < ApplicationController
     private
 
     def view_cast_params
-        params.require(:view_cast).permit(:folder_id, :default_view, :redirect_url)
+        params.require(:view_cast).permit(:folder_id, :default_view, :redirect_url, collaborator_lists: [])
     end
 
 end

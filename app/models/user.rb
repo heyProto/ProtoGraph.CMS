@@ -35,43 +35,45 @@ class User < ApplicationRecord
 
     #ASSOCIATIONS
     has_many :permissions, ->{where(status: "Active")}
-    has_many :accounts, through: :permissions
+    has_many :accounts, through: :permissions, source: :permissible, source_type: "Account"
     has_many :activities
     has_many :uploads
     has_many :user_emails
     has_many :authentications
     #ACCESSORS
-    attr_accessor :username
+    attr_accessor :username, :domain
 
     #VALIDATIONS
     validates :name, presence: true, length: { in: 3..24 }
     validates :email, presence: true, uniqueness: { case_sensitive: false }, format: { with: /\A[^@\s]+@([^@.\s]+\.)+[^@.\s]+\z/ }
-    validates :username, presence: true, length: { in: 3..24 }, format: { with: /\A[a-z0-9A-Z_]{4,16}\z/ }, on: :create
-    validate  :is_username_unique, on: :create
     #CALLBACKS
     before_create :before_create_set
-    after_create :after_create_set
     after_create :welcome_user
     after_commit :add_user_email, on: [:create]
     #SCOPE
     scope :online, -> { where('updated_at > ?', 10.minutes.ago) }
     #OTHER
 
-    def permission_object(accid, s="Active")
-        Permission.where(user_id: self.id, account_id: accid, status: s).first
+    def permission_object(site_id, s="Active")
+        Permission.where(user_id: self.id,  permissible_id: site_id, permissible_type: 'Site', status: s).first
+    end
+
+    def owner_role(account_id, s="Active")
+        Permission.where(user_id: self.id,  permissible_id: account_id, permissible_type: 'Account', ref_role_slug: "owner", status: s).first
     end
 
     def is_admin_from_pykih
         ["ritvvij.parrikh@pykih.com", "rp@pykih.com", "ab@pykih.com", "dhara.shah@pykih.com", "aashutosh.bhatt@pykih.com"].index(self.email).present? ? true : false
     end
 
-    def create_permission(accid, r)
-        p = Permission.where(user_id: self.id, account_id: accid).first
+    def create_permission(permissible_type, permissible_id, r)
+        p = Permission.where(user_id: self.id, permissible_id: permissible_id, permissible_type: permissible_type).first
         if p.present?
             p.update_attributes(status: "Active", ref_role_slug: r, updated_by: self.id, is_hidden: false)
         else
-            Permission.create(user_id: self.id, account_id: accid, created_by: self.id, updated_by: self.id, ref_role_slug: r)
+            p = Permission.create(user_id: self.id, permissible_id: permissible_id, permissible_type: permissible_type, created_by: self.id, updated_by: self.id, ref_role_slug: r)
         end
+        p
     end
 
     def apply_omniauth(auth)
@@ -100,34 +102,33 @@ class User < ApplicationRecord
         is_primary_email: 1
       )
     end
+
+    def folders
+        Folder.where(id: self.permissions.where(permissible_type: "Folder").pluck(:permissible_id))
+    end
+
+
+    class << self
+        def check_for_access(email)
+            is_present = PermissionInvite.where(email: email).first.present?
+            if email.present?
+                d = email.split("@").last
+                if d.present?
+                    a = Account.where(domain: d, sign_up_mode: "Any email from your domain").first
+                    if a.present?
+                       belongs_to_company = true
+                    end
+                end
+            end
+            return (is_present or belongs_to_company)
+        end
+    end
     #PRIVATE
     private
 
-    def is_username_unique
-        errors.add(:username, "already taken") if Account.where(username: self.username).first.present?
-    end
 
     def before_create_set
         self.access_token = SecureRandom.hex(24)
-    end
-
-    def after_create_set
-        a = Account.create(username: self.username)
-        self.create_permission(a.id, "owner")
-        folder = Folder.create({
-            account_id: a.id,
-            name: "Sample Project",
-            created_by: self.id,
-            updated_by: self.id
-        })
-        folder = Folder.create({
-            account_id: a.id,
-            name: "Recycle Bin",
-            created_by: self.id,
-            updated_by: self.id,
-            is_trash: true,
-            is_system_generated: true
-        })
     end
 
     def welcome_user

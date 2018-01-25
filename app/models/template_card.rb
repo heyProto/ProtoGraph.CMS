@@ -71,6 +71,10 @@ class TemplateCard < ApplicationRecord
     def slug_candidates
         ["#{self.name}-#{self.version.to_s}"]
     end
+    
+    def self.to_story_cards_ids
+      TemplateCard.where(name: "toStory").pluck(:id).uniq
+    end
 
     def deep_copy_across_versions
         p                           = self.previous
@@ -104,6 +108,7 @@ class TemplateCard < ApplicationRecord
     end
 
     def account_slug
+        puts self.account.inspect
         self.account.slug
     end
 
@@ -117,8 +122,8 @@ class TemplateCard < ApplicationRecord
         self.siblings.as_json(only: [:account_id, :id, :slug, :global_slug,:name, :elevator_pitch], methods: [:account_slug, :icon_url])
     end
 
-    def base_url(account=nil)
-        "#{account.present? ? account.cdn_endpoint : TemplateCard::CDN_BASE_URL}/#{self.s3_identifier}"
+    def base_url(site=nil)
+        "#{site.present? ? site.cdn_endpoint : TemplateCard::CDN_BASE_URL}/#{self.s3_identifier}"
     end
 
     def js

@@ -6,7 +6,7 @@ class PermissionInvites < ApplicationMailer
   def invite(user, account, email)
   	@account = account
   	@user = user
-  	mail(to: email, subject: "Invitation to collaborate on account: #{@account.slug}", tag: "organisation-invite-email")
+  	# mail(to: email, subject: "Invitation to collaborate on account: #{@account.slug}", tag: "organisation-invite-email")
   end
 
 end

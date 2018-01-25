@@ -1,13 +1,11 @@
-body{font-size: 13px;}
+body{font-size: 15px; font-family: 'Open Sans Bold', sans-serif;}
 a{color: #0366d6;}
-h1{font-size: 2em; font-weight: 400;}
-h2{font-size: 1.7em; font-weight: 800;}
-h3{font-size: 1.5em; font-weight: 800;}
-h4{font-size: 1.3em; font-weight: 800;}
-h5{font-size: 1.1em; font-weight: 800;}
-h6{text-transform: uppercase; font-weight: 800;}
-.control-label{font-size: 0.9em; font-weight: 600;}
-.help-block, .hint{ font-size: 11px; color: gray; padding-top: 2px; font-style: italic;}
+h1{font-size: 2em; line-height: 40px; font-weight: 800;}
+h2{font-size: 1.7em; line-height: 30px; font-weight: 600;}
+h3{font-size: 1.1em; line-height: 20px; font-weight: 600;}
+h4{font-size: 1em; line-height: 20px; font-weight: 600;}
+.control-label{font-size: 0.9em; font-weight: 200; margin-bottom: 0px; padding-bottom: 0px;}
+.help-block, .hint{ font-size: 11px; color: gray; padding-top: 2px; font-style: italic; line-height: 13px;}
 .dropdown-item{ font-size: 0.81em !important;}
 .dropdown-menu{margin: 0px !important;}
 .bg-light{background: white !important;}
@@ -33,7 +31,7 @@ h6{text-transform: uppercase; font-weight: 800;}
 
 .getting-started_todo-circle{
     width: 24px;
-    height: 24px;
+    height: 24px
     border: 1px solid #E0E0E0;
     border-radius: 50px;
     background: white;

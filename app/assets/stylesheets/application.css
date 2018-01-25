@@ -11,7 +11,6 @@
  * It is generally better to create a new file per style scope.
  *
  *= require vendors/bootstrap.min.css
- *= require vendors/github-btns.css
  *= require vendors/github-menu.scss
  *= require vendors/github-blankslate.css
  *= require vendors/open-iconic.min.css
@@ -20,3 +19,8 @@
  *= require app/style.css
  *= require_self
  */
+
+ .proto-restrict-remove {
+     text-decoration: line-through;
+     color: lightgrey;
+ }

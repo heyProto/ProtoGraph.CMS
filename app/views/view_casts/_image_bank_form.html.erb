@@ -43,7 +43,6 @@
           </div>
           <%= f.input :account_id, as: :hidden, input_html: {value: @account.id} %>
           <%= f.input :name, required: true %>
-          <%#= f.input :tag_list, collection: [], label: 'Tags', hint: "Enter a comma separated list of tags.", input_html: { id: 'tags_autocomplete', class: 'ui fluid search dropdown', multiple: true, "data-content"=>"This field is required." }, wrapper_html: { class: 'required'} %>
           <%= f.input :description %>
           <% %w[x y w h].each do |attribute| %>
               <%= f.input "crop_#{attribute}", as: :hidden %>

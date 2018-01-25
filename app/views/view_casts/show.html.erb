@@ -31,7 +31,7 @@
               <hr/>
               <h3 style="text-align: center; margin-bottom: 40px;">Embed the card in your stories</h3>
               <div class="proto-graph-code-area-title">Option #1 - Responsive SEO friendly iFrame</div>
-              <textarea class="proto-graph-code"  id='responsive-embed-code' readonly><div id="<%= "ProtoCard#{@view_cast.id}" %>"><%= (sanitize @view_cast.seo_blockquote.to_s, tags: %w(p blockquote ul li h1 h2 h3 h4 h5 h6))%></div><script src="<%= Rails.env.production? ? @account.cdn_endpoint :  "https://d2m6lzru8erw1k.cloudfront.net" %>/lib/protoGraph.min.js" async></script><script type="text/javascript">var <%= "ProtoCard#{@view_cast.id}" %> = setInterval(function(){if (window.ProtoEmbed){clearInterval(<%= "ProtoCard#{@view_cast.id}" %>)};var mode = (window.innerWidth <= 500) ? "mobile" : "laptop";new ProtoEmbed.initFrame(document.getElementById("<%= "ProtoCard#{@view_cast.id}" %>"), "<%= "#{@view_cast.template_card.index_html(@account)}?view_cast_id=#{@view_cast.datacast_identifier}%26schema_id=#{@view_cast.template_datum.s3_identifier}" %>" , mode)}, 200)</script></textarea>
+              <textarea class="proto-graph-code"  id='responsive-embed-code' readonly><div id="<%= "ProtoCard#{@view_cast.id}" %>"><%= (sanitize @view_cast.seo_blockquote.to_s, tags: %w(p blockquote ul li h1 h2 h3 h4 h5 h6))%></div><script src="<%= Rails.env.production? ? @site.cdn_endpoint :  "https://cdn.protogrpah.pykih.com" %>/lib/protoGraph.min.js" async></script><script type="text/javascript">var <%= "ProtoCard#{@view_cast.id}" %> = setInterval(function(){if (window.ProtoEmbed){clearInterval(<%= "ProtoCard#{@view_cast.id}" %>)};var mode = (window.innerWidth <= 500) ? "mobile" : "laptop";new ProtoEmbed.initFrame(document.getElementById("<%= "ProtoCard#{@view_cast.id}" %>"), "<%= "#{@view_cast.template_card.index_html(@account)}?view_cast_id=#{@view_cast.datacast_identifier}%26schema_id=#{@view_cast.template_datum.s3_identifier}" %>" , mode)}, 200)</script></textarea>
               </br>
 
               <div class="proto-graph-code-area-title"> Option #2 - Protograph Wordpress Shortcode</div>
@@ -43,7 +43,7 @@
 
 
               <div class="proto-graph-code-area-title">Option #4 - SEO friendly iFrame for specific mode</div>
-              <textarea class="proto-graph-code protograph-iframe" readonly><div id="<%= "ProtoCard#{@view_cast.id}" %>"><%= (sanitize @view_cast.seo_blockquote.to_s, tags: %w(p blockquote ul li h1 h2 h3 h4 h5 h6)) %></div><script src="<%= Rails.env.production? ? @account.cdn_endpoint :  "https://d2m6lzru8erw1k.cloudfront.net" %>/lib/protoGraph.min.js" async></script><script type="text/javascript">var <%= "ProtoCard#{@view_cast.id}" %> = setInterval(function(){if (window.ProtoEmbed){clearInterval(<%= "ProtoCard#{@view_cast.id}" %>)};new ProtoEmbed.initFrame(document.getElementById("<%= "ProtoCard#{@view_cast.id}" %>"), "<%= "#{@view_cast.template_card.index_html(@account)}?view_cast_id=#{@view_cast.datacast_identifier}%26schema_id=#{@view_cast.template_datum.s3_identifier}" %>" , "laptop")}, 200)</script></textarea>
+              <textarea class="proto-graph-code protograph-iframe" readonly><div id="<%= "ProtoCard#{@view_cast.id}" %>"><%= (sanitize @view_cast.seo_blockquote.to_s, tags: %w(p blockquote ul li h1 h2 h3 h4 h5 h6)) %></div><script src="<%= Rails.env.production? ? @site.cdn_endpoint :  "https://cdn.protograph.pykih.com" %>/lib/protoGraph.min.js" async></script><script type="text/javascript">var <%= "ProtoCard#{@view_cast.id}" %> = setInterval(function(){if (window.ProtoEmbed){clearInterval(<%= "ProtoCard#{@view_cast.id}" %>)};new ProtoEmbed.initFrame(document.getElementById("<%= "ProtoCard#{@view_cast.id}" %>"), "<%= "#{@view_cast.template_card.index_html(@account)}?view_cast_id=#{@view_cast.datacast_identifier}%26schema_id=#{@view_cast.template_datum.s3_identifier}" %>" , "laptop")}, 200)</script></textarea>
               </br>
             </div>
       </div>
@@ -90,28 +90,29 @@
                       <tr>
                         <td colspan="3" style="padding-top: 25px;"><strong>Analytics</strong></td>
                       </tr>
-                      <tr>
-                        <td>Page View</td>
-                        <td>:</td>
-                        <td><%= @page_views.present? ? @page_views.piwik_metric_value : '-' %></td>
-                      </tr>
-                      <tr>
-                        <td>Unique Visitors</td>
-                        <td>:</td>
-                        <td><%= @unique_visitors.present? ? @unique_visitors.piwik_metric_value : '-' %></td>
-                      </tr>
                   </table>
             </div>
               <div class='sigle-detail'>
-                <%= simple_form_for([@account, @folder, @view_cast]) do |f|%>
+                <%= simple_form_for([@account, @site, @folder, @view_cast]) do |f|%>
                   <div class="card-detail-lable">Move to another folder:</div>
                   <div class="card-detail-Value"><%= f.input :folder_id, collection: @folders, include_blank: false, label: false %></div>
                 <% end %>
               </div>
+              <div class='sigle-detail'>
+                <%= simple_form_for([@account, @site, @folder, @view_cast]) do |f|%>
+
+                  <% if @site.users.count > 0 %>
+                    <%=  f.input :collaborator_lists,  collection: @site.users.pluck(:name, :id), input_html: { class: 'ui search fluid dropdown', multiple: true}, label: "Add Collaborators" %>
+                    <%= f.button :submit, "Add", class: "ui primary button" %>
+                  <% end %>
+
+                <% end %>
+              </div>
+
               <br/>
-              <%= link_to "Edit the Card", edit_account_folder_view_cast_path(@account, @folder, @view_cast),"data-turbolinks"=> false %>
-              <% unless @view_cast.folder.name == "Recycle Bin" %>
-                  | <%= link_to "Delete the Card", [@account, @folder, @view_cast], method: :delete, "data-turbolinks"=> false, data: {confirm: "Are you sure you want to delete this card"} %>
+              <%= link_to "Edit the Card", edit_account_site_folder_view_cast_path(@account, @site, @folder, @view_cast),"data-turbolinks"=> false %>
+              <% unless @view_cast.folder.is_trash %>
+                  | <%= link_to "Delete the Card", [@account, @site, @folder, @view_cast], method: :delete, "data-turbolinks"=> false, data: {confirm: "Are you sure you want to delete this card"} %>
               <% end %>
             </div>
       </div>
@@ -127,16 +128,16 @@
       $('.platform_buttons').on('click', function(event){
         var platform = this.id
         proto_embed_test.sandbox.oasis.services[0].send('change_mode', platform);
-        $('.proto-graph-code.protograph-iframe').val(`<div id="<%= "ProtoCard#{@view_cast.id}" %>"><%= (sanitize @view_cast_seo_blockquote, tags: %w(p blockquote ul li h1 h2 h3 h4 h5 h6)) %></div><script src="<%= Rails.env.production? ? @account.cdn_endpoint :  "https://d2m6lzru8erw1k.cloudfront.net" %>/lib/protoGraph.min.js" async><\/script><script type="text/javascript">var <%= "ProtoCard#{@view_cast.id}" %> = setInterval(function(){if (window.ProtoEmbed){clearInterval(<%= "ProtoCard#{@view_cast.id}" %>)};new ProtoEmbed.initFrame(document.getElementById("<%= "ProtoCard#{@view_cast.id}" %>"), "<%= "#{@view_cast.template_card.index_html(@account)}?view_cast_id=#{@view_cast.datacast_identifier}%26schema_id=#{@view_cast.template_datum.s3_identifier}".html_safe %>" , '${platform}')}, 200)<\/script>`);
+        $('.proto-graph-code.protograph-iframe').val(`<div id="<%= "ProtoCard#{@view_cast.id}" %>"><%= (sanitize @view_cast_seo_blockquote, tags: %w(p blockquote ul li h1 h2 h3 h4 h5 h6)) %></div><script src="<%= Rails.env.production? ? @site.cdn_endpoint :  "https://cdn.protograph.pykih.com" %>/lib/protoGraph.min.js" async><\/script><script type="text/javascript">var <%= "ProtoCard#{@view_cast.id}" %> = setInterval(function(){if (window.ProtoEmbed){clearInterval(<%= "ProtoCard#{@view_cast.id}" %>)};new ProtoEmbed.initFrame(document.getElementById("<%= "ProtoCard#{@view_cast.id}" %>"), "<%= "#{@view_cast.template_card.index_html(@account)}?view_cast_id=#{@view_cast.datacast_identifier}%26schema_id=#{@view_cast.template_datum.s3_identifier}".html_safe %>" , '${platform}')}, 200)<\/script>`);
 
 
         $('.proto-graph-code.amp-iframe').val(`<iframe width="560" height="315" src="<%= "#{@view_cast.template_card.protograph_html(@account)}?view_cast_id=#{@view_cast.datacast_identifier}%26schema_id=#{@view_cast.template_datum.s3_identifier}%26mode=${platform}".html_safe %>" frameborder="0" allowfullscreen></iframe>`);
 
 
         if(platform == "list") {
-          $("#responsive-embed-code").val(`<div id="<%= "ProtoCard#{@view_cast.id}" %>"><%= (sanitize @view_cast_seo_blockquote, tags: %w(p blockquote ul li h1 h2 h3 h4 h5 h6)) %></div><script src="<%= Rails.env.production? ? @account.cdn_endpoint :  "https://d2m6lzru8erw1k.cloudfront.net" %>/lib/protoGraph.min.js" async><\/script><script type="text/javascript">var <%= "ProtoCard#{@view_cast.id}" %> = setInterval(function(){if (window.ProtoEmbed){clearInterval(<%= "ProtoCard#{@view_cast.id}" %>)};new ProtoEmbed.initFrame(document.getElementById("<%= "ProtoCard#{@view_cast.id}" %>"), "<%= "#{@view_cast.template_card.index_html(@account)}?view_cast_id=#{@view_cast.datacast_identifier}%26schema_id=#{@view_cast.template_datum.s3_identifier}".html_safe %>" , 'list')}, 200)<\/script>`);
+          $("#responsive-embed-code").val(`<div id="<%= "ProtoCard#{@view_cast.id}" %>"><%= (sanitize @view_cast_seo_blockquote, tags: %w(p blockquote ul li h1 h2 h3 h4 h5 h6)) %></div><script src="<%= Rails.env.production? ? @site.cdn_endpoint :  "https://cdn.protograph.pykih.com" %>/lib/protoGraph.min.js" async><\/script><script type="text/javascript">var <%= "ProtoCard#{@view_cast.id}" %> = setInterval(function(){if (window.ProtoEmbed){clearInterval(<%= "ProtoCard#{@view_cast.id}" %>)};new ProtoEmbed.initFrame(document.getElementById("<%= "ProtoCard#{@view_cast.id}" %>"), "<%= "#{@view_cast.template_card.index_html(@account)}?view_cast_id=#{@view_cast.datacast_identifier}%26schema_id=#{@view_cast.template_datum.s3_identifier}".html_safe %>" , 'list')}, 200)<\/script>`);
         } else {
-          $("#responsive-embed-code").val(`<div id="<%= "ProtoCard#{@view_cast.id}" %>"><%= (sanitize @view_cast_seo_blockquote, tags: %w(p blockquote ul li h1 h2 h3 h4 h5 h6)) %></div><script src="<%= Rails.env.production? ? @account.cdn_endpoint :  "https://d2m6lzru8erw1k.cloudfront.net" %>/lib/protoGraph.min.js" async><\/script><script type="text/javascript">var <%= "ProtoCard#{@view_cast.id}" %> = setInterval(function(){if (window.ProtoEmbed){clearInterval(<%= "ProtoCard#{@view_cast.id}" %>)};var mode = (window.innerWidth <= 500) ? "mobile" : "laptop";new ProtoEmbed.initFrame(document.getElementById("<%= "ProtoCard#{@view_cast.id}" %>"), "<%= "#{@view_cast.template_card.index_html(@account)}?view_cast_id=#{@view_cast.datacast_identifier}%26schema_id=#{@view_cast.template_datum.s3_identifier}".html_safe %>" , mode)}, 200)<\/script>`);
+          $("#responsive-embed-code").val(`<div id="<%= "ProtoCard#{@view_cast.id}" %>"><%= (sanitize @view_cast_seo_blockquote, tags: %w(p blockquote ul li h1 h2 h3 h4 h5 h6)) %></div><script src="<%= Rails.env.production? ? @site.cdn_endpoint :  "https://d2m6lzru8erw1k.cloudfront.net" %>/lib/protoGraph.min.js" async><\/script><script type="text/javascript">var <%= "ProtoCard#{@view_cast.id}" %> = setInterval(function(){if (window.ProtoEmbed){clearInterval(<%= "ProtoCard#{@view_cast.id}" %>)};var mode = (window.innerWidth <= 500) ? "mobile" : "laptop";new ProtoEmbed.initFrame(document.getElementById("<%= "ProtoCard#{@view_cast.id}" %>"), "<%= "#{@view_cast.template_card.index_html(@account)}?view_cast_id=#{@view_cast.datacast_identifier}%26schema_id=#{@view_cast.template_datum.s3_identifier}".html_safe %>" , mode)}, 200)<\/script>`);
         }
         event.stopPropagation();
       })

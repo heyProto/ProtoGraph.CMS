@@ -1,0 +1,126 @@
+<div class="row">
+    <div class="col-sm-6" style="padding: 0px; margin-left: auto; margin-right: auto;">
+        <h1><span style="font-weight: 200;">Site Settings:</span> <%= @site.domain %></h1>
+        <br/>
+        <h3>Info</h3>
+        <hr/>
+        <div style="margin-left: 50px;">
+            <%= simple_form_for [@account, @site] do |f| %>
+              <%= f.error_notification %>
+              <%= f.input :name, required: true %>
+              <%= f.input :domain, required: true, placeholder: "E.g. google.com. Don't use common domains like gmail, outlook, yahoo, etc." %>
+              <%= f.input :sign_up_mode, as: :select, collection: Site::SIGN_UP_MODES.map{|z| [z, z]}, label: false, include_blank: false %>
+              <%= f.input :default_role, as: :select, collection: Permission::REF_DEFAULT_ROLES, label: false, include_blank: false %>
+              <%= f.input :description, required: true, hint: "This will be used in footers, search results, and other places." %>
+              <%= f.input :primary_language, as: :select, collection: [["English", "English"], ["Hindi", "Hindi"]], include_blank: false %>
+              <%= f.input :default_seo_keywords, required: true, hint: "These default keywords will be used on homepage." %>
+              <%= f.input :created_by, as: :hidden, input_html: {value: current_user.id} %>
+              <%= f.input :updated_by, as: :hidden, input_html: {value: current_user.id} %>
+
+              <%= f.button :submit, "Save", class: "btn btn-light" %>
+            <% end %>
+        </div>
+        <br/>
+        <h3>Integrations</h3>
+        <hr/>
+        <div style="margin-left: 50px;">
+            <%= simple_form_for [@account, @site] do |f| %>
+              <%= f.error_notification %>
+              <%= f.input :g_a_tracking_id %>
+              <%= f.input :facebook_url %>
+              <%= f.input :twitter_url %>
+              <%= f.input :instagram_url %>
+              <%= f.input :youtube_url %>
+              <%= f.button :submit, "Save", class: "btn btn-light" %>
+            <% end %>
+        </div>
+        <br/>
+        <h3>Theme</h3>
+        <hr/>
+        <div style="margin-left: 50px;">
+            <p>Publication logo</p>
+            <p class="hint">This logo appears at the top of all your publication’s stories. It should have a transparent background, and be at least 600px wide and 72px tall.</p>
+            <div style="margin-left: 50px;">
+              <% if @site.logo_image_id.present? %>
+                <%= image_tag(@site.logo_image.original_image.image_url, class: "rounded", style: "width: 100px;") %>
+                <br/>
+                <%= simple_form_for [@account, @site] do |f| %>
+                  <%= f.error_notification %>
+                  <%= f.input :logo_image_id, as: :hidden, input_html: {value: nil} %>
+                  <%= f.button :submit, "Remove image", class: "btn btn-light" %>
+                <% end %>
+              <% else %>
+                <%= image_tag("account.png", class: "rounded", style: "width: 100px;") %>
+                <br/><br/>
+                <%= simple_form_for [@account, @site] do |f| %>
+                  <%= f.error_notification %>
+
+                  <%= f.fields_for :logo_image do |logo_image| %>
+                    <%= logo_image.input :image, label: false %>
+                    <%= logo_image.input :created_by, as: :hidden, input_html: {value: current_user.id} %>
+                    <%= logo_image.input :updated_by, as: :hidden, input_html: {value: current_user.id} %>
+                    <%= logo_image.input :account_id, as: :hidden, input_html: {value: @account.id}  %>
+                    <%= logo_image.input :is_logo, as: :hidden, input_html: {value: true } %>
+                  <% end %>
+                  <%= f.button :submit, "Upload", class: "btn btn-light" %>
+                <% end %>
+              <% end %>
+            </div>
+            <br/>
+            <p>Publication favicon</p>
+            <p class="hint">This is used by mobile browsers to represent a page, appearing in browser tabs and similar places. It is square and should be at least 128 × 128px in size.</p>
+
+            <div style="margin-left: 50px;">
+              <% if @site.favicon_id.present? %>
+                <%= image_tag(@site.favicon.original_image.image_url, class: "rounded", style: "max-width: 100px;") %>
+                <br/>
+                <%= simple_form_for [@account, @site] do |f| %>
+                  <%= f.error_notification %>
+                  <%= f.input :favicon_id, as: :hidden, input_html: {value: nil} %>
+                  <%= f.button :submit, "Remove image", class: "btn btn-light" %>
+                <% end %>
+              <% else %>
+                <br/><br/>
+                <%= simple_form_for [@account, @site] do |f| %>
+                  <%= f.error_notification %>
+
+                  <%= f.fields_for :favicon do |favicon| %>
+                    <%= favicon.input :image, label: false %>
+                    <%= favicon.input :created_by, as: :hidden, input_html: {value: current_user.id} %>
+                    <%= favicon.input :updated_by, as: :hidden, input_html: {value: current_user.id} %>
+                    <%= favicon.input :account_id, as: :hidden, input_html: {value: @account.id}  %>
+                    <%= favicon.input :is_favicon, as: :hidden, input_html: {value: true } %>
+                  <% end %>
+                  <%= f.button :submit, "Upload", class: "btn btn-light" %>
+                <% end %>
+              <% end %>
+            </div>
+        </div>
+        <br/>
+        <div style="margin-left: 50px;">
+            <%= simple_form_for [@account, @site] do |f| %>
+              <%= f.error_notification %>
+              <%= f.input :house_colour, input_html: {type: :color, style: "height: 40px;"}, label: "House Color", hint: "Choose your brand colour. Wherever possible, we will use this colour.", required: true %>
+              <%= f.input :reverse_house_colour, input_html: {type: :color, style: "height: 40px;"}, label: "Reverse House Color", hint: "Choose a color that is diagonally opposite from your House Color on the color wheel. All sponsored articles will be colored with Reverse House Color.", required: true %>
+              <%= f.input :font_colour, input_html: {type: :color, style: "height: 40px;"}, label: "Font Color on House Color", required: true %>
+              <%= f.input :reverse_font_colour, input_html: {type: :color, style: "height: 40px;"}, label: "Font Color on Reverse House Color", required: true %>
+              <%= f.input :story_card_style, as: :select, collection: [["Clear: Color", "Clear: Color"], ["Clear: Black & White", "Clear: Black & White"], ["Blur: Color", "Blur: Color"]], label: "Story card Style", include_blank: false %>
+              <%= f.button :submit, "Save", class: "btn btn-light" %>
+            <% end %>
+        </div>
+        <br/>
+        <h3>AWS Configuration</h3>
+        <hr/>
+        <div style="margin-left: 50px;">
+            <%= simple_form_for [@account, @site] do |f| %>
+                <%= f.error_notification %>
+                <%= f.input :cdn_id, input_html: {value: @site.is_cdn_id_from_env? ? nil : @site.cdn_id } %>
+                <%= f.input :host, input_html: {value:  @site.is_host_from_env? ? nil : @site.host } %>
+                <%= f.input :cdn_endpoint, input_html: {value: @site.is_cdn_endpoint_from_env? ? nil : @site.cdn_endpoint} %>
+                <%= f.input :client_token, input_html: {value: @site.is_client_token_from_env? ? nil : @site.client_token} %>
+                <%= f.input :client_secret, input_html: {value: @site.is_client_secret_from_env? ? nil : @site.client_secret} %>
+                <%= f.button :submit, "Save", class: "btn btn-light" %>
+            <% end %>
+        </div>
+    </div>
+</div>

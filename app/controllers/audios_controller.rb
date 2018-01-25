@@ -4,7 +4,6 @@ class AudiosController < ApplicationController
 
   def index
     @q = @account.audios.ransack(params[:q])
-    @tags = Tag.all
     if params[:q].present?
       @audios = @q.result(distinct: true).order(:created_at).page params[:page]
     else
@@ -31,7 +30,6 @@ class AudiosController < ApplicationController
   end
 
   def show
-    @tags = Tag.all
     @new_audio = Audio.new
     @audio_variation = AudioVariation.new
     render layout: "application-fluid"
@@ -46,6 +44,6 @@ class AudiosController < ApplicationController
   end
 
   def audio_params
-    params.require(:audio).permit(:account_id, :audio, :name, :description, :total_time, :tags_list)
+    params.require(:audio).permit(:account_id, :audio, :name, :description, :total_time)
   end
 end
