@@ -2,10 +2,6 @@
   width: 298px;
   height: 612px;
   position: relative;
-  /*border-right: 1px solid #efefef;*/
-  /*border-left: 1px solid #efefef;*/
-  /*border-bottom: 1px solid #efefef;*/
-  /* overflow: hidden; */
   font-family: "cabin";
 }
 .protograph-filters-header {
@@ -121,9 +117,6 @@
   font-size: 14px;
   color: rgba(0,0,0,0.75);
 }
-/* .protograph-filter-item-detail.protograph-show-more-filters {
-  height: auto;
-} */
 .protograph-filter-item-detail > .protograph-filter-body {
   max-height: 0px;
   overflow: hidden;
