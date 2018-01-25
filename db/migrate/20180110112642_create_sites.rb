@@ -19,19 +19,22 @@ class CreateSites < ActiveRecord::Migration[5.1]
 
       t.timestamps
     end
-
-    Account.all.each do |account|
-      Site.create({
-          account_id: account.id,
-          name: account.username,
-          domain: account.domain
-      })
-    end
-
     # Adding Site Id
     add_column :activities, :site_id, :integer
     add_column :authentications, :site_id, :integer
     add_column :folders, :site_id, :integer
     add_column :streams, :site_id, :integer
+
+    Account.all.each do |account|
+      site = Site.create({
+          account_id: account.id,
+          name: account.username,
+          domain: account.domain
+      })
+      account.folders.update_all(site_id: site.id)
+      account.streams.update_all(site_id: site.id)
+    end
+
+
   end
 end
