@@ -8,6 +8,6 @@ namespace :user_permissions do
     #               can_template_design_do: true,
     #               can_template_design_publish: false, sort_order: 100)
     # end
-    Permission.where(ref_role_slug: [['writer', 'developer']]).update_all(ref_role_slug: 'doer')
+    Permission.where(ref_role_slug: [['writer', 'developer']]).update_all(ref_role_slug: 'writer')
   end
 end
