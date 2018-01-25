@@ -220,6 +220,7 @@ class Page < ApplicationRecord
     content_type = "application/json"
     resp = Api::ProtoGraph::Utility.upload_to_cdn(encoded_file, key, content_type)
     self.update_column(:page_object_url, "#{Datacast_ENDPOINT}/#{key}")
+    PagesWorker.perform_async(self.id)
     true
   end
 

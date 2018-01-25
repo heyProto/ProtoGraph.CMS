@@ -3,7 +3,7 @@
 
     <head>
         <meta charset="utf-8">
-        <title><%= @page.headline %></title>
+        <title><%= page.headline %></title>
         <link href="https://fonts.googleapis.com/css?family=Bitter:400,700|Cabin:400,400i,500,700" rel="stylesheet">
         <link rel="stylesheet" type="text/css" href="https://cdn.protograph.pykih.com/lib/proto-app-lib.min.css">
         <link rel="stylesheet" type="text/css" href="<%= ENV['AWS_S3_ENDPOINT'] %>/template-page/proto-app-style.min.css">
@@ -11,14 +11,14 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
         <script src="https://cdn.protograph.pykih.com/lib/protoGraph.min.js"></script>
-        <% if @site['favicon_url'].present? %>
-            <link rel="icon" type="image/png" href="<%= @site['favicon_url'] %>">
+        <% if site['favicon_url'].present? %>
+            <link rel="icon" type="image/png" href="<%= site['favicon_url'] %>">
         <% end %>
-        <% if @page.meta_keywords.present? %>
-            <meta name="keywords" content="<%= @page.meta_keywords %>">
+        <% if page.meta_keywords.present? %>
+            <meta name="keywords" content="<%= page.meta_keywords %>">
         <% end %>
-        <% if @page.meta_description.present? %>
-            <meta name="description" content="<%= @page.meta_description %>">
+        <% if page.meta_description.present? %>
+            <meta name="description" content="<%= page.meta_description %>">
         <% end %>
     </head>
 
@@ -80,7 +80,7 @@
             <div class="proto-col col-16">
                 <div class="fixed-cover-block fixed-cover-block-small">
                     <div class="page-title bottom-pull-div">
-                        <%= @page.headline %>
+                        <%= page.headline %>
                     </div>
                 </div>
             </div>
@@ -88,10 +88,10 @@
                 <div class="summary">
                     <div class="article-share-icons">
                         <div class="article-share-icons">
-                            <a href="<%= @site['facebook_url'].present? ? @site['facebook_url'] : '#' %>" id='facebook-share-link' target="_blank">
+                            <a href="<%= site['facebook_url'].present? ? site['facebook_url'] : '#' %>" id='facebook-share-link' target="_blank">
                                 <div class="single-share-icon"><img src="https://cdn.protograph.pykih.com/Assets/proto-app/img/article-share-facebook.png"></div>
                             </a>
-                            <a href="<%= @site['twitter_url'].present? ? @site['facebook_url'] : '#' %>" id='twitter-share-link' target="_blank">
+                            <a href="<%= site['twitter_url'].present? ? site['facebook_url'] : '#' %>" id='twitter-share-link' target="_blank">
                                 <div class="single-share-icon"><img src="https://cdn.protograph.pykih.com/Assets/proto-app/img/article-share-twitter.png"></div>
                             </a>
                         </div>
@@ -224,7 +224,7 @@
             </div>
             <div class="proto-col col-4 col-1-offset">
                 <div class="related-articles-link">
-                    <div class="column-title"><%= @streams_mapping['Related'] %></div>
+                    <div class="column-title"><%= streams_mapping['Related'] %></div>
                     <div id="related_container"></div>
                 </div>
             </div>
@@ -239,7 +239,7 @@
         <div class="protograph-app-filter-icon protograph-app-filter-close-button" id="protograph_filter_close_icon"><i class="remove icon"></i></div>
         <script>
             window.ProtoGraph = window.ProtoGraph || {};
-            ProtoGraph.streams = <%= @streams_mapping.to_json %>;
+            ProtoGraph.streams = <%= streams_mapping.to_json %>;
         </script>
         <script type="text/javascript" src="https://cdn.protograph.pykih.com/lib/proto-app-lib.min.js"></script>
         <script src="https://cdn.protograph.pykih.com/lib/tether.min.js"></script>
