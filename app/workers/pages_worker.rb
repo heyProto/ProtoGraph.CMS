@@ -4,7 +4,7 @@ class PagesWorker
 
   def perform(page_id)
     page = Page.find(page_id)
-    case page.layout
+    case page.template_page.name
     when 'section'
       Pages::SectionPageWorker.perform_at(10.seconds.from_now, page_id)
     when 'article'
