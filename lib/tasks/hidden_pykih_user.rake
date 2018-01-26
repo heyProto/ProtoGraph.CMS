@@ -1,20 +1,15 @@
 namespace :hidden_pykih_user do
   desc "Adds a hidden pykih user in all user accounts"
   task :add => :environment do
-    pykih_admins = ["ritvvij.parrikh@pykih.com", "rp@pykih.com", "ab@pykih.com", "dhara.shah@pykih.com", "aashutosh.bhatt@pykih.com"]
+    pykih_admins = {}
+    User.where(email: ["ritvvij.parrikh@pykih.com", "ab@pykih.com", "dhara.shah@pykih.com"]).each do |user|
+      pykih_admins[user.email] = user
+    end
 
-    pykih_admin = User.find_by(email: "ab@pykih.com")
-
-    User.where.not(email: pykih_admins).each do |u|
-      u.accounts.each do |a|
-        p = Permission.create(
-          is_hidden: true,
-          created_by: pykih_admin.id,
-          updated_by: pykih_admin.id,
-          account_id: a.id,
-          user_id: pykih_admin.id,
-          ref_role_slug: "owner"
-        )
+    Account.all.each do |account|
+      account_users = account.users.pluck(:email)
+      pykih_admins.each do |email, user|
+        user.create_permission("Account", account.id, "owner",true)
       end
     end
   end

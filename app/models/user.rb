@@ -67,12 +67,12 @@ class User < ApplicationRecord
         ["ritvvij.parrikh@pykih.com", "rp@pykih.com", "ab@pykih.com", "dhara.shah@pykih.com", "aashutosh.bhatt@pykih.com"].index(self.email).present? ? true : false
     end
 
-    def create_permission(permissible_type, permissible_id, r)
+    def create_permission(permissible_type, permissible_id, r, is_hidden=false)
         p = Permission.where(user_id: self.id, permissible_id: permissible_id, permissible_type: permissible_type).first
         if p.present?
-            p.update_attributes(status: "Active", ref_role_slug: r, updated_by: self.id, is_hidden: false)
+            p.update_attributes(status: "Active", ref_role_slug: r, updated_by: self.id, is_hidden: is_hidden)
         else
-            p = Permission.create(user_id: self.id, permissible_id: permissible_id, permissible_type: permissible_type, created_by: self.id, updated_by: self.id, ref_role_slug: r)
+            p = Permission.create(user_id: self.id, permissible_id: permissible_id, permissible_type: permissible_type, created_by: self.id, updated_by: self.id, ref_role_slug: r,is_hidden: is_hidden)
         end
         p
     end
