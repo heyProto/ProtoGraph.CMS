@@ -53,7 +53,8 @@ Rails.application.routes.draw do
 
   resources :accounts do
     resources :permissions do
-      get "change_role", on: :member
+      get "change_owner_role", on: :member
+      put "change_role", on: :member
     end
     resources :permission_invites
     resources :sites do
