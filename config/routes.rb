@@ -62,7 +62,11 @@ Rails.application.routes.draw do
         put "change_role", on: :member
       end
       resources :permission_invites
-      resources :ref_categories
+      resources :ref_categories do 
+        resources :site_vertical_navigations do 
+          put "move_up", "move_down", on: :member
+        end
+      end
       resources :ref_categories, except: [:index] do
         put '/disable', to: "ref_categories#disable", on: :member
       end

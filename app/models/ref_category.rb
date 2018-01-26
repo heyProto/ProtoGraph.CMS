@@ -26,6 +26,7 @@ class RefCategory < ApplicationRecord
     has_one :stream, foreign_key: 'id', primary_key: 'stream_id'
     belongs_to :creator, class_name: "User", foreign_key: "created_by"
     belongs_to :updator, class_name: "User", foreign_key: "updated_by"
+    has_many :navigations, class_name: "SiteVerticalNavigation", foreign_key: "ref_category_vertical_id", dependent: :destroy
 
     #ACCESSORS
     #VALIDATIONS
