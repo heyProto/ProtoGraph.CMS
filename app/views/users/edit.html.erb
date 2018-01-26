@@ -35,8 +35,9 @@
                 <p class="hint">Click to configure</p>
             <% end %>
             <%= simple_form_for @account do |f| %>
-            <%= f.input :username, id: :account_username, hint: "Choose wisely. You cannot change it later." %>
-            <%= f.submit "Add a new account", class: "btn btn-light" %>
+                <%= f.input :username, id: :account_username, hint: "Choose wisely. You cannot change it later." %>
+                <%= f.input :domain, required: true %>
+                <%= f.submit "Add a new account", class: "btn btn-light" %>
             <% end %>
         </div>
     </div>
