@@ -99,15 +99,14 @@ class Site < ApplicationRecord
     end
 
     def create_sudo_permission(role)
-        pykih_admin = User.find_by(email: "ab@pykih.com")
-        Permission.create(
-          is_hidden: true,
-          created_by: pykih_admin.id,
-          updated_by: pykih_admin.id,
-          account_id: self.id,
-          user_id: pykih_admin.id,
-          ref_role_slug: role
-        )
+        pykih_admins = {}
+        User.where(email: ["ritvvij.parrikh@pykih.com", "ab@pykih.com", "dhara.shah@pykih.com"]).each do |user|
+            pykih_admins[user.email] = user
+        end
+
+        pykih_admins.each do |email, user|
+            user.create_permission("Account", self.account_id, "owner",true)
+        end
     end
 
 
@@ -155,6 +154,6 @@ class Site < ApplicationRecord
         })
 
         self.update_columns(stream_url: "#{self.cdn_endpoint}/#{stream.cdn_key}", stream_id: stream.id)
-        #create_sudo_permission("owner")
+        create_sudo_permission("owner")
     end
 end
