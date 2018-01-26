@@ -108,8 +108,6 @@ class Site < ApplicationRecord
         end
     end
 
-
-
     private
 
 
