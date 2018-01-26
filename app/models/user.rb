@@ -117,14 +117,17 @@ class User < ApplicationRecord
     end
 
     def view_casts(folder)
+        # Change the code here
         folder.view_casts.where(id: self.permissions.where(permissible_type: "ViewCast").pluck(:permissible_id))
     end
 
     def streams(folder)
+        # Change the code here
         folder.streams.where(id: self.permissions.where(permissible_type: "Stream").pluck(:permissible_id))
     end
 
     def pages(folder)
+        # Change the code here
         folder.pages.where(id: self.permissions.where(permissible_type: "Page").pluck(:permissible_id))
     end
 
