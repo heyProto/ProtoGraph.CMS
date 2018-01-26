@@ -27,7 +27,7 @@ class SiteVerticalNavigation < ApplicationRecord
   belongs_to :updator, class_name: "User", foreign_key: "updated_by"  
 
   #ACCESSORS
-  validates :name, presence: true, uniqueness: {scope: :account}
+  validates :name, presence: true
   validates :url, presence: true, format: {:with => /[a-zA-Z0-9][a-zA-Z0-9-]{1,61}[a-zA-Z0-9]\.[a-zA-Z]{2,}/ }, allow_blank: true, allow_nil: true, length: { in: 3..240 }
 
   #CALLBACKS

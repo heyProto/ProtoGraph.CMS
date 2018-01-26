@@ -20,40 +20,22 @@
     <br>
     <h3>Navigation <span style="font-weight: 200;">in vertical <%= @ref_category.name %></span></h3>
     <br/>
-
-    
-    
-    
-
-    
-    
-    
     <% if @site_vertical_navigations.first.blank? %>
         <div class="hint">No rows yet</div>
     <% else %>
               <table class="table table-sm table-responsive">
-                <thead>
-                  <tr>
-                    <th>Ref category vertical</th>
-                    <th>Name</th>
-                    <th>Url</th>
-                    <th>Launch in new window</th>
-                    <th>Created by</th>
-                    <th>Updated by</th>
-                    <th colspan="1"></th>
-                  </tr>
-                </thead>
-
                 <tbody>
                   <% @site_vertical_navigations.each do |site_vertical_navigation| %>
                     <tr>
-                      <td><%= site_vertical_navigation.ref_category_vertical_id %></td>
-                      <td><%= site_vertical_navigation.name %></td>
-                      <td><%= site_vertical_navigation.url %></td>
-                      <td><%= site_vertical_navigation.launch_in_new_window %></td>
-                      <td><%= site_vertical_navigation.created_by %></td>
-                      <td><%= site_vertical_navigation.updated_by %></td>
-                      <td><%= link_to 'Destroy', account_site_ref_category_site_vertical_navigation_path(@account, @site, @ref_category, site_vertical_navigation), method: :delete, data: { confirm: 'Are you sure?' } %></td>
+                      <td><%= site_vertical_navigation.name %>
+                          <div class="hint">
+                              <%= site_vertical_navigation.url %>
+                              <% if site_vertical_navigation.launch_in_new_window %>
+                                  [/]
+                              <% end %>
+                          </div>
+                      </td>
+                      <td><%= link_to 'Remove', account_site_ref_category_site_vertical_navigation_path(@account, @site, @ref_category, site_vertical_navigation), method: :delete, data: { confirm: 'Are you sure?' } %></td>
                     </tr>
                   <% end %>
                 </tbody>
