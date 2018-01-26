@@ -46,8 +46,6 @@
                 <%= f.input :email_domain, hint: "E.g. google.com. Don't use common domains like gmail, outlook, yahoo, etc." %>
                 <%= f.input :sign_up_mode, as: :select, collection: Site::SIGN_UP_MODES.map{|z| [z, z]}, include_blank: false %>
                 <%= f.input :default_role, as: :select, collection: Permission::REF_DEFAULT_ROLES, include_blank: false %>
-
-
                 <%= f.button :submit, "Save", class: "btn btn-light" %>
               </div>
             <% end %>
