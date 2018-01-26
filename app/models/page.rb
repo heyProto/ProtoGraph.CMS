@@ -77,6 +77,7 @@ class Page < ApplicationRecord
   after_create :push_json_to_s3
 
   after_update :create_story_card
+  after_update :push_json_to_s3
   after_save :after_save_set
 
   #SCOPE
@@ -229,8 +230,9 @@ class Page < ApplicationRecord
     resp = Api::ProtoGraph::Utility.upload_to_cdn(encoded_file, key, content_type)
     self.update_column(:page_object_url, "#{Datacast_ENDPOINT}/#{key}")
 
-    PagesWorker.perform_async(self.id)
-
+    # PagesWorker.perform_async(self.id)
+    response = Api::ProtoGraph::Page.create_or_update_page(self.datacast_identifier, self.template_page.s3_identifier)
+    puts "====> #{response}"
     true
   end
 
