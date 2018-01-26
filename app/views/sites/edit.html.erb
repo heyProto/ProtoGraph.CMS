@@ -57,7 +57,7 @@
         <hr/>
         <div style="margin-left: 50px;">
             <p>Publication logo</p>
-            <p class="hint">This logo appears at the top of all your publication’s stories. It should have a transparent background, and be at least 600px wide and 72px tall.</p>
+            <p class="hint">Use the logo you use as your Twitter Profile. It is square and should be at least 400 × 400px in size.</p>
             <div style="margin-left: 50px;">
               <% if @site.logo_image_id.present? %>
                 <%= image_tag(@site.logo_image.original_image.image_url, class: "rounded", style: "width: 100px;") %>
@@ -86,8 +86,7 @@
             </div>
             <br/>
             <p>Publication favicon</p>
-            <p class="hint">This is used by mobile browsers to represent a page, appearing in browser tabs and similar places. It is square and should be at least 128 × 128px in size.</p>
-
+            <p class="hint">This is used by mobile browsers to represent a page, appearing in browser tabs and similar places. It is square and should be at least 16 × 16px in size.</p>
             <div style="margin-left: 50px;">
               <% if @site.favicon_id.present? %>
                 <%= image_tag(@site.favicon.original_image.image_url, class: "rounded", style: "max-width: 100px;") %>
