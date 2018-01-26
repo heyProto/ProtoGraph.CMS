@@ -73,7 +73,7 @@ class TemplateCard < ApplicationRecord
     end
 
     def self.to_story_cards_ids
-      TemplateCard.where(name: ["toArticle", "toStory"]).pluck(:id).uniq
+      TemplateCard.where(name: ["toArticle"]).pluck(:id).uniq
     end
 
     def deep_copy_across_versions
