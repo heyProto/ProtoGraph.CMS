@@ -96,8 +96,10 @@ Rails.application.routes.draw do
           resources :stream_entities, only: [:create, :destroy]
         end
         resources :uploads, only: [:new, :create, :index]
-        resources :pages
         resources :page_streams, only: [:update]
+      end
+      resources :pages, only: [:show, :edit, :update, :destroy] do
+        get "manager", on: :collection
       end
     end
     resources :authentications
