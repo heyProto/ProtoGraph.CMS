@@ -24,7 +24,7 @@
         <div style="margin-left: 50px;">
             <%= simple_form_for [@account, @site] do |f| %>
               <%= f.error_notification %>
-              <%= f.input :g_a_tracking_id %>
+              <%= f.input :g_a_tracking_id, label: "Google Analytics Tracking Code", hint: "Example: UA-23849503-1" %>
               <%= f.input :facebook_url %>
               <%= f.input :twitter_url %>
               <%= f.input :instagram_url %>
