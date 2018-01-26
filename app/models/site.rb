@@ -100,10 +100,10 @@ class Site < ApplicationRecord
 
 
     def before_create_set
-        self.house_colour = "#000"
-        self.reverse_house_colour = "#fff"
-        self.font_colour = "#000"
-        self.reverse_font_colour = "#fff"
+        self.house_colour = "#EE1C25"
+        self.reverse_house_colour = "#4caf50"
+        self.font_colour = "#FFFFFF"
+        self.reverse_font_colour = "#FFFFFF"
         self.cdn_provider = "CloudFront"
         self.cdn_id = ENV['AWS_CDN_ID']
         self.host = "#{AWS_API_DATACAST_URL}/cloudfront/invalidate"
