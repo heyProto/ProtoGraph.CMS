@@ -63,10 +63,10 @@ class Permission < ApplicationRecord
     end
 
     def after_save_set
-        if self.sites
+        if self.sites and self.sites.count > 0
             self.sites = self.sites.reject(&:empty?)
             self.sites.each do |s|
-                user.create_permission("Site", s, self.ref_role_slug)
+                user.create_permission("Site", s, self.site_ref_role_slug)
             end
         end
     end

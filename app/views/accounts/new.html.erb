@@ -5,7 +5,7 @@
         <div style="margin-left: 50px;">
             <%= simple_form_for @account do |f| %>
               <%= f.input :username, hint: "Choose wisely. You cannot change it later." %>
-              <%= f.input :domain %>
+              <%= f.input :domain, required: true %>
               <%= f.input :coming_from_new, as: :hidden, input_html: {value: true} %>
               <%= f.button :submit, "Add", class: "btn btn-sm" %>
             <% end %>

@@ -46,6 +46,7 @@ class User < ApplicationRecord
     #VALIDATIONS
     validates :name, presence: true, length: { in: 3..24 }
     validates :email, presence: true, uniqueness: { case_sensitive: false }, format: { with: /\A[^@\s]+@([^@.\s]+\.)+[^@.\s]+\z/ }
+    validate :email_invited
     #CALLBACKS
     before_create :before_create_set
     after_create :welcome_user
@@ -125,6 +126,14 @@ class User < ApplicationRecord
 
     def pages(folder)
         folder.pages.where(id: self.permissions.where(permissible_type: "Page").pluck(:permissible_id))
+    end
+
+    def email_invited
+        d = self.email.split("@").last
+        sites = Site.where(email_domain: d, sign_up_mode: "Any email from your domain")
+        if sites.count == 0 and PermissionInvite.where(email: self.email).count == 0
+            errors.add(:email, "Not invited.")
+        end
     end
 
 

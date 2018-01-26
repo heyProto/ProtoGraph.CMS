@@ -26,9 +26,9 @@ class User::RegistrationsController < Devise::RegistrationsController
       if resource.email.present?
         d = resource.email.split("@").last
         if d.present?
-            a = Site.where(email_domain: d, sign_up_mode: "Any email from your domain").first
-            if a.present?
-                Permission.create(user_id: resource.id, permissible_type: "Site", permissible_id: a.id, created_by: resource.id, updated_by: resource.id, ref_role_slug: a.default_role)
+            sites = Site.where(email_domain: d, sign_up_mode: "Any email from your domain")
+            sites.each do |a|
+              per = Permission.create(user_id: resource.id, permissible_type: "Site", permissible_id: a.id, created_by: resource.id, updated_by: resource.id, ref_role_slug: a.default_role || 'writer')
             end
         end
       end
