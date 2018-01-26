@@ -31,7 +31,7 @@ class Permission < ApplicationRecord
     belongs_to :permission_role, foreign_key: 'ref_role_slug', primary_key: 'slug'
 
     #ACCESSORS
-    attr_accessor :redirect_url, :sites, :site_ref_role_slug
+    attr_accessor :redirect_url, :sites,:site_ref_role_slug
     #VALIDATIONS
     validates :user_id, presence: true
     validates :ref_role_slug, presence: true
@@ -66,7 +66,7 @@ class Permission < ApplicationRecord
         if self.sites
             self.sites = self.sites.reject(&:empty?)
             self.sites.each do |s|
-                Permission.create({ref_role_slug: self.ref_role_slug, permissible_id: s, permissible_type: "Site", created_by: self.updated_by, updated_by: self.updated_by})
+                user.create_permission("Site", s, self.ref_role_slug)
             end
         end
     end
