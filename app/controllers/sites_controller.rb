@@ -18,12 +18,14 @@ class SitesController < ApplicationController
     if @site.favicon_id.nil?
       @site.build_favicon
     end
+    @permission_roles = PermissionRole.where.not(slug: 'owner').pluck(:name, :slug)
   end
 
   def update
     if @site.update(site_params)
       redirect_to edit_account_site_path(@account, @site), notice: 'site was successfully updated.'
     else
+      @permission_role = PermissionRole.where.not(slug: 'owner').pluck(:name, :slug)
       render :edit
     end
   end

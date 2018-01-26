@@ -112,6 +112,7 @@ class Site < ApplicationRecord
         self.client_token = ENV['AWS_ACCESS_KEY_ID']
         self.client_secret = ENV['AWS_SECRET_ACCESS_KEY']
         self.story_card_style = 'Clear: Color'
+        self.default_role = 'writer'
         true
     end
 
