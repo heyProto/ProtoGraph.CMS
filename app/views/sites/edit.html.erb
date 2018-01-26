@@ -8,10 +8,8 @@
             <%= simple_form_for [@account, @site] do |f| %>
               <%= f.error_notification %>
               <%= f.input :name, required: true %>
-              <%= f.input :domain, required: true, placeholder: "E.g. google.com. Don't use common domains like gmail, outlook, yahoo, etc." %>
-              <%= f.input :sign_up_mode, as: :select, collection: Site::SIGN_UP_MODES.map{|z| [z, z]}, label: false, include_blank: false %>
-              <%= f.input :default_role, as: :select, collection: Permission::REF_DEFAULT_ROLES, label: false, include_blank: false %>
-              <%= f.input :description, required: true, hint: "This will be used in footers, search results, and other places." %>
+              <%= f.input :domain, hint: "Where is the site hosted?" %>
+              <%= f.input :description, hint: "This will be used in footers, search results, and other places." %>
               <%= f.input :primary_language, as: :select, collection: [["English", "English"], ["Hindi", "Hindi"]], include_blank: false %>
               <%= f.input :default_seo_keywords, required: true, hint: "These default keywords will be used on homepage." %>
               <%= f.input :created_by, as: :hidden, input_html: {value: current_user.id} %>
@@ -34,7 +32,28 @@
               <%= f.button :submit, "Save", class: "btn btn-light" %>
             <% end %>
         </div>
+        
         <br/>
+        <h3>How do you want members to sign up?</h3>
+        <hr/>
+        <div style="margin-left: 50px;">
+            <p class="hint">Choose to make your team signup process invitation only, or allow anyone with a certain email address format to sign up.</p>
+            <%= simple_form_for [@account, @site] do |f| %>
+              <%= f.error_notification %>
+              <div class="form-inputs">
+                <%= f.input :email_domain, hint: "E.g. google.com. Don't use common domains like gmail, outlook, yahoo, etc." %>
+                <%= f.input :sign_up_mode, as: :select, collection: Site::SIGN_UP_MODES.map{|z| [z, z]}, include_blank: false %>
+                <%= f.input :default_role, as: :select, collection: Permission::REF_DEFAULT_ROLES, include_blank: false %>
+                
+                
+                <%= f.button :submit, "Save", class: "btn btn-light" %>
+              </div>
+            <% end %>
+        </div>
+        <br/>
+        
+        
+        
         <h3>Theme</h3>
         <hr/>
         <div style="margin-left: 50px;">
