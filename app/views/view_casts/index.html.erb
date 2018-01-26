@@ -24,7 +24,7 @@
             <small class="text-muted">
               <%= image_tag avatar_url(d.updator.email), width: "20px", class: "rounded" %>
               &nbsp;&nbsp;
-              <%= d.template_card.name %>  |  <%= time_ago_in_words(d.updated_at) %>
+              <%= d.template_card.name %> | <%=d.id.to_s%> | <%= time_ago_in_words(d.updated_at) %>
             </small>
           </div>
         </div>

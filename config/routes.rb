@@ -7,8 +7,6 @@ Rails.application.routes.draw do
   devise_for :users, controllers: {
                registrations: 'user/registrations',
                sessions: 'user/sessions',
-               passwords: "user/passwords",
-               confirmations: "user/confirmations",
                omniauth_callbacks: "user/omniauth_callbacks"
              } do
     get 'sign_out', to: 'devise/sessions#destroy'
@@ -53,7 +51,8 @@ Rails.application.routes.draw do
 
   resources :accounts do
     resources :permissions do
-      get "change_role", on: :member
+      get "change_owner_role", on: :member
+      put "change_role", on: :member
     end
     resources :permission_invites
     resources :sites do
@@ -61,7 +60,11 @@ Rails.application.routes.draw do
         put "change_role", on: :member
       end
       resources :permission_invites
-      resources :ref_categories
+      resources :ref_categories do
+        resources :site_vertical_navigations do
+          put "move_up", "move_down", on: :member
+        end
+      end
       resources :ref_categories, except: [:index] do
         put '/disable', to: "ref_categories#disable", on: :member
       end

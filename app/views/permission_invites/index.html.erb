@@ -28,7 +28,7 @@
                                 <%= simple_form_for(permission, url: change_role_account_site_permission_path(@account, @site, permission), class: "permission_forms", method: :put) do |f| %>
                                     <%= f.hidden_field :updated_by, value: current_user.id %>
                                     <%= f.hidden_field :redirect_url, value: account_site_permission_invites_path(@account, @site) %>
-                                    <%= f.input :ref_role_slug, collection: @permission_roles, include_blank: false, label: false, input_html: {class: "permission_select"} %>
+                                    <%= f.input :ref_role_slug, collection: @permission_roles, include_blank: false, label: false, input_html: {class: "permission_select"}, label: "Role" %>
                                 <% end %>
                             </td>
                             <td style="border: 0px;">
@@ -101,7 +101,7 @@
                         <%= f.hidden_field :updated_by, value: current_user.id %>
                         <%= f.input :email, id: :permission_invite_email, required: true, autofocus: true %>
                         <%= f.hidden_field :redirect_url, value: account_site_permission_invites_path(@account, @site) %>
-                        <%= f.input :ref_role_slug, collection: @permission_roles, include_blank: false %>
+                        <%= f.input :ref_role_slug, collection: @permission_roles, include_blank: false, label: "Role" %>
                         <%= f.submit "Invite", class: "btn btn-light" %>
                     <% end %>
                 </div>

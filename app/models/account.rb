@@ -39,12 +39,10 @@ class Account < ApplicationRecord
     has_many :streams, dependent: :destroy
     has_one :site,dependent: :destroy #change it to many later
     #ACCESSORS
-    attr_accessor :coming_from_new
+    attr_accessor :coming_from_new, :domain
     #VALIDATIONS
     validates :username, presence: true, uniqueness: { case_sensitive: false }, length: { in: 3..24 }, format: { with: /\A[a-z0-9A-Z_]{4,16}\z/ }
 
-    validates :domain, format: {:with => /[a-zA-Z0-9][a-zA-Z0-9-]{1,61}[a-zA-Z0-9]\.[a-zA-Z]{2,}/ }, allow_blank: true, allow_nil: true, length: { in: 3..240 }, exclusion: { in: %w(gmail.com outlook.com yahoo.com mail.com),
-    message: "%{value} is reserved." } #TODO AMIT - we need to think of more free email providers
     validates :cdn_endpoint, format: URI::regexp(%w(http https)), allow_nil: true
     #CALLBACKS
     before_create :before_create_set

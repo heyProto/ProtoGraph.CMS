@@ -24,7 +24,11 @@
                   <small class="text-muted">
               <%= image_tag avatar_url(d.updator.email), width: "20px", class: "rounded" %>
               &nbsp;&nbsp;
-              page | <%= time_ago_in_words(d.updated_at) %>
+              <% if d.view_cast.present? %>
+              <%= d.view_cast.id.to_s %> | 
+              <% end %>
+              
+              <%= time_ago_in_words(d.updated_at) %>
             </small>
                 </div>
               </div>

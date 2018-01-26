@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180126043238) do
+ActiveRecord::Schema.define(version: 20180126120143) do
 
   create_table "accounts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "username"
@@ -305,6 +305,19 @@ ActiveRecord::Schema.define(version: 20180126043238) do
     t.boolean "created_by"
     t.boolean "updated_by"
     t.integer "count", default: 0
+  end
+
+  create_table "site_vertical_navigations", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.integer "site_id"
+    t.integer "ref_category_vertical_id"
+    t.string "name"
+    t.text "url"
+    t.boolean "launch_in_new_window"
+    t.integer "created_by"
+    t.integer "updated_by"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "sort_order"
   end
 
   create_table "sites", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|

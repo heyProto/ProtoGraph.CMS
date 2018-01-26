@@ -21,20 +21,28 @@ class AccountsController < ApplicationController
 
   def update
     a_params = account_params
-    if @account.update(a_params)
-      redirect_to edit_account_path(@account), notice: t("us")
-    else
-      @permissions = @account.permissions.not_hidden.where(ref_role_slug: "owner").includes(:user).page params[:page]
-      @people_count = @account.users.count
-      @permission_invite = PermissionInvite.new
-      @permission_invites = @account.permission_invites.where(ref_role_slug: "owner")
-      @people_count = @account.permissions.not_hidden.where(ref_role_slug: "owner").count
-      @pending_invites_count = @account.permission_invites.where(ref_role_slug: "owner").count
-      @permission_invites = @account.permission_invites.where(ref_role_slug: "owner")
+    respond_to do |format|
+      if @account.update(a_params)
+        format.json { respond_with_bip(@account) }
+        format.html {
+          redirect_to edit_account_path(@account), notice: t("us")
+        }
+      else
+        format.json { respond_with_bip(@account) }
+        format.html {
+          @permissions = @account.permissions.not_hidden.where(ref_role_slug: "owner").includes(:user).page params[:page]
+          @people_count = @account.users.count
+          @permission_invite = PermissionInvite.new
+          @permission_invites = @account.permission_invites.where(ref_role_slug: "owner")
+          @people_count = @account.permissions.not_hidden.where(ref_role_slug: "owner").count
+          @pending_invites_count = @account.permission_invites.where(ref_role_slug: "owner").count
+          @permission_invites = @account.permission_invites.where(ref_role_slug: "owner")
 
-      @people_count = @account.permissions.not_hidden.where(ref_role_slug: "owner").count
-      @pending_invites_count = @account.permission_invites.where(ref_role_slug: "owner").count
-      render "edit"
+          @people_count = @account.permissions.not_hidden.where(ref_role_slug: "owner").count
+          @pending_invites_count = @account.permission_invites.where(ref_role_slug: "owner").count
+          render "edit"
+        }
+      end
     end
   end
 
@@ -71,7 +79,7 @@ class AccountsController < ApplicationController
   private
 
     def account_params
-      params.require(:account).permit(:username, :slug, :status, :host, :cdn_id, :cdn_provider, :cdn_endpoint, :client_token, :access_token, :client_secret, :coming_from_new)
+      params.require(:account).permit(:username, :slug, :status, :host, :cdn_id, :cdn_provider, :cdn_endpoint, :client_token, :access_token, :client_secret, :coming_from_new, :domain)
     end
 
 end

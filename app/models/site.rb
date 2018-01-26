@@ -49,13 +49,14 @@ class Site < ApplicationRecord
     has_many :activities
     has_many :ref_categories
     has_many :ref_tags
+    has_many :view_casts
+    has_many :pages
     has_one :stream, primary_key: "stream_id", foreign_key: "id"
     belongs_to :logo_image, class_name: "Image", foreign_key: "logo_image_id", primary_key: "id", optional: true
     belongs_to :favicon, class_name: "Image", foreign_key: "favicon_id", primary_key: "id", optional: true
     has_many :permissions, ->{where(status: "Active", permissible_type: 'Site')}, foreign_key: "permissible_id", dependent: :destroy
     has_many :users, through: :permissions
     has_many :permission_invites, ->{where(permissible_type: 'Site')}, foreign_key: "permissible_id", dependent: :destroy
-
 
     #ACCESSORS
     accepts_nested_attributes_for :logo_image, :favicon
@@ -96,6 +97,16 @@ class Site < ApplicationRecord
         self.client_secret == ENV['AWS_SECRET_ACCESS_KEY']
     end
 
+    def create_sudo_permission(role)
+        pykih_admins = {}
+        User.where(email: ["ritvvij.parrikh@pykih.com", "ab@pykih.com", "dhara.shah@pykih.com"]).each do |user|
+            pykih_admins[user.email] = user
+        end
+
+        pykih_admins.each do |email, user|
+            user.create_permission("Account", self.account_id, "owner",true)
+        end
+    end
 
     private
 
@@ -140,32 +151,6 @@ class Site < ApplicationRecord
         })
 
         self.update_columns(stream_url: "#{self.cdn_endpoint}/#{stream.cdn_key}", stream_id: stream.id)
-
-        # ["genderand", "mobbed", 'jaljagran'].each do |series|
-        #     cat = RefCategory.create({
-        #         site_id: self.id,
-        #         category: "series",
-        #         name: series
-        #     })
-
-        #    s = Stream.create!({
-        #         is_automated_stream: true,
-        #         col_name: "RefCategory",
-        #         col_id: cat.id,
-        #         updated_by: user_id,
-        #         created_by: user_id,
-        #         account_id: account_id,
-        #         title: self.name,
-        #         description: "#{series} stream",
-        #         limit: 50
-        #     })
-
-        #     Thread.new do
-        #         s.publish_cards
-        #         ActiveRecord::Base.connection.close
-        #     end
-
-        #     cat.update_columns(stream_url: "#{site.cdn_endpoint}/#{s.cdn_key}", stream_id: s.id)
-        # end
+        create_sudo_permission("owner")
     end
 end
