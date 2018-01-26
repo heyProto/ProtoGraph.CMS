@@ -58,7 +58,6 @@ class Site < ApplicationRecord
     has_many :users, through: :permissions
     has_many :permission_invites, ->{where(permissible_type: 'Site')}, foreign_key: "permissible_id", dependent: :destroy
 
-
     #ACCESSORS
     accepts_nested_attributes_for :logo_image, :favicon
     #VALIDATIONS
