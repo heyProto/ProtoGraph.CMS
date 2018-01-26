@@ -2,19 +2,6 @@
     <div class="col-sm-6" style="padding: 0px; margin-left: auto; margin-right: auto;">
         <h1><span style="font-weight: 200;">Account Settings:</span> <%= @account.username %></h1>
         <br/>
-        <h3>How do you want members to sign up?</h3>
-        <hr/>
-        <div style="margin-left: 50px;">
-            <p class="hint">Choose to make your team signup process invitation only, or allow anyone with a certain email address format to sign up.</p>
-            <%= simple_form_for @account do |f| %>
-              <%= f.error_notification %>
-              <div class="form-inputs">
-                <%= f.input :domain, placeholder: "E.g. google.com. Don't use common domains like gmail, outlook, yahoo, etc." %>
-                <%= f.button :submit, "Save", class: "btn btn-light" %>
-              </div>
-            <% end %>
-        </div>
-        <br/>
         <h3>Owners of this account</h3>
         <hr/>
         <div style="margin-left: 50px;">

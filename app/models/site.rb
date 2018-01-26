@@ -34,11 +34,12 @@
 #  sign_up_mode         :string(255)
 #  default_role         :string(255)
 #  story_card_style     :string(255)
+#  email_domain         :string(255)
 #
 
 class Site < ApplicationRecord
     #CONSTANTS
-    SIGN_UP_MODES = ["Invitation only", "Any email from your domain"]
+    SIGN_UP_MODES = ["Any email from your domain", "Invitation only"]
     #CUSTOM TABLES
     #GEMS
     #ASSOCIATIONS

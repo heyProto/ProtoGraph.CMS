@@ -18,7 +18,7 @@
 class Permission < ApplicationRecord
 
     #CONSTANTS
-    REF_DEFAULT_ROLES = [["Editor", "editor"], ['Writer', 'writer']]
+    REF_DEFAULT_ROLES = [['Writer', 'writer'], ["Editor", "editor"]]
     REF_ROLES = [["Editor", "editor"], ['Writer', 'writer'], ['Contributor', 'contributor']]
     #CUSTOM TABLES
     #GEMS
