@@ -1,5 +1,4 @@
 class User::RegistrationsController < Devise::RegistrationsController
-  # layout "three_column_grid", only: [:new, :create]
 
   def edit
     @user_email = UserEmail.new

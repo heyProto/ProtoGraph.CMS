@@ -1,11 +1,9 @@
-<%= content_for :proto_container_col_sm_9_content_col do %>
-    <div class="row">
-        <%= simple_form_for(resource, as: resource_name, url: confirmation_path(resource_name), html: { method: :post }) do |f| %>
-            <%= f.error_notification %>
-            <%= f.input :email, autofocus: true, value: (resource.pending_reconfirmation? ? resource.unconfirmed_email : resource.email) %>
-            <%= f.submit "Resend confirmation instructions", class: "btn btn-primary" %>
-        <% end %>
-        <br/>
-        <%= render "devise/shared/links" %>
-    </div>
-<% end %>
+<div class="row sign-up-area">
+    <%= simple_form_for(resource, as: resource_name, url: confirmation_path(resource_name), html: { method: :post }) do |f| %>
+        <%= f.error_notification %>
+        <%= f.input :email, autofocus: true, value: (resource.pending_reconfirmation? ? resource.unconfirmed_email : resource.email) %>
+        <%= f.submit "Resend", class: "btn btn-primary" %>
+    <% end %>
+    <br/>
+    <%= render "devise/shared/links" %>
+</div>
