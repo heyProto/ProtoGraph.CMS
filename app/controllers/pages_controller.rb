@@ -4,7 +4,11 @@ class PagesController < ApplicationController
   before_action :sudo_can_see_all_pages, only: [:show, :edit, :update]
 
   def index
-    @pages = @permission_role.can_see_all_pages ? @folder.pages.order(updated_at: :desc).page(params[:page]).per(30) : current_user.pages(@folder).order(updated_at: :desc).page(params[:page]).per(30)
+    @pages = @permission_role.can_see_all_pages ? @folder.pages.where.not(template_page_id: TemplatePage.where(name: "section").pluck(:id).uniq).order(updated_at: :desc).page(params[:page]).per(30) : current_user.pages(@folder).where.not(template_page_id: TemplatePage.where(name: "section").pluck(:id).uniq).order(updated_at: :desc).page(params[:page]).per(30)
+  end
+  
+  def manager
+    @pages = @site.pages.where(template_page_id: TemplatePage.where(name: "section").pluck(:id).uniq)
   end
 
   def show

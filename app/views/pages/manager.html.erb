@@ -1,0 +1,34 @@
+<div class="container">
+      <div class="row">
+        <% @pages.each do |d| %>
+          <div class="col-sm-4">
+            <%= link_to account_site_folder_page_path(@account, d.folder, @site, d), "data-turbolinks"=> false do %>
+              <div class="card" style="margin: 20px 0px; ">
+
+                <div class="card-footer">
+                  <h4 class="card-title" style="font-weight: 400; " title="<%=d.headline%>">
+                    <span class="branch-ref css-truncate css-truncate-target"><%= d.headline %></span>
+                  </h4>
+                  <small class="text-muted">
+              <%= image_tag avatar_url(d.updator.email), width: "20px", class: "rounded" %>
+              &nbsp;&nbsp;
+              <% if d.view_cast.present? %>
+                  <%= d.view_cast.id.to_s %> | 
+              <% end %>
+              
+              <%= time_ago_in_words(d.updated_at) %>
+            </small>
+                </div>
+              </div>
+              <% end %>
+          </div>
+          <% end %>
+      </div>
+
+
+
+<script type="text/javascript">
+  $(document).ready(function () {
+    $('[data-toggle="tooltip"]').tooltip();
+  });
+</script>
