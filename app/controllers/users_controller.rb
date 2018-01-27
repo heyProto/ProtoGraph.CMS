@@ -9,7 +9,7 @@ class UsersController < ApplicationController
     def edit
       @user = current_user
       @accounts_owned = Account.where(id: current_user.permissions.where(ref_role_slug: "owner", permissible_type: "Account").pluck(:permissible_id).uniq)
-      @accounts_member = Account.where(id: Site.where(id: current_user.permissions.where(permissible_type: "Site").where.not(ref_role_slug: "owner").pluck(:permissible_id).uniq).pluck(:permissible_id).uniq)
+      @accounts_member = Account.where(id: Site.where(id: current_user.permissions.where(permissible_type: "Site").where.not(ref_role_slug: "owner").pluck(:permissible_id).uniq).pluck(:account_id).uniq)
       @account = Account.new
     end
 
