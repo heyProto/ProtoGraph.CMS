@@ -18,22 +18,22 @@
             <% else %>
             <div class="row">
               <% @view_casts.each do |d| %>
-              <div class="col-sm-5">
-                <%= link_to [d.account, d.site, d.folder,d], "data-turbolinks"=> false do %>
-                <div class="card card-inverse" style="margin: 20px 0px; ">
-                  <div class="card-footer">
-                    <h4 class="card-title" style="font-weight: 400" title="<%=d.name%>">
-                      <span class="branch-ref css-truncate css-truncate-target"><%= d.name %></span>
-                    </h4>
-                    <small class="text-muted">
-                      <%= image_tag avatar_url(d.updator.email), width: "20px", class: "rounded" %>
-                      &nbsp;&nbsp;
-                      <%= d.template_card.name %>  |  <%= time_ago_in_words(d.updated_at) %>
-                    </small>
+                <div class="col-sm-5">
+                  <%= link_to [d.account, d.site, d.folder,d], "data-turbolinks"=> false do %>
+                  <div class="card card-inverse" style="margin: 20px 0px; ">
+                    <div class="card-footer">
+                      <h4 class="card-title" style="font-weight: 400" title="<%=d.name%>">
+                        <span class="branch-ref css-truncate css-truncate-target"><%= d.name %></span>
+                      </h4>
+                      <small class="text-muted">
+                        <%= image_tag avatar_url(d.updator.email), width: "20px", class: "rounded" %>
+                        &nbsp;&nbsp;
+                        <%= d.template_card.name %>  |  <%= time_ago_in_words(d.updated_at) %>
+                      </small>
+                    </div>
                   </div>
+                  <% end %>
                 </div>
-                <% end %>
-              </div>
               <% end %>
             </div>
             <% end %>

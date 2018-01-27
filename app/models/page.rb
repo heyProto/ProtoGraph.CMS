@@ -231,8 +231,11 @@ class Page < ApplicationRecord
     self.update_column(:page_object_url, "#{Datacast_ENDPOINT}/#{key}")
 
     # PagesWorker.perform_async(self.id)
-    response = Api::ProtoGraph::Page.create_or_update_page(self.datacast_identifier, self.template_page.s3_identifier)
-    puts "====> #{response}"
+    if !Rails.env.development?
+      response = Api::ProtoGraph::Page.create_or_update_page(self.datacast_identifier, self.template_page.s3_identifier)
+      puts "====> #{response}"
+      # PagesWorker.perform_async(self.id)
+    end
     true
   end
 

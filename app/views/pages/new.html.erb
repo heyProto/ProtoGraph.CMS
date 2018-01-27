@@ -10,7 +10,7 @@
 
             <%= simple_form_for(@page, url: account_site_folder_pages_path(@account, @site, @folder), method: :post) do |f| %>
                 <div class="row">
-                    <div class="col-sm-6" style="margin-left: auto; margin-right: auto;">
+                    <div class="col-sm-6" style="margin-left: auto; margin-right: auto; width: 540px;">
                         <%= f.error_notification %>
                         <div class="form-inputs">
                             <% if @page.id.blank? %>
@@ -22,6 +22,7 @@
                             <%= f.input :ref_category_series_id, label: "Vertical", collection: @ref_series, include_blank: true, required: true  %>
                             <%= f.input :headline, required: true, minlength: 50 , maxlength: 90 %>
                             <%= f.input :summary, minlength: 50 , maxlength: 220 %>
+                            <%= f.input :byline, required: true, label: "Display Byline", hint: "What byline do you want on the website?" %>
                             <p><b>Cover</b></p>
                             <%= f.input :cover_image_url, hint: "1260px width. 5:3 aspect ratio",required: true %>
                             <%= f.input :cover_image_url_7_column, hint: "540px width. 5:3 aspect ratio" %>
@@ -37,8 +38,6 @@
                             <p><b>Classification:</b></p>
                             <%= f.input :ref_category_intersection_id, label: "Intersection", collection: @ref_intersection, include_blank: true %>
                             <%= f.input :ref_category_sub_intersection_id, label: "Sub Intersection", collection: @ref_sub_intersection, include_blank: true %>
-                            <p><b>By:</b></p>
-                            <%= f.input :byline, required: true, label: "Display Byline", hint: "What byline do you want on the website?" %>
                             <%= f.input :is_sponsored, label: "&nbsp; Is Sponsored?".html_safe %>
                             <p><b>Story elements:</b></p>
                             <%= f.input :has_data, label: "&nbsp; Data or charts?".html_safe %>
