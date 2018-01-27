@@ -44,12 +44,16 @@ class Account < ApplicationRecord
     validates :username, presence: true, uniqueness: { case_sensitive: false }, length: { in: 3..24 }, format: { with: /\A[a-z0-9A-Z_]{4,16}\z/ }
 
     validates :cdn_endpoint, format: URI::regexp(%w(http https)), allow_nil: true
+    validates :domain, format: {:with => /[a-zA-Z0-9][a-zA-Z0-9-]{1,61}[a-zA-Z0-9]\.[a-zA-Z]{2,}/ }, allow_blank: true, allow_nil: true, length: { in: 3..240 }, exclusion: { in: %w(gmail.com outlook.com yahoo.com mail.com),message: "%{value} is reserved."}
     #CALLBACKS
     before_create :before_create_set
     before_update :before_update_set
     after_create :after_create_set
     #SCOPE
     #OTHER
+
+
+
 
     def template_cards
         if self.username == 'pykih'
@@ -100,6 +104,6 @@ class Account < ApplicationRecord
     end
 
     def after_create_set
-        Site.create({account_id: self.id, name: self.username, domain: self.domain})
+        site = Site.create({account_id: self.id, name: self.username, domain: self.domain})
     end
 end
