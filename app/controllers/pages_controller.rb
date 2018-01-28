@@ -6,7 +6,7 @@ class PagesController < ApplicationController
   def index
     @pages = @permission_role.can_see_all_pages ? @folder.pages.where.not(template_page_id: TemplatePage.where(name: "section").pluck(:id).uniq).order(updated_at: :desc).page(params[:page]).per(30) : current_user.pages(@folder).where.not(template_page_id: TemplatePage.where(name: "section").pluck(:id).uniq).order(updated_at: :desc).page(params[:page]).per(30)
   end
-  
+
   def manager
     @pages = @site.pages.where(template_page_id: TemplatePage.where(name: "section").pluck(:id).uniq)
   end
@@ -20,7 +20,7 @@ class PagesController < ApplicationController
     @ref_series = RefCategory.where(site_id: @site.id, genre: "series", is_disabled: [false, nil]).order(:name).map {|r| ["#{r.name}", r.id]}
     @ref_intersection = RefCategory.where(site_id: @site.id, genre: "intersection", is_disabled: [false, nil]).order(:name).map {|r| ["#{r.name}", r.id]}
     @ref_sub_intersection = RefCategory.where(site_id: @site.id, genre: "sub intersection", is_disabled: [false, nil]).order(:name).map {|r| ["#{r.name}", r.id]}
-    @layout = TemplatePage.all.map {|r| [ "#{r.name.titlecase}", r.id ]}
+    @layout = TemplatePage.where.not(name: "Homepage: Vertical").map {|r| [ "#{r.name.titlecase}", r.id ]}
     @cover_image_alignment = ['vertical', 'horizontal'].map {|r| ["#{r.titlecase}", r]}
   end
 

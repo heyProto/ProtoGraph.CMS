@@ -14,9 +14,11 @@ class AccountsController < ApplicationController
     @people_count = @account.permissions.not_hidden.where(ref_role_slug: "owner").count
     @pending_invites_count = @account.permission_invites.where(ref_role_slug: "owner").count
     @permission_invites = @account.permission_invites.where(ref_role_slug: "owner")
-
     @people_count = @account.permissions.not_hidden.where(ref_role_slug: "owner").count
     @pending_invites_count = @account.permission_invites.where(ref_role_slug: "owner").count
+    if @account.header_logo_id.nil?
+      @account.build_header_logo
+    end
   end
 
   def update
@@ -37,9 +39,11 @@ class AccountsController < ApplicationController
           @people_count = @account.permissions.not_hidden.where(ref_role_slug: "owner").count
           @pending_invites_count = @account.permission_invites.where(ref_role_slug: "owner").count
           @permission_invites = @account.permission_invites.where(ref_role_slug: "owner")
-
           @people_count = @account.permissions.not_hidden.where(ref_role_slug: "owner").count
           @pending_invites_count = @account.permission_invites.where(ref_role_slug: "owner").count
+          if @account.header_logo_id.nil?
+            @account.build_header_logo
+          end
           render "edit"
         }
       end
@@ -82,7 +86,7 @@ class AccountsController < ApplicationController
   private
 
     def account_params
-      params.require(:account).permit(:username, :slug, :status, :host, :cdn_id, :cdn_provider, :cdn_endpoint, :client_token, :access_token, :client_secret, :coming_from_new, :domain)
+      params.require(:account).permit(:username, :slug, :status, :host, :cdn_id, :cdn_provider, :cdn_endpoint, :client_token, :access_token, :client_secret, :coming_from_new, :domain, :header_background_color, :header_logo_id, :header_url, :header_positioning, header_logo_attributes: [:image, :account_id, :is_logo, :created_by, :updated_by])
     end
 
 end

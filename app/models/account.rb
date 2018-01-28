@@ -2,19 +2,23 @@
 #
 # Table name: accounts
 #
-#  id            :integer          not null, primary key
-#  username      :string(255)
-#  slug          :string(255)
-#  status        :string(255)
-#  created_at    :datetime         not null
-#  updated_at    :datetime         not null
-#  cdn_provider  :string(255)
-#  cdn_id        :string(255)
-#  host          :text(65535)
-#  cdn_endpoint  :text(65535)
-#  client_token  :string(255)
-#  access_token  :string(255)
-#  client_secret :string(255)
+#  id                      :integer          not null, primary key
+#  username                :string(255)
+#  slug                    :string(255)
+#  status                  :string(255)
+#  created_at              :datetime         not null
+#  updated_at              :datetime         not null
+#  cdn_provider            :string(255)
+#  cdn_id                  :string(255)
+#  host                    :text(65535)
+#  cdn_endpoint            :text(65535)
+#  client_token            :string(255)
+#  access_token            :string(255)
+#  client_secret           :string(255)
+#  header_background_color :string(255)
+#  header_logo_id          :integer
+#  header_url              :text(65535)
+#  header_positioning      :string(255)
 #
 
 class Account < ApplicationRecord
@@ -38,7 +42,9 @@ class Account < ApplicationRecord
     has_many :audios, dependent: :destroy
     has_many :streams, dependent: :destroy
     has_one :site,dependent: :destroy #change it to many later
+    belongs_to :header_logo, class_name: "Image", foreign_key: "header_logo_id", primary_key: "id", optional: true
     #ACCESSORS
+    accepts_nested_attributes_for :header_logo
     attr_accessor :coming_from_new, :domain
     #VALIDATIONS
     validates :username, presence: true, uniqueness: { case_sensitive: false }, length: { in: 3..24 }, format: { with: /\A[a-z0-9A-Z_]{4,16}\z/ }
@@ -49,10 +55,17 @@ class Account < ApplicationRecord
     before_create :before_create_set
     before_update :before_update_set
     after_create :after_create_set
+    after_save :after_save_set
     #SCOPE
     #OTHER
 
+    def header_json_key
+        "#{self.username}/header.json"
+    end
 
+    def header_json_url
+        "#{self.cdn_endpoint}/#{self.username}/header.json"
+    end
 
 
     def template_cards
@@ -105,5 +118,25 @@ class Account < ApplicationRecord
 
     def after_create_set
         site = Site.create({account_id: self.id, name: self.username, domain: self.domain})
+    end
+
+    def after_save_set
+        Thread.new do
+            header_json = {
+                "header_logo_url": "#{self.header_logo_id.present? ? self.header_logo.original_image.image_url : ''}",
+                "header_background_color": "#{self.header_background_color}",
+                "header_jump_to_link": "#{self.header_url}",
+                "header_logo_position": "#{self.header_positioning}"
+            }
+            key = "#{self.header_json_key}"
+            encoded_file = Base64.encode64(header_json.to_json)
+            content_type = "application/json"
+            resp = Api::ProtoGraph::Utility.upload_to_cdn(encoded_file, key, content_type)
+            if self.cdn_id != ENV['AWS_CDN_ID']
+                Api::ProtoGraph::CloudFront.invalidate(self.site, ["/#{key}"], 1)
+            end
+            Api::ProtoGraph::CloudFront.invalidate(nil, ["/#{key}"], 1)
+            ActiveRecord::Base.connection.close
+        end
     end
 end

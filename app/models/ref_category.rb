@@ -27,7 +27,7 @@ class RefCategory < ApplicationRecord
     belongs_to :creator, class_name: "User", foreign_key: "created_by"
     belongs_to :updator, class_name: "User", foreign_key: "updated_by"
     has_many :navigations, class_name: "SiteVerticalNavigation", foreign_key: "ref_category_vertical_id", dependent: :destroy
-
+    has_one :folder, foreign_key: 'ref_category_vertical_id'
     #ACCESSORS
     #VALIDATIONS
     validates :name, presence: true, uniqueness: {scope: :site}, length: { in: 3..15 }
@@ -42,6 +42,10 @@ class RefCategory < ApplicationRecord
 
     def view_casts
         ViewCast.where("#{genre}": self.name)
+    end
+
+    def vertical_navigation_key
+        "#{self.site.name.parameterize}/#{self.name}/navigation.json"
     end
 
     private
