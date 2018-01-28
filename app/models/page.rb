@@ -221,7 +221,7 @@ class Page < ApplicationRecord
       },
       "streams": streams,
       "page": page,
-      "ref_category_object": {"name": "#{self.series.name}", "": "#{self.series.name_html}"},
+      "ref_category_object": {"name": "#{self.series.name}", "name_html": "#{self.series.name_html}"},
       "vertical_header_json": "#{self.series.vertical_header_url}",
       "homepage_header_json": "#{self.site.hompage_header_url}",
       "account_header_json": "#{self.account.header_json_url}"
