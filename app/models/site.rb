@@ -48,6 +48,7 @@ class Site < ApplicationRecord
     has_many :streams
     has_many :activities
     has_many :ref_categories
+    has_many :verticals, ->{where(genre: 'series')}, class_name: "RefCategory"
     has_many :ref_tags
     has_many :view_casts
     has_many :pages
@@ -73,9 +74,18 @@ class Site < ApplicationRecord
     #CALLBACKS
     before_create :before_create_set
     before_update :before_update_set
-    # after_create :after_create_set
+    after_create :after_create_set
+    after_save :after_save_set
     #SCOPE
     #OTHER
+
+    def homepage_header_key
+        "#{self.name}/verticals.json"
+    end
+
+    def hompage_header_url
+        "#{cdn_endpoint}/#{homepage_header_key}"
+    end
     #PRIVATE
     def is_cdn_id_from_env?
         self.cdn_id == ENV['AWS_CDN_ID']
@@ -137,20 +147,21 @@ class Site < ApplicationRecord
     end
 
     def after_create_set
-        user_id = account.users.present? ? account.users.first.id : nil
-        stream = Stream.create!({
-            is_automated_stream: true,
-            col_name: "Site",
-            col_id: self.id,
-            updated_by: user_id,
-            created_by: user_id,
-            account_id: account_id,
-            title: self.name,
-            description: "#{self.name} stream",
-            limit: 50
-        })
+        # user_id = account.users.present? ? account.users.first.id : nil
+        # stream = Stream.create!({
+        #     is_automated_stream: true,
+        #     col_name: "Site",
+        #     col_id: self.id,
+        #     updated_by: user_id,
+        #     created_by: user_id,
+        #     account_id: account_id,
+        #     title: self.name,
+        #     description: "#{self.name} stream",
+        #     limit: 50
+        # })
 
-        self.update_columns(stream_url: "#{self.cdn_endpoint}/#{stream.cdn_key}", stream_id: stream.id)
+        # self.update_columns(stream_url: "#{self.cdn_endpoint}/#{stream.cdn_key}", stream_id: stream.id)
         create_sudo_permission("owner")
     end
+
 end

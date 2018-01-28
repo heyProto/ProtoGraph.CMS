@@ -43,13 +43,12 @@
 class Page < ApplicationRecord
 
   #CONSTANTS
-  Datacast_ENDPOINT = "#{ENV['AWS_S3_ENDPOINT']}"
   #CUSTOM TABLES
   #GEMS
   #ASSOCIATIONS
   belongs_to :account
   belongs_to :site
-  belongs_to :folder
+  belongs_to :folder, optional: true
   belongs_to :series, class_name: "RefCategory", foreign_key: :ref_category_series_id, optional: true
   belongs_to :intersection, class_name: "RefCategory", foreign_key: :ref_category_intersection_id, optional: true
   belongs_to :sub_intersection, class_name: "RefCategory", foreign_key: :ref_category_sub_intersection_id, optional: true
@@ -94,7 +93,7 @@ class Page < ApplicationRecord
     self.is_sponsored = false                         if self.is_sponsored.blank?
     self.is_published = false                         if self.is_published.blank?
     self.cover_image_alignment = "horizontal"         if self.cover_image_alignment.blank?
-    self.url = "#{Datacast_ENDPOINT}/#{self.datacast_identifier}/index.html"
+    self.url = "#{self.site.cdn_endpoint}/#{self.datacast_identifier}/index.html" if self.url.blank?
     true
   end
 
@@ -196,7 +195,7 @@ class Page < ApplicationRecord
       h['id'] = k['id']
       h['title'] = k['title']
       h['datacast_identifier'] = k['datacast_identifier']
-      h['url'] = "#{Datacast_ENDPOINT}/#{k['datacast_identifier']}/index.json"
+      h['url'] = "#{self.site.cdn_endpoint}/#{k['datacast_identifier']}/index.json"
       h['name_of_stream'] = e.name_of_stream
       h
     end
@@ -221,13 +220,17 @@ class Page < ApplicationRecord
         "story_card_style": site.story_card_style
       },
       "streams": streams,
-      "page": page
+      "page": page,
+      "ref_category_object": {"name": "#{self.series.name}", "": "#{self.series.name_html}"},
+      "vertical_header_json": "#{self.series.vertical_header_url}",
+      "homepage_header_json": "#{self.site.hompage_header_url}",
+      "account_header_json": "#{self.account.header_json_url}"
     }
     key = "#{self.datacast_identifier}/page.json"
     encoded_file = Base64.encode64(json.to_json)
     content_type = "application/json"
     resp = Api::ProtoGraph::Utility.upload_to_cdn(encoded_file, key, content_type)
-    self.update_column(:page_object_url, "#{Datacast_ENDPOINT}/#{key}")
+    self.update_column(:page_object_url, "#{self.site.cdn_endpoint}/#{key}")
     if !Rails.env.development?
       PagesWorker.perform_async(self.id)
     end

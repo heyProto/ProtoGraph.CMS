@@ -48,7 +48,7 @@ class RefCategoriesController < ApplicationController
       else
         case @ref_category.genre
         when 'series'
-          redirect_to series_account_site_path(@account, @site), alert: @ref_category.errors.full_messages
+          redirect_to manager_account_site_pages_path(@account, @site), alert: @ref_category.errors.full_messages
         when 'intersection'
           redirect_to intersection_account_site_path(@account, @site), alert: @ref_category.errors.full_messages
         when 'sub intersection'
@@ -84,7 +84,7 @@ class RefCategoriesController < ApplicationController
     respond_to do |format|
         case @genre
         when 'series'
-          format.html { redirect_to series_account_site_path(@account, @site), notice: "Destroyed"}
+          format.html { redirect_to manager_account_site_pages_path(@account, @site), notice: "Destroyed"}
         when 'intersection'
           format.html { redirect_to intersection_account_site_path(@account, @site), notice: "Destroyed"}
         when 'sub intersection'
@@ -98,7 +98,7 @@ class RefCategoriesController < ApplicationController
   def custom_redirect_to
     case @ref_category.genre
     when 'series'
-      redirect_to series_account_site_path(@account, @site), notice: @notice
+      redirect_to manager_account_site_pages_path(@account, @site), notice: @notice
     when 'intersection'
       redirect_to intersection_account_site_path(@account, @site), notice: @notice
     when 'sub intersection'

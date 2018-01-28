@@ -57,7 +57,7 @@ class SiteVerticalNavigation < ApplicationRecord
           navigation_json << {"name": nav.name, "url": nav.url, "new_window": nav.launch_in_new_window}
         end
       end
-      key = self.ref_category.vertical_navigation_key
+      key = self.ref_category.vertical_header_key
       encoded_file = Base64.encode64(navigation_json.to_json)
       content_type = "application/json"
       resp = Api::ProtoGraph::Utility.upload_to_cdn(encoded_file, key, content_type)

@@ -1,14 +1,16 @@
 class PagesController < ApplicationController
   before_action :authenticate_user!
   before_action :set_page, only: [:show, :edit, :update, :destroy]
-  before_action :sudo_can_see_all_pages, only: [:show, :edit, :update]
+  before_action :sudo_can_see_all_pages, only: [:show, :edit, :update, :manager]
 
   def index
     @pages = @permission_role.can_see_all_pages ? @folder.pages.where.not(template_page_id: TemplatePage.where(name: "section").pluck(:id).uniq).order(updated_at: :desc).page(params[:page]).per(30) : current_user.pages(@folder).where.not(template_page_id: TemplatePage.where(name: "section").pluck(:id).uniq).order(updated_at: :desc).page(params[:page]).per(30)
   end
 
   def manager
-    @pages = @site.pages.where(template_page_id: TemplatePage.where(name: "section").pluck(:id).uniq)
+    @genre = "series"
+    @data = @site.verticals.order(:name)
+    @instance = @site.verticals.new
   end
 
   def show

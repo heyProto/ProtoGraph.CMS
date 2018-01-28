@@ -1,46 +1,29 @@
 <div class="row">
   <div class="col-sm-6" style="margin-left: auto; margin-right: auto;">
-      <h1><span style="font-weight: 200;">Site Categories:</span> <%= @site.domain %></h1>
-      <br/>
-<ul class="nav nav-tabs justify-content-center" style="margin-left: auto; margin-right: auto;">
-     
-      <li class="nav-item">
-        <%= link_to  "Verticals", series_account_site_path(@account,@site), class: "nav-link active" %>
-      </li>
-      <li class="nav-item">
-        <%= link_to  "Intersections", intersection_account_site_path(@account,@site), class: "nav-link #{action_name === 'intersection' ? 'active' : ''}" %>
-      </li>
-      <li class="nav-item">
-        <%= link_to  "Sub Intersections", sub_intersection_account_site_path(@account,@site), class: "nav-link #{action_name === 'sub_intersection' ? 'active' : ''}" %>
-      </li>
-      <li class="nav-item">
-        <%= link_to  "Tags", tag_account_site_path(@account,@site), class: "nav-link #{action_name === 'tag' ? 'active' : ''}" %>
-      </li>
-    </ul>
+    <h1><span style="font-weight: 200;">Vericals</h1>
     <br>
     <h3>Navigation <span style="font-weight: 200;">in vertical <%= @ref_category.name %></span></h3>
     <br/>
     <% if @site_vertical_navigations.first.blank? %>
         <div class="hint">No rows yet</div>
     <% else %>
-              <table class="table table-sm table-responsive">
-                <tbody>
-                  <% @site_vertical_navigations.each do |site_vertical_navigation| %>
-                    <tr>
-                      <td><%= site_vertical_navigation.name %>
-                          <div class="hint">
-                              <%= site_vertical_navigation.url %>
-                              <% if site_vertical_navigation.launch_in_new_window %>
-                                  [/]
-                              <% end %>
-                          </div>
-                      </td>
-                      <td><%= link_to 'Remove', account_site_ref_category_site_vertical_navigation_path(@account, @site, @ref_category, site_vertical_navigation), method: :delete, data: { confirm: 'Are you sure?' } %></td>
-                    </tr>
-                  <% end %>
-                </tbody>
-              </table>
-
+      <table class="table table-sm table-responsive">
+        <tbody>
+          <% @site_vertical_navigations.each do |site_vertical_navigation| %>
+            <tr>
+              <td><%= site_vertical_navigation.name %>
+                  <div class="hint">
+                      <%= site_vertical_navigation.url %>
+                      <% if site_vertical_navigation.launch_in_new_window %>
+                          [/]
+                      <% end %>
+                  </div>
+              </td>
+              <td><%= link_to 'Remove', account_site_ref_category_site_vertical_navigation_path(@account, @site, @ref_category, site_vertical_navigation), method: :delete, data: { confirm: 'Are you sure?' } %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
     <% end %>
   </div>
   <div class="col-sm-2">
