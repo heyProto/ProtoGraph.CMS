@@ -33,10 +33,10 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
       resources :accounts, only: [] do
-        resources :template_cards, only: [:index, :show] do
-          get "validate", on: :member
-        end
         resources :folders, only: [] do
+          resources :template_cards, only: [:index, :show] do
+            get "validate", on: :member
+          end
           resources :datacasts, only: [:create, :update]
           resources :streams, only: [:create, :update]
           post "/streams/:id/publish", to: "streams#publish", as: :publish_stream

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180126172114) do
+ActiveRecord::Schema.define(version: 20180128064503) do
 
   create_table "accounts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "username"
@@ -25,6 +25,10 @@ ActiveRecord::Schema.define(version: 20180126172114) do
     t.string "client_token"
     t.string "access_token"
     t.string "client_secret"
+    t.string "header_background_color"
+    t.integer "header_logo_id"
+    t.text "header_url"
+    t.string "header_positioning"
     t.index ["slug"], name: "index_accounts_on_slug", unique: true
     t.index ["username"], name: "index_accounts_on_username", unique: true
   end
@@ -113,6 +117,7 @@ ActiveRecord::Schema.define(version: 20180126172114) do
     t.boolean "is_archived", default: false
     t.integer "site_id"
     t.boolean "is_open"
+    t.integer "ref_category_vertical_id"
   end
 
   create_table "friendly_id_slugs", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -342,13 +347,13 @@ ActiveRecord::Schema.define(version: 20180126172114) do
     t.string "client_token"
     t.string "access_token"
     t.string "client_secret"
+    t.integer "favicon_id"
+    t.integer "logo_image_id"
     t.text "facebook_url"
     t.text "twitter_url"
     t.text "instagram_url"
     t.text "youtube_url"
     t.string "g_a_tracking_id"
-    t.integer "favicon_id"
-    t.integer "logo_image_id"
     t.string "sign_up_mode"
     t.string "default_role"
     t.string "story_card_style"

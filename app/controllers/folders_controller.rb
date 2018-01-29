@@ -14,7 +14,8 @@ class FoldersController < ApplicationController
   end
 
   def new
-    @folder = @account.folders.new()
+    @folder = @account.folders.new
+    @verticals = @site.ref_categories.where(genre: 'series').pluck(:name, :id)
   end
 
   def edit
@@ -43,6 +44,7 @@ class FoldersController < ApplicationController
       track_activity(@folder)
       redirect_to account_site_folder_path(@account, @site, @folder), notice: t("cs")
     else
+      @verticals = @site.ref_categories.where(genre: 'series').pluck(:name, :id)
       render "new"
     end
   end
@@ -50,7 +52,7 @@ class FoldersController < ApplicationController
   private
 
     def folder_params
-      params.require(:folder).permit(:account_id, :name, :created_by, :updated_by, :site_id, :is_open, collaborator_lists: [])
+      params.require(:folder).permit(:account_id, :name, :created_by, :updated_by, :site_id, :is_open, :ref_category_vertical_id, collaborator_lists: [])
     end
 
 end

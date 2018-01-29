@@ -15,7 +15,7 @@
         <% @folders.each do |folder| %>
             <a href="<%= account_site_folder_path(@account, @site, folder) %>" class="github-menu-item">
                 <%= image_tag "trash-icon.jpg", style: "height: 12px;margin-bottom: 2px;" if folder.is_trash %>
-                <%= folder.name.titleize %>
+                <%= folder.vertical.present? ? "#{folder.vertical.name.titleize}: #{folder.name}": folder.name.titleize %>
                 <span class="count badge badge-pill badge-secondary" style="font-size: 0.81em; font-weight: 200;">
                     <%= folder.view_casts.count + folder.streams.count + folder.pages.count %>
                 </span>

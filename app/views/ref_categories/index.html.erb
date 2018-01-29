@@ -1,13 +1,8 @@
-
 <div class="row">
   <div class="col-sm-6" style="margin-left: auto; margin-right: auto;">
         <h1><span style="font-weight: 200;">Site Categories:</span> <%= @site.domain %></h1>
         <br/>
-<ul class="nav nav-tabs justify-content-center" style="margin-left: auto; margin-right: auto;">
-     
-      <li class="nav-item">
-        <%= link_to  "Verticals", series_account_site_path(@account,@site), class: "nav-link #{action_name === 'series' ? 'active' : ''}" %>
-      </li>
+    <ul class="nav nav-tabs justify-content-center" style="margin-left: auto; margin-right: auto;">
       <li class="nav-item">
         <%= link_to  "Intersections", intersection_account_site_path(@account,@site), class: "nav-link #{action_name === 'intersection' ? 'active' : ''}" %>
       </li>
@@ -28,27 +23,15 @@
                     <tr>
                       <td style="border: 0px;">
                         <% if ref_category.is_disabled %>
-                          <span class="proto-restrict-remove"><%= ref_category.name %></span>        
+                          <span class="proto-restrict-remove"><%= ref_category.name %></span>
                         <% else %>
                               <%= best_in_place ref_category, :name, url: [@account, @site, ref_category] %>
                         <% end %>
                         <div class="hint"><%= ref_category.updator.name %></div>
                       </td>
-                      <% if @genre == "series" %>
-                          <td style="border: 0px;">
-                              <% if ref_category.name_html.present? %>
-                                  <%= ref_category.name_html.html_safe %>
-                              <% end %>
-                          </td>
-                      <% end %>
-                      
-                      
+
                       <td style="border: 0px;">
                         <% if not ref_category.is_disabled %>
-                          <% if @genre == "series"%>
-                              <%= link_to "Navigation", account_site_ref_category_site_vertical_navigations_path(@account, @site, ref_category) %>
-                              &nbsp;&nbsp;&nbsp;&nbsp;
-                          <% end %>
                           <% if ref_category.count > 0 %>
                             <% if @genre != 'tag' %>
                               <%= link_to 'Disable', disable_account_site_ref_category_path(@account, @site, ref_category), method: :put, data: { confirm: 'Are you sure?' } %>
@@ -79,9 +62,6 @@
 
       <div class="form-inputs">
           <%= f.input :name, required: true, minlength: 3 , maxlength: 15 %>
-        <% if @genre == "series" %>
-            <%= f.input :name_html, as: :text, label: "Brand the vertical", hint: "Use HTML (span tag) to add CSS. Note, the length of the series cannot be more than 15 characters.", required: true, minlength: 3 , maxlength: 50 %>
-        <% end %>
       </div>
       <div class="form-actions">
           <%= f.button :submit, value: "Add", class: "btn btn-light" %>

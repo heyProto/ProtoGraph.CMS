@@ -2,18 +2,19 @@
 #
 # Table name: folders
 #
-#  id          :integer          not null, primary key
-#  account_id  :integer
-#  name        :string(255)
-#  slug        :string(255)
-#  created_by  :integer
-#  updated_by  :integer
-#  created_at  :datetime         not null
-#  updated_at  :datetime         not null
-#  is_trash    :boolean          default(FALSE)
-#  is_archived :boolean          default(FALSE)
-#  site_id     :integer
-#  is_open     :boolean
+#  id                       :integer          not null, primary key
+#  account_id               :integer
+#  name                     :string(255)
+#  slug                     :string(255)
+#  created_by               :integer
+#  updated_by               :integer
+#  created_at               :datetime         not null
+#  updated_at               :datetime         not null
+#  is_trash                 :boolean          default(FALSE)
+#  is_archived              :boolean          default(FALSE)
+#  site_id                  :integer
+#  is_open                  :boolean
+#  ref_category_vertical_id :integer
 #
 
 class Folder < ApplicationRecord
@@ -36,6 +37,7 @@ class Folder < ApplicationRecord
     has_many :pages
     has_many :permissions, ->{where(status: "Active", permissible_type: 'Folder')}, foreign_key: "permissible_id", dependent: :destroy
     has_many :users, through: :permissions
+    belongs_to :vertical, class_name: "RefCategory", foreign_key: 'ref_category_vertical_id', optional: true
     #ACCESSORS
     attr_accessor :is_system_generated, :collaborator_lists
     #VALIDATIONS

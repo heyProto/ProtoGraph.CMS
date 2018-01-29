@@ -102,7 +102,7 @@ TemplateCard.create({git_url: "git@bitbucket.org:pykih_/protograph.card.composec
 
 
 TemplatePage.create({
-  name: "section",
+  name: "Homepage: Vertical",
   git_url: "",
   git_branch: "master",
   git_repo_name: "",
