@@ -2,41 +2,6 @@
     <div class="col-sm-6" style="padding: 0px; margin-left: auto; margin-right: auto;">
         <h1><span style="font-weight: 200;">Account Settings:</span> <%= best_in_place @account, :username, url: [@account] %></h1>
         <br/>
-        <h3>Account Header Position Settings</h3>
-            <%= simple_form_for [@account] do |f| %>
-                <%= f.error_notification %>
-                <%= f.input :header_url, as: :string, required: true, label: "URL" %>
-                <%= f.input :header_background_color, input_html: {type: :color, style: "height: 40px;"}, required: true, label: "Background Color" %>
-                <%= f.input :header_positioning, collection: [["Left", "left"], ["Center", "center"], ["Right", "right"]], label: "Position", include_blank: false %>
-                <%= f.button :submit, "Update", class: "btn btn-light" %>
-            <% end %>
-        <hr/>
-        <h3>Account Header Logo Settings</h3>
-        <hr/>
-        <% if @account.header_logo_id.present? %>
-                <%= image_tag(@account.header_logo.original_image.image_url, class: "rounded", style: "width: 100px;") %>
-                <br/>
-                <%= simple_form_for [@account] do |f| %>
-                  <%= f.error_notification %>
-                  <%= f.input :header_logo_id, as: :hidden, input_html: {value: nil} %>
-                  <%= f.button :submit, "Remove image", class: "btn btn-light" %>
-                <% end %>
-              <% else %>
-                <%= image_tag("account.png", class: "rounded", style: "width: 100px;") %>
-                <br/><br/>
-                <%= simple_form_for [@account] do |f| %>
-                  <%= f.error_notification %>
-
-                  <%= f.fields_for :header_logo do |logo_image| %>
-                    <%= logo_image.input :image, label: false %>
-                    <%= logo_image.input :created_by, as: :hidden, input_html: {value: current_user.id} %>
-                    <%= logo_image.input :updated_by, as: :hidden, input_html: {value: current_user.id} %>
-                    <%= logo_image.input :account_id, as: :hidden, input_html: {value: @account.id}  %>
-                    <%= logo_image.input :is_logo, as: :hidden, input_html: {value: true } %>
-                  <% end %>
-                  <%= f.button :submit, "Upload", class: "btn btn-light" %>
-                <% end %>
-              <% end %>
         <h3>Owners of this account</h3>
         <hr/>
         <div style="margin-left: 50px;">

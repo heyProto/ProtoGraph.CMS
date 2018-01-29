@@ -38,6 +38,7 @@
 #  datacast_identifier              :string(255)
 #  is_open                          :boolean
 #  template_page_id                 :integer
+#  slug                             :string(255)
 #
 
 class Page < ApplicationRecord
@@ -45,6 +46,9 @@ class Page < ApplicationRecord
   #CONSTANTS
   #CUSTOM TABLES
   #GEMS
+  extend FriendlyId
+  friendly_id :headline, use: :slugged
+
   #ASSOCIATIONS
   belongs_to :account
   belongs_to :site
@@ -79,6 +83,18 @@ class Page < ApplicationRecord
   after_update :push_json_to_s3
   after_save :after_save_set
 
+  # Slug
+
+  def html_key
+    "#{self.site.name}/#{self.series.name}/#{self.slug}-#{self.id}"
+    # Change during Multi Domain functionality
+  end
+
+  def html_url
+    "#{self.site.cdn_endpoint}/#{html_key}.html"
+    # Change during Multi Domain functionality
+  end
+
   #SCOPE
   #OTHER
   def push_json_to_s3
@@ -95,7 +111,7 @@ class Page < ApplicationRecord
       h
     end
 
-    page = self.as_json
+    page = self.as_json(methods: [:html_key])
     page['layout'] = self.template_page.as_json
 
     json = {
@@ -117,9 +133,9 @@ class Page < ApplicationRecord
       "streams": streams,
       "page": page,
       "ref_category_object": {"name": "#{self.series.name}", "name_html": "#{self.series.name_html}"},
-      "vertical_header_json": "#{self.series.vertical_header_url}",
-      "homepage_header_json": "#{self.site.hompage_header_url}",
-      "site_header_json": "#{self.site.header_json_url}"
+      "vertical_header_json_url": "#{self.series.vertical_header_url}",
+      "homepage_header_json_url": "#{self.site.hompage_header_url}",
+      "site_header_json_url": "#{self.site.header_json_url}"
     }
     key = "#{self.datacast_identifier}/page.json"
     encoded_file = Base64.encode64(json.to_json)

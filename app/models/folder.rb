@@ -42,7 +42,7 @@ class Folder < ApplicationRecord
     attr_accessor :is_system_generated, :collaborator_lists
     #VALIDATIONS
     validates :name, exclusion: {in: ["Recycle Bin"], message: "Is a reserved name."}, unless: :is_system_generated
-    validates :name, uniqueness: {scope: [:account], message: "Folder name is already used."}
+    validates :name, uniqueness: {scope: [:account, :ref_category_vertical_id], message: "Folder name is already used."}
     has_many :view_casts, dependent: :destroy
 
 

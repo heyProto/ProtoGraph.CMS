@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180128064503) do
+ActiveRecord::Schema.define(version: 20180129124322) do
 
   create_table "accounts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "username"
@@ -25,10 +25,6 @@ ActiveRecord::Schema.define(version: 20180128064503) do
     t.string "client_token"
     t.string "access_token"
     t.string "client_secret"
-    t.string "header_background_color"
-    t.integer "header_logo_id"
-    t.text "header_url"
-    t.string "header_positioning"
     t.index ["slug"], name: "index_accounts_on_slug", unique: true
     t.index ["username"], name: "index_accounts_on_username", unique: true
   end
@@ -217,6 +213,7 @@ ActiveRecord::Schema.define(version: 20180128064503) do
     t.string "datacast_identifier"
     t.boolean "is_open"
     t.integer "template_page_id"
+    t.string "slug"
   end
 
   create_table "permission_invites", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -358,6 +355,9 @@ ActiveRecord::Schema.define(version: 20180128064503) do
     t.string "default_role"
     t.string "story_card_style"
     t.string "email_domain"
+    t.string "header_background_color"
+    t.text "header_url"
+    t.string "header_positioning"
   end
 
   create_table "stream_entities", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|

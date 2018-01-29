@@ -108,7 +108,7 @@ class RefCategory < ApplicationRecord
         Thread.new do
             verticals_json = []
             self.site.verticals.each do |ver|
-                verticals_json << {"name": "#{ver.name}","url": "#{ver.vertical_page_url}","new_window": true}
+                verticals_json << {"name": "#{ver.name}","url": "#{ver.vertical_page_url}","new_window": true, "name_html": "#{ver.name_html}"}
             end
             key = "#{self.site.homepage_header_key}"
             encoded_file = Base64.encode64(verticals_json.to_json)

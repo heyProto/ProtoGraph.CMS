@@ -50,9 +50,6 @@
             <% end %>
         </div>
         <br/>
-
-
-
         <h3>Theme</h3>
         <hr/>
         <div style="margin-left: 50px;">
@@ -122,8 +119,19 @@
               <%= f.input :font_colour, input_html: {type: :color, style: "height: 40px;"}, label: "Font Color on House Color", required: true %>
               <%= f.input :reverse_font_colour, input_html: {type: :color, style: "height: 40px;"}, label: "Font Color on Reverse House Color", required: true %>
               <%= f.input :story_card_style, as: :select, collection: [["Clear: Color", "Clear: Color"], ["Clear: Black & White", "Clear: Black & White"], ["Blur: Color", "Blur: Color"]], label: "Story card Style", include_blank: false %>
-              <%= f.button :submit, "Save", class: "btn btn-light" %>
-            <% end %>
+              <%= f.button :submit, "Update", class: "btn btn-light" %>
+          <% end %>
+        </div>
+        <br/>
+        <h3>Account Header Position Settings</h3>
+        <hr/>
+        <div style="margin-left: 50px;">
+          <%= simple_form_for [@account, @site] do |f| %>
+            <%= f.input :header_url, as: :string, required: true, label: "URL" %>
+            <%= f.input :header_background_color, input_html: {type: :color, style: "height: 40px;"}, required: true, label: "Background Color" %>
+            <%= f.input :header_positioning, collection: [["Left", "left"], ["Center", "center"], ["Right", "right"]], label: "Position", include_blank: false %>
+            <%= f.button :submit, "Update", class: "btn btn-light" %>
+          <% end %>
         </div>
         <br/>
         <h3>AWS Configuration</h3>
