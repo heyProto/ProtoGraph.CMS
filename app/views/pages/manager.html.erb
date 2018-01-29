@@ -28,8 +28,10 @@
                     &nbsp;&nbsp;&nbsp;&nbsp;
               </td>
               <td style="border: 0px;text-align: right">
-                <% if ref_category.pages.count == 0 %>
-                  <%= link_to 'x', account_site_ref_category_path(@account, @site, ref_category), method: :delete, data: { confirm: 'Are you sure?' } %>
+                <% if ref_category.pages.count > 1 %>
+                  <%= link_to 'x', account_site_ref_category_path(@account, @site, ref_category), method: :delete, data: { confirm: 'Are you sure?' }, input_html: {"disabled": true} %>
+                <% else %>
+                  <%= link_to 'x', "#", style: "color: #d3d3d3;","data-title" => "You cannot delete this vertical as it has associated pages", "data-toggle" => "tooltip", "data-placement" => "bottom" %>
                 <% end %>
               </td>
             </tr>
@@ -55,3 +57,9 @@
       <% end %>
   </div>
 </div>
+
+<script type="text/javascript">
+  $(document).on("turbolinks:load", function(){
+    $('[data-toggle="tooltip"]').tooltip();
+  });
+</script>
