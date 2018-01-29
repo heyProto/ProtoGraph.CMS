@@ -76,6 +76,7 @@ class Page < ApplicationRecord
   after_create :push_json_to_s3
 
   after_update :create_story_card
+  after_update :push_json_to_s3
   after_save :after_save_set
 
   #SCOPE
