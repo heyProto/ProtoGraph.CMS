@@ -38,6 +38,7 @@
 #  datacast_identifier              :string(255)
 #  is_open                          :boolean
 #  template_page_id                 :integer
+#  slug                             :string(255)
 #
 
 class Page < ApplicationRecord
@@ -45,6 +46,9 @@ class Page < ApplicationRecord
   #CONSTANTS
   #CUSTOM TABLES
   #GEMS
+  extend FriendlyId
+  friendly_id :headline, use: :slugged
+
   #ASSOCIATIONS
   belongs_to :account
   belongs_to :site
@@ -82,7 +86,7 @@ class Page < ApplicationRecord
   # Slug
 
   def html_key
-    "#{self.site.name}/#{self.series.name}/#{self.headline.parameterize}-#{self.id}"
+    "#{self.site.name}/#{self.series.name}/#{self.slug}-#{self.id}"
     # Change during Multi Domain functionality
   end
 
@@ -129,9 +133,9 @@ class Page < ApplicationRecord
       "streams": streams,
       "page": page,
       "ref_category_object": {"name": "#{self.series.name}", "name_html": "#{self.series.name_html}"},
-      "vertical_header_json": "#{self.series.vertical_header_url}",
-      "homepage_header_json": "#{self.site.hompage_header_url}",
-      "site_header_json": "#{self.site.header_json_url}"
+      "vertical_header_json_url": "#{self.series.vertical_header_url}",
+      "homepage_header_json_url": "#{self.site.hompage_header_url}",
+      "site_header_json_url": "#{self.site.header_json_url}"
     }
     key = "#{self.datacast_identifier}/page.json"
     encoded_file = Base64.encode64(json.to_json)
@@ -139,7 +143,9 @@ class Page < ApplicationRecord
     resp = Api::ProtoGraph::Utility.upload_to_cdn(encoded_file, key, content_type)
     self.update_column(:page_object_url, "#{self.site.cdn_endpoint}/#{key}")
     if !Rails.env.development?
-      PagesWorker.perform_async(self.id)
+      # PagesWorker.perform_async(self.id)
+      response = Api::ProtoGraph::Page.create_or_update_page(self.datacast_identifier, self.template_page.s3_identifier)
+      puts "=====> #{response}"
     end
     if self.site.cdn_id != ENV['AWS_CDN_ID']
       Api::ProtoGraph::CloudFront.invalidate(self.site, ["/#{key}"], 1)
@@ -178,6 +184,8 @@ class Page < ApplicationRecord
       streams = [["Section_16c_Hero", "Hero"], ["Section_7c", "Originals"], ["Section_4c", "Digests"], ["Section_3c", "Feed"], ["Section_2c", "Opinions"]]
     when 'article'
       streams = [["Story_Narrative", "#{self.id}_Section_7c"], ["Story_Related", "#{self.id}_Section_7c"]]
+    when 'data grid'
+      streams = [["Data_Grid", "#{self.id}_Section_data"]]
     end
     streams.each do |s|
       stream = Stream.create!({

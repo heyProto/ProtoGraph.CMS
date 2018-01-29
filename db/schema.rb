@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180129091224) do
+ActiveRecord::Schema.define(version: 20180129124322) do
 
   create_table "accounts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "username"
@@ -213,6 +213,7 @@ ActiveRecord::Schema.define(version: 20180129091224) do
     t.string "datacast_identifier"
     t.boolean "is_open"
     t.integer "template_page_id"
+    t.string "slug"
   end
 
   create_table "permission_invites", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
