@@ -1,9 +1,9 @@
 <div class="row">
   <div class="col-sm-6" style="margin-left: auto; margin-right: auto;">
-    <h1><span style="font-weight: 200;">Vericals</h1>
+    <h1><span style="font-weight: 200;"><%= link_to "Page Manager", manager_account_site_pages_path(@account, @site) %></span> / <%= @ref_category.name %></h1>
     <br>
-    <h3>Navigation <span style="font-weight: 200;">in vertical <%= @ref_category.name %></span></h3>
-    <br/>
+    <h2>Navigation</h2>
+    <hr/>
     <% if @site_vertical_navigations.first.blank? %>
         <div class="hint">No rows yet</div>
     <% else %>

@@ -1,6 +1,6 @@
 <div class="row">
   <div class="col-sm-6" style="margin-left: auto; margin-right: auto;">
-    <h1><span style="font-weight: 200;">Verticals</span> <%= @site.domain %></h1>
+    <h1>Page Manager</h1>
     <hr/>
     <% if @data.first.blank? %>
         <div class="hint">No rows yet</div>
@@ -10,19 +10,18 @@
           <% @data.each do |ref_category| %>
             <tr>
               <td style="border: 0px;">
-                <% if ref_category.is_disabled %>
-                  <span class="proto-restrict-remove"><%= ref_category.name %></span>
+                <% if ref_category.name_html.present? %>
+                  <%= ref_category.name_html.html_safe %>
                 <% else %>
-                  <%= ref_category.name %>
+                    <%= ref_category.name %>
                 <% end %>
                 <div class="hint"><%= ref_category.updator.name %></div>
               </td>
-              <td style="border: 0px;">
-                <% if ref_category.name_html.present? %>
-                  <%= ref_category.name_html.html_safe %>
-                <% end %>
+              <td style="border: 0px;text-align: right">
+                  <% if ref_category.vertical_page.present? %>
+                  <%= link_to "Vertical Page", edit_account_site_page_path(@account, @site, ref_category.vertical_page.id)%>
+                  <% end %>
               </td>
-
               <td style="border: 0px;text-align: right">
                 <%= link_to "Navigation", account_site_ref_category_site_vertical_navigations_path(@account, @site, ref_category) %>
                     &nbsp;&nbsp;&nbsp;&nbsp;

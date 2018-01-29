@@ -19,7 +19,7 @@
                                 <%= f.hidden_field :folder_id, value: @folder.id %>
                                 <%= f.input :template_page_id, collection: @layout, selected: "article", required: true, label: "Layout" %>
                             <% end %>
-                            <%= f.input :ref_category_series_id, label: "Vertical", collection: [[@folder.vertical.name, @folder.ref_category_vertical_id]], include_blank: false  %>
+                            <% f.input :ref_category_series_id, label: "Vertical", collection: [[@folder.vertical.name, @folder.ref_category_vertical_id]], include_blank: false  %>
                             <%= f.input :headline, required: true, minlength: 50 , maxlength: 90 %>
                             <%= f.input :summary, minlength: 50 , maxlength: 220 %>
                             <%= f.input :byline, required: true, label: "Display Byline", hint: "What byline do you want on the website?" %>
