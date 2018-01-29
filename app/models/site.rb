@@ -2,39 +2,42 @@
 #
 # Table name: sites
 #
-#  id                   :integer          not null, primary key
-#  account_id           :integer
-#  name                 :string(255)
-#  domain               :string(255)
-#  created_at           :datetime         not null
-#  updated_at           :datetime         not null
-#  description          :text(65535)
-#  primary_language     :string(255)
-#  default_seo_keywords :text(65535)
-#  house_colour         :string(255)
-#  reverse_house_colour :string(255)
-#  font_colour          :string(255)
-#  reverse_font_colour  :string(255)
-#  stream_url           :text(65535)
-#  stream_id            :integer
-#  cdn_provider         :string(255)
-#  cdn_id               :string(255)
-#  host                 :text(65535)
-#  cdn_endpoint         :text(65535)
-#  client_token         :string(255)
-#  access_token         :string(255)
-#  client_secret        :string(255)
-#  facebook_url         :text(65535)
-#  twitter_url          :text(65535)
-#  instagram_url        :text(65535)
-#  youtube_url          :text(65535)
-#  g_a_tracking_id      :string(255)
-#  favicon_id           :integer
-#  logo_image_id        :integer
-#  sign_up_mode         :string(255)
-#  default_role         :string(255)
-#  story_card_style     :string(255)
-#  email_domain         :string(255)
+#  id                      :integer          not null, primary key
+#  account_id              :integer
+#  name                    :string(255)
+#  domain                  :string(255)
+#  created_at              :datetime         not null
+#  updated_at              :datetime         not null
+#  description             :text(65535)
+#  primary_language        :string(255)
+#  default_seo_keywords    :text(65535)
+#  house_colour            :string(255)
+#  reverse_house_colour    :string(255)
+#  font_colour             :string(255)
+#  reverse_font_colour     :string(255)
+#  stream_url              :text(65535)
+#  stream_id               :integer
+#  cdn_provider            :string(255)
+#  cdn_id                  :string(255)
+#  host                    :text(65535)
+#  cdn_endpoint            :text(65535)
+#  client_token            :string(255)
+#  access_token            :string(255)
+#  client_secret           :string(255)
+#  favicon_id              :integer
+#  logo_image_id           :integer
+#  facebook_url            :text(65535)
+#  twitter_url             :text(65535)
+#  instagram_url           :text(65535)
+#  youtube_url             :text(65535)
+#  g_a_tracking_id         :string(255)
+#  sign_up_mode            :string(255)
+#  default_role            :string(255)
+#  story_card_style        :string(255)
+#  email_domain            :string(255)
+#  header_background_color :string(255)
+#  header_url              :text(65535)
+#  header_positioning      :string(255)
 #
 
 class Site < ApplicationRecord
@@ -87,9 +90,14 @@ class Site < ApplicationRecord
         "#{cdn_endpoint}/#{homepage_header_key}"
     end
 
-    def header_json_url
-        self.account.header_json_url
+    def header_json_key
+        "#{self.name}/header.json"
     end
+
+    def header_json_url
+        "#{self.cdn_endpoint}/#{self.name}/header.json"
+    end
+
     #PRIVATE
     def is_cdn_id_from_env?
         self.cdn_id == ENV['AWS_CDN_ID']
@@ -166,6 +174,26 @@ class Site < ApplicationRecord
 
         # self.update_columns(stream_url: "#{self.cdn_endpoint}/#{stream.cdn_key}", stream_id: stream.id)
         create_sudo_permission("owner")
+    end
+
+    def after_save_set
+        Thread.new do
+            header_json = {
+                "header_logo_url": "#{self.logo_image_id.present? ? self.logo_image.original_image.image_url : ''}",
+                "header_background_color": "#{self.header_background_color}",
+                "header_jump_to_link": "#{self.header_url}",
+                "header_logo_position": "#{self.header_positioning}"
+            }
+            key = "#{self.header_json_key}"
+            encoded_file = Base64.encode64(header_json.to_json)
+            content_type = "application/json"
+            resp = Api::ProtoGraph::Utility.upload_to_cdn(encoded_file, key, content_type)
+            if self.cdn_id != ENV['AWS_CDN_ID']
+                Api::ProtoGraph::CloudFront.invalidate(self.site, ["/#{key}"], 1)
+            end
+            Api::ProtoGraph::CloudFront.invalidate(nil, ["/#{key}"], 1)
+            ActiveRecord::Base.connection.close
+        end
     end
 
 end
