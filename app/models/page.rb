@@ -143,7 +143,9 @@ class Page < ApplicationRecord
     resp = Api::ProtoGraph::Utility.upload_to_cdn(encoded_file, key, content_type)
     self.update_column(:page_object_url, "#{self.site.cdn_endpoint}/#{key}")
     if !Rails.env.development?
-      PagesWorker.perform_async(self.id)
+      # PagesWorker.perform_async(self.id)
+      response = Api::ProtoGraph::Page.create_or_update_page(self.datacast_identifier, self.template_page.s3_identifier)
+      puts "=====> #{response}"
     end
     if self.site.cdn_id != ENV['AWS_CDN_ID']
       Api::ProtoGraph::CloudFront.invalidate(self.site, ["/#{key}"], 1)
@@ -182,6 +184,8 @@ class Page < ApplicationRecord
       streams = [["Section_16c_Hero", "Hero"], ["Section_7c", "Originals"], ["Section_4c", "Digests"], ["Section_3c", "Feed"], ["Section_2c", "Opinions"]]
     when 'article'
       streams = [["Story_Narrative", "#{self.id}_Section_7c"], ["Story_Related", "#{self.id}_Section_7c"]]
+    when 'data grid'
+      streams = [["Data_Grid", "#{self.id}_Section_data"]]
     end
     streams.each do |s|
       stream = Stream.create!({
