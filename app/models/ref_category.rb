@@ -110,7 +110,7 @@ class RefCategory < ApplicationRecord
             self.site.verticals.each do |ver|
                 verticals_json << {"name": "#{ver.name}","url": "#{ver.vertical_page_url}","new_window": true}
             end
-            key = "#{self.site.hompage_header_key}"
+            key = "#{self.site.homepage_header_key}"
             encoded_file = Base64.encode64(verticals_json.to_json)
             content_type = "application/json"
             resp = Api::ProtoGraph::Utility.upload_to_cdn(encoded_file, key, content_type)
