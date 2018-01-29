@@ -80,6 +80,60 @@ class Page < ApplicationRecord
 
   #SCOPE
   #OTHER
+  def push_json_to_s3
+    site = self.site
+
+    streams = self.page_streams.includes(:stream).map do |e|
+      k = e.stream.as_json
+      h = {}
+      h['id'] = k['id']
+      h['title'] = k['title']
+      h['datacast_identifier'] = k['datacast_identifier']
+      h['url'] = "#{self.site.cdn_endpoint}/#{k['datacast_identifier']}/index.json"
+      h['name_of_stream'] = e.name_of_stream
+      h
+    end
+
+    page = self.as_json
+    page['layout'] = self.template_page.as_json
+
+    json = {
+      "site_attributes": {
+        "dis_qus_integration": "",
+        "youtube_url": site.youtube_url,
+        "instagram_url": site.instagram_url,
+        "twitter_url": site.twitter_url,
+        "facebook_url": site.facebook_url,
+        "house_colour": site.house_colour,
+        "reverse_house_colour": site.reverse_house_colour,
+        "font_colour": site.font_colour,
+        "reverse_font_colour": site.reverse_font_colour,
+        "logo_url": site.logo_image.present? ? site.logo_image.thumbnail_url : "",
+        "favicon_url": site.favicon.present? ? site.favicon.thumbnail_url : "",
+        "ga_code": site.g_a_tracking_id,
+        "story_card_style": site.story_card_style
+      },
+      "streams": streams,
+      "page": page,
+      "ref_category_object": {"name": "#{self.series.name}", "name_html": "#{self.series.name_html}"},
+      "vertical_header_json": "#{self.series.vertical_header_url}",
+      "homepage_header_json": "#{self.site.hompage_header_url}",
+      "site_header_json": "#{self.site.header_json_url}"
+    }
+    key = "#{self.datacast_identifier}/page.json"
+    encoded_file = Base64.encode64(json.to_json)
+    content_type = "application/json"
+    resp = Api::ProtoGraph::Utility.upload_to_cdn(encoded_file, key, content_type)
+    self.update_column(:page_object_url, "#{self.site.cdn_endpoint}/#{key}")
+    if !Rails.env.development?
+      PagesWorker.perform_async(self.id)
+    end
+    if self.site.cdn_id != ENV['AWS_CDN_ID']
+      Api::ProtoGraph::CloudFront.invalidate(self.site, ["/#{key}"], 1)
+    end
+    Api::ProtoGraph::CloudFront.invalidate(nil, ["/#{key}"], 1)
+    true
+  end
   #PRIVATE
   private
 
@@ -107,7 +161,7 @@ class Page < ApplicationRecord
   def create_page_streams
     streams = []
     case self.template_page.name
-    when 'section'
+    when 'Homepage: Vertical'
       streams = [["Section_16c_Hero", "Hero"], ["Section_7c", "Originals"], ["Section_4c", "Digests"], ["Section_3c", "Feed"], ["Section_2c", "Opinions"]]
     when 'article'
       streams = [["Story_Narrative", "#{self.id}_Section_7c"], ["Story_Related", "#{self.id}_Section_7c"]]
@@ -183,58 +237,6 @@ class Page < ApplicationRecord
       end
       Api::ProtoGraph::CloudFront.invalidate(nil, ["/#{view_cast.datacast_identifier}/*"], 1)
     end
-    true
-  end
-
-  def push_json_to_s3
-    site = self.site
-
-    streams = self.page_streams.includes(:stream).map do |e|
-      k = e.stream.as_json
-      h = {}
-      h['id'] = k['id']
-      h['title'] = k['title']
-      h['datacast_identifier'] = k['datacast_identifier']
-      h['url'] = "#{self.site.cdn_endpoint}/#{k['datacast_identifier']}/index.json"
-      h['name_of_stream'] = e.name_of_stream
-      h
-    end
-
-    page = self.as_json
-    page['layout'] = self.template_page.as_json
-
-    json = {
-      "site_attributes": {
-        "dis_qus_integration": "",
-        "youtube_url": site.youtube_url,
-        "instagram_url": site.instagram_url,
-        "twitter_url": site.twitter_url,
-        "facebook_url": site.facebook_url,
-        "house_colour": site.house_colour,
-        "reverse_house_colour": site.reverse_house_colour,
-        "font_colour": site.font_colour,
-        "reverse_font_colour": site.reverse_font_colour,
-        "logo_url": site.logo_image.present? ? site.logo_image.thumbnail_url : "",
-        "favicon_url": site.favicon.present? ? site.favicon.thumbnail_url : "",
-        "ga_code": site.g_a_tracking_id,
-        "story_card_style": site.story_card_style
-      },
-      "streams": streams,
-      "page": page,
-      "ref_category_object": {"name": "#{self.series.name}", "name_html": "#{self.series.name_html}"},
-      "vertical_header_json": "#{self.series.vertical_header_url}",
-      "homepage_header_json": "#{self.site.hompage_header_url}",
-      "account_header_json": "#{self.account.header_json_url}"
-    }
-    key = "#{self.datacast_identifier}/page.json"
-    encoded_file = Base64.encode64(json.to_json)
-    content_type = "application/json"
-    resp = Api::ProtoGraph::Utility.upload_to_cdn(encoded_file, key, content_type)
-    self.update_column(:page_object_url, "#{self.site.cdn_endpoint}/#{key}")
-    if !Rails.env.development?
-      PagesWorker.perform_async(self.id)
-    end
-
     true
   end
 

@@ -86,6 +86,10 @@ class Site < ApplicationRecord
     def hompage_header_url
         "#{cdn_endpoint}/#{homepage_header_key}"
     end
+
+    def header_json_url
+        self.account.header_json_url
+    end
     #PRIVATE
     def is_cdn_id_from_env?
         self.cdn_id == ENV['AWS_CDN_ID']

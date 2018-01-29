@@ -33,23 +33,12 @@ class SiteVerticalNavigation < ApplicationRecord
   #CALLBACKS
   before_create :before_create_set
   after_save :after_save_set
+  after_destroy :update_site_navigations
 
   #SCOPE
   #OTHER
   #PRIVATE
-
-  def before_create_set
-    self.launch_in_new_window = false if self.launch_in_new_window.blank?
-    final = SiteVerticalNavigation.where(site_id: self.site_id, ref_category_vertical_id: self.ref_category_vertical_id).order("sort_order DESC").first
-    if final.blank?
-      self.sort_order = 1
-    else
-      self.sort_order = final.sort_order + 10
-    end
-    true
-  end
-
-  def after_save_set
+  def update_site_navigations
     Thread.new do
       navigation_json = []
       if self.ref_category.navigations.count > 0
@@ -67,6 +56,24 @@ class SiteVerticalNavigation < ApplicationRecord
       Api::ProtoGraph::CloudFront.invalidate(nil, ["/#{key}"], 1)
       ActiveRecord::Base.connection.close
     end
+  end
+
+  private
+
+
+  def before_create_set
+    self.launch_in_new_window = false if self.launch_in_new_window.blank?
+    final = SiteVerticalNavigation.where(site_id: self.site_id, ref_category_vertical_id: self.ref_category_vertical_id).order("sort_order DESC").first
+    if final.blank?
+      self.sort_order = 1
+    else
+      self.sort_order = final.sort_order + 10
+    end
+    true
+  end
+
+  def after_save_set
+    update_site_navigations
   end
 
 end

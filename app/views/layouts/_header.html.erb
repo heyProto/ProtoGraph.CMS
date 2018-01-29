@@ -60,7 +60,9 @@
                       <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                         <% if controller_name == "folders" and @folder.id.present? and current_user.is_admin_from_pykih %>
                           <%= link_to "Add multiple cards", account_site_folder_uploads_path(@account, @site, @folder), "data-turbolinks"=> false, class: "dropdown-item" %>
+                          <%= link_to "Edit Folder", edit_account_site_folder_path(@account, @site, @folder),class: "dropdown-item" %>
                         <% end %>
+                        <div class="dropdown-divider"></div>
                         <%= link_to "Settings", edit_account_site_path(@account, @site), "data-turbolinks"=> false, class: "dropdown-item"  %>
                         <%= link_to 'People', account_site_permission_invites_path(@account, @site), class: "dropdown-item" %>
                         <%= link_to 'Categories', intersection_account_site_path(@account, @site), class: "dropdown-item" %>

@@ -23,6 +23,7 @@ class FoldersController < ApplicationController
       redirect_back(fallback_location: [@account], alert: t("pd.folder"))
     end
     @folder.collaborator_lists = @folder.users.pluck(:id)
+    @verticals = @site.ref_categories.where(genre: 'series').pluck(:name, :id)
   end
 
   def update
@@ -31,6 +32,8 @@ class FoldersController < ApplicationController
       track_activity(@folder)
       redirect_to account_site_folder_path(@account, @site, @folder), notice: t("us")
     else
+      @verticals = @site.ref_categories.where(genre: 'series').pluck(:name, :id)
+      @folder.collaborator_lists = @folder.users.pluck(:id)
       render "edit"
     end
   end
