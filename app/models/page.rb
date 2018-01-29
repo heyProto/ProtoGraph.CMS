@@ -79,6 +79,18 @@ class Page < ApplicationRecord
   after_update :push_json_to_s3
   after_save :after_save_set
 
+  # Slug
+
+  def html_key
+    "#{self.site.name}/#{self.series.name}/#{self.headline.parameterize}-#{self.id}"
+    # Change during Multi Domain functionality
+  end
+
+  def html_url
+    "#{self.site.cdn_endpoint}/#{html_key}.html"
+    # Change during Multi Domain functionality
+  end
+
   #SCOPE
   #OTHER
   def push_json_to_s3
@@ -95,7 +107,7 @@ class Page < ApplicationRecord
       h
     end
 
-    page = self.as_json
+    page = self.as_json(methods: [:html_key])
     page['layout'] = self.template_page.as_json
 
     json = {
