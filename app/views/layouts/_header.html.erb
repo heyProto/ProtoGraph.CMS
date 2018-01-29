@@ -22,7 +22,7 @@
                   <a class="nav-link">/</a>
                 </li>
                 <li class="nav-item">
-                  <%= link_to @folder.name, account_site_folder_path(@account, @site, @folder), class: "nav-link" %>
+                  <%= link_to folder_name_(@folder), account_site_folder_path(@account, @site, @folder), class: "nav-link" %>
                 </li>
                 <% if controller_name == "streams" %>
                   <li class="nav-item"><a class="nav-link">/</a></li>
