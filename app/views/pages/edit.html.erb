@@ -80,7 +80,13 @@
         <div class="row">
             <div class="col-sm-16">
                 <h4><%= best_in_place @page_streamH16, :name_of_stream, url: [@account, @site, @page_streamH16] %></h4>
-                <%= link_to "Edit", edit_account_site_stream_path(@account, @site, @page_stream_16, folder_id: @folder.blank? ? nil : @folder.id)%>
+                <%= simple_form_for(@page_stream_16, url: [@account, @site, @page_stream_16]) do |f| %>
+                  <%= f.input :view_cast_id_list, input_html: { class: 'ui search fluid dropdown proto-tagged-input', multiple: true, "data-role" => "tagsinput" }, label: "Card IDs" %>
+                  <%= f.submit "Save", class: 'btn btn-sm btn-primary' %>
+                  | 
+                  <%= link_to "Publish", publish_account_site_stream_path(@account, @site, @page_stream_16, folder_id: @folder.blank? ? nil : @folder.id),"data-turbolinks"=> false, class: "btn btn-outline", method: :post %>
+                  <%= link_to ".", "#{@site.cdn_endpoint}/#{@page_stream_16.cdn_key}", target: "blank" %>
+                <% end %>
                 <br/>
                 <br/>
             </div>
@@ -88,19 +94,43 @@
         <div class="row">
             <div class="col-sm-7">
                 <h4><%= best_in_place @page_streamH07, :name_of_stream, url: [@account, @site, @page_streamH07] %></h4>
-                <%= link_to "Edit", edit_account_site_stream_path(@account, @site, @page_stream_07, folder_id: @folder.blank? ? nil : @folder.id)%>
+                <%= simple_form_for(@page_stream_07, url: [@account, @site, @page_stream_07]) do |f| %>
+                  <%= f.input :view_cast_id_list, input_html: { class: 'ui search fluid dropdown proto-tagged-input', multiple: true, "data-role" => "tagsinput" }, label: "Card IDs" %>
+                  <%= f.submit "Save", class: 'btn btn-sm btn-primary' %>
+                  | 
+                  <%= link_to "Publish", publish_account_site_stream_path(@account, @site, @page_stream_07, folder_id: @folder.blank? ? nil : @folder.id),"data-turbolinks"=> false, class: "btn btn-outline", method: :post %>
+                  <%= link_to ".", "#{@site.cdn_endpoint}/#{@page_stream_07.cdn_key}", target: "blank" %>
+                <% end %>
             </div>
             <div class="col-sm-4">
                 <h4><%= best_in_place @page_streamH04, :name_of_stream, url: [@account, @site, @page_streamH04] %></h4>
-                <%= link_to "Edit", edit_account_site_stream_path(@account, @site, @page_stream_04, folder_id: @folder.blank? ? nil : @folder.id)%>
+                <%= simple_form_for(@page_stream_04, url: [@account, @site, @page_stream_04]) do |f| %>
+                  <%= f.input :view_cast_id_list, input_html: { class: 'ui search fluid dropdown proto-tagged-input', multiple: true, "data-role" => "tagsinput" }, label: "Card IDs" %>
+                  <%= f.submit "Save", class: 'btn btn-sm btn-primary' %>
+                  | 
+                  <%= link_to "Publish", publish_account_site_stream_path(@account, @site, @page_stream_04, folder_id: @folder.blank? ? nil : @folder.id),"data-turbolinks"=> false, class: "btn btn-outline", method: :post %>
+                  <%= link_to ".", "#{@site.cdn_endpoint}/#{@page_stream_04.cdn_key}", target: "blank" %>
+                <% end %>
             </div>
             <div class="col-sm-2">
                 <h4><%= best_in_place @page_streamH02, :name_of_stream, url: [@account, @site, @page_streamH02] %></h4>
-                <%= link_to "Edit", edit_account_site_stream_path(@account, @site, @page_stream_02, folder_id: @folder.blank? ? nil : @folder.id)%>
+                <%= simple_form_for(@page_stream_02, url: [@account, @site, @page_stream_02]) do |f| %>
+                  <%= f.input :view_cast_id_list, input_html: { class: 'ui search fluid dropdown proto-tagged-input', multiple: true, "data-role" => "tagsinput" }, label: "Card IDs" %>
+                  <%= f.submit "Save", class: 'btn btn-sm btn-primary' %>
+                  | 
+                  <%= link_to "Publish", publish_account_site_stream_path(@account, @site, @page_stream_02, folder_id: @folder.blank? ? nil : @folder.id),"data-turbolinks"=> false, class: "btn btn-outline", method: :post %>
+                  <%= link_to ".", "#{@site.cdn_endpoint}/#{@page_stream_02.cdn_key}", target: "blank" %>
+                <% end %>
             </div>
             <div class="col-sm-3">
                 <h4><%= best_in_place @page_streamH03, :name_of_stream, url: [@account, @site, @page_streamH03] %></h4>
-                <%= link_to "Edit", edit_account_site_stream_path(@account, @site, @page_stream_03, folder_id: @folder.blank? ? nil : @folder.id)%>
+                <%= simple_form_for(@page_stream_03, url: [@account, @site, @page_stream_03]) do |f| %>
+                  <%= f.input :view_cast_id_list, input_html: { class: 'ui search fluid dropdown proto-tagged-input', multiple: true, "data-role" => "tagsinput" }, label: "Card IDs" %>
+                  <%= f.submit "Save", class: 'btn btn-sm btn-primary' %>
+                  | 
+                  <%= link_to "Publish", publish_account_site_stream_path(@account, @site, @page_stream_03, folder_id: @folder.blank? ? nil : @folder.id),"data-turbolinks"=> false, class: "btn btn-outline", method: :post %>
+                  <%= link_to ".", "#{@site.cdn_endpoint}/#{@page_stream_03.cdn_key}", target: "blank" %>
+                <% end %>
             </div>
         </div>
     <% else %>
