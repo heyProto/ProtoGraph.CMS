@@ -1,3 +1,4 @@
+<% if @on_an_account_page %>
 <% if !is_admins_controller or (controller_name != 'accounts' and ['new','create'].include?(action_name)) %>
     <% if @accounts.count > 1 %>
         <li class="nav-item dropdown">
