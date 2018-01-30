@@ -134,7 +134,7 @@ class Page < ApplicationRecord
       "page": page,
       "ref_category_object": {"name": "#{self.series.name}", "name_html": "#{self.series.name_html}"},
       "vertical_header_json_url": "#{self.series.vertical_header_url}",
-      "homepage_header_json_url": "#{self.site.hompage_header_url}",
+      "homepage_header_json_url": "#{self.site.homepage_header_url}",
       "site_header_json_url": "#{self.site.header_json_url}"
     }
     key = "#{self.datacast_identifier}/page.json"

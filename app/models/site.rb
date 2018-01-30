@@ -85,7 +85,7 @@ class Site < ApplicationRecord
         "#{self.name}/verticals.json"
     end
 
-    def hompage_header_url
+    def homepage_header_url
         "#{cdn_endpoint}/#{homepage_header_key}"
     end
 
