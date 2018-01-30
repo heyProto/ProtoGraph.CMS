@@ -11,9 +11,6 @@
  * It is generally better to create a new file per style scope.
  *
  *= require vendors/bootstrap.min.css
- *= require vendors/github-menu.scss
- *= require vendors/github-blankslate.css
- *= require vendors/open-iconic.min.css
  *= require select2.css
  *= require vendors/theme.css
  *= require app/style.css
