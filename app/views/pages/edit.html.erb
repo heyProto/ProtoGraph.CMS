@@ -57,6 +57,7 @@
         <div class="row">
             <div class="col-sm-8">
                 <h4>Narrative</h4>
+                <%= @page_stream_narrative.view_cast_id_list %>
                 <%= simple_form_for(@page_stream_narrative, url: [@account, @site, @page_stream_narrative]) do |f| %>
                   <%= f.input :view_cast_id_list, input_html: { class: 'ui search fluid dropdown proto-tagged-input', multiple: true, "data-role" => "tagsinput" }, label: "Card IDs" %>
                   <%= f.submit "Save", class: 'btn btn-sm btn-primary' %>
@@ -64,6 +65,7 @@
             </div>
             <div class="col-sm-4">
                 <h4>Related</h4>
+                <%= @page_stream_related.view_cast_id_list %>
                 <%= simple_form_for(@page_stream_related, url: [@account, @site, @page_stream_related]) do |f| %>
                   <%= f.input :view_cast_id_list, input_html: { class: 'ui search fluid dropdown proto-tagged-input', multiple: true, "data-role" => "tagsinput" }, label: "Card IDs" %>
                   <%= f.submit "Save", class: 'btn btn-sm btn-primary' %>
