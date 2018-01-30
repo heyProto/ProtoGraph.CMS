@@ -6,9 +6,9 @@ module ApplicationHelper
   def folder_name_(f)
     if f.vertical.present?
         if f.vertical.name_html.present?
-            return f.vertical.name_html.titleize  + ": " + f.name.titleize
+            return f.vertical.name_html  + ": " + f.name.titleize
         else
-            return f.vertical.name.titleize + ": " + f.name.titleize
+            return f.vertical.name + ": " + f.name.titleize
         end
       else
         return f.name.titleize
