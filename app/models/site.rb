@@ -154,6 +154,8 @@ class Site < ApplicationRecord
         self.client_secret = ENV['AWS_SECRET_ACCESS_KEY'] if self.client_secret.blank?
         self.host = "#{AWS_API_DATACAST_URL}/cloudfront/invalidate" if self.host.blank?
         self.cdn_id = ENV['AWS_CDN_ID'] if self.cdn_id.blank? and self.cdn_endpoint == ENV['AWS_S3_ENDPOINT']
+        self.header_background_color = "#FFFFFF"
+        self.header_positioning = "left"
         true
     end
 
@@ -188,9 +190,9 @@ class Site < ApplicationRecord
             content_type = "application/json"
             resp = Api::ProtoGraph::Utility.upload_to_cdn(encoded_file, key, content_type)
             if self.cdn_id != ENV['AWS_CDN_ID']
-                Api::ProtoGraph::CloudFront.invalidate(self.site, ["/#{key}"], 1)
+                Api::ProtoGraph::CloudFront.invalidate(self.site, ["/#{CGI.escape(key)}"], 1)
             end
-            Api::ProtoGraph::CloudFront.invalidate(nil, ["/#{key}"], 1)
+            Api::ProtoGraph::CloudFront.invalidate(nil, ["/#{CGI.escape(key)}"], 1)
             ActiveRecord::Base.connection.close
         end
     end

@@ -1,12 +1,5 @@
  @import url('https://fonts.googleapis.com/css?family=Lato:300,400,700');
 
-body{
-  font-family: Lato,'Helvetica Neue',Arial,Helvetica,sans-serif;
-  letter-spacing: 0.5px;
-  font-size: 14px;
-  color: #333;
-}
-
 .publish-button, .update-button{
   margin-left: 15px;
   display: none;
@@ -30,11 +23,6 @@ body{
 .subheading-text{
   font-weight: 700;
   font-size: 1.2em;
-}
-
-p{
-  line-height: 1.5em;
-  margin-bottom: 15px;
 }
 
 /*========== sidebar ===========*/
