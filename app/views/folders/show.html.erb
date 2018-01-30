@@ -26,11 +26,11 @@
         <div class="card">
           <div class="card-body">
             <h4 class="card-title" style="text-align: center; font-weight: 400;">
-              <%= link_to "Pages <span class='badge badge-pill badge-secondary'>#{@page_count}</span>".html_safe, account_site_folder_pages_path(@account, @site, @folder) %></h4>
+              <%= link_to "Pages <span class='badge badge-pill badge-secondary'>#{@page_count}</span>".html_safe, account_site_pages_path(@account, @site, folder_id: @folder.id) %></h4>
             <hr style="margin-left: 20px; margin-right: 20px;" />
             <% unless @folder.is_trash %>
               <div style='text-align: center;'>
-                <%= link_to '+ Add a page', new_account_site_folder_page_path(@account, @site, @folder), data: {turbolinks: false}, class: "nav-link btn btn-sm btn-primary", style: "margin-top: 5px;" %>
+                <%= link_to '+ Add a page', new_account_site_page_path(@account, @site, folder_id: @folder.id), data: {turbolinks: false}, class: "nav-link btn btn-sm btn-primary", style: "margin-top: 5px;" %>
               </div>
             <% end %>
           </div>

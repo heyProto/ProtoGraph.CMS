@@ -8,18 +8,17 @@
         </div>
 </div>
 
-            <%= simple_form_for(@page, url: account_site_folder_pages_path(@account, @site, @folder), method: :post) do |f| %>
+            <%= simple_form_for(@page, url: account_site_pages_path(@account, @site), method: :post) do |f| %>
                 <div class="row">
                     <div class="col-sm-6" style="margin-left: auto; margin-right: auto; width: 540px;">
                         <%= f.error_notification %>
                         <div class="form-inputs">
-                            <% f.input :ref_category_series_id, label: "Vertical", collection: [[@folder.vertical.name, @folder.ref_category_vertical_id]], include_blank: false  %>
-                            <%= f.input :headline, required: true, minlength: 50 , maxlength: 90 %>
-                            <%= f.input :summary, minlength: 50 , maxlength: 220 %>
-                            <%= f.input :byline, required: true, label: "Display Byline", hint: "What byline do you want on the website?" %>
+                            <%= f.input :headline, required: true, minlength: 50 , maxlength: 90, hint: "Minimum length: 50 chars. Maximum length: 90 chars." %>
+                            <%= f.input :summary, minlength: 50 , maxlength: 220, hint: "Minimum length: 50 chars. Maximum length: 200 chars." %>
+                            <%= f.input :byline, required: true, label: "What byline do you want on the website?" %>
                             <p><b>Cover</b></p>
-                            <%= f.input :cover_image_url, hint: "1260px width. 5:3 aspect ratio",required: true %>
-                            <%= f.input :cover_image_url_7_column, hint: "540px width. 5:3 aspect ratio" %>
+                            <%= f.input :cover_image_url, hint: "1260px width. 5:3 aspect ratio. Store the image in Image Bank.",required: true %>
+                            <%= f.input :cover_image_url_7_column, hint: "540px width. 5:3 aspect ratio. Store the image in Image Bank." %>
                             <%= f.input :cover_image_alignment, collection: @cover_image_alignment, selected: "horizontal", required: true %>
                             <%= f.input :is_published, label: "&nbsp; Is Published?".html_safe, hint: "Until you want the Story Card to be published live on your site, do not mark the article as published." %>
                             <div class="form-actions">
@@ -30,6 +29,7 @@
                     <div class="col-sm-2">
                         <div class="form-inputs">
                             <% if @page.id.blank? %>
+                                <% f.input :ref_category_series_id, label: "Vertical", collection: [[@folder.vertical.name, @folder.ref_category_vertical_id]], include_blank: false  %>
                                 <%= f.hidden_field :account_id, value: @account.id %>
                                 <%= f.hidden_field :site_id, value: @site.id %>
                                 <%= f.hidden_field :folder_id, value: @folder.id %>

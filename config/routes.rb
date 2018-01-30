@@ -73,7 +73,6 @@ Rails.application.routes.draw do
       get "/sub_intersection", to: "ref_categories#sub_intersection", on: :member
 
       resources :folders do
-        resources :pages
         resources :view_casts
 
         resources :streams do
@@ -83,7 +82,7 @@ Rails.application.routes.draw do
         resources :uploads, only: [:new, :create, :index]
         resources :page_streams, only: [:update]
       end
-      resources :pages, only: [:show, :edit, :update, :destroy] do
+      resources :pages do
         get "manager", on: :collection
       end
     end
