@@ -6,6 +6,11 @@
 <div id="root"></div>
 <div class="clearfix"></div>
 <%= javascript_include_tag "JCrop.js" %>
+<% if @folder.vertical.present? %>
+    <script type="text/javascript">
+        window.vertical_name = "<%= @folder.vertical.name %>";
+    </script>
+<% end %>
 <script type="text/javascript">
     window.accessToken = "<%= current_user. access_token %>";
     window.baseURL = "<%= BASE_URL %>/api/v1";
