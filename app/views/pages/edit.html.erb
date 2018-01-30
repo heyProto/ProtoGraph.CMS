@@ -80,8 +80,10 @@
         </div>
     <% elsif @page.template_page.name == "Homepage: Vertical" %>
         <div class="row">
-            <h4>Hero</h4>
-            <%= link_to "Edit", edit_account_site_stream_path(@account, @site, @page_stream_16, folder_id: @folder.blank? ? nil : @folder.id)%>
+            <div class="col-sm-12">
+                <h4>Hero</h4>
+                <%= link_to "Edit", edit_account_site_stream_path(@account, @site, @page_stream_16, folder_id: @folder.blank? ? nil : @folder.id)%>
+            </div>
         </div>
         <div class="row">
             <div class="col-sm-3">
