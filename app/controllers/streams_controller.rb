@@ -10,7 +10,7 @@ class StreamsController < ApplicationController
         @stream.collaborator_lists = ["#{current_user.id}"] if ["contributor", "writer"].include?(@permission_role.slug)
         if @stream.save
             track_activity(@stream)
-            redirect_to account_site_stream_path(@account, @site, @stream, folder_id: @folder.id), notice: t('cs')
+            redirect_to account_site_stream_path(@account, @site, @stream, folder_id: @folder.blank? ? nil : @folder.id), notice: t('cs')
         else
             render :new
         end
@@ -46,9 +46,9 @@ class StreamsController < ApplicationController
         @stream.updator = current_user
         @stream.folder = @account.folders.find_by(name: "Recycle Bin")
         if @stream.save
-            redirect_to account_site_streams_path(@account, @site, folder_id: @folder.id), notice: "Stream was deleted successfully"
+            redirect_to account_site_streams_path(@account, @site, folder_id: @folder.blank? ? nil : @folder.id), notice: "Stream was deleted successfully"
         else
-            redirect_to account_site_stream_path(@account, @site, @stream, folder_id: @folder.id), alert: "Stream could not be deleted"
+            redirect_to account_site_stream_path(@account, @site, @stream, folder_id: @folder.blank? ? nil : @folder.id), alert: "Stream could not be deleted"
         end
     end
 
@@ -58,7 +58,7 @@ class StreamsController < ApplicationController
             track_activity(@stream)
             ActiveRecord::Base.connection.close
         end
-        redirect_to account_site_stream_path(@account, @site, @stream, folder_id: @folder.id), notice: t("published.stream")
+        redirect_to account_site_stream_path(@account, @site, @stream, folder_id: @folder.blank? ? nil : @folder.id), notice: t("published.stream")
     end
 
     private
