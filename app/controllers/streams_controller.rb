@@ -36,7 +36,11 @@ class StreamsController < ApplicationController
         s_params[:updated_by] = current_user.id
         if @stream.update(s_params)
             track_activity(@stream)
-            redirect_to account_site_stream_path(@account, @site, @stream, folder_id: @folder.blank? ? nil : @folder.id), notice: t('cs')
+            if @stream.pages.first.present?
+                redirect_to edit_account_site_page_path(@account, @site, @stream.pages.first), notice: t('cs')
+            else
+                redirect_to account_site_stream_path(@account, @site, @stream, folder_id: @folder.blank? ? nil : @folder.id), notice: t('cs')
+            end
         else
             render :edit
         end
