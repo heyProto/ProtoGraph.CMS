@@ -66,12 +66,12 @@
 <hr/>
 <div style="width: 1260px;">
     <% if @page.template_page.name == "article" %>
-        <div style="width: 540px !important; margin-left: auto; margin-right: auto;">
+        <div style="width: 540px !important; position: relative; margin-left: auto; margin-right: auto;">
             <h4>Narrative</h4>
             
             <%= link_to "Edit", edit_account_site_stream_path(@account, @site, @page_stream_narrative, folder_id: @folder.blank? ? nil : @folder.id)%>
         </div>
-        <div style="width: 300px !important; float: auto;">
+        <div style="width: 300px !important; position: relative; float: right;">
             <h4>Related</h4>
             
             <%= link_to "Edit", edit_account_site_stream_path(@account, @site, @page_stream_related, folder_id: @folder.blank? ? nil : @folder.id)%>
