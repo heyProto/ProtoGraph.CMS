@@ -14,7 +14,7 @@ class PagesController < ApplicationController
   end
 
   def show
-    redirect_to edit_account_site_folder_page_path(@account, @site, @folder, @page)
+    redirect_to edit_account_site_page_path(@account, @site, @page)
   end
 
   def new
@@ -42,7 +42,7 @@ class PagesController < ApplicationController
     @page.updated_by = current_user.id
     @page.collaborator_lists = ["#{current_user.id}"] if ["contributor", "writer"].include?(@permission_role.slug)
     if @page.save
-      redirect_to account_site_folder_pages_path(@account, @site, @folder), notice: 'Page was successfully created.'
+      redirect_to account_site_pages_path(@account, @site), notice: 'Page was successfully created.'
     else
       @ref_series = RefCategory.where(site_id: @site.id, genre: "series", is_disabled: [false, nil]).order(:name).map {|r| ["#{r.name}", r.id]}
       @ref_intersection = RefCategory.where(site_id: @site.id, genre: "intersection", is_disabled: [false, nil]).order(:name).map {|r| ["#{r.name}", r.id]}
@@ -58,7 +58,7 @@ class PagesController < ApplicationController
     respond_to do |format|
       if @page.update_attributes(page_params)
         format.json { respond_with_bip(@page) }
-        format.html { redirect_to account_site_folder_page_path(@account, @site, @folder, @page), notice: 'Page was successfully updated.' }
+        format.html { redirect_to account_site_page_path(@account, @site, @page), notice: 'Page was successfully updated.' }
       else
         format.json { respond_with_bip(@page) }
         format.html { render :action => "edit", alert: @page.errors.full_messages }
@@ -68,7 +68,7 @@ class PagesController < ApplicationController
 
   def destroy
     @page.destroy
-    redirect_to account_site_folder_pages_path(@account,@site, @folder), notice: 'Page was successfully destroyed.'
+    redirect_to account_site_pages_path(@account,@site), notice: 'Page was successfully destroyed.'
   end
 
   private
