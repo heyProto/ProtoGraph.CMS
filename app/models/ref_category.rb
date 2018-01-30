@@ -55,7 +55,7 @@ class RefCategory < ApplicationRecord
     end
 
     def vertical_header_key
-        "#{self.site.name}/#{self.name}/navigation.json"
+        "#{self.site.name.parameterize}/#{self.name}/navigation.json"
     end
 
     def vertical_header_url
