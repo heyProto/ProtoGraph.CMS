@@ -62,7 +62,11 @@ class StreamsController < ApplicationController
             track_activity(@stream)
             ActiveRecord::Base.connection.close
         end
-        redirect_to account_site_stream_path(@account, @site, @stream, folder_id: @folder.blank? ? nil : @folder.id), notice: t("published.stream")
+        if @stream.pages.first.present?
+            redirect_to edit_account_site_page_path(@account, @site, @stream.pages.first), notice: t('cs')
+        else
+          redirect_to account_site_stream_path(@account, @site, @stream, folder_id: @folder.blank? ? nil : @folder.id), notice: t("published.stream")
+        end
     end
 
     private
