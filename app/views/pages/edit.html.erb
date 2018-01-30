@@ -25,7 +25,9 @@
                             <%= f.input :byline, required: true, label: "What byline do you want on the website?" %>
                             <%= f.input :is_published, label: "&nbsp; Is Published?".html_safe, hint: "Until you want the Story Card to be published live on your site, do not mark the article as published." %>
                             <div class="form-actions">
-                              <%= f.button :submit %>
+                              <%= f.button :submit %> 
+                              &nbsp;&nbsp;|&nbsp;&nbsp;
+                              <%= link_to "Preview", @page.html_url, target: "_blank" %>
                             </div>
                         </div>
                     </div>
