@@ -57,7 +57,7 @@
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                       <h6 class="dropdown-header" style="font-size: 11px;">Account: <%= @account.username %></h6>
-                      <%= link_to "Settings", edit_account_path(@account), "data-turbolinks"=> false, class: "dropdown-item" %>
+                      <%= link_to "Account Owners", edit_account_path(@account), "data-turbolinks"=> false, class: "dropdown-item" %>
                       <%= link_to "Image Bank", account_images_path(@account), "data-turbolinks"=> false, class: "dropdown-item"  %>
                       <% if 1 == 2 %>
                           <%= link_to "Audio Bank", account_audios_path(@account), "data-turbolinks"=> false, class: "dropdown-item"  %>
@@ -69,18 +69,12 @@
                               <%= link_to "Add multiple cards", account_site_folder_uploads_path(@account, @site, @folder), "data-turbolinks"=> false, class: "dropdown-item", style: "color: gold;" %>
                               <%= link_to "Edit Folder", edit_account_site_folder_path(@account, @site, @folder),class: "dropdown-item", style: "color: gold;" %>
                             <% end %>
-                            <%= link_to "Settings", edit_account_site_path(@account, @site), "data-turbolinks"=> false, class: "dropdown-item"  %>
+                            <%= link_to "Site Settings", edit_account_site_path(@account, @site), "data-turbolinks"=> false, class: "dropdown-item"  %>
                             <%= link_to 'People', account_site_permission_invites_path(@account, @site), class: "dropdown-item" %>
                             <%= link_to 'Categories', intersection_account_site_path(@account, @site), class: "dropdown-item" %>
                         <div class="dropdown-divider"></div>
                       <% end %>
                       <h6 class="dropdown-header" style="font-size: 11px;">Me</h6>
-                      <% if current_user.is_admin_from_pykih %>
-                        <%= link_to 'Online users', admin_online_users_path, class: "dropdown-item", style: "color: gold;" %>
-                      <% end %>
-                      <% if current_user.can_publish_link_sources %>
-                          <%= link_to "Ref: Publishers", ref_link_sources_path, class: "dropdown-item", style: "color: gold;" %>
-                      <% end %>
                       <%= link_to 'Profile', edit_user_path(current_user), class: "dropdown-item" %>
                       <%= link_to 'Settings', edit_user_registration_path, class: "dropdown-item" %>
                       <%= link_to "Sign out", destroy_user_session_path, class: "dropdown-item" %>
