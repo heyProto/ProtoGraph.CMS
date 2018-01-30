@@ -50,7 +50,7 @@ class RefCategory < ApplicationRecord
     end
 
     def vertical_page_url
-        self.vertical_page.html_url
+        "#{self.site.cdn_endpoint}/#{self.site.slug}/#{self.slug}.html"
     end
 
     def view_casts
