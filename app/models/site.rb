@@ -38,6 +38,7 @@
 #  header_background_color :string(255)
 #  header_url              :text(65535)
 #  header_positioning      :string(255)
+#  slug                    :string(255)
 #
 
 class Site < ApplicationRecord
@@ -45,6 +46,8 @@ class Site < ApplicationRecord
     SIGN_UP_MODES = ["Any email from your domain", "Invitation only"]
     #CUSTOM TABLES
     #GEMS
+    extend FriendlyId
+    friendly_id :name, use: :slugged
     #ASSOCIATIONS
     belongs_to :account
     has_many :folders
@@ -82,7 +85,7 @@ class Site < ApplicationRecord
     #OTHER
 
     def homepage_header_key
-        "#{self.name}/verticals.json"
+        "#{self.slug}/verticals.json"
     end
 
     def homepage_header_url
@@ -90,11 +93,11 @@ class Site < ApplicationRecord
     end
 
     def header_json_key
-        "#{self.name}/header.json"
+        "#{self.slug}/header.json"
     end
 
     def header_json_url
-        "#{self.cdn_endpoint}/#{self.name}/header.json"
+        "#{self.cdn_endpoint}/#{header_json_key}"
     end
 
     #PRIVATE
@@ -175,6 +178,10 @@ class Site < ApplicationRecord
 
         # self.update_columns(stream_url: "#{self.cdn_endpoint}/#{stream.cdn_key}", stream_id: stream.id)
         create_sudo_permission("owner")
+        key = "#{self.homepage_header_key}"
+        encoded_file = Base64.encode64([].to_json)
+        content_type = "application/json"
+        resp = Api::ProtoGraph::Utility.upload_to_cdn(encoded_file, key, content_type)
     end
 
     def after_save_set

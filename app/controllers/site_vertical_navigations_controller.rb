@@ -1,5 +1,5 @@
 class SiteVerticalNavigationsController < ApplicationController
-  
+
   before_action :authenticate_user!, :set_ref_category
   before_action :set_site_vertical_navigation, only: [:show, :edit, :update, :destroy, :move_up, :move_down]
 
@@ -19,12 +19,12 @@ class SiteVerticalNavigationsController < ApplicationController
       render :index
     end
   end
-  
+
   def move_up
     @site_vertical_navigation.update_attributes(updated_by: current_user.id, sort_order: @site_vertical_navigation.sort_order - 1)
     redirect_to account_site_ref_category_site_vertical_navigations_path(@account, @site, @ref_category), notice: t('us')
   end
-  
+
   def move_down
     @site_vertical_navigation.update_attributes(updated_by: current_user.id, sort_order: @site_vertical_navigation.sort_order + 1)
     redirect_to account_site_ref_category_site_vertical_navigations_path(@account, @site, @ref_category), notice: t('us')
@@ -50,9 +50,9 @@ class SiteVerticalNavigationsController < ApplicationController
     def set_site_vertical_navigation
       @site_vertical_navigation = SiteVerticalNavigation.find(params[:id])
     end
-    
+
     def set_ref_category
-      @ref_category = RefCategory.find(params[:ref_category_id])
+      @ref_category = RefCategory.friendly.find(params[:ref_category_id])
     end
 
     def site_vertical_navigation_params

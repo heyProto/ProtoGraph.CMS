@@ -86,7 +86,7 @@ class Page < ApplicationRecord
   # Slug
 
   def html_key
-    "#{self.site.name}/#{self.series.name}/#{self.slug}-#{self.id}"
+    "#{self.site.slug}/#{self.series.slug}/#{self.slug}-#{self.id}"
     # Change during Multi Domain functionality
   end
 
