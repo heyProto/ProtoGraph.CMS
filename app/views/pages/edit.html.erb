@@ -1,3 +1,4 @@
+<%= stylesheet_link_tag "select2.css" %>
 <div class="row">
         <div class="col-sm-6" style="margin-left: auto; margin-right: auto;">
             <h1>Edit Page</h1>
@@ -17,7 +18,7 @@
                             <%= f.input :cover_image_alignment, collection: @cover_image_alignment, selected: "horizontal", required: true %>
                         </div>
                     </div>
-                    <div class="col-sm-6" style="margin-left: auto; margin-right: auto;">    
+                    <div class="col-sm-6" style="margin-left: auto; margin-right: auto;">
                         <%= f.error_notification %>
                         <div class="form-inputs">
                             <%= f.input :headline, required: true, minlength: 50 , maxlength: 90, hint: "Minimum length: 50 chars. Maximum length: 90 chars." %>
@@ -37,7 +38,7 @@
                             <% end %>
                             <% if @ref_sub_intersection.first.present? %>
                                 <%= f.input :ref_category_sub_intersection_id, label: "Sub Intersection", collection: @ref_sub_intersection, include_blank: true %>
-                            <% end %>      
+                            <% end %>
                             <%= f.input :is_sponsored, label: "&nbsp; Is Sponsored?".html_safe %>
                             <p><b>Story elements:</b></p>
                             <%= f.input :has_data, label: "&nbsp; Data or charts?".html_safe %>
@@ -60,7 +61,7 @@
                 <%= simple_form_for(@page_stream_narrative, url: [@account, @site, @page_stream_narrative]) do |f| %>
                   <%= f.input :view_cast_id_list, input_html: { class: 'ui search fluid dropdown proto-tagged-input', multiple: true, "data-role" => "tagsinput" }, label: "Card IDs" %>
                   <%= f.submit "Save", class: 'btn btn-sm btn-primary' %>
-                  | 
+                  |
                   <%= link_to "Publish", publish_account_site_stream_path(@account, @site, @page_stream_narrative, folder_id: @folder.blank? ? nil : @folder.id),"data-turbolinks"=> false, class: "btn btn-outline", method: :post %>
                   <%= link_to ".", "#{@site.cdn_endpoint}/#{@page_stream_narrative.cdn_key}", target: "blank" %>
                 <% end %>
@@ -70,7 +71,7 @@
                 <%= simple_form_for(@page_stream_related, url: [@account, @site, @page_stream_related]) do |f| %>
                   <%= f.input :view_cast_id_list, input_html: { class: 'ui search fluid dropdown proto-tagged-input', multiple: true, "data-role" => "tagsinput" }, label: "Card IDs" %>
                   <%= f.submit "Save", class: 'btn btn-sm btn-primary' %>
-                  | 
+                  |
                   <%= link_to "Publish", publish_account_site_stream_path(@account, @site, @page_stream_related, folder_id: @folder.blank? ? nil : @folder.id),"data-turbolinks"=> false, class: "btn btn-outline", method: :post %>
                   <%= link_to ".", "#{@site.cdn_endpoint}/#{@page_stream_related.cdn_key}", target: "blank" %>
                 <% end %>
@@ -83,7 +84,7 @@
                 <%= simple_form_for(@page_stream_16, url: [@account, @site, @page_stream_16]) do |f| %>
                   <%= f.input :view_cast_id_list, input_html: { class: 'ui search fluid dropdown proto-tagged-input', multiple: true, "data-role" => "tagsinput" }, label: "Card IDs" %>
                   <%= f.submit "Save", class: 'btn btn-sm btn-primary' %>
-                  | 
+                  |
                   <%= link_to "Publish", publish_account_site_stream_path(@account, @site, @page_stream_16, folder_id: @folder.blank? ? nil : @folder.id),"data-turbolinks"=> false, class: "btn btn-outline", method: :post %>
                   <%= link_to ".", "#{@site.cdn_endpoint}/#{@page_stream_16.cdn_key}", target: "blank" %>
                 <% end %>
@@ -97,7 +98,7 @@
                 <%= simple_form_for(@page_stream_07, url: [@account, @site, @page_stream_07]) do |f| %>
                   <%= f.input :view_cast_id_list, input_html: { class: 'ui search fluid dropdown proto-tagged-input', multiple: true, "data-role" => "tagsinput" }, label: "Card IDs" %>
                   <%= f.submit "Save", class: 'btn btn-sm btn-primary' %>
-                  | 
+                  |
                   <%= link_to "Publish", publish_account_site_stream_path(@account, @site, @page_stream_07, folder_id: @folder.blank? ? nil : @folder.id),"data-turbolinks"=> false, class: "btn btn-outline", method: :post %>
                   <%= link_to ".", "#{@site.cdn_endpoint}/#{@page_stream_07.cdn_key}", target: "blank" %>
                 <% end %>
@@ -107,7 +108,7 @@
                 <%= simple_form_for(@page_stream_04, url: [@account, @site, @page_stream_04]) do |f| %>
                   <%= f.input :view_cast_id_list, input_html: { class: 'ui search fluid dropdown proto-tagged-input', multiple: true, "data-role" => "tagsinput" }, label: "Card IDs" %>
                   <%= f.submit "Save", class: 'btn btn-sm btn-primary' %>
-                  | 
+                  |
                   <%= link_to "Publish", publish_account_site_stream_path(@account, @site, @page_stream_04, folder_id: @folder.blank? ? nil : @folder.id),"data-turbolinks"=> false, class: "btn btn-outline", method: :post %>
                   <%= link_to ".", "#{@site.cdn_endpoint}/#{@page_stream_04.cdn_key}", target: "blank" %>
                 <% end %>
@@ -117,7 +118,7 @@
                 <%= simple_form_for(@page_stream_02, url: [@account, @site, @page_stream_02]) do |f| %>
                   <%= f.input :view_cast_id_list, input_html: { class: 'ui search fluid dropdown proto-tagged-input', multiple: true, "data-role" => "tagsinput" }, label: "Card IDs" %>
                   <%= f.submit "Save", class: 'btn btn-sm btn-primary' %>
-                  | 
+                  |
                   <%= link_to "Publish", publish_account_site_stream_path(@account, @site, @page_stream_02, folder_id: @folder.blank? ? nil : @folder.id),"data-turbolinks"=> false, class: "btn btn-outline", method: :post %>
                   <%= link_to ".", "#{@site.cdn_endpoint}/#{@page_stream_02.cdn_key}", target: "blank" %>
                 <% end %>
@@ -127,7 +128,7 @@
                 <%= simple_form_for(@page_stream_03, url: [@account, @site, @page_stream_03]) do |f| %>
                   <%= f.input :view_cast_id_list, input_html: { class: 'ui search fluid dropdown proto-tagged-input', multiple: true, "data-role" => "tagsinput" }, label: "Card IDs" %>
                   <%= f.submit "Save", class: 'btn btn-sm btn-primary' %>
-                  | 
+                  |
                   <%= link_to "Publish", publish_account_site_stream_path(@account, @site, @page_stream_03, folder_id: @folder.blank? ? nil : @folder.id),"data-turbolinks"=> false, class: "btn btn-outline", method: :post %>
                   <%= link_to ".", "#{@site.cdn_endpoint}/#{@page_stream_03.cdn_key}", target: "blank" %>
                 <% end %>
@@ -146,7 +147,7 @@
 
 <hr/>
 <div class="row">
-    <div class="col-sm-6" style="margin-left: auto; margin-right: auto;">    
+    <div class="col-sm-6" style="margin-left: auto; margin-right: auto;">
         <h4>Page Object:</h4>
         <p>
             <%= link_to truncate(@page.page_object_url, length: 50), @page.page_object_url, target: "_blank" %>
@@ -157,7 +158,7 @@
             <div id="protoCard"></div>
         <% end %>
     </div>
-</div>            
+</div>
 <% if @view_cast.present? %>
     <script src="https://cdn.protograph.pykih.com/lib/protoGraph.min.js" async></script>
     <script>
@@ -169,7 +170,8 @@
         },200)
     </script>
 <% end %>
-        
+
+<%= javascript_include_tag "select2.js" %>
 <script type="text/javascript">
     $(document).ready(function() {
         $('.proto-tagged-input').tagsinput();
