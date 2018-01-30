@@ -10,29 +10,17 @@ class StreamsController < ApplicationController
         @stream.collaborator_lists = ["#{current_user.id}"] if ["contributor", "writer"].include?(@permission_role.slug)
         if @stream.save
             track_activity(@stream)
-            redirect_to account_site_folder_stream_path(@account, @site, @folder, @stream), notice: t('cs')
+            redirect_to account_site_stream_path(@account, @site, @stream, folder_id: @folder.id), notice: t('cs')
         else
             render :new
         end
     end
 
-    def new
-        @stream = @folder.streams.new(account_id: @account.id)
-        @view_casts_count = @folder.view_casts.count
-        @streams_count = @folder.streams.count
-        @view_casts_id_list = []
-        @is_viewcasts_present = @view_casts_count != 0
-        render layout: "application-fluid"
-    end
-
     def show
         @view_casts = @stream.cards
         @folders = @account.folders.where(id: @stream.folder_list)
-        @view_casts_count = @folder.view_casts.count
         @template_cards = @account.template_cards.where(id: @stream.card_list)
         @is_viewcasts_present = @view_casts_count != 0
-        @streams_count = @folder.streams.count
-        render layout: "application-fluid"
     end
 
     def edit
@@ -40,10 +28,7 @@ class StreamsController < ApplicationController
         @stream.card_list = @stream.template_card_ids.pluck(:entity_value)
         @stream.view_cast_id_list = @stream.view_cast_ids.pluck(:entity_value).join(",")
         @stream.excluded_view_cast_id_list = @stream.excluded_view_cast_ids.pluck(:entity_value).join(",")
-        @view_casts_count = @folder.view_casts.count
-        @streams_count = @folder.streams.count
         @is_viewcasts_present = @view_casts_count != 0
-        render layout: "application-fluid"
     end
 
     def update
@@ -51,7 +36,7 @@ class StreamsController < ApplicationController
         s_params[:updated_by] = current_user.id
         if @stream.update(s_params)
             track_activity(@stream)
-            redirect_to account_site_folder_stream_path(@account, @site, @folder, @stream), notice: t('cs')
+            redirect_to account_site_stream_path(@account, @site, @stream, folder_id: @folder.blank? ? nil : @folder.id), notice: t('cs')
         else
             render :edit
         end
@@ -61,9 +46,9 @@ class StreamsController < ApplicationController
         @stream.updator = current_user
         @stream.folder = @account.folders.find_by(name: "Recycle Bin")
         if @stream.save
-            redirect_to account_site_folder_streams_path(@account, @site, @folder), notice: "Stream was deleted successfully"
+            redirect_to account_site_streams_path(@account, @site, folder_id: @folder.id), notice: "Stream was deleted successfully"
         else
-            redirect_to account_site_folder_stream_path(@account, @site, @folder, @stream), alert: "Stream could not be deleted"
+            redirect_to account_site_stream_path(@account, @site, @stream, folder_id: @folder.id), alert: "Stream could not be deleted"
         end
     end
 
@@ -73,7 +58,7 @@ class StreamsController < ApplicationController
             track_activity(@stream)
             ActiveRecord::Base.connection.close
         end
-        redirect_to account_site_folder_stream_path(@account, @site, @folder, @stream), notice: t("published.stream")
+        redirect_to account_site_stream_path(@account, @site, @stream, folder_id: @folder.id), notice: t("published.stream")
     end
 
     private
@@ -83,6 +68,6 @@ class StreamsController < ApplicationController
     end
 
     def set_stream
-        @stream = @folder.streams.friendly.find(params[:id])
+        @stream = Stream.friendly.find(params[:id])
     end
 end

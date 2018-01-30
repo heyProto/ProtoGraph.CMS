@@ -41,7 +41,7 @@
         <div class="col-sm-3">
             <br/>
             <br/>
-            <%= link_to "Publish the Stream", publish_account_site_folder_stream_path(@account, @site, @folder, @stream),"data-turbolinks"=> false, class: "btn btn-outline", method: :post %>
+            <%= link_to "Publish the Stream", publish_account_site_stream_path(@account, @site, @stream, folder_id: @folder.blank? ? nil : @folder.id),"data-turbolinks"=> false, class: "btn btn-outline", method: :post %>
             <br/>
             <br/>
             <div class="hint">
@@ -107,9 +107,9 @@
                         </tr>
                     </table>
                     <% if @stream.page_streams.first.blank? %>
-                        <%= link_to "Edit the Stream", edit_account_site_folder_stream_path(@account, @site, @folder, @stream) %>
+                        <%= link_to "Edit the Stream", edit_account_site_stream_path(@account, @site, @stream, folder_id: @folder.blank? ? nil : @folder.id) %>
                         <% unless @stream.folder.is_trash %>
-                            | <%= link_to "Delete the Stream", [@account, @site, @folder, @stream], method: :delete, data: {confirm: "Are you sure you want to delete this stream"} %>
+                            | <%= link_to "Delete the Stream", [@account, @site, @stream, folder_id: @folder.blank? ? nil : @folder.id], method: :delete, data: {confirm: "Are you sure you want to delete this stream"} %>
                         <% end %>
                     <% end %>
                 <br/>

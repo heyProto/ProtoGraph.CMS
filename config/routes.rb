@@ -64,8 +64,6 @@ Rails.application.routes.draw do
         resources :site_vertical_navigations do
           put "move_up", "move_down", on: :member
         end
-      end
-      resources :ref_categories, except: [:index] do
         put '/disable', to: "ref_categories#disable", on: :member
       end
       get "/series", to: "ref_categories#series", on: :member
@@ -74,17 +72,16 @@ Rails.application.routes.draw do
 
       resources :folders do
         resources :view_casts
-
-        resources :streams do
-          post :publish, on: :member
-          resources :stream_entities, only: [:create, :destroy]
-        end
         resources :uploads, only: [:new, :create, :index]
-        resources :page_streams, only: [:update]
       end
       resources :pages do
         get "manager", on: :collection
       end
+      resources :streams do
+        post :publish, on: :member
+        resources :stream_entities, only: [:create, :destroy]
+      end
+      resources :page_streams, only: [:update]
     end
     resources :authentications
 

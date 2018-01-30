@@ -32,7 +32,7 @@
                         <% if @page.streams.first.present? %>
                                 <h4>Streams:</h4>
                                 <% @page.streams.each do |s| %>
-                                    <%= s.title%>: <%= link_to "Edit", edit_account_site_folder_stream_path(@account, @site, @folder, s)%> |
+                                    <%= s.title%>: <%= link_to "Edit", edit_account_site_stream_path(@account, @site, s, folder_id: @folder.blank? ? nil : @folder.id)%> |
                                     <%= link_to truncate("#{ENV['AWS_S3_ENDPOINT']}/#{s.datacast_identifier}/index.json", length: 40), "#{ENV['AWS_S3_ENDPOINT']}/#{s.datacast_identifier}/index.json", target: "_blank" %>
                                     <br/>
                                 <% end %>
@@ -65,9 +65,12 @@
                     <div class="col-sm-2">
                         <div class="form-inputs">
                             <p><b>Classification:</b></p>
-                            <%= f.input :ref_category_series_id, label: "Vertical", collection: [[@folder.vertical.name, @folder.ref_category_vertical_id]], include_blank: false  %>
-                            <%= f.input :ref_category_intersection_id, label: "Intersection", collection: @ref_intersection, include_blank: true %>
-                            <%= f.input :ref_category_sub_intersection_id, label: "Sub Intersection", collection: @ref_sub_intersection, include_blank: true %>
+                            <% if @ref_intersection.first.present? %>
+                                <%= f.input :ref_category_intersection_id, label: "Intersection", collection: @ref_intersection, include_blank: true %>
+                            <% end %>
+                            <% if @ref_sub_intersection.first.present? %>
+                                <%= f.input :ref_category_sub_intersection_id, label: "Sub Intersection", collection: @ref_sub_intersection, include_blank: true %>
+                            <% end %>      
                             <%= f.input :is_sponsored, label: "&nbsp; Is Sponsored?".html_safe %>
                             <p><b>Story elements:</b></p>
                             <%= f.input :has_data, label: "&nbsp; Data or charts?".html_safe %>

@@ -12,7 +12,7 @@ class Api::V1::StreamsController < ApiController
       unless @stream.cards.count == 0
         @stream.publish_cards
       end
-      render json: {stream: @stream.as_json, redirect_path: account_site_folder_stream_path(@account, @site, @folder, @stream), message: "Stream created successfully"}, status: 200
+      render json: {stream: @stream.as_json, redirect_path: account_site_stream_path(@account, @site, @stream, folder_id: @folder.id), message: "Stream created successfully"}, status: 200
     else
       render json: {errors: @stream.errors.as_json}, status: 422
     end
@@ -25,7 +25,7 @@ class Api::V1::StreamsController < ApiController
         @stream.publish_cards
       end
       track_activity(@stream)
-      render json: {stream: @stream.as_json, redirect_path: account_site_folder_stream_path(@account, @site, @folder, @stream), message: "Stream updated successfully"}, status: 200
+      render json: {stream: @stream.as_json, redirect_path: account_site_stream_path(@account, @site, @stream, folder_id: @folder.id), message: "Stream updated successfully"}, status: 200
     else
       render json: {errors: @stream.errors.as_json}, status: 422
     end
