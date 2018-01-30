@@ -60,6 +60,8 @@
                 <%= simple_form_for(@page_stream_narrative, url: [@account, @site, @page_stream_narrative]) do |f| %>
                   <%= f.input :view_cast_id_list, input_html: { class: 'ui search fluid dropdown proto-tagged-input', multiple: true, "data-role" => "tagsinput" }, label: "Card IDs" %>
                   <%= f.submit "Save", class: 'btn btn-sm btn-primary' %>
+                  | 
+                  <%= link_to "Publish", publish_account_site_stream_path(@account, @site, @page_stream_narrative, folder_id: @folder.blank? ? nil : @folder.id),"data-turbolinks"=> false, class: "btn btn-outline", method: :post %>
                 <% end %>
             </div>
             <div class="col-sm-4">
@@ -67,6 +69,8 @@
                 <%= simple_form_for(@page_stream_related, url: [@account, @site, @page_stream_related]) do |f| %>
                   <%= f.input :view_cast_id_list, input_html: { class: 'ui search fluid dropdown proto-tagged-input', multiple: true, "data-role" => "tagsinput" }, label: "Card IDs" %>
                   <%= f.submit "Save", class: 'btn btn-sm btn-primary' %>
+                  | 
+                  <%= link_to "Publish", publish_account_site_stream_path(@account, @site, @page_stream_related, folder_id: @folder.blank? ? nil : @folder.id),"data-turbolinks"=> false, class: "btn btn-outline", method: :post %>
                 <% end %>
             </div>
         </div>
