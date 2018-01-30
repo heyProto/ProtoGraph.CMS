@@ -16,19 +16,11 @@
                             <%= f.input :summary, minlength: 50 , maxlength: 220, hint: "Minimum length: 50 chars. Maximum length: 200 chars." %>
                             <%= f.input :byline, required: true, label: "What byline do you want on the website?" %>
                             <p><b>Cover</b></p>
-                            <%= f.input :cover_image_url, hint: "1260px width. 5:3 aspect ratio. Store the image in Image Bank.",required: true %>
-                            <%= f.input :cover_image_url_7_column, hint: "540px width. 5:3 aspect ratio. Store the image in Image Bank." %>
-                            <%= f.input :cover_image_alignment, collection: @cover_image_alignment, selected: "horizontal", required: true %>
                             <%= f.input :is_published, label: "&nbsp; Is Published?".html_safe, hint: "Until you want the Story Card to be published live on your site, do not mark the article as published." %>
                             <div class="form-actions">
                               <%= f.button :submit %>
                             </div>
                         </div>
-                        <hr/>
-                        <h4>Page Object:</h4>
-                        <p>
-                            <%= link_to truncate(@page.page_object_url, length: 50), @page.page_object_url, target: "_blank" %>
-                        </p>
                         <% if @page.streams.first.present? %>
                                 <h4>Streams:</h4>
                                 <% @page.streams.each do |s| %>
@@ -49,14 +41,13 @@
                                 <% end %>
                             <% end%>
                         <% end %>
-                        <% if @page.view_cast_id.present? %>
-                            <br/>
-                            <h4>Story Card:</h4>
-                            <div id="protoCard"></div>
-                        <% end %>
                     </div>
                     <div class="col-sm-2">
                         <div class="form-inputs">
+                            <p><b>Cover:</b></p>
+                            <%= f.input :cover_image_url, hint: "1260px width. 5:3 aspect ratio. Store the image in Image Bank.",required: true %>
+                            <%= f.input :cover_image_url_7_column, hint: "540px width. 5:3 aspect ratio. Store the image in Image Bank." %>
+                            <%= f.input :cover_image_alignment, collection: @cover_image_alignment, selected: "horizontal", required: true %>
                             <p><b>Classification:</b></p>
                             <% if @ref_intersection.first.present? %>
                                 <%= f.input :ref_category_intersection_id, label: "Intersection", collection: @ref_intersection, include_blank: true %>
@@ -77,6 +68,20 @@
                     </div>
                 </div>
             <% end %>
+<div class="row">
+    <div class="col-sm-6">
+        <hr/>
+        <h4>Page Object:</h4>
+        <p>
+            <%= link_to truncate(@page.page_object_url, length: 50), @page.page_object_url, target: "_blank" %>
+        </p>
+        <% if @page.view_cast_id.present? %>
+            <br/>
+            <h4>Story Card:</h4>
+            <div id="protoCard"></div>
+        <% end %>
+    </div>
+</div>            
 <% if @view_cast.present? %>
     <script src="https://cdn.protograph.pykih.com/lib/protoGraph.min.js" async></script>
     <script>
