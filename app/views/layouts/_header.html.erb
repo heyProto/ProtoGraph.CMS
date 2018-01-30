@@ -2,7 +2,7 @@
     <nav class="navbar navbar-expand-lg navbar bg-light">
         <div class="container proto-container" style="padding-left: 0px;">
             <a class="navbar-brand" href=<%= root_url %>>
-              <%=  image_tag("proto-logo.png", style: "margin-top: 7px;", class: "d-inline-block align-top") %>
+              <%=  image_tag("proto-logo.png", style: "margin-top: 0px;", class: "d-inline-block align-top") %>
             </a>
         </div>
     </nav>
@@ -11,12 +11,10 @@
       <nav class="navbar navbar-expand-lg navbar bg-light">
         <div class="bootstrap-container container" style="padding-left: 0px;">
           <a class="navbar-brand" href=<%= account_site_path(@account, @site) %>>
-            <%=  image_tag("proto-logo.png", style: "margin-top: 7px;", class: "d-inline-block align-top") %>
+            <%=  image_tag("proto-logo.png", style: "margin-top: 0px;", class: "d-inline-block align-top") %>
           </a>
             <ul class="navbar-nav mr-auto" style="margin-left: 0px !important; margin-right: auto;">
-              <% if !is_admins_controller or (controller_name != 'accounts' and ['new','create'].include?(action_name)) %>
-                <%= render partial: "layouts/dropdown_teams" %>
-              <% end %>
+              <%= render partial: "layouts/dropdown_teams" %>
               <% if @folder.present? and @folder.id.present? %>
                 <li class="nav-item">
                   <a class="nav-link">/</a>
@@ -53,23 +51,7 @@
                     <li class="nav-item">
                         <%= link_to "Page Manager", manager_account_site_pages_path(@account, @site), class: "nav-link active" %>
                     </li>
-                    <li class="nav-item dropdown">
-                      <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Site: <%= @site.name %>
-                      </a>
-                      <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                        <% if controller_name == "folders" and @folder.id.present? and current_user.is_admin_from_pykih %>
-                          <%= link_to "Add multiple cards", account_site_folder_uploads_path(@account, @site, @folder), "data-turbolinks"=> false, class: "dropdown-item" %>
-                          <%= link_to "Edit Folder", edit_account_site_folder_path(@account, @site, @folder),class: "dropdown-item" %>
-                          <div class="dropdown-divider"></div>
-                        <% end %>
-                        <%= link_to "Settings", edit_account_site_path(@account, @site), "data-turbolinks"=> false, class: "dropdown-item"  %>
-                        <%= link_to 'People', account_site_permission_invites_path(@account, @site), class: "dropdown-item" %>
-                        <%= link_to 'Categories', intersection_account_site_path(@account, @site), class: "dropdown-item" %>
-                      </div>
-                    </li>
                   <% end %>
-
                   <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                       <%= image_tag avatar_url(current_user.email), class: "rounded", style: "width: 20px;" %>
@@ -82,6 +64,18 @@
                           <%= link_to "Audio Bank", account_audios_path(@account), "data-turbolinks"=> false, class: "dropdown-item"  %>
                       <% end %>
                       <div class="dropdown-divider"></div>
+                      <% if @site.present? %>
+                        <h6 class="dropdown-header" style="font-size: 11px;">Site: <%= @site.name %></h6>
+                            <% if controller_name == "folders" and @folder.id.present? and current_user.is_admin_from_pykih %>
+                              <%= link_to "Add multiple cards", account_site_folder_uploads_path(@account, @site, @folder), "data-turbolinks"=> false, class: "dropdown-item" %>
+                              <%= link_to "Edit Folder", edit_account_site_folder_path(@account, @site, @folder),class: "dropdown-item" %>
+                              <div class="dropdown-divider"></div>
+                            <% end %>
+                            <%= link_to "Settings", edit_account_site_path(@account, @site), "data-turbolinks"=> false, class: "dropdown-item"  %>
+                            <%= link_to 'People', account_site_permission_invites_path(@account, @site), class: "dropdown-item" %>
+                            <%= link_to 'Categories', intersection_account_site_path(@account, @site), class: "dropdown-item" %>
+                        <div class="dropdown-divider"></div>
+                      <% end %>
                       <h6 class="dropdown-header" style="font-size: 11px;">Me</h6>
                       <% if current_user.is_admin_from_pykih %>
                         <%= link_to 'Online users', admin_online_users_path, class: "dropdown-item", style: "color: gold;" %>
@@ -102,7 +96,7 @@
       <nav class="navbar navbar-expand-lg navbar bg-light">
         <div class="container" style="padding-left: 0px;">
           <a class="navbar-brand" href=<%= root_url %>>
-            <%=  image_tag("proto-logo.png", style: "margin-top: 7px;", class: "d-inline-block align-top") %>
+            <%=  image_tag("proto-logo.png", style: "margin-top: 0px;", class: "d-inline-block align-top") %>
           </a>
             <ul class="navbar-nav mr-auto" style="margin-left: 0px !important; margin-right: auto;">
               <%  if !is_admins_controller and (controller_name != 'accounts' and ['new','create'].include?(action_name))  %>
