@@ -133,3 +133,16 @@
         },200)
     </script>
 <% end %>
+        
+        
+    <%= stylesheet_link_tag "select2.css" %>
+
+
+
+    <%= javascript_include_tag "select2.js" %>
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('#stream_view_cast_id_list').tagsinput();
+        });
+    </script>
