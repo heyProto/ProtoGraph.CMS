@@ -148,9 +148,9 @@ class Page < ApplicationRecord
       puts "=====> #{response}"
     end
     if self.site.cdn_id != ENV['AWS_CDN_ID']
-      Api::ProtoGraph::CloudFront.invalidate(self.site, ["/#{key}"], 1)
+      Api::ProtoGraph::CloudFront.invalidate(self.site, ["/#{CGI.escape(key)}"], 1)
     end
-    Api::ProtoGraph::CloudFront.invalidate(nil, ["/#{key}"], 1)
+    Api::ProtoGraph::CloudFront.invalidate(nil, ["/#{CGI.escape(key)}"], 1)
     true
   end
   #PRIVATE

@@ -117,9 +117,6 @@ class Stream < ApplicationRecord
                         district_obj[group_key][col_key] = "#{data[col_key]}" if data[col_key].present?
                     end
                 end
-                if view_cast.template_card.name == 'toDistrictProfile'
-                    # district_obj[group_key]["screen_shot_url"] = view_cast.render_screenshot_url
-                end
             end
             district_obj.each do |key, value|
                 value[self.data_group_key] = key
@@ -131,7 +128,6 @@ class Stream < ApplicationRecord
                 d = {}
                 d['view_cast_id'] = view_cast.datacast_identifier
                 d['schema_id'] = view_cast.template_datum.s3_identifier
-                # d['screen_shot_url'] = view_cast.render_screenshot_url
                 if view_cast.template_card.name == 'toReportViolence'
                     res = JSON.parse(RestClient.get(view_cast.data_url).body)
                     data = res['data']
