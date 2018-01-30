@@ -14,7 +14,7 @@
       <div class="row">
         <% @pages.each do |d| %>
           <div class="col-sm-4">
-            <%= link_to account_site_page_path(@account, @site, d), "data-turbolinks"=> false do %>
+            <%= link_to edit_account_site_page_path(@account, @site, d, folder_id: d.folder_id), "data-turbolinks"=> false do %>
               <div class="card" style="margin: 20px 0px; ">
 
                 <div class="card-footer">
