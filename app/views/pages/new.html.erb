@@ -13,12 +13,6 @@
                     <div class="col-sm-6" style="margin-left: auto; margin-right: auto; width: 540px;">
                         <%= f.error_notification %>
                         <div class="form-inputs">
-                            <% if @page.id.blank? %>
-                                <%= f.hidden_field :account_id, value: @account.id %>
-                                <%= f.hidden_field :site_id, value: @site.id %>
-                                <%= f.hidden_field :folder_id, value: @folder.id %>
-                                <%= f.input :template_page_id, collection: @layout, selected: "article", required: true, label: "Layout" %>
-                            <% end %>
                             <% f.input :ref_category_series_id, label: "Vertical", collection: [[@folder.vertical.name, @folder.ref_category_vertical_id]], include_blank: false  %>
                             <%= f.input :headline, required: true, minlength: 50 , maxlength: 90 %>
                             <%= f.input :summary, minlength: 50 , maxlength: 220 %>
@@ -35,9 +29,23 @@
                     </div>
                     <div class="col-sm-2">
                         <div class="form-inputs">
+                            <% if @page.id.blank? %>
+                                <%= f.hidden_field :account_id, value: @account.id %>
+                                <%= f.hidden_field :site_id, value: @site.id %>
+                                <%= f.hidden_field :folder_id, value: @folder.id %>
+                                <% if current_user.is_admin_from_pykih %>
+                                    <%= f.input :template_page_id, collection: @layout, selected: @article.id, label: "Layout", include_blank: false %>
+                                <% else %>
+                                    <%= f.hidden_field :template_page_id, value: @article.id %>
+                                <% end %>
+                            <% end %>
                             <p><b>Classification:</b></p>
-                            <%= f.input :ref_category_intersection_id, label: "Intersection", collection: @ref_intersection, include_blank: true %>
-                            <%= f.input :ref_category_sub_intersection_id, label: "Sub Intersection", collection: @ref_sub_intersection, include_blank: true %>
+                            <% if @ref_intersection.first.present? %>
+                                <%= f.input :ref_category_intersection_id, label: "Intersection", collection: @ref_intersection, include_blank: true %>
+                            <% end %>
+                            <% if @ref_sub_intersection.first.present? %>
+                                <%= f.input :ref_category_sub_intersection_id, label: "Sub Intersection", collection: @ref_sub_intersection, include_blank: true %>
+                            <% end %>      
                             <%= f.input :is_sponsored, label: "&nbsp; Is Sponsored?".html_safe %>
                             <p><b>Story elements:</b></p>
                             <%= f.input :has_data, label: "&nbsp; Data or charts?".html_safe %>

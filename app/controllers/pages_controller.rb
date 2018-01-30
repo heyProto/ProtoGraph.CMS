@@ -24,6 +24,7 @@ class PagesController < ApplicationController
     @ref_sub_intersection = RefCategory.where(site_id: @site.id, genre: "sub intersection", is_disabled: [false, nil]).order(:name).map {|r| ["#{r.name}", r.id]}
     @layout = TemplatePage.where.not(name: "Homepage: Vertical").map {|r| [ "#{r.name.titlecase}", r.id ]}
     @cover_image_alignment = ['vertical', 'horizontal'].map {|r| ["#{r.titlecase}", r]}
+    @article = TemplatePage.where(name: "article").first
   end
 
   def edit
