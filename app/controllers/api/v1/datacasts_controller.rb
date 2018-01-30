@@ -2,8 +2,6 @@ class Api::V1::DatacastsController < ApiController
 
     def create
         payload = {}
-        payload["payload"] = datacast_params.to_json
-        payload["source"]  = params[:source] || "form"
         view_cast = @folder.view_casts.new(view_cast_params)
         view_cast.account_id = @account.id
         view_cast.site_id = @site.id
@@ -14,8 +12,13 @@ class Api::V1::DatacastsController < ApiController
             view_cast.by_line = datacast_params['data']["by_line"]
             view_cast.genre = datacast_params['data']["genre"]
             view_cast.sub_genre = datacast_params['data']["subgenre"]
-            view_cast.series = datacast_params['data']["series"]
         end
+        if ['toStory', 'toCluster'].include?(view_cast.template_card.name)
+            view_cast.series = @folder.vertical.name
+            datacast_params['data']['series'] = @folder.vertical.name
+        end
+        payload["payload"] = datacast_params.to_json
+        payload["source"]  = params[:source] || "form"
         if view_cast.save
             track_activity(view_cast)
             payload["api_slug"] = view_cast.datacast_identifier
@@ -44,7 +47,7 @@ class Api::V1::DatacastsController < ApiController
             view_cast.by_line = datacast_params['data']["by_line"]
             view_cast.genre = datacast_params['data']["genre"]
             view_cast.sub_genre = datacast_params['data']["subgenre"]
-            view_cast.series = datacast_params['data']["series"]
+            view_cast.series = @folder.verticals.name
         end
         r = Api::ProtoGraph::Datacast.update(payload)
         if r.has_key?("errorMessage")
