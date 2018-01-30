@@ -38,6 +38,12 @@ class PagesController < ApplicationController
     if @page.template_page.name == "article"
       @page_stream_narrative = @page.streams.where(title: "9_Story_Narrative").first
       @page_stream_related = @page.streams.where(title: "9_Story_Related").first
+    elsif @page.template_page.name == "Homepage: Vertical"
+      @page_stream_16 = @page.streams.where(title: "17_Section_16c_Hero").first
+      @page_stream_07 = @page.streams.where(title: "17_Section_7c").first
+      @page_stream_04 = @page.streams.where(title: "17_Section_4c").first
+      @page_stream_03 = @page.streams.where(title: "17_Section_3c").first
+      @page_stream_02 = @page.streams.where(title: "17_Section_2c").first
     end
     
   end

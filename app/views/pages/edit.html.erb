@@ -64,27 +64,43 @@
                 </div>
             <% end %>
 <hr/>
-<div class="row">
+
     <% if @page.template_page.name == "article" %>
-        <div class="col-sm-8">
-            <h4>Narrative</h4>
+        <div class="row">
+            <div class="col-sm-8">
+                <h4>Narrative</h4>
             
-            <%= link_to "Edit", edit_account_site_stream_path(@account, @site, @page_stream_narrative, folder_id: @folder.blank? ? nil : @folder.id)%>
-        </div>
-        <div class="col-sm-4">
-            <h4>Related</h4>
+                <%= link_to "Edit", edit_account_site_stream_path(@account, @site, @page_stream_narrative, folder_id: @folder.blank? ? nil : @folder.id)%>
+            </div>
+            <div class="col-sm-4">
+                <h4>Related</h4>
             
-            <%= link_to "Edit", edit_account_site_stream_path(@account, @site, @page_stream_related, folder_id: @folder.blank? ? nil : @folder.id)%>
+                <%= link_to "Edit", edit_account_site_stream_path(@account, @site, @page_stream_related, folder_id: @folder.blank? ? nil : @folder.id)%>
+            </div>
         </div>
     <% elsif @page.template_page.name == "Homepage: Vertical" %>
-        <% if @page.streams.first.present? %>
-                <h4>Streams:</h4>
-                <% @page.streams.each do |s| %>
-                    <%= s.title%>: <%= link_to "Edit", edit_account_site_stream_path(@account, @site, s, folder_id: @folder.blank? ? nil : @folder.id)%> |
-                    <%= link_to truncate("#{ENV['AWS_S3_ENDPOINT']}/#{s.datacast_identifier}/index.json", length: 40), "#{ENV['AWS_S3_ENDPOINT']}/#{s.datacast_identifier}/index.json", target: "_blank" %>
-                    <br/>
-                <% end %>
-        <% end %>
+        <div class="row">
+            <h4>Hero</h4>
+            <%= link_to "Edit", edit_account_site_stream_path(@account, @site, @page_stream_16, folder_id: @folder.blank? ? nil : @folder.id)%>
+        </div>
+        <div class="row">
+            <div class="col-sm-3">
+                <h4>7 Column</h4>
+                <%= link_to "Edit", edit_account_site_stream_path(@account, @site, @page_stream_07, folder_id: @folder.blank? ? nil : @folder.id)%>
+            </div>
+            <div class="col-sm-3">
+                <h4>4 Column</h4>
+                <%= link_to "Edit", edit_account_site_stream_path(@account, @site, @page_stream_04, folder_id: @folder.blank? ? nil : @folder.id)%>
+            </div>
+            <div class="col-sm-3">
+                <h4>2 Column</h4>
+                <%= link_to "Edit", edit_account_site_stream_path(@account, @site, @page_stream_02, folder_id: @folder.blank? ? nil : @folder.id)%>
+            </div>
+            <div class="col-sm-3">
+                <h4>3 Column</h4>
+                <%= link_to "Edit", edit_account_site_stream_path(@account, @site, @page_stream_03, folder_id: @folder.blank? ? nil : @folder.id)%>
+            </div>
+        </div>
     <% else %>
         <% if @page.streams.first.present? %>
                 <h4>Streams:</h4>
@@ -95,7 +111,7 @@
                 <% end %>
         <% end %>
     <% end %>
-</div>
+
 <hr/>
 <div class="row">
     <div class="col-sm-6" style="margin-left: auto; margin-right: auto;">    
