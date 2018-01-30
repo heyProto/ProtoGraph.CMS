@@ -27,19 +27,8 @@ class RefCategoriesController < ApplicationController
     render :index
   end
 
-  def tag
-    @genre = "tag"
-    @data = @site.ref_tags.order(:name)
-    @instance = RefTag.new
-    render :index
-  end
-
   def create
-    if entity_params[:genre] != 'tag'
-      @ref_category = RefCategory.new(entity_params)
-    else
-      @ref_category = RefTag.new(entity_params)
-    end
+    @ref_category = RefCategory.new(entity_params)
     @ref_category.created_by = current_user.id
     @ref_category.updated_by = current_user.id
       if @ref_category.save
@@ -53,8 +42,6 @@ class RefCategoriesController < ApplicationController
           redirect_to intersection_account_site_path(@account, @site), alert: @ref_category.errors.full_messages
         when 'sub intersection'
           redirect_to sub_intersection_account_site_path(@account, @site), alert: @ref_category.errors.full_messages
-        when 'tag'
-          redirect_to tag_account_site_path(@account, @site), alert: @ref_category.errors.full_messages
         end
       end
   end
@@ -89,8 +76,6 @@ class RefCategoriesController < ApplicationController
           format.html { redirect_to intersection_account_site_path(@account, @site), notice: "Destroyed"}
         when 'sub intersection'
           format.html { redirect_to sub_intersection_account_site_path(@account, @site), notice: "Destroyed"}
-        else 'tag'
-          format.html { redirect_to tag_account_site_path(@account, @site), notice: "Destroyed"}
         end
     end
   end
@@ -103,8 +88,6 @@ class RefCategoriesController < ApplicationController
       redirect_to intersection_account_site_path(@account, @site), notice: @notice
     when 'sub intersection'
       redirect_to sub_intersection_account_site_path(@account, @site), notice: @notice
-    else
-      redirect_to tag_account_site_path(@account, @site), notice: @notice
     end
   end
 
@@ -117,8 +100,6 @@ class RefCategoriesController < ApplicationController
     def entity_params
       if params[:ref_category].present?
         params.require(:ref_category).permit(:site_id, :genre, :name, :name_html, :is_disabled, :created_by, :updated_by)
-      else
-        params.require(:ref_tag).permit(:site_id, :genre, :name, :is_disabled, :created_by, :updated_by)
       end
     end
 end

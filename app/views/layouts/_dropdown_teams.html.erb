@@ -1,20 +1,16 @@
-<select id="accounts-dropdown" onchange="window.location=this.value">
-  <% @accounts.each do |a| %>
-    <option value="<%= account_site_path(a, a.site) %>"><%= "#{a.username} - #{a.site.name}" %></option>
-  <% end %>
-</select>
-
-<script type="text/javascript">
- $(document).ready(function() {
-   $("#accounts-dropdown").select2({
-     placeholder: "Switch Sites",
-     <% if @account.present? and @account.id.present? %>
-     initSelection : function (element, callback) {
-       var data = {id: "<%= account_site_path(@account, @account.site) %>", text: "<%= "#{@account.username} - #{@account.site.name}" %>"};
-       callback(data);
-     }
-     <% end %>
-   })
-   $("#accounts-dropdown").val(null);
- })
-</script>
+<% if @on_an_account_page %>
+<% if !is_admins_controller or (controller_name != 'accounts' and ['new','create'].include?(action_name)) %>
+    <% if @accounts.count > 1 %>
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <%= @account.username %>: <%= @site.name %>
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                <% @accounts.each do |a| %>
+                    <%= link_to "#{a.username}: #{a.site.name}", account_site_path(a, a.site), class: "dropdown-item" %>
+                <% end %>
+            </div>
+    </li>
+    <% end %>
+ <% end %>
+ <% end %>

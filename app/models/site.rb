@@ -52,7 +52,6 @@ class Site < ApplicationRecord
     has_many :activities
     has_many :ref_categories
     has_many :verticals, ->{where(genre: 'series')}, class_name: "RefCategory"
-    has_many :ref_tags
     has_many :view_casts
     has_many :pages
     has_one :stream, primary_key: "stream_id", foreign_key: "id"
