@@ -38,9 +38,9 @@
                                 <% end %>
                         <% end %>
                         <% if @page_streams.present? %>
-                            <br>
-                            <h4>Page Headings</h4>
-                            <% if @page.template_page.name == 'section' %>
+                            <% if @page.template_page.name == 'Homepage: Vertical' %>
+                                <br>
+                                <h4>Page Headings</h4>
                                 <% @page_streams.each do |ps| %>
                                     <div>
                                         <%= label_tag :name_of_stream, "#{ps.stream.title.split('_Section_').last}", class: "control-label optional" %> -
