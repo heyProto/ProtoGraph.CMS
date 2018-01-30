@@ -1,9 +1,0 @@
-<h1 class="ui header">
-    App Store
-</h1>
-<p style="color: lightgray;">With App Store, your designers and developers can deploy custom-built card templates for your journalists to use.</p>
-<div class="ui secondary pointing menu">
-  <%= link_to "Datacasts", account_template_data_path(@account), class: (controller_name == "template_data" ? "active item" : "item") %>
-  <%= link_to "Cards", account_template_cards_path(@account), class: (controller_name == "template_cards" ? "active item" : "item") %>
-</div>
-<br/>

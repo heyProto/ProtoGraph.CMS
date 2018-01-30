@@ -79,16 +79,6 @@ Rails.application.routes.draw do
 
       resources :folders do
         resources :pages
-        resources :template_data do
-          resources :template_cards, only: [:new] do
-            post "/create_version/:version_genre", to: "template_cards#create_version", on: :member, as: :create_version
-          end
-        end
-
-        resources :template_cards do
-          get 'flip_public_private', 'move_to_next_status', on: :member
-        end
-
         resources :view_casts
 
         resources :streams do
