@@ -77,9 +77,6 @@
             <%= link_to "Edit", edit_account_site_stream_path(@account, @site, @page_stream_related, folder_id: @folder.blank? ? nil : @folder.id)%>
         </div>
     <% elsif @page.template_page.name == "Homepage: Vertical" %>
-        V
-    <% end %>
-    <div class="col-sm-6" style="margin-left: auto; margin-right: auto;">    
         <% if @page.streams.first.present? %>
                 <h4>Streams:</h4>
                 <% @page.streams.each do |s| %>
@@ -88,7 +85,16 @@
                     <br/>
                 <% end %>
         <% end %>
-    </div>
+    <% else %>
+        <% if @page.streams.first.present? %>
+                <h4>Streams:</h4>
+                <% @page.streams.each do |s| %>
+                    <%= s.title%>: <%= link_to "Edit", edit_account_site_stream_path(@account, @site, s, folder_id: @folder.blank? ? nil : @folder.id)%> |
+                    <%= link_to truncate("#{ENV['AWS_S3_ENDPOINT']}/#{s.datacast_identifier}/index.json", length: 40), "#{ENV['AWS_S3_ENDPOINT']}/#{s.datacast_identifier}/index.json", target: "_blank" %>
+                    <br/>
+                <% end %>
+        <% end %>
+    <% end %>
 </div>
 <hr/>
 <div class="row">
