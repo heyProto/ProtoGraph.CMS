@@ -34,6 +34,12 @@ class PagesController < ApplicationController
     @cover_image_alignment = ['vertical', 'horizontal'].map {|r| ["#{r.titlecase}", r]}
     @view_cast = @page.view_cast if @page.view_cast_id.present?
     @page_streams = @page.page_streams
+    
+    if @page.template_page.name == "article"
+      @page_stream_narrative = @page.streams.where(title: "9_Story_Narrative").first
+      @page_stream_related = @page.streams.where(title: "9_Story_Related").first
+    end
+    
   end
 
   def create

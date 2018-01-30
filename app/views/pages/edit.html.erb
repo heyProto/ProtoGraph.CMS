@@ -65,9 +65,17 @@
             <% end %>
 <hr/>
 <div class="row" style="width: 1260px;">
-    <%= debug @page.template_page.name %>
-    <% if @page.template_page.name == "Article" %>
-        A
+    <% if @page.template_page.name == "article" %>
+        <div class="col-sm-7" style="width: 540px; margin-left: auto; margin-right: auto;">
+            <h4>Narrative</h4>
+            
+            <%= link_to "Edit", edit_account_site_stream_path(@account, @site, @page_stream_narrative, folder_id: @folder.blank? ? nil : @folder.id)%>
+        </div>
+        <div class="col-sm-4" style="width: 300px; float: auto;">
+            <h4>Related</h4>
+            
+            <%= link_to "Edit", edit_account_site_stream_path(@account, @site, @page_stream_related, folder_id: @folder.blank? ? nil : @folder.id)%>
+        </div>
     <% elsif @page.template_page.name == "Homepage: Vertical" %>
         V
     <% end %>
