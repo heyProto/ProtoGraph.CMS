@@ -44,8 +44,12 @@ class PagesController < ApplicationController
       @page_stream_04 = @page.streams.where(title: "17_Section_4c").first
       @page_stream_03 = @page.streams.where(title: "17_Section_3c").first
       @page_stream_02 = @page.streams.where(title: "17_Section_2c").first
+      @page_streamH16 = @page_stream_16.page_streams.where(page_id: @page.id).first
+      @page_streamH07 = @page_stream_07.page_streams.where(page_id: @page.id).first
+      @page_streamH04 = @page_stream_04.page_streams.where(page_id: @page.id).first
+      @page_streamH03 = @page_stream_03.page_streams.where(page_id: @page.id).first
+      @page_streamH02 = @page_stream_02.page_streams.where(page_id: @page.id).first
     end
-    
   end
 
   def create

@@ -16,18 +16,6 @@
                             <%= f.input :cover_image_url_7_column, hint: "540px width. 5:3 aspect ratio. Store the image in Image Bank." %>
                             <%= f.input :cover_image_alignment, collection: @cover_image_alignment, selected: "horizontal", required: true %>
                         </div>
-                        <% if @page_streams.present? %>
-                            <% if @page.template_page.name == 'Homepage: Vertical' %>
-                                <br>
-                                <h4>Page Headings</h4>
-                                <% @page_streams.each do |ps| %>
-                                    <div>
-                                        <%= label_tag :name_of_stream, "#{ps.stream.title.split('_Section_').last}", class: "control-label optional" %> -
-                                        <%= best_in_place ps, :name_of_stream, url: [@account, @site, ps] %>
-                                    </div>
-                                <% end %>
-                            <% end%>
-                        <% end %>
                     </div>
                     <div class="col-sm-6" style="margin-left: auto; margin-right: auto;">    
                         <%= f.error_notification %>
@@ -81,7 +69,7 @@
     <% elsif @page.template_page.name == "Homepage: Vertical" %>
         <div class="row">
             <div class="col-sm-16">
-                <h4>Hero</h4>
+                <h4><%= best_in_place @page_streamH16, :name_of_stream, url: [@account, @site, @page_streamH16] %></h4>
                 <%= link_to "Edit", edit_account_site_stream_path(@account, @site, @page_stream_16, folder_id: @folder.blank? ? nil : @folder.id)%>
                 <br/>
                 <br/>
@@ -89,19 +77,19 @@
         </div>
         <div class="row">
             <div class="col-sm-7">
-                <h4>7 Column</h4>
+                <h4><%= best_in_place @page_streamH07, :name_of_stream, url: [@account, @site, @page_streamH07] %></h4>
                 <%= link_to "Edit", edit_account_site_stream_path(@account, @site, @page_stream_07, folder_id: @folder.blank? ? nil : @folder.id)%>
             </div>
             <div class="col-sm-4">
-                <h4>4 Column</h4>
+                <h4><%= best_in_place @page_streamH04, :name_of_stream, url: [@account, @site, @page_streamH04] %></h4>
                 <%= link_to "Edit", edit_account_site_stream_path(@account, @site, @page_stream_04, folder_id: @folder.blank? ? nil : @folder.id)%>
             </div>
             <div class="col-sm-2">
-                <h4>2 Column</h4>
+                <h4><%= best_in_place @page_streamH02, :name_of_stream, url: [@account, @site, @page_streamH02] %></h4>
                 <%= link_to "Edit", edit_account_site_stream_path(@account, @site, @page_stream_02, folder_id: @folder.blank? ? nil : @folder.id)%>
             </div>
             <div class="col-sm-3">
-                <h4>3 Column</h4>
+                <h4><%= best_in_place @page_streamH03, :name_of_stream, url: [@account, @site, @page_streamH03] %></h4>
                 <%= link_to "Edit", edit_account_site_stream_path(@account, @site, @page_stream_03, folder_id: @folder.blank? ? nil : @folder.id)%>
             </div>
         </div>
