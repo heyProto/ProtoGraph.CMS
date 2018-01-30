@@ -28,8 +28,7 @@
                     </div>
                     <div class="col-sm-2">
                         <div class="form-inputs">
-                            <% if @page.id.blank? %>
-                                <% f.input :ref_category_series_id, label: "Vertical", collection: [[@folder.vertical.name, @folder.ref_category_vertical_id]], include_blank: false  %>
+                                <%= f.hidden_field :ref_category_series_id, value: @folder.ref_category_vertical_id %>
                                 <%= f.hidden_field :account_id, value: @account.id %>
                                 <%= f.hidden_field :site_id, value: @site.id %>
                                 <%= f.hidden_field :folder_id, value: @folder.id %>
@@ -38,7 +37,6 @@
                                 <% else %>
                                     <%= f.hidden_field :template_page_id, value: @article.id %>
                                 <% end %>
-                            <% end %>
                             <p><b>Classification:</b></p>
                             <% if @ref_intersection.first.present? %>
                                 <%= f.input :ref_category_intersection_id, label: "Intersection", collection: @ref_intersection, include_blank: true %>
