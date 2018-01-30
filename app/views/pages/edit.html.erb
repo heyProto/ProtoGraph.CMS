@@ -62,6 +62,7 @@
                   <%= f.submit "Save", class: 'btn btn-sm btn-primary' %>
                   | 
                   <%= link_to "Publish", publish_account_site_stream_path(@account, @site, @page_stream_narrative, folder_id: @folder.blank? ? nil : @folder.id),"data-turbolinks"=> false, class: "btn btn-outline", method: :post %>
+                  <%= link_to ".", "#{@site.cdn_endpoint}/#{@page_stream_narrative.cdn_key}", target: "blank" %>
                 <% end %>
             </div>
             <div class="col-sm-4">
@@ -71,6 +72,7 @@
                   <%= f.submit "Save", class: 'btn btn-sm btn-primary' %>
                   | 
                   <%= link_to "Publish", publish_account_site_stream_path(@account, @site, @page_stream_related, folder_id: @folder.blank? ? nil : @folder.id),"data-turbolinks"=> false, class: "btn btn-outline", method: :post %>
+                  <%= link_to ".", "#{@site.cdn_endpoint}/#{@page_stream_related.cdn_key}", target: "blank" %>
                 <% end %>
             </div>
         </div>
