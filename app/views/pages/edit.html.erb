@@ -9,26 +9,13 @@
 </div>
             <%= simple_form_for(@page, url: account_site_page_path(@account, @site), method: :put) do |f| %>
                 <div class="row">
-                    <div class="col-sm-6" style="margin-left: auto; margin-right: auto;">    
-                        <%= f.error_notification %>
+                    <div class="col-sm-2">
                         <div class="form-inputs">
-                            <%= f.input :headline, required: true, minlength: 50 , maxlength: 90, hint: "Minimum length: 50 chars. Maximum length: 90 chars." %>
-                            <%= f.input :summary, minlength: 50 , maxlength: 220, hint: "Minimum length: 50 chars. Maximum length: 200 chars." %>
-                            <%= f.input :byline, required: true, label: "What byline do you want on the website?" %>
-                            <p><b>Cover</b></p>
-                            <%= f.input :is_published, label: "&nbsp; Is Published?".html_safe, hint: "Until you want the Story Card to be published live on your site, do not mark the article as published." %>
-                            <div class="form-actions">
-                              <%= f.button :submit %>
-                            </div>
+                            <p><b>Cover:</b></p>
+                            <%= f.input :cover_image_url, hint: "1260px width. 5:3 aspect ratio. Store the image in Image Bank.",required: true %>
+                            <%= f.input :cover_image_url_7_column, hint: "540px width. 5:3 aspect ratio. Store the image in Image Bank." %>
+                            <%= f.input :cover_image_alignment, collection: @cover_image_alignment, selected: "horizontal", required: true %>
                         </div>
-                        <% if @page.streams.first.present? %>
-                                <h4>Streams:</h4>
-                                <% @page.streams.each do |s| %>
-                                    <%= s.title%>: <%= link_to "Edit", edit_account_site_stream_path(@account, @site, s, folder_id: @folder.blank? ? nil : @folder.id)%> |
-                                    <%= link_to truncate("#{ENV['AWS_S3_ENDPOINT']}/#{s.datacast_identifier}/index.json", length: 40), "#{ENV['AWS_S3_ENDPOINT']}/#{s.datacast_identifier}/index.json", target: "_blank" %>
-                                    <br/>
-                                <% end %>
-                        <% end %>
                         <% if @page_streams.present? %>
                             <% if @page.template_page.name == 'Homepage: Vertical' %>
                                 <br>
@@ -42,12 +29,21 @@
                             <% end%>
                         <% end %>
                     </div>
+                    <div class="col-sm-6" style="margin-left: auto; margin-right: auto;">    
+                        <%= f.error_notification %>
+                        <div class="form-inputs">
+                            <%= f.input :headline, required: true, minlength: 50 , maxlength: 90, hint: "Minimum length: 50 chars. Maximum length: 90 chars." %>
+                            <%= f.input :summary, minlength: 50 , maxlength: 220, hint: "Minimum length: 50 chars. Maximum length: 200 chars." %>
+                            <%= f.input :byline, required: true, label: "What byline do you want on the website?" %>
+                            <p><b>Cover</b></p>
+                            <%= f.input :is_published, label: "&nbsp; Is Published?".html_safe, hint: "Until you want the Story Card to be published live on your site, do not mark the article as published." %>
+                            <div class="form-actions">
+                              <%= f.button :submit %>
+                            </div>
+                        </div>
+                    </div>
                     <div class="col-sm-2">
                         <div class="form-inputs">
-                            <p><b>Cover:</b></p>
-                            <%= f.input :cover_image_url, hint: "1260px width. 5:3 aspect ratio. Store the image in Image Bank.",required: true %>
-                            <%= f.input :cover_image_url_7_column, hint: "540px width. 5:3 aspect ratio. Store the image in Image Bank." %>
-                            <%= f.input :cover_image_alignment, collection: @cover_image_alignment, selected: "horizontal", required: true %>
                             <p><b>Classification:</b></p>
                             <% if @ref_intersection.first.present? %>
                                 <%= f.input :ref_category_intersection_id, label: "Intersection", collection: @ref_intersection, include_blank: true %>
@@ -68,9 +64,23 @@
                     </div>
                 </div>
             <% end %>
+<hr/>
 <div class="row">
-    <div class="col-sm-6">
-        <hr/>
+    
+    <div class="col-sm-6" style="margin-left: auto; margin-right: auto;">    
+        <% if @page.streams.first.present? %>
+                <h4>Streams:</h4>
+                <% @page.streams.each do |s| %>
+                    <%= s.title%>: <%= link_to "Edit", edit_account_site_stream_path(@account, @site, s, folder_id: @folder.blank? ? nil : @folder.id)%> |
+                    <%= link_to truncate("#{ENV['AWS_S3_ENDPOINT']}/#{s.datacast_identifier}/index.json", length: 40), "#{ENV['AWS_S3_ENDPOINT']}/#{s.datacast_identifier}/index.json", target: "_blank" %>
+                    <br/>
+                <% end %>
+        <% end %>
+    </div>
+</div>
+<hr/>
+<div class="row">
+    <div class="col-sm-6" style="margin-left: auto; margin-right: auto;">    
         <h4>Page Object:</h4>
         <p>
             <%= link_to truncate(@page.page_object_url, length: 50), @page.page_object_url, target: "_blank" %>
