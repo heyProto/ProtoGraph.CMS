@@ -19,7 +19,7 @@
     window.accountSlug = "<%= @account.slug %>";
     window.folderSlug = "<%= @folder.slug %>";
     window.ref_link_sources_url = "<%= "#{ENV["AWS_S3_ENDPOINT"]}/Assets/ref_link_sources.json" %>";
-    window.houseColours = '<%= [@site.house_colour, @site.reverse_house_colour, @site.font_colour, @site.reverse_font_colour].to_json.html_safe %>';
+    window.houseColours = <%= {"house_color": @site.house_colour, "inverse_house_color": @site.reverse_house_colour,"house_font_color": @site.font_colour,"inverse_house_font_color": @site.reverse_font_colour}.to_json.html_safe %>;
     window.viewCast = <%= @view_cast.to_json(include: [template_card: {only: [:account_id, :id, :slug, :global_slug,:name, :elevator_pitch,:template_datum_id, :git_repo_name], methods: [:account_slug, :files, :versions]}], methods: [:remote_urls]).html_safe %>
     var JCropInstance;
 </script>

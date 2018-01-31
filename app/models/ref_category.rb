@@ -93,7 +93,7 @@ class RefCategory < ApplicationRecord
         # self.update_columns(stream_url: "#{s.site.cdn_endpoint}/#{s.cdn_key}", stream_id: s.id)
 
         # Create a new page object
-        Page.create({account_id: self.site.account_id,
+        page = Page.create({account_id: self.site.account_id,
             site_id: self.site_id,
             headline: "#{self.name + " "*(50 - (self.name.length)) }",
             template_page_id: TemplatePage.where(name: 'Homepage: Vertical').first.id,
@@ -103,6 +103,7 @@ class RefCategory < ApplicationRecord
             datacast_identifier: '',
             url: "#{vertical_page_url}"
         })
+        page.push_json_to_s3
         #Update the site vertical json
         update_site_verticals
         key = self.vertical_header_key
