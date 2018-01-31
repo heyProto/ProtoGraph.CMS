@@ -128,7 +128,7 @@ TemplatePage.create({
 })
 
 TemplatePage.create({
-  name: "data grid",
+  name: "map data grid",
   git_url: "",
   git_branch: "master",
   git_repo_name: "",
@@ -136,6 +136,20 @@ TemplatePage.create({
   is_public: true,
   description: "",
   s3_identifier: "41108c78d5b87f84dc73",
+  created_by: user_id,
+  updated_by: user_id
+})
+
+
+TemplatePage.create({
+  name: "data grid",
+  git_url: "",
+  git_branch: "master",
+  git_repo_name: "",
+  status: "published",
+  is_public: true,
+  description: "",
+  s3_identifier: "0679c03c61fff6ab1a52",
   created_by: user_id,
   updated_by: user_id
 })
