@@ -51,7 +51,7 @@ class Image < ApplicationRecord
   #OTHER
 
   def check_dimensions_for_logo
-    if !image_cache.nil? and image.height > 80
+    if !image_cache.nil? and image.height < 80
       errors.add :image, "The minimum height of the logo should be 80."
     end
   end
