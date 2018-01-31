@@ -147,6 +147,7 @@ class Page < ApplicationRecord
       # PagesWorker.perform_async(self.id)
       response = Api::ProtoGraph::Page.create_or_update_page(self.datacast_identifier, self.template_page.s3_identifier)
       puts "=====> #{response}"
+      Api::ProtoGraph::CloudFront.invalidate(nil, ["/#{CGI.escape(self.html_key)}"], 1)
     end
     if self.site.cdn_id != ENV['AWS_CDN_ID']
       Api::ProtoGraph::CloudFront.invalidate(self.site, ["/#{CGI.escape(key)}"], 1)
