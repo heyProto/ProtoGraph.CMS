@@ -85,7 +85,7 @@ class PagesController < ApplicationController
           if @page.folder.present?
             redirect_to account_site_pages_path(@account, @site, folder_id: @page.folder.id), notice: 'Page was successfully updated.'
           else
-            redirect_to manager_account_site_path(@account, @site), notice: 'Page was successfully updated.'
+            redirect_to manager_account_site_pages_path(@account, @site), notice: 'Page was successfully updated.'
           end
         }
       else
