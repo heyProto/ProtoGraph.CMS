@@ -87,7 +87,11 @@ class Page < ApplicationRecord
   # Slug
 
   def html_key
-    "#{self.site.slug}/#{self.series.slug}/#{self.slug}-#{self.id}"
+    if template_page.name == 'Homepage: Vertical'
+      "#{self.site.slug}/#{self.series.slug}"
+    else
+      "#{self.site.slug}/#{self.series.slug}/#{self.slug}-#{self.id}"
+    end
     # Change during Multi Domain functionality
   end
 
