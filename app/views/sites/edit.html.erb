@@ -7,14 +7,16 @@
         <div style="margin-left: 50px;">
             <%= simple_form_for [@account, @site] do |f| %>
               <%= f.error_notification %>
+              <% unless @site.is_english %>
+                <%= f.input :english_name, required: true, hint: "This is used for url management." %>
+              <% end %>
               <%= f.input :name, required: true %>
               <%= f.input :domain, hint: "Where is the site hosted?" %>
               <%= f.input :description, hint: "This will be used in footers, search results, and other places." %>
-              <%= f.input :primary_language, as: :select, collection: [["English", "English"], ["Hindi", "Hindi"]], include_blank: true, required: true %>
+              <%= f.input :primary_language, as: :select, collection: [["English", "English"], ["Hindi", "Hindi"]], include_blank: false %>
               <%= f.input :default_seo_keywords, hint: "These default keywords will be used on homepage.", label: "Default SEO Keywords" %>
               <%= f.input :created_by, as: :hidden, input_html: {value: current_user.id} %>
               <%= f.input :updated_by, as: :hidden, input_html: {value: current_user.id} %>
-
 
               <%= f.button :submit, "Save", class: "btn btn-light" %>
             <% end %>

@@ -2,20 +2,21 @@
 #
 # Table name: ref_categories
 #
-#  id          :integer          not null, primary key
-#  site_id     :integer
-#  genre       :string(255)
-#  name        :string(255)
-#  stream_url  :text(65535)
-#  created_at  :datetime         not null
-#  updated_at  :datetime         not null
-#  stream_id   :integer
-#  is_disabled :boolean
-#  created_by  :integer
-#  updated_by  :integer
-#  count       :integer          default(0)
-#  name_html   :string(255)
-#  slug        :string(255)
+#  id           :integer          not null, primary key
+#  site_id      :integer
+#  genre        :string(255)
+#  name         :string(255)
+#  stream_url   :text(65535)
+#  created_at   :datetime         not null
+#  updated_at   :datetime         not null
+#  stream_id    :integer
+#  is_disabled  :boolean
+#  created_by   :integer
+#  updated_by   :integer
+#  count        :integer          default(0)
+#  name_html    :string(255)
+#  slug         :string(255)
+#  english_name :string(255)
 #
 
 class RefCategory < ApplicationRecord
@@ -23,7 +24,7 @@ class RefCategory < ApplicationRecord
     #CUSTOM TABLES
     #GEMS
     extend FriendlyId
-    friendly_id :name, use: :slugged
+    friendly_id :english_name, use: :slugged
     #ASSOCIATIONS
     belongs_to :site
     has_one :stream, foreign_key: 'id', primary_key: 'stream_id'
@@ -69,8 +70,9 @@ class RefCategory < ApplicationRecord
 
     def before_update_set
         self.is_disabled = true if self.count > 0
-        self.name = ActionView::Base.full_sanitizer.sanitize(self.name)
+        self.english_name = ActionView::Base.full_sanitizer.sanitize(self.english_name)
         self.name_html = self.name if self.name_html.blank?
+        self.english_name = self.name if self.site.is_english
         true
     end
 

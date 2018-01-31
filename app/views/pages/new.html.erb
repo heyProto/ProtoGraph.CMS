@@ -13,6 +13,9 @@
                     <div class="col-sm-6" style="margin-left: auto; margin-right: auto; width: 540px;">
                         <%= f.error_notification %>
                         <div class="form-inputs">
+                            <% unless @site.is_english %>
+                                <%= f.input :english_headline, required: true, minlength: 50 , maxlength: 90, hint: "Minimum length: 50 chars. Maximum length: 90 chars." %>
+                            <% end %>
                             <%= f.input :headline, required: true, minlength: 50 , maxlength: 90, hint: "Minimum length: 50 chars. Maximum length: 90 chars." %>
                             <%= f.input :summary, minlength: 50 , maxlength: 220, hint: "Minimum length: 50 chars. Maximum length: 200 chars." %>
                             <%= f.input :byline, required: true, label: "What byline do you want on the website?" %>
@@ -43,7 +46,7 @@
                             <% end %>
                             <% if @ref_sub_intersection.first.present? %>
                                 <%= f.input :ref_category_sub_intersection_id, label: "Sub Intersection", collection: @ref_sub_intersection, include_blank: true %>
-                            <% end %>      
+                            <% end %>
                             <%= f.input :is_sponsored, label: "&nbsp; Is Sponsored?".html_safe %>
                             <p><b>Story elements:</b></p>
                             <%= f.input :has_data, label: "&nbsp; Data or charts?".html_safe %>

@@ -39,6 +39,7 @@
 #  is_open                          :boolean
 #  template_page_id                 :integer
 #  slug                             :string(255)
+#  english_headline                 :string(255)
 #
 
 class Page < ApplicationRecord
@@ -47,7 +48,7 @@ class Page < ApplicationRecord
   #CUSTOM TABLES
   #GEMS
   extend FriendlyId
-  friendly_id :headline, use: :slugged
+  friendly_id :english_headline, use: :slugged
 
   #ASSOCIATIONS
   belongs_to :account
@@ -174,6 +175,7 @@ class Page < ApplicationRecord
     if self.has_data == true or self.has_image_other_than_cover == true or self.has_audio == true or self.has_video == true
       self.is_interactive = true
     end
+    self.english_headline = self.headline if self.site.is_english
     true
   end
 

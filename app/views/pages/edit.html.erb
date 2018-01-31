@@ -13,7 +13,7 @@
                     <div class="col-sm-2">
                         <div class="form-inputs">
                             <p><b>Cover:</b></p>
-                            <%= f.input :cover_image_url, hint: "1260px width. 5:3 aspect ratio. Store the image in Image Bank.",required: true %>
+                            <%= f.input :cover_image_url, hint: "1260px width. 5:3 aspect ratio. Store the image in Image Bank.",required: @page.template_page.name != 'Homepage: Vertical' %>
                             <%= f.input :cover_image_url_7_column, hint: "540px width. 5:3 aspect ratio. Store the image in Image Bank." %>
                             <%= f.input :cover_image_alignment, collection: @cover_image_alignment, selected: "horizontal", required: true %>
                         </div>
@@ -21,6 +21,9 @@
                     <div class="col-sm-6" style="margin-left: auto; margin-right: auto;">
                         <%= f.error_notification %>
                         <div class="form-inputs">
+                            <% unless @site.is_english %>
+                                <%= f.input :english_headline, required: true, minlength: 50 , maxlength: 90, hint: "This is used for url management." %>
+                            <% end %>
                             <%= f.input :headline, required: true, minlength: 50 , maxlength: 90, hint: "Minimum length: 50 chars. Maximum length: 90 chars." %>
                             <%= f.input :summary, minlength: 50 , maxlength: 220, hint: "Minimum length: 50 chars. Maximum length: 200 chars." %>
                             <%= f.input :byline, required: true, label: "What byline do you want on the website?" %>

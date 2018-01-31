@@ -39,6 +39,8 @@
 #  header_url              :text(65535)
 #  header_positioning      :string(255)
 #  slug                    :string(255)
+#  is_english              :boolean          default(TRUE)
+#  english_name            :string(255)
 #
 
 class Site < ApplicationRecord
@@ -47,7 +49,7 @@ class Site < ApplicationRecord
     #CUSTOM TABLES
     #GEMS
     extend FriendlyId
-    friendly_id :name, use: :slugged
+    friendly_id :english_name, use: :slugged
     #ASSOCIATIONS
     belongs_to :account
     has_many :folders
@@ -83,6 +85,10 @@ class Site < ApplicationRecord
     after_save :after_save_set
     #SCOPE
     #OTHER
+
+    def is_english
+        self.primary_language == 'English'
+    end
 
     def homepage_header_key
         "#{self.slug}/verticals.json"
@@ -148,6 +154,8 @@ class Site < ApplicationRecord
         self.client_secret = ENV['AWS_SECRET_ACCESS_KEY']
         self.story_card_style = 'Clear: Color'
         self.default_role = 'writer'
+        self.primary_language = "English" if self.primary_language.nil?
+        self.english_name = self.name
         true
     end
 
@@ -159,6 +167,7 @@ class Site < ApplicationRecord
         self.cdn_id = ENV['AWS_CDN_ID'] if self.cdn_id.blank? and self.cdn_endpoint == ENV['AWS_S3_ENDPOINT']
         self.header_background_color = "#FFFFFF"
         self.header_positioning = "left"
+        self.english_name = self.name if self.is_english
         true
     end
 
