@@ -26,7 +26,7 @@
                             <%= f.input :byline, required: true, label: "What byline do you want on the website?" %>
                             <%= f.input :is_published, label: "&nbsp; Is Published?".html_safe, hint: "Until you want the Story Card to be published live on your site, do not mark the article as published." %>
                             <div class="form-actions">
-                              <%= f.button :submit %> 
+                              <%= f.button :submit %>
                               &nbsp;&nbsp;|&nbsp;&nbsp;
                               <%= link_to "Preview", @page.html_url, target: "_blank" %>
                             </div>
@@ -142,6 +142,8 @@
                 <% @page.streams.each do |s| %>
                     <%= s.title%>: <%= link_to "Edit", edit_account_site_stream_path(@account, @site, s, folder_id: @folder.blank? ? nil : @folder.id)%> |
                     <%= link_to truncate("#{ENV['AWS_S3_ENDPOINT']}/#{s.datacast_identifier}/index.json", length: 40), "#{ENV['AWS_S3_ENDPOINT']}/#{s.datacast_identifier}/index.json", target: "_blank" %>
+                    |
+                    <%= link_to "Publish", publish_account_site_stream_path(@account, @site, s, folder_id: @folder.blank? ? nil : @folder.id),"data-turbolinks"=> false, class: "btn btn-outline", method: :post %>
                     <br/>
                 <% end %>
         <% end %>

@@ -43,6 +43,8 @@ class CsvVerificationWorker
             o['data']['publishedat'] =  Date.parse(o['data']['publishedat']).strftime('%Y-%m-%dT%l:%M:%S') if o['data']['publishedat'].present?
             stdout = o.to_json
           end
+          #write code to reject blanks
+          # o['data'] = o['data'].reject{|a,v| v.to_s.strip.empty? }
           card_array_filtered << stdout
         elsif stderr.present?
           filtering_errors << [row_number, stderr]

@@ -128,7 +128,7 @@ TemplatePage.create({
 })
 
 TemplatePage.create({
-  name: "map data grid",
+  name: "map",
   git_url: "",
   git_branch: "master",
   git_repo_name: "",
