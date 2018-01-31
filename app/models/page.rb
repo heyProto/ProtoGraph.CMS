@@ -98,6 +98,12 @@ class Page < ApplicationRecord
 
   #SCOPE
   #OTHER
+
+  def should_generate_new_friendly_id?
+    english_headline_changed?
+  end
+
+
   def push_json_to_s3
     site = self.site
 

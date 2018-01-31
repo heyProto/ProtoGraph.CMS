@@ -44,7 +44,10 @@ class RefCategory < ApplicationRecord
     after_destroy :update_site_verticals
     #SCOPE
     #OTHER
-    #PRIVATE
+
+    def should_generate_new_friendly_id?
+        english_name_changed?
+    end
 
     def vertical_page
         self.pages.where(template_page_id: TemplatePage.where(name: "Homepage: Vertical").first.id).first
@@ -66,6 +69,7 @@ class RefCategory < ApplicationRecord
         "#{self.site.cdn_endpoint}/#{vertical_header_key}"
     end
 
+    #PRIVATE
     private
 
     def before_update_set
