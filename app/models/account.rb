@@ -3,8 +3,8 @@
 # Table name: accounts
 #
 #  id            :integer          not null, primary key
-#  username      :string(255)
-#  slug          :string(255)
+#  username      :string(191)
+#  slug          :string(191)
 #  status        :string(255)
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null

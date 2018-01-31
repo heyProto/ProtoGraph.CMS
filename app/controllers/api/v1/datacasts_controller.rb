@@ -47,7 +47,7 @@ class Api::V1::DatacastsController < ApiController
             view_cast.by_line = datacast_params['data']["by_line"]
             view_cast.genre = datacast_params['data']["genre"]
             view_cast.sub_genre = datacast_params['data']["subgenre"]
-            view_cast.series = @folder.verticals.name
+            view_cast.series = @folder.vertical.name
         end
         r = Api::ProtoGraph::Datacast.update(payload)
         if r.has_key?("errorMessage")

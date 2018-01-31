@@ -65,7 +65,7 @@ class Api::ProtoGraph
                         params[:source] = site.cdn_provider
                         params[:quantity] = quantity
                         params[:distribution_id] = site.cdn_id
-                        creds = {'aws_access_key_id': site.client_token, 'aws_secret_access_key': account.client_secret}
+                        creds = {'aws_access_key_id': site.client_token, 'aws_secret_access_key': site.client_secret}
                         params[:credentials] = creds
                         params[:invalidation_items] = items
                     else

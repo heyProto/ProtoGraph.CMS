@@ -86,7 +86,7 @@ class Page < ApplicationRecord
   # Slug
 
   def html_key
-    "#{self.site.name}/#{self.series.name}/#{self.slug}-#{self.id}"
+    "#{self.site.slug}/#{self.series.slug}/#{self.slug}-#{self.id}"
     # Change during Multi Domain functionality
   end
 
@@ -226,6 +226,7 @@ class Page < ApplicationRecord
       else
         view_cast = ViewCast.create({
           name: self.headline,
+          site_id: site.id,
           template_card_id: TemplateCard.where(name: 'toStory').first.id,
           template_datum_id: TemplateDatum.where(name: 'toStory').first.id,
           optionalConfigJSON: {

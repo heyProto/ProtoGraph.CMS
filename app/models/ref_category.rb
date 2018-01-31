@@ -15,12 +15,15 @@
 #  updated_by  :integer
 #  count       :integer          default(0)
 #  name_html   :string(255)
+#  slug        :string(255)
 #
 
 class RefCategory < ApplicationRecord
     #CONSTANTS
     #CUSTOM TABLES
     #GEMS
+    extend FriendlyId
+    friendly_id :name, use: :slugged
     #ASSOCIATIONS
     belongs_to :site
     has_one :stream, foreign_key: 'id', primary_key: 'stream_id'
@@ -47,7 +50,7 @@ class RefCategory < ApplicationRecord
     end
 
     def vertical_page_url
-        "#{self.site.cdn_endpoint}/#{self.site.name}/#{self.name}.html"
+        "#{self.site.cdn_endpoint}/#{self.site.slug}/#{self.slug}.html"
     end
 
     def view_casts
@@ -55,7 +58,7 @@ class RefCategory < ApplicationRecord
     end
 
     def vertical_header_key
-        "#{self.site.name.parameterize}/#{self.name}/navigation.json"
+        "#{self.site.slug}/#{self.slug}/navigation.json"
     end
 
     def vertical_header_url
@@ -102,6 +105,10 @@ class RefCategory < ApplicationRecord
         })
         #Update the site vertical json
         update_site_verticals
+        key = self.vertical_header_key
+        encoded_file = Base64.encode64([].to_json)
+        content_type = "application/json"
+        resp = Api::ProtoGraph::Utility.upload_to_cdn(encoded_file, key, content_type)
     end
 
     def update_site_verticals
