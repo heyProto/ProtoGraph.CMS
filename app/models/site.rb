@@ -206,9 +206,9 @@ class Site < ApplicationRecord
             content_type = "application/json"
             resp = Api::ProtoGraph::Utility.upload_to_cdn(encoded_file, key, content_type)
             if self.cdn_id != ENV['AWS_CDN_ID']
-                Api::ProtoGraph::CloudFront.invalidate(self.site, ["/#{CGI.escape(key)}"], 1)
+                Api::ProtoGraph::CloudFront.invalidate(self.site, ["/#{key}"], 1)
             end
-            Api::ProtoGraph::CloudFront.invalidate(nil, ["/#{CGI.escape(key)}"], 1)
+            Api::ProtoGraph::CloudFront.invalidate(nil, ["/#{key}"], 1)
             ActiveRecord::Base.connection.close
         end
     end
