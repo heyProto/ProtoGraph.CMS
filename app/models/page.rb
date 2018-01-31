@@ -132,8 +132,8 @@ class Page < ApplicationRecord
         "reverse_house_colour": site.reverse_house_colour,
         "font_colour": site.font_colour,
         "reverse_font_colour": site.reverse_font_colour,
-        "logo_url": site.logo_image.present? ? site.logo_image.thumbnail_url : "",
-        "favicon_url": site.favicon.present? ? site.favicon.thumbnail_url : "",
+        "logo_url": site.logo_image.present? ? site.logo_image.image_url : "",
+        "favicon_url": site.favicon.present? ? site.favicon.image_url : "",
         "ga_code": site.g_a_tracking_id,
         "story_card_style": site.story_card_style
       },
