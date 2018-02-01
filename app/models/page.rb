@@ -160,7 +160,7 @@ class Page < ApplicationRecord
         "title": s.title,
         "datacast_identifier": s.datacast_identifier,
         "url": "#{site.cdn_endpoint}/#{s.cdn_key}",
-        "name_of_stream": s.title
+        "name_of_stream": "More in the series"
       }
     end
     key = "#{self.datacast_identifier}/page.json"
