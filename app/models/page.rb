@@ -100,6 +100,11 @@ class Page < ApplicationRecord
     # Change during Multi Domain functionality
   end
 
+  def series_7c_stream
+    vertical_page = series.vertical_page
+    vertical_page.streams.where(title: "#{vertical_page.id}_Section_7c").first
+  end
+
   #SCOPE
   #OTHER
 
@@ -146,8 +151,18 @@ class Page < ApplicationRecord
       "ref_category_object": {"name": "#{self.series.name}", "name_html": "#{self.series.name_html}"},
       "vertical_header_json_url": "#{self.series.vertical_header_url}",
       "homepage_header_json_url": "#{self.site.homepage_header_url}",
-      "site_header_json_url": "#{self.site.header_json_url}"
+      "site_header_json_url": "#{self.site.header_json_url}",
     }
+    if self.template_page.name == 'article'
+      s = series_7c_stream
+      json["more_in_the_series"] = {
+        "id": s.id,
+        "title": s.title,
+        "datacast_identifier": s.datacast_identifier,
+        "url": "#{site.cdn_endpoint}/#{s.cdn_key}",
+        "name_of_stream": s.title
+      }
+    end
     key = "#{self.datacast_identifier}/page.json"
     encoded_file = Base64.encode64(json.to_json)
     content_type = "application/json"
