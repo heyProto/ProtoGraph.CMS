@@ -69,6 +69,25 @@ class RefCategory < ApplicationRecord
         "#{self.site.cdn_endpoint}/#{vertical_header_key}"
     end
 
+    def update_site_verticals
+        Thread.new do
+            verticals_json = []
+            self.site.verticals.each do |ver|
+                next unless ver.vertical_page.present? and ver.vertical_page.is_published
+                verticals_json << {"name": "#{ver.name}","url": "#{ver.vertical_page_url}","new_window": true, "name_html": "#{ver.name_html}"}
+            end
+            key = "#{self.site.homepage_header_key}"
+            encoded_file = Base64.encode64(verticals_json.to_json)
+            content_type = "application/json"
+            resp = Api::ProtoGraph::Utility.upload_to_cdn(encoded_file, key, content_type)
+            if self.site.cdn_id != ENV['AWS_CDN_ID']
+                Api::ProtoGraph::CloudFront.invalidate(self.site, ["/#{key}"], 1)
+            end
+            Api::ProtoGraph::CloudFront.invalidate(nil, ["/#{key}"], 1)
+            ActiveRecord::Base.connection.close
+        end
+    end
+
     #PRIVATE
     private
 
@@ -118,21 +137,4 @@ class RefCategory < ApplicationRecord
         resp = Api::ProtoGraph::Utility.upload_to_cdn(encoded_file, key, content_type)
     end
 
-    def update_site_verticals
-        Thread.new do
-            verticals_json = []
-            self.site.verticals.each do |ver|
-                verticals_json << {"name": "#{ver.name}","url": "#{ver.vertical_page_url}","new_window": true, "name_html": "#{ver.name_html}"}
-            end
-            key = "#{self.site.homepage_header_key}"
-            encoded_file = Base64.encode64(verticals_json.to_json)
-            content_type = "application/json"
-            resp = Api::ProtoGraph::Utility.upload_to_cdn(encoded_file, key, content_type)
-            if self.site.cdn_id != ENV['AWS_CDN_ID']
-                Api::ProtoGraph::CloudFront.invalidate(self.site, ["/#{key}"], 1)
-            end
-            Api::ProtoGraph::CloudFront.invalidate(nil, ["/#{key}"], 1)
-            ActiveRecord::Base.connection.close
-        end
-    end
 end

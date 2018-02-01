@@ -90,7 +90,7 @@ class Page < ApplicationRecord
     if template_page.name == 'Homepage: Vertical'
       "#{self.site.slug}/#{self.series.slug}"
     else
-      "#{self.site.slug}/#{self.series.slug}/#{self.slug}-#{self.id}"
+      "#{self.site.slug}/stories/#{self.slug}-#{self.id}"
     end
     # Change during Multi Domain functionality
   end
@@ -306,15 +306,18 @@ class Page < ApplicationRecord
   end
 
   def after_save_set
-        if self.collaborator_lists.present?
-            self.collaborator_lists = self.collaborator_lists.reject(&:empty?)
-            prev_collaborator_ids = self.permissions.pluck(:user_id)
-            self.collaborator_lists.each do |c|
-                user = User.find(c)
-                a = user.create_permission("Page", self.id, "contributor")
-            end
-            self.permissions.where(permissible_id: (prev_collaborator_ids - self.collaborator_lists.map{|a| a.to_i})).update_all(status: 'Deactivated')
-        end
+      if self.template_page.name == 'Homepage: Vertical'
+        self.series.update_site_verticals
+      end
+      if self.collaborator_lists.present?
+          self.collaborator_lists = self.collaborator_lists.reject(&:empty?)
+          prev_collaborator_ids = self.permissions.pluck(:user_id)
+          self.collaborator_lists.each do |c|
+              user = User.find(c)
+              a = user.create_permission("Page", self.id, "contributor")
+          end
+          self.permissions.where(permissible_id: (prev_collaborator_ids - self.collaborator_lists.map{|a| a.to_i})).update_all(status: 'Deactivated')
+      end
     end
 
 end

@@ -94,7 +94,7 @@ class RefCategoriesController < ApplicationController
   private
 
     def set_entity
-      @ref_category = RefCategory.friendly.find.find(params[:id])
+      @ref_category = RefCategory.friendly.find(params[:id])
     end
 
     def entity_params
