@@ -188,7 +188,7 @@ class Page < ApplicationRecord
   end
 
   def create_story_card
-    #if self.status_changed? and self.status_before_last_save == 'draft'
+    if self.status_changed? and self.status_before_last_save == 'draft'
       site = self.site
       self.update_column(:published_at, Time.now)
       if self.view_cast.present?
@@ -235,7 +235,7 @@ class Page < ApplicationRecord
         Api::ProtoGraph::CloudFront.invalidate(@account, ["/#{view_cast.datacast_identifier}/data.json","/#{view_cast.datacast_identifier}/view_cast.json"], 2)
       end
       Api::ProtoGraph::CloudFront.invalidate(nil, ["/#{view_cast.datacast_identifier}/*"], 1)
-    #end
+    end
     true
   end
   #PRIVATE
