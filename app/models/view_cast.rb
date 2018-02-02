@@ -38,7 +38,7 @@ class ViewCast < ApplicationRecord
     friendly_id :name, use: :slugged
     #ASSOCIATIONS
     belongs_to :account
-    belongs_to :folder
+    belongs_to :folder, optional: true
     belongs_to :template_datum
     belongs_to :template_card
     belongs_to :site
