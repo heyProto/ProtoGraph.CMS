@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180131123453) do
+ActiveRecord::Schema.define(version: 20180201121705) do
 
   create_table "accounts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
     t.string "username", limit: 191, collation: "utf8mb4_unicode_ci"
@@ -198,7 +198,6 @@ ActiveRecord::Schema.define(version: 20180131123453) do
     t.boolean "has_image_other_than_cover"
     t.boolean "has_audio"
     t.boolean "has_video"
-    t.boolean "is_published"
     t.datetime "published_at"
     t.text "url", collation: "utf8_general_ci"
     t.integer "ref_category_series_id"
@@ -215,6 +214,7 @@ ActiveRecord::Schema.define(version: 20180131123453) do
     t.integer "template_page_id"
     t.string "slug", collation: "utf8_general_ci"
     t.string "english_headline"
+    t.string "status"
   end
 
   create_table "permission_invites", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|

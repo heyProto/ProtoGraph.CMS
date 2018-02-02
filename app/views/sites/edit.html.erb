@@ -136,18 +136,5 @@
           <% end %>
         </div>
         <br/>
-        <h3>AWS Configuration</h3>
-        <hr/>
-        <div style="margin-left: 50px;">
-            <%= simple_form_for [@account, @site] do |f| %>
-                <%= f.error_notification %>
-                <%= f.input :cdn_id, input_html: {value: @site.is_cdn_id_from_env? ? nil : @site.cdn_id } %>
-                <%= f.input :host, input_html: {value:  @site.is_host_from_env? ? nil : @site.host } %>
-                <%= f.input :cdn_endpoint, input_html: {value: @site.is_cdn_endpoint_from_env? ? nil : @site.cdn_endpoint} %>
-                <%= f.input :client_token, input_html: {value: @site.is_client_token_from_env? ? nil : @site.client_token} %>
-                <%= f.input :client_secret, input_html: {value: @site.is_client_secret_from_env? ? nil : @site.client_secret} %>
-                <%= f.button :submit, "Save", class: "btn btn-light" %>
-            <% end %>
-        </div>
     </div>
 </div>

@@ -4,10 +4,10 @@
     <br/>
     <div class="blankslate blankslate-spacious">
       <% if @folder.is_trash %>
-        <h3>There are no pages in the recycle bin.</h3>
+        <h3>There are no stories in the recycle bin.</h3>
       <% else %>
-        <h3>No pages created yet.</h3>
-        <p>Use the [+ Add a page] button on the top right.</p>
+        <h3>No stories created yet.</h3>
+        <p>Use the [+ Add a story] button on the top right.</p>
       <% end %>
     </div>
     <% else %>
@@ -25,9 +25,9 @@
               <%= image_tag avatar_url(d.updator.email), width: "20px", class: "rounded" %>
               &nbsp;&nbsp;
               <% if d.view_cast.present? %>
-              <%= d.view_cast.id.to_s %> | 
+              <%= d.view_cast.id.to_s %> |
               <% end %>
-              
+
               <%= time_ago_in_words(d.updated_at) %>
             </small>
                 </div>

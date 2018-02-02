@@ -34,6 +34,7 @@ class PagesController < ApplicationController
     @cover_image_alignment = ['vertical', 'horizontal'].map {|r| ["#{r.titlecase}", r]}
     @view_cast = @page.view_cast if @page.view_cast_id.present?
     @page_streams = @page.page_streams
+    @page.publish = @page.status == 'published'
 
     if @page.template_page.name == "article"
       @page_stream_narrative = @page.streams.where(title: "#{@page.id.to_s}_Story_Narrative").first
@@ -78,8 +79,12 @@ class PagesController < ApplicationController
 
   def update
     @page.updated_by = current_user.id
+    p_params = page_params
+    if params[:commit] == 'Update' and page_params["publish"] != "1"
+      p_params["status"] = 'unlisted'
+    end
     respond_to do |format|
-      if @page.update_attributes(page_params)
+      if @page.update_attributes(p_params)
         format.json { respond_with_bip(@page) }
         format.html {
           if @page.folder.present?
@@ -108,6 +113,6 @@ class PagesController < ApplicationController
     end
 
     def page_params
-      params.require(:page).permit(:id, :account_id, :site_id, :folder_id, :headline, :meta_keywords, :meta_description, :summary, :template_page_id, :byline, :byline_stream, :cover_image_url, :cover_image_url_7_column, :cover_image_url_facebook, :cover_image_url_square, :cover_image_alignment, :is_sponsored, :is_interactive, :has_data, :has_image_other_than_cover, :has_audio, :has_video, :is_published, :published_at, :url, :ref_category_series_id, :ref_category_intersection_id, :ref_category_sub_intersection_id, :view_cast_id, :page_object_url, :created_by, :updated_by, :english_headline,collaborator_lists: [])
+      params.require(:page).permit(:id, :account_id, :site_id, :folder_id, :headline, :meta_keywords, :meta_description, :summary, :template_page_id, :byline, :byline_stream, :cover_image_url, :cover_image_url_7_column, :cover_image_url_facebook, :cover_image_url_square, :cover_image_alignment, :is_sponsored, :is_interactive, :has_data, :has_image_other_than_cover, :has_audio, :has_video, :status, :published_at, :url, :ref_category_series_id, :ref_category_intersection_id, :ref_category_sub_intersection_id, :view_cast_id, :page_object_url, :created_by, :updated_by, :english_headline, :publish,collaborator_lists: [])
     end
 end

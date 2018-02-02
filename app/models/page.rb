@@ -23,7 +23,6 @@
 #  has_image_other_than_cover       :boolean
 #  has_audio                        :boolean
 #  has_video                        :boolean
-#  is_published                     :boolean
 #  published_at                     :datetime
 #  url                              :text(65535)
 #  ref_category_series_id           :integer
@@ -40,11 +39,13 @@
 #  template_page_id                 :integer
 #  slug                             :string(255)
 #  english_headline                 :string(255)
+#  status                           :string(255)
 #
 
 class Page < ApplicationRecord
 
   #CONSTANTS
+  STATUS = [["Draft", 'draft'],['Unlisted', 'unlisted'],["Published", 'published']]
   #CUSTOM TABLES
   #GEMS
   extend FriendlyId
@@ -67,7 +68,7 @@ class Page < ApplicationRecord
   has_many :users, through: :permissions
 
   #ACCESSORS
-  attr_accessor :collaborator_lists
+  attr_accessor :collaborator_lists, :publish
   #VALIDATIONS
   validates :headline, presence: true, length: { in: 50..90 }
   validates :summary, length: { in: 50..220 }, allow_blank: true
@@ -76,10 +77,7 @@ class Page < ApplicationRecord
   before_create :before_create_set
   before_save :before_save_set
 
-  after_create :create_page_streams
-  after_create :create_story_card
-  after_create :push_json_to_s3
-
+  after_update :create_page_streams
   after_update :create_story_card
   after_update :push_json_to_s3
   after_save :after_save_set
@@ -105,6 +103,10 @@ class Page < ApplicationRecord
     vertical_page.streams.where(title: "#{vertical_page.id}_Section_7c").first
   end
 
+  def is_published
+    self.status == 'published'
+  end
+
   #SCOPE
   #OTHER
 
@@ -114,71 +116,74 @@ class Page < ApplicationRecord
 
 
   def push_json_to_s3
-    site = self.site
+    if self.status != "draft"
+      site = self.site
+      streams = self.page_streams.includes(:stream).map do |e|
+        k = e.stream.as_json
+        h = {}
+        h['id'] = k['id']
+        h['title'] = k['title']
+        h['datacast_identifier'] = k['datacast_identifier']
+        h['url'] = "#{self.site.cdn_endpoint}/#{k['datacast_identifier']}/index.json"
+        h['name_of_stream'] = e.name_of_stream
+        h
+      end
 
-    streams = self.page_streams.includes(:stream).map do |e|
-      k = e.stream.as_json
-      h = {}
-      h['id'] = k['id']
-      h['title'] = k['title']
-      h['datacast_identifier'] = k['datacast_identifier']
-      h['url'] = "#{self.site.cdn_endpoint}/#{k['datacast_identifier']}/index.json"
-      h['name_of_stream'] = e.name_of_stream
-      h
-    end
+      page = self.as_json(methods: [:html_key])
+      page['layout'] = self.template_page.as_json
 
-    page = self.as_json(methods: [:html_key])
-    page['layout'] = self.template_page.as_json
-
-    json = {
-      "site_attributes": {
-        "dis_qus_integration": "",
-        "youtube_url": site.youtube_url,
-        "instagram_url": site.instagram_url,
-        "twitter_url": site.twitter_url,
-        "facebook_url": site.facebook_url,
-        "house_colour": site.house_colour,
-        "reverse_house_colour": site.reverse_house_colour,
-        "font_colour": site.font_colour,
-        "reverse_font_colour": site.reverse_font_colour,
-        "logo_url": site.logo_image.present? ? site.logo_image.image_url : "",
-        "favicon_url": site.favicon.present? ? site.favicon.image_url : "",
-        "ga_code": site.g_a_tracking_id,
-        "story_card_style": site.story_card_style
-      },
-      "streams": streams,
-      "page": page,
-      "ref_category_object": {"name": "#{self.series.name}", "name_html": "#{self.series.name_html}"},
-      "vertical_header_json_url": "#{self.series.vertical_header_url}",
-      "homepage_header_json_url": "#{self.site.homepage_header_url}",
-      "site_header_json_url": "#{self.site.header_json_url}",
-    }
-    if self.template_page.name == 'article'
-      s = series_7c_stream
-      json["more_in_the_series"] = {
-        "id": s.id,
-        "title": s.title,
-        "datacast_identifier": s.datacast_identifier,
-        "url": "#{site.cdn_endpoint}/#{s.cdn_key}",
-        "name_of_stream": "More in the series"
+      json = {
+        "site_attributes": {
+          "dis_qus_integration": "",
+          "youtube_url": site.youtube_url,
+          "instagram_url": site.instagram_url,
+          "twitter_url": site.twitter_url,
+          "facebook_url": site.facebook_url,
+          "house_colour": site.house_colour,
+          "reverse_house_colour": site.reverse_house_colour,
+          "font_colour": site.font_colour,
+          "reverse_font_colour": site.reverse_font_colour,
+          "logo_url": site.logo_image.present? ? site.logo_image.image_url : "",
+          "favicon_url": site.favicon.present? ? site.favicon.image_url : "",
+          "ga_code": site.g_a_tracking_id,
+          "story_card_style": site.story_card_style
+        },
+        "streams": streams,
+        "page": page,
+        "ref_category_object": {"name": "#{self.series.name}", "name_html": "#{self.series.name_html}"},
+        "vertical_header_json_url": "#{self.series.vertical_header_url}",
+        "homepage_header_json_url": "#{self.site.homepage_header_url}",
+        "site_header_json_url": "#{self.site.header_json_url}",
       }
+      if self.template_page.name == 'article'
+        s = series_7c_stream
+        if s.present?
+          json["more_in_the_series"] = {
+            "id": s.id,
+            "title": s.title,
+            "datacast_identifier": s.datacast_identifier,
+            "url": "#{site.cdn_endpoint}/#{s.cdn_key}",
+            "name_of_stream": "MORE IN THE VERTICAL"
+          }
+        end
+      end
+      key = "#{self.datacast_identifier}/page.json"
+      encoded_file = Base64.encode64(json.to_json)
+      content_type = "application/json"
+      resp = Api::ProtoGraph::Utility.upload_to_cdn(encoded_file, key, content_type)
+      self.update_column(:page_object_url, "#{self.site.cdn_endpoint}/#{key}")
+      if !Rails.env.development?
+        # PagesWorker.perform_async(self.id)
+        response = Api::ProtoGraph::Page.create_or_update_page(self.datacast_identifier, self.template_page.s3_identifier)
+        puts "=====> #{response}"
+        Api::ProtoGraph::CloudFront.invalidate(nil, ["/#{self.html_key}.html"], 1)
+      end
+      if self.site.cdn_id != ENV['AWS_CDN_ID']
+        Api::ProtoGraph::CloudFront.invalidate(self.site, ["/#{key}"], 1)
+      end
+      Api::ProtoGraph::CloudFront.invalidate(nil, ["/#{key}"], 1)
+      true
     end
-    key = "#{self.datacast_identifier}/page.json"
-    encoded_file = Base64.encode64(json.to_json)
-    content_type = "application/json"
-    resp = Api::ProtoGraph::Utility.upload_to_cdn(encoded_file, key, content_type)
-    self.update_column(:page_object_url, "#{self.site.cdn_endpoint}/#{key}")
-    if !Rails.env.development?
-      # PagesWorker.perform_async(self.id)
-      response = Api::ProtoGraph::Page.create_or_update_page(self.datacast_identifier, self.template_page.s3_identifier)
-      puts "=====> #{response}"
-      Api::ProtoGraph::CloudFront.invalidate(nil, ["/#{self.html_key}.html"], 1)
-    end
-    if self.site.cdn_id != ENV['AWS_CDN_ID']
-      Api::ProtoGraph::CloudFront.invalidate(self.site, ["/#{key}"], 1)
-    end
-    Api::ProtoGraph::CloudFront.invalidate(nil, ["/#{key}"], 1)
-    true
   end
   #PRIVATE
   private
@@ -191,7 +196,7 @@ class Page < ApplicationRecord
     self.has_audio = false                            if self.has_audio.blank?
     self.has_video = false                            if self.has_video.blank?
     self.is_sponsored = false                         if self.is_sponsored.blank?
-    self.is_published = false                         if self.is_published.blank?
+    self.status = 'draft'
     self.cover_image_alignment = "horizontal"         if self.cover_image_alignment.blank?
     self.url = "#{self.site.cdn_endpoint}/#{self.datacast_identifier}/index.html" if self.url.blank?
     true
@@ -201,40 +206,43 @@ class Page < ApplicationRecord
     if self.has_data == true or self.has_image_other_than_cover == true or self.has_audio == true or self.has_video == true
       self.is_interactive = true
     end
+    self.status = 'published' if self.publish == '1'
     self.english_headline = self.headline if self.site.is_english
     true
   end
 
   def create_page_streams
-    streams = []
-    case self.template_page.name
-    when 'Homepage: Vertical'
-      streams = [["Section_16c_Hero", "Hero"], ["Section_7c", "Originals"], ["Section_4c", "Digests"], ["Section_3c", "Feed"], ["Section_2c", "Opinions"]]
-    when 'article'
-      streams = [["Story_Narrative", "#{self.id}_Section_7c"], ["Story_Related", "#{self.id}_Section_7c"]]
-    when 'data grid'
-      streams = [["Data_Grid", "#{self.id}_Section_data"]]
-    end
-    streams.each do |s|
-      stream = Stream.create!({
-        col_name: "Page",
-        col_id: self.id,
-        account_id: self.account_id,
-        site_id: self.site_id,
-        folder_id: self.folder_id,
-        created_by: self.created_by,
-        updated_by: self.updated_by,
-        title: "#{self.id}_#{s.first}",
-        description: "#{self.id}-#{s.first} stream #{self.summary}"
-      })
+    if self.status_changed? and self.status_before_last_save == 'draft'
+      streams = []
+      case self.template_page.name
+      when 'Homepage: Vertical'
+        streams = [["Section_16c_Hero", "Hero"], ["Section_7c", "Originals"], ["Section_4c", "Digests"], ["Section_3c", "Feed"], ["Section_2c", "Opinions"]]
+      when 'article'
+        streams = [["Story_Narrative", "#{self.id}_Section_7c"], ["Story_Related", "#{self.id}_Section_7c"]]
+      when 'data grid'
+        streams = [["Data_Grid", "#{self.id}_Section_data"]]
+      end
+      streams.each do |s|
+        stream = Stream.create!({
+          col_name: "Page",
+          col_id: self.id,
+          account_id: self.account_id,
+          site_id: self.site_id,
+          folder_id: self.folder_id,
+          created_by: self.created_by,
+          updated_by: self.updated_by,
+          title: "#{self.id}_#{s.first}",
+          description: "#{self.id}-#{s.first} stream #{self.summary}"
+        })
 
-      page_stream = PageStream.create!({
-        page_id: self.id,
-        stream_id: stream.id,
-        name_of_stream: s.last,
-        created_by: self.created_by,
-        updated_by: self.updated_by
-      })
+        page_stream = PageStream.create!({
+          page_id: self.id,
+          stream_id: stream.id,
+          name_of_stream: s.last,
+          created_by: self.created_by,
+          updated_by: self.updated_by
+        })
+      end
     end
     true
   end
@@ -268,7 +276,8 @@ class Page < ApplicationRecord
           seo_blockquote: "<blockquote><h4#>#{self.headline}</h4></blockquote>",
           folder_id: self.folder_id,
           default_view: "title_text",
-          account_id: self.account_id
+          account_id: self.account_id,
+          is_autogenerated: true
         })
       end
       payload = {}

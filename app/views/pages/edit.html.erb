@@ -27,11 +27,16 @@
                             <%= f.input :headline, required: true, minlength: 50 , maxlength: 90, hint: "Minimum length: 50 chars. Maximum length: 90 chars." %>
                             <%= f.input :summary, minlength: 50 , maxlength: 220, hint: "Minimum length: 50 chars. Maximum length: 200 chars." %>
                             <%= f.input :byline, required: true, label: "What byline do you want on the website?" %>
-                            <%= f.input :is_published, label: "&nbsp; Is Published?".html_safe, hint: "Until you want the Story Card to be published live on your site, do not mark the article as published." %>
+                            <%= f.input :publish, as: :boolean, label: "&nbsp; Publish Page?".html_safe, hint: "Until you want the Story Card to be published live on your site, do not mark the article as published." %>
                             <div class="form-actions">
-                              <%= f.button :submit %>
-                              &nbsp;&nbsp;|&nbsp;&nbsp;
-                              <%= link_to "Preview", @page.html_url, target: "_blank" %>
+                              <% if @page.status == 'draft' %>
+                                <%= f.button :submit, "Save as draft" %>
+                              <% end %>
+                              <%= f.button :submit, "Update" %>
+                              <% if @page.status != 'draft' %>
+                                &nbsp;&nbsp;|&nbsp;&nbsp;
+                                <%= link_to "Preview", @page.html_url, target: "_blank" %>
+                              <% end %>
                             </div>
                         </div>
                     </div>
