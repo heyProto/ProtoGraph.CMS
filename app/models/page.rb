@@ -144,7 +144,8 @@ class Page < ApplicationRecord
         "logo_url": site.logo_image.present? ? site.logo_image.image_url : "",
         "favicon_url": site.favicon.present? ? site.favicon.image_url : "",
         "ga_code": site.g_a_tracking_id,
-        "story_card_style": site.story_card_style
+        "story_card_style": site.story_card_style,
+        "primary_language": site.primary_language
       },
       "streams": streams,
       "page": page,
@@ -168,12 +169,12 @@ class Page < ApplicationRecord
     content_type = "application/json"
     resp = Api::ProtoGraph::Utility.upload_to_cdn(encoded_file, key, content_type)
     self.update_column(:page_object_url, "#{self.site.cdn_endpoint}/#{key}")
-    if !Rails.env.development?
+    # if !Rails.env.development?
       # PagesWorker.perform_async(self.id)
       response = Api::ProtoGraph::Page.create_or_update_page(self.datacast_identifier, self.template_page.s3_identifier)
       puts "=====> #{response}"
       Api::ProtoGraph::CloudFront.invalidate(nil, ["/#{self.html_key}.html"], 1)
-    end
+    # end
     if self.site.cdn_id != ENV['AWS_CDN_ID']
       Api::ProtoGraph::CloudFront.invalidate(self.site, ["/#{key}"], 1)
     end
