@@ -63,125 +63,127 @@
                 </div>
             <% end %>
 <hr/>
-
-    <% if @page.template_page.name == "article" %>
-        <div class="row">
-            <div class="col-sm-8">
-                <h4>Narrative</h4>
-                <%= simple_form_for(@page_stream_narrative, url: [@account, @site, @page_stream_narrative]) do |f| %>
-                  <%= f.input :view_cast_id_list, input_html: { class: 'ui search fluid dropdown proto-tagged-input', multiple: true, "data-role" => "tagsinput" }, label: "Card IDs" %>
-                  <%= f.submit "Save", class: 'btn btn-sm btn-primary' %>
-                  |
-                  <%= link_to "Publish", publish_account_site_stream_path(@account, @site, @page_stream_narrative, folder_id: @folder.blank? ? nil : @folder.id),"data-turbolinks"=> false, class: "btn btn-outline", method: :post %>
-                  <%= link_to ".", "#{@site.cdn_endpoint}/#{@page_stream_narrative.cdn_key}", target: "blank" %>
-                <% end %>
-            </div>
-            <div class="col-sm-4">
-                <h4>Related</h4>
-                <%= simple_form_for(@page_stream_related, url: [@account, @site, @page_stream_related]) do |f| %>
-                  <%= f.input :view_cast_id_list, input_html: { class: 'ui search fluid dropdown proto-tagged-input', multiple: true, "data-role" => "tagsinput" }, label: "Card IDs" %>
-                  <%= f.submit "Save", class: 'btn btn-sm btn-primary' %>
-                  |
-                  <%= link_to "Publish", publish_account_site_stream_path(@account, @site, @page_stream_related, folder_id: @folder.blank? ? nil : @folder.id),"data-turbolinks"=> false, class: "btn btn-outline", method: :post %>
-                  <%= link_to ".", "#{@site.cdn_endpoint}/#{@page_stream_related.cdn_key}", target: "blank" %>
-                <% end %>
-            </div>
-        </div>
-    <% elsif @page.template_page.name == "Homepage: Vertical" %>
-        <div class="row">
-            <div class="col-sm-16">
-                <h4><%= best_in_place @page_streamH16, :name_of_stream, url: [@account, @site, @page_streamH16] %></h4>
-                <%= simple_form_for(@page_stream_16, url: [@account, @site, @page_stream_16]) do |f| %>
-                  <%= f.input :view_cast_id_list, input_html: { class: 'ui search fluid dropdown proto-tagged-input', multiple: true, "data-role" => "tagsinput" }, label: "Card IDs" %>
-                  <%= f.submit "Save", class: 'btn btn-sm btn-primary' %>
-                  |
-                  <%= link_to "Publish", publish_account_site_stream_path(@account, @site, @page_stream_16, folder_id: @folder.blank? ? nil : @folder.id),"data-turbolinks"=> false, class: "btn btn-outline", method: :post %>
-                  <%= link_to ".", "#{@site.cdn_endpoint}/#{@page_stream_16.cdn_key}", target: "blank" %>
-                <% end %>
-                <br/>
-                <br/>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-sm-7">
-                <h4><%= best_in_place @page_streamH07, :name_of_stream, url: [@account, @site, @page_streamH07] %></h4>
-                <%= simple_form_for(@page_stream_07, url: [@account, @site, @page_stream_07]) do |f| %>
-                  <%= f.input :view_cast_id_list, input_html: { class: 'ui search fluid dropdown proto-tagged-input', multiple: true, "data-role" => "tagsinput" }, label: "Card IDs" %>
-                  <%= f.submit "Save", class: 'btn btn-sm btn-primary' %>
-                  |
-                  <%= link_to "Publish", publish_account_site_stream_path(@account, @site, @page_stream_07, folder_id: @folder.blank? ? nil : @folder.id),"data-turbolinks"=> false, class: "btn btn-outline", method: :post %>
-                  <%= link_to ".", "#{@site.cdn_endpoint}/#{@page_stream_07.cdn_key}", target: "blank" %>
-                <% end %>
-            </div>
-            <div class="col-sm-4">
-                <h4><%= best_in_place @page_streamH04, :name_of_stream, url: [@account, @site, @page_streamH04] %></h4>
-                <%= simple_form_for(@page_stream_04, url: [@account, @site, @page_stream_04]) do |f| %>
-                  <%= f.input :view_cast_id_list, input_html: { class: 'ui search fluid dropdown proto-tagged-input', multiple: true, "data-role" => "tagsinput" }, label: "Card IDs" %>
-                  <%= f.submit "Save", class: 'btn btn-sm btn-primary' %>
-                  |
-                  <%= link_to "Publish", publish_account_site_stream_path(@account, @site, @page_stream_04, folder_id: @folder.blank? ? nil : @folder.id),"data-turbolinks"=> false, class: "btn btn-outline", method: :post %>
-                  <%= link_to ".", "#{@site.cdn_endpoint}/#{@page_stream_04.cdn_key}", target: "blank" %>
-                <% end %>
-            </div>
-            <div class="col-sm-2">
-                <h4><%= best_in_place @page_streamH02, :name_of_stream, url: [@account, @site, @page_streamH02] %></h4>
-                <%= simple_form_for(@page_stream_02, url: [@account, @site, @page_stream_02]) do |f| %>
-                  <%= f.input :view_cast_id_list, input_html: { class: 'ui search fluid dropdown proto-tagged-input', multiple: true, "data-role" => "tagsinput" }, label: "Card IDs" %>
-                  <%= f.submit "Save", class: 'btn btn-sm btn-primary' %>
-                  |
-                  <%= link_to "Publish", publish_account_site_stream_path(@account, @site, @page_stream_02, folder_id: @folder.blank? ? nil : @folder.id),"data-turbolinks"=> false, class: "btn btn-outline", method: :post %>
-                  <%= link_to ".", "#{@site.cdn_endpoint}/#{@page_stream_02.cdn_key}", target: "blank" %>
-                <% end %>
-            </div>
-            <div class="col-sm-3">
-                <h4><%= best_in_place @page_streamH03, :name_of_stream, url: [@account, @site, @page_streamH03] %></h4>
-                <%= simple_form_for(@page_stream_03, url: [@account, @site, @page_stream_03]) do |f| %>
-                  <%= f.input :view_cast_id_list, input_html: { class: 'ui search fluid dropdown proto-tagged-input', multiple: true, "data-role" => "tagsinput" }, label: "Card IDs" %>
-                  <%= f.submit "Save", class: 'btn btn-sm btn-primary' %>
-                  |
-                  <%= link_to "Publish", publish_account_site_stream_path(@account, @site, @page_stream_03, folder_id: @folder.blank? ? nil : @folder.id),"data-turbolinks"=> false, class: "btn btn-outline", method: :post %>
-                  <%= link_to ".", "#{@site.cdn_endpoint}/#{@page_stream_03.cdn_key}", target: "blank" %>
-                <% end %>
-            </div>
-        </div>
-    <% else %>
-        <% if @page.streams.first.present? %>
-                <h4>Streams:</h4>
-                <% @page.streams.each do |s| %>
-                    <%= s.title%>: <%= link_to "Edit", edit_account_site_stream_path(@account, @site, s, folder_id: @folder.blank? ? nil : @folder.id)%> |
-                    <%= link_to truncate("#{ENV['AWS_S3_ENDPOINT']}/#{s.datacast_identifier}/index.json", length: 40), "#{ENV['AWS_S3_ENDPOINT']}/#{s.datacast_identifier}/index.json", target: "_blank" %>
+<% if @page.status != "draft" %>
+      <% if @page.template_page.name == "article" %>
+          <div class="row">
+              <div class="col-sm-8">
+                  <h4>Narrative</h4>
+                  <%= simple_form_for(@page_stream_narrative, url: [@account, @site, @page_stream_narrative]) do |f| %>
+                    <%= f.input :view_cast_id_list, input_html: { class: 'ui search fluid dropdown proto-tagged-input', multiple: true, "data-role" => "tagsinput" }, label: "Card IDs" %>
+                    <%= f.submit "Save", class: 'btn btn-sm btn-primary' %>
                     |
-                    <%= link_to "Publish", publish_account_site_stream_path(@account, @site, s, folder_id: @folder.blank? ? nil : @folder.id),"data-turbolinks"=> false, class: "btn btn-outline", method: :post %>
-                    <br/>
-                <% end %>
-        <% end %>
-    <% end %>
+                    <%= link_to "Publish", publish_account_site_stream_path(@account, @site, @page_stream_narrative, folder_id: @folder.blank? ? nil : @folder.id),"data-turbolinks"=> false, class: "btn btn-outline", method: :post %>
+                    <%= link_to ".", "#{@site.cdn_endpoint}/#{@page_stream_narrative.cdn_key}", target: "blank" %>
+                  <% end %>
+              </div>
+              <div class="col-sm-4">
+                  <h4>Related</h4>
+                  <%= simple_form_for(@page_stream_related, url: [@account, @site, @page_stream_related]) do |f| %>
+                    <%= f.input :view_cast_id_list, input_html: { class: 'ui search fluid dropdown proto-tagged-input', multiple: true, "data-role" => "tagsinput" }, label: "Card IDs" %>
+                    <%= f.submit "Save", class: 'btn btn-sm btn-primary' %>
+                    |
+                    <%= link_to "Publish", publish_account_site_stream_path(@account, @site, @page_stream_related, folder_id: @folder.blank? ? nil : @folder.id),"data-turbolinks"=> false, class: "btn btn-outline", method: :post %>
+                    <%= link_to ".", "#{@site.cdn_endpoint}/#{@page_stream_related.cdn_key}", target: "blank" %>
+                  <% end %>
+              </div>
+          </div>
+      <% elsif @page.template_page.name == "Homepage: Vertical" %>
+          <div class="row">
+              <div class="col-sm-16">
+                  <h4><%= best_in_place @page_streamH16, :name_of_stream, url: [@account, @site, @page_streamH16] %></h4>
+                  <%= simple_form_for(@page_stream_16, url: [@account, @site, @page_stream_16]) do |f| %>
+                    <%= f.input :view_cast_id_list, input_html: { class: 'ui search fluid dropdown proto-tagged-input', multiple: true, "data-role" => "tagsinput" }, label: "Card IDs" %>
+                    <%= f.submit "Save", class: 'btn btn-sm btn-primary' %>
+                    |
+                    <%= link_to "Publish", publish_account_site_stream_path(@account, @site, @page_stream_16, folder_id: @folder.blank? ? nil : @folder.id),"data-turbolinks"=> false, class: "btn btn-outline", method: :post %>
+                    <%= link_to ".", "#{@site.cdn_endpoint}/#{@page_stream_16.cdn_key}", target: "blank" %>
+                  <% end %>
+                  <br/>
+                  <br/>
+              </div>
+          </div>
+          <div class="row">
+              <div class="col-sm-7">
+                  <h4><%= best_in_place @page_streamH07, :name_of_stream, url: [@account, @site, @page_streamH07] %></h4>
+                  <%= simple_form_for(@page_stream_07, url: [@account, @site, @page_stream_07]) do |f| %>
+                    <%= f.input :view_cast_id_list, input_html: { class: 'ui search fluid dropdown proto-tagged-input', multiple: true, "data-role" => "tagsinput" }, label: "Card IDs" %>
+                    <%= f.submit "Save", class: 'btn btn-sm btn-primary' %>
+                    |
+                    <%= link_to "Publish", publish_account_site_stream_path(@account, @site, @page_stream_07, folder_id: @folder.blank? ? nil : @folder.id),"data-turbolinks"=> false, class: "btn btn-outline", method: :post %>
+                    <%= link_to ".", "#{@site.cdn_endpoint}/#{@page_stream_07.cdn_key}", target: "blank" %>
+                  <% end %>
+              </div>
+              <div class="col-sm-4">
+                  <h4><%= best_in_place @page_streamH04, :name_of_stream, url: [@account, @site, @page_streamH04] %></h4>
+                  <%= simple_form_for(@page_stream_04, url: [@account, @site, @page_stream_04]) do |f| %>
+                    <%= f.input :view_cast_id_list, input_html: { class: 'ui search fluid dropdown proto-tagged-input', multiple: true, "data-role" => "tagsinput" }, label: "Card IDs" %>
+                    <%= f.submit "Save", class: 'btn btn-sm btn-primary' %>
+                    |
+                    <%= link_to "Publish", publish_account_site_stream_path(@account, @site, @page_stream_04, folder_id: @folder.blank? ? nil : @folder.id),"data-turbolinks"=> false, class: "btn btn-outline", method: :post %>
+                    <%= link_to ".", "#{@site.cdn_endpoint}/#{@page_stream_04.cdn_key}", target: "blank" %>
+                  <% end %>
+              </div>
+              <div class="col-sm-2">
+                  <h4><%= best_in_place @page_streamH02, :name_of_stream, url: [@account, @site, @page_streamH02] %></h4>
+                  <%= simple_form_for(@page_stream_02, url: [@account, @site, @page_stream_02]) do |f| %>
+                    <%= f.input :view_cast_id_list, input_html: { class: 'ui search fluid dropdown proto-tagged-input', multiple: true, "data-role" => "tagsinput" }, label: "Card IDs" %>
+                    <%= f.submit "Save", class: 'btn btn-sm btn-primary' %>
+                    |
+                    <%= link_to "Publish", publish_account_site_stream_path(@account, @site, @page_stream_02, folder_id: @folder.blank? ? nil : @folder.id),"data-turbolinks"=> false, class: "btn btn-outline", method: :post %>
+                    <%= link_to ".", "#{@site.cdn_endpoint}/#{@page_stream_02.cdn_key}", target: "blank" %>
+                  <% end %>
+              </div>
+              <div class="col-sm-3">
+                  <h4><%= best_in_place @page_streamH03, :name_of_stream, url: [@account, @site, @page_streamH03] %></h4>
+                  <%= simple_form_for(@page_stream_03, url: [@account, @site, @page_stream_03]) do |f| %>
+                    <%= f.input :view_cast_id_list, input_html: { class: 'ui search fluid dropdown proto-tagged-input', multiple: true, "data-role" => "tagsinput" }, label: "Card IDs" %>
+                    <%= f.submit "Save", class: 'btn btn-sm btn-primary' %>
+                    |
+                    <%= link_to "Publish", publish_account_site_stream_path(@account, @site, @page_stream_03, folder_id: @folder.blank? ? nil : @folder.id),"data-turbolinks"=> false, class: "btn btn-outline", method: :post %>
+                    <%= link_to ".", "#{@site.cdn_endpoint}/#{@page_stream_03.cdn_key}", target: "blank" %>
+                  <% end %>
+              </div>
+          </div>
+      <% else %>
+          <% if @page.streams.first.present? %>
+                  <h4>Streams:</h4>
+                  <% @page.streams.each do |s| %>
+                      <%= s.title%>: <%= link_to "Edit", edit_account_site_stream_path(@account, @site, s, folder_id: @folder.blank? ? nil : @folder.id)%> |
+                      <%= link_to truncate("#{ENV['AWS_S3_ENDPOINT']}/#{s.datacast_identifier}/index.json", length: 40), "#{ENV['AWS_S3_ENDPOINT']}/#{s.datacast_identifier}/index.json", target: "_blank" %>
+                      |
+                      <%= link_to "Publish", publish_account_site_stream_path(@account, @site, s, folder_id: @folder.blank? ? nil : @folder.id),"data-turbolinks"=> false, class: "btn btn-outline", method: :post %>
+                      <br/>
+                  <% end %>
+          <% end %>
+      <% end %>
 
-<hr/>
-<div class="row">
-    <div class="col-sm-6" style="margin-left: auto; margin-right: auto;">
-        <h4>Page Object:</h4>
-        <p>
-            <%= link_to truncate(@page.page_object_url, length: 50), @page.page_object_url, target: "_blank" %>
-        </p>
-        <% if @page.view_cast_id.present? %>
-            <br/>
-            <h4>Story Card:</h4>
-            <div id="protoCard"></div>
-        <% end %>
-    </div>
-</div>
-<% if @view_cast.present? %>
-    <script src="https://cdn.protograph.pykih.com/lib/protoGraph.min.js" async></script>
-    <script>
-        var interval = setInterval(function () {
-            if (window.ProtoEmbed) {
-                clearInterval(interval);
-                var proto_embed_test = new ProtoEmbed.initFrame(document.getElementById('protoCard'), "<%= "#{@view_cast.template_card.index_html }?view_cast_id=#{ @view_cast.datacast_identifier }%26schema_id=#{ @view_cast.template_datum.s3_identifier }" %>", "col4");
-            }
-        },200)
-    </script>
+  <hr/>
+  <div class="row">
+      <div class="col-sm-6" style="margin-left: auto; margin-right: auto;">
+          <h4>Page Object:</h4>
+          <p>
+              <%= link_to truncate(@page.page_object_url, length: 50), @page.page_object_url, target: "_blank" %>
+          </p>
+          <% if @page.view_cast_id.present? %>
+              <br/>
+              <h4>Story Card:</h4>
+              <div id="protoCard"></div>
+          <% end %>
+      </div>
+  </div>
+  <% if @view_cast.present? %>
+      <script src="https://cdn.protograph.pykih.com/lib/protoGraph.min.js" async></script>
+      <script>
+          var interval = setInterval(function () {
+              if (window.ProtoEmbed) {
+                  clearInterval(interval);
+                  var proto_embed_test = new ProtoEmbed.initFrame(document.getElementById('protoCard'), "<%= "#{@view_cast.template_card.index_html }?view_cast_id=#{ @view_cast.datacast_identifier }%26schema_id=#{ @view_cast.template_datum.s3_identifier }" %>", "col4");
+              }
+          },200)
+      </script>
+  <% end %>
 <% end %>
+
 
 <%= javascript_include_tag "select2.js" %>
 <script type="text/javascript">
