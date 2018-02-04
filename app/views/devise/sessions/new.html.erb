@@ -28,8 +28,7 @@
   <p>Tools :
     <span class="links-div">
       <%= link_to "toQuiz", toquiz_path %>, &nbsp
-      <%= link_to "toTimeline", totimeline_path %>, &nbsp
-      <%= link_to "toExplain", toexplain_path %>
+      <%= link_to "toTimeline", totimeline_path %>
     </span>
   </p>
   <iframe frameborder="0" class="juxtapose" width="100%" height="350" src="https://cdn.knightlab.com/libs/juxtapose/latest/embed/index.html?uid=ed9dfeb8-a88a-11e7-b263-0edaf8f81e27"></iframe>
@@ -65,7 +64,7 @@
     <% if devise_mapping.rememberable? -%>
       <div class="field">
         <div class="ui checkbox">
-          <%= f.input :remember_me, as: :boolean, boolean_style: :inline  %>
+          <%= f.input :remember_me, as: :boolean, boolean_style: :inline, label: "&nbsp; Remember me".html_safe  %>
         </div>
       </div>
     <% end %>
