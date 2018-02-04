@@ -2,7 +2,11 @@ class Api::V1::TemplateCardsController < ApiController
 
     def index
         if @folder.vertical.present?
-          @template_cards = @account.template_cards.where(is_current_version: true, name: ['toParagraph', 'toImage', 'toVideo: Youtube', 'toCluster', 'toQuiz', 'toTimeline', 'toStory'])
+          if @folder.is_for_stories
+            @template_cards = @account.template_cards.where(is_current_version: true, name: ['toParagraph', 'toImage', 'toVideo: Youtube', 'toCluster', 'toQuiz', 'toTimeline', 'toStory'])
+          else
+            @template_cards = @account.template_cards.where(is_current_version: true).where.not(name: ['toParagraph', 'toImage', 'toVideo: Youtube', 'toCluster', 'toQuiz', 'toTimeline', 'toStory'])
+          end
         else
           @template_cards = @account.template_cards.where(is_current_version: true, name: ['toQuiz', 'toTimeline'])
         end
