@@ -5,6 +5,7 @@
             <%= f.input :site_id, as: :hidden, input_html: {value: @site.id} %>
             <%= f.input :is_archived, as: :boolean, label: "&nbsp; Is Archived?".html_safe %>
             <%= f.input :ref_category_vertical_id, collection: @verticals, label: "Vertical" %>
+            <%= f.input :is_for_stories, as: :boolean, label: "Use this folder to file stories?", hint: "Implication: You wont be able to create data cards in this folder."%>
             <% if @site.users.count > 0 %>
                 <%=  f.input :collaborator_lists,  collection: @site.users.pluck(:name, :id), input_html: { class: 'ui search fluid dropdown', multiple: true}, label: "Add Collaborators" %>
             <% end %>
