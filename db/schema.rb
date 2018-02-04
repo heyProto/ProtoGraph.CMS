@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180201121705) do
+ActiveRecord::Schema.define(version: 20180204165942) do
 
   create_table "accounts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "username"
@@ -114,6 +114,7 @@ ActiveRecord::Schema.define(version: 20180201121705) do
     t.integer "site_id"
     t.boolean "is_open"
     t.integer "ref_category_vertical_id"
+    t.boolean "is_for_stories"
   end
 
   create_table "friendly_id_slugs", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -444,6 +445,7 @@ ActiveRecord::Schema.define(version: 20180201121705) do
     t.boolean "has_multiple_uploads", default: false
     t.boolean "has_grouping", default: false
     t.text "allowed_views"
+    t.integer "sort_order"
     t.index ["slug"], name: "index_template_cards_on_slug", unique: true
   end
 
