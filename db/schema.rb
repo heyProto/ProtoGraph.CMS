@@ -12,7 +12,7 @@
 
 ActiveRecord::Schema.define(version: 20180201121705) do
 
-  create_table "accounts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin" do |t|
+  create_table "accounts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "username"
     t.string "slug"
     t.string "status"
@@ -29,7 +29,7 @@ ActiveRecord::Schema.define(version: 20180201121705) do
     t.index ["username"], name: "index_accounts_on_username", unique: true
   end
 
-  create_table "activities", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin" do |t|
+  create_table "activities", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer "user_id"
     t.string "action"
     t.integer "trackable_id"
@@ -41,7 +41,7 @@ ActiveRecord::Schema.define(version: 20180201121705) do
     t.integer "site_id"
   end
 
-  create_table "audio_variations", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin" do |t|
+  create_table "audio_variations", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer "audio_id"
     t.integer "start_time"
     t.integer "end_time"
@@ -57,7 +57,7 @@ ActiveRecord::Schema.define(version: 20180201121705) do
     t.index ["id"], name: "index_audio_variations_on_id", unique: true
   end
 
-  create_table "audios", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin" do |t|
+  create_table "audios", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer "account_id"
     t.string "name"
     t.string "audio"
@@ -73,7 +73,7 @@ ActiveRecord::Schema.define(version: 20180201121705) do
     t.index ["s3_identifier"], name: "index_audios_on_s3_identifier", unique: true
   end
 
-  create_table "authentications", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin" do |t|
+  create_table "authentications", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "provider"
     t.string "uid"
     t.text "info"
@@ -90,7 +90,7 @@ ActiveRecord::Schema.define(version: 20180201121705) do
     t.index ["user_id"], name: "index_authentications_on_user_id"
   end
 
-  create_table "colour_swatches", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin" do |t|
+  create_table "colour_swatches", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer "red"
     t.integer "green"
     t.integer "blue"
@@ -101,7 +101,7 @@ ActiveRecord::Schema.define(version: 20180201121705) do
     t.string "name"
   end
 
-  create_table "folders", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin" do |t|
+  create_table "folders", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer "account_id"
     t.string "name"
     t.string "slug"
@@ -116,8 +116,8 @@ ActiveRecord::Schema.define(version: 20180201121705) do
     t.integer "ref_category_vertical_id"
   end
 
-  create_table "friendly_id_slugs", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin" do |t|
-    t.string "slug"
+  create_table "friendly_id_slugs", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string "slug", null: false
     t.integer "sluggable_id", null: false
     t.string "sluggable_type", limit: 50
     t.string "scope"
@@ -128,7 +128,7 @@ ActiveRecord::Schema.define(version: 20180201121705) do
     t.index ["sluggable_type"], name: "index_friendly_id_slugs_on_sluggable_type"
   end
 
-  create_table "image_variations", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin" do |t|
+  create_table "image_variations", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer "image_id"
     t.text "image_key"
     t.integer "image_width"
@@ -147,7 +147,7 @@ ActiveRecord::Schema.define(version: 20180201121705) do
     t.boolean "is_smart_cropped", default: false
   end
 
-  create_table "images", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin" do |t|
+  create_table "images", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer "account_id"
     t.string "name"
     t.text "description"
@@ -167,7 +167,7 @@ ActiveRecord::Schema.define(version: 20180201121705) do
     t.boolean "is_favicon", default: false
   end
 
-  create_table "page_streams", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin" do |t|
+  create_table "page_streams", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer "page_id"
     t.integer "stream_id"
     t.integer "created_by"
@@ -177,7 +177,7 @@ ActiveRecord::Schema.define(version: 20180201121705) do
     t.string "name_of_stream"
   end
 
-  create_table "pages", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin" do |t|
+  create_table "pages", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer "account_id"
     t.integer "site_id"
     t.integer "folder_id"
@@ -217,7 +217,7 @@ ActiveRecord::Schema.define(version: 20180201121705) do
     t.string "status"
   end
 
-  create_table "permission_invites", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin" do |t|
+  create_table "permission_invites", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer "permissible_id"
     t.string "email"
     t.string "ref_role_slug"
@@ -228,7 +228,7 @@ ActiveRecord::Schema.define(version: 20180201121705) do
     t.string "permissible_type"
   end
 
-  create_table "permission_roles", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin" do |t|
+  create_table "permission_roles", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer "created_by"
     t.integer "updated_by"
     t.string "name"
@@ -259,7 +259,7 @@ ActiveRecord::Schema.define(version: 20180201121705) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "permissions", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin" do |t|
+  create_table "permissions", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer "user_id"
     t.integer "permissible_id"
     t.string "ref_role_slug"
@@ -272,7 +272,7 @@ ActiveRecord::Schema.define(version: 20180201121705) do
     t.string "permissible_type"
   end
 
-  create_table "ref_categories", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin" do |t|
+  create_table "ref_categories", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer "site_id"
     t.string "genre"
     t.string "name"
@@ -289,7 +289,7 @@ ActiveRecord::Schema.define(version: 20180201121705) do
     t.string "english_name"
   end
 
-  create_table "ref_link_sources", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin" do |t|
+  create_table "ref_link_sources", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "name"
     t.text "url"
     t.text "favicon_url"
@@ -299,7 +299,7 @@ ActiveRecord::Schema.define(version: 20180201121705) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "site_vertical_navigations", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin" do |t|
+  create_table "site_vertical_navigations", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer "site_id"
     t.integer "ref_category_vertical_id"
     t.string "name"
@@ -312,7 +312,7 @@ ActiveRecord::Schema.define(version: 20180201121705) do
     t.integer "sort_order"
   end
 
-  create_table "sites", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin" do |t|
+  create_table "sites", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer "account_id"
     t.string "name"
     t.string "domain"
@@ -334,13 +334,13 @@ ActiveRecord::Schema.define(version: 20180201121705) do
     t.string "client_token"
     t.string "access_token"
     t.string "client_secret"
-    t.integer "favicon_id"
-    t.integer "logo_image_id"
     t.text "facebook_url"
     t.text "twitter_url"
     t.text "instagram_url"
     t.text "youtube_url"
     t.string "g_a_tracking_id"
+    t.integer "favicon_id"
+    t.integer "logo_image_id"
     t.string "sign_up_mode"
     t.string "default_role"
     t.string "story_card_style"
@@ -353,7 +353,7 @@ ActiveRecord::Schema.define(version: 20180201121705) do
     t.string "english_name"
   end
 
-  create_table "stream_entities", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin" do |t|
+  create_table "stream_entities", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer "stream_id"
     t.string "entity_type"
     t.string "entity_value"
@@ -364,7 +364,7 @@ ActiveRecord::Schema.define(version: 20180201121705) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "streams", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin" do |t|
+  create_table "streams", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "title"
     t.string "slug"
     t.text "description"
@@ -396,7 +396,7 @@ ActiveRecord::Schema.define(version: 20180201121705) do
     t.index ["title"], name: "index_streams_on_title", type: :fulltext
   end
 
-  create_table "taggings", id: :integer, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin" do |t|
+  create_table "taggings", id: :integer, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer "tag_id"
     t.string "taggable_type"
     t.integer "taggable_id"
@@ -415,7 +415,7 @@ ActiveRecord::Schema.define(version: 20180201121705) do
     t.index ["tagger_id"], name: "index_taggings_on_tagger_id"
   end
 
-  create_table "template_cards", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin" do |t|
+  create_table "template_cards", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer "account_id"
     t.string "name"
     t.string "elevator_pitch"
@@ -432,7 +432,7 @@ ActiveRecord::Schema.define(version: 20180201121705) do
     t.integer "publish_count"
     t.boolean "is_public"
     t.text "git_url"
-    t.string "git_branch"
+    t.string "git_branch", default: "master"
     t.integer "created_by"
     t.integer "updated_by"
     t.integer "template_datum_id"
@@ -447,7 +447,7 @@ ActiveRecord::Schema.define(version: 20180201121705) do
     t.index ["slug"], name: "index_template_cards_on_slug", unique: true
   end
 
-  create_table "template_data", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin" do |t|
+  create_table "template_data", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "name"
     t.string "global_slug"
     t.string "slug"
@@ -461,7 +461,7 @@ ActiveRecord::Schema.define(version: 20180201121705) do
     t.index ["slug"], name: "index_template_data_on_slug", unique: true
   end
 
-  create_table "template_pages", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin" do |t|
+  create_table "template_pages", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "name"
     t.text "description"
     t.text "global_slug"
@@ -485,7 +485,7 @@ ActiveRecord::Schema.define(version: 20180201121705) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "uploads", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin" do |t|
+  create_table "uploads", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "attachment"
     t.bigint "template_card_id"
     t.datetime "created_at", null: false
@@ -496,7 +496,7 @@ ActiveRecord::Schema.define(version: 20180201121705) do
     t.integer "updated_by"
     t.text "upload_errors"
     t.text "filtering_errors"
-    t.string "upload_status"
+    t.string "upload_status", default: "waiting"
     t.integer "total_rows"
     t.integer "rows_uploaded"
     t.index ["account_id"], name: "index_uploads_on_account_id"
@@ -504,7 +504,7 @@ ActiveRecord::Schema.define(version: 20180201121705) do
     t.index ["template_card_id"], name: "index_uploads_on_template_card_id"
   end
 
-  create_table "user_emails", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin" do |t|
+  create_table "user_emails", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.bigint "user_id"
     t.string "email"
     t.string "confirmation_token"
@@ -516,11 +516,11 @@ ActiveRecord::Schema.define(version: 20180201121705) do
     t.index ["user_id"], name: "index_user_emails_on_user_id"
   end
 
-  create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin" do |t|
-    t.string "name"
-    t.string "email"
+  create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string "name", default: "", null: false
+    t.string "email", default: "", null: false
     t.string "access_token"
-    t.string "encrypted_password"
+    t.string "encrypted_password", default: "", null: false
     t.string "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
@@ -541,7 +541,7 @@ ActiveRecord::Schema.define(version: 20180201121705) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
-  create_table "view_casts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin" do |t|
+  create_table "view_casts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer "account_id"
     t.string "datacast_identifier"
     t.integer "template_card_id"
