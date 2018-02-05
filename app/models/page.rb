@@ -280,7 +280,7 @@ class Page < ApplicationRecord
     self.is_sponsored = false                         if self.is_sponsored.blank?
     self.status = 'draft'
     self.cover_image_alignment = "horizontal"         if self.cover_image_alignment.blank?
-    self.url = "#{self.site.cdn_endpoint}/#{self.datacast_identifier}/index.html" if self.url.blank?
+    self.url = "#{self.html_url}" if self.url.blank?
     true
   end
 
@@ -334,7 +334,7 @@ class Page < ApplicationRecord
 
   def create_datacast_json
     data = {"data" => {}}
-    data["data"]["url"] = self.url.to_s if self.url.present?
+    data["data"]["url"] = self.html_url.to_s if self.html_url.present?
     data["data"]["headline"] = self.headline.to_s if self.headline.present?
     data["data"]["byline"] = self.byline.to_s if self.byline.present?
     data["data"]["publishedat"] = self.published_at.strftime("%Y-%m-%dT%H:%M") if self.published_at.present?
