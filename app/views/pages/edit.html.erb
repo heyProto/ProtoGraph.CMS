@@ -13,8 +13,22 @@
                     <div class="col-sm-2">
                         <div class="form-inputs">
                             <p><b>Cover:</b></p>
-                            <%= f.input :cover_image_url, hint: "1260px width. 5:3 aspect ratio. Store the image in Image Bank.",required: @page.template_page.name != 'Homepage: Vertical' %>
-                            <%= f.input :cover_image_url_7_column, hint: "540px width. 5:3 aspect ratio. Store the image in Image Bank." %>
+                            <%#= f.input :cover_image_url, hint: "1260px width. 5:3 aspect ratio. Store the image in Image Bank.",required: @page.template_page.name != 'Homepage: Vertical' %>
+                            <% if @page.cover_image_id.blank? %>
+                                <!-- # Ensure that the cover_image updates -->
+                                <%= f.fields_for :cover_image do |cover_image| %>
+                                    <%= cover_image.input :image, label: false, placeholder: "Upload cover image", input_html: {style: "width: 100%; background: lightgray; min-height: 200px; cursor: pointer; padding: 100px 0px;", onchange: "readURL(this);"}%>
+                                    <%= cover_image.hidden_field :account_id, value: @account.id %>
+                                    <%= cover_image.hidden_field :is_cover, value: true %>
+                                    <%= cover_image.hidden_field :created_by, value: current_user.id %>
+                                    <%= cover_image.hidden_field :updated_by, value: current_user.id %>
+                                <% end %>
+                            <% else %>
+                                <%= image_tag(@page.cover_image_url,style: 'width: 100%', class: "img-fluid") %>
+                                <br/>
+                                <%= link_to "Remove", remove_cover_image_account_site_page_path(@account, @site, @page), method: :put%>
+                                <br/>
+                            <% end %>
                             <%= f.input :cover_image_alignment, collection: @cover_image_alignment, selected: "horizontal", required: true %>
                         </div>
                     </div>
@@ -187,7 +201,17 @@
 
 <%= javascript_include_tag "select2.js" %>
 <script type="text/javascript">
-    $(document).ready(function() {
-        $('.proto-tagged-input').tagsinput();
+    $(document).on("turoblinks:load",function() {
+      $('.proto-tagged-input').tagsinput();
     });
+    function readURL(input) {
+     if (input.files && input.files[0]) {
+        var reader = new FileReader();
+        reader.onload = function (e) {
+          $(input).css('background', 'transparent url('+e.target.result +') left top no-repeat');
+        }
+        reader.readAsDataURL(input.files[0]);
+      }
+    };
+</script>
 </script>

@@ -76,6 +76,7 @@ Rails.application.routes.draw do
       end
       resources :pages do
         get "manager", on: :collection
+        put "remove_cover_image", on: :member
       end
       resources :streams do
         post :publish, on: :member

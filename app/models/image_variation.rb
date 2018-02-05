@@ -29,7 +29,7 @@ class ImageVariation < ApplicationRecord
   belongs_to :image
   delegate :account, to: :image
   #ACCESSORS
-  attr_accessor :crop_x, :crop_y, :crop_w, :crop_h
+  attr_accessor :crop_x, :crop_y, :crop_w, :crop_h, :resize
   #VALIDATIONS
   #CALLBACKS
   after_create :process_and_upload_image, if: :is_original?
@@ -147,23 +147,45 @@ class ImageVariation < ApplicationRecord
         thumbnail_width: thumb_img_w,
         thumbnail_height: thumb_img_h
       })
+      if self.image.is_cover
+        resize_and_create_image_variation
+      end
     end
+  end
+
+  def resize_and_create_image_variation
+    image = ImageVariation.create({
+      image_id: self.image_id,
+      created_by: self.created_by,
+      updated_by: self.updated_by,
+      resize: true,
+      is_original: false
+    })
   end
 
   def process_and_upload_image_variation
     return true if (self.is_social_image or self.is_smart_cropped)
     require "base64"
 
-    temp_new_image = Image.new({crop_x: self.crop_x, crop_y: self.crop_y, crop_w: self.crop_w, crop_h: self.crop_h})
+    if self.resize == true
+      temp_new_image = Image.new
+      temp_new_image.remote_image_url = image.original_image.image_url
+      temp_new_image.image.resize_to_fit(540, 250)
 
-    temp_new_image.remote_image_url = image.original_image.image_url
-    temp_new_image.image.crop
+      thumb_img_h = 250
+      thumb_img_w = 540
+    else
+      temp_new_image = Image.new({crop_x: self.crop_x, crop_y: self.crop_y, crop_w: self.crop_w, crop_h: self.crop_h})
 
-    thumb_img_h = temp_new_image.image.thumb.height
-    thumb_img_w = temp_new_image.image.thumb.width
+      temp_new_image.remote_image_url = image.original_image.image_url
+      temp_new_image.image.crop
 
-    img_h = temp_new_image.image.height
-    img_w = temp_new_image.image.width
+      thumb_img_h = temp_new_image.image.thumb.height
+      thumb_img_w = temp_new_image.image.thumb.width
+
+      img_h = temp_new_image.image.height
+      img_w = temp_new_image.image.width
+    end
 
     img_path = "#{Rails.root.to_s}/public#{temp_new_image.image.url}"
 

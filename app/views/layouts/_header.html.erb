@@ -2,7 +2,7 @@
     <nav class="navbar navbar-expand-lg navbar bg-light">
         <div class="container proto-container" style="padding-left: 0px;">
             <a class="navbar-brand" href=<%= root_url %>>
-              <%=  image_tag("proto-logo.png", style: "margin-top: 0px;", class: "d-inline-block align-top") %>
+              <%=  image_tag("proto-logo.png", style: "margin-top: 0px; height: 30px" , class: "d-inline-block align-top") %>
             </a>
         </div>
     </nav>
@@ -11,7 +11,7 @@
       <nav class="navbar navbar-expand-lg navbar bg-light">
         <div class="bootstrap-container container" style="padding-left: 0px;">
           <a class="navbar-brand" href=<%= account_site_path(@account, @site) %>>
-            <%=  image_tag("proto-logo.png", style: "margin-top: 0px;", class: "d-inline-block align-top") %>
+            <%=  image_tag("proto-logo.png", style: "margin-top: 0px; height: 30px", class: "d-inline-block align-top") %>
           </a>
             <ul class="navbar-nav mr-auto" style="margin-left: 0px !important; margin-right: auto;">
               <%= render partial: "layouts/dropdown_teams" %>

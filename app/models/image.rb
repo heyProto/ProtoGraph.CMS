@@ -20,6 +20,7 @@
 #  updated_at       :datetime         not null
 #  is_logo          :boolean          default(FALSE)
 #  is_favicon       :boolean          default(FALSE)
+#  is_cover         :boolean
 #
 
 class Image < ApplicationRecord
@@ -118,7 +119,6 @@ class Image < ApplicationRecord
       image_id: self.id,
       is_original: true
     }
-
     ImageVariation.create(options)
   end
 end
