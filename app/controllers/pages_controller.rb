@@ -68,7 +68,11 @@ class PagesController < ApplicationController
   end
 
   def create
-    @page = Page.new(page_params)
+    p_params = page_params
+    if p_params.has_key?('cover_image_attributes') and !p_params['cover_image_attributes'].has_key?("image")
+      p_params.delete('cover_image_attributes')
+    end
+    @page = Page.new(p_params)
     @page.created_by = current_user.id
     @page.updated_by = current_user.id
     @page.collaborator_lists = ["#{current_user.id}"] if ["contributor", "writer"].include?(@permission_role.slug)
@@ -91,6 +95,9 @@ class PagesController < ApplicationController
     p_params = page_params
     if params[:commit] == 'Update' and page_params["publish"] != "1"
       p_params["status"] = 'unlisted'
+    end
+    if p_params.has_key?('cover_image_attributes') and !p_params['cover_image_attributes'].has_key?("image")
+      p_params.delete('cover_image_attributes')
     end
     respond_to do |format|
       if @page.update_attributes(p_params)
