@@ -225,7 +225,7 @@ class Page < ApplicationRecord
             "inverse_house_color": site.reverse_house_colour,
             "house_font_color": site.font_colour,
             "inverse_house_font_color": site.reverse_font_colour,
-          },
+          }.to_json,
           folder_id: self.folder_id
         })
       else
@@ -239,7 +239,7 @@ class Page < ApplicationRecord
             "inverse_house_color": site.reverse_house_colour,
             "house_font_color": site.font_colour,
             "inverse_house_font_color": site.reverse_font_colour,
-          },
+          }.to_json,
           created_by: self.created_by,
           updated_by: self.updated_by,
           seo_blockquote: "<blockquote><h4#>#{self.headline}</h4></blockquote>",
