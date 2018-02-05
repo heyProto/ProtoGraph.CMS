@@ -131,7 +131,7 @@ class Page < ApplicationRecord
   #OTHER
 
   def should_generate_new_friendly_id?
-    english_headline_changed?
+    self.slug.nil? || english_headline_changed?
   end
 
 

@@ -41,12 +41,13 @@ class RefCategory < ApplicationRecord
     #CALLBACKS
     after_create :after_create_set
     before_update :before_update_set
+    before_create :before_create_set
     after_destroy :update_site_verticals
     #SCOPE
     #OTHER
 
     def should_generate_new_friendly_id?
-        english_name_changed?
+        self.slug.nil? || english_name_changed?
     end
 
     def vertical_page
@@ -90,6 +91,10 @@ class RefCategory < ApplicationRecord
 
     #PRIVATE
     private
+
+    def before_create_set
+        self.english_name = self.name if self.site.is_english
+    end
 
     def before_update_set
         self.is_disabled = true if self.count > 0
