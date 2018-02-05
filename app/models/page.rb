@@ -203,9 +203,9 @@ class Page < ApplicationRecord
           Api::ProtoGraph::CloudFront.invalidate(self.site, ["/#{key}"], 1)
         end
         Api::ProtoGraph::CloudFront.invalidate(nil, ["/#{key}"], 1)
+        create_story_card
+        ActiveRecord::Base.connection.close
       end
-      create_story_card
-      ActiveRecord::Base.connection.close
       true
     end
   end
