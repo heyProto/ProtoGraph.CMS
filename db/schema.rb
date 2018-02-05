@@ -114,6 +114,7 @@ ActiveRecord::Schema.define(version: 20180205062819) do
     t.integer "site_id"
     t.boolean "is_open"
     t.integer "ref_category_vertical_id"
+    t.boolean "is_for_stories"
   end
 
   create_table "friendly_id_slugs", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
@@ -445,6 +446,7 @@ ActiveRecord::Schema.define(version: 20180205062819) do
     t.boolean "has_multiple_uploads", default: false
     t.boolean "has_grouping", default: false
     t.text "allowed_views", collation: "utf8_general_ci"
+    t.integer "sort_order"
     t.index ["slug"], name: "index_template_cards_on_slug", unique: true
   end
 

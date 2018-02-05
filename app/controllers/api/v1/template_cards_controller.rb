@@ -2,9 +2,13 @@ class Api::V1::TemplateCardsController < ApiController
 
     def index
         if @folder.vertical.present?
-          @template_cards = @account.template_cards.where(is_current_version: true).where(name: ['toQuiz', 'toTimeline', 'toCluster', 'toStory', 'ComposeCard', 'toMedia'])
+          if @folder.is_for_stories
+            @template_cards = @account.template_cards.where(is_current_version: true, name: ['toParagraph', 'toImage', 'toVideo: Youtube', 'toCluster', 'toQuiz', 'toTimeline', 'toStory']).order(:sort_order)
+          else
+            @template_cards = @account.template_cards.where(is_current_version: true).where.not(name: ['toParagraph', 'toImage', 'toVideo: Youtube', 'toCluster', 'toQuiz', 'toTimeline', 'toStory', 'toExplain', 'toArticle'])
+          end
         else
-          @template_cards = @account.template_cards.where(is_current_version: true).where.not(name: ['toArticle', 'toStory', 'toCluster', 'toExplain', 'ComposeCard', 'toMedia'])
+          @template_cards = @account.template_cards.where(is_current_version: true, name: ['toQuiz', 'toTimeline'])
         end
         render json: {template_cards: @template_cards.as_json(only: [:account_id, :id, :slug, :global_slug,:name, :template_datum_id, :git_repo_name], methods: [:account_slug, :icon_url])}
     end

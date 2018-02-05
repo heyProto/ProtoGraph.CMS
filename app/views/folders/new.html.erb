@@ -6,6 +6,7 @@
             <%= f.input :name, required: true %>
             <%= f.input :site_id, as: :hidden, input_html: {value: @site.id} %>
             <%= f.input :ref_category_vertical_id, collection: @verticals, label: "Vertical" %>
+            <%= f.input :is_for_stories, as: :boolean, label: "&nbsp; Use this folder to file stories?".html_safe, hint: "Implication: You wont be able to create data cards in this folder."%>
             <%= f.button :submit, "Save", class: "ui primary button" %>
         <% end %>
       </div>

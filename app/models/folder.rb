@@ -15,6 +15,7 @@
 #  site_id                  :integer
 #  is_open                  :boolean
 #  ref_category_vertical_id :integer
+#  is_for_stories           :boolean
 #
 
 class Folder < ApplicationRecord

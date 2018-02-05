@@ -31,6 +31,7 @@
 #  has_multiple_uploads :boolean          default(FALSE)
 #  has_grouping         :boolean          default(FALSE)
 #  allowed_views        :text(65535)
+#  sort_order           :integer
 #
 
 class TemplateCard < ApplicationRecord

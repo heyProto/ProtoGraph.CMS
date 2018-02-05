@@ -15,6 +15,7 @@ class FoldersController < ApplicationController
 
   def new
     @folder = @account.folders.new
+    @folder.is_for_stories = true
     @verticals = @site.ref_categories.where(genre: 'series').pluck(:name, :id)
   end
 
@@ -55,7 +56,8 @@ class FoldersController < ApplicationController
   private
 
     def folder_params
-      params.require(:folder).permit(:account_id, :name, :created_by, :updated_by, :site_id, :is_archived, :is_open, :ref_category_vertical_id, collaborator_lists: [])
+      params.require(:folder).permit(:account_id, :name, :created_by, :updated_by, :site_id, :is_archived, :is_open, 
+                                    :ref_category_vertical_id, :is_for_stories, collaborator_lists: [])
     end
 
 end

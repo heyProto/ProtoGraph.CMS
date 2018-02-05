@@ -72,6 +72,8 @@ t_media = TemplateDatum.create({name: "toMedia", version: "0.0.1", s3_identifier
 t_survey_scores = TemplateDatum.create({name: "toSurveyScores", version: "0.0.1", s3_identifier: "2efee30aeed147ff9f9e"})
 t_stink_cover = TemplateDatum.create({name: "toManualScavengerCoverVizCard", version: "0.0.1", s3_identifier: "66fa0ac4fcf3fa5b1401"})
 t_compose_card = TemplateDatum.create({name: "ComposeCard", version: "0.0.1", s3_identifier: "e1b404edee927dfe58d6"})
+t_image_card = TemplateDatum.create({name: "toImage", version: "0.0.1", s3_identifier: "65c8c3ec61ebcc5a3e68"})
+t_video_youtube = TemplateDatum.create({name: "VideoYoutube", version: "0.0.1", s3_identifier: "2d19074cd276c06030c3"})
 
 puts "----> Creating Template Cards"
 
@@ -99,6 +101,8 @@ TemplateCard.create({git_url: "git@bitbucket.org:pykih_/protograph.card.tomedia.
 TemplateCard.create({git_url: "git@bitbucket.org:pykih_/protograph.card.toSurveyScores.git", name: "toSurveyScores", git_branch: "master", git_repo_name: "ProtoGraph.Card.toSurveyScores", status: "published", is_public: false, account_id: pykih_account.id, created_by: user_id, updated_by: user_id, template_datum_id: t_survey_scores.id, elevator_pitch: "", description: "", s3_identifier: "25d44080867a4cd6b430",has_multiple_uploads: false, allowed_views: ["col7", "col4", "col3"]})
 TemplateCard.create({git_url: "git@bitbucket.org:pykih_/protograph.card.tomanualscavengercovervizcard.git", name: "toManualScavengerCoverVizCard", git_branch: "master", git_repo_name: "ProtoGraph.Card.toManualScavengerCoverVizCard", status: "published", is_public: false, account_id: pykih_account.id, created_by: user_id, updated_by: user_id, template_datum_id: t_stink_cover.id, elevator_pitch: "", description: "", s3_identifier: "3dcab1e230b429d5a921",has_multiple_uploads: false, allowed_views: ["col16", "col4"]})
 TemplateCard.create({git_url: "git@bitbucket.org:pykih_/protograph.card.composecard.git", name: "ComposeCard", git_branch: "master", git_repo_name: "ProtoGraph.Card.ComposeCard", status: "published", is_public: true, account_id: pykih_account.id, created_by: user_id, updated_by: user_id, template_datum_id: t_compose_card.id, elevator_pitch: "", description: "", s3_identifier: "8c7f4a1291ed39c16d26",has_multiple_uploads: false, allowed_views: ["col7", "col4"]})
+TemplateCard.create({git_url: "git@bitbucket.org:pykih_/protograph.card.toimage.git", name: "toImage", git_branch: "master", git_repo_name: "ProtoGraph.Card.toImage", status: "published", is_public: true, account_id: pykih_account.id, created_by: user_id, updated_by: user_id, template_datum_id: t_image_card.id, elevator_pitch: "", description: "", s3_identifier: "5c33be70482e129de6f0",has_multiple_uploads: false, allowed_views: ["col16", "col7", "col4", "col3", "col2"]})
+TemplateCard.create({git_url: "git@bitbucket.org:pykih_/protograph.card.videoyoutube.git", name: "VideoYoutube", git_branch: "master", git_repo_name: "ProtoGraph.Card.VideoYoutube", status: "published", is_public: true, account_id: pykih_account.id, created_by: user_id, updated_by: user_id, template_datum_id: t_video_youtube.id, elevator_pitch: "", description: "", s3_identifier: "c9e5bf64ab18cb01e491",has_multiple_uploads: false, allowed_views: ["col16", "col7", "col4", "col3", "col2"]})
 
 
 TemplatePage.create({
