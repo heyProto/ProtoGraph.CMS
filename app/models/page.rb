@@ -267,6 +267,35 @@ class Page < ApplicationRecord
     end
     true
   end
+
+  def create_datacast_json
+    data = {"data" => {}}
+    data["data"]["url"] = self.html_url.to_s if self.html_url.present?
+    data["data"]["headline"] = self.headline.to_s if self.headline.present?
+    data["data"]["byline"] = self.byline.to_s if self.byline.present?
+    data["data"]["publishedat"] = self.published_at.strftime("%Y-%m-%dT%H:%M") if self.published_at.present?
+    data["data"]["series"] = self.series.name.to_s if self.series.present? and self.series.name.present?
+    data["data"]["genre"] = self.intersection.name.to_s if self.intersection.present? and self.intersection.name.present?
+    data["data"]["subgenre"] = self.sub_intersection.name.to_s if self.sub_intersection.present? and self.sub_intersection.name.present?
+    data["data"]["iconbgcolor"] = "white"
+    data["data"]["hasimage"] = self.has_image_other_than_cover if self.has_image_other_than_cover.present?
+    data["data"]["hasvideo"] = self.has_video if self.has_video.present?
+    data["data"]["hasdata"] = self.has_data if self.has_data.present?
+    data["data"]["interactive"] = self.is_interactive if self.is_interactive.present?
+    data["data"]["imageurl"] = self.cover_image_url.to_s if self.cover_image_url.present?
+    data["data"]["col7imageurl"] = self.cover_image_url_7_column.to_s if self.cover_image_url_7_column.present?
+    data["data"]["focus"] = "h"
+    data["data"]["country"] = "India"
+    data["data"]["state"] = ""
+    data["data"]["city"] = ""
+    data["data"]["publishername"] = ""
+    data["data"]["sponsored"] = self.is_sponsored.to_s if self.is_sponsored.present?
+    data["data"]["domainurl"] = Addressable::URI.parse(self.url.to_s).origin if self.url.present?
+    data["data"]["faviconurl"] = site.favicon.present? ? site.favicon.thumbnail_url : "" if self.site.favicon.present?
+    data["data"]["publishername"] = Addressable::URI.parse(self.url.to_s).origin if self.url.present?
+    data["data"]["col7imageurl"] = self.cover_image_url_7_column.to_s if self.cover_image_url_7_column.present?
+    data
+  end
   #PRIVATE
   private
 
@@ -336,35 +365,6 @@ class Page < ApplicationRecord
       end
     end
     true
-  end
-
-  def create_datacast_json
-    data = {"data" => {}}
-    data["data"]["url"] = self.html_url.to_s if self.html_url.present?
-    data["data"]["headline"] = self.headline.to_s if self.headline.present?
-    data["data"]["byline"] = self.byline.to_s if self.byline.present?
-    data["data"]["publishedat"] = self.published_at.strftime("%Y-%m-%dT%H:%M") if self.published_at.present?
-    data["data"]["series"] = self.series.name.to_s if self.series.present? and self.series.name.present?
-    data["data"]["genre"] = self.intersection.name.to_s if self.intersection.present? and self.intersection.name.present?
-    data["data"]["subgenre"] = self.sub_intersection.name.to_s if self.sub_intersection.present? and self.sub_intersection.name.present?
-    data["data"]["iconbgcolor"] = "white"
-    data["data"]["hasimage"] = self.has_image_other_than_cover if self.has_image_other_than_cover.present?
-    data["data"]["hasvideo"] = self.has_video if self.has_video.present?
-    data["data"]["hasdata"] = self.has_data if self.has_data.present?
-    data["data"]["interactive"] = self.is_interactive if self.is_interactive.present?
-    data["data"]["imageurl"] = self.cover_image_url.to_s if self.cover_image_url.present?
-    data["data"]["col7imageurl"] = self.cover_image_url_7_column.to_s if self.cover_image_url_7_column.present?
-    data["data"]["focus"] = "h"
-    data["data"]["country"] = "India"
-    data["data"]["state"] = ""
-    data["data"]["city"] = ""
-    data["data"]["publishername"] = ""
-    data["data"]["sponsored"] = self.is_sponsored.to_s if self.is_sponsored.present?
-    data["data"]["domainurl"] = Addressable::URI.parse(self.url.to_s).origin if self.url.present?
-    data["data"]["faviconurl"] = site.favicon.present? ? site.favicon.thumbnail_url : "" if self.site.favicon.present?
-    data["data"]["publishername"] = Addressable::URI.parse(self.url.to_s).origin if self.url.present?
-    data["data"]["col7imageurl"] = self.cover_image_url_7_column.to_s if self.cover_image_url_7_column.present?
-    data
   end
 
   def after_save_set
