@@ -3,9 +3,9 @@ class Api::V1::TemplateCardsController < ApiController
     def index
         if @folder.vertical.present?
           if @folder.is_for_stories
-            @template_cards = @account.template_cards.where(is_current_version: true, name: ['toParagraph', 'toImage', 'toVideo: Youtube', 'toCluster', 'toQuiz', 'toTimeline', 'toStory']).order(:sort_order)
+            @template_cards = @account.template_cards.where(is_current_version: true, name: ['toParagraph', 'toImage', 'toVideo: Youtube', 'toCluster', 'toQuiz', 'toTimeline', 'toStory', 'toVideoJWPlayer']).order(:sort_order)
           else
-            @template_cards = @account.template_cards.where(is_current_version: true).where.not(name: ['toParagraph', 'toImage', 'toVideo: Youtube', 'toCluster', 'toQuiz', 'toTimeline', 'toStory', 'toExplain', 'toArticle'])
+            @template_cards = @account.template_cards.where(is_current_version: true).where.not(name: ['toParagraph', 'toImage', 'toVideo: Youtube', 'toCluster', 'toQuiz', 'toTimeline', 'toStory', 'toExplain', 'toArticle', 'toVideoJWPlayer'])
           end
         else
           @template_cards = @account.template_cards.where(is_current_version: true, name: ['toQuiz', 'toTimeline'])
