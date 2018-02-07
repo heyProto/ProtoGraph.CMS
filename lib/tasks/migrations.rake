@@ -71,4 +71,16 @@ namespace :migrations do
     end
   end
 
+  task :migrate_page_stream_names => :environment do
+    Stream.where('title like ?', "%_Story_Narrative").each do |s|
+      ps = s.page_streams.first
+      ps.update_column(:name_of_stream, "Narrative") if ps.present?
+    end
+
+    Stream.where('title like ?', "%_Story_Related").each do |s|
+      ps = s.page_streams.first
+      ps.update_column(:name_of_stream, "Related") if ps.present?
+    end
+  end
+
 end

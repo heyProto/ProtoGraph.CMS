@@ -47,6 +47,8 @@ class PagesController < ApplicationController
         @page_stream_narrative.view_cast_id_list = @page_stream_narrative.view_cast_ids.pluck(:entity_value).join(",")
         @page_stream_related = @page.streams.where(title: "#{@page.id.to_s}_Story_Related").first
         @page_stream_related.view_cast_id_list = @page_stream_related.view_cast_ids.pluck(:entity_value).join(",")
+        @page_stream_related7c = @page_stream_related.page_streams.first
+        @page_stream_narrative7c = @page_stream_narrative.page_streams.first
       elsif @page.template_page.name == "Homepage: Vertical"
         @page_stream_16 = @page.streams.where(title: "#{@page.id.to_s}_Section_16c_Hero").first
         @page_stream_16.view_cast_id_list = @page_stream_16.view_cast_ids.pluck(:entity_value).join(",")
@@ -125,6 +127,8 @@ class PagesController < ApplicationController
               @page_stream_narrative.view_cast_id_list = @page_stream_narrative.view_cast_ids.pluck(:entity_value).join(",")
               @page_stream_related = @page.streams.where(title: "#{@page.id.to_s}_Story_Related").first
               @page_stream_related.view_cast_id_list = @page_stream_related.view_cast_ids.pluck(:entity_value).join(",")
+              @page_stream_related7c = @page_stream_related.page_streams.first
+              @page_stream_narrative7c = @page_stream_narrative.page_streams.first
             elsif @page.template_page.name == "Homepage: Vertical"
               @page_stream_16 = @page.streams.where(title: "#{@page.id.to_s}_Section_16c_Hero").first
               @page_stream_16.view_cast_id_list = @page_stream_16.view_cast_ids.pluck(:entity_value).join(",")

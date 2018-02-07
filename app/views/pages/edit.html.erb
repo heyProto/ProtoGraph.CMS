@@ -81,7 +81,7 @@
       <% if @page.template_page.name == "article" %>
           <div class="row">
               <div class="col-sm-8">
-                  <h4>Narrative</h4>
+                  <h4><%= best_in_place @page_stream_narrative7c, :name_of_stream, url: [@account, @site, @page_stream_narrative7c] %></h4>
                   <%= simple_form_for(@page_stream_narrative, url: [@account, @site, @page_stream_narrative]) do |f| %>
                     <%= f.input :view_cast_id_list, input_html: { class: 'ui search fluid dropdown proto-tagged-input', multiple: true, "data-role" => "tagsinput" }, label: "Card IDs" %>
                     <%= f.submit "Save", class: 'btn btn-sm btn-primary' %>
@@ -91,7 +91,7 @@
                   <% end %>
               </div>
               <div class="col-sm-4">
-                  <h4>Related</h4>
+                  <h4><%= best_in_place @page_stream_related7c, :name_of_stream, url: [@account, @site, @page_stream_related7c] %></h4>
                   <%= simple_form_for(@page_stream_related, url: [@account, @site, @page_stream_related]) do |f| %>
                     <%= f.input :view_cast_id_list, input_html: { class: 'ui search fluid dropdown proto-tagged-input', multiple: true, "data-role" => "tagsinput" }, label: "Card IDs" %>
                     <%= f.submit "Save", class: 'btn btn-sm btn-primary' %>
