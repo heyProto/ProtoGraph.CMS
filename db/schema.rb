@@ -10,30 +10,30 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180205062819) do
+ActiveRecord::Schema.define(version: 20180208154754) do
 
-  create_table "accounts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin" do |t|
-    t.string "username"
-    t.string "slug"
-    t.string "status"
+  create_table "accounts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
+    t.string "username", limit: 191, collation: "utf8mb4_unicode_ci"
+    t.string "slug", limit: 191, collation: "utf8mb4_unicode_ci"
+    t.string "status", collation: "utf8mb4_unicode_ci"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "cdn_provider"
-    t.string "cdn_id"
-    t.text "host"
-    t.text "cdn_endpoint"
-    t.string "client_token"
-    t.string "access_token"
-    t.string "client_secret"
+    t.string "cdn_provider", collation: "utf8mb4_unicode_ci"
+    t.string "cdn_id", collation: "utf8mb4_unicode_ci"
+    t.text "host", collation: "utf8mb4_unicode_ci"
+    t.text "cdn_endpoint", collation: "utf8mb4_unicode_ci"
+    t.string "client_token", collation: "utf8mb4_unicode_ci"
+    t.string "access_token", collation: "utf8mb4_unicode_ci"
+    t.string "client_secret", collation: "utf8mb4_unicode_ci"
     t.index ["slug"], name: "index_accounts_on_slug", unique: true
     t.index ["username"], name: "index_accounts_on_username", unique: true
   end
 
-  create_table "activities", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin" do |t|
+  create_table "activities", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
     t.integer "user_id"
-    t.string "action"
+    t.string "action", collation: "utf8mb4_unicode_ci"
     t.integer "trackable_id"
-    t.string "trackable_type"
+    t.string "trackable_type", collation: "utf8mb4_unicode_ci"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "folder_id"
@@ -41,28 +41,28 @@ ActiveRecord::Schema.define(version: 20180205062819) do
     t.integer "site_id"
   end
 
-  create_table "audio_variations", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin" do |t|
+  create_table "audio_variations", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
     t.integer "audio_id"
     t.integer "start_time"
     t.integer "end_time"
     t.boolean "is_original"
     t.integer "total_time"
-    t.string "subtitle_file_path"
+    t.string "subtitle_file_path", collation: "utf8_general_ci"
     t.integer "created_by"
     t.integer "updated_by"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.text "audio_key"
+    t.text "audio_key", collation: "utf8_general_ci"
     t.index ["audio_id"], name: "index_audio_variations_on_audio_id"
     t.index ["id"], name: "index_audio_variations_on_id", unique: true
   end
 
-  create_table "audios", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin" do |t|
+  create_table "audios", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
     t.integer "account_id"
-    t.string "name"
-    t.string "audio"
-    t.text "description"
-    t.string "s3_identifier"
+    t.string "name", collation: "utf8_general_ci"
+    t.string "audio", collation: "utf8_general_ci"
+    t.text "description", collation: "utf8_general_ci"
+    t.string "s3_identifier", collation: "utf8_general_ci"
     t.integer "total_time"
     t.integer "created_by"
     t.integer "updated_by"
@@ -73,15 +73,15 @@ ActiveRecord::Schema.define(version: 20180205062819) do
     t.index ["s3_identifier"], name: "index_audios_on_s3_identifier", unique: true
   end
 
-  create_table "authentications", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin" do |t|
-    t.string "provider"
-    t.string "uid"
-    t.text "info"
-    t.string "name"
-    t.string "email"
-    t.string "access_token"
-    t.string "access_token_secret"
-    t.string "refresh_token"
+  create_table "authentications", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
+    t.string "provider", collation: "utf8_general_ci"
+    t.string "uid", collation: "utf8_general_ci"
+    t.text "info", collation: "utf8_general_ci"
+    t.string "name", collation: "utf8_general_ci"
+    t.string "email", collation: "utf8_general_ci"
+    t.string "access_token", collation: "utf8_general_ci"
+    t.string "access_token_secret", collation: "utf8_general_ci"
+    t.string "refresh_token", collation: "utf8_general_ci"
     t.datetime "token_expires_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -90,7 +90,7 @@ ActiveRecord::Schema.define(version: 20180205062819) do
     t.index ["user_id"], name: "index_authentications_on_user_id"
   end
 
-  create_table "colour_swatches", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin" do |t|
+  create_table "colour_swatches", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
     t.integer "red"
     t.integer "green"
     t.integer "blue"
@@ -98,13 +98,13 @@ ActiveRecord::Schema.define(version: 20180205062819) do
     t.boolean "is_dominant", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "name"
+    t.string "name", collation: "utf8_general_ci"
   end
 
-  create_table "folders", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin" do |t|
+  create_table "folders", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
     t.integer "account_id"
-    t.string "name"
-    t.string "slug"
+    t.string "name", collation: "utf8_general_ci"
+    t.string "slug", collation: "utf8_general_ci"
     t.integer "created_by"
     t.integer "updated_by"
     t.datetime "created_at", null: false
@@ -117,11 +117,11 @@ ActiveRecord::Schema.define(version: 20180205062819) do
     t.boolean "is_for_stories"
   end
 
-  create_table "friendly_id_slugs", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin" do |t|
-    t.string "slug"
+  create_table "friendly_id_slugs", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
+    t.string "slug", null: false, collation: "utf8_general_ci"
     t.integer "sluggable_id", null: false
-    t.string "sluggable_type", limit: 50
-    t.string "scope"
+    t.string "sluggable_type", limit: 50, collation: "utf8_general_ci"
+    t.string "scope", collation: "utf8_general_ci"
     t.datetime "created_at"
     t.index ["slug", "sluggable_type", "scope"], name: "index_friendly_id_slugs_on_slug_and_sluggable_type_and_scope", unique: true
     t.index ["slug", "sluggable_type"], name: "index_friendly_id_slugs_on_slug_and_sluggable_type"
@@ -129,13 +129,13 @@ ActiveRecord::Schema.define(version: 20180205062819) do
     t.index ["sluggable_type"], name: "index_friendly_id_slugs_on_sluggable_type"
   end
 
-  create_table "image_variations", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin" do |t|
+  create_table "image_variations", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
     t.integer "image_id"
-    t.text "image_key"
+    t.text "image_key", collation: "utf8_general_ci"
     t.integer "image_width"
     t.integer "image_height"
-    t.text "thumbnail_url"
-    t.text "thumbnail_key"
+    t.text "thumbnail_url", collation: "utf8_general_ci"
+    t.text "thumbnail_key", collation: "utf8_general_ci"
     t.integer "thumbnail_width"
     t.integer "thumbnail_height"
     t.boolean "is_original"
@@ -143,23 +143,23 @@ ActiveRecord::Schema.define(version: 20180205062819) do
     t.integer "updated_by"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "mode"
+    t.string "mode", collation: "utf8_general_ci"
     t.boolean "is_social_image"
     t.boolean "is_smart_cropped", default: false
   end
 
-  create_table "images", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin" do |t|
+  create_table "images", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
     t.integer "account_id"
-    t.string "name"
-    t.text "description"
-    t.string "s3_identifier"
-    t.text "thumbnail_url"
-    t.text "thumbnail_key"
+    t.string "name", collation: "utf8_general_ci"
+    t.text "description", collation: "utf8_general_ci"
+    t.string "s3_identifier", collation: "utf8_general_ci"
+    t.text "thumbnail_url", collation: "utf8_general_ci"
+    t.text "thumbnail_key", collation: "utf8_general_ci"
     t.integer "thumbnail_width"
     t.integer "thumbnail_height"
     t.integer "image_width"
     t.integer "image_height"
-    t.string "image"
+    t.string "image", collation: "utf8_general_ci"
     t.integer "created_by"
     t.integer "updated_by"
     t.datetime "created_at", null: false
@@ -169,29 +169,29 @@ ActiveRecord::Schema.define(version: 20180205062819) do
     t.boolean "is_cover"
   end
 
-  create_table "page_streams", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin" do |t|
+  create_table "page_streams", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
     t.integer "page_id"
     t.integer "stream_id"
     t.integer "created_by"
     t.integer "updated_by"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "name_of_stream"
+    t.string "name_of_stream", collation: "utf8_general_ci"
   end
 
-  create_table "pages", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin" do |t|
+  create_table "pages", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
     t.integer "account_id"
     t.integer "site_id"
     t.integer "folder_id"
-    t.string "headline"
-    t.string "meta_keywords"
-    t.text "meta_description"
-    t.text "summary"
-    t.string "byline"
-    t.string "byline_stream"
-    t.text "cover_image_url_facebook"
-    t.text "cover_image_url_square"
-    t.string "cover_image_alignment"
+    t.string "headline", collation: "utf8_general_ci"
+    t.string "meta_keywords", collation: "utf8_general_ci"
+    t.text "meta_description", collation: "utf8_general_ci"
+    t.text "summary", collation: "utf8_general_ci"
+    t.string "byline", collation: "utf8_general_ci"
+    t.string "byline_stream", collation: "utf8_general_ci"
+    t.text "cover_image_url_facebook", collation: "utf8_general_ci"
+    t.text "cover_image_url_square", collation: "utf8_general_ci"
+    t.string "cover_image_alignment", collation: "utf8_general_ci"
     t.boolean "is_sponsored"
     t.boolean "is_interactive"
     t.boolean "has_data"
@@ -199,42 +199,42 @@ ActiveRecord::Schema.define(version: 20180205062819) do
     t.boolean "has_audio"
     t.boolean "has_video"
     t.datetime "published_at"
-    t.text "url"
+    t.text "url", collation: "utf8_general_ci"
     t.integer "ref_category_series_id"
     t.integer "ref_category_intersection_id"
     t.integer "ref_category_sub_intersection_id"
     t.integer "view_cast_id"
-    t.text "page_object_url"
+    t.text "page_object_url", collation: "utf8_general_ci"
     t.integer "created_by"
     t.integer "updated_by"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "datacast_identifier"
+    t.string "datacast_identifier", collation: "utf8_general_ci"
     t.boolean "is_open"
     t.integer "template_page_id"
-    t.string "slug"
+    t.string "slug", collation: "utf8_general_ci"
     t.string "english_headline"
     t.string "status"
     t.integer "cover_image_id"
     t.integer "cover_image_id_7_column"
   end
 
-  create_table "permission_invites", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin" do |t|
+  create_table "permission_invites", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
     t.integer "permissible_id"
-    t.string "email"
-    t.string "ref_role_slug"
+    t.string "email", collation: "utf8_general_ci"
+    t.string "ref_role_slug", collation: "utf8_general_ci"
     t.integer "created_by"
     t.integer "updated_by"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "permissible_type"
+    t.string "permissible_type", collation: "utf8_general_ci"
   end
 
-  create_table "permission_roles", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin" do |t|
+  create_table "permission_roles", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
     t.integer "created_by"
     t.integer "updated_by"
-    t.string "name"
-    t.string "slug"
+    t.string "name", collation: "utf8_general_ci"
+    t.string "slug", collation: "utf8_general_ci"
     t.boolean "can_change_account_settings"
     t.boolean "can_add_image_bank"
     t.boolean "can_see_all_image_bank"
@@ -261,24 +261,24 @@ ActiveRecord::Schema.define(version: 20180205062819) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "permissions", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin" do |t|
+  create_table "permissions", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
     t.integer "user_id"
     t.integer "permissible_id"
-    t.string "ref_role_slug"
-    t.string "status"
+    t.string "ref_role_slug", collation: "utf8_general_ci"
+    t.string "status", collation: "utf8_general_ci"
     t.integer "created_by"
     t.integer "updated_by"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "is_hidden", default: false
-    t.string "permissible_type"
+    t.string "permissible_type", collation: "utf8_general_ci"
   end
 
-  create_table "ref_categories", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin" do |t|
+  create_table "ref_categories", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
     t.integer "site_id"
-    t.string "genre"
-    t.string "name"
-    t.text "stream_url"
+    t.string "genre", collation: "utf8_general_ci"
+    t.string "name", collation: "utf8_general_ci"
+    t.text "stream_url", collation: "utf8_general_ci"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "stream_id"
@@ -286,26 +286,26 @@ ActiveRecord::Schema.define(version: 20180205062819) do
     t.integer "created_by"
     t.integer "updated_by"
     t.integer "count", default: 0
-    t.string "name_html"
+    t.string "name_html", collation: "utf8_general_ci"
     t.string "slug"
     t.string "english_name"
   end
 
-  create_table "ref_link_sources", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin" do |t|
-    t.string "name"
-    t.text "url"
-    t.text "favicon_url"
+  create_table "ref_link_sources", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
+    t.string "name", collation: "utf8_general_ci"
+    t.text "url", collation: "utf8_general_ci"
+    t.text "favicon_url", collation: "utf8_general_ci"
     t.integer "created_by"
     t.integer "updated_by"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
-  create_table "site_vertical_navigations", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin" do |t|
+  create_table "site_vertical_navigations", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
     t.integer "site_id"
     t.integer "ref_category_vertical_id"
-    t.string "name"
-    t.text "url"
+    t.string "name", collation: "utf8_general_ci"
+    t.text "url", collation: "utf8_general_ci"
     t.boolean "launch_in_new_window"
     t.integer "created_by"
     t.integer "updated_by"
@@ -314,51 +314,51 @@ ActiveRecord::Schema.define(version: 20180205062819) do
     t.integer "sort_order"
   end
 
-  create_table "sites", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin" do |t|
+  create_table "sites", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
     t.integer "account_id"
-    t.string "name"
-    t.string "domain"
+    t.string "name", collation: "utf8_general_ci"
+    t.string "domain", collation: "utf8_general_ci"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.text "description"
-    t.string "primary_language"
-    t.text "default_seo_keywords"
-    t.string "house_colour"
-    t.string "reverse_house_colour"
-    t.string "font_colour"
-    t.string "reverse_font_colour"
-    t.text "stream_url"
+    t.text "description", collation: "utf8_general_ci"
+    t.string "primary_language", collation: "utf8_general_ci"
+    t.text "default_seo_keywords", collation: "utf8_general_ci"
+    t.string "house_colour", collation: "utf8_general_ci"
+    t.string "reverse_house_colour", collation: "utf8_general_ci"
+    t.string "font_colour", collation: "utf8_general_ci"
+    t.string "reverse_font_colour", collation: "utf8_general_ci"
+    t.text "stream_url", collation: "utf8_general_ci"
     t.integer "stream_id"
-    t.string "cdn_provider"
-    t.string "cdn_id"
-    t.text "host"
-    t.text "cdn_endpoint"
-    t.string "client_token"
-    t.string "access_token"
-    t.string "client_secret"
+    t.string "cdn_provider", collation: "utf8_general_ci"
+    t.string "cdn_id", collation: "utf8_general_ci"
+    t.text "host", collation: "utf8_general_ci"
+    t.text "cdn_endpoint", collation: "utf8_general_ci"
+    t.string "client_token", collation: "utf8_general_ci"
+    t.string "access_token", collation: "utf8_general_ci"
+    t.string "client_secret", collation: "utf8_general_ci"
     t.integer "favicon_id"
     t.integer "logo_image_id"
-    t.text "facebook_url"
-    t.text "twitter_url"
-    t.text "instagram_url"
-    t.text "youtube_url"
-    t.string "g_a_tracking_id"
-    t.string "sign_up_mode"
-    t.string "default_role"
-    t.string "story_card_style"
-    t.string "email_domain"
-    t.string "header_background_color"
-    t.text "header_url"
-    t.string "header_positioning"
+    t.text "facebook_url", collation: "utf8_general_ci"
+    t.text "twitter_url", collation: "utf8_general_ci"
+    t.text "instagram_url", collation: "utf8_general_ci"
+    t.text "youtube_url", collation: "utf8_general_ci"
+    t.string "g_a_tracking_id", collation: "utf8_general_ci"
+    t.string "sign_up_mode", collation: "utf8_general_ci"
+    t.string "default_role", collation: "utf8_general_ci"
+    t.string "story_card_style", collation: "utf8_general_ci"
+    t.string "email_domain", collation: "utf8_general_ci"
+    t.string "header_background_color", collation: "utf8_general_ci"
+    t.text "header_url", collation: "utf8_general_ci"
+    t.string "header_positioning", collation: "utf8_general_ci"
     t.string "slug"
     t.boolean "is_english", default: true
     t.string "english_name"
   end
 
-  create_table "stream_entities", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin" do |t|
+  create_table "stream_entities", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
     t.integer "stream_id"
-    t.string "entity_type"
-    t.string "entity_value"
+    t.string "entity_type", collation: "utf8_general_ci"
+    t.string "entity_value", collation: "utf8_general_ci"
     t.boolean "is_excluded"
     t.integer "created_by"
     t.integer "updated_by"
@@ -366,45 +366,45 @@ ActiveRecord::Schema.define(version: 20180205062819) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "streams", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin" do |t|
-    t.string "title"
-    t.string "slug"
-    t.text "description"
+  create_table "streams", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
+    t.string "title", collation: "utf8_general_ci"
+    t.string "slug", collation: "utf8_general_ci"
+    t.text "description", collation: "utf8_general_ci"
     t.integer "folder_id"
     t.integer "account_id"
-    t.string "datacast_identifier"
+    t.string "datacast_identifier", collation: "utf8_general_ci"
     t.integer "created_by"
     t.integer "updated_by"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "card_count"
     t.datetime "last_published_at"
-    t.string "order_by_key"
-    t.string "order_by_value"
+    t.string "order_by_key", collation: "utf8_general_ci"
+    t.string "order_by_value", collation: "utf8_general_ci"
     t.integer "limit"
     t.integer "offset"
     t.boolean "is_grouped_data_stream", default: false
-    t.string "data_group_key"
-    t.text "filter_query"
-    t.string "data_group_value"
+    t.string "data_group_key", collation: "utf8_general_ci"
+    t.text "filter_query", collation: "utf8_general_ci"
+    t.string "data_group_value", collation: "utf8_general_ci"
     t.integer "site_id"
     t.boolean "include_data", default: false
     t.boolean "is_automated_stream", default: false
-    t.string "col_name"
+    t.string "col_name", collation: "utf8_general_ci"
     t.integer "col_id"
-    t.string "order_by_type"
+    t.string "order_by_type", collation: "utf8_general_ci"
     t.boolean "is_open"
     t.index ["description"], name: "index_streams_on_description", type: :fulltext
     t.index ["title"], name: "index_streams_on_title", type: :fulltext
   end
 
-  create_table "taggings", id: :integer, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin" do |t|
+  create_table "taggings", id: :integer, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
     t.integer "tag_id"
-    t.string "taggable_type"
+    t.string "taggable_type", collation: "utf8_general_ci"
     t.integer "taggable_id"
-    t.string "tagger_type"
+    t.string "tagger_type", collation: "utf8_general_ci"
     t.integer "tagger_id"
-    t.string "context", limit: 128
+    t.string "context", limit: 128, collation: "utf8_general_ci"
     t.datetime "created_at"
     t.index ["context"], name: "index_taggings_on_context"
     t.index ["tag_id", "taggable_id", "taggable_type", "context", "tagger_id", "tagger_type"], name: "taggings_idx", unique: true
@@ -417,79 +417,79 @@ ActiveRecord::Schema.define(version: 20180205062819) do
     t.index ["tagger_id"], name: "index_taggings_on_tagger_id"
   end
 
-  create_table "template_cards", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin" do |t|
+  create_table "template_cards", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
     t.integer "account_id"
-    t.string "name"
-    t.string "elevator_pitch"
-    t.text "description"
-    t.string "global_slug"
+    t.string "name", collation: "utf8_general_ci"
+    t.string "elevator_pitch", collation: "utf8_general_ci"
+    t.text "description", collation: "utf8_general_ci"
+    t.string "global_slug", collation: "utf8_general_ci"
     t.boolean "is_current_version"
-    t.string "slug"
-    t.string "version_series"
+    t.string "slug", collation: "utf8_general_ci"
+    t.string "version_series", collation: "utf8_general_ci"
     t.integer "previous_version_id"
-    t.string "version_genre"
-    t.string "version"
-    t.text "change_log"
-    t.string "status"
+    t.string "version_genre", collation: "utf8_general_ci"
+    t.string "version", collation: "utf8_general_ci"
+    t.text "change_log", collation: "utf8_general_ci"
+    t.string "status", collation: "utf8_general_ci"
     t.integer "publish_count"
     t.boolean "is_public"
-    t.text "git_url"
-    t.string "git_branch"
+    t.text "git_url", collation: "utf8_general_ci"
+    t.string "git_branch", default: "master", collation: "utf8_general_ci"
     t.integer "created_by"
     t.integer "updated_by"
     t.integer "template_datum_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "has_static_image", default: false
-    t.string "git_repo_name"
-    t.string "s3_identifier"
+    t.string "git_repo_name", collation: "utf8_general_ci"
+    t.string "s3_identifier", collation: "utf8_general_ci"
     t.boolean "has_multiple_uploads", default: false
     t.boolean "has_grouping", default: false
-    t.text "allowed_views"
+    t.text "allowed_views", collation: "utf8_general_ci"
     t.integer "sort_order"
     t.index ["slug"], name: "index_template_cards_on_slug", unique: true
   end
 
-  create_table "template_data", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin" do |t|
-    t.string "name"
-    t.string "global_slug"
-    t.string "slug"
-    t.string "version"
-    t.text "change_log"
+  create_table "template_data", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
+    t.string "name", collation: "utf8_general_ci"
+    t.string "global_slug", collation: "utf8_general_ci"
+    t.string "slug", collation: "utf8_general_ci"
+    t.string "version", collation: "utf8_general_ci"
+    t.text "change_log", collation: "utf8_general_ci"
     t.integer "publish_count"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "s3_identifier"
-    t.string "status"
+    t.string "s3_identifier", collation: "utf8_general_ci"
+    t.string "status", collation: "utf8_general_ci"
     t.index ["slug"], name: "index_template_data_on_slug", unique: true
   end
 
-  create_table "template_pages", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin" do |t|
-    t.string "name"
-    t.text "description"
-    t.text "global_slug"
+  create_table "template_pages", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
+    t.string "name", collation: "utf8_general_ci"
+    t.text "description", collation: "utf8_general_ci"
+    t.text "global_slug", collation: "utf8_general_ci"
     t.boolean "is_current_version"
-    t.string "slug"
-    t.string "version_series"
+    t.string "slug", collation: "utf8_general_ci"
+    t.string "version_series", collation: "utf8_general_ci"
     t.integer "previous_version_id"
-    t.string "version_genre"
-    t.string "version"
-    t.text "change_log"
-    t.string "status"
+    t.string "version_genre", collation: "utf8_general_ci"
+    t.string "version", collation: "utf8_general_ci"
+    t.text "change_log", collation: "utf8_general_ci"
+    t.string "status", collation: "utf8_general_ci"
     t.integer "publish_count"
     t.boolean "is_public"
-    t.string "git_url"
-    t.string "git_branch"
-    t.string "git_repo_name"
-    t.string "s3_identifier"
+    t.string "git_url", collation: "utf8_general_ci"
+    t.string "git_branch", collation: "utf8_general_ci"
+    t.string "git_repo_name", collation: "utf8_general_ci"
+    t.string "s3_identifier", collation: "utf8_general_ci"
     t.integer "created_by"
     t.integer "updated_by"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
-  create_table "uploads", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin" do |t|
-    t.string "attachment"
+  create_table "uploads", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
+    t.string "attachment", collation: "utf8_general_ci"
     t.bigint "template_card_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -497,9 +497,9 @@ ActiveRecord::Schema.define(version: 20180205062819) do
     t.bigint "folder_id"
     t.integer "created_by"
     t.integer "updated_by"
-    t.text "upload_errors"
-    t.text "filtering_errors"
-    t.string "upload_status"
+    t.text "upload_errors", collation: "utf8_general_ci"
+    t.text "filtering_errors", collation: "utf8_general_ci"
+    t.string "upload_status", default: "waiting", collation: "utf8_general_ci"
     t.integer "total_rows"
     t.integer "rows_uploaded"
     t.index ["account_id"], name: "index_uploads_on_account_id"
@@ -507,10 +507,10 @@ ActiveRecord::Schema.define(version: 20180205062819) do
     t.index ["template_card_id"], name: "index_uploads_on_template_card_id"
   end
 
-  create_table "user_emails", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin" do |t|
+  create_table "user_emails", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
     t.bigint "user_id"
-    t.string "email"
-    t.string "confirmation_token"
+    t.string "email", collation: "utf8_general_ci"
+    t.string "confirmation_token", collation: "utf8_general_ci"
     t.datetime "confirmation_sent_at"
     t.datetime "confirmed_at"
     t.datetime "created_at", null: false
@@ -519,23 +519,23 @@ ActiveRecord::Schema.define(version: 20180205062819) do
     t.index ["user_id"], name: "index_user_emails_on_user_id"
   end
 
-  create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin" do |t|
-    t.string "name"
-    t.string "email"
-    t.string "access_token"
-    t.string "encrypted_password"
-    t.string "reset_password_token"
+  create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
+    t.string "name", default: "", null: false, collation: "utf8_general_ci"
+    t.string "email", default: "", null: false, collation: "utf8_general_ci"
+    t.string "access_token", collation: "utf8_general_ci"
+    t.string "encrypted_password", default: "", null: false, collation: "utf8_general_ci"
+    t.string "reset_password_token", collation: "utf8_general_ci"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
     t.integer "sign_in_count", default: 0, null: false
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
-    t.string "current_sign_in_ip"
-    t.string "last_sign_in_ip"
-    t.string "confirmation_token"
+    t.string "current_sign_in_ip", collation: "utf8_general_ci"
+    t.string "last_sign_in_ip", collation: "utf8_general_ci"
+    t.string "confirmation_token", collation: "utf8_general_ci"
     t.datetime "confirmed_at"
     t.datetime "confirmation_sent_at"
-    t.string "unconfirmed_email"
+    t.string "unconfirmed_email", collation: "utf8_general_ci"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "can_publish_link_sources", default: false
@@ -544,30 +544,31 @@ ActiveRecord::Schema.define(version: 20180205062819) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
-  create_table "view_casts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin" do |t|
+  create_table "view_casts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
     t.integer "account_id"
-    t.string "datacast_identifier"
+    t.string "datacast_identifier", collation: "utf8_general_ci"
     t.integer "template_card_id"
     t.integer "template_datum_id"
-    t.string "name"
-    t.text "optionalConfigJSON"
-    t.string "slug"
+    t.string "name", collation: "utf8_general_ci"
+    t.text "optionalConfigJSON", collation: "utf8_general_ci"
+    t.string "slug", collation: "utf8_general_ci"
     t.integer "created_by"
     t.integer "updated_by"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.text "seo_blockquote"
-    t.text "status"
+    t.text "seo_blockquote", collation: "utf8_general_ci"
+    t.text "status", collation: "utf8_general_ci"
     t.integer "folder_id"
     t.boolean "is_invalidating"
-    t.string "default_view"
-    t.string "genre"
-    t.string "sub_genre"
-    t.string "series"
-    t.string "by_line"
+    t.string "default_view", collation: "utf8_general_ci"
+    t.string "genre", collation: "utf8_general_ci"
+    t.string "sub_genre", collation: "utf8_general_ci"
+    t.string "series", collation: "utf8_general_ci"
+    t.string "by_line", collation: "utf8_general_ci"
     t.integer "site_id"
     t.boolean "is_open"
     t.boolean "is_autogenerated", default: false
+    t.boolean "is_disabled_for_edit", default: false
     t.index ["slug"], name: "index_view_casts_on_slug", unique: true
   end
 

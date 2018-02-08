@@ -30,7 +30,6 @@
 
 class ViewCast < ApplicationRecord
     #CONSTANTS
-    Datacast_ENDPOINT = "#{ENV['AWS_S3_ENDPOINT']}"
     #CUSTOM TABLES
 
     #GEMS
@@ -74,11 +73,11 @@ class ViewCast < ApplicationRecord
     end
 
     def data_url
-        "#{Datacast_ENDPOINT}/#{self.datacast_identifier}/data.json"
+        "#{self.site.cdn_endpoint}/#{self.datacast_identifier}/data.json"
     end
 
     def cdn_url
-        "#{Datacast_ENDPOINT}/#{self.datacast_identifier}/view_cast.json"
+        "#{self.site.cdn_endpoint}/#{self.datacast_identifier}/view_cast.json"
     end
 
     def should_generate_new_friendly_id?
@@ -99,7 +98,7 @@ class ViewCast < ApplicationRecord
             key = "#{self.datacast_identifier}/view_cast.json"
             encoded_file = Base64.encode64(self.optionalConfigJSON)
             content_type = "application/json"
-            resp = Api::ProtoGraph::Utility.upload_to_cdn(encoded_file, key, content_type)
+            resp = Api::ProtoGraph::Utility.upload_to_cdn(encoded_file, key, content_type, self.site.cdn_bucket)
         end
         self.seo_blockquote = self.seo_blockquote.to_s.gsub('\\', '\\\\')
         # self.seo_blockquote = self.seo_blockquote.to_s.split('`').join('\`') #.gsub('`', '\`')
@@ -130,6 +129,7 @@ class ViewCast < ApplicationRecord
     def before_destroy_set
         payload = {}
         payload['folder_name'] = self.datacast_identifier
+        payload["bucket_name"] = site.cdn_bucket
         begin
             Api::ProtoGraph::Datacast.delete(payload)
         rescue => e

@@ -45,7 +45,6 @@ class TemplatePage < ApplicationRecord
 
     #CALLBACKS
     before_create :before_create_set
-    before_destroy :before_destroy_set
 
     #SCOPE
     #OTHER
@@ -66,16 +65,5 @@ class TemplatePage < ApplicationRecord
         self.s3_identifier = SecureRandom.hex(6) if self.s3_identifier.blank?
         true
     end
-
-    def before_destroy_set
-        # payload = {}
-        # payload['folder_name'] = self.s3_identifier
-        # begin
-        #     Api::ProtoGraph::Datacast.delete(payload)
-        # rescue => e
-        # end
-        # self.pages.destroy_all
-    end
-
 
 end

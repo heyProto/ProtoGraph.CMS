@@ -68,7 +68,8 @@ class ImageVariation < ApplicationRecord
       imageVariationId: id,
       s3Identifier: image.s3_identifier,
       accountSlug: account.slug,
-      originalImageLink: image.original_image.image_url
+      originalImageLink: image.original_image.image_url,
+      bucket_name: account.cdn_bucket
     }
 
     url = "#{AWS_API_DATACAST_URL}/images/smartcrop"
@@ -115,7 +116,8 @@ class ImageVariation < ApplicationRecord
       accountSlug: account.slug,
       contentType: image.image.content_type,
       imageBlob: Base64.encode64(File.open(img_path, "rb").read()),
-      thumbnailBlob: Base64.encode64(File.open(thumb_img_path, "rb").read())
+      thumbnailBlob: Base64.encode64(File.open(thumb_img_path, "rb").read()),
+      bucket_name: account.cdn_bucket
     }
 
     url = "#{AWS_API_DATACAST_URL}/images"
@@ -194,7 +196,8 @@ class ImageVariation < ApplicationRecord
       s3Identifier: image.s3_identifier,
       accountSlug: account.slug,
       contentType: image.image.content_type,
-      imageBlob: Base64.encode64(File.open(img_path, "rb").read())
+      imageBlob: Base64.encode64(File.open(img_path, "rb").read()),
+      bucket_name: account.cdn_bucket
     }
 
     url = "#{AWS_API_DATACAST_URL}/images"

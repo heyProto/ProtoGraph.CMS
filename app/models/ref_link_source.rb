@@ -37,8 +37,8 @@ class RefLinkSource < ApplicationRecord
 
   def self.publish
     ref_link_sources = RefLinkSource.all.as_json
-    response = Api::ProtoGraph::Utility.upload_to_cdn(Base64.encode64(ref_link_sources.to_json), "Assets/ref_link_sources.json", "application/json")
-    invalidate = Api::ProtoGraph::CloudFront.invalidate(items=["/Assets/ref_link_sources.json"], quantity=1)
+    response = Api::ProtoGraph::Utility.upload_to_cdn(Base64.encode64(ref_link_sources.to_json), "Assets/ref_link_sources.json", "application/json",ENV['AWS_S3_BUCKET'])
+    invalidate = Api::ProtoGraph::CloudFront.invalidate(site=nil, items=["/Assets/ref_link_sources.json"], quantity=1)
     if response[0]["s3_endpoint"].present? and invalidate["success"]
       return true
     else

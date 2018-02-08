@@ -30,7 +30,7 @@ class Pages::SectionPageWorker
     key = "#{page.datacast_identifier}/section.html"
     encoded_file = Base64.encode64(output)
     content_type = "text/html"
-    resp = Api::ProtoGraph::Utility.upload_to_cdn(encoded_file, key, content_type)
+    resp = Api::ProtoGraph::Utility.upload_to_cdn(encoded_file, key, content_type, page.site.cdn_bucket)
   end
 
 end

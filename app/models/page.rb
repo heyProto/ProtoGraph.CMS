@@ -48,6 +48,7 @@ class Page < ApplicationRecord
   STATUS = [["Draft", 'draft'],['Unlisted', 'unlisted'],["Published", 'published']]
   #CUSTOM TABLES
   #GEMS
+  before_validation :before_validation_set
   extend FriendlyId
   friendly_id :english_headline, use: :slugged
 
@@ -88,11 +89,15 @@ class Page < ApplicationRecord
 
   # Slug
 
+  def before_validation_set
+    self.english_headline = self.headline if self.site.is_english
+  end
+
   def html_key
     if template_page.name == 'Homepage: Vertical'
-      "#{self.site.slug}/#{self.series.slug}"
+      "#{self.series.slug}"
     else
-      "#{self.site.slug}/stories/#{self.slug}-#{self.id}"
+      "stories/#{self.slug}-#{self.id}"
     end
     # Change during Multi Domain functionality
   end
@@ -192,17 +197,13 @@ class Page < ApplicationRecord
         key = "#{self.datacast_identifier}/page.json"
         encoded_file = Base64.encode64(json.to_json)
         content_type = "application/json"
-        resp = Api::ProtoGraph::Utility.upload_to_cdn(encoded_file, key, content_type)
+        resp = Api::ProtoGraph::Utility.upload_to_cdn(encoded_file, key, content_type, self.site.cdn_bucket)
         self.update_column(:page_object_url, "#{self.site.cdn_endpoint}/#{key}")
         # if !Rails.env.development?
           # PagesWorker.perform_async(self.id)
-          response = Api::ProtoGraph::Page.create_or_update_page(self.datacast_identifier, self.template_page.s3_identifier)
-          Api::ProtoGraph::CloudFront.invalidate(nil, ["/#{self.html_key}.html"], 1)
+        response = Api::ProtoGraph::Page.create_or_update_page(self.datacast_identifier, self.template_page.s3_identifier, self.site.cdn_bucket, self.site.cdn_endpoint)
         # end
-        if self.site.cdn_id != ENV['AWS_CDN_ID']
-          Api::ProtoGraph::CloudFront.invalidate(self.site, ["/#{key}"], 1)
-        end
-        Api::ProtoGraph::CloudFront.invalidate(nil, ["/#{key}"], 1)
+        Api::ProtoGraph::CloudFront.invalidate(self.site, ["/#{key}", "/#{self.html_key}.html"], 2)
         create_story_card
         ActiveRecord::Base.connection.close
       end
@@ -254,16 +255,14 @@ class Page < ApplicationRecord
       payload["api_slug"] = view_cast.datacast_identifier
       payload["schema_url"] = view_cast.template_datum.schema_json
       payload["source"] = "form"
+      payload["bucket_name"] = site.cdn_bucket
       if self.view_cast_id.present?
         r = Api::ProtoGraph::Datacast.update(payload)
       else
         r = Api::ProtoGraph::Datacast.create(payload)
         self.update_column(:view_cast_id, view_cast.id)
       end
-      if self.account.cdn_id != ENV['AWS_CDN_ID']
-        Api::ProtoGraph::CloudFront.invalidate(@account, ["/#{view_cast.datacast_identifier}/data.json","/#{view_cast.datacast_identifier}/view_cast.json"], 2)
-      end
-      a = Api::ProtoGraph::CloudFront.invalidate(nil, ["/#{view_cast.datacast_identifier}/*"], 1)
+      Api::ProtoGraph::CloudFront.invalidate(self.site, ["/#{view_cast.datacast_identifier}/*"], 1)
     end
     true
   end
@@ -324,7 +323,6 @@ class Page < ApplicationRecord
       self.is_interactive = true
     end
     self.status = 'published' if self.publish == '1'
-    self.english_headline = self.headline if self.site.is_english
     if self.cover_image_id.blank?
       self.cover_image_id_7_column = nil
     end

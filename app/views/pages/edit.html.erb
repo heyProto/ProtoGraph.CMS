@@ -191,7 +191,7 @@
           var interval = setInterval(function () {
               if (window.ProtoEmbed) {
                   clearInterval(interval);
-                  var proto_embed_test = new ProtoEmbed.initFrame(document.getElementById('protoCard'), "<%= "#{@view_cast.template_card.index_html }?view_cast_id=#{ @view_cast.datacast_identifier }%26schema_id=#{ @view_cast.template_datum.s3_identifier }" %>", "col4");
+                  var proto_embed_test = new ProtoEmbed.initFrame(document.getElementById('protoCard'), "<%= "#{@view_cast.template_card.index_html }?view_cast_id=#{ @view_cast.datacast_identifier }%26schema_id=#{ @view_cast.template_datum.s3_identifier }%26base_url=#{@site.cdn_endpoint}" %>", "col4");
               }
           },200)
       </script>

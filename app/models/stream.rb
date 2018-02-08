@@ -1,4 +1,4 @@
-# == Schema Information
+# == Schema rnformation
 #
 # Table name: streams
 #
@@ -190,7 +190,7 @@ class Stream < ApplicationRecord
                     data = res['data']
                     d.merge!(data)
                 end
-                d['iframe_url']= "#{view_cast.template_card.index_html(self.account)}?view_cast_id=#{view_cast.datacast_identifier}%26schema_id=#{view_cast.template_datum.s3_identifier}"
+                d['iframe_url']= "#{view_cast.template_card.index_html}?view_cast_id=#{view_cast.datacast_identifier}%26schema_id=#{view_cast.template_datum.s3_identifier}%26base_url=#{site.cdn_endpoint}"
                 d['default_view'] = "#{view_cast.default_view}"
                 cards_json << d
             end
@@ -211,12 +211,8 @@ class Stream < ApplicationRecord
         #Uploading the data
         encoded_file = Base64.encode64(cards_json.to_json)
         content_type = "application/json"
-        resp = Api::ProtoGraph::Utility.upload_to_cdn(encoded_file, self.cdn_key, content_type)
-        if self.account.cdn_id != ENV['AWS_CDN_ID']
-            Api::ProtoGraph::CloudFront.invalidate(self.site, ["/#{self.datacast_identifier}/index.json"], 1)
-        end
-        Api::ProtoGraph::CloudFront.invalidate(nil, ["/#{self.datacast_identifier}/index.json"], 1)
-
+        resp = Api::ProtoGraph::Utility.upload_to_cdn(encoded_file, self.cdn_key, content_type, self.site.cdn_bucket)
+        Api::ProtoGraph::CloudFront.invalidate(self.site, ["/#{self.datacast_identifier}/index.json"], 1)
         self.update_column(:last_published_at, Time.now)
     end
 
@@ -303,8 +299,8 @@ class Stream < ApplicationRecord
 
     def before_destroy_set
         begin
-            Api::ProtoGraph::Utility.remove_from_cdn("#{self.cdn_key}")
-            Api::ProtoGraph::CloudFront.invalidate(nil, ["/#{self.cdn_key}"], 1)
+            Api::ProtoGraph::Utility.remove_from_cdn("#{self.cdn_key}", self.site.cdn_bucket)
+            Api::ProtoGraph::CloudFront.invalidate(self.site, ["/#{self.cdn_key}"], 1)
         rescue => e
         end
     end

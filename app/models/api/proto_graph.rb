@@ -23,30 +23,18 @@ class Api::ProtoGraph
         end
     end
 
-    class ViewCast
-        class << self
-
-            def render_screenshot(request_payload)
-                url = "#{AWS_API_DATACAST_URL}/view-cast/render-screenshot"
-                response = RestClient.post(url , request_payload.to_json,{content_type: :json, accept: :json, "x-api-key" => ENV['AWS_API_KEY']})
-                return JSON.parse(response.body)
-            end
-        end
-    end
-
-
     class Utility
 
         class << self
-            def upload_to_cdn(binary_file, key, content_type)
+            def upload_to_cdn(binary_file, key, content_type, bucket_name)
                 url = "#{AWS_API_DATACAST_URL}/utility/upload-to-cdn"
-                response = RestClient.post(url , {binary_file: binary_file, key: key, content_type: content_type}.to_json,{content_type: :json, accept: :json, "x-api-key": ENV['AWS_API_KEY']})
+                response = RestClient.post(url , {binary_file: binary_file, key: key, content_type: content_type, bucket_name: bucket_name}.to_json,{content_type: :json, accept: :json, "x-api-key": ENV['AWS_API_KEY']})
                 return JSON.parse(response.body)
             end
 
-            def remove_from_cdn(file_url)
+            def remove_from_cdn(file_url, bucket_name)
                 url = "#{AWS_API_DATACAST_URL}/utility/delete-from-cdn"
-                params = {"file_url": file_url}.to_json
+                params = {"file_url": file_url, "bucket_name": bucket_name}.to_json
                 response = RestClient::Request.execute(method: :delete, url: url, headers: {content_type: :json,accept: :json ,"x-api-key" => ENV['AWS_API_KEY']}, payload: params)
                 return true
             end
@@ -61,27 +49,27 @@ class Api::ProtoGraph
                 url = "#{AWS_API_DATACAST_URL}/cloudfront/invalidate"
                 if site.present?
                     params = {}
-                    if site.cdn_provider == "CloudFront"
+                    # if site.cdn_provider == "CloudFront"
                         params[:source] = site.cdn_provider
                         params[:quantity] = quantity
                         params[:distribution_id] = site.cdn_id
                         creds = {'aws_access_key_id': site.client_token, 'aws_secret_access_key': site.client_secret}
                         params[:credentials] = creds
                         params[:invalidation_items] = items
-                    else
-                        params[:source] = "Akamai"
-                        creds = {}
-                        creds[:host] = site.host
-                        creds[:client_secret] = site.client_secret
-                        creds[:client_token] = site.client_token
-                        creds[:access_token] = site.access_token
-                        params[:credentials] = creds
-                        invalidation_items = []
-                        items.each do |item|
-                            invalidation_items << "#{site.cdn_endpoint}#{item}"
-                        end
-                        params["invalidation_items"] = invalidation_items
-                    end
+                    # else
+                    #     params[:source] = "Akamai"
+                    #     creds = {}
+                    #     creds[:host] = site.host
+                    #     creds[:client_secret] = site.client_secret
+                    #     creds[:client_token] = site.client_token
+                    #     creds[:access_token] = site.access_token
+                    #     params[:credentials] = creds
+                    #     invalidation_items = []
+                    #     items.each do |item|
+                    #         invalidation_items << "#{site.cdn_endpoint}#{item}"
+                    #     end
+                    #     params["invalidation_items"] = invalidation_items
+                    # end
                 else
                     params = {"invalidation_items": items, quantity: quantity, distribution_id: ENV['AWS_CDN_ID'], source: "CloudFront", credentials: {'aws_access_key_id': ENV['AWS_ACCESS_KEY_ID'], 'aws_secret_access_key': ENV['AWS_SECRET_ACCESS_KEY']}}
                 end
@@ -94,11 +82,29 @@ class Api::ProtoGraph
 
     class Page
         class << self
-            def create_or_update_page(page_s3, template_page_s3)
+            def create_or_update_page(page_s3, template_page_s3, bucket_name, aws_s3_endpoint)
                 url = "#{AWS_API_DATACAST_URL}/pages"
                 response = RestClient.post(url , {
                     page_s3: page_s3,
-                    template_page_s3: template_page_s3
+                    template_page_s3: template_page_s3,
+                    bucket_name: bucket_name,
+                    aws_s3_endpoint: aws_s3_endpoint
+                }.to_json, {
+                    content_type: :json,
+                    accept: :json,
+                    "x-api-key": ENV['AWS_API_KEY']
+                })
+                return JSON.parse(response.body)
+            end
+        end
+    end
+
+    class Site
+        class << self
+            def create_bucket_and_distribution(bucket_name)
+                url = "#{AWS_API_DATACAST_URL}/sites"
+                response = RestClient.post(url , {
+                    bucket_name: bucket_name
                 }.to_json, {
                     content_type: :json,
                     accept: :json,

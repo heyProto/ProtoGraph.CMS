@@ -123,8 +123,8 @@ class TemplateCard < ApplicationRecord
         self.siblings.as_json(only: [:account_id, :id, :slug, :global_slug,:name, :elevator_pitch], methods: [:account_slug, :icon_url])
     end
 
-    def base_url(site=nil)
-        "#{site.present? ? site.cdn_endpoint : TemplateCard::CDN_BASE_URL}/#{self.s3_identifier}"
+    def base_url
+        "#{TemplateCard::CDN_BASE_URL}/#{self.s3_identifier}"
     end
 
     def js
@@ -154,20 +154,16 @@ class TemplateCard < ApplicationRecord
         obj
     end
 
-    def index_html(account=nil)
-        "#{base_url(account)}/index.html"
+    def index_html
+        "#{base_url}/index.html"
     end
 
-    def protograph_html(account=nil)
-        "#{base_url(account)}/protograph.html"
+    def protograph_html
+        "#{base_url}/protograph.html"
     end
 
     def invalidate
-        begin
-            #Write Code to invalidate all files for akamai account cdn
-            Api::ProtoGraph::CloudFront.invalidate(nil, ["/#{self.s3_identifier}/*"], 1)
-        rescue
-        end
+        Api::ProtoGraph::CloudFront.invalidate(nil, ["/#{self.s3_identifier}/*"], 1)
     end
 
 
@@ -195,12 +191,6 @@ class TemplateCard < ApplicationRecord
     end
 
     def before_destroy_set
-        payload = {}
-        payload['folder_name'] = self.s3_identifier
-        begin
-            Api::ProtoGraph::Datacast.delete(payload)
-        rescue => e
-        end
         self.view_casts.destroy_all
     end
 end

@@ -23,6 +23,7 @@ class RefCategory < ApplicationRecord
     #CONSTANTS
     #CUSTOM TABLES
     #GEMS
+    before_validation :before_validation_set
     extend FriendlyId
     friendly_id :english_name, use: :slugged
     #ASSOCIATIONS
@@ -41,7 +42,6 @@ class RefCategory < ApplicationRecord
     #CALLBACKS
     after_create :after_create_set
     before_update :before_update_set
-    before_create :before_create_set
     after_destroy :update_site_verticals
     #SCOPE
     #OTHER
@@ -55,7 +55,7 @@ class RefCategory < ApplicationRecord
     end
 
     def vertical_page_url
-        "#{self.site.cdn_endpoint}/#{self.site.slug}/#{self.slug}.html"
+        "#{self.site.cdn_endpoint}/#{self.slug}.html"
     end
 
     def view_casts
@@ -63,7 +63,7 @@ class RefCategory < ApplicationRecord
     end
 
     def vertical_header_key
-        "#{self.site.slug}/#{self.slug}/navigation.json"
+        "#{self.slug}/navigation.json"
     end
 
     def vertical_header_url
@@ -80,27 +80,23 @@ class RefCategory < ApplicationRecord
             key = "#{self.site.homepage_header_key}"
             encoded_file = Base64.encode64(verticals_json.to_json)
             content_type = "application/json"
-            resp = Api::ProtoGraph::Utility.upload_to_cdn(encoded_file, key, content_type)
-            if self.site.cdn_id != ENV['AWS_CDN_ID']
-                Api::ProtoGraph::CloudFront.invalidate(self.site, ["/#{key}"], 1)
-            end
-            Api::ProtoGraph::CloudFront.invalidate(nil, ["/#{key}"], 1)
+            resp = Api::ProtoGraph::Utility.upload_to_cdn(encoded_file, key, content_type, self.site.cdn_bucket)
+            Api::ProtoGraph::CloudFront.invalidate(self.site, ["/#{key}"], 1)
             ActiveRecord::Base.connection.close
         end
+    end
+
+    def before_validation_set
+        self.english_name = self.name if self.site.is_english
     end
 
     #PRIVATE
     private
 
-    def before_create_set
-        self.english_name = self.name if self.site.is_english
-    end
-
     def before_update_set
         self.is_disabled = true if self.count > 0
         self.english_name = ActionView::Base.full_sanitizer.sanitize(self.english_name)
         self.name_html = self.name if self.name_html.blank?
-        self.english_name = self.name if self.site.is_english
         true
     end
 
@@ -139,7 +135,7 @@ class RefCategory < ApplicationRecord
         key = self.vertical_header_key
         encoded_file = Base64.encode64([].to_json)
         content_type = "application/json"
-        resp = Api::ProtoGraph::Utility.upload_to_cdn(encoded_file, key, content_type)
+        resp = Api::ProtoGraph::Utility.upload_to_cdn(encoded_file, key, content_type, self.site.cdn_bucket)
     end
 
 end

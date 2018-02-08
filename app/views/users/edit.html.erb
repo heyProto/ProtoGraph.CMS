@@ -1,3 +1,4 @@
+
 <div class="row">
     <div class="col-sm-6" style="padding: 0px; margin-left: auto; margin-right: auto;">
         <h1>Profile</h1>
@@ -34,10 +35,14 @@
                 <%= link_to account.username, edit_account_path(account) %>
                 <p class="hint">Click to configure</p>
             <% end %>
-            <%= simple_form_for @account do |f| %>
-                <%= f.input :username, id: :account_username, hint: "Choose wisely. You cannot change it later." %>
-                <%= f.input :domain, required: true %>
-                <%= f.submit "Add a new account", class: "btn btn-light" %>
+            <% if current_user.is_admin_from_pykih %>
+                <%= simple_form_for @account do |f| %>
+                    <h4>Add a new Account</h4>
+                    <%= f.input :username, id: :account_username, hint: "<span style='color: red'>Choose wisely. You cannot change it later.</span>".html_safe %>
+                    <%= f.input :site_name, hint: "<span style='color: red'>Choose wisely. You cannot change it later.</span>".html_safe %>
+                    <%= f.input :domain, required: true %>
+                    <%= f.submit "Add", class: "btn btn-light" %>
+                <% end %>
             <% end %>
         </div>
     </div>

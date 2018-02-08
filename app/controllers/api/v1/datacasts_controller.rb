@@ -23,6 +23,7 @@ class Api::V1::DatacastsController < ApiController
             track_activity(view_cast)
             payload["api_slug"] = view_cast.datacast_identifier
             payload["schema_url"] = view_cast.template_datum.schema_json
+            payload["bucket_name"] = @site.cdn_bucket
             r = Api::ProtoGraph::Datacast.create(payload)
             if r.has_key?("errorMessage")
                 view_cast.destroy
@@ -49,6 +50,7 @@ class Api::V1::DatacastsController < ApiController
             view_cast.sub_genre = datacast_params['data']["subgenre"]
             view_cast.series = @folder.vertical.name
         end
+        payload["bucket_name"] = @site.cdn_bucket
         r = Api::ProtoGraph::Datacast.update(payload)
         if r.has_key?("errorMessage")
             render json: {error_message: r['errorMessage']}, status: 422
@@ -58,10 +60,7 @@ class Api::V1::DatacastsController < ApiController
             updating_params[:is_invalidating] = true
             view_cast.update_attributes(updating_params)
             track_activity(view_cast)
-            if @site.cdn_id != ENV['AWS_CDN_ID']
-                Api::ProtoGraph::CloudFront.invalidate(@site, ["/#{view_cast.datacast_identifier}/data.json","/#{view_cast.datacast_identifier}/view_cast.json"], 2)
-            end
-            Api::ProtoGraph::CloudFront.invalidate(nil, ["/#{view_cast.datacast_identifier}/*"], 1)
+            Api::ProtoGraph::CloudFront.invalidate(@site, ["/#{view_cast.datacast_identifier}/*"], 1)
             render json: {view_cast: view_cast.as_json(methods: [:remote_urls]), redirect_path: account_site_folder_view_cast_url(@account, @site, @folder, view_cast) }, status: 200
         end
     end

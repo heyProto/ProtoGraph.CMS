@@ -1,16 +1,12 @@
 <div class="row">
     <div class="col-sm-6" style="padding: 0px; margin-left: auto; margin-right: auto;">
-        <h1><span style="font-weight: 200;">Site Settings:</span> <%= @site.domain %></h1>
+        <h1><span style="font-weight: 200;">Site Settings:</span> <%= @site.name %></h1>
         <br/>
         <h3>Info</h3>
         <hr/>
         <div style="margin-left: 50px;">
             <%= simple_form_for [@account, @site] do |f| %>
               <%= f.error_notification %>
-              <% unless @site.is_english %>
-                <%= f.input :english_name, required: true, hint: "This is used for url management." %>
-              <% end %>
-              <%= f.input :name, required: true %>
               <%= f.input :domain, hint: "Where is the site hosted?" %>
               <%= f.input :description, hint: "This will be used in footers, search results, and other places." %>
               <%= f.input :primary_language, as: :select, collection: [["English", "English"], ["Hindi", "Hindi"]], include_blank: false %>

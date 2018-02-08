@@ -27,6 +27,9 @@ class ViewCastsController < ApplicationController
     end
 
     def edit
+        if @view_cast.is_disabled_for_edit
+            redirect_to [@account, @site, @folder, @view_cast], alert: "Permission Denied."
+        end
         @new_image = Image.new
     end
 
