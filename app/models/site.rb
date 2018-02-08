@@ -112,7 +112,7 @@ class Site < ApplicationRecord
     end
 
     def header_json_url
-        "#{header_json_key}"
+        "#{cdn_endpoint}#{header_json_key}"
     end
 
     #PRIVATE
