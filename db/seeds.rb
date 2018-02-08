@@ -74,6 +74,7 @@ t_stink_cover = TemplateDatum.create({name: "toManualScavengerCoverVizCard", ver
 t_compose_card = TemplateDatum.create({name: "ComposeCard", version: "0.0.1", s3_identifier: "e1b404edee927dfe58d6"})
 t_image_card = TemplateDatum.create({name: "toImage", version: "0.0.1", s3_identifier: "65c8c3ec61ebcc5a3e68"})
 t_video_youtube = TemplateDatum.create({name: "VideoYoutube", version: "0.0.1", s3_identifier: "2d19074cd276c06030c3"})
+t_video_JWPlayer = TemplateDatum.create({name: "toVideoJWPlayer", version: "0.0.1", s3_identifier: "026ca82116c4730fd967"})
 
 puts "----> Creating Template Cards"
 
@@ -103,6 +104,7 @@ TemplateCard.create({git_url: "git@bitbucket.org:pykih_/protograph.card.tomanual
 TemplateCard.create({git_url: "git@bitbucket.org:pykih_/protograph.card.composecard.git", name: "ComposeCard", git_branch: "master", git_repo_name: "ProtoGraph.Card.ComposeCard", status: "published", is_public: true, account_id: pykih_account.id, created_by: user_id, updated_by: user_id, template_datum_id: t_compose_card.id, elevator_pitch: "", description: "", s3_identifier: "8c7f4a1291ed39c16d26",has_multiple_uploads: false, allowed_views: ["col7", "col4"]})
 TemplateCard.create({git_url: "git@bitbucket.org:pykih_/protograph.card.toimage.git", name: "toImage", git_branch: "master", git_repo_name: "ProtoGraph.Card.toImage", status: "published", is_public: true, account_id: pykih_account.id, created_by: user_id, updated_by: user_id, template_datum_id: t_image_card.id, elevator_pitch: "", description: "", s3_identifier: "5c33be70482e129de6f0",has_multiple_uploads: false, allowed_views: ["col16", "col7", "col4", "col3", "col2"]})
 TemplateCard.create({git_url: "git@bitbucket.org:pykih_/protograph.card.videoyoutube.git", name: "VideoYoutube", git_branch: "master", git_repo_name: "ProtoGraph.Card.VideoYoutube", status: "published", is_public: true, account_id: pykih_account.id, created_by: user_id, updated_by: user_id, template_datum_id: t_video_youtube.id, elevator_pitch: "", description: "", s3_identifier: "c9e5bf64ab18cb01e491",has_multiple_uploads: false, allowed_views: ["col16", "col7", "col4", "col3", "col2"]})
+TemplateCard.create({git_url: "git@bitbucket.org:pykih_/protograph.card.tovideojwplayer.git", name: "toVideo: JWPlayer", git_branch: "master", git_repo_name: "ProtoGraph.Card.toVideoJWPlayer", status: "published", is_public: true, account_id: pykih_account.id, created_by: user_id, updated_by: user_id, template_datum_id: t_video_JWPlayer.id, elevator_pitch: "", description: "", s3_identifier: "f4ab7fb4e0646ca69d5e",has_multiple_uploads: false, allowed_views: ["col16", "col7", "col4", "col3", "col2"], sort_order: 35})
 
 
 TemplatePage.create({
