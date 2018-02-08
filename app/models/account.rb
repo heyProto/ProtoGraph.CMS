@@ -3,8 +3,8 @@
 # Table name: accounts
 #
 #  id            :integer          not null, primary key
-#  username      :string(255)
-#  slug          :string(255)
+#  username      :string(191)
+#  slug          :string(191)
 #  status        :string(255)
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
@@ -43,7 +43,7 @@ class Account < ApplicationRecord
     attr_accessor :coming_from_new, :site_name, :domain
     #VALIDATIONS
     validates :username, presence: true, uniqueness: { case_sensitive: false }, length: { in: 3..24 }, format: { with: /\A[a-z0-9A-Z]{4,16}\z/ }
-    validates :site_name, presence: true, length: { in: 3..24 }, format: { with: /\A[a-z0-9A-Z]{4,16}\z/ }
+    validates :site_name, presence: true, length: { in: 3..24 }, format: { with: /\A[a-z0-9A-Z]{4,16}\z/ }, on: :create
     validates :cdn_endpoint, format: URI::regexp(%w(http https)), allow_nil: true
     validates :domain, format: {:with => /[a-zA-Z0-9][a-zA-Z0-9-]{1,61}[a-zA-Z0-9]\.[a-zA-Z]{2,}/ }, allow_blank: true, allow_nil: true, length: { in: 3..240 }, exclusion: { in: %w(gmail.com outlook.com yahoo.com mail.com),message: "%{value} is reserved."}
     #CALLBACKS
