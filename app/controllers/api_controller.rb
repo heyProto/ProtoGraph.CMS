@@ -21,7 +21,7 @@ class ApiController < ApplicationController
         if @user.present?
             @on_an_account_page = (@account.present? and @account.id.present?)
             if @on_an_account_page
-                @permission = current_user.owner_role(@account.id) || current_user.permission_object(@site.id)
+                @permission = @user.owner_role(@account.id) || @user.permission_object(@site.id)
                 if @permission.blank?
                     render_permission_not_found
                 else
