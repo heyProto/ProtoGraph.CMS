@@ -88,7 +88,11 @@ class Site < ApplicationRecord
     #OTHER
 
     def cdn_bucket
-        "site-#{self.slug.gsub("_", "")}-#{self.id}"
+        if Rails.env.production?
+            "site-#{self.slug.gsub("_", "")}-#{self.id}"
+        else
+            "dev.cdn.protograph"
+        end
     end
 
     def is_english
@@ -222,7 +226,8 @@ class Site < ApplicationRecord
                 "reverse_house_colour": "#{self.reverse_house_colour}",
                 "font_colour": "#{self.font_colour}",
                 "reverse_font_colour": "#{self.reverse_font_colour}",
-                "primary_language": "#{self.primary_language}"
+                "primary_language": "#{self.primary_language}",
+                "story_card_style": "#{self.story_card_style}"
             }
             key = "#{self.header_json_key}"
             encoded_file = Base64.encode64(header_json.to_json)

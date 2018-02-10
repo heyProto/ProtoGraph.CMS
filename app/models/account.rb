@@ -53,7 +53,11 @@ class Account < ApplicationRecord
     #OTHER
 
     def cdn_bucket
-        "account-#{self.slug.downcase.gsub("_", "")}-#{self.id}"
+        if Rails.env.production?
+            "account-#{self.slug.downcase.gsub("_", "")}-#{self.id}"
+        else
+            "dev.cdn.protograph"
+        end
     end
 
     def template_cards
