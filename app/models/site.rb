@@ -48,6 +48,7 @@ class Site < ApplicationRecord
     SIGN_UP_MODES = ["Any email from your domain", "Invitation only"]
     #CUSTOM TABLES
     #GEMS
+    before_validation :set_english_name
     extend FriendlyId
     friendly_id :english_name, use: :slugged
     #ASSOCIATIONS
@@ -69,7 +70,7 @@ class Site < ApplicationRecord
     #ACCESSORS
     accepts_nested_attributes_for :logo_image, :favicon
     #VALIDATIONS
-    # validates :name, presence: true, uniqueness: {scope: :account}
+    validates :name, presence: true, uniqueness: {scope: :account}
 
     validates :domain, format: {:with => /[a-zA-Z0-9][a-zA-Z0-9-]{1,61}[a-zA-Z0-9]\.[a-zA-Z]{2,}/ }, allow_blank: true, allow_nil: true, length: { in: 3..240 }, exclusion: { in: %w(gmail.com outlook.com yahoo.com mail.com),
     message: "%{value} is reserved." }
@@ -86,12 +87,24 @@ class Site < ApplicationRecord
     #SCOPE
     #OTHER
 
+    def cdn_bucket
+        if Rails.env.production?
+            "site-#{self.slug.gsub("_", "")}-#{self.id}"
+        else
+            "dev.cdn.protograph"
+        end
+    end
+
     def is_english
         self.primary_language == 'English'
     end
 
+    def should_generate_new_friendly_id?
+        slug.nil? || english_name_changed?
+    end
+
     def homepage_header_key
-        "#{self.slug}/verticals.json"
+        "verticals.json"
     end
 
     def homepage_header_url
@@ -99,11 +112,11 @@ class Site < ApplicationRecord
     end
 
     def header_json_key
-        "#{self.slug}/header.json"
+        "header.json"
     end
 
     def header_json_url
-        "#{self.cdn_endpoint}/#{header_json_key}"
+        "#{cdn_endpoint}/#{header_json_key}"
     end
 
     #PRIVATE
@@ -138,6 +151,10 @@ class Site < ApplicationRecord
         end
     end
 
+    def set_english_name
+        self.english_name = self.name if (self.is_english || self.english_name.blank?)
+    end
+
     private
 
 
@@ -147,15 +164,12 @@ class Site < ApplicationRecord
         self.font_colour = "#FFFFFF"
         self.reverse_font_colour = "#FFFFFF"
         self.cdn_provider = "CloudFront"
-        self.cdn_id = ENV['AWS_CDN_ID']
         self.host = "#{AWS_API_DATACAST_URL}/cloudfront/invalidate"
-        self.cdn_endpoint = ENV['AWS_S3_ENDPOINT']
         self.client_token = ENV['AWS_ACCESS_KEY_ID']
         self.client_secret = ENV['AWS_SECRET_ACCESS_KEY']
         self.story_card_style = 'Clear: Color'
         self.default_role = 'writer'
         self.primary_language = "English" if self.primary_language.nil?
-        self.english_name = self.name
         self.header_background_color = '#FFFFFF'
         self.header_positioning = "left"
         true
@@ -167,7 +181,6 @@ class Site < ApplicationRecord
         self.client_secret = ENV['AWS_SECRET_ACCESS_KEY'] if self.client_secret.blank?
         self.host = "#{AWS_API_DATACAST_URL}/cloudfront/invalidate" if self.host.blank?
         self.cdn_id = ENV['AWS_CDN_ID'] if self.cdn_id.blank? and self.cdn_endpoint == ENV['AWS_S3_ENDPOINT']
-        self.english_name = self.name if self.is_english
         true
     end
 
@@ -190,7 +203,23 @@ class Site < ApplicationRecord
         key = "#{self.homepage_header_key}"
         encoded_file = Base64.encode64([].to_json)
         content_type = "application/json"
-        resp = Api::ProtoGraph::Utility.upload_to_cdn(encoded_file, key, content_type)
+        # begin
+        if Rails.env.production?
+            resp = Api::ProtoGraph::Site.create_bucket_and_distribution(self.cdn_bucket)
+            self.update_columns(
+                    cdn_id: resp['cloudfront_response']['Distribution']['Id'],
+                    cdn_endpoint: "https://#{resp['cloudfront_response']['Distribution']['DomainName']}"
+            )
+            resp = Api::ProtoGraph::Utility.upload_to_cdn(encoded_file, key, content_type, self.cdn_bucket)
+        else
+            self.update_columns(
+                cdn_id: ENV["AWS_CDN_ID"],
+                cdn_endpoint: ENV['AWS_S3_ENDPOINT']
+            )
+        end
+        # rescue => e
+        #     #Send email to AB
+        # end
     end
 
     def after_save_set
@@ -199,16 +228,19 @@ class Site < ApplicationRecord
                 "header_logo_url": "#{self.logo_image_id.present? ? self.logo_image.original_image.image_url : ''}",
                 "header_background_color": "#{self.header_background_color}",
                 "header_jump_to_link": "#{self.header_url}",
-                "header_logo_position": "#{self.header_positioning}"
+                "header_logo_position": "#{self.header_positioning}",
+                "house_colour": "#{self.house_colour}",
+                "reverse_house_colour": "#{self.reverse_house_colour}",
+                "font_colour": "#{self.font_colour}",
+                "reverse_font_colour": "#{self.reverse_font_colour}",
+                "primary_language": "#{self.primary_language}",
+                "story_card_style": "#{self.story_card_style}"
             }
             key = "#{self.header_json_key}"
             encoded_file = Base64.encode64(header_json.to_json)
             content_type = "application/json"
-            resp = Api::ProtoGraph::Utility.upload_to_cdn(encoded_file, key, content_type)
-            if self.cdn_id != ENV['AWS_CDN_ID']
-                Api::ProtoGraph::CloudFront.invalidate(self.site, ["/#{key}"], 1)
-            end
-            Api::ProtoGraph::CloudFront.invalidate(nil, ["/#{key}"], 1)
+            resp = Api::ProtoGraph::Utility.upload_to_cdn(encoded_file, key, content_type, self.cdn_bucket)
+            Api::ProtoGraph::CloudFront.invalidate(self, ["/#{key}"], 1)
             ActiveRecord::Base.connection.close
         end
     end

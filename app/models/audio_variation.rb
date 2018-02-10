@@ -46,6 +46,7 @@ class AudioVariation < ApplicationRecord
       s3Identifier: audio.s3_identifier,
       accountSlug: account.slug,
       audioBlob: Base64.encode64(File.open(audio_path, "rb").read()),
+      bucket_name: account.cdn_bucket,
       startTime: nil,
       endTime: nil
     }
@@ -76,6 +77,7 @@ class AudioVariation < ApplicationRecord
       s3Identifier: audio.s3_identifier,
       accountSlug: account.slug,
       audioBlob: Base64.encode64(File.open(audio_path, "rb").read()),
+      bucket_name: account.cdn_bucket,
       startTime: start_time,
       endTime: end_time
     }

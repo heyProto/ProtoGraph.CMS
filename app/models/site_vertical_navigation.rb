@@ -49,11 +49,8 @@ class SiteVerticalNavigation < ApplicationRecord
       key = self.ref_category.vertical_header_key
       encoded_file = Base64.encode64(navigation_json.to_json)
       content_type = "application/json"
-      resp = Api::ProtoGraph::Utility.upload_to_cdn(encoded_file, key, content_type)
-      if self.site.cdn_id != ENV['AWS_CDN_ID']
-        Api::ProtoGraph::CloudFront.invalidate(self.site, ["/#{URI.escape(key)}"], 1)
-      end
-      Api::ProtoGraph::CloudFront.invalidate(nil, ["/#{URI.escape(key)}"], 1)
+      resp = Api::ProtoGraph::Utility.upload_to_cdn(encoded_file, key, content_type, self.site.cdn_bucket)
+      Api::ProtoGraph::CloudFront.invalidate(self.site, ["/#{key}"], 1)
       ActiveRecord::Base.connection.close
     end
   end

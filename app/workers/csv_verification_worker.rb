@@ -85,6 +85,7 @@ class CsvVerificationWorker
     if view_cast.save
       payload["api_slug"] = view_cast.datacast_identifier
       payload["schema_url"] = view_cast.template_datum.schema_json
+      payload["bucket_name"] = view_cast.site.cdn_bucket
       r = Api::ProtoGraph::Datacast.create(payload)
       if r.has_key?("errorMessage")
         view_cast.destroy

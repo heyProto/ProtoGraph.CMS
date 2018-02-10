@@ -57,11 +57,7 @@ class TemplateDatum < ApplicationRecord
     end
 
     def invalidate
-        begin
-            #Write Code to invalidate all files for akamai account cdn
-            Api::ProtoGraph::CloudFront.invalidate(nil,["/#{self.s3_identifier}/*"], 1)
-        rescue
-        end
+        Api::ProtoGraph::CloudFront.invalidate(nil,["/#{self.s3_identifier}/*"], 1)
     end
 
 
@@ -94,12 +90,6 @@ class TemplateDatum < ApplicationRecord
     end
 
     def before_destroy_set
-        payload = {}
-        payload['folder_name'] = self.s3_identifier
-        begin
-            Api::ProtoGraph::Datacast.delete(payload)
-        rescue => e
-        end
         self.template_cards.destroy_all
     end
 

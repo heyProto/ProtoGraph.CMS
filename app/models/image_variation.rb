@@ -68,7 +68,8 @@ class ImageVariation < ApplicationRecord
       imageVariationId: id,
       s3Identifier: image.s3_identifier,
       accountSlug: account.slug,
-      originalImageLink: image.original_image.image_url
+      originalImageLink: image.original_image.image_url,
+      bucket_name: account.cdn_bucket
     }
 
     url = "#{AWS_API_DATACAST_URL}/images/smartcrop"
@@ -94,7 +95,6 @@ class ImageVariation < ApplicationRecord
   def process_and_upload_image
     require "base64"
     image = self.image
-
     og_thumbnail_url = image.image.thumb.url
     og_image_url = image.image.url
 
@@ -116,7 +116,8 @@ class ImageVariation < ApplicationRecord
       accountSlug: account.slug,
       contentType: image.image.content_type,
       imageBlob: Base64.encode64(File.open(img_path, "rb").read()),
-      thumbnailBlob: Base64.encode64(File.open(thumb_img_path, "rb").read())
+      thumbnailBlob: Base64.encode64(File.open(thumb_img_path, "rb").read()),
+      bucket_name: account.cdn_bucket
     }
 
     url = "#{AWS_API_DATACAST_URL}/images"
@@ -127,7 +128,6 @@ class ImageVariation < ApplicationRecord
     })
 
     response = JSON.parse(response);
-
     if response["success"]
       image.update_attributes({
         thumbnail_url: response['data']['thumbnail_url'],
@@ -138,7 +138,7 @@ class ImageVariation < ApplicationRecord
         thumbnail_height: thumb_img_h
       })
 
-      self.update_attributes({
+      a = self.update_attributes({
         image_key: response['data']['image_key'],
         image_width: img_w,
         image_height: img_h,
@@ -174,6 +174,8 @@ class ImageVariation < ApplicationRecord
 
       thumb_img_h = 250
       thumb_img_w = 540
+      img_h = 250
+      img_w = 540
     else
       temp_new_image = Image.new({crop_x: self.crop_x, crop_y: self.crop_y, crop_w: self.crop_w, crop_h: self.crop_h})
 
@@ -194,7 +196,8 @@ class ImageVariation < ApplicationRecord
       s3Identifier: image.s3_identifier,
       accountSlug: account.slug,
       contentType: image.image.content_type,
-      imageBlob: Base64.encode64(File.open(img_path, "rb").read())
+      imageBlob: Base64.encode64(File.open(img_path, "rb").read()),
+      bucket_name: account.cdn_bucket
     }
 
     url = "#{AWS_API_DATACAST_URL}/images"

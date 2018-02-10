@@ -83,7 +83,7 @@ class AccountsController < ApplicationController
   private
 
     def account_params
-      params.require(:account).permit(:username, :slug, :status, :host, :cdn_id, :cdn_provider, :cdn_endpoint, :client_token, :access_token, :client_secret, :coming_from_new, :domain)
+      params.require(:account).permit(:username, :slug, :status, :host, :cdn_id, :cdn_provider, :cdn_endpoint, :client_token, :access_token, :client_secret, :coming_from_new, :domain, :site_name)
     end
 
 end

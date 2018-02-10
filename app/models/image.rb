@@ -70,7 +70,7 @@ class Image < ApplicationRecord
       thumbnail_url: self.thumbnail_url,
       thumbnail_width: self.thumbnail_width,
       thumbnail_height: self.thumbnail_height,
-      image_url: self.original_image.image_url,
+      image_url: self.image_url,
       image_height: self.image_height,
       image_width: self.image_width,
       aspectWidth: self.image_width / self.image_width.gcd(self.image_height),

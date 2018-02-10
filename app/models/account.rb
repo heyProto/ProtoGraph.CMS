@@ -3,8 +3,8 @@
 # Table name: accounts
 #
 #  id            :integer          not null, primary key
-#  username      :string(255)
-#  slug          :string(255)
+#  username      :string(191)
+#  slug          :string(191)
 #  status        :string(255)
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
@@ -40,18 +40,25 @@ class Account < ApplicationRecord
     has_one :site,dependent: :destroy #change it to many later
 
     #ACCESSORS
-    attr_accessor :coming_from_new, :domain
+    attr_accessor :coming_from_new, :site_name, :domain
     #VALIDATIONS
-    validates :username, presence: true, uniqueness: { case_sensitive: false }, length: { in: 3..24 }, format: { with: /\A[a-z0-9A-Z_]{4,16}\z/ }
-
+    validates :username, presence: true, uniqueness: { case_sensitive: false }, length: { in: 3..24 }, format: { with: /\A[a-z0-9A-Z]{4,16}\z/ }
+    validates :site_name, presence: true, length: { in: 3..24 }, format: { with: /\A[a-z0-9A-Z]{4,16}\z/ }, on: :create
     validates :cdn_endpoint, format: URI::regexp(%w(http https)), allow_nil: true
     validates :domain, format: {:with => /[a-zA-Z0-9][a-zA-Z0-9-]{1,61}[a-zA-Z0-9]\.[a-zA-Z]{2,}/ }, allow_blank: true, allow_nil: true, length: { in: 3..240 }, exclusion: { in: %w(gmail.com outlook.com yahoo.com mail.com),message: "%{value} is reserved."}
     #CALLBACKS
     before_create :before_create_set
-    before_update :before_update_set
     after_create :after_create_set
     #SCOPE
     #OTHER
+
+    def cdn_bucket
+        if Rails.env.production?
+            "account-#{self.slug.downcase.gsub("_", "")}-#{self.id}"
+        else
+            "dev.cdn.protograph"
+        end
+    end
 
     def template_cards
         if self.username == 'pykih'
@@ -85,24 +92,26 @@ class Account < ApplicationRecord
     def before_create_set
         self.slug = self.username
         self.cdn_provider = "CloudFront"
-        self.cdn_id = ENV['AWS_CDN_ID']
         self.host = "#{AWS_API_DATACAST_URL}/cloudfront/invalidate"
-        self.cdn_endpoint = ENV['AWS_S3_ENDPOINT']
         self.client_token = ENV['AWS_ACCESS_KEY_ID']
         self.client_secret = ENV['AWS_SECRET_ACCESS_KEY']
         true
     end
 
-    def before_update_set
-        # self.cdn_id = ENV['AWS_CDN_ID'] if self.cdn_id.blank? and self.cdn_endpoint == ENV['AWS_S3_ENDPOINT']
-        # self.host = "#{AWS_API_DATACAST_URL}/cloudfront/invalidate" if self.host.blank?
-        # self.cdn_endpoint = ENV['AWS_S3_ENDPOINT'] if self.cdn_endpoint.blank?
-        # self.client_token = ENV['AWS_ACCESS_KEY_ID'] if self.client_token.blank?
-        # self.client_secret = ENV['AWS_SECRET_ACCESS_KEY'] if self.client_secret.blank?
-    end
-
     def after_create_set
-        site = Site.create({account_id: self.id, name: self.username, domain: self.domain})
+        site = Site.create({account_id: self.id, name: self.site_name, domain: self.domain})
+        if Rails.env.production?
+            resp = Api::ProtoGraph::Site.create_bucket_and_distribution(self.cdn_bucket)
+            self.update_columns(
+                cdn_id: resp['cloudfront_response']['Distribution']['Id'],
+                cdn_endpoint: "https://#{resp['cloudfront_response']['Distribution']['DomainName']}"
+            )
+        else
+            self.update_columns(
+                cdn_id: ENV["AWS_CDN_ID"],
+                cdn_endpoint: ENV['AWS_S3_ENDPOINT']
+            )
+        end
     end
 
 end
