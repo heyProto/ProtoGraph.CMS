@@ -1,98 +1,28 @@
-<%= content_for :banner_col_sm_8_left do %>
-  <div class="hint-text">Be better at</div>
-  <h1>STORY TELLING</h1>
-  <h1 class="intro-text">
-    Free to use tools that solve small yet<br>
-    critical newsroom issues around engagement,<br>
-    interactivity and efficiency.<br>
-  </h1>
-  <%= link_to "Sign up for free", new_registration_path(resource_name), class: "btn btn-primary proto-primary-btn proto-btn" %><br />
-<% end %>
-
-<%= content_for :proto_container_col_sm_9_content_col do %>
-  <div class="br-space three-br-space"></div>
-  <% if Rails.env.staging? %>
-    <div class="ui yellow message">
-      Please note: This is a staging environment for testing and not for use in production.
-    </div>
-    <div class="br-space two-br-space"></div>
-  <% end %>
-  <p>Empowers journalists to create small story elements individually and then knit them together into a package to give a rich, immersive experience to your readers.</p>
-
-
-  <div class="br-space two-br-space"></div>
-  <small>BETTER AT <b>STORY ELEMENTS</b></small>
-  <h3 class="z-green">Increase your story’s shelf life</h3>
-  <div class="br-space one-br-space"></div>
-  <p>The lifespan of a story is only as long as your distribution platform allows it. Reuse research done for the original story to release engaging story elements at regular intervals to attract new readers. Sometimes the elements of the story will travel further than the story itself.</p>
-  <p>Tools :
-    <span class="links-div">
-      <%= link_to "toQuiz", toquiz_path %>, &nbsp
-      <%= link_to "toTimeline", totimeline_path %>
-    </span>
-  </p>
-  <iframe frameborder="0" class="juxtapose" width="100%" height="350" src="https://cdn.knightlab.com/libs/juxtapose/latest/embed/index.html?uid=ed9dfeb8-a88a-11e7-b263-0edaf8f81e27"></iframe>
-  <div class="br-space two-br-space"></div>
-  <small>BETTER AT <b>DISTRIBUTION</b></small>
-  <h3 class="z-green">Drive audiences to stories from social media</h3>
-  <div class="br-space one-br-space"></div>
-  <p>When a potential reader sees an article on their social media feed, there is no way to tell if that article is from a credible news source or not. toSocial helps you create branded thumbnails for Facebook, Twitter and Instagram that improve brand recall.</p>
-  <p>Tools :
-    <span class="links-div">
-      <%= link_to "toSocial", preparearticle_path %>
-    </span>
-  </p>
-  <iframe frameborder="0" class="juxtapose" width="100%" height="720" src="https://cdn.knightlab.com/libs/juxtapose/latest/embed/index.html?uid=be22f7c4-a88a-11e7-b263-0edaf8f81e27"></iframe>
-  <div class="br-space two-br-space"></div>
-  <small>BETTER AT <b>BUILDING LOYALTY</b></small>
-  <h3 class="z-green">Give readers a one-stop shop for areas of their interest</h3>
-  <div class="br-space one-br-space"></div>
-  <p>Most news sites are organised around sections that is world, politics, etc. However, passionate communities of readers collect around specific areas of interest, which could be niche or as large as elections. Topic Pages allow newsrooms to launch micro-pages where they can build a body of work by curating and aggregating content around an area of interest.</p>
-  <p>Tools :
-    <span class="links-div">
-      <%= link_to "toCover", tocoverage_path %>, &nbsp
-      <%= link_to "toCount", tocounted_path %>
-    </span>
-  </p>
-  <iframe frameborder="0" class="juxtapose" width="100%" height="540" src="https://cdn.knightlab.com/libs/juxtapose/latest/embed/index.html?uid=54009c10-a88b-11e7-b263-0edaf8f81e27"></iframe>
-<% end %>
-<%= content_for :proto_container_col_sm_3 do %>
-  <%= simple_form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
-    <%= f.error_notification %>
-    <%= f.input :email, autofocus: true, placeholder: 'Email', required: true %>
-    <%= f.input :password, autocomplete: "off", placeholder: 'Password', required: true  %>
-    <% if devise_mapping.rememberable? -%>
-      <div class="field">
-        <div class="ui checkbox">
-          <%= f.input :remember_me, as: :boolean, boolean_style: :inline, label: "&nbsp; Remember me".html_safe  %>
+<div style="margin-left: auto; margin-right: auto; width: 300px;">
+    <%= link_to image_tag("proto-logo.png", style: "height: 36px;"), root_url %>
+    <br/>
+    <br/>
+</div>
+<div class="row sign-up-area">
+    <%= simple_form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+      <%= f.error_notification %>
+      <%= f.input :email, autofocus: true, placeholder: 'Email', required: true %>
+      <%= f.input :password, autocomplete: "off", placeholder: 'Password', required: true  %>
+      <% if devise_mapping.rememberable? -%>
+        <div class="field">
+          <div class="ui checkbox">
+            <%= f.input :remember_me, as: :boolean, boolean_style: :inline, label: "&nbsp; Remember me".html_safe  %>
+          </div>
         </div>
-      </div>
+      <% end %>
+      <%= f.button :submit, value: "Sign in", class: "btn btn-outline" %>
     <% end %>
-    <%= f.button :submit, value: "Sign in", class: "btn btn-outline" %>
-  <% end %>
-  <br/>
-  <% if devise_mapping.recoverable? && controller_name != 'passwords' && controller_name != 'registrations' %>
+</div>
+<div style="margin-left: auto; margin-right: auto; width: 300px;">
+    <br/>
+    <br/>
+    <%= link_to "Sign up for free", new_registration_path(resource_name) %><br />
     <%= link_to "I cannot access my account", new_password_path(resource_name) %><br />
     <%= link_to "Didn't receive confirmation token?", new_confirmation_path(resource_name) %><br />
     <%= render "devise/shared/links" %>
-  <% end %>
-  <hr/>
-  <br/>
-  <p>Used by newsrooms like</p>
-  <div class="row">
-    <div class="col-sm-6">
-      <%= image_tag "customers/indian-express.png", class: "rounded img-fluid" %>
-    </div>
-    <div class="col-sm-6">
-      <%= image_tag "customers/jagran.jpg", class: "rounded img-fluid" %>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-sm-6">
-      <%= image_tag "customers/money-control.jpg", class: "rounded img-fluid" %>
-    </div>
-    <div class="col-sm-6">
-      <%= image_tag "customers/newslaundry.png", class: "rounded img-fluid" %>
-    </div>
-  </div>
-<% end %>
+</div>
