@@ -75,6 +75,12 @@ t_compose_card = TemplateDatum.create({name: "ComposeCard", version: "0.0.1", s3
 t_image_card = TemplateDatum.create({name: "toImage", version: "0.0.1", s3_identifier: "65c8c3ec61ebcc5a3e68"})
 t_video_youtube = TemplateDatum.create({name: "VideoYoutube", version: "0.0.1", s3_identifier: "2d19074cd276c06030c3"})
 t_video_JWPlayer = TemplateDatum.create({name: "toVideoJWPlayer", version: "0.0.1", s3_identifier: "026ca82116c4730fd967"})
+t_profile = TemplateDatum.create({name: "toProfile", version: "0.0.1", s3_identifier: "73100720900d849bea72"})
+t_data_rating_with_drilldown = TemplateDatum.create({name: "toDataRatingWithDrillDown", version: "0.0.1", s3_identifier: "40c7877661e32f13d5ce"})
+
+# Oxfam
+t_data_irbf_grid = TemplateDatum.create({name: "toDataIRBFGrid", version: "0.0.1", s3_identifier: "1e0b58753372e47acf63"})
+t_data_irbf_tooltip = TemplateDatum.create({name: "toDataIRBFTooltip", version: "0.0.1", s3_identifier: "a862be0d38c67658aed4"})
 
 puts "----> Creating Template Cards"
 
@@ -105,6 +111,10 @@ TemplateCard.create({git_url: "git@bitbucket.org:pykih_/protograph.card.composec
 TemplateCard.create({git_url: "git@bitbucket.org:pykih_/protograph.card.toimage.git", name: "toImage", git_branch: "master", git_repo_name: "ProtoGraph.Card.toImage", status: "published", is_public: true, account_id: pykih_account.id, created_by: user_id, updated_by: user_id, template_datum_id: t_image_card.id, elevator_pitch: "", description: "", s3_identifier: "5c33be70482e129de6f0",has_multiple_uploads: false, allowed_views: ["col16", "col7", "col4", "col3", "col2"]})
 TemplateCard.create({git_url: "git@bitbucket.org:pykih_/protograph.card.videoyoutube.git", name: "VideoYoutube", git_branch: "master", git_repo_name: "ProtoGraph.Card.VideoYoutube", status: "published", is_public: true, account_id: pykih_account.id, created_by: user_id, updated_by: user_id, template_datum_id: t_video_youtube.id, elevator_pitch: "", description: "", s3_identifier: "c9e5bf64ab18cb01e491",has_multiple_uploads: false, allowed_views: ["col16", "col7", "col4", "col3", "col2"]})
 TemplateCard.create({git_url: "git@bitbucket.org:pykih_/protograph.card.tovideojwplayer.git", name: "toVideo: JWPlayer", git_branch: "master", git_repo_name: "ProtoGraph.Card.toVideoJWPlayer", status: "published", is_public: true, account_id: pykih_account.id, created_by: user_id, updated_by: user_id, template_datum_id: t_video_JWPlayer.id, elevator_pitch: "", description: "", s3_identifier: "f4ab7fb4e0646ca69d5e",has_multiple_uploads: false, allowed_views: ["col16", "col7", "col4", "col3", "col2"], sort_order: 35})
+TemplateCard.create({git_url: "git@bitbucket.org:pykih_/protograph.card.toprofile.git", name: "toProfile", git_branch: "master", git_repo_name: "ProtoGraph.Card.toProfile", status: "published", is_public: true, account_id: icfj_account.id, created_by: user_id, updated_by: user_id, template_datum_id: t_profile.id, elevator_pitch: "", description: "", s3_identifier: "4248b573a96cbadfb321",has_multiple_uploads: false, allowed_views: ["col7", "col4", "col3", "col2"]})
+TemplateCard.create({git_url: "git@bitbucket.org:pykih_/protograph.card.todataratingwithdrilldown.git", name: "toData: Rating with drill down", git_branch: "master", git_repo_name: "ProtoGraph.Card.toDataRatingWithDrillDown", status: "published", is_public: true, account_id: icfj_account.id, created_by: user_id, updated_by: user_id, template_datum_id: t_data_rating_with_drilldown.id, elevator_pitch: "", description: "", s3_identifier: "8839daf4eeffd56d81b2",has_multiple_uploads: false, allowed_views: ["col7", "col4"]})
+TemplateCard.create({git_url: "git@bitbucket.org:pykih_/protograph.card.todatairbfgrid.git", name: "toData: IRBF Grid", git_branch: "master", git_repo_name: "ProtoGraph.Card.toDataIRBFGrid", status: "published", is_public: true, account_id: oxfam_account.id, created_by: user_id, updated_by: user_id, template_datum_id: t_data_irbf_grid.id, elevator_pitch: "", description: "", s3_identifier: "66827b60da0c3211d776",has_multiple_uploads: false, allowed_views: ["grid"]})
+TemplateCard.create({git_url: "git@bitbucket.org:pykih_/protograph.card.todatairbftooltip.git", name: "toData: IRBF Tooltip", git_branch: "master", git_repo_name: "protograph.card.toDataIRBFTooltip", status: "published", is_public: true, account_id: oxfam_account.id, created_by: user_id, updated_by: user_id, template_datum_id: t_data_irbf_tooltip.id, elevator_pitch: "", description: "", s3_identifier: "2931317d3b08401c2dd9",has_multiple_uploads: false, allowed_views: ["tooltip"]})
 
 
 TemplatePage.create({
