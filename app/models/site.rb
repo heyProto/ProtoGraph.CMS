@@ -204,12 +204,19 @@ class Site < ApplicationRecord
         encoded_file = Base64.encode64([].to_json)
         content_type = "application/json"
         # begin
+        if Rails.env.production?
             resp = Api::ProtoGraph::Site.create_bucket_and_distribution(self.cdn_bucket)
             self.update_columns(
                     cdn_id: resp['cloudfront_response']['Distribution']['Id'],
                     cdn_endpoint: "https://#{resp['cloudfront_response']['Distribution']['DomainName']}"
             )
             resp = Api::ProtoGraph::Utility.upload_to_cdn(encoded_file, key, content_type, self.cdn_bucket)
+        else
+            self.update_columns(
+                cdn_id: ENV["AWS_CDN_ID"],
+                cdn_endpoint: ENV['AWS_S3_ENDPOINT']
+            )
+        end
         # rescue => e
         #     #Send email to AB
         # end

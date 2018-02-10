@@ -100,11 +100,18 @@ class Account < ApplicationRecord
 
     def after_create_set
         site = Site.create({account_id: self.id, name: self.site_name, domain: self.domain})
-        resp = Api::ProtoGraph::Site.create_bucket_and_distribution(self.cdn_bucket)
-        self.update_columns(
-            cdn_id: resp['cloudfront_response']['Distribution']['Id'],
-            cdn_endpoint: "https://#{resp['cloudfront_response']['Distribution']['DomainName']}"
-        )
+        if Rails.env.production?
+            resp = Api::ProtoGraph::Site.create_bucket_and_distribution(self.cdn_bucket)
+            self.update_columns(
+                cdn_id: resp['cloudfront_response']['Distribution']['Id'],
+                cdn_endpoint: "https://#{resp['cloudfront_response']['Distribution']['DomainName']}"
+            )
+        else
+            self.update_columns(
+                cdn_id: ENV["AWS_CDN_ID"],
+                cdn_endpoint: ENV['AWS_S3_ENDPOINT']
+            )
+        end
     end
 
 end
