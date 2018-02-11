@@ -95,15 +95,7 @@ Rails.application.routes.draw do
       post :download, on: :member
     end
   end
-
-  get "docs", to: 'docs#index', as: :docs
-  get "docs/cards", to: 'docs#cards', as: :docs_cards
-  get "docs/cards/build-your-own", to: 'docs#cards_build_your_own', as: :docs_cards_build_your_own
-  get "docs/cards/design-recommendation", to: 'docs#cards_design_recommendation', as: :docs_cards_design_recommendation
-  get "docs/cards/styleguide/icons", to: 'docs#cards_styleguide_icons', as: :docs_cards_styleguide_icons
-  get "docs/cards/publishing", to: 'docs#cards_publishing', as: :docs_cards_publishing
-  get "docs/streams", to: 'docs#streams', as: :docs_streams
-
+  
   get '/auth/:provider/callback', to: 'authentications#create'
   root 'static_pages#index'
 end
