@@ -1,15 +1,9 @@
-body{font-size: 15px; font-family: 'Open Sans Bold', sans-serif;}
-a{color: #0366d6;}
-h1{font-size: 2em; line-height: 40px; font-weight: 800;}
-h2{font-size: 1.7em; line-height: 30px; font-weight: 600;}
-h3{font-size: 1.1em; line-height: 20px; font-weight: 600;}
-h4{font-size: 1em; line-height: 20px; font-weight: 600;}
 .control-label{font-size: 0.9em; font-weight: 200; margin-bottom: 0px; padding-bottom: 0px;}
 .help-block, .hint{ font-size: 11px; color: gray; padding-top: 2px; font-style: italic; line-height: 13px;}
 .dropdown-item{ font-size: 0.81em !important;}
 .dropdown-menu{margin: 0px !important;}
 .bg-light{background: white !important;}
-
+.has-error > .help-block{color: red;}
 .css-truncate.css-truncate-target,
 .css-truncate .css-truncate-target {
     display: inline-block;
@@ -20,28 +14,10 @@ h4{font-size: 1em; line-height: 20px; font-weight: 600;}
     vertical-align: top
 }
 
-.getting-started_single-todo{
-    font-size: 24px;
-    color: #333;
-    font-weight: 200;
-    border-bottom: 1px solid #E0E0E0;
-    padding-bottom: 10px;
-    margin-bottom: 10px;
-}
-
-.getting-started_todo-circle{
-    width: 24px;
-    height: 24px;
-    border: 1px solid #E0E0E0;
-    border-radius: 50px;
-    background: white;
-    display: inline-block;
-    margin-right: 10px;
-    vertical-align: middle;
-}
-
-.getting-started_todo-task{
-    display: inline-block;
+.proto-container{
+	width: 1100px;
+	margin-left: auto;
+	margin-right: auto;
 }
 
 nav.navbar{border-bottom: 1px solid #F5F5F5;}
@@ -83,13 +59,6 @@ ul.nav.jignesh > li.nav-item > a.nav-link.active{ border-bottom: 4px solid #0366
     color: #57A859;
 }
 
-.home-subtext{
-    color: rgba(52,54,58,0.75);
-    font-size: 25px;
-    font-weight: 300;
-    line-height: 1.33;
-}
-
 .proto-graph-code {
     width: 100%;
     height: 100px;
@@ -112,10 +81,6 @@ ul.nav.jignesh > li.nav-item > a.nav-link.active{ border-bottom: 4px solid #0366
 .two-br-space{height: 20px !important;}
 .five-br-space{height: 50px !important;}
 .ten-br-space{height: 100px !important;}
-.red{
-    color: red;
-}
-
 .nav-item.item.disabled {
     pointer-events: none;
     cursor: not-allowed;
