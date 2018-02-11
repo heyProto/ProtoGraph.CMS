@@ -1,18 +1,22 @@
 <% if @on_an_account_page %>
-    <p style="padding-left: 20px;">
-        <b>Folders</b>
-        <% if @folder.present? and @folder.id.blank? %>
-            <span style="float: right; font-weight: 400; font-size: 14px;">
-                <%= link_to "+ Add", new_account_site_folder_path(@account, @site) %>
-            </span>
-        <% end %>
-    </p>
-    <ul class="list-group" style="padding-left: 0px;">
-      <% @folders.each do |folder| %>
-          <%= link_to folder_name_(folder).html_safe, account_site_folder_view_casts_path(@account, @site, folder), class: folder.id == @folder.id ? "list-group-item list-group-item-action active" : "list-group-item list-group-item-action" %>
-      <% end %>                            
-    </ul>
-    <hr style="margin-bottom: 0px; padding-bottom: 0px;"/>
+    <% if @folder.present? %>
+        <p style="padding-left: 20px;">
+            <b>Folders</b>
+            <% if @folder.present? and @folder.id.blank? %>
+                <span style="float: right; font-weight: 400; font-size: 14px;">
+                    <%= link_to "+ Add", new_account_site_folder_path(@account, @site) %>
+                </span>
+            <% end %>
+        </p>
+        <ul class="list-group" style="padding-left: 0px;">
+          <% @folders.each do |folder| %>
+              <%= link_to folder_name_(folder).html_safe, account_site_folder_view_casts_path(@account, @site, folder), class: folder.id == @folder.id ? "list-group-item list-group-item-action active" : "list-group-item list-group-item-action" %>
+          <% end %>                            
+        </ul>
+        <hr style="margin-bottom: 0px; padding-bottom: 0px;"/>
+    <% end %>
+    
+    
   
   
   
