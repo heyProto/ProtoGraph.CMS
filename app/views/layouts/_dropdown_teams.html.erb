@@ -1,7 +1,7 @@
 <% if @site.present? %>
     <% if !is_admins_controller or (controller_name != 'accounts' and ['new','create'].include?(action_name)) %>
         <% if @accounts.count > 1 %>        
-            <li class="nav-item dropdown" style="width: 200px;">
+            <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                   <%= @site.name %>
                 </a>
