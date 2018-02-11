@@ -47,12 +47,12 @@
   var images = <%= @images.as_json.to_json.html_safe %>;
 
   $(document).ready(function() {
-    var maxHeight = 75;
+    var maxHeight = 100;
     if (images.length) {
       $('#imageContainer').empty().justifiedImages({
         images: images,
         rowHeight: maxHeight,
-        maxRowHeight: 75,
+        maxRowHeight: 100,
         thumbnailPath: function(photo, width, height) {
           return photo.image_url;
         },
@@ -70,7 +70,7 @@
 
           return image;
         },
-        margin: 20
+        margin: 0
       });
     }
   });
