@@ -13,35 +13,27 @@
               <%= link_to folder_name_(folder).html_safe, account_site_folder_view_casts_path(@account, @site, folder), class: folder.id == @folder.id ? "list-group-item list-group-item-action active" : "list-group-item list-group-item-action" %>
           <% end %>                            
         </ul>
-        <hr style="margin-bottom: 0px; padding-bottom: 0px;"/>
     <% end %>
-    
-    
-  
-  
-  
-  
-  
   <div style="padding-left: 20px;">
-      
-      
-      <ul class="navbar-nav">
-          <% if @site.present? %>
-              <% if !is_admins_controller or (controller_name != 'accounts' and ['new','create'].include?(action_name)) %>
-                  <% if @accounts.count > 1 %>        
-                      <li class="nav-item dropdown dropup">
-                          <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <%= @site.name %>
-                          </a>
-                          <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                              <% @accounts.each do |a| %>
-                                  <%= link_to "#{a.username}: #{a.site.name}", account_site_path(a, a.site), class: "dropdown-item" %>
-                              <% end %>
-                          </div>
-                      </li>
+      <div style="border-top: 1px solid lightgray; position: fixed; bottom: 0px; width: 100px;">      
+          <ul class="navbar-nav">
+              <% if @site.present? %>
+                  <% if !is_admins_controller or (controller_name != 'accounts' and ['new','create'].include?(action_name)) %>
+                      <% if @accounts.count > 1 %>        
+                          <li class="nav-item dropdown dropup">
+                              <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <%= @site.name %>
+                              </a>
+                              <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                  <% @accounts.each do |a| %>
+                                      <%= link_to "#{a.username}: #{a.site.name}", account_site_path(a, a.site), class: "dropdown-item" %>
+                                  <% end %>
+                              </div>
+                          </li>
+                      <% end %>
                   <% end %>
               <% end %>
-          <% end %>
-      </ul>
+          </ul>
+      </div>
   </div>
 <% end %>
