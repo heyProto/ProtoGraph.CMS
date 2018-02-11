@@ -97,6 +97,7 @@ class ApplicationController < ActionController::Base
       @account = Account.friendly.find(params[:id])
       @site = @account.site
     end
+    
   	if user_signed_in?
       @accounts = current_user.accounts
       if @accounts.count == 0 and !(controller_name == 'accounts' and ['new', 'create'].include?(action_name)) and !devise_controller?

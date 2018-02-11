@@ -1,5 +1,5 @@
 <% if @on_an_account_page %>
-    <% if @folder.present? %>
+
         <p style="padding-left: 20px;">
             <b>Folders</b>
             <% if @folder.present? and @folder.id.blank? %>
@@ -10,10 +10,9 @@
         </p>
         <ul class="list-group" style="padding-left: 0px;">
           <% @folders.each do |folder| %>
-              <%= link_to folder_name_(folder).html_safe, account_site_folder_view_casts_path(@account, @site, folder), class: folder.id == @folder.id ? "list-group-item list-group-item-action active" : "list-group-item list-group-item-action" %>
+              <%= link_to folder_name_(folder).html_safe, account_site_folder_view_casts_path(@account, @site, folder), class: (@folder.present? and folder.id == @folder.id) ? "list-group-item list-group-item-action active" : "list-group-item list-group-item-action" %>
           <% end %>                            
         </ul>
-    <% end %>
   <div style="padding-left: 20px;">
       <div style="border-top: 1px solid lightgray; position: fixed; bottom: 0px; width: 100px;">      
           <ul class="navbar-nav">
