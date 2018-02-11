@@ -1,16 +1,5 @@
 <% if @folder.present? and @folder.id.present? %>
 <li class="nav-item">
-  <%= link_to folder_name_(@folder).html_safe, account_site_folder_path(@account, @site, @folder), class: "nav-link" %>
+  <%= link_to folder_name_(@folder).html_safe, nil, class: "nav-link disabled" %>
 </li>
-<% if controller_name == "view_casts" %>
-  <li class="nav-item"><a class="nav-link">/</a></li>
-  <li class="nav-item"><%= link_to "Cards", account_site_folder_view_casts_path(@account, @site, @folder), class: "nav-link"%></li>
-<% end %>
-<% end %>
-<% if @stream.present? %>
-  <% if @stream.pages.first.present? %>
-      <li class="nav-item">
-        <%= link_to truncate("Page: #{@stream.pages.first.headline}", ommission: 34), edit_account_site_page_path(@account, @site, @stream.pages.first, folder_id: @stream.pages.first.folder_id), class: "nav-link" %>
-      </li>
-  <% end %>
 <% end %>

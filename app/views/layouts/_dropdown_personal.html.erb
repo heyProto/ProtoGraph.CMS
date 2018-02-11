@@ -1,15 +1,23 @@
 <ul class="navbar-nav ml-auto">
     <% if @site.present? %>
-        <li><% link_to "Sourcing", nil, class: "nav-link active" %></li>
-        <li class="nav-item"><% link_to "Produce Assets and Cards", nil, class: "nav-link" %></li>
-        <li class="nav-item"><% link_to "Assemble Stories", nil, class: "nav-link" %></li>
-        <li class="nav-item"><%= link_to "Distribute", manager_account_site_pages_path(@account, @site), class: "nav-link" %></li>
+        <li class="nav-item"><%= link_to "Images", account_images_path(@account), "data-turbolinks"=> false, class: "nav-link"  %></li>
+        <% if @folder.present? and @folder.id.present? %>
+            <li class="nav-item"><%= link_to "Cards", account_site_folder_view_casts_path(@account, @site, @folder), class: "nav-link" %></li>
+            <% if @folder.vertical.present? and @folder.is_for_stories %>
+                <li class="nav-item"><%= link_to "Stories", account_site_pages_path(@account, @site, folder_id: @folder.id), class: "nav-link" %></li>
+            <% end %>
+        <% end %>
+        <li class="nav-item"><% link_to "Stories", nil, class: "nav-link" %></li>
+        <li class="nav-item"><%= link_to "Verticals", manager_account_site_pages_path(@account, @site), class: "nav-link" %></li>
         <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><%= image_tag "glyphicons-138-cogwheels.png", style: "height: 16px;" %></a>
             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
                <%= link_to "Site Settings", edit_account_site_path(@account, @site), "data-turbolinks"=> false, class: "dropdown-item"  %>
                <%= link_to 'People', account_site_permission_invites_path(@account, @site), class: "dropdown-item" %>
                <%= link_to 'Categories', intersection_account_site_path(@account, @site), class: "dropdown-item" %>
+               <div class="dropdown-divider"></div>
+               <h6 class="dropdown-header" style="font-size: 11px;">Account: <%= @account.username %></h6>
+               <%= link_to "Account Owners", edit_account_path(@account), "data-turbolinks"=> false, class: "dropdown-item" %>
             </div>
         </li>
     <% end %>
@@ -18,22 +26,15 @@
       <%= image_tag avatar_url(current_user.email), class: "rounded", style: "width: 20px;" %>
     </a>
     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
-        <% if @on_an_account_page %>
-            <h6 class="dropdown-header" style="font-size: 11px;">Account: <%= @account.username %></h6>
-            <%= link_to "Account Owners", edit_account_path(@account), "data-turbolinks"=> false, class: "dropdown-item" %>
-            <%= link_to "Image Bank", account_images_path(@account), "data-turbolinks"=> false, class: "dropdown-item"  %>
             <% if 1 == 2 %>
                 <%= link_to "Audio Bank", account_audios_path(@account), "data-turbolinks"=> false, class: "dropdown-item"  %>
             <% end %>
-            <div class="dropdown-divider"></div>
             <% if @site.present? %>
                   <% if controller_name == "folders" and @folder.id.present? and current_user.is_admin_from_pykih %>
                     <%= link_to "Add multiple cards", account_site_folder_uploads_path(@account, @site, @folder), "data-turbolinks"=> false, class: "dropdown-item", style: "color: gold;" %>
                     <%= link_to "Edit Folder", edit_account_site_folder_path(@account, @site, @folder),class: "dropdown-item", style: "color: gold;" %>
                   <% end %>
             <% end %>
-            <h6 class="dropdown-header" style="font-size: 11px;">Me</h6>
-        <% end %>      
         <%= link_to 'Profile', edit_user_path(current_user), class: "dropdown-item" %>
         <%= link_to 'Settings', edit_user_registration_path, class: "dropdown-item" %>
         <%= link_to "Sign out", destroy_user_session_path, class: "dropdown-item" %>

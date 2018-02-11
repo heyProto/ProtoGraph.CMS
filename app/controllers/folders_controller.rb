@@ -1,16 +1,6 @@
 class FoldersController < ApplicationController
   before_action :authenticate_user!
-  before_action :sudo_can_see_all_folders, only: [:show]
   before_action :sudo_role_can_folder_settings, only: [:edit, :update]
-
-  def show
-      @view_casts_count = @folder.view_casts.where.not(template_card_id: TemplateCard.to_story_cards_ids).count
-      @view_casts = @permission_role.can_see_all_view_casts ? @folder.view_casts.where.not(template_card_id: TemplateCard.to_story_cards_ids).order(updated_at: :desc).page(params[:page]).per(30) : current_user.view_casts(@folder).order(updated_at: :desc).page(params[:page]).per(30)
-      @is_viewcasts_present = @view_casts.count != 0
-      @activities = [] # @account.activities.where(folder_id: @folder.id).order("updated_at DESC").limit(30) Need to update the logic for permission
-      @page_count = @folder.pages.count
-      @page = Page.new
-  end
 
   def new
     @folder = @account.folders.new

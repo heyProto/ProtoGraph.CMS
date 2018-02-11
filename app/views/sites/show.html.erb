@@ -8,7 +8,7 @@
     </h1>
     <br/>
     <% @folders.each do |folder| %>
-        <a href="<%= account_site_folder_path(@account, @site, folder) %>" class="github-menu-item">
+        <a href="<%= account_site_folder_view_casts_path(@account, @site, folder) %>">
             <%= image_tag "trash-icon.jpg", style: "height: 12px;margin-bottom: 2px;" if folder.is_trash %>
             <%= folder_name_(folder).html_safe %>
             <span class="count badge badge-pill badge-secondary" style="font-size: 0.81em; font-weight: 200; float: right;">
