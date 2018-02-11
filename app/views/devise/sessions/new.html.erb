@@ -1,28 +1,29 @@
-<div style="margin-left: auto; margin-right: auto; width: 300px;">
-    <%= link_to image_tag("proto-logo.png", style: "height: 36px;"), root_url %>
-    <br/>
-    <br/>
-</div>
-<div class="row sign-up-area">
-    <%= simple_form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
-      <%= f.error_notification %>
-      <%= f.input :email, autofocus: true, placeholder: 'Email', required: true %>
-      <%= f.input :password, autocomplete: "off", placeholder: 'Password', required: true  %>
-      <% if devise_mapping.rememberable? -%>
-        <div class="field">
-          <div class="ui checkbox">
-            <%= f.input :remember_me, as: :boolean, boolean_style: :inline, label: "&nbsp; Remember me".html_safe  %>
-          </div>
-        </div>
-      <% end %>
-      <%= f.button :submit, value: "Sign in", class: "btn btn-outline" %>
-    <% end %>
-</div>
-<div style="margin-left: auto; margin-right: auto; width: 300px;">
-    <br/>
-    <br/>
-    <%= link_to "Sign up for free", new_registration_path(resource_name) %><br />
-    <%= link_to "I cannot access my account", new_password_path(resource_name) %><br />
-    <%= link_to "Didn't receive confirmation token?", new_confirmation_path(resource_name) %><br />
-    <%= render "devise/shared/links" %>
-</div>
+
+    <div style="margin-left: auto; margin-right: auto; width: 300px; position: relative;">
+        <%= link_to image_tag("proto-logo.png", style: "height: 36px;"), root_url %>
+        <br/>
+        <br/>
+    </div>
+    <div class="row sign-up-area">
+        <%= simple_form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+          <%= f.error_notification %>
+          <%= f.input :email, autofocus: true, placeholder: 'Email', required: true %>
+          <%= f.input :password, autocomplete: "off", placeholder: 'Password', required: true  %>
+          <% if devise_mapping.rememberable? -%>
+            <div class="field">
+              <div class="ui checkbox">
+                <%= f.input :remember_me, as: :boolean, boolean_style: :inline, label: "&nbsp; Remember me".html_safe  %>
+              </div>
+            </div>
+          <% end %>
+          <%= f.button :submit, value: "Sign in", class: "btn btn-outline" %>
+        <% end %>
+    </div>
+    <div style="margin-left: auto; margin-right: auto; width: 300px;">
+        <br/>
+        <br/>
+        <%= link_to "Sign up for free", new_registration_path(resource_name) %><br />
+        <%= link_to "I cannot access my account", new_password_path(resource_name) %><br />
+        <%= link_to "Didn't receive confirmation token?", new_confirmation_path(resource_name) %><br />
+        <%= render "devise/shared/links" %>
+    </div>

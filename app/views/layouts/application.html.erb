@@ -14,9 +14,10 @@
   <div class="container-fluid" style="padding: 0px;">
       <div class="row">
           <% if !user_signed_in? %>
-              <br/>
-              <br/>
-              <%= yield %>
+              <div class="col-sm-16">
+                  <br/><br/>
+                  <%= yield %>
+              </div>
           <% else %>              
               <div class="col-xl-3" style="background: #ECEFF1; color: #546E7A; position: fixed; height: 100%; top: 0; left: 0;">
                   <nav class="navbar navbar-expand-lg">
@@ -41,7 +42,7 @@
           <% end %>
       </div>
   </div>
-  <%= render partial: "layouts/footer" %>
+
 
 
 
