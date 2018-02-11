@@ -2,7 +2,6 @@
 .help-block, .hint{ font-size: 11px; color: gray; padding-top: 2px; font-style: italic; line-height: 13px;}
 .dropdown-item{ font-size: 0.81em !important;}
 .dropdown-menu{margin: 0px !important;}
-.bg-light{background: white !important;}
 .has-error > .help-block{color: red;}
 .css-truncate.css-truncate-target,
 .css-truncate .css-truncate-target {
@@ -22,8 +21,6 @@
 
 nav.navbar{border-bottom: 1px solid #F5F5F5;}
 
-ul.nav.jignesh > li.nav-item > a.nav-link.active{ border-bottom: 4px solid #0366d6; padding-left: 0px; padding-right: 0px; margin: 0px 50px;}
-
 .dropdown-menu{padding: 0px !important;}
 
 .css-truncate.expandable.zeroclipboard-is-hover .css-truncate-target,
@@ -33,11 +30,6 @@ ul.nav.jignesh > li.nav-item > a.nav-link.active{ border-bottom: 4px solid #0366
     max-width: 10000px !important
 }
 
-.bootstrap-container {
-    width:100% !important;
-    padding-top: 0px !important;
-    margin-bottom: 0px !important;
-}
 .proto-graph-code-area {
     margin-top: 30px;
 }

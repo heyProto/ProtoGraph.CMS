@@ -1,3 +1,8 @@
+          <% if controller_name == "audios" and action_name != "new"  %>
+              <li class="nav-item"><%= link_to '+ Upload an audio', "#", class: "nav-link btn btn-sm btn-primary",style: "margin-top: 5px;", "data-toggle" => "modal", "data-target" => "#fileUploadModal" %></li>
+              <%= render partial: "audios/form" %>
+          <% end %>
+
 <div class="container">
   <div class="row">
     <div class=<%= @account.audios.present? ? "col-sm-13" : "col-sm-16" %>>
