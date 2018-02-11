@@ -26,3 +26,5 @@ ul.list-group > a.list-group-item.list-group-item-action:hover{
     background: #CFD8DC;
     color: black;
 }
+
+ul.navbar-nav > li.nav-item > a.active{color: black; font-weight: 800;}
