@@ -10,7 +10,6 @@ class ImagesController < ApplicationController
       @images = @account.images.order("created_at desc").page params[:page]
     end
     @new_image = Image.new
-    render layout: "application-fluid"
   end
 
   def create
@@ -33,7 +32,6 @@ class ImagesController < ApplicationController
   def show
     @new_image = Image.new
     @image_variation = ImageVariation.new
-    render layout: "application-fluid"
     @activities = @image.activities.order("updated_at DESC").limit(30)
   end
 

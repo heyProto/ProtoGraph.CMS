@@ -12,19 +12,22 @@
 </head>
 <body data-turbolinks=<%= (controller_name == "view_casts" and ['new', 'edit'].include?(action_name)) ? "false" : "true" %>>
   <%= render partial: "layouts/header" %>
-  <br/><br/>
-  <div class="container protograph-container">
+  <br/>
+  <br/>
+  <div class="container-fluid">
       <%= yield %>
   </div>
   <%= render partial: "layouts/footer" %>
 
-      <% config = {} %>
-      <% if notice.present? %>
-        <% config = {text: notice, notify: "success"} %>
-      <% end %>
-      <% if alert.present? %>
-        <% config = {text: alert, notify: "error"} %>
-      <% end %>
+
+
+  <% config = {} %>
+  <% if notice.present? %>
+    <% config = {text: notice, notify: "success"} %>
+  <% end %>
+  <% if alert.present? %>
+    <% config = {text: alert, notify: "error"} %>
+  <% end %>
 
   <script type="text/javascript">
     var notice = <%= config.to_json.html_safe %>;

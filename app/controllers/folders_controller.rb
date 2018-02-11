@@ -10,7 +10,6 @@ class FoldersController < ApplicationController
       @activities = [] # @account.activities.where(folder_id: @folder.id).order("updated_at DESC").limit(30) Need to update the logic for permission
       @page_count = @folder.pages.count
       @page = Page.new
-      render layout: "application-fluid"
   end
 
   def new

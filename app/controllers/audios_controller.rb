@@ -10,7 +10,6 @@ class AudiosController < ApplicationController
       @audios = @account.audios.order("created_at DESC").page params[:page]
     end
     @new_audio = Audio.new
-    render layout: "application-fluid"
   end
 
   def create
@@ -32,7 +31,6 @@ class AudiosController < ApplicationController
   def show
     @new_audio = Audio.new
     @audio_variation = AudioVariation.new
-    render layout: "application-fluid"
     @activities = @audio.activities.order("updated_at DESC").limit(30)
     @audio_variation = AudioVariation.new
   end

@@ -23,7 +23,6 @@ class ViewCastsController < ApplicationController
         @view_casts_count = @folder.view_casts.count
         @streams_count = @folder.streams.count
         @view_cast.collaborator_lists = @view_cast.users.pluck(:id)
-        render layout: "application-fluid"
     end
 
     def edit
