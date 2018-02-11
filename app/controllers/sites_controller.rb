@@ -5,7 +5,6 @@ class SitesController < ApplicationController
   before_action :sudo_role_can_site_settings, only: [:edit, :update]
 
   def show
-    @folders = @permission_role.can_see_all_folders ? @site.folders : current_user.folders(@site)
     @folder = Folder.new
     @activities = [] #@account.activities.order("updated_at DESC").limit(30) Need to update the logic for permission
   end

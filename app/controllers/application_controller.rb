@@ -109,6 +109,7 @@ class ApplicationController < ActionController::Base
           redirect_to root_url, notice: "Permission denied." and return
         else
           @permission_role = @permission.permission_role
+          @folders = @permission_role.can_see_all_folders ? @site.folders : current_user.folders(@site)
           @role = @permission.ref_role_slug
         end
       end

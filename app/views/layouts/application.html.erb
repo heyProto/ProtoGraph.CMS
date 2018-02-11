@@ -11,11 +11,35 @@
 
 </head>
 <body data-turbolinks=<%= (controller_name == "view_casts" and ['new', 'edit'].include?(action_name)) ? "false" : "true" %>>
-  <%= render partial: "layouts/header" %>
-  <br/>
-  <br/>
-  <div class="container-fluid">
-      <%= yield %>
+  <div class="container-fluid" style="padding: 0px;">
+      <div class="row">
+          <% if !user_signed_in? %>
+              <br/>
+              <br/>
+              <%= yield %>
+          <% else %>              
+              <div class="col-xl-3" style="background: #ECEFF1; color: #546E7A;">
+                  <nav class="navbar navbar-expand-lg">
+                      <div class="container-fluid" style="padding-left: 0px;">
+                          <a class="navbar-brand" href=<%= @on_an_account_page ? account_site_path(@account, @site) : root_url %>>
+                            <%=  image_tag("proto-logo.png", style: "margin-top: 4px; height: 20px", class: "d-inline-block align-top") %>
+                          </a>
+                      </div>
+                  </nav>
+                  <%= render partial: "layouts/folders_sidebar" %>
+              </div>
+              <div class="col-xl-13">                  
+                  <nav class="navbar navbar-expand-lg">
+                      <div class="container-fluid" style="padding-left: 0px;">
+                          <%= render partial: "layouts/dropdown_personal" %>
+                      </div>
+                  </nav>
+                  <hr style="margin-top: 0px; padding-top: 0px;"/>
+                  <br/>
+                  <%= yield %>
+              </div>
+          <% end %>
+      </div>
   </div>
   <%= render partial: "layouts/footer" %>
 
