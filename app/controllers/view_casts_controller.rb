@@ -5,8 +5,8 @@ class ViewCastsController < ApplicationController
 
     def new
         @new_image = Image.new
-        @intersections = @site.ref_categories.where(genre: 'intersection').pluck(:name)
-        @subintersections = @site.ref_categories.where(genre: 'sub intersection').pluck(:name)
+        @intersections = [""] + @site.ref_categories.where(genre: 'intersection').pluck(:name)
+        @subintersections = [""] + @site.ref_categories.where(genre: 'sub intersection').pluck(:name)
     end
 
     def index
@@ -32,8 +32,8 @@ class ViewCastsController < ApplicationController
             redirect_to [@account, @site, @folder, @view_cast], alert: "Permission Denied."
         end
         @new_image = Image.new
-        @intersections = @site.ref_categories.where(genre: 'intersection').pluck(:name)
-        @subintersections = @site.ref_categories.where(genre: 'sub intersection').pluck(:name)
+        @intersections = [""] + @site.ref_categories.where(genre: 'intersection').pluck(:name)
+        @subintersections = [""] + @site.ref_categories.where(genre: 'sub intersection').pluck(:name)
     end
 
     def update
