@@ -3,7 +3,7 @@
 }
 .photo-container{
   float: left;
-  position: relative;
+  position: fixed;
   overflow: hidden;
 }
 .image-thumb{
