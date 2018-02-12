@@ -5,7 +5,7 @@
     <% end %>
 <% end %>
 <%= stylesheet_link_tag "image_bank.css" %>
-
+    <%= paginate @images, theme: 'twitter-bootstrap-4', pagination_class: "pagination-sm" %>
           <% if (params[:q].present? and @images.blank?) %>
             <div class="blankslate blankslate-spacious">
               <%# Print all params without nil or blank space %>
@@ -15,7 +15,7 @@
               <h3>No images with <%= search_params.join(" and ") %> found</h3>
             </div>
           <% elsif @account.images.first.present? %>
-            <div id="imageContainer" class="col-sm-16"></div>
+            <div id="imageContainer"></div>
           <% else %>
             <div class="blankslate blankslate-spacious">
               <h3>No images uploaded yet.</h3>
