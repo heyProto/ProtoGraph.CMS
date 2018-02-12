@@ -1,39 +1,59 @@
-  <div class="container">
-    <% if @view_casts.first.blank? %>
+<% if @view_casts.first.blank? %>
     <br/>
     <br/>
     <div class="blankslate blankslate-spacious">
-      <% if @folder.is_trash %>
-        <h3>There are no cards in the recycle bin.</h3>
-      <% else %>
-        <h3>No cards created yet.</h3>
-        <p>Use the [+ Add a card] button on the top right.</p>
-      <% end %>
+        <% if @folder.is_trash %>
+            <h3>There are no cards in the recycle bin.</h3>
+        <% else %>
+            <h3>No cards created yet.</h3>
+            <p>Use the [+ Add a card] button on the top right.</p>
+        <% end %>
     </div>
-    <% else %>
-    <div class="row">
-      <% @view_casts.each do |d| %>
-        <div class="col-sm-4">
-          <%= link_to [@account, @site,  @folder,d], "data-turbolinks"=> false do %>
-            <div class="card" style="margin: 20px 0px; ">
+<% else %>
+    <table class="table table-hover table-responsive">
+        <thead>
+            <tr>
+                <th>#
+                </th>
+                <th>Title
+                </th>
+                <th>Type
+                </th>
+                <th colspan=2>Last updated
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <% @view_casts.each do |d| %>
+                
+                    <tr>
+                        <td><%=d.id.to_s%>
+                        </td>
+                        <td>
+                            <%= link_to truncate(d.name, length: 200, ommission: ".."), [@account, @site,  @folder,d], "data-turbolinks"=> false  %>
+                        </td>
+                        
+                        <td class="hint"><%= d.template_card.name %>
+                        </td>
+                        
+                        <td><%= image_tag avatar_url(d.updator.email), width: "20px", class: "rounded" %>
+                        </td>
+                        <td class="hint"><%= time_ago_in_words(d.updated_at) %>
+                        </td>
+                    </tr>
 
-              <div class="card-footer">
-                <h4 class="card-title" style="font-weight: 400; " title="<%=d.name%>">
-                  <span class="branch-ref css-truncate css-truncate-target"><%= d.name %></span>
-                </h4>
-                <small class="text-muted">
-                  <%= image_tag avatar_url(d.updator.email), width: "20px", class: "rounded" %>
-                  &nbsp;&nbsp;
-                  <%= d.template_card.name %> | <%=d.id.to_s%> | <%= time_ago_in_words(d.updated_at) %>
-                </small>
-              </div>
-            </div>
-          <% end %>
-        </div>
-      <% end %>
-    </div>
-    <% end %>
+            <% end %>
+        </tbody>
+    </table>
     <%= paginate @view_casts, theme: 'twitter-bootstrap-4', pagination_class: "pagination-sm" %>
+<% end %>
+
+
+
+
+
+      
+    
 
 <script type="text/javascript">
   $(document).ready(function() {

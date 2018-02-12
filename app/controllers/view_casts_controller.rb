@@ -15,7 +15,7 @@ class ViewCastsController < ApplicationController
     end
 
     def show
-        @folders = @account.folders
+        @folders_dropdown = @account.folders
         if (Time.now - @view_cast.updated_at) > 5.minute and (@view_cast.is_invalidating)
             @view_cast.update_column(:is_invalidating, false)
         end

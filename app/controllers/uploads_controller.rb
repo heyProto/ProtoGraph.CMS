@@ -5,7 +5,7 @@ class UploadsController < ApplicationController
 
   def index
     @upload = Upload.new
-    @folders = @account.folders
+    @folders_dropdown = @account.folders
     @template_cards = @account.template_cards.with_multiple_uploads
     @uploads = @folder.uploads.order("created_at DESC")
   end

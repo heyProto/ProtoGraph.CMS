@@ -18,7 +18,7 @@ class StreamsController < ApplicationController
 
     def show
         @view_casts = @stream.cards
-        @folders = @account.folders.where(id: @stream.folder_list)
+        @folders_dropdown = @account.folders.where(id: @stream.folder_list)
         @template_cards = @account.template_cards.where(id: @stream.card_list)
         @is_viewcasts_present = @view_casts_count != 0
     end
