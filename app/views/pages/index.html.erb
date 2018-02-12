@@ -1,46 +1,47 @@
-<div class="container">
-  <% if @pages.first.blank? %>
+<% if @pages.first.blank? %>
     <br/>
     <br/>
     <div class="blankslate blankslate-spacious">
-      <% if @folder.is_trash %>
-        <h3>There are no stories in the recycle bin.</h3>
-      <% else %>
-        <h3>No stories created yet.</h3>
-        <p>Use the [+ Add a story] button on the top right.</p>
-      <% end %>
+        <% if @folder.is_trash %>
+            <h3>There are no stories in the recycle bin.</h3>
+        <% else %>
+            <h3>No stories created yet.</h3>
+            <p>Use the [+ Add a story] button on the top right.</p>
+        <% end %>
     </div>
-    <% else %>
-      <div class="row">
-        <% @pages.each do |d| %>
-          <div class="col-sm-4">
-            <%= link_to edit_account_site_page_path(@account, @site, d, folder_id: d.folder_id), "data-turbolinks"=> false do %>
-              <div class="card" style="margin: 20px 0px; ">
-
-                <div class="card-footer">
-                  <h4 class="card-title" style="font-weight: 400; " title="<%=d.headline%>">
-                    <span class="branch-ref css-truncate css-truncate-target"><%= d.headline %></span>
-                  </h4>
-                  <small class="text-muted">
-              <%= image_tag avatar_url(d.updator.email), width: "20px", class: "rounded" %>
-              &nbsp;&nbsp;
-              <% if d.view_cast.present? %>
-              <%= d.view_cast.id.to_s %> |
-              <% end %>
-
-              <%= time_ago_in_words(d.updated_at) %>
-            </small>
-                </div>
-              </div>
-              <% end %>
-          </div>
-          <% end %>
-      </div>
-      <% end %>
-      <%= paginate @pages, theme: 'twitter-bootstrap-4', pagination_class: "pagination-sm" %>
-
-<script type="text/javascript">
-  $(document).ready(function () {
-    $('[data-toggle="tooltip"]').tooltip();
-  });
-</script>
+<% else %>
+    <table class="table table-hover table-responsive">
+        <thead>
+            <tr>
+                <th>#
+                </th>
+                <th>Status
+                </th>
+                <th>Headline
+                </th>
+                <th colspan=2>Last updated
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <% @pages.each do |d| %>                
+                <tr>
+                    <td class="hint">
+                        <% if d.view_cast.present? %>
+                        <%= d.view_cast.id.to_s %>
+                        <% end %>
+                    </td>
+                    <td>
+                    </td>
+                    <td><%= link_to truncate(d.headline, length: 200, ommission: ".."), edit_account_site_page_path(@account, @site, d, folder_id: d.folder_id), "data-turbolinks"=> false  %>
+                    </td>
+                    <td><%= image_tag avatar_url(d.updator.email), width: "20px", class: "rounded" %>
+                    </td>
+                    <td class="hint"><%= time_ago_in_words(d.updated_at) %>
+                    </td>
+                </tr>
+            <% end %>
+        </tbody>
+    </table>
+    <%= paginate @pages, theme: 'twitter-bootstrap-4', pagination_class: "pagination-sm" %>
+<% end %>
