@@ -33,6 +33,12 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
       resources :accounts, only: [] do
+        resources :sites, only: [] do
+          resources :folders, only: [] do
+            resources :pages, only: [:create, :update]
+          end
+        end
+
         resources :folders, only: [] do
           resources :template_cards, only: [:index, :show] do
             get "validate", on: :member
@@ -95,7 +101,7 @@ Rails.application.routes.draw do
       post :download, on: :member
     end
   end
-  
+
   get '/auth/:provider/callback', to: 'authentications#create'
   root 'static_pages#index'
 end
