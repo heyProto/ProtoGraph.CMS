@@ -41,6 +41,7 @@
 #  slug                    :string(255)
 #  is_english              :boolean          default(TRUE)
 #  english_name            :string(255)
+#  story_card_flip         :boolean          default(FALSE)
 #
 
 class Site < ApplicationRecord
@@ -234,7 +235,8 @@ class Site < ApplicationRecord
                 "font_colour": "#{self.font_colour}",
                 "reverse_font_colour": "#{self.reverse_font_colour}",
                 "primary_language": "#{self.primary_language}",
-                "story_card_style": "#{self.story_card_style}"
+                "story_card_style": "#{self.story_card_style}",
+                "story_card_flip": "#{self.story_card_flip}"
             }
             key = "#{self.header_json_key}"
             encoded_file = Base64.encode64(header_json.to_json)

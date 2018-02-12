@@ -117,6 +117,7 @@
               <%= f.input :font_colour, input_html: {type: :color, style: "height: 40px;"}, label: "Font Color on House Color", required: true %>
               <%= f.input :reverse_font_colour, input_html: {type: :color, style: "height: 40px;"}, label: "Font Color on Reverse House Color", required: true %>
               <%= f.input :story_card_style, as: :select, collection: [["Clear: Color", "Clear: Color"], ["Clear: Black & White", "Clear: Black & White"], ["Blur: Color", "Blur: Color"]], label: "Story card Style", include_blank: false %>
+              <%= f.input :story_card_flip, as: :select, collection: [["Yes", true], ["No", false]], label: "Flip story card when it has summary:", include_blank: false %>
               <%= f.button :submit, "Update", class: "btn btn-light" %>
           <% end %>
         </div>
