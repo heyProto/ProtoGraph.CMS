@@ -23,9 +23,10 @@
             </div>
           <% end %>
         </div>
+  
+  <%= paginate @images, theme: 'twitter-bootstrap-4', pagination_class: "pagination-sm" %>
   <br/>
   <br/>
-  <%= paginate @images %>
 </div>
 <%= javascript_include_tag "justified.js" %>
 <%= javascript_include_tag "select2.js" %>
