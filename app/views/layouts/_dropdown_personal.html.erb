@@ -1,6 +1,5 @@
 <ul class="navbar-nav mr-auto">
     <% if @site.present? %>
-        <li class="nav-item"><%= link_to "Images", account_images_path(@account), "data-turbolinks"=> false, class: controller_name == "images" ? "nav-link active" : "nav-link"  %></li>
         <% if @folder.present? and @folder.id.present? %>
             <li class="nav-item"><%= link_to "Cards", account_site_folder_view_casts_path(@account, @site, @folder), class: controller_name == "view_casts" ? "nav-link active" : "nav-link" %></li>
             <% if @folder.vertical.present? and @folder.is_for_stories %>
@@ -8,11 +7,12 @@
             <% end %>
         <% end %>
         <li class="nav-item"><% link_to "Stories", nil, class: "nav-link" %></li>
-        <li class="nav-item"><%= link_to "Verticals", manager_account_site_pages_path(@account, @site), class: (controller_name == "pages" and action_name == "manager") ? "nav-link active" : "nav-link" %></li>
     <% end %>
 </ul>
 <ul class="navbar-nav ml-auto float-right">
     <% if @site.present? %>
+        <li class="nav-item"><%= link_to "Images", account_images_path(@account), "data-turbolinks"=> false, class: controller_name == "images" ? "nav-link active" : "nav-link"  %></li>
+        <li class="nav-item"><%= link_to "Verticals", manager_account_site_pages_path(@account, @site), class: (controller_name == "pages" and action_name == "manager") ? "nav-link active" : "nav-link" %></li>
         <% if controller_name == "view_casts" %>
             <%= link_to '+ Add a card', new_account_site_folder_view_cast_path(@account, @site, @folder), data: {turbolinks: false}, class: "btn btn-sm btn-primary", style: "margin-top: 5px;" %>
         <% elsif controller_name == "pages" and action_name == "index" %>
