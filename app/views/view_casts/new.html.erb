@@ -16,8 +16,12 @@
     window.baseURL = "<%= BASE_URL %>/api/v1";
     window.accountSlug = "<%= @account.slug %>";
     window.folderSlug = "<%= @folder.slug %>";
-    window.ref_link_sources_url = "<%= "#{ENV["AWS_S3_ENDPOINT"]}/Assets/ref_link_sources.json?no-cache=true" %>";
-    window.site_config_url = "<%= @site.header_json_url %>";
+    window.ref_link_sources_url = "<%= "#{ENV["AWS_S3_ENDPOINT"]}/Assets/ref_link_sources.json?no-cache=#{Time.now.to_s}" %>";
+    window.site_config_url = "<%= "#{@site.header_json_url}?no-cache=#{Time.now.to_s}" %>";
+    <% if @folder.is_for_stories %>
+        window.intersection_names =  JSON.parse("<%= @intersections.to_json %>");
+        window.subintersection_names =  JSON.parse("<%= @subintersections.to_json %>");
+    <% end %>
     var JCropInstance;
 </script>
 

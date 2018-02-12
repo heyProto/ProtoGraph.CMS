@@ -77,6 +77,7 @@ t_video_youtube = TemplateDatum.create({name: "VideoYoutube", version: "0.0.1", 
 t_video_JWPlayer = TemplateDatum.create({name: "toVideoJWPlayer", version: "0.0.1", s3_identifier: "026ca82116c4730fd967"})
 t_profile = TemplateDatum.create({name: "toProfile", version: "0.0.1", s3_identifier: "73100720900d849bea72"})
 t_data_rating_with_drilldown = TemplateDatum.create({name: "toDataRatingWithDrillDown", version: "0.0.1", s3_identifier: "40c7877661e32f13d5ce"})
+t_organ_viz = TemplateDatum.create({name: "toOrganVizCoverCard", version: "0.0.1", s3_identifier: "91374b9649fc94970645"})
 
 # Oxfam
 t_data_irbf_grid = TemplateDatum.create({name: "toDataIRBFGrid", version: "0.0.1", s3_identifier: "1e0b58753372e47acf63"})
@@ -115,7 +116,7 @@ TemplateCard.create({git_url: "git@bitbucket.org:pykih_/protograph.card.toprofil
 TemplateCard.create({git_url: "git@bitbucket.org:pykih_/protograph.card.todataratingwithdrilldown.git", name: "toData: Rating with drill down", git_branch: "master", git_repo_name: "ProtoGraph.Card.toDataRatingWithDrillDown", status: "published", is_public: true, account_id: icfj_account.id, created_by: user_id, updated_by: user_id, template_datum_id: t_data_rating_with_drilldown.id, elevator_pitch: "", description: "", s3_identifier: "8839daf4eeffd56d81b2",has_multiple_uploads: false, allowed_views: ["col7", "col4"]})
 TemplateCard.create({git_url: "git@bitbucket.org:pykih_/protograph.card.todatairbfgrid.git", name: "toData: IRBF Grid", git_branch: "master", git_repo_name: "ProtoGraph.Card.toDataIRBFGrid", status: "published", is_public: true, account_id: oxfam_account.id, created_by: user_id, updated_by: user_id, template_datum_id: t_data_irbf_grid.id, elevator_pitch: "", description: "", s3_identifier: "66827b60da0c3211d776",has_multiple_uploads: false, allowed_views: ["grid"]})
 TemplateCard.create({git_url: "git@bitbucket.org:pykih_/protograph.card.todatairbftooltip.git", name: "toData: IRBF Tooltip", git_branch: "master", git_repo_name: "protograph.card.toDataIRBFTooltip", status: "published", is_public: true, account_id: oxfam_account.id, created_by: user_id, updated_by: user_id, template_datum_id: t_data_irbf_tooltip.id, elevator_pitch: "", description: "", s3_identifier: "2931317d3b08401c2dd9",has_multiple_uploads: false, allowed_views: ["tooltip"]})
-
+TemplateCard.create({git_url: "git@bitbucket.org:pykih_/protograph.card.toorganvizcover.git", name: "Organ: CoverViz", git_branch: "master", git_repo_name: "ProtoGraph.Card.toOrganCoverVizCard", status: "published", is_public: true, account_id: pykih_account.id, created_by: user_id, updated_by: user_id, template_datum_id: t_organ_viz.id, elevator_pitch: "", description: "", s3_identifier: "9e058a64d0949988645e",has_multiple_uploads: false, allowed_views: ["col16", "col4"]})
 
 TemplatePage.create({
   name: "Homepage: Vertical",
