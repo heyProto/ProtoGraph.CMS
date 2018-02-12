@@ -19,8 +19,8 @@
     window.ref_link_sources_url = "<%= "#{ENV["AWS_S3_ENDPOINT"]}/Assets/ref_link_sources.json?no-cache=#{Time.now.to_s}" %>";
     window.site_config_url = "<%= "#{@site.header_json_url}?no-cache=#{Time.now.to_s}" %>";
     <% if @folder.is_for_stories %>
-        window.intersection_names =  JSON.parse("<%= @intersections.to_json %>");
-        window.subintersection_names =  JSON.parse("<%= @subintersections.to_json %>");
+        window.intersection_names =  <%= @intersections.to_json.html_safe %>;
+        window.subintersection_names =  <%= @subintersections.to_json.html_safe %>;
     <% end %>
     var JCropInstance;
 </script>
