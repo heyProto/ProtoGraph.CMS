@@ -15,48 +15,30 @@
             <tr>
                 <th>#
                 </th>
-                <th>Title
-                </th>
                 <th>Type
+                </th>
+                <th>Title
                 </th>
                 <th colspan=2>Last updated
                 </th>
             </tr>
         </thead>
         <tbody>
-            <% @view_casts.each do |d| %>
-                
-                    <tr>
-                        <td><%=d.id.to_s%>
-                        </td>
-                        <td>
-                            <%= link_to truncate(d.name, length: 200, ommission: ".."), [@account, @site,  @folder,d], "data-turbolinks"=> false  %>
-                        </td>
-                        
-                        <td class="hint"><%= d.template_card.name %>
-                        </td>
-                        
-                        <td><%= image_tag avatar_url(d.updator.email), width: "20px", class: "rounded" %>
-                        </td>
-                        <td class="hint"><%= time_ago_in_words(d.updated_at) %>
-                        </td>
-                    </tr>
-
+            <% @view_casts.each do |d| %>                
+                <tr>
+                    <td><%=d.id.to_s%>
+                    </td>
+                    <td class="hint"><%= d.template_card.name %>
+                    </td>
+                    <td><%= link_to truncate(d.name, length: 200, ommission: ".."), [@account, @site,  @folder,d], "data-turbolinks"=> false  %>
+                    </td>
+                    <td><%= image_tag avatar_url(d.updator.email), width: "20px", class: "rounded" %>
+                    </td>
+                    <td class="hint"><%= time_ago_in_words(d.updated_at) %>
+                    </td>
+                </tr>
             <% end %>
         </tbody>
     </table>
     <%= paginate @view_casts, theme: 'twitter-bootstrap-4', pagination_class: "pagination-sm" %>
 <% end %>
-
-
-
-
-
-      
-    
-
-<script type="text/javascript">
-  $(document).ready(function() {
-    $('[data-toggle="tooltip"]').tooltip();
-  });
-</script>
