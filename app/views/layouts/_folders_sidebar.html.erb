@@ -13,7 +13,7 @@
         </p>
         <ul class="list-group" style="padding-left: 0px;">
           <% @folders.each do |folder| %>
-              <%= link_to truncate(folder_name_trunc_(folder), length: 20, ommission: ".."), account_site_folder_view_casts_path(@account, @site, folder), class: (@folder.present? and folder.id == @folder.id) ? "list-group-item list-group-item-action active" : "list-group-item list-group-item-action" %>
+              <%= link_to truncate(folder_name_trunc_(folder), length: 30, ommission: ".."), account_site_folder_view_casts_path(@account, @site, folder), class: (@folder.present? and folder.id == @folder.id) ? "list-group-item list-group-item-action active" : "list-group-item list-group-item-action" %>
           <% end %>                            
         </ul>
   
