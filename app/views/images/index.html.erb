@@ -1,9 +1,11 @@
+<% content_for :filters_sidebar do %>
+      <%= render partial: "images/form" %>
+    <% if @account.images.present? %>
+      <%= render partial: "images/search_form" %>
+    <% end %>
+<% end %>
 <%= stylesheet_link_tag "image_bank.css" %>
-<div class="container">
-  <div class="row">
-    <div class=<%= @account.images.present? ? "col-sm-13" : "col-sm-16" %>>
-      <div class="row">
-        <div class="container">
+
           <% if (params[:q].present? and @images.blank?) %>
             <div class="blankslate blankslate-spacious">
               <%# Print all params without nil or blank space %>
@@ -21,15 +23,6 @@
             </div>
           <% end %>
         </div>
-      </div>
-    </div>
-    <div class="col-sm-3">
-        <%= render partial: "images/form" %>
-      <% if @account.images.present? %>
-        <%= render partial: "images/search_form" %>
-      <% end %>
-    </div>
-  </div>
   <br/>
   <br/>
   <%= paginate @images %>
