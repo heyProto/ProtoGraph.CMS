@@ -19,7 +19,7 @@
                 </th>
                 <th>Title
                 </th>
-                <th colspan=2>Last updated
+                <th>Last updated
                 </th>
             </tr>
         </thead>
@@ -32,9 +32,9 @@
                     </td>
                     <td><%= link_to truncate(d.name, length: 200, ommission: ".."), [@account, @site,  @folder,d], "data-turbolinks"=> false  %>
                     </td>
-                    <td><%= image_tag avatar_url(d.updator.email), width: "20px", class: "rounded" %>
-                    </td>
-                    <td class="hint"><%= time_ago_in_words(d.updated_at) %>
+                    <td class="hint">
+                        <%= image_tag avatar_url(d.updator.email), width: "20px", class: "rounded" %>
+                        <%= time_ago_in_words(d.updated_at) %>
                     </td>
                 </tr>
             <% end %>
