@@ -15,16 +15,19 @@ ul.list-group > li.list-group-item, ul.list-group > a.list-group-item.list-group
     background: none;
     padding-top: 3px;
     padding-bottom: 3px;
+    font-size: 12px;
 }
 
 ul.list-group > a.list-group-item.list-group-item-action.active{
     background: #607D8B;
     color: white;
+    font-size: 12px;
 }
 
 ul.list-group > a.list-group-item.list-group-item-action:hover{
     background: #CFD8DC;
     color: black;
+    font-size: 12px;
 }
 
 ul.navbar-nav > li.nav-item > a.active{color: black; font-weight: 800;}

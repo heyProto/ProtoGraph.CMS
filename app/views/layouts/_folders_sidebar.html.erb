@@ -1,6 +1,6 @@
 <% if @on_an_account_page %>
 
-        <p style="padding-left: 20px;">
+        <p style="padding-left: 20px; font-size: 1.1em; color: black;">
             <b>Folders</b>
             <% if @folder.present? and @folder.id.blank? %>
                 <span style="float: right; font-weight: 400; font-size: 14px;">
@@ -10,7 +10,7 @@
         </p>
         <ul class="list-group" style="padding-left: 0px;">
           <% @folders.each do |folder| %>
-              <%= link_to folder_name_(folder).html_safe, account_site_folder_view_casts_path(@account, @site, folder), class: (@folder.present? and folder.id == @folder.id) ? "list-group-item list-group-item-action active" : "list-group-item list-group-item-action" %>
+              <%= link_to truncate(folder_name_trunc_(folder), length: 20, ommission: ".."), account_site_folder_view_casts_path(@account, @site, folder), class: (@folder.present? and folder.id == @folder.id) ? "list-group-item list-group-item-action active" : "list-group-item list-group-item-action" %>
           <% end %>                            
         </ul>
   <div style="padding-left: 20px;">
@@ -20,8 +20,8 @@
                   <% if !is_admins_controller or (controller_name != 'accounts' and ['new','create'].include?(action_name)) %>
                       <% if @accounts.count > 1 %>        
                           <li class="nav-item dropdown dropup">
-                              <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <%= @site.name %>
+                              <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="font-size: 12px;">
+                                <%= truncate @site.name, length: 20, ommission: ".." %>
                               </a>
                               <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                                   <% @accounts.each do |a| %>

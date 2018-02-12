@@ -15,4 +15,16 @@ module ApplicationHelper
     end
   end
   
+  def folder_name_trunc_(f)
+    if f.vertical.present?
+        if f.vertical.name_html.present?
+            return f.vertical.name  + ": " + f.name.titleize
+        else
+            return f.vertical.name + ": " + f.name.titleize
+        end
+      else
+        return f.name.titleize
+    end
+  end
+  
 end
