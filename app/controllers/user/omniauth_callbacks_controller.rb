@@ -33,8 +33,8 @@ class User::OmniauthCallbacksController < Devise::OmniauthCallbacksController
 
     ## When the user isnt persisted and isnt authenticated with twitter
     else
-
-      create_new_user(auth)
+      redirect_to root_url, alert: "No existing account found associated with this email ID."
+      #create_new_user(auth)
 
     end
 
