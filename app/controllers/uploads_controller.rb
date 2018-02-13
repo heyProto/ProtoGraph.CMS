@@ -31,7 +31,7 @@ class UploadsController < ApplicationController
     params.require(:upload).permit(:attachment,
                                    :template_card_id,
                                    :account_id,
-                                   :folder_id,:site_id)
+                                   :folder_id,:site_id, :upload_status)
   end
 
   def set_upload
