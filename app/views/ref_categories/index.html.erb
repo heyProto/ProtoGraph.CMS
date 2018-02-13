@@ -1,4 +1,4 @@
-<div class="row">
+
         <div class="col-sm-6" style="padding: 0px; margin-left: auto; margin-right: auto;">
             <p><%= link_to "< Admin", account_site_admins_path(@account, @site) %>
                 <h6>Editorial Planning for <%= @site.domain %></h6>
@@ -39,7 +39,10 @@
 
     <% end %>
   </div>
-  <div class="col-sm-2">
+  <% content_for :filters_sidebar do %>
+      <br/>
+      <br/>
+      <br/>
       <%= simple_form_for(@instance, url: account_site_ref_categories_path(@account, @site), method: :post) do |f| %>
       <%= f.error_notification %>
       <%= f.hidden_field :genre, value: @genre %>
@@ -52,8 +55,7 @@
           <%= f.input :name, required: true, minlength: 3 , maxlength: 15 %>
       </div>
       <div class="form-actions">
-          <%= f.button :submit, value: "Add", class: "btn btn-light" %>
+          <%= f.button :submit, value: "Add", class: "btn btn-primary" %>
       </div>
       <% end %>
-  </div>
-</div>
+  <% end %>
