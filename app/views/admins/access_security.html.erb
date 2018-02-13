@@ -1,0 +1,24 @@
+<div class="row">
+    <div class="col-sm-6" style="padding: 0px; margin-left: auto; margin-right: auto;">
+        <p><%= link_to "< Admin", account_site_admins_path(@account, @site) %>
+            <h6>Access to Site <%= @site.domain %></h6>
+        <h1>Security</h1>
+        <hr/>
+        <br/>
+        <h3>How do you want members to sign up?</h3>
+        <br/>
+        <div style="margin-left: 50px;">
+            <p class="hint">Choose to make your team signup process invitation only, or allow anyone with a certain email address format to sign up.</p>
+            <%= simple_form_for [@account, @site] do |f| %>
+              <%= f.error_notification %>
+              <div class="form-inputs">
+                <%= f.input :email_domain, as: :string, hint: "E.g. google.com. Don't use common domains like gmail, outlook, yahoo, etc." %>
+                <%= f.input :sign_up_mode, as: :select, collection: Site::SIGN_UP_MODES.map{|z| [z, z]}, include_blank: false %>
+                <%= f.input :default_role, as: :select, collection: @permission_roles, include_blank: false %>
+                <%= f.input :from_page, as: :hidden, input_html: {value: "access_security"}%>
+                <%= f.button :submit, "Save", class: "btn btn-primary" %>
+              </div>
+            <% end %>
+        </div>
+        <br/>
+</div>

@@ -1,66 +1,22 @@
 <div class="row">
     <div class="col-sm-6" style="padding: 0px; margin-left: auto; margin-right: auto;">
-        <h1><span style="font-weight: 200;">Site Settings:</span> <%= @site.name %></h1>
-        <br/>
-        <h3>Info</h3>
+        <p><%= link_to "< Admin", account_site_admins_path(@account, @site) %>
+        <h6>Product Setup to Site <%= @site.domain %></h6>
+        <h1>Theming</h1>
         <hr/>
-        <div style="margin-left: 50px;">
-            <%= simple_form_for [@account, @site] do |f| %>
-              <%= f.error_notification %>
-              <%= f.input :domain, hint: "Where is the site hosted?" %>
-              <%= f.input :description, hint: "This will be used in footers, search results, and other places." %>
-              <%= f.input :primary_language, as: :select, collection: [["English", "English"], ["Hindi", "Hindi"]], include_blank: false %>
-              <%= f.input :default_seo_keywords, hint: "These default keywords will be used on homepage.", label: "Default SEO Keywords" %>
-              <%= f.input :created_by, as: :hidden, input_html: {value: current_user.id} %>
-              <%= f.input :updated_by, as: :hidden, input_html: {value: current_user.id} %>
-
-              <%= f.button :submit, "Save", class: "btn btn-light" %>
-            <% end %>
-        </div>
+        <h3>Logos</h3>
         <br/>
-        <h3>Integrations</h3>
-        <hr/>
-        <div style="margin-left: 50px;">
-            <%= simple_form_for [@account, @site] do |f| %>
-              <%= f.error_notification %>
-              <%= f.input :g_a_tracking_id, label: "Google Analytics Tracking Code", hint: "Example: UA-23849503-1" %>
-              <%= f.input :facebook_url %>
-              <%= f.input :twitter_url %>
-              <%= f.input :instagram_url %>
-              <%= f.input :youtube_url %>
-              <%= f.button :submit, "Save", class: "btn btn-light" %>
-            <% end %>
-        </div>
-
-        <br/>
-        <h3>How do you want members to sign up?</h3>
-        <hr/>
-        <div style="margin-left: 50px;">
-            <p class="hint">Choose to make your team signup process invitation only, or allow anyone with a certain email address format to sign up.</p>
-            <%= simple_form_for [@account, @site] do |f| %>
-              <%= f.error_notification %>
-              <div class="form-inputs">
-                <%= f.input :email_domain, as: :string, hint: "E.g. google.com. Don't use common domains like gmail, outlook, yahoo, etc." %>
-                <%= f.input :sign_up_mode, as: :select, collection: Site::SIGN_UP_MODES.map{|z| [z, z]}, include_blank: false %>
-                <%= f.input :default_role, as: :select, collection: @permission_roles, include_blank: false %>
-                <%= f.button :submit, "Save", class: "btn btn-light" %>
-              </div>
-            <% end %>
-        </div>
-        <br/>
-        <h3>Theme</h3>
-        <hr/>
         <div style="margin-left: 50px;">
             <p>Publication logo</p>
             <p class="hint">Use the logo you use as your Twitter Profile. It is square and should be at least 400 × 400px in size.</p>
-            <div style="margin-left: 50px;">
+            <div style="margin-left: 0px;">
               <% if @site.logo_image_id.present? %>
                 <%= image_tag(@site.logo_image.original_image.image_url, class: "rounded", style: "width: 100px;") %>
                 <br/>
                 <%= simple_form_for [@account, @site] do |f| %>
                   <%= f.error_notification %>
                   <%= f.input :logo_image_id, as: :hidden, input_html: {value: nil} %>
-                  <%= f.button :submit, "Remove image", class: "btn btn-light" %>
+                  <%= f.button :submit, "Remove", class: "btn btn-light" %>
                 <% end %>
               <% else %>
                 <%= image_tag("account.png", class: "rounded", style: "width: 100px;") %>
@@ -74,22 +30,25 @@
                     <%= logo_image.input :updated_by, as: :hidden, input_html: {value: current_user.id} %>
                     <%= logo_image.input :account_id, as: :hidden, input_html: {value: @account.id}  %>
                     <%= logo_image.input :is_logo, as: :hidden, input_html: {value: true } %>
+                    
                   <% end %>
-                  <%= f.button :submit, "Upload", class: "btn btn-light" %>
+                  <%= f.input :from_page, as: :hidden, input_html: {value: "product_theme"}%>
+                  <%= f.button :submit, "Upload", class: "btn btn-primary" %>
                 <% end %>
               <% end %>
             </div>
             <br/>
             <p>Publication favicon</p>
             <p class="hint">This is used by mobile browsers to represent a page, appearing in browser tabs and similar places. It is square and should be at least 16 × 16px in size.</p>
-            <div style="margin-left: 50px;">
+            <div style="margin-left: 0px;">
               <% if @site.favicon_id.present? %>
                 <%= image_tag(@site.favicon.original_image.image_url, class: "rounded", style: "max-width: 100px;") %>
                 <br/>
                 <%= simple_form_for [@account, @site] do |f| %>
                   <%= f.error_notification %>
                   <%= f.input :favicon_id, as: :hidden, input_html: {value: nil} %>
-                  <%= f.button :submit, "Remove image", class: "btn btn-light" %>
+                  <%= f.input :from_page, as: :hidden, input_html: {value: "product_theme"}%>
+                  <%= f.button :submit, "Remove", class: "btn btn-light" %>
                 <% end %>
               <% else %>
                 <br/><br/>
@@ -103,33 +62,50 @@
                     <%= favicon.input :account_id, as: :hidden, input_html: {value: @account.id}  %>
                     <%= favicon.input :is_favicon, as: :hidden, input_html: {value: true } %>
                   <% end %>
-                  <%= f.button :submit, "Upload", class: "btn btn-light" %>
+                  <%= f.input :from_page, as: :hidden, input_html: {value: "product_theme"}%>
+                  <%= f.button :submit, "Upload", class: "btn btn-primary" %>
                 <% end %>
               <% end %>
             </div>
         </div>
         <br/>
+        <h3>Colours</h3>
+        <br/>
         <div style="margin-left: 50px;">
             <%= simple_form_for [@account, @site] do |f| %>
               <%= f.error_notification %>
               <%= f.input :house_colour, input_html: {type: :color, style: "height: 40px;"}, label: "House Color", hint: "Choose your brand colour. Wherever possible, we will use this colour.", required: true %>
-              <%= f.input :reverse_house_colour, input_html: {type: :color, style: "height: 40px;"}, label: "Reverse House Color", hint: "Choose a color that is diagonally opposite from your House Color on the color wheel. All sponsored articles will be colored with Reverse House Color.", required: true %>
               <%= f.input :font_colour, input_html: {type: :color, style: "height: 40px;"}, label: "Font Color on House Color", required: true %>
+              <%= f.input :reverse_house_colour, input_html: {type: :color, style: "height: 40px;"}, label: "Reverse House Color", hint: "Choose a color that is diagonally opposite from your House Color on the color wheel. All sponsored articles will be colored with Reverse House Color.", required: true %>
               <%= f.input :reverse_font_colour, input_html: {type: :color, style: "height: 40px;"}, label: "Font Color on Reverse House Color", required: true %>
-              <%= f.input :story_card_style, as: :select, collection: [["Clear: Color", "Clear: Color"], ["Clear: Black & White", "Clear: Black & White"], ["Blur: Color", "Blur: Color"]], label: "Story card Style", include_blank: false %>
-              <%= f.input :story_card_flip, as: :select, collection: [["Yes", true], ["No", false]], label: "Flip story card when it has summary:", include_blank: false %>
-              <%= f.button :submit, "Update", class: "btn btn-light" %>
+              <%= f.input :from_page, as: :hidden, input_html: {value: "product_theme"}%>
+              <%= f.button :submit, "Update", class: "btn btn-primary" %>
           <% end %>
         </div>
         <br/>
-        <h3>Site Header</h3>
-        <hr/>
+        <br/>
+        <h3>toStory Card</h3>
+        <br/>
+        <div style="margin-left: 50px;">
+            <%= simple_form_for [@account, @site] do |f| %>
+              <%= f.error_notification %>
+              <%= f.input :story_card_style, as: :select, collection: [["Clear: Color", "Clear: Color"], ["Clear: Black & White", "Clear: Black & White"], ["Blur: Color", "Blur: Color"]], label: "Story card Style", include_blank: false %>
+              <%= f.input :story_card_flip, as: :select, collection: [["Yes", true], ["No", false]], label: "Flip story card when it has summary:", include_blank: false %>
+              <%= f.input :from_page, as: :hidden, input_html: {value: "product_theme"}%>
+              <%= f.button :submit, "Update", class: "btn btn-primary" %>
+          <% end %>
+        </div>
+        <br/>
+        <br/>
+        <h3>Header</h3>
+        <br/>
         <div style="margin-left: 50px;">
           <%= simple_form_for [@account, @site] do |f| %>
             <%= f.input :header_url, as: :string, required: true, label: "URL" %>
             <%= f.input :header_background_color, input_html: {type: :color, style: "height: 40px;"}, required: true, label: "Background Color" %>
             <%= f.input :header_positioning, collection: [["Left", "left"], ["Center", "center"], ["Right", "right"]], label: "Position", include_blank: false %>
-            <%= f.button :submit, "Update", class: "btn btn-light" %>
+            <%= f.input :from_page, as: :hidden, input_html: {value: "product_theme"}%>
+            <%= f.button :submit, "Update", class: "btn btn-primary" %>
           <% end %>
         </div>
         <br/>

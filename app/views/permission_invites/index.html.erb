@@ -1,8 +1,8 @@
 <div class="row">
     <div class="col-sm-6" style="padding: 0px; margin-left: auto; margin-right: auto;">
-        <h1><span style="font-weight: 200;">Site Categories:</span> <%= @site.domain %></h1>
-        <br/>
-        <h3>People</h3>
+        <p><%= link_to "< Admin", account_site_admins_path(@account, @site) %>
+            <h6>Access to Site <%= @site.domain %></h6>
+        <h1>Team</h1>
         <hr/>
         <span style="text-align: right;float: right" class="hint">
             <span id='invite_members'><a href='#' data-toggle='modal' data-target='#platform_modal'>Invite people</a></span>

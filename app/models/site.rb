@@ -70,6 +70,8 @@ class Site < ApplicationRecord
 
     #ACCESSORS
     accepts_nested_attributes_for :logo_image, :favicon
+    attr_accessor :from_page
+    
     #VALIDATIONS
     validates :name, presence: true, uniqueness: {scope: :account}
 

@@ -62,6 +62,9 @@ Rails.application.routes.draw do
     end
     resources :permission_invites
     resources :sites do
+      resources :admins, only: [:index] do 
+        get "access_team", "access_security", "product_theme", "product_integrations", "editorial_folders", "site_setup", on: :collection
+      end
       resources :permissions do
         put "change_role", on: :member
       end

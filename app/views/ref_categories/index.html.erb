@@ -1,16 +1,10 @@
 <div class="row">
-  <div class="col-sm-6" style="margin-left: auto; margin-right: auto;">
-        <h1><span style="font-weight: 200;">Site Categories:</span> <%= @site.domain %></h1>
-        <br/>
-    <ul class="nav nav-tabs justify-content-center" style="margin-left: auto; margin-right: auto;">
-      <li class="nav-item">
-        <%= link_to  "Intersections", intersection_account_site_path(@account,@site), class: "nav-link #{action_name === 'intersection' ? 'active' : ''}" %>
-      </li>
-      <li class="nav-item">
-        <%= link_to  "Sub Intersections", sub_intersection_account_site_path(@account,@site), class: "nav-link #{action_name === 'sub_intersection' ? 'active' : ''}" %>
-      </li>
-    </ul>
-    <br>
+        <div class="col-sm-6" style="padding: 0px; margin-left: auto; margin-right: auto;">
+            <p><%= link_to "< Admin", account_site_admins_path(@account, @site) %>
+                <h6>Editorial Planning for <%= @site.domain %></h6>
+            <h1><%= action_name.titleize %></h1>
+            <hr/>
+
     <% if @data.first.blank? %>
         <div class="hint">No rows yet</div>
     <% else %>

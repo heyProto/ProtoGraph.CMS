@@ -9,30 +9,36 @@ class SitesController < ApplicationController
     @activities = [] #@account.activities.order("updated_at DESC").limit(30) Need to update the logic for permission
   end
 
-
-  def edit
-    if @site.logo_image_id.nil?
-      @site.build_logo_image
-    end
-    if @site.favicon_id.nil?
-      @site.build_favicon
-    end
-    @permission_roles = PermissionRole.where.not(slug: 'owner').pluck(:name, :slug)
-  end
-
   def update
+    from = params[:site][:from_page]
     if @site.update(site_params)
-      redirect_to edit_account_site_path(@account, @site), notice: 'site was successfully updated.'
+      if from == "site_setup"
+        redirect_to site_setup_account_site_admins_path(@account, @site), notice: 'site was successfully updated.'
+      elsif from == "product_theme"
+        redirect_to product_theme_account_site_admins_path(@account, @site), notice: 'site was successfully updated.'
+      elsif from == "product_integrations"
+        redirect_to product_integrations_account_site_admins_path(@account, @site), notice: 'site was successfully updated.'
+      elsif from == "access_security"
+        redirect_to access_security_account_site_admins_path(@account, @site), notice: 'site was successfully updated.'
+      end
     else
       @permission_role = PermissionRole.where.not(slug: 'owner').pluck(:name, :slug)
-      render :edit
+      if from == "site_setup"
+        render "admins/site_setup"
+      elsif from == "product_theme"
+        render "admins/product_theme"
+      elsif from == "product_integrations"
+        render "admins/product_integrations"
+      elsif from == "access_security"
+        render "admins/access_security"
+      end
     end
   end
 
   private
 
   def site_params
-    params.require(:site).permit(:account_id, :name, :domain, :sign_up_mode,:description, :primary_language, :default_seo_keywords,
+    params.require(:site).permit(:from_page, :account_id, :name, :domain, :sign_up_mode,:description, :primary_language, :default_seo_keywords,
                                  :house_colour, :reverse_house_colour, :font_colour, :reverse_font_colour, :stream_url, :email_domain,
                                  :stream_id, :cdn_provider, :cdn_id, :host, :cdn_endpoint, :client_token, :access_token, :story_card_style,
                                  :client_secret, :facebook_url, :twitter_url, :instagram_url, :youtube_url, :g_a_tracking_id, :logo_image_id, :favicon_id, :default_role, :sign_up_mode,

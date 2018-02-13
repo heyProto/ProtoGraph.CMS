@@ -1,0 +1,20 @@
+<div class="row">
+    <div class="col-sm-6" style="padding: 0px; margin-left: auto; margin-right: auto;">
+        <p><%= link_to "< Admin", account_site_admins_path(@account, @site) %>
+            <h6>Product Setup to Site <%= @site.domain %></h6>
+        <h1>Integrations</h1>
+        <hr/>
+        <div style="margin-left: 0px;">
+            <%= simple_form_for [@account, @site] do |f| %>
+              <%= f.error_notification %>
+              <%= f.input :g_a_tracking_id, label: "Google Analytics Tracking Code", hint: "Example: UA-23849503-1" %>
+              <%= f.input :facebook_url %>
+              <%= f.input :twitter_url %>
+              <%= f.input :instagram_url %>
+              <%= f.input :youtube_url %>
+              <%= f.input :from_page, as: :hidden, input_html: {value: "product_integrations"}%>
+              <%= f.button :submit, "Save", class: "btn btn-primary" %>
+            <% end %>
+        </div>
+    </div>
+</div>

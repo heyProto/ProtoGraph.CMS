@@ -1,6 +1,8 @@
 <div class="row">
   <div class="col-sm-6" style="margin-left: auto; margin-right: auto;">
-    <h1>Page Manager</h1>
+      <p><%= link_to "< Admin", account_site_admins_path(@account, @site) %>
+      <h6>Editorial Planning for <%= @site.domain %></h6>
+    <h1>Verticals</h1>
     <hr/>
     <% if @data.first.blank? %>
         <div class="hint">No rows yet</div>

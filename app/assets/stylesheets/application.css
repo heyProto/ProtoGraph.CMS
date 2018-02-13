@@ -16,6 +16,7 @@
  *= require app/theme.css
  *= require app/style.css
  *= require app/sign-up-area.css
+ *= require app/admins.scss
  *= require_self
  */
 
