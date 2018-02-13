@@ -20,7 +20,7 @@ class FoldersController < ApplicationController
     folder_params[:updated_by] = current_user.id
     if @folder.update(folder_params)
       track_activity(@folder)
-      redirect_to account_site_folder_path(@account, @site, @folder), notice: t("us")
+      redirect_to account_site_folder_view_casts_path(@account, @site, @folder), notice: t("us")
     else
       @verticals = @site.ref_categories.where(genre: 'series').pluck(:name, :id)
       @folder.collaborator_lists = @folder.users.pluck(:id)
@@ -35,7 +35,7 @@ class FoldersController < ApplicationController
     @folder.collaborator_lists = ["#{current_user.id}"] if ["contributor", "writer"].include?(@permission_role.slug)
     if @folder.save
       track_activity(@folder)
-      redirect_to account_site_folder_path(@account, @site, @folder), notice: t("cs")
+      redirect_to account_site_folder_view_casts_path(@account, @site, @folder), notice: t("cs")
     else
       @verticals = @site.ref_categories.where(genre: 'series').pluck(:name, :id)
       render "new"
@@ -45,7 +45,7 @@ class FoldersController < ApplicationController
   private
 
     def folder_params
-      params.require(:folder).permit(:account_id, :name, :created_by, :updated_by, :site_id, :is_archived, :is_open, 
+      params.require(:folder).permit(:account_id, :name, :created_by, :updated_by, :site_id, :is_archived, :is_open,
                                     :ref_category_vertical_id, :is_for_stories, collaborator_lists: [])
     end
 

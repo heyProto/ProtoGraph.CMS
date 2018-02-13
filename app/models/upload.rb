@@ -16,6 +16,7 @@
 #  upload_status    :string(255)      default("waiting")
 #  total_rows       :integer
 #  rows_uploaded    :integer
+#  site_id          :integer
 #
 
 class Upload < ApplicationRecord
@@ -25,6 +26,7 @@ class Upload < ApplicationRecord
   #GEMS
   #ASSOCIATIONS
   belongs_to :account
+  belongs_to :site
   belongs_to :template_card
   belongs_to :folder
   include Associable
