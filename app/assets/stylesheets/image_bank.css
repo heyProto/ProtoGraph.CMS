@@ -1,7 +1,7 @@
 /*
  *= require vendors_image_bank/jquery.Jcrop.min.css
  *= require vendors_image_bank/jquery.justified.css
- *= require vendors_image_bank/farbtastic/farbtastic.css
+ *= require vendors_image_bank/farbtastic.css
  */
 .photo-container:hover .photograph-image-details {
   display: block;
