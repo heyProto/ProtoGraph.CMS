@@ -19,7 +19,7 @@
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                               
-                              <h6 class="sidebar-head"><%= truncate @site.name, length: 20, ommission: ".." %></h6>
+                              <h6 class="sidebar-head"><%= truncate @site.name, length: 10, ommission: ".." %></h6>
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                                 <% @accounts.each do |a| %>
