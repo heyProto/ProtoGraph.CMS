@@ -1,6 +1,12 @@
 .folders_sidebar{
     line-height: 1.8rem;
     a{color: black;}
+    
+    .sidebar-head {
+      font-size: 1rem;
+      font-weight: 700;
+      color: white;
+    } 
 
     .channels {
       padding-top: 1rem;
@@ -32,6 +38,8 @@
     .list-title {
       margin-top: 1rem;
     }
+    
+    
 
     li:hover {
       background-color: #CFD8DC;
@@ -47,4 +55,21 @@
     .channel-name {
        color: rgba(255, 255, 255, 0.7);
     }
+}
+
+.round {
+  -webkit-border-top-left-radius: 1px;
+  -webkit-border-top-right-radius: 2px;
+  -webkit-border-bottom-right-radius: 3px;
+  -webkit-border-bottom-left-radius: 4px;
+
+  -moz-border-radius-topleft: 1px;
+  -moz-border-radius-topright: 2px;
+  -moz-border-radius-bottomright: 3px;
+  -moz-border-radius-bottomleft: 4px;
+
+  border-top-left-radius: 1px;
+  border-top-right-radius: 2px;
+  border-bottom-right-radius: 3px;
+  border-bottom-left-radius: 4px;
 }
