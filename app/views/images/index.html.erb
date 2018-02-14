@@ -14,7 +14,7 @@
     <% h.each {|k, v| search_params << "#{k.split("_")[0]} containing \"#{v}\""} %>
     <h3>No images with <%= search_params.join(" and ") %> found</h3>
   </div>
-<% elsif @account.images.first.present? %>
+<% elsif @images.first.present? %>
   <div id="imageContainer"></div>
 <% else %>
   <div class="blankslate blankslate-spacious">
