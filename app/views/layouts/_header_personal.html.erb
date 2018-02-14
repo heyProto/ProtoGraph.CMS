@@ -1,9 +1,6 @@
 <ul class="navbar-nav ml-auto float-right">
 </ul>
 <ul class="navbar-nav ml-auto float-right">
-    <% if @site.present? %>
-        <%= link_to image_tag("glyphicons-138-cogwheels.png", height: "20px"), account_site_admins_path(@account, @site), "data-turbolinks"=> false, class: "nav-link" %>
-    <% end %>
     <li class="nav-item dropdown">
     <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
       <%= image_tag avatar_url(current_user.email), class: "rounded", style: "width: 20px;" %>

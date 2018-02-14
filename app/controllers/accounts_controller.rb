@@ -8,6 +8,7 @@ class AccountsController < ApplicationController
   end
 
   def edit
+    @is_admin = true
     @permissions = @account.permissions.not_hidden.where(ref_role_slug: "owner").includes(:user).page params[:page]
     @permission_invite = PermissionInvite.new
     @permission_invites = @account.permission_invites.where(ref_role_slug: "owner")
@@ -29,6 +30,7 @@ class AccountsController < ApplicationController
       else
         format.json { respond_with_bip(@account) }
         format.html {
+          @is_admin = true
           @permissions = @account.permissions.not_hidden.where(ref_role_slug: "owner").includes(:user).page params[:page]
           @people_count = @account.users.count
           @permission_invite = PermissionInvite.new

@@ -45,6 +45,9 @@
             <% end %>
             <li class="<%=(controller_name == "pages" and action_name == "manager") ? "active" : nil %>"><%= link_to "Pages", manager_account_site_pages_path(@account, @site) %></li>
             <li class="<%=(controller_name == "images") ? "active" : nil %>"><%= link_to "Images", account_images_path(@account) %></li>
+
+                <li class="<%=@is_admin ? "active" : nil %>"><%= link_to "Admin", account_site_admins_path(@account, @site), "data-turbolinks"=> false %></li>
+
             </ul>
         <% end %>
     

@@ -11,6 +11,7 @@ class PermissionInvitesController < ApplicationController
     @pending_invites_count = @site.permission_invites.count
     @permission_invites = @site.permission_invites
     @permission_roles = PermissionRole.where.not(slug: "owner").pluck(:name, :slug)
+    @is_admin = true
   end
 
   def create

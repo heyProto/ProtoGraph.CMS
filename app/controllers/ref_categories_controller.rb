@@ -7,6 +7,7 @@ class RefCategoriesController < ApplicationController
 
 
   def series
+    @is_admin = true
     @genre = "series"
     @data = @site.ref_categories.where(genre: "series").order(:name)
     @instance = RefCategory.new
@@ -14,6 +15,7 @@ class RefCategoriesController < ApplicationController
   end
 
   def intersection
+    @is_admin = true
     @genre = "intersection"
     @data = @site.ref_categories.where(genre: "intersection").order(:name)
     @instance = RefCategory.new
@@ -21,6 +23,7 @@ class RefCategoriesController < ApplicationController
   end
 
   def sub_intersection
+    @is_admin = true
     @genre = "sub intersection"
     @data = @site.ref_categories.where(genre: "sub intersection").order(:name)
     @instance = RefCategory.new

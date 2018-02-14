@@ -4,6 +4,7 @@ class FoldersController < ApplicationController
 
   def new
     @folder = @account.folders.new
+    @is_admin = true
     @folder.is_for_stories = true
     @verticals = @site.ref_categories.where(genre: 'series').pluck(:name, :id)
   end
@@ -37,6 +38,7 @@ class FoldersController < ApplicationController
       track_activity(@folder)
       redirect_to account_site_folder_view_casts_path(@account, @site, @folder), notice: t("cs")
     else
+      @is_admin = true
       @verticals = @site.ref_categories.where(genre: 'series').pluck(:name, :id)
       render "new"
     end
