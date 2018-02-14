@@ -31,3 +31,37 @@ ul.list-group > a.list-group-item.list-group-item-action:hover{
 }
 
 ul.navbar-nav > li.nav-item > a.active{color: black; font-weight: 800;}
+
+.administration-options{
+    background: #fafafa;
+    padding: 28px;
+    box-sizing: border-box;
+    display: inline-block;
+    text-align: center;
+    height: 80px;
+    width: 100%;
+    border-radius: 4px;
+    margin-bottom: 5px;
+}
+
+.administration-options img{
+    opacity: 0.5;
+}
+
+.col-sm-5 a:hover .administration-options img{
+    opacity: 1;
+    text-decoration: none;
+    color: black;
+}
+
+.col-sm-5 a{
+    color: black;
+    /*text-transform: uppercase;*/
+    font-size: 12px;
+    letter-spacing: 0.5px;
+    text-align: center;
+}
+
+.col-without-padding{
+    padding-left: 0px;
+}
