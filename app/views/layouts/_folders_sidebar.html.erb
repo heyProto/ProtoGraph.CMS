@@ -36,6 +36,7 @@
     
     
         <% if @site.present? %>
+        <div class="list-title channels" style="padding-top: 0px; margin-top: 0px; line-height: 1em; margin-bottom: 10px;">WRITE</div>
             <ul>
             <% if @folder.present? and @folder.id.present? %>                
                 <li class="<%=controller_name == "view_casts" ? "active" : nil%>"><%= link_to "Cards", account_site_folder_view_casts_path(@account, @site, @folder) %></li>
