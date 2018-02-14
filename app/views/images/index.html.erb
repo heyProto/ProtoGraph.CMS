@@ -28,7 +28,7 @@
 <script type="text/javascript">
   var images = <%= @images.as_json.to_json.html_safe %>;
 
-  $(document).ready(function() {
+  $(document).on("turbolinks:load", function() {
     var maxHeight = 100;
     if (images.length) {
       $('#imageContainer').empty().justifiedImages({
