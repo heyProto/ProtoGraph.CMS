@@ -36,7 +36,13 @@
         <% elsif controller_name == "pages" and action_name == "index" %>
             <%= link_to '+ Add a story', new_account_site_page_path(@account, @site, folder_id: @folder.id), data: {turbolinks: false}, class: "btn btn-sm btn-primary", style: "margin-top: 5px;" %>
         <% elsif controller_name == "images" %>
-            <%= link_to '+ Upload an image', "#", class: "btn btn-sm btn-primary",style: "margin-top: 5px;", "data-toggle" => "modal", "data-target" => "#fileUploadModal" %>
+            <%= link_to '+ Upload an image', "#",id: "upload_image_button" ,class: "btn btn-sm btn-primary",style: "margin-top: 5px;", "data-toggle" => "modal", "data-target" => "#fileUploadModal" %>
+
+            <script type="text/javascript">
+                $(document).on('turbolinks:load', function(){
+                    $('#fileUploadModal').appendTo("body");
+                })
+            </script>
         <% end %>
     <% end %>
 <% end %>

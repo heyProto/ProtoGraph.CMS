@@ -5,24 +5,23 @@
     <% end %>
 <% end %>
 <%= stylesheet_link_tag "image_bank.css" %>
-    <%= paginate @images, theme: 'twitter-bootstrap-4', pagination_class: "pagination-sm" %>
-          <% if (params[:q].present? and @images.blank?) %>
-            <div class="blankslate blankslate-spacious">
-              <%# Print all params without nil or blank space %>
-              <% h = params[:q].as_json.keep_if {|k, v| v != nil and v != ""} %>
-              <% search_params = [] %>
-              <% h.each {|k, v| search_params << "#{k.split("_")[0]} containing \"#{v}\""} %>
-              <h3>No images with <%= search_params.join(" and ") %> found</h3>
-            </div>
-          <% elsif @account.images.first.present? %>
-            <div id="imageContainer"></div>
-          <% else %>
-            <div class="blankslate blankslate-spacious">
-              <h3>No images uploaded yet.</h3>
-              <p>Use the [+ Upload image] button on the top right.</p>
-            </div>
-          <% end %>
-        </div>
+<%= paginate @images, theme: 'twitter-bootstrap-4', pagination_class: "pagination-sm" %>
+<% if (params[:q].present? and @images.blank?) %>
+  <div class="blankslate blankslate-spacious">
+    <%# Print all params without nil or blank space %>
+    <% h = params[:q].as_json.keep_if {|k, v| v != nil and v != ""} %>
+    <% search_params = [] %>
+    <% h.each {|k, v| search_params << "#{k.split("_")[0]} containing \"#{v}\""} %>
+    <h3>No images with <%= search_params.join(" and ") %> found</h3>
+  </div>
+<% elsif @account.images.first.present? %>
+  <div id="imageContainer"></div>
+<% else %>
+  <div class="blankslate blankslate-spacious">
+    <h3>No images uploaded yet.</h3>
+    <p>Use the [+ Upload image] button on the top right.</p>
+  </div>
+<% end %>
 </div>
 <%= javascript_include_tag "justified.js" %>
 <%= javascript_include_tag "select2.js" %>
