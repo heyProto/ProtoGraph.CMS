@@ -1,21 +1,27 @@
 <% if @on_an_account_page %>
-
-        <p style="padding-left: 20px; font-size: 0.8em; color: gray; margin-bottom: 0px; padding-bottom: 0px;">
-            Organise work with
-        </p>
-        <p style="padding-left: 20px; font-size: 1.2em; color: black;">
-            <b>Folders</b>
-            <% if @folder.present? and @folder.id.blank? %>
-                <span style="float: right; font-weight: 400; font-size: 14px;">
-                    <%= link_to "+ Add", new_account_site_folder_path(@account, @site) %>
-                </span>
-            <% end %>
-        </p>
-        <ul class="list-group" style="padding-left: 0px;">
+<div class="folders_sidebar">
+    <% if @folder.present? and @folder.id.blank? %>
+        <span style="float: right; font-weight: 400; font-size: 14px;">
+            <%= link_to "+ Add", new_account_site_folder_path(@account, @site) %>
+        </span>
+    <% end %>
+      <div class="list-title channels">FOLDERS</div>
+      
+          
+      
+      <ul>
           <% @folders.each do |folder| %>
-              <%= link_to truncate(folder_name_trunc_(folder), length: 24, ommission: ".."), account_site_folder_view_casts_path(@account, @site, folder), class: (@folder.present? and folder.id == @folder.id) ? "list-group-item list-group-item-action active" : "list-group-item list-group-item-action" %>
-          <% end %>                            
-        </ul>
+              <li class="<%= (@folder.present? and folder.id == @folder.id) ? "active" : nil %>"><%= link_to truncate(folder_name_trunc_(folder), length: 24, ommission: ".."), account_site_folder_view_casts_path(@account, @site, folder) %></li>
+          <% end %>
+      </ul>
+</div>
+
+
+
+
+
+
+        
   
         <div style="position: fixed; bottom: 0px; width: 11.5%;">      
             <hr style="padding-left: 0px; margin-bottom: 5px;"/>

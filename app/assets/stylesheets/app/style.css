@@ -1,34 +1,9 @@
-body{font-size: 15px; font-family: 'Open Sans Bold', sans-serif;}
+body{font-size: 15px; font-family: 'Lato', sans-serif;}
 a{color: #0366d6;}
 h1{font-size: 2em; line-height: 40px; font-weight: 800;}
 h2{font-size: 1.7em; line-height: 30px; font-weight: 600;}
 h3{font-size: 1.1em; line-height: 20px; font-weight: 600;}
 h4{font-size: 1em; line-height: 20px; font-weight: 600;}
-
-ul.list-group{
-    border: 0px;
-    background: none;
-}
-
-ul.list-group > li.list-group-item, ul.list-group > a.list-group-item.list-group-item-action{
-    border: 0px;
-    background: none;
-    padding-top: 3px;
-    padding-bottom: 3px;
-    font-size: 12px;
-}
-
-ul.list-group > a.list-group-item.list-group-item-action.active{
-    background: #607D8B;
-    color: white;
-    font-size: 12px;
-}
-
-ul.list-group > a.list-group-item.list-group-item-action:hover{
-    background: #CFD8DC;
-    color: black;
-    font-size: 12px;
-}
 
 ul.navbar-nav > li.nav-item > a.active{color: black; font-weight: 800;}
 

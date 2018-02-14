@@ -1,0 +1,50 @@
+.folders_sidebar{
+    line-height: 1.8rem;
+    a{color: black;}
+
+    .channels {
+      padding-top: 1rem;
+      font-size: 1rem;
+      font-weight: 400;
+    }
+
+    .channels:hover {
+      color: white;
+    }
+
+    span {
+      font-weight: 300;
+      color: rgba(255, 255, 255, 0.25)
+    }
+
+    ul {
+      padding: 0;
+      font-size: 0.85rem;
+      font-weight: 100;
+      list-style-type: none;
+    }
+
+    li, .list-title {
+      padding: 0 1rem;
+      cursor: pointer;
+    }
+
+    .list-title {
+      margin-top: 1rem;
+    }
+
+    li:hover {
+      background-color: #CFD8DC;
+      border-radius: 0.2rem;
+    }
+
+    li.active {
+      background-color: #607D8B;
+      border-radius: 0.2rem;
+    }
+
+    .profile-name, .channels, ul,
+    .channel-name {
+       color: rgba(255, 255, 255, 0.7);
+    }
+}
