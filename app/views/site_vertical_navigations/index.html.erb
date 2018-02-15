@@ -1,8 +1,7 @@
-<div class="row">
+
   <div class="col-sm-6" style="margin-left: auto; margin-right: auto;">
-    <h1><span style="font-weight: 200;"><%= link_to "Page Manager", manager_account_site_pages_path(@account, @site) %></span> / <%= @ref_category.name %></h1>
-    <br>
-    <h2>Navigation</h2>
+      <%= link_to "Page Builder", manager_account_site_pages_path(@account, @site) %>
+    <h1>Navigation for <%= @ref_category.name %></h1>
     <hr/>
     <% if @site_vertical_navigations.first.blank? %>
         <div class="hint">No rows yet</div>
@@ -26,21 +25,22 @@
       </table>
     <% end %>
   </div>
-  <div class="col-sm-2">
-      <%= simple_form_for(@site_vertical_navigation, url: account_site_ref_category_site_vertical_navigations_path(@account, @site, @ref_category), method: :post) do |f| %>
-        <%= f.error_notification %>
+  
 
-        <div class="form-inputs">
-          <%= f.input :site_id, as: :hidden, input_html: {value: @site.id} %>
-          <%= f.input :ref_category_vertical_id, as: :hidden, input_html: {value: @ref_category.id} %>
-          <%= f.input :name, required: true, minlength: 3 , maxlength: 15 %>
-          <%= f.input :url, required: true, minlength: 4 %>
-          <%= f.input :launch_in_new_window, label: "&nbsp; Launch in new window".html_safe %>
-        </div>
+<% content_for :filters_sidebar do %>
+    <%= simple_form_for(@site_vertical_navigation, url: account_site_ref_category_site_vertical_navigations_path(@account, @site, @ref_category), method: :post) do |f| %>
+      <%= f.error_notification %>
 
-        <div class="form-actions">
-          <%= f.button :submit, "Add", class: "btn btn-light" %>
-        </div>
-      <% end %>
-  </div>
-</div>
+      <div class="form-inputs">
+        <%= f.input :site_id, as: :hidden, input_html: {value: @site.id} %>
+        <%= f.input :ref_category_vertical_id, as: :hidden, input_html: {value: @ref_category.id} %>
+        <%= f.input :name, required: true, minlength: 3 , maxlength: 15 %>
+        <%= f.input :url, required: true, minlength: 4 %>
+        <%= f.input :launch_in_new_window, label: "&nbsp; Launch in new window".html_safe %>
+      </div>
+
+      <div class="form-actions">
+        <%= f.button :submit, "Add", class: "btn btn-primary" %>
+      </div>
+    <% end %>
+<% end %>
