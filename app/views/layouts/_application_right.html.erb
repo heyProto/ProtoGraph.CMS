@@ -9,7 +9,7 @@
         <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           <%= image_tag avatar_url(current_user.email), class: "rounded", style: "width: 20px;" %>
         </a>
-        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
+        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink" style="z-index=1022;">
                 <% if 1 == 2 %>
                     <%= link_to "Audio Bank", account_audios_path(@account), "data-turbolinks"=> false, class: "dropdown-item"  %>
                 <% end %>
@@ -30,20 +30,3 @@
       </li>
     </ul>
 </nav>
-<% content_for :filters_sidebar do %>
-    <% if @site.present? %>
-        <% if controller_name == "view_casts" %>
-            <%= link_to '+ Add a card', new_account_site_folder_view_cast_path(@account, @site, @folder), data: {turbolinks: false}, class: "btn btn-sm btn-primary", style: "margin-top: 5px;" %>
-        <% elsif controller_name == "pages" and action_name == "index" %>
-            <%= link_to '+ Add a story', new_account_site_page_path(@account, @site, folder_id: @folder.id), data: {turbolinks: false}, class: "btn btn-sm btn-primary", style: "margin-top: 5px;" %>
-        <% elsif controller_name == "images" %>
-            <%= link_to '+ Upload an image', "#",id: "upload_image_button" ,class: "btn btn-sm btn-primary",style: "margin-top: 5px;", "data-toggle" => "modal", "data-target" => "#fileUploadModal" %>
-
-            <script type="text/javascript">
-                $(document).on('turbolinks:load', function(){
-                    $('#fileUploadModal').appendTo("body");
-                })
-            </script>
-        <% end %>
-    <% end %>
-<% end %>
