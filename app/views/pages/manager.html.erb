@@ -1,40 +1,59 @@
-
-  <div class="col-sm-6" style="margin-left: auto; margin-right: auto;">
-      
-      <h6>Editorial Planning for <%= @site.domain %></h6>
-    <h1>Verticals</h1>
-    <hr/>
-    <% if @data.first.blank? %>
-        <div class="hint">No rows yet</div>
-    <% else %>
-      <table class="table table-lg table-responsive">
-        <tbody>
-          <% @data.each do |ref_category| %>
+<% if @data.first.blank? %>
+    <div class="hint">No rows yet</div>
+<% else %>
+    <table class="table table-hover table-responsive">
+        <thead>
             <tr>
-              <td style="border: 0px;">
-                <% if ref_category.name_html.present? %>
-                  <%= ref_category.name_html.html_safe %>
-                <% else %>
-                    <%= ref_category.name %>
-                <% end %>
-                <div class="hint"><%= ref_category.updator.name %></div>
-              </td>
-              <td style="border: 0px;text-align: right">
-                  <% if ref_category.vertical_page.present? %>
-                  <%= link_to "Vertical's homepage", edit_account_site_page_path(@account, @site, ref_category.vertical_page)%>
-                  <% end %>
-              </td>
-              <td style="border: 0px;text-align: right">
-                <%= link_to "Navigation", account_site_ref_category_site_vertical_navigations_path(@account, @site, ref_category) %>
-                    &nbsp;&nbsp;&nbsp;&nbsp;
-              </td>
+                <th>#
+                </th>
+                <th>Vertical
+                </th>
+                <th>
+                </th>
+                <th>Last updated
+                </th>
             </tr>
-          <% end %>
+        </thead>
+        <tbody>
+            <% @data.each do |ref_category| %>                
+                <% d = ref_category.vertical_page %>
+                <tr>
+                    <td class="hint">
+                        <% if d.present? %>
+                            <% if d.view_cast.present? %>
+                                <%= d.view_cast.id.to_s %>
+                            <% end %>
+                        <% end %>
+                    </td>
+                    <td>
+                        <% if d.present? %>
+                            <% if ref_category.name_html.present? %>
+                              <%= link_to ref_category.name_html.html_safe, edit_account_site_page_path(@account, @site, d, folder_id: d.folder_id), "data-turbolinks"=> false %>
+                            <% else %>
+                                <%= link_to ref_category.name, edit_account_site_page_path(@account, @site, d, folder_id: d.folder_id), "data-turbolinks"=> false %>
+                            <% end %>
+                        <% else %>
+                            <% if ref_category.name_html.present? %>
+                              <%= ref_category.name_html.html_safe %>
+                            <% else %>
+                                <%= ref_category.name %>
+                            <% end %>
+                        <% end %>
+                    </td>
+                    <td>
+                        <%= link_to "Navigation", account_site_ref_category_site_vertical_navigations_path(@account, @site, ref_category) %>
+                    </td>
+                    <td class="hint">
+                        <% if d.present? %>
+                            <%= image_tag avatar_url(d.updator.email), width: "20px", class: "rounded" %>
+                            <%= time_ago_in_words(d.updated_at) %>
+                        <% end %>
+                    </td>
+                </tr>
+            <% end %>
         </tbody>
-      </table>
-
-    <% end %>
-  </div>
+    </table>
+<% end %>
 
 <script type="text/javascript">
   $(document).on("turbolinks:load", function(){
