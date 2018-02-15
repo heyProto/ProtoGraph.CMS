@@ -40,3 +40,7 @@ ul.navbar-nav > li.nav-item > a.active{color: black; font-weight: 800;}
 .col-without-padding{
     padding-left: 0px;
 }
+
+.mr-auto{
+    margin-right: auto;
+}
