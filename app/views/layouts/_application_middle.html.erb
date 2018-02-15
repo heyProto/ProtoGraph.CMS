@@ -1,7 +1,7 @@
-<nav class="navbar sticky-top navbar-expand-lg navbar-light" style="background: #FAFAFA;">
+  <nav class="navbar sticky-top navbar-expand-lg navbar-light" style="background: #FAFAFA;">
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <% if @site.present? %>
-          <ul class="nav navbar-nav mr-auto">
+          <ul class="navbar-nav mr-auto">
               <li class="<%=(controller_name == "pages" and action_name == "manager") ? "nav-item active" : "nav-item" %>"><%= link_to "Page Builder", manager_account_site_pages_path(@account, @site), "data-turbolinks"=> false, class:"nav-link" %></li>
               <% if @folder.present? and @folder.id.present? %>
                   <% if @folder.vertical.present? and @folder.is_for_stories %>
@@ -11,7 +11,7 @@
               <% end %>
               <li class="<%=(controller_name == "images") ? "nav-item active" : "nav-item" %>"><%= link_to "Images", account_images_path(@account), "data-turbolinks"=> false, class:"nav-link"  %></li>
           </ul>
-          <ul class="navbar-nav">
+          <form class="form-inline my-2 my-lg-0">
               <% if controller_name == "view_casts" %>
                   <%= link_to '+ Add a card', new_account_site_folder_view_cast_path(@account, @site, @folder), data: {turbolinks: false}, class: "btn btn-sm btn-dark" %>
               <% elsif controller_name == "pages" and action_name == "index" %>
@@ -24,7 +24,7 @@
                       })
                   </script>
               <% end %>
-          </ul>
+          </form>
       <% end %>
     </div>
 </nav>
