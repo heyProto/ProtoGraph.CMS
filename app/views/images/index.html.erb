@@ -9,7 +9,7 @@
 <% if (params[:q].present? and @images.blank?) %>
   <div class="blankslate blankslate-spacious">
     <%# Print all params without nil or blank space %>
-    <% h = params[:q].as_json.keep_if {|k, v| v != nil and v != ""} %>
+    <% h = params[:q].as_json(@folder).keep_if {|k, v| v != nil and v != ""} %>
     <% search_params = [] %>
     <% h.each {|k, v| search_params << "#{k.split("_")[0]} containing \"#{v}\""} %>
     <h3>No images with <%= search_params.join(" and ") %> found</h3>
@@ -25,7 +25,7 @@
 <%= javascript_include_tag "justified.js" %>
 <%= javascript_include_tag "select2.js" %>
 <script type="text/javascript">
-  var images = <%= @images.as_json.to_json.html_safe %>;
+  var images = <%= @images.as_json(folder_id: @folder.present? ? @folder.id : nil).to_json.html_safe %>;
 
   $(document).on("turbolinks:load", function() {
     var maxHeight = 100;
