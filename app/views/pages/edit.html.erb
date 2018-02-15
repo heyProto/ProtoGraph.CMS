@@ -34,11 +34,14 @@
                     <div class="col-sm-6" style="margin-left: auto; margin-right: auto;">
                         <%= f.error_notification %>
                         <div class="form-inputs">
-                            <% unless @site.is_english %>
-                                <%= f.input :english_headline, required: true, minlength: 50 , maxlength: 90, hint: "This is used for url management." %>
+                            <% if @is_article_page %>
+                                <% unless @site.is_english %>
+                                    <%= f.input :english_headline, required: true, minlength: 50 , maxlength: 90, hint: "This is used for url management." %>
+                                    <% end %>
+                                    <%= f.input :headline, required: true, minlength: 50 , maxlength: 90, hint: "Minimum length: 50 chars. Maximum length: 90 chars." %>
+                            
+                                <%= f.input :summary, minlength: 50 , maxlength: 220, hint: "Minimum length: 50 chars. Maximum length: 200 chars." %>
                             <% end %>
-                            <%= f.input :headline, required: true, minlength: 50 , maxlength: 90, hint: "Minimum length: 50 chars. Maximum length: 90 chars." %>
-                            <%= f.input :summary, minlength: 50 , maxlength: 220, hint: "Minimum length: 50 chars. Maximum length: 200 chars." %>
                             <%= f.input :byline, required: true, label: "What byline do you want on the website?" %>
                             <%= f.input :publish, as: :boolean, label: "&nbsp; Publish Page?".html_safe, hint: "Until you want the Story Card to be published live on your site, do not mark the article as published." %>
                             <div class="form-actions">
@@ -55,19 +58,21 @@
                     </div>
                     <div class="col-sm-2">
                         <div class="form-inputs">
-                            <p><b>Classification:</b></p>
-                            <% if @ref_intersection.first.present? %>
-                                <%= f.input :ref_category_intersection_id, label: "Intersection", collection: @ref_intersection, include_blank: true %>
+                            <% if @is_article_page %>
+                                <p><b>Classification:</b></p>
+                                <% if @ref_intersection.first.present? %>
+                                    <%= f.input :ref_category_intersection_id, label: "Intersection", collection: @ref_intersection, include_blank: true %>
+                                <% end %>
+                                <% if @ref_sub_intersection.first.present? %>
+                                    <%= f.input :ref_category_sub_intersection_id, label: "Sub Intersection", collection: @ref_sub_intersection, include_blank: true %>
+                                <% end %>
+                                <%= f.input :is_sponsored, label: "&nbsp; Is Sponsored?".html_safe %>
+                                <p><b>Story elements:</b></p>
+                                <%= f.input :has_data, label: "&nbsp; Data or charts?".html_safe %>
+                                <%= f.input :has_image_other_than_cover, label: "&nbsp; Image?".html_safe %>
+                                <%= f.input :has_audio, label: "&nbsp; Audio?".html_safe %>
+                                <%= f.input :has_video, label: "&nbsp; Video?".html_safe %>
                             <% end %>
-                            <% if @ref_sub_intersection.first.present? %>
-                                <%= f.input :ref_category_sub_intersection_id, label: "Sub Intersection", collection: @ref_sub_intersection, include_blank: true %>
-                            <% end %>
-                            <%= f.input :is_sponsored, label: "&nbsp; Is Sponsored?".html_safe %>
-                            <p><b>Story elements:</b></p>
-                            <%= f.input :has_data, label: "&nbsp; Data or charts?".html_safe %>
-                            <%= f.input :has_image_other_than_cover, label: "&nbsp; Image?".html_safe %>
-                            <%= f.input :has_audio, label: "&nbsp; Audio?".html_safe %>
-                            <%= f.input :has_video, label: "&nbsp; Video?".html_safe %>
                             <p><b>SEO:</b></p>
                             <%= f.input :meta_keywords %>
                             <%= f.input :meta_description %>
