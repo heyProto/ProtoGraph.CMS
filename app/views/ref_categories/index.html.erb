@@ -22,14 +22,21 @@
                       </td>
 
                       <td style="border: 0px;">
-                        <% if not ref_category.is_disabled %>
-                          <% if ref_category.count > 0 %>
+                        <% if action_name != "verticals" %>
+                            <% if not ref_category.is_disabled %>
+                              <% if ref_category.count > 0 %>
+                                  <%= link_to 'Disable', disable_account_site_ref_category_path(@account, @site, ref_category), method: :put, data: { confirm: 'Are you sure?' } %>
+                              <% else %>
 
-                              <%= link_to 'Disable', disable_account_site_ref_category_path(@account, @site, ref_category), method: :put, data: { confirm: 'Are you sure?' } %>
-                          <% else %>
-
-                              <%= link_to 'x', account_site_ref_category_path(@account, @site, ref_category), method: :delete, data: { confirm: 'Are you sure?' } %>
-                          <% end %>
+                                  <%= link_to 'x', account_site_ref_category_path(@account, @site, ref_category), method: :delete, data: { confirm: 'Are you sure?' } %>
+                              <% end %>
+                            <% end %>
+                        <% else %>
+                            <% if ref_category.pages.count < 1 %>
+                              <%= link_to 'x', account_site_ref_category_path(@account, @site, ref_category), method: :delete, data: { confirm: 'Are you sure?' }, input_html: {"disabled": true} %>
+                            <% else %>
+                              <%= link_to 'x', "#", style: "color: #d3d3d3;","data-title" => "You cannot delete this vertical as it has associated pages", "data-toggle" => "tooltip", "data-placement" => "bottom" %>
+                            <% end %>
                         <% end %>
                       </td>
                     </tr>
@@ -43,19 +50,38 @@
       <br/>
       <br/>
       <br/>
-      <%= simple_form_for(@instance, url: account_site_ref_categories_path(@account, @site), method: :post) do |f| %>
-      <%= f.error_notification %>
-      <%= f.hidden_field :genre, value: @genre %>
-      <%= f.hidden_field :site_id, value: @site.id %>
+      <% if action_name != "verticals" %>
+          <%= simple_form_for(@instance, url: account_site_ref_categories_path(@account, @site), method: :post) do |f| %>
+          <%= f.error_notification %>
+          <%= f.hidden_field :genre, value: @genre %>
+          <%= f.hidden_field :site_id, value: @site.id %>
 
-      <div class="form-inputs">
-          <% unless @site.is_english %>
-            <%= f.input :english_name, required: true, minlength: 3 , maxlength: 15, hint: "This is used for url management." %>
+          <div class="form-inputs">
+              <% unless @site.is_english %>
+                <%= f.input :english_name, required: true, minlength: 3 , maxlength: 15, hint: "This is used for url management." %>
+              <% end %>
+              <%= f.input :name, required: true, minlength: 3 , maxlength: 15 %>
+          </div>
+          <div class="form-actions">
+              <%= f.button :submit, value: "Add", class: "btn btn-primary" %>
+          </div>
           <% end %>
-          <%= f.input :name, required: true, minlength: 3 , maxlength: 15 %>
-      </div>
-      <div class="form-actions">
-          <%= f.button :submit, value: "Add", class: "btn btn-primary" %>
-      </div>
+      <% else %>      
+          <%= simple_form_for(@instance, url: account_site_ref_categories_path(@account, @site), method: :post) do |f| %>
+          <%= f.error_notification %>
+          <%= f.hidden_field :genre, value: "series" %>
+          <%= f.hidden_field :site_id, value: @site.id %>
+
+          <div class="form-inputs">
+            <%= f.input :name, required: true, minlength: 3 , maxlength: 15, hint: "Choose carefully. Once set, you cannot change the name." %>
+            <% unless @site.is_english %>
+              <%= f.input :english_name, required: true, minlength: 3 , maxlength: 15, hint: "This is used for url management." %>
+            <% end %>
+            <%= f.input :name_html, as: :text, label: "Brand the vertical", hint: "Use HTML (span tag) to add CSS. Note, the length of the series cannot be more than 15 characters.", required: true, minlength: 3 , maxlength: 50 %>
+          </div>
+          <div class="form-actions">
+              <%= f.button :submit, value: "Add a vertical", class: "btn btn-primary" %>
+          </div>
+          <% end %>
       <% end %>
   <% end %>

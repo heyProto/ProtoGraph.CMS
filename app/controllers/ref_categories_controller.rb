@@ -6,7 +6,7 @@ class RefCategoriesController < ApplicationController
   before_action :set_entity, only: [:update, :destroy, :disable]
 
 
-  def series
+  def verticals
     @is_admin = true
     @genre = "series"
     @data = @site.ref_categories.where(genre: "series").order(:name)
@@ -40,7 +40,7 @@ class RefCategoriesController < ApplicationController
       else
         case @ref_category.genre
         when 'series'
-          redirect_to manager_account_site_pages_path(@account, @site), alert: @ref_category.errors.full_messages
+          redirect_to verticals_account_site_path(@account, @site), alert: @ref_category.errors.full_messages
         when 'intersection'
           redirect_to intersection_account_site_path(@account, @site), alert: @ref_category.errors.full_messages
         when 'sub intersection'
@@ -74,7 +74,7 @@ class RefCategoriesController < ApplicationController
     respond_to do |format|
         case @genre
         when 'series'
-          format.html { redirect_to manager_account_site_pages_path(@account, @site), notice: "Destroyed"}
+          format.html { redirect_to verticals_account_site_path(@account, @site), notice: "Destroyed"}
         when 'intersection'
           format.html { redirect_to intersection_account_site_path(@account, @site), notice: "Destroyed"}
         when 'sub intersection'
