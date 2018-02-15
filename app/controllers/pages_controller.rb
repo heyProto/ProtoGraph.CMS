@@ -36,6 +36,7 @@ class PagesController < ApplicationController
     @view_cast = @page.view_cast if @page.view_cast_id.present?
     @page_streams = @page.page_streams
     @page.publish = @page.status == 'published'
+    @is_article_page = @page.template_page.name == "article"
     @image = @page.cover_image
     if @image.blank?
         @page.build_cover_image

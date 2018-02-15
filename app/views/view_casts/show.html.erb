@@ -1,66 +1,66 @@
 <% content_for :filters_sidebar do %>
-  <div class="hint">
-    <table class="table table-sm hint">
-        <tr>
-            <td>Card Type</td>
-            <td>:</td>
-            <td><%= @view_cast.template_card.name %></td>
-        </tr>
-        <tr>
-            <td>Created by</td>
-            <td>:</td>
-            <td><%= @view_cast.creator.name %></td>
-        </tr>
-        <tr>
-            <td>On</td>
-            <td>:</td>
-            <td><%= @view_cast.created_at.strftime("%e %b %Y") %></td>
-        </tr>
-        <tr>
-            <td>Card Type</td>
-            <td>:</td>
-            <td><%= @view_cast.template_card.name %></td>
-        </tr>
-        <tr>
-            <td>Updated by</td>
-            <td>:</td>
-            <td><%= @view_cast.updator.name %></td>
-        </tr>
-        <tr>
-            <td>ID</td>
-            <td>:</td>
-            <td><strong><%= @view_cast.id %></strong></td>
-        </tr>
-        <tr>
-            <td>On</td>
-            <td>:</td>
-            <td><%= @view_cast.updated_at.strftime("%e %b %Y") %></td>
-        </tr>
-    </table>
-  </div>
-  <div class='sigle-detail'>
-    <%= simple_form_for([@account, @site, @folder, @view_cast]) do |f|%>
-      <div class="card-detail-lable">Move to another folder:</div>
-      <div class="card-detail-Value"><%= f.input :folder_id, collection: @folders_dropdown, include_blank: false, label: false %></div>
-    <% end %>
-  </div>
-  <div class='sigle-detail'>
-    <%= simple_form_for([@account, @site, @folder, @view_cast]) do |f|%>
+<div class="hint">
+  <table class="table table-sm hint">
+      <tr>
+          <td>Card Type</td>
+          <td>:</td>
+          <td><%= @view_cast.template_card.name %></td>
+      </tr>
+      <tr>
+          <td>Created by</td>
+          <td>:</td>
+          <td><%= @view_cast.creator.name %></td>
+      </tr>
+      <tr>
+          <td>On</td>
+          <td>:</td>
+          <td><%= @view_cast.created_at.strftime("%e %b %Y") %></td>
+      </tr>
+      <tr>
+          <td>Card Type</td>
+          <td>:</td>
+          <td><%= @view_cast.template_card.name %></td>
+      </tr>
+      <tr>
+          <td>Updated by</td>
+          <td>:</td>
+          <td><%= @view_cast.updator.name %></td>
+      </tr>
+      <tr>
+          <td>ID</td>
+          <td>:</td>
+          <td><strong><%= @view_cast.id %></strong></td>
+      </tr>
+      <tr>
+          <td>On</td>
+          <td>:</td>
+          <td><%= @view_cast.updated_at.strftime("%e %b %Y") %></td>
+      </tr>
+  </table>
+</div>
+<div class='sigle-detail'>
+  <%= simple_form_for([@account, @site, @folder, @view_cast]) do |f|%>
+    <div class="card-detail-lable">Move to another folder:</div>
+    <div class="card-detail-Value"><%= f.input :folder_id, collection: @folders_dropdown, include_blank: false, label: false %></div>
+  <% end %>
+</div>
+<div class='sigle-detail'>
+  <%= simple_form_for([@account, @site, @folder, @view_cast]) do |f|%>
 
-      <% if @site.users.count > 0 %>
-        <%=  f.input :collaborator_lists,  collection: @site.users.pluck(:name, :id), input_html: { class: 'ui search fluid dropdown', multiple: true}, label: "Add Collaborators" %>
-        <%= f.button :submit, "Add", class: "ui primary button" %>
-      <% end %>
-    <% end %>
-  </div>
-
-  <br/>
-  <% unless @view_cast.is_disabled_for_edit %>
-    <%= link_to "Edit the Card", edit_account_site_folder_view_cast_path(@account, @site, @folder, @view_cast),"data-turbolinks"=> false %>
-    <% unless @view_cast.folder.is_trash %>
-        | <%= link_to "Delete the Card", [@account, @site, @folder, @view_cast], method: :delete, "data-turbolinks"=> false, data: {confirm: "Are you sure you want to delete this card"} %>
+    <% if @site.users.count > 0 %>
+      <%=  f.input :collaborator_lists,  collection: @site.users.pluck(:name, :id), input_html: { class: 'ui search fluid dropdown', multiple: true}, label: "Add Collaborators" %>
+      <%= f.button :submit, "Add", class: "ui primary button" %>
     <% end %>
   <% end %>
+</div>
+
+<br/>
+<% unless @view_cast.is_disabled_for_edit %>
+  <%= link_to "Edit the Card", edit_account_site_folder_view_cast_path(@account, @site, @folder, @view_cast),"data-turbolinks"=> false %>
+  <% unless @view_cast.folder.is_trash %>
+      | <%= link_to "Delete the Card", [@account, @site, @folder, @view_cast], method: :delete, "data-turbolinks"=> false, data: {confirm: "Are you sure you want to delete this card"} %>
+  <% end %>
+<% end %>
 <% end %>
 
 <h2><%= @view_cast.name %></h2>
@@ -106,7 +106,7 @@
               <textarea class="proto-graph-code protograph-iframe" readonly><div id="<%= "ProtoCard#{@view_cast.id}" %>"><%= (sanitize @view_cast.seo_blockquote.to_s, tags: %w(p blockquote ul li h1 h2 h3 h4 h5 h6)) %></div><script src="https://cdn.protograph.pykih.com/lib/protoGraph.min.js" async></script><script type="text/javascript">var <%= "ProtoCard#{@view_cast.id}" %> = setInterval(function(){if (window.ProtoEmbed){clearInterval(<%= "ProtoCard#{@view_cast.id}" %>)};new ProtoEmbed.initFrame(document.getElementById("<%= "ProtoCard#{@view_cast.id}" %>"), "<%= "#{@view_cast.template_card.index_html}?view_cast_id=#{@view_cast.datacast_identifier}%26schema_id=#{@view_cast.template_datum.s3_identifier}%26base_url=#{@site.cdn_endpoint}" %>" , "laptop")}, 200)</script></textarea>
               </br>
             </div>
-      </div>
+
 
 
 <script type="text/javascript">
