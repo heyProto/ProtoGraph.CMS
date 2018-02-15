@@ -1,0 +1,16 @@
+<nav class="navbar fixed-top navbar-expand-lg navbar-light" style="top: 0; left: 12.5%; right: 12.5%; background: #FAFAFA;">
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <% if @site.present? %>
+          <ul class="navbar-nav mr-auto">
+              <li class="<%=(controller_name == "pages" and action_name == "manager") ? "nav-item active" : "nav-item" %>"><%= link_to "Pages", manager_account_site_pages_path(@account, @site), "data-turbolinks"=> false, class:"nav-link" %></li>
+              <% if @folder.present? and @folder.id.present? %>
+                  <% if @folder.vertical.present? and @folder.is_for_stories %>
+                      <li class="<%=(controller_name == "pages" and action_name != "manager") ? "nav-item active" : "nav-item" %>"><%= link_to "Stories", account_site_pages_path(@account, @site, folder_id: @folder.id), class:"nav-link", "data-turbolinks"=> false %></li>
+                  <% end %>
+                  <li class="<%=controller_name == "view_casts" ? "nav-item active" : "nav-item"%>"><%= link_to "Cards", account_site_folder_view_casts_path(@account, @site, @folder), class:"nav-link", "data-turbolinks"=> false %></li>
+              <% end %>
+              <li class="<%=(controller_name == "images") ? "nav-item active" : "nav-item" %>"><%= link_to "Images", account_images_path(@account), "data-turbolinks"=> false, class:"nav-link"  %></li>
+          </ul>
+      <% end %>
+    </div>
+</nav>
