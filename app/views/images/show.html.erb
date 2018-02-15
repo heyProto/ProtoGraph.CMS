@@ -1,52 +1,52 @@
 <% w = @image.image_width %>
 <% h = @image.image_height %>
-
-  <div class="container">
-    <div class="row" >
-      <div class="col-16">
-        <h1 style="margin-bottom: 20px; font-weight: 600; margin-top: 0px; font-size: 20px;">
-          <%= @image.name %>
-          </h1>
-        </div>
-      </div>
+<div class="container">
+  <div class="row">
+    <div class="col-16">
+      <h1 style="margin-bottom: 20px; font-weight: 600; margin-top: 0px; font-size: 20px;">
+        <%= @image.name %>
+      </h1>
     </div>
   </div>
+</div>
 <br/>
 <br/>
-
-<div class="container" >
+<div class="container">
   <div class='row' style="background: #efefef; text-align: center;">
     <div class='col-sm-16'>
         <!-- <span class="oi" data-glyph="copywriting"></span> -->
       <div class='mx-auto'>
-        <a href="<%= @image.original_image.image_url %>" target="_blank">
-          <%= image_tag(@image.image_url, class: "img-responsive", id: "main_image")  %>
-        </a>
-        <div class="photograph-image-details" style="display: block;"><%= "#{w} x #{h} (#{w / w.gcd(h)} : #{h / w.gcd(h)})"%></div>
+          <a href="<%= @image.original_image.image_url %>" target="_blank">
+            <%= image_tag(@image.image_url, class: "img-responsive", id: "main_image")  %>
+          </a>
+          <div class="photograph-image-details" style="display: block;">
+            <%= "#{w} x #{h} (#{w / w.gcd(h)} : #{h / w.gcd(h)})"%>
+          </div>
       </div>
     </div>
   </div>
-  <br/><br/>
-  <div class="row">
-    <a id="openFileUpload" class='btn btn-primary' href='#' data-toggle='modal' data-target='#imageCropperModal'>Crop original image to create variation</a>
-    <div class="col-sm-16">
-      <div style="position: relative;">
-        <% if @image.image_variation.present? %>
-            <br/><br/>
-          <h3 class="protograph-image-form-heading">Variations</h3>
-        <% end %>
-      </div>
+</div>
+<br/>
+<br/>
+<div class="row">
+  <a id="openFileUpload" class='btn btn-primary' href='#' data-toggle='modal' data-target='#imageCropperModal'>Crop original image to create variation</a>
+  <div class="col-sm-16">
+    <div style="position: relative;">
       <% if @image.image_variation.present? %>
-        <div class="function" id="variationImages"></div>
+        <br/>
+        <br/>
+        <h3 class="protograph-image-form-heading">Variations</h3>
       <% end %>
-
-      <% if @image.colour_swatches.present? %>
-        <div class="image-colours">
-          <div class="function dominant">
-            <h3>Dominant Color</h3>
-            <% dom_colour =  @image.colour_swatches.dominant.first%>
-            <div class="swatch" title="<%= dom_colour.name %>" style="background-color: rgb(<%= dom_colour.red %>, <%= dom_colour.green %>, <%= dom_colour.blue %>);"></div>
-          </div>
+    </div>
+    <% if @image.image_variation.present? %>
+      <div class="function" id="variationImages"></div>
+    <% end %>
+    <% if @image.colour_swatches.present? %>
+      <div class="image-colours">
+        <div class="function dominant">
+          <h3>Dominant Color</h3>
+          <% dom_colour =  @image.colour_swatches.dominant.first%>
+          <div class="swatch" title="<%= dom_colour.name %>" style="background-color: rgb(<%= dom_colour.red %>, <%= dom_colour.green %>, <%= dom_colour.blue %>);"></div>
           <div class="function palette">
             <h3>Palette</h3>
             <div class="swatches">
@@ -56,70 +56,75 @@
             </div>
           </div>
         </div>
-      <% end %>
-    </div>
+
+      </div>
+    <% end %>
   </div>
 </div>
-
 <script type="text/javascript">
-  <% if @image.image_variation.present? %>
-    var images = <%= @image.image_variation.as_json.to_json.html_safe %>;
-  <% end %>
+<% if @image.image_variation.present? %>
+  var images = <%= @image.image_variation.as_json.to_json.html_safe %>;
+<% end %>
 
-  $(document).ready(function(){
+$(document).on("turbolinks:load", function() {
     <% if @image.image_variation.present? %>
-      var maxHeight = 150;
-      $('#variationImages').empty().justifiedImages({
-        images : images,
+    var maxHeight = 150;
+    $('#variationImages').empty().justifiedImages({
+        images: images,
         rowHeight: maxHeight,
         maxRowHeight: 150,
-        thumbnailPath: function(photo, width, height){
-          return photo.image_url;
+        thumbnailPath: function(photo, width, height) {
+            return photo.image_url;
         },
-        getSize: function(photo){
-          return {width: photo.image_width, height: photo.image_height};
+        getSize: function(photo) {
+            return { width: photo.image_width, height: photo.image_height };
         },
-        template: function (data) {
-          var image;
-          image = '<div class="photo-container" style="height:' + data.displayHeight + 'px;margin-right:' + data.marginRight + 'px;">';
-          image +=    (data.is_smart_cropped ? '<span class="label label-primary" style="z-index: 1000;position: absolute;background-color: #d9534f;">Smart Cropped</span>' : "");
-          image +=    '<a class="protograph-popup-trigger" href="'+data.image_url+'" data-clipboard-text="'+data.image_url+'" target="_blank">';
-          image +=    '<img class="image-thumb" src="' + data.src + '" style="width:' + data.displayWidth + 'px;height:' + data.displayHeight + 'px;" >';
-          image +=    '</a>';
-          image += '   <div class="photograph-image-details" style="display: block;">' + data.image_width + ' x ' + data.image_height + ' (' + data.aspectWidth + ':' + data.aspectHeight + ') ' + '</div>';
-          image += '</div>';
+        template: function(data) {
+            var image;
+            image = '<div class="photo-container" style="height:' + data.displayHeight + 'px;margin-right:' + data.marginRight + 'px;">';
+            image += (data.is_smart_cropped ? '<span class="label label-primary" style="z-index: 1000;position: absolute;background-color: #d9534f;">Smart Cropped</span>' : "");
+            image += '<a class="protograph-popup-trigger" href="' + data.image_url + '" data-clipboard-text="' + data.image_url + '" target="_blank">';
+            image += '<img class="image-thumb" src="' + data.src + '" style="width:' + data.displayWidth + 'px;height:' + data.displayHeight + 'px;" >';
+            image += '</a>';
+            image += '   <div class="photograph-image-details" style="display: block;">' + data.image_width + ' x ' + data.image_height + ' (' + data.aspectWidth + ':' + data.aspectHeight + ') ' + '</div>';
+            image += '</div>';
 
-          return image;
+            return image;
         },
         margin: 20
-      });
+    });
     <% end %>
-  })
+})
 </script>
+
+<%= render partial: "images/form" %>
 <div class="modal" id="imageCropperModal"> <i class="close icon"></i>
-  <%= render partial: "images/cropper", locals: {mode: nil} %>
+    <%= render partial: "images/cropper", locals: {mode: nil} %>
 </div>
 <%= render partial: "images/cropper_js" %>
+    <style>
+    .dominant .swatch {
+        width: 6rem;
+        height: 3rem;
+        display: inline-block;
+    }
 
-<style>
- .dominant .swatch {
-   width: 6rem;
-   height: 3rem;
-   display: inline-block;
- }
- .swatches .swatch {
-   width: 4rem;
-   height: 2.7rem;
-   display: inline-block;
- }
- .swatches {
-   display: block;
-   box-sizing: border-box;
- }
- .image-colours {
-   text-align: center;
- }
- .function {
-   margin-bottom: 1.5rem;
- }
-</style>
+    .swatches .swatch {
+        width: 4rem;
+        height: 2.7rem;
+        display: inline-block;
+    }
+
+    .swatches {
+        display: block;
+        box-sizing: border-box;
+    }
+
+    .image-colours {
+        text-align: center;
+    }
+
+    .function {
+        margin-bottom: 1.5rem;
+    }
+    </style>
