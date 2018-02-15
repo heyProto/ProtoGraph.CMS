@@ -39,7 +39,7 @@
           </ul>
         </div>
       </nav>
-      <img class="ui centered image" src="<%= @image.original_image.image_url %>" id="cropbox" style="height: 350px;" crossorigin="anonymous">
+      <img class="ui centered image" src="<%= @image.original_image.image_url %>" id="cropbox" style="height: 350px;">
       <%= simple_form_for ([@account, @image_variation]) do |f| %>
         <%= f.input :image_id,as: :hidden,input_html: {value: @image.id} %>
         <% %w[x y w h].each do |attribute| %>

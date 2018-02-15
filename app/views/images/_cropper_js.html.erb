@@ -5,7 +5,7 @@
 
 <%= javascript_include_tag "smartcrop.js" %>
 <script type="text/javascript">
- $(document).ready( function() {
+ $(document).on("turbolinks:load", function() {
    var gcd = function(a, b) {
      if ( ! b) {
        return a;
@@ -44,7 +44,6 @@
        var height = 500;
        var aspectRatio = width / height;
        smartcrop.crop(image, {width, height}).then(function(result){
-         console.log(result);
          result = result.topCrop;
          $('#cropbox').Jcrop({
            setSelect: [result.x, result.y, result.width + result.x, result.height + result.y],

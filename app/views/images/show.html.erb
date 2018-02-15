@@ -16,7 +16,7 @@
     <div class='col-sm-16'>
         <!-- <span class="oi" data-glyph="copywriting"></span> -->
       <div class='mx-auto'>
-          <a href="<%= @image.original_image.image_url %>" target="_blank">
+          <a href="<%= @image.image_url %>" target="_blank">
             <%= image_tag(@image.image_url, class: "img-responsive", id: "main_image")  %>
           </a>
           <div class="photograph-image-details" style="display: block;">
@@ -102,29 +102,29 @@ $(document).on("turbolinks:load", function() {
     <%= render partial: "images/cropper", locals: {mode: nil} %>
 </div>
 <%= render partial: "images/cropper_js" %>
-    <style>
-    .dominant .swatch {
-        width: 6rem;
-        height: 3rem;
-        display: inline-block;
-    }
+<style>
+  .dominant .swatch {
+    width: 6rem;
+    height: 3rem;
+    display: inline-block;
+  }
 
-    .swatches .swatch {
-        width: 4rem;
-        height: 2.7rem;
-        display: inline-block;
-    }
+  .swatches .swatch {
+    width: 4rem;
+    height: 2.7rem;
+    display: inline-block;
+  }
 
-    .swatches {
-        display: block;
-        box-sizing: border-box;
-    }
+  .swatches {
+    display: block;
+    box-sizing: border-box;
+  }
 
-    .image-colours {
-        text-align: center;
-    }
+  .image-colours {
+    text-align: center;
+  }
 
-    .function {
-        margin-bottom: 1.5rem;
-    }
-    </style>
+  .function {
+    margin-bottom: 1.5rem;
+  }
+</style>
