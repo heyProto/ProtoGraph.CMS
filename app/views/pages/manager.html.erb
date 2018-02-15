@@ -27,17 +27,9 @@
                     </td>
                     <td>
                         <% if d.present? %>
-                            <% if ref_category.name_html.present? %>
-                              <%= link_to ref_category.name_html.html_safe, edit_account_site_page_path(@account, @site, d, folder_id: d.folder_id), "data-turbolinks"=> false %>
-                            <% else %>
-                                <%= link_to ref_category.name, edit_account_site_page_path(@account, @site, d, folder_id: d.folder_id), "data-turbolinks"=> false %>
-                            <% end %>
+                            <%= link_to (ref_category.name_html.present? ? ref_category.name_html.html_safe : ref_category.name), edit_account_site_page_path(@account, @site, d, folder_id: d.folder_id), "data-turbolinks"=> false %>
                         <% else %>
-                            <% if ref_category.name_html.present? %>
-                              <%= ref_category.name_html.html_safe %>
-                            <% else %>
-                                <%= ref_category.name %>
-                            <% end %>
+                            <%= ref_category.name_html.present? ? ref_category.name_html.html_safe : ref_category.name %>
                         <% end %>
                     </td>
                     <td>
