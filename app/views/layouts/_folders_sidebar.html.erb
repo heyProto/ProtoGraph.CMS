@@ -7,19 +7,14 @@
         </div>
     </nav>
 <% else %>
-<div class="folders_sidebar">
-    
-    
-
-
+    <div class="folders_sidebar">
         <ul class="navbar-nav" style="margin-top: 10px;">
             <% if @site.present? %>
                 <% if !is_admins_controller or (controller_name != 'accounts' and ['new','create'].include?(action_name)) %>
                     <% if @accounts.count > 1 %>        
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                              
-                              <h6 class="sidebar-head"><%= truncate @site.name, length: 15, ommission: ".." %></h6>
+                                <h6 class="sidebar-head"><%= truncate @site.name, length: 15, ommission: ".." %></h6>
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                                 <% @accounts.each do |a| %>
@@ -31,41 +26,19 @@
                 <% end %>
             <% end %>
         </ul>
-
-    
-    
-    
-        <% if @site.present? %>
-        <div class="list-title channels" style="padding-top: 0px; margin-top: 0px; line-height: 1em; margin-bottom: 10px;">WRITE</div>
-            <ul>
-            <% if @folder.present? and @folder.id.present? %>                
-                <li class="<%=controller_name == "view_casts" ? "active" : nil%>"><%= link_to "Cards", account_site_folder_view_casts_path(@account, @site, @folder) %></li>
-                <% if @folder.vertical.present? and @folder.is_for_stories %>
-                    <li class="<%=(controller_name == "pages" and action_name != "manager") ? "active" : nil %>"><%= link_to "Stories", account_site_pages_path(@account, @site, folder_id: @folder.id) %></li>
-                <% end %>
+        <ul>
+            <li class="<%= (controller_name == "sites" and action_name == "show") ? "active" : nil %>"><%= link_to "Home", account_site_path(@account, @site) %></li>
+        </ul>
+        <div class="list-title channels" style="padding-top: 0px; margin-top: 0px; line-height: 1em; margin-bottom: 10px;">
+            FOLDERS
+            <% if @folder.present? and @folder.id.blank? %>
+                <span style="float: right; font-weight: 400; font-size: 14px;"><%= link_to image_tag("glyphicons-191-plus-sign.png", height: "15px"), new_account_site_folder_path(@account, @site) %></span>
             <% end %>
-            <li class="<%=(controller_name == "pages" and action_name == "manager") ? "active" : nil %>"><%= link_to "Pages", manager_account_site_pages_path(@account, @site) %></li>
-            <li class="<%=(controller_name == "images") ? "active" : nil %>"><%= link_to "Images", account_images_path(@account) %></li>
-
-                <li class="<%=@is_admin ? "active" : nil %>"><%= link_to "Admin", account_site_admins_path(@account, @site), "data-turbolinks"=> false %></li>
-
-            </ul>
-        <% end %>
-    
-    
-    
-      
-      <% if @folder.present? and @folder.id.blank? %>
-          <span style="float: right; font-weight: 400; font-size: 14px;">
-              <%= link_to image_tag("glyphicons-191-plus-sign.png", height: "15px"), new_account_site_folder_path(@account, @site) %>
-          </span>
-      <% end %>
-      <div class="list-title channels" style="padding-top: 0px; margin-top: 0px; line-height: 1em; margin-bottom: 10px;">FILTER w/ FOLDERS</div>
-      <ul>
-          <% @folders.each do |folder| %>
-              <li class="<%= (@folder.present? and folder.id == @folder.id) ? "active" : nil %>"><%= link_to truncate(folder_name_trunc_(folder), length: 24, ommission: ".."), account_site_folder_view_casts_path(@account, @site, folder) %></li>
-          <% end %>
-      </ul>
-</div>
-        
+        </div>
+        <ul>
+            <% @folders.each do |folder| %>
+                <li class="<%= (@folder.present? and folder.id == @folder.id) ? "active" : nil %>"><%= link_to truncate(folder_name_trunc_(folder), length: 24, ommission: ".."), account_site_folder_view_casts_path(@account, @site, folder) %></li>
+            <% end %>
+        </ul>
+    </div>
 <% end %>
