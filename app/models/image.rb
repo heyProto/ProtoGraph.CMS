@@ -63,10 +63,10 @@ class Image < ApplicationRecord
     end
   end
 
-  def as_json(options = {})
+  def as_json(options = {}, d)
     {
       id: self.id,
-      redirect_to: Rails.application.routes.url_helpers.account_image_path(self.account_id, self),
+      redirect_to: Rails.application.routes.url_helpers.account_image_path(self.account_id, self, folder_id: d.present? ? d.id : nil),
       thumbnail_url: self.thumbnail_url,
       thumbnail_width: self.thumbnail_width,
       thumbnail_height: self.thumbnail_height,
