@@ -43,11 +43,11 @@
                     </td>
                     <td class="hint"><%= d.byline %>
                     </td>
-                    <td class="hint"><%= d.series.name %>
+                    <td class="hint"><%= d.series.present? ? d.series.name : "" %>
                     </td>
-                    <td class="hint"><%= d.intersection.name %>
+                    <td class="hint"><%= d.intersection.present? ? d.intersection.name : "" %>
                     </td>
-                    <td class="hint"><%= d.sub_intersection.name %>
+                    <td class="hint"><%= d.sub_intersection.present? ? d.sub_intersection.name : "" %>
                     </td>
                     <td class="hint">
                     </td>
