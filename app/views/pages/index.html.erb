@@ -15,9 +15,17 @@
             <tr>
                 <th>#
                 </th>
-                <th>Status
-                </th>
                 <th>Headline
+                </th>
+                <th>Byline
+                </th>
+                <th>Vertical
+                </th>
+                <th>Intersection
+                </th>
+                <th>Sub Intersection
+                </th>
+                <th>Status
                 </th>
                 <th>Last updated
                 </th>
@@ -31,9 +39,17 @@
                         <%= d.view_cast.id.to_s %>
                         <% end %>
                     </td>
-                    <td>
-                    </td>
                     <td><%= link_to truncate(d.headline, length: 200, ommission: ".."), edit_account_site_page_path(@account, @site, d, folder_id: d.folder_id), "data-turbolinks"=> false  %>
+                    </td>
+                    <td class="hint"><%= d.byline %>
+                    </td>
+                    <td class="hint"><%= d.series.name %>
+                    </td>
+                    <td class="hint"><%= d.intersection.name %>
+                    </td>
+                    <td class="hint"><%= d.sub_intersection.name %>
+                    </td>
+                    <td class="hint">
                     </td>
                     <td class="hint">
                         <%= image_tag avatar_url(d.updator.email), width: "20px", class: "rounded" %>
