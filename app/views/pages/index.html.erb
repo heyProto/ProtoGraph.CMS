@@ -19,11 +19,7 @@
                 </th>
                 <th>Byline
                 </th>
-                <th>Vertical
-                </th>
-                <th>Intersection
-                </th>
-                <th>Sub Intersection
+                <th>Categorization
                 </th>
                 <th>Status
                 </th>
@@ -43,11 +39,10 @@
                     </td>
                     <td class="hint"><%= d.byline %>
                     </td>
-                    <td class="hint"><%= d.series.present? ? d.series.name : "" %>
-                    </td>
-                    <td class="hint"><%= d.intersection.present? ? d.intersection.name : "" %>
-                    </td>
-                    <td class="hint"><%= d.sub_intersection.present? ? d.sub_intersection.name : "" %>
+                    <td class="hint">
+                        <%= d.series.present? ? d.series.name : "" %> /
+                        <%= d.intersection.present? ? d.intersection.name : "" %> / 
+                        <%= d.sub_intersection.present? ? d.sub_intersection.name : "" %>
                     </td>
                     <td class="hint">
                     </td>
