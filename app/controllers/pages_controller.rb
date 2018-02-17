@@ -1,7 +1,7 @@
 class PagesController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_page, only: [:show, :edit, :edit_plan, :edit_write, :edit_assemble, :edit_distribute, :update, :destroy, :remove_cover_image]
-  before_action :sudo_can_see_all_pages, only: [:show, :edit, :edit_plan, :edit_write, :edit_assemble, :edit_distribute, :update, :manager, :remove_cover_image, :create]
+  before_action :set_page, only: [:edit, :edit_plan, :edit_write, :edit_assemble, :edit_distribute, :update, :destroy, :remove_cover_image]
+  before_action :sudo_can_see_all_pages, only: [:edit, :edit_plan, :edit_write, :edit_assemble, :edit_distribute, :update, :manager, :remove_cover_image, :create]
 
   def index
     if @permission_role.can_see_all_pages
@@ -21,10 +21,6 @@ class PagesController < ApplicationController
     @instance = @site.verticals.new
   end
 
-  def show
-    redirect_to edit_account_site_page_path(@account, @site, @page)
-  end
-
   def edit
     if @page.template_page.name == "article"
       redirect_to edit_plan_account_site_page_path(@account, @site, @page)
@@ -42,14 +38,7 @@ class PagesController < ApplicationController
       end
 
       if @page.status != "draft"
-        if @page.template_page.name == "article"
-          @page_stream_narrative = @page.streams.where(title: "#{@page.id.to_s}_Story_Narrative").first
-          @page_stream_narrative.view_cast_id_list = @page_stream_narrative.view_cast_ids.pluck(:entity_value).join(",")
-          @page_stream_related = @page.streams.where(title: "#{@page.id.to_s}_Story_Related").first
-          @page_stream_related.view_cast_id_list = @page_stream_related.view_cast_ids.pluck(:entity_value).join(",")
-          @page_stream_related7c = @page_stream_related.page_streams.first
-          @page_stream_narrative7c = @page_stream_narrative.page_streams.first
-        elsif @page.template_page.name == "Homepage: Vertical"
+        if @page.template_page.name == "Homepage: Vertical"
           @page_stream_16 = @page.streams.where(title: "#{@page.id.to_s}_Section_16c_Hero").first
           @page_stream_16.view_cast_id_list = @page_stream_16.view_cast_ids.pluck(:entity_value).join(",")
           @page_stream_07 = @page.streams.where(title: "#{@page.id.to_s}_Section_7c").first
