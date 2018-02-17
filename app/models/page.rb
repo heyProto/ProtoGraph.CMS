@@ -84,8 +84,8 @@ class Page < ApplicationRecord
 
   after_save :after_save_set
   after_create :set_url
+  after_create :create_page_streams
   after_create :push_json_to_s3
-
   after_update :update_page_image
   after_update :create_page_streams
   after_update :push_json_to_s3
@@ -346,7 +346,7 @@ class Page < ApplicationRecord
   end
 
   def create_page_streams
-    if self.status_changed? and self.status_before_last_save == 'draft'
+    if (self.streams.count == 0) and ((self.from_api and self.status != 'draft') or (self.saved_change_to_status? and self.status_before_last_save == 'draft'))
       streams = []
       case self.template_page.name
       when 'Homepage: Vertical'
