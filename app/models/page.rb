@@ -355,6 +355,8 @@ class Page < ApplicationRecord
         streams = [["Story_Narrative", "Narrative"], ["Story_Related", "Related"]]
       when 'data grid'
         streams = [["Data_Grid", "#{self.id}_Section_data"]]
+      else
+        streams = [["Data_Grid", "#{self.id}_Section_data"]]
       end
       streams.each do |s|
         stream = Stream.create!({
