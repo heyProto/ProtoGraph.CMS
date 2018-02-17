@@ -150,6 +150,10 @@
 	box-sizing: border-box;
 }
 
+.todo-card:hover{
+    background: #CFD8DC;
+}
+
 .todo-card.action-move-to:hover .intersection{
 	filter: blur(2px);
 }
