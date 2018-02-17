@@ -13,7 +13,7 @@
     <div class="row" style="margin: 0px; padding: 0px;">
         <% @view_casts.each do |d| %>
         	<%= link_to [@account, @site,  @folder,d], "data-turbolinks"=> false do %>
-                <div class="todo-card">
+                <div class="card-as-a-todo">
             		<div class="card-information">
             			<div class="card-title"><%= truncate(d.name, length: 200, ommission: "..") %></div>
             			<div class="card-type"><%= d.template_card.name %> <span class="card-id">#<%=d.id.to_s%></span></div>
