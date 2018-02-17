@@ -5,6 +5,11 @@
     <% end %>
 <% end %>
 <%= stylesheet_link_tag "image_bank.css" %>
+<div class="row" style="margin: 0px; padding: 0px;">
+    <h1 style="margin: 0px; padding: 0px; padding-left: 0px; font-weight: 100;">Image Bank</h1>
+    <br/>
+    <br/>
+</div>
 <%= paginate @images, theme: 'twitter-bootstrap-4', pagination_class: "pagination-sm" %>
 <% if (params[:q].present? and @images.blank?) %>
   <div class="blankslate blankslate-spacious">
