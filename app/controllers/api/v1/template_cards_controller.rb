@@ -3,9 +3,9 @@ class Api::V1::TemplateCardsController < ApiController
     def index
         if @folder.vertical.present?
           if @folder.is_for_stories
-            @template_cards = @account.template_cards.where(is_current_version: true, name: ['toParagraph', 'toImage', 'toVideo: Youtube', 'toCluster', 'toQuiz', 'toTimeline', 'toStory', 'toVideo: JWPlayer']).order(:sort_order)
+            @template_cards = @account.template_cards.where(is_current_version: true, name: ['toParagraph', 'toImage', 'toVideo: Youtube', 'toCluster', 'toQuiz', 'toTimeline', 'toStory', 'toVideo: JWPlayer', 'toProfile', 'toData: Rating with drill down', 'toData: IRBF Grid', 'toData: IRBF Tooltip']).order(:sort_order)
           else
-            @template_cards = @account.template_cards.where(is_current_version: true).where.not(name: ['toParagraph', 'toImage', 'toVideo: Youtube', 'toCluster', 'toQuiz', 'toTimeline', 'toStory', 'toExplain', 'toArticle', 'toVideo: JWPlayer'])
+            @template_cards = @account.template_cards.where(is_current_version: true).where.not(name: ['toParagraph', 'toImage', 'toVideo: Youtube', 'toCluster', 'toQuiz', 'toTimeline', 'toStory', 'toExplain', 'toArticle', 'toVideo: JWPlayer', 'toProfile', 'toData: IRBF Grid', 'toData: IRBF Tooltip'])
           end
         else
           @template_cards = @account.template_cards.where(is_current_version: true, name: ['toQuiz', 'toTimeline'])
