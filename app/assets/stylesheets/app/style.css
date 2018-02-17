@@ -7,6 +7,13 @@ h4{font-size: 1em; line-height: 20px; font-weight: 600;}
 
 ul.navbar-nav > li.nav-item > a.active{color: black; font-weight: 800;}
 
+.article_edit_pages > ul.nav.nav-pills > li.nav-item > a.nav-link.active{
+    font-weight: bold;
+    background: white;
+    color: black;
+    border-bottom: 6px solid black;
+}
+
 .administration-options{
     background: #fafafa;
     padding: 28px;

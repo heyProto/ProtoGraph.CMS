@@ -1,0 +1,44 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Page:</strong>
+  <%= @page_todo.page_id %>
+</p>
+
+<p>
+  <strong>User:</strong>
+  <%= @page_todo.user_id %>
+</p>
+
+<p>
+  <strong>Template card:</strong>
+  <%= @page_todo.template_card_id %>
+</p>
+
+<p>
+  <strong>Task:</strong>
+  <%= @page_todo.task %>
+</p>
+
+<p>
+  <strong>Is completed:</strong>
+  <%= @page_todo.is_completed %>
+</p>
+
+<p>
+  <strong>Sort order:</strong>
+  <%= @page_todo.sort_order %>
+</p>
+
+<p>
+  <strong>Created by:</strong>
+  <%= @page_todo.created_by %>
+</p>
+
+<p>
+  <strong>Updated by:</strong>
+  <%= @page_todo.updated_by %>
+</p>
+
+<%= link_to 'Edit', edit_page_todo_path(@page_todo) %> |
+<%= link_to 'Back', page_todos_path %>

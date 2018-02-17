@@ -1,0 +1,18 @@
+<%= simple_form_for(@page_todo) do |f| %>
+  <%= f.error_notification %>
+
+  <div class="form-inputs">
+    <%= f.input :page_id %>
+    <%= f.input :user_id %>
+    <%= f.input :template_card_id %>
+    <%= f.input :task %>
+    <%= f.input :is_completed %>
+    <%= f.input :sort_order %>
+    <%= f.input :created_by %>
+    <%= f.input :updated_by %>
+  </div>
+
+  <div class="form-actions">
+    <%= f.button :submit %>
+  </div>
+<% end %>

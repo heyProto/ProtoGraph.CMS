@@ -15,7 +15,8 @@
               <% if controller_name == "view_casts" %>
                   <%= link_to '+ Add a card', new_account_site_folder_view_cast_path(@account, @site, @folder), data: {turbolinks: false}, class: "btn btn-sm btn-dark" %>
               <% elsif controller_name == "pages" and action_name == "index" %>
-                  <%= link_to '+ Add a story', new_account_site_page_path(@account, @site, folder_id: @folder.id), data: {turbolinks: false}, class: "btn btn-sm btn-dark" %>
+                  <% link_to '+ Add a story', new_account_site_page_path(@account, @site, folder_id: @folder.id), data: {turbolinks: false}, class: "btn btn-sm btn-dark" %>
+                  <%= render partial: "pages/new" %>  
               <% elsif controller_name == "images" %>
                   <%= link_to '+ Upload an image', "#",id: "upload_image_button" ,class: "btn btn-sm btn-dark", "data-toggle" => "modal", "data-target" => "#fileUploadModal" %>
                   <script type="text/javascript">

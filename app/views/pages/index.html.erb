@@ -15,7 +15,7 @@
     </div>
     <div class="row" style="margin: 0px; padding: 0px;">
         <% @pages.each do |d| %>                
-        	<%= link_to edit_account_site_page_path(@account, @site, d, folder_id: d.folder_id), "data-turbolinks"=> false do %>
+        	<%= link_to edit_plan_account_site_page_path(@account, @site, d, folder_id: d.folder_id), "data-turbolinks"=> false do %>
                 <div class="card-as-a-todo">
             		<!-- <div class="status-signal status-red"></div> -->
                     <% if d.intersection.present? %>

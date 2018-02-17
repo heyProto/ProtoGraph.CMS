@@ -11,7 +11,6 @@
 #  meta_description                 :text(65535)
 #  summary                          :text(65535)
 #  byline                           :string(255)
-#  byline_stream                    :string(255)
 #  cover_image_url_facebook         :text(65535)
 #  cover_image_url_square           :text(65535)
 #  cover_image_alignment            :string(255)
@@ -40,6 +39,15 @@
 #  status                           :string(255)
 #  cover_image_id                   :integer
 #  cover_image_id_7_column          :integer
+#  due                              :date
+#  description                      :text(65535)
+#  cover_image_id_4_column          :integer
+#  cover_image_id_3_column          :integer
+#  cover_image_id_2_column          :integer
+#  cover_image_credit               :string(255)
+#  share_text_facebook              :text(65535)
+#  share_text_twitter               :text(65535)
+#  one_line_concept                 :string(255)
 #
 
 class Page < ApplicationRecord
@@ -75,7 +83,7 @@ class Page < ApplicationRecord
   accepts_nested_attributes_for :cover_image
 
   #VALIDATIONS
-  validates :headline, presence: true, length: { in: 50..90 }
+  validates :headline, presence: true, length: { in: 5..90 }
   validates :summary, length: { in: 50..220 }, allow_blank: true
 
   #CALLBACKS

@@ -85,7 +85,12 @@ Rails.application.routes.draw do
       end
       resources :pages do
         get "manager", on: :collection
+        get "edit/plan", to: "pages#edit_plan", on: :member
+        get "edit/write", to: "pages#edit_write", on: :member
+        get "edit/assemble", to: "pages#edit_assemble", on: :member
+        get "edit/distribute", to: "pages#edit_distribute", on: :member
         put "remove_cover_image", on: :member
+        resources :page_todos
       end
       resources :streams do
         post :publish, on: :member

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180213094050) do
+ActiveRecord::Schema.define(version: 20180217133310) do
 
   create_table "accounts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "username"
@@ -179,6 +179,19 @@ ActiveRecord::Schema.define(version: 20180213094050) do
     t.string "name_of_stream"
   end
 
+  create_table "page_todos", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.integer "page_id"
+    t.integer "user_id"
+    t.integer "template_card_id"
+    t.text "task"
+    t.boolean "is_completed"
+    t.integer "sort_order"
+    t.integer "created_by"
+    t.integer "updated_by"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "pages", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer "account_id"
     t.integer "site_id"
@@ -188,7 +201,6 @@ ActiveRecord::Schema.define(version: 20180213094050) do
     t.text "meta_description"
     t.text "summary"
     t.string "byline"
-    t.string "byline_stream"
     t.text "cover_image_url_facebook"
     t.text "cover_image_url_square"
     t.string "cover_image_alignment"
@@ -217,6 +229,15 @@ ActiveRecord::Schema.define(version: 20180213094050) do
     t.string "status"
     t.integer "cover_image_id"
     t.integer "cover_image_id_7_column"
+    t.date "due"
+    t.text "description"
+    t.integer "cover_image_id_4_column"
+    t.integer "cover_image_id_3_column"
+    t.integer "cover_image_id_2_column"
+    t.string "cover_image_credit"
+    t.text "share_text_facebook"
+    t.text "share_text_twitter"
+    t.string "one_line_concept"
   end
 
   create_table "permission_invites", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
