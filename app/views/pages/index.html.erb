@@ -15,12 +15,16 @@
         	<%= link_to edit_account_site_page_path(@account, @site, d, folder_id: d.folder_id), "data-turbolinks"=> false do %>
                 <div class="card-as-a-todo">
             		<!-- <div class="status-signal status-red"></div> -->
-            		<div class="intersection">
-                        <%= d.intersection.present? ? d.intersection.name : "" %>
-            			<div class="sub-section">
-                            <%= d.sub_intersection.present? ? d.sub_intersection.name : "" %>
-            			</div>
-            		</div>
+                    <% if d.intersection.present? %>
+                		<div class="intersection">
+                            <%= d.intersection.name %>
+                            <% if d.intersection.present? %>
+                    			<div class="sub-section">
+                                    <%= d.sub_intersection.name %>
+                    			</div>
+                            <% end %>
+                		</div>
+                    <% end %>
             		<div class="card-information">
             			<div class="card-title"><%= truncate(d.headline, length: 200, ommission: "..") %></div>
             			<div class="card-type">toStory 
