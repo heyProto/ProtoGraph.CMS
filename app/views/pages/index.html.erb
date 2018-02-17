@@ -10,49 +10,38 @@
         <% end %>
     </div>
 <% else %>
-    <table class="table table-hover table-responsive">
-        <thead>
-            <tr>
-                <th>#
-                </th>
-                <th>Headline
-                </th>
-                <th>Byline
-                </th>
-                <th>Categorization
-                </th>
-                <th>Status
-                </th>
-                <th>Last updated
-                </th>
-            </tr>
-        </thead>
-        <tbody>
-            <% @pages.each do |d| %>                
-                <tr>
-                    <td class="hint">
-                        <% if d.view_cast.present? %>
-                        <%= d.view_cast.id.to_s %>
-                        <% end %>
-                    </td>
-                    <td><%= link_to truncate(d.headline, length: 200, ommission: ".."), edit_account_site_page_path(@account, @site, d, folder_id: d.folder_id), "data-turbolinks"=> false  %>
-                    </td>
-                    <td class="hint"><%= d.byline %>
-                    </td>
-                    <td class="hint">
-                        <%= d.series.present? ? d.series.name_html.html_safe : "" %>
-                        <%= d.intersection.present? ? (" / " + d.intersection.name) : "" %>
-                        <%= d.sub_intersection.present? ? (" / " + d.sub_intersection.name) : "" %>
-                    </td>
-                    <td class="hint">
-                    </td>
-                    <td class="hint">
-                        <%= image_tag avatar_url(d.updator.email), width: "20px", class: "rounded" %>
-                        <%= time_ago_in_words(d.updated_at) %>
-                    </td>
-                </tr>
+    <div class="row" style="margin: 0px; padding: 0px;">
+        <% @pages.each do |d| %>                
+        	<%= link_to edit_account_site_page_path(@account, @site, d, folder_id: d.folder_id), "data-turbolinks"=> false do %>
+                <div class="todo-card">
+            		<!-- <div class="status-signal status-red"></div> -->
+            		<div class="intersection">
+                        <%= d.intersection.present? ? d.intersection.name : "" %>
+            			<div class="sub-section">
+                            <%= d.sub_intersection.present? ? d.sub_intersection.name : "" %>
+            			</div>
+            		</div>
+            		<div class="card-information">
+            			<div class="card-title"><%= truncate(d.headline, length: 200, ommission: "..") %></div>
+            			<div class="card-type">toStory 
+                            <span class="card-id">
+                                <% if d.view_cast.present? %>
+                                    #<%= d.view_cast.id.to_s %>
+                                <% end %>
+                            </span>
+                        </div>
+            			<div class="card-footer">
+            				<div class="users-list">
+            					<div class="single-user"><%= image_tag avatar_url(d.updator.email), width: "16px", height: "16px" %></div>
+            				</div>
+            				<div class="due-on">
+            					<%= time_ago_in_words(d.updated_at) %>
+            				</div>
+            			</div>
+            		</div>
+            	</div>
             <% end %>
-        </tbody>
-    </table>
+        <% end %>       
+    </div>
     <%= paginate @pages, theme: 'twitter-bootstrap-4', pagination_class: "pagination-sm" %>
 <% end %>
