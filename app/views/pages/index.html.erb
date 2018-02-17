@@ -11,6 +11,9 @@
     </div>
 <% else %>
     <div class="row" style="margin: 0px; padding: 0px;">
+        <h1 style="margin: 0px; padding: 0px; padding-left: 18px; font-weight: 100;">Stories</h1>
+    </div>
+    <div class="row" style="margin: 0px; padding: 0px;">
         <% @pages.each do |d| %>                
         	<%= link_to edit_account_site_page_path(@account, @site, d, folder_id: d.folder_id), "data-turbolinks"=> false do %>
                 <div class="card-as-a-todo">
