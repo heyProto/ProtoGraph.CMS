@@ -74,6 +74,7 @@ class Page < ApplicationRecord
   belongs_to :col7_cover_image, class_name: "ImageVariation", foreign_key: "cover_image_id_7_column", optional: true
   belongs_to :cover_image, class_name: "Image", optional: true
   has_many :page_streams
+  has_many :page_todos, dependent: :destroy
   has_many :streams, through: :page_streams
   has_many :permissions, ->{where(status: "Active", permissible_type: 'Page')}, foreign_key: "permissible_id", dependent: :destroy
   has_many :users, through: :permissions

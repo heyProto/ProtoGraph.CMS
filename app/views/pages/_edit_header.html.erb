@@ -1,20 +1,52 @@
 <% content_for :filters_sidebar do %>
+    <% if action_name == "edit_plan" %>    
+        <span class="badge badge-dark">HELP</span>
+        <span class="hint">What is the story on, what story elements do you, whom to get quotes from, who will work on it, by when, etc.</span>
+    <% elsif action_name == "edit_write" %>
+        <span class="badge badge-dark">HELP</span>
+        <span class="hint">Distraction free writing interface. All pagaraphs between H2 headers will be converted into individual toParagraph cards.</span>
+    <% elsif action_name == "edit_assemble" %>
+        <span class="badge badge-dark">HELP</span>
+        <span class="hint">Assemble cards into your story, sort the cards. Add related feeds, cover image, headline, etc.</span>
+    <% elsif action_name == "edit_distribute" %>
+        <span class="badge badge-dark">HELP</span>
+        <span class="hint">Finally, the desk can package the story before distribution and mark it as ready to publish.</span>
+    <% end %>
+    <hr/>
+    <div>
+      <p style="font-size: 11px; color: #455A64; margin-bottom: 0px; padding-bottom: 3px; font-weight: 800;"><%= @page.is_sponsored ? "SPONSORED IDEA" : "STORY IDEA"%></p>
+      <p style="font-size: 11px; color: #455A64; margin-top: 0px; padding-top: 0px;"><%= image_tag avatar_url(@page.creator.email), width: "16px", height: "16px" %> on <%= @page.created_at.strftime("%e %b %Y") %></p>
+    <% if action_name != "edit_plan" %>    
+          <hr/>
+          <div class="story-pitch-intersection">
+              <%= @page.intersection.name %>
+              <div class="story-pitch-sub-intersection">
+                  <%= @page.sub_intersection.name %>
+              </div>
+          </div>
+          <br/>
+          <br/>
+          <p style="font-size: 11px; color: #455A64; ">
+             <%= @page.one_line_concept %>
+          </p>
+           <img src='/assets/glyphicons-139-picture.png' height='13px;' class="<%= @page.has_image_other_than_cover ? nil : "disabled" %>"/> &nbsp;
+           <img src='/assets/glyphicons-301-microphone.png'  height='13px;' class="<%= @page.has_audio ? nil : "disabled" %>"/> &nbsp;
+           <img src='/assets/glyphicons-181-facetime-video.png' height='12px;' class="<%= @page.has_video ? nil : "disabled" %>"/> &nbsp;
+           <img src='/assets/glyphicons-43-pie-chart.png' height='13px;' class="<%= @page.has_data ? nil : "disabled" %>"/> &nbsp;
+           <br/>
+           <span style="font-size: 11px; color: #455A64; ">
+               by
+               <%= @page.due %>
+           </span>
+        </div>
+        <br/>
+    <% end %>
     <div class="hint">
         <table class="table table-sm hint">
           <tr>
             <td>Publish by</td>
             <td>:</td>
             <td><%= @page.published_at.strftime("%Y-%m-%d") %></td>
-          </tr>
-          <tr>
-            <td>Created by</td>
-            <td>:</td>
-            <td><%= @page.creator.name %></td>
-          </tr>
-          <tr>
-            <td>On</td>
-            <td>:</td>
-            <td><%= @page.created_at.strftime("%e %b %Y") %></td>
           </tr>
           <tr>
             <td>Updated by</td>
@@ -29,27 +61,6 @@
         </table>
     </div>
 <% end %>
-<div class="alert alert-light"  style="padding: 0px 10px;">
-  <span style="font-size: 11px; color: #C4B700;isplay: inline-block; "><%= @page.is_sponsored ? "SPONSORED: " : "STORY: "%></span>
-  <div class="story-pitch-intersection">
-      <%= @page.intersection.name %>
-      <div class="story-pitch-sub-intersection">
-          <%= @page.sub_intersection.name %>
-      </div>
-  </div>
-  <p style="margin-top: 10px; font-weight: 100; display: inline-block;">
-      <b style="color: black; font-weight: 800;"><%= @page.one_line_concept %></b>
-      &nbsp;&nbsp;&nbsp;&nbsp;
-      <img src='/assets/glyphicons-139-picture.png' height='13px;' class="<%= @page.has_image_other_than_cover ? nil : "disabled" %>"/> &nbsp;
-      <img src='/assets/glyphicons-301-microphone.png'  height='13px;' class="<%= @page.has_audio ? nil : "disabled" %>"/> &nbsp;
-      <img src='/assets/glyphicons-181-facetime-video.png' height='12px;' class="<%= @page.has_video ? nil : "disabled" %>"/> &nbsp;
-      <img src='/assets/glyphicons-43-pie-chart.png' height='13px;' class="<%= @page.has_data ? nil : "disabled" %>"/> &nbsp;
-      <span style="font-size: 11px; color: #C4B700;isplay: inline-block; ">
-          by
-          <%= @page.due %>
-      </span>
-  </p>
-</div>
 <div class="article_edit_pages">
     <ul class="nav nav-pills">
       <li class="nav-item">
@@ -62,7 +73,7 @@
         <%= link_to "Assemble", edit_assemble_account_site_page_path(@account, @site, @page, folder_id: @page.folder_id), class: (action_name == "edit_assemble" ? "nav-link active" : "nav-link") %>
       </li>
       <li class="nav-item">
-        <%= link_to "Distribute", edit_distribute_account_site_page_path(@account, @site, @page, folder_id: @page.folder_id), class: (action_name == "edit_distribute" ? "nav-link active" : "nav-link") %>
+        <%= link_to "Package", edit_distribute_account_site_page_path(@account, @site, @page, folder_id: @page.folder_id), class: (action_name == "edit_distribute" ? "nav-link active" : "nav-link") %>
       </li>
     </ul>
 </div>

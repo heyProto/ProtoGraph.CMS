@@ -79,8 +79,10 @@ class PagesController < ApplicationController
   def edit_plan
     @ref_intersection = RefCategory.where(site_id: @site.id, genre: "intersection", is_disabled: [false, nil]).order(:name).map {|r| ["#{r.name}", r.id]}
     @ref_sub_intersection = RefCategory.where(site_id: @site.id, genre: "sub intersection", is_disabled: [false, nil]).order(:name).map {|r| ["#{r.name}", r.id]}
+    @template_cards = @account.template_cards.where(is_current_version: true)
+    @page_todo = PageTodo.new
+    @page_todos = @page.page_todos.order(:sort_order)
     #  ->>> page_authors
-    #  ->>> page_todos
     #  status                           :string(255)
   end
   
@@ -123,17 +125,6 @@ class PagesController < ApplicationController
     #     > State
     #     > District
     #     > Location
-    
-    
-    #  summary                          :text(65535)        
-    #  meta_keywords                    :string(255)
-    #  meta_description                 :text(65535)
-    #  share_text_facebook:text 
-    #  share_text_twitter:text
-    #  published_at                     :datetime
-    #  cover_image_alignment            :string(255)
-    #  slug                             :string(255)
-    #  url                              :text(65535)
   end
 
   def create

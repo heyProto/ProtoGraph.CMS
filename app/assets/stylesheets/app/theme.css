@@ -1,5 +1,5 @@
 .control-label{font-size: 0.9em; font-weight: 200; margin-bottom: 0px; padding-bottom: 0px;}
-.help-block, .hint{ font-size: 11px; color: gray; padding-top: 2px; font-style: italic; line-height: 13px;}
+.help-block, .hint{ font-size: 11px; color: gray; padding-top: 2px; line-height: 13px;}
 .dropdown-item{ font-size: 0.81em !important;}
 .dropdown-menu{margin: 0px !important;}
 .has-error > .help-block{color: red;}

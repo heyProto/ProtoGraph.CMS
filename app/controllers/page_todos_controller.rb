@@ -1,59 +1,36 @@
 class PageTodosController < ApplicationController
-  before_action :set_page_todo, only: [:show, :edit, :update, :destroy]
 
-  def index
-    @page_todos = PageTodo.all
-  end
-
-  def show
-  end
-
-  def new
-    @page_todo = PageTodo.new
-  end
-
-  def edit
-  end
+  before_action :authenticate_user!
 
   def create
     @page_todo = PageTodo.new(page_todo_params)
-
-    respond_to do |format|
-      if @page_todo.save
-        format.html { redirect_to @page_todo, notice: 'Page todo was successfully created.' }
-        format.json { render :show, status: :created, location: @page_todo }
-      else
-        format.html { render :new }
-        format.json { render json: @page_todo.errors, status: :unprocessable_entity }
-      end
-    end
-  end
-
-  def update
-    respond_to do |format|
-      if @page_todo.update(page_todo_params)
-        format.html { redirect_to @page_todo, notice: 'Page todo was successfully updated.' }
-        format.json { render :show, status: :ok, location: @page_todo }
-      else
-        format.html { render :edit }
-        format.json { render json: @page_todo.errors, status: :unprocessable_entity }
-      end
+    @page = @page_todo.page
+    if @page_todo.save
+      redirect_to edit_plan_account_site_page_path(@account, @site, @page, folder_id: @page.folder_id), notice: t("cs")
+    else
+      @ref_intersection = RefCategory.where(site_id: @site.id, genre: "intersection", is_disabled: [false, nil]).order(:name).map {|r| ["#{r.name}", r.id]}
+      @ref_sub_intersection = RefCategory.where(site_id: @site.id, genre: "sub intersection", is_disabled: [false, nil]).order(:name).map {|r| ["#{r.name}", r.id]}
+      @template_cards = @account.template_cards.where(is_current_version: true)
+      @page_todos = @page.page_todos.order(:sort_order)
+      render "pages/edit_plan"
     end
   end
 
   def destroy
+    @page_todo = PageTodo.find(params[:id])
+    @page = @page_todo.page
     @page_todo.destroy
-    respond_to do |format|
-      format.html { redirect_to page_todos_url, notice: 'Page todo was successfully destroyed.' }
-      format.json { head :no_content }
-    end
+    redirect_to edit_plan_account_site_page_path(@account, @site, @page, folder_id: @page.folder_id), notice: t("ds")
+  end
+  
+  def complete
+    @page_todo = PageTodo.find(params[:id])
+    @page = @page_todo.page
+    @page_todo.update_attributes(is_completed: !@page_todo.is_completed)
+    redirect_to edit_plan_account_site_page_path(@account, @site, @page, folder_id: @page.folder_id), notice: t("ds")
   end
 
   private
-
-    def set_page_todo
-      @page_todo = PageTodo.find(params[:id])
-    end
 
     def page_todo_params
       params.require(:page_todo).permit(:page_id, :user_id, :template_card_id, :task, :is_completed, :sort_order, :created_by, :updated_by)

@@ -91,7 +91,9 @@ Rails.application.routes.draw do
         get "edit/distribute", to: "pages#edit_distribute", on: :member
         put "remove_cover_image", on: :member
         post "chabbi", to: "pages#create", on: :collection
-        resources :page_todos
+        resources :page_todos do
+          get "complete", on: :member
+        end
       end
       resources :streams do
         post :publish, on: :member

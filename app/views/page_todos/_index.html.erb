@@ -1,0 +1,48 @@
+<br/>
+<br/>
+<h3 style="font-weight: 100;">Break the story down into smaller todos</h3>
+<br/>
+<table class="table table-sm">
+  <thead>
+    <tr>
+      <th style="width: 20px;"></th>
+      <th>What to do</th>
+      <th style="width: 100px;">Card</th>
+      <th>Updated by</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+      <%= simple_form_for(@page_todo, url: account_site_page_page_todos_path(@account, @site, @page, folder_id: @page.folder_id), method: :post) do |f| %>
+        <%= f.error_notification %>
+        <div class="form-inputs">
+          <%= f.hidden_field :page_id, value: @page.id %>
+          <%= f.hidden_field :created_by, value: current_user.id %>
+          <%= f.hidden_field :updated_by, value: current_user.id %>
+            <tr>
+              <td><%= image_tag "glyphicons-154-unchecked.png", height: "16px" %></td>
+              <td><%= f.input :task, label: false, input_html: {rows: 1} %></td>
+              <td><%= f.input :template_card_id, label: false, as: :select, collection: @template_cards.map{|z| [z.name, z.id]} %></td>
+              <td><%= f.button :submit, "Add", class: "btn btn-sm" %></td>
+              <td></td>
+          </tr>
+        </div>
+      <% end %>
+    <% @page_todos.each do |page_todo| %>
+      <tr>
+        <td>
+            <%= link_to image_tag(page_todo.is_completed ? "glyphicons-153-check.png" : "glyphicons-154-unchecked.png", height: "16px"), complete_account_site_page_page_todo_path(@account, @site, @page, page_todo, folder_id: @page.folder_id) %>
+        </td>
+        
+        <td style="<%= page_todo.is_completed ? "color: gray; text-decoration: line-through;" : nil %>"><%= page_todo.task %></td>
+        <td>
+            <% if page_todo.template_card.present? %>
+                <%= image_tag page_todo.template_card.icon_url, title: page_todo.template_card.name, height: "30px;", width: "30px;" %>
+            <% end %>
+        </td>
+        <td class="hint"><%= image_tag avatar_url(page_todo.updator.email), width: "16px", height: "16px" %> <%= time_ago_in_words page_todo.updated_at %></td>
+        <td><%= link_to 'x', account_site_page_page_todo_path(@account, @site, @page, page_todo), method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
