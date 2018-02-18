@@ -1,9 +1,9 @@
 <nav class="navbar navbar-expand-lg navbar-light" style="background: #FAFAFA;">    
+    <ul class="navbar-nav mr-auto">
+    </ul>
     <ul class="navbar-nav ml-auto float-right">
         <% if @site.present? %>
-            <ul class="navbar-nav mr-auto">
-                <li class="<%=@is_admin ? "nav-item active" : "nav-item" %>"><%= link_to "Admin", account_site_admins_path(@account, @site), "data-turbolinks"=> false, class:"nav-link" %></li>
-            </ul>
+            <li class="<%=@is_admin ? "nav-item active" : "nav-item" %>"><%= link_to "Admin", account_site_admins_path(@account, @site), "data-turbolinks"=> false, class:"nav-link" %></li>
         <% end %>
         <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
