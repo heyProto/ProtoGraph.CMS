@@ -127,27 +127,6 @@ class PagesController < ApplicationController
     #     > Location
   end
 
-  def create
-    p_params = page_params
-    if p_params.has_key?('cover_image_attributes') and !p_params['cover_image_attributes'].has_key?("image")
-      p_params.delete('cover_image_attributes')
-    end
-    @page = Page.new(p_params)
-    @page.headline = @page.one_line_concept
-    @page.created_by = current_user.id
-    @page.updated_by = current_user.id
-    @page.collaborator_lists = ["#{current_user.id}"] if ["contributor", "writer"].include?(@permission_role.slug)
-    if @page.save
-      redirect_to account_site_pages_path(@account, @site, folder_id: @page.folder_id), notice: 'Page was successfully created.'
-    else
-      @pages = @permission_role.can_see_all_pages ? @folder.pages.where.not(template_page_id: TemplatePage.where(name: "section").pluck(:id).uniq).order(updated_at: :desc).page(params[:page]).per(30) : current_user.pages(@folder).where.not(template_page_id: TemplatePage.where(name: "section").pluck(:id).uniq).order(updated_at: :desc).page(params[:page]).per(30)
-      @ref_intersection = RefCategory.where(site_id: @site.id, genre: "intersection", is_disabled: [false, nil]).order(:name).map {|r| ["#{r.name}", r.id]}
-      @ref_sub_intersection = RefCategory.where(site_id: @site.id, genre: "sub intersection", is_disabled: [false, nil]).order(:name).map {|r| ["#{r.name}", r.id]}
-      @article = TemplatePage.where(name: "article").first
-      render :index, alert: @page.errors.full_messages
-    end
-  end
-
   def update
     @page.updated_by = current_user.id
     p_params = page_params
@@ -230,7 +209,7 @@ class PagesController < ApplicationController
 
     def page_params
       params.require(:page).permit(:id, :account_id, :site_id, :folder_id, :headline, :meta_keywords, :meta_description, :summary, :template_page_id, :byline, :one_line_concept,
-                                   :cover_image_url, :cover_image_url_7_column, :cover_image_url_facebook, :cover_image_url_square, :cover_image_alignment, 
+                                   :cover_image_url, :cover_image_url_7_column, :cover_image_url_facebook, :cover_image_url_square, :cover_image_alignment, :content,
                                    :is_sponsored, :is_interactive, :has_data, :has_image_other_than_cover, :has_audio, :has_video, :status, :published_at, :url, 
                                    :ref_category_series_id, :ref_category_intersection_id, :ref_category_sub_intersection_id, :view_cast_id, :page_object_url, :created_by, 
                                    :updated_by, :english_headline, :due, :description, :cover_image_id_4_column, :cover_image_id_3_column, :cover_image_id_2_column, :cover_image_credit, :share_text_facebook, 

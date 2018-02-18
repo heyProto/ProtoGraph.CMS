@@ -5,7 +5,7 @@ h2{font-size: 1.7em; line-height: 30px; font-weight: 600;}
 h3{font-size: 1.1em; line-height: 20px; font-weight: 600;}
 h4{font-size: 1em; line-height: 20px; font-weight: 600;}
 
-ul.navbar-nav > li.nav-item > a.active{color: black; font-weight: 800;}
+.active > .nav-link{color: black; font-weight: 600 !important;}
 
 .article_edit_pages > ul.nav.nav-pills > li.nav-item > a.nav-link.active{
     font-weight: bold;

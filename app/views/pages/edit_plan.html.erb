@@ -1,12 +1,16 @@
 <%= render partial: "pages/edit_header" %>
 <div class="row">
     <div class="col-sm-11" style="margin-left: auto; margin-right: auto; width: 540px;">
-        <div class="story-pitch-intersection">
-            <%= @page.intersection.name %>
-            <div class="story-pitch-sub-intersection">
-                <%= @page.sub_intersection.name %>
+        <% if @page.intersection.present? %>
+            <div class="story-pitch-intersection">
+                <%= @page.intersection.name %>
+                <% if @page.sub_intersection.present? %>
+                    <div class="story-pitch-sub-intersection">
+                        <%= @page.sub_intersection.name %>
+                    </div>
+                <% end %>
             </div>
-        </div>
+        <% end %>
         <h2 style="font-weight: 100; margin-top: 10px;"><%= @page.one_line_concept %></h2>
         <br/>
         <%= simple_form_for(@page, url: account_site_page_path(@account, @site, @page), method: :put) do |f| %>

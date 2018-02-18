@@ -18,14 +18,18 @@
       <p style="font-size: 11px; color: #455A64; margin-top: 0px; padding-top: 0px;"><%= image_tag avatar_url(@page.creator.email), width: "16px", height: "16px" %> on <%= @page.created_at.strftime("%e %b %Y") %></p>
     <% if action_name != "edit_plan" %>    
           <hr/>
-          <div class="story-pitch-intersection">
-              <%= @page.intersection.name %>
-              <div class="story-pitch-sub-intersection">
-                  <%= @page.sub_intersection.name %>
+          <% if @page.intersection.present? %>
+              <div class="story-pitch-intersection">
+                  <%= @page.intersection.name %>
+                  <% if @page.sub_intersection.present? %>
+                      <div class="story-pitch-sub-intersection">
+                          <%= @page.sub_intersection.name %>
+                      </div>
+                  <% end %>
               </div>
-          </div>
-          <br/>
-          <br/>
+              <br/>
+              <br/>
+          <% end %>
           <p style="font-size: 11px; color: #455A64; ">
              <%= @page.one_line_concept %>
           </p>

@@ -48,6 +48,7 @@
 #  share_text_facebook              :text(65535)
 #  share_text_twitter               :text(65535)
 #  one_line_concept                 :string(255)
+#  content                          :text(65535)
 #
 
 class Page < ApplicationRecord

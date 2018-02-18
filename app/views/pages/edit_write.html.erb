@@ -1,1 +1,15 @@
 <%= render partial: "pages/edit_header" %>
+<div class="row">
+    <div class="col-sm-11" style="margin-left: auto; margin-right: auto;">
+        <%= simple_form_for(@page, url: account_site_page_path(@account, @site), method: :put) do |f| %>
+            <%= f.error_notification %>
+            <div class="form-inputs">
+                <%= f.input :headline, required: true, minlength: 50 , maxlength: 90, hint: "Minimum length: 50 chars. Maximum length: 90 chars.", input_html: {style: "font-size: 28px; border: 0px; padding-left: 0px;"}, placeholder: "Title", label: false, autofocus: true %>
+                <%= f.input :content, as: :text, required: true, minlength: 100, input_html: {rows: 30, style: "border: 0px; padding-left: 0px;"}, label: false, placeholder: "Tell your story..." %>                
+                <div class="form-actions">
+                  <%= f.button :submit, "Save and prepare cards for assembling" %>
+                </div>
+            </div>
+        <% end %>
+    </div>
+</div>
