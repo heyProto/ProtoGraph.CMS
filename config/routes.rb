@@ -36,6 +36,7 @@ Rails.application.routes.draw do
         resources :sites, only: [] do
           resources :folders, only: [] do
             resources :pages, only: [:create, :update]
+            resources :streams, only: [:create, :update]
           end
         end
 
@@ -62,7 +63,7 @@ Rails.application.routes.draw do
     end
     resources :permission_invites
     resources :sites do
-      resources :admins, only: [:index] do 
+      resources :admins, only: [:index] do
         get "access_team", "access_security", "product_theme", "product_integrations", "editorial_folders", "site_setup", on: :collection
       end
       resources :permissions do

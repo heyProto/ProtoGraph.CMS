@@ -39,7 +39,7 @@
                                     <%= f.input :english_headline, required: true, minlength: 50 , maxlength: 90, hint: "This is used for url management." %>
                                     <% end %>
                                     <%= f.input :headline, required: true, minlength: 50 , maxlength: 90, hint: "Minimum length: 50 chars. Maximum length: 90 chars." %>
-                            
+
                                 <%= f.input :summary, minlength: 50 , maxlength: 220, hint: "Minimum length: 50 chars. Maximum length: 200 chars." %>
                             <% end %>
                             <%= f.input :byline, required: true, label: "What byline do you want on the website?" %>
@@ -167,7 +167,7 @@
                   <h4>Streams:</h4>
                   <% @page.streams.each do |s| %>
                       <%= s.title%>: <%= link_to "Edit", edit_account_site_stream_path(@account, @site, s, folder_id: @folder.blank? ? nil : @folder.id)%> |
-                      <%= link_to truncate("#{ENV['AWS_S3_ENDPOINT']}/#{s.datacast_identifier}/index.json", length: 40), "#{ENV['AWS_S3_ENDPOINT']}/#{s.datacast_identifier}/index.json", target: "_blank" %>
+                      <%= link_to truncate("#{@site.cdn_endpoint}/#{s.cdn_key}", length: 40), "#{@site.cdn_endpoint}/#{s.cdn_key}", target: "_blank" %>
                       |
                       <%= link_to "Publish", publish_account_site_stream_path(@account, @site, s, folder_id: @folder.blank? ? nil : @folder.id),"data-turbolinks"=> false, class: "btn btn-outline", method: :post %>
                       <br/>
