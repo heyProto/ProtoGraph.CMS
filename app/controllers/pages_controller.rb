@@ -127,27 +127,6 @@ class PagesController < ApplicationController
     #     > Location
   end
 
-  def create
-    p_params = page_params
-    if p_params.has_key?('cover_image_attributes') and !p_params['cover_image_attributes'].has_key?("image")
-      p_params.delete('cover_image_attributes')
-    end
-    @page = Page.new(p_params)
-    @page.headline = @page.one_line_concept
-    @page.created_by = current_user.id
-    @page.updated_by = current_user.id
-    @page.collaborator_lists = ["#{current_user.id}"] if ["contributor", "writer"].include?(@permission_role.slug)
-    if @page.save
-      redirect_to account_site_pages_path(@account, @site, folder_id: @page.folder_id), notice: 'Page was successfully created.'
-    else
-      @pages = @permission_role.can_see_all_pages ? @folder.pages.where.not(template_page_id: TemplatePage.where(name: "section").pluck(:id).uniq).order(updated_at: :desc).page(params[:page]).per(30) : current_user.pages(@folder).where.not(template_page_id: TemplatePage.where(name: "section").pluck(:id).uniq).order(updated_at: :desc).page(params[:page]).per(30)
-      @ref_intersection = RefCategory.where(site_id: @site.id, genre: "intersection", is_disabled: [false, nil]).order(:name).map {|r| ["#{r.name}", r.id]}
-      @ref_sub_intersection = RefCategory.where(site_id: @site.id, genre: "sub intersection", is_disabled: [false, nil]).order(:name).map {|r| ["#{r.name}", r.id]}
-      @article = TemplatePage.where(name: "article").first
-      render :index, alert: @page.errors.full_messages
-    end
-  end
-
   def update
     @page.updated_by = current_user.id
     p_params = page_params
