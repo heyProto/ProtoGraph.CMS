@@ -1,3 +1,22 @@
+.story-pitch-intersection {
+    background: #fafafa;
+    display: inline-block;
+    padding: 1px;
+    padding-left: 5px;
+    border-radius: 4px;
+    font-size: 10px;
+    letter-spacing: 0.5px;
+    font-family: arial;
+}
+.story-pitch-sub-intersection {
+    background: rgba(51, 51, 51, 0.75);
+    border-radius: 4px;
+    color: white;
+    padding: 3px 5px;
+    margin-left: 3px;
+    display: inline-block;
+}
+
 .card-as-a-todo:hover{
     background: #CFD8DC;
 }

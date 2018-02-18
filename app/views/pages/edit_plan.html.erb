@@ -1,68 +1,17 @@
-<%= simple_form_for(@page, url: account_site_page_path(@account, @site, @page), method: :put) do |f| %>
-    <div class="row">
-        <div class="col-sm-7" style="margin-left: auto; margin-right: auto; width: 540px;">
-            <%= render partial: "pages/edit_header" %>
-            <%= f.error_notification %>
-            <div class="form-inputs">
-                <div class="row">
-                    <div class="col-xs-8">
-                        <% if @ref_intersection.first.present? %>
-                            <%= f.input :ref_category_intersection_id, label: "Intersection", collection: @ref_intersection, include_blank: true, input_html: {style: "width: 100%;", class: "selectpicker"} %>
-                        <% end %>
+<%= render partial: "pages/edit_header" %>
+<div class="row">
+    <div class="col-sm-7" style="margin-left: auto; margin-right: auto; width: 540px;">
+        <%= simple_form_for(@page, url: account_site_page_path(@account, @site, @page), method: :put) do |f| %>
+                    <%= f.error_notification %>
+                    <div class="form-inputs">
+                        <%= f.input :description, label: "Describe the story in detail so the writer understands it better." %>
+                        <div class="form-actions">
+                          <%= f.button :submit, "Save" %>
+                        </div>
                     </div>
-                    <div class="col-xs-8">
-                        <% if @ref_sub_intersection.first.present? %>
-                            <%= f.input :ref_category_sub_intersection_id, label: "Sub Intersection", collection: @ref_sub_intersection, include_blank: true, input_html: {style: "width: 100%;"} %>
-                        <% end %>
-                    </div>
-                </div>
-                <%= f.input :one_line_concept, required: true, placeholder: "*Story pitch in 140 chars", minlength: 11 , maxlength: 140, label: false, input_html: {style: "width: 100%;"} %>
-                <%= f.input :byline, required: true, label: "Assigned to", input_html: {style: "width: 100%;"} %>
-                <label class='control-label date optional' style="justify-content: left;">What do you want in this story?</label>
-                <div class="row">
-                    <div class="col-sm-3">
-                        <%= f.input :has_image_other_than_cover, label: "&nbsp; <img src='/assets/glyphicons-139-picture.png' height='17px;'/>".html_safe %>
-                    </div>
-                    <div class="col-sm-3">
-                        <%= f.input :has_audio, label: "&nbsp; <img src='/assets/glyphicons-301-microphone.png'  height='17px;'/>".html_safe %>
-                    </div>
-                    <div class="col-sm-3">
-                        <%= f.input :has_video, label: "&nbsp; <img src='/assets/glyphicons-181-facetime-video.png' height='16px;'/>".html_safe %>
-                    </div>
-                    <div class="col-sm-2">
-                        <%= f.input :has_data, label: "&nbsp; <img src='/assets/glyphicons-43-pie-chart.png' height='17px;'/>".html_safe %>
-                    </div>
-                    <div class="col-sm-4">
-                        <%= f.input :is_sponsored, label: "&nbsp; Sponsored?".html_safe %>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-8">
-                        <%= f.input :due, as: :date, label: "ETA:", label_html: {style: "width: 100%; justify-content: left;"} %>
-                    </div>
-                    <div class="col-sm-8">
-                        <%= f.input :published_at, as: :date, label: "Planned publish date:", label_html: {style: "width: 100%; justify-content: left;"} %>
-                    </div>
-                </div>
-                <div class="form-actions">
-                  <%= f.button :submit, "Save", class: "btn btn-light" %>
-                </div>
-            </div>
-        </div>
+        <% end %>
     </div>
-<% end %>
-<br/>
-<br/>
-<%= simple_form_for(@page, url: account_site_page_path(@account, @site, @page), method: :put) do |f| %>
-    <div class="row">
-        <div class="col-sm-7" style="margin-left: auto; margin-right: auto; width: 540px;">
-            <%= f.error_notification %>
-            <div class="form-inputs">
-                <%= f.input :description, label: "Describe the story in detail so the writer understands it better." %>
-                <div class="form-actions">
-                  <%= f.button :submit, "Pitch" %>
-                </div>
-            </div>
-        </div>
+    <div class="col-sm-4">
+        <br/>
     </div>
-<% end %>
+</div>

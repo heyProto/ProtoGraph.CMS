@@ -29,7 +29,7 @@
                 		</div>
                     <% end %>
             		<div class="card-information">
-            			<div class="card-title"><%= truncate(d.headline, length: 200, ommission: "..") %></div>
+            			<div class="card-title"><%= truncate(d.headline, length: 55, ommission: "..") %></div>
             			<div class="card-type">toStory 
                             <span class="card-id">
                                 <% if d.view_cast.present? %>
