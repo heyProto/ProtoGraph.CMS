@@ -4,10 +4,9 @@
         <%= simple_form_for(@page, url: account_site_page_path(@account, @site), method: :put) do |f| %>
             <%= f.error_notification %>
             <div class="form-inputs">
-                <% unless @site.is_english %>
-                    <%= f.input :english_headline, required: true, minlength: 50 , maxlength: 90, hint: "This is used for url management." %>
+                <% if !@site.is_english or 1 == 1 %>
+                    <%= f.input :english_headline, required: true, minlength: 50 , maxlength: 90, hint: "This is used for url management.", label: "Write the headline in English" %>
                 <% end %>
-                <%= f.input :headline, required: true, minlength: 50 , maxlength: 90, hint: "Minimum length: 50 chars. Maximum length: 90 chars." %>                
                 <% if @page.cover_image_id.blank? %>
                     <%= f.fields_for :cover_image do |cover_image| %>
                         <%= cover_image.input :image, label: false, placeholder: "Upload cover image", input_html: {style: "width: 100%; background: lightgray; min-height: 200px; cursor: pointer; padding: 100px 0px;", onchange: "readURL(this);"}%>
