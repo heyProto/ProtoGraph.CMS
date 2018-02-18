@@ -7,6 +7,12 @@ h4{font-size: 1em; line-height: 20px; font-weight: 600;}
 
 .active > .nav-link{color: black; font-weight: 600 !important;}
 
+.article_edit_pages{
+    width: 340px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
 .article_edit_pages > ul.nav.nav-pills > li.nav-item > a.nav-link.active{
     font-weight: bold;
     background: white;
