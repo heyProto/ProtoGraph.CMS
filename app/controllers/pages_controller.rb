@@ -83,7 +83,6 @@ class PagesController < ApplicationController
     @page_todo = PageTodo.new
     @page_todos = @page.page_todos.order(:sort_order)
     #  ->>> page_authors
-    #  status                           :string(255)
   end
 
   def edit_assemble
@@ -100,7 +99,6 @@ class PagesController < ApplicationController
     #  cover_image_id_3_column
     #  cover_image_id_2_column
     #  cover_image_credit
-
     if @page.status != "draft"
         @page_stream_narrative = @page.streams.where(title: "#{@page.id.to_s}_Story_Narrative").first
         @page_stream_narrative.view_cast_id_list = @page_stream_narrative.view_cast_ids.pluck(:entity_value).join(",")

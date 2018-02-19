@@ -25,6 +25,8 @@ gem 'exception_notification'
 gem 'foreman'
 gem 'json-schema'
 gem 'sidekiq'
+gem 'jquery-ui-rails'
+
 
 #AUTHENTICATION
 gem 'devise'

@@ -22,6 +22,8 @@
 //= require ./vendors/quantize.js
 //= require ./vendors/color-thief.min.js
 //= require ./vendors/select2.full.min.js
+//= require jquery-ui
+//= require best_in_place.jquery-ui
 
 
 $(document).on('turbolinks:load', function (e) {
