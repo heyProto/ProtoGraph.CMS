@@ -6,6 +6,7 @@ h3{font-size: 1.1em; line-height: 20px; font-weight: 600;}
 h4{font-size: 1em; line-height: 20px; font-weight: 600;}
 
 .active > .nav-link{color: black; font-weight: 600 !important;}
+.help_text_in_sidebar{margin: 0 0 14px 0; color: #919191; font-size: 12px; line-height: 1rem;}
 
 .article-status-draft--planning{
     background: #d73027;

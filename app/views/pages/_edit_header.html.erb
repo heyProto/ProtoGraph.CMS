@@ -1,17 +1,23 @@
 <%= stylesheet_link_tag "stories" %>
 <% content_for :filters_sidebar do %>
+<<<<<<< HEAD
+    <% if action_name == "edit_plan" %>    
+        <%= image_tag "help.png", style: "right: 0; float: right; position: relative;" %>
+        <span class="help_text_in_sidebar">What is the story on, what story elements do you, whom to get quotes from, who will work on it, by when, etc.</span>
+=======
     <% if action_name == "edit_plan" %>
         <span class="badge badge-dark">HELP</span>
         <span class="hint">What is the story on, what story elements do you, whom to get quotes from, who will work on it, by when, etc.</span>
+>>>>>>> 0c576fe9d5871d151564092fb61a2c775cf5420c
     <% elsif action_name == "edit_write" %>
-        <span class="badge badge-dark">HELP</span>
-        <span class="hint">Distraction free writing interface. All pagaraphs between H2 headers will be converted into individual toParagraph cards.</span>
+        <%= image_tag "help.png", style: "right: 0; float: right; position: relative;" %>
+        <span class="help_text_in_sidebar">Distraction free writing interface. All pagaraphs between H2 headers will be converted into individual toParagraph cards.</span>
     <% elsif action_name == "edit_assemble" %>
-        <span class="badge badge-dark">HELP</span>
-        <span class="hint">Assemble cards into your story, sort the cards. Add related feeds, cover image, headline, etc.</span>
+        <%= image_tag "help.png", style: "right: 0; float: right; position: relative;" %>
+        <span class="help_text_in_sidebar">Assemble cards into your story, sort the cards. Add related feeds, cover image, headline, etc.</span>
     <% elsif action_name == "edit_distribute" %>
-        <span class="badge badge-dark">HELP</span>
-        <span class="hint">Finally, the desk can package the story before distribution and mark it as ready to publish.</span>
+        <%= image_tag "help.png", style: "right: 0; float: right; position: relative;" %>
+        <span class="help_text_in_sidebar">Finally, the desk can package the story before distribution and mark it as ready to publish.</span>
     <% end %>
     <hr/>
     <div>
