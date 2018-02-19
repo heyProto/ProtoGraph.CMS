@@ -223,10 +223,14 @@ class Page < ApplicationRecord
 
   class << self
     def collect_between(first, last=nil)
-      if last.nil? or first == last
-          [first]
+      if first.nil? and last.present?
+        [last]
+      elsif last.nil?
+        [first]
+      elsif first == last
+        []
       else
-          [first, *collect_between(first, last.previous)]
+        [first, *collect_between(first.next, last)]
       end
     end
 
@@ -243,7 +247,25 @@ class Page < ApplicationRecord
 
   def collect_all_paras
     #all_elements = Nokogiri::HTML(content)
-    [content]
+    paragraphs = []
+    all_elements = Nokogiri::HTML(content).search('body').children
+    first_element = all_elements.first
+    all_h2_elements = all_elements.search("h2")
+    unless first_element == all_h2_elements.first
+      html_part = ""
+      Page.collect_between(first_element, all_h2_elements.first).each do |elem|
+        html_part += elem.to_s
+      end
+      paragraphs << html_part
+    end
+    all_h2_elements.each_with_index do |h2, i|
+      html_part = ""
+      Page.collect_between(h2, all_h2_elements[i+1]).each do |elem|
+        html_part += elem.to_s
+      end
+      paragraphs << html_part
+    end
+    paragraphs
   end
 
   def push_json_to_s3
