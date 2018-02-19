@@ -75,7 +75,7 @@ class PagesController < ApplicationController
       end
     end
   end
-  
+
   def edit_plan
     @ref_intersection = RefCategory.where(site_id: @site.id, genre: "intersection", is_disabled: [false, nil]).order(:name).map {|r| ["#{r.name}", r.id]}
     @ref_sub_intersection = RefCategory.where(site_id: @site.id, genre: "sub intersection", is_disabled: [false, nil]).order(:name).map {|r| ["#{r.name}", r.id]}
@@ -85,7 +85,7 @@ class PagesController < ApplicationController
     #  ->>> page_authors
     #  status                           :string(255)
   end
-  
+
   def edit_assemble
     @view_cast = @page.view_cast if @page.view_cast_id.present?
     @page_streams = @page.page_streams
@@ -110,12 +110,12 @@ class PagesController < ApplicationController
         @page_stream_narrative7c = @page_stream_narrative.page_streams.first
     end
   end
-  
+
   def edit_write
     #- Seamless writing experience that gets converted into many Compose Cards
     #- Rao's app / Medium / Google Doc
   end
-  
+
   def edit_distribute
     #  cover_image_url_facebook         :text(65535)
     #  cover_image_url_square           :text(65535)
@@ -193,8 +193,6 @@ class PagesController < ApplicationController
     redirect_to edit_account_site_page_path(@account, @site, @page, @folder.present? ? {folder_id: @folder.id} : nil), notice: t("ds")
   end
 
-
-
   def destroy
     f = @page.folder_id
     @page.destroy
@@ -210,10 +208,10 @@ class PagesController < ApplicationController
     def page_params
       params.require(:page).permit(:id, :account_id, :site_id, :folder_id, :headline, :meta_keywords, :meta_description, :summary, :template_page_id, :byline, :one_line_concept,
                                    :cover_image_url, :cover_image_url_7_column, :cover_image_url_facebook, :cover_image_url_square, :cover_image_alignment, :content,
-                                   :is_sponsored, :is_interactive, :has_data, :has_image_other_than_cover, :has_audio, :has_video, :status, :published_at, :url, 
-                                   :ref_category_series_id, :ref_category_intersection_id, :ref_category_sub_intersection_id, :view_cast_id, :page_object_url, :created_by, 
-                                   :updated_by, :english_headline, :due, :description, :cover_image_id_4_column, :cover_image_id_3_column, :cover_image_id_2_column, :cover_image_credit, :share_text_facebook, 
-                                     :share_text_twitter, :publish,collaborator_lists: [], cover_image_attributes: [:image, :account_id, :is_cover, :created_by, 
+                                   :is_sponsored, :is_interactive, :has_data, :has_image_other_than_cover, :has_audio, :has_video, :status, :published_at, :url,
+                                   :ref_category_series_id, :ref_category_intersection_id, :ref_category_sub_intersection_id, :view_cast_id, :page_object_url, :created_by,
+                                   :updated_by, :english_headline, :due, :description, :cover_image_id_4_column, :cover_image_id_3_column, :cover_image_id_2_column, :cover_image_credit, :share_text_facebook,
+                                     :share_text_twitter, :publish, :prepare_cards_for_assembling,collaborator_lists: [], cover_image_attributes: [:image, :account_id, :is_cover, :created_by,
                                      :updated_by])
     end
 end
