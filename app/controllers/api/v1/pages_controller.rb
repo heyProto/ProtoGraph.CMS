@@ -9,7 +9,7 @@ class Api::V1::PagesController < ApiController
     @page.updator = @user
     @page.creator = @user
     if @page.save
-        render json: {page: @page.as_json, message: "Page created successfully"}, status: 200
+        render json: {page: @page.as_json(methods: [:html_url]), message: "Page created successfully"}, status: 200
     else
         render json: {errors: @page.errors.as_json}, status: 422
     end
@@ -17,7 +17,7 @@ class Api::V1::PagesController < ApiController
 
   def update
     if @page.update_attributes(page_params)
-      render json: {page: @page.as_json, message: "Page updated successfully"}, status: 200
+      render json: {page: @page.as_json(methods: [:html_url]), message: "Page updated successfully"}, status: 200
     else
        render json: {errors: @page.errors.as_json}, status: 422
     end

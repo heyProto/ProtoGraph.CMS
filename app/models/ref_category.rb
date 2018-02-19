@@ -2,21 +2,22 @@
 #
 # Table name: ref_categories
 #
-#  id           :integer          not null, primary key
-#  site_id      :integer
-#  genre        :string(255)
-#  name         :string(255)
-#  stream_url   :text(65535)
-#  created_at   :datetime         not null
-#  updated_at   :datetime         not null
-#  stream_id    :integer
-#  is_disabled  :boolean
-#  created_by   :integer
-#  updated_by   :integer
-#  count        :integer          default(0)
-#  name_html    :string(255)
-#  slug         :string(255)
-#  english_name :string(255)
+#  id                :integer          not null, primary key
+#  site_id           :integer
+#  genre             :string(255)
+#  name              :string(255)
+#  stream_url        :text(65535)
+#  created_at        :datetime         not null
+#  updated_at        :datetime         not null
+#  stream_id         :integer
+#  is_disabled       :boolean
+#  created_by        :integer
+#  updated_by        :integer
+#  count             :integer          default(0)
+#  name_html         :string(255)
+#  slug              :string(255)
+#  english_name      :string(255)
+#  vertical_page_url :text(65535)
 #
 
 class RefCategory < ApplicationRecord
@@ -40,9 +41,12 @@ class RefCategory < ApplicationRecord
     validates :genre, inclusion: {in: ["intersection", "sub intersection", "series"]}
 
     #CALLBACKS
+    before_create :before_create_set
+
     after_create :after_create_set
     before_update :before_update_set
     after_destroy :update_site_verticals
+    after_update :update_site_verticals
     #SCOPE
     #OTHER
 
@@ -54,9 +58,9 @@ class RefCategory < ApplicationRecord
         self.pages.where(template_page_id: TemplatePage.where(name: "Homepage: Vertical").first.id).first
     end
 
-    def vertical_page_url
-        "#{self.site.cdn_endpoint}/#{self.slug}.html"
-    end
+    # def vertical_page_url
+    #     "#{self.site.cdn_endpoint}/#{self.slug}.html"
+    # end
 
     def view_casts
         ViewCast.where("#{genre}": self.name)
@@ -92,6 +96,11 @@ class RefCategory < ApplicationRecord
 
     #PRIVATE
     private
+
+    def before_create_set
+        self.vertical_page_url = "#{self.site.cdn_endpoint}/#{self.slug}.html" if self.vertical_page_url.blank?
+        true
+    end
 
     def before_update_set
         self.is_disabled = true if self.count > 0

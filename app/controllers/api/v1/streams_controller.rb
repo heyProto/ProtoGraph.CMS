@@ -19,8 +19,8 @@ class Api::V1::StreamsController < ApiController
   end
 
   def update
+    @stream.updator = @user
     if @stream.update(stream_params)
-      @stream.updator = @user
       unless @stream.cards.count == 0
         @stream.publish_cards
       end
