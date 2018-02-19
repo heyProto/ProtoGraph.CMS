@@ -1,6 +1,6 @@
 
   <div class="col-sm-6" style="margin-left: auto; margin-right: auto;">
-      <%= link_to "Page Builder", manager_account_site_pages_path(@account, @site) %>
+    <%= link_to "Page Builder", manager_account_site_pages_path(@account, @site) %>
     <h1>Navigation for <%= @ref_category.name %></h1>
     <hr/>
     <% if @site_vertical_navigations.first.blank? %>
@@ -24,8 +24,24 @@
         </tbody>
       </table>
     <% end %>
+
+    <br>
+    <h1>Vertical URL</h1>
+    <hr>
+
+    <%= simple_form_for([@account, @site, @ref_category]) do |f| %>
+      <%= f.error_notification %>
+
+        <div class="form-inputs">
+          <%= f.input :vertical_page_url, required: true%>
+        </div>
+
+        <div class="form-actions">
+          <%= f.button :submit, "Save", class: "btn btn-primary" %>
+        </div>
+    <% end %>
   </div>
-  
+
 
 <% content_for :filters_sidebar do %>
     <%= simple_form_for(@site_vertical_navigation, url: account_site_ref_category_site_vertical_navigations_path(@account, @site, @ref_category), method: :post) do |f| %>

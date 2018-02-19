@@ -13,10 +13,9 @@
 #  updated_by       :integer
 #  upload_errors    :text(65535)
 #  filtering_errors :text(65535)
-#  upload_status    :string(255)      default("waiting")
+#  upload_status    :string(255)
 #  total_rows       :integer
 #  rows_uploaded    :integer
-#  site_id          :integer
 #
 
 class Upload < ApplicationRecord
