@@ -3,6 +3,45 @@
 	<div class="steps-to-build-page">
 		<ul class="nav justify-content-end">
             <%= yield :page_navigation %>
+            
+                <% if controller_name == "sites" and action_name == "show" %>
+                    <li>
+                        <button class="btn btn-sm btn-secondary btn-sm" type="button">
+                            <%= link_to '+ Add a folder', new_account_site_folder_path(@account, @site), data: {turbolinks: false} %>
+                        </button>
+                    </li>
+                <% elsif controller_name == "view_casts" and action_name == "index" %></li>
+                    <li>
+                        <button class="btn btn-sm btn-secondary btn-sm" type="button">
+                            <%= link_to '+ Add a card', new_account_site_folder_view_cast_path(@account, @site, @folder), data: {turbolinks: false} %>
+                        </button>
+                    </li>
+                <% elsif controller_name == "pages" and action_name == "index" %>
+                    <form class="form-inline my-2 my-lg-0"><li><%= render partial: "pages/new" %></li></form>
+                <% elsif controller_name == "images" %>
+                    <li>
+                        <button class="btn btn-sm btn-secondary btn-sm" type="button">
+                          <%= link_to '+ Upload an image', "#",id: "upload_image_button", "data-toggle" => "modal", "data-target" => "#fileUploadModal" %>
+                        </button>
+                    </li>
+                    <script type="text/javascript">
+                        $(document).on('turbolinks:load', function(){
+                            $('#fileUploadModal').appendTo("body");
+                        })
+                    </script>
+                <% end %>
+            
 		</ul>
 	</div>
 </div>
+
+<% content_for :page_navigation do %>
+    <li><button type="button" class="btn btn-sm btn-secondary btn-sm">Small button</button></li>
+<% end %>
+
+
+
+
+            
+
+            

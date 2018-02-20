@@ -167,28 +167,26 @@
   .steps-to-build-page {
     a {
       font-size: 14px;
-      color: #999 !important;
+      color: black !important;
       border-bottom: 3px solid transparent;
       width: 100px;
       text-align: center;
       float: right;
       padding-top: 12px;
       padding-bottom: 13px;
-      &.active {
-        border-bottom: 3px solid #4e6773;
-        color: black !important;
-      }
-      &:hover {
-        border-bottom: 3px solid #607d8b4d;
-      }
     }
     button {
-      background: transparent;
+      background: #FFEBEE;
       margin-top: 9px;
-      border: 1px solid #dadfe3;
-      color: #666;
+      border: 1px solid #FFEBEE;
+      color: black;
       font-size: 14px;
       margin-left: 10px;
+      a{
+          float: none;
+          padding-top: 0px;
+          padding-bottom: 0px;
+      }
     }
   }
 }
