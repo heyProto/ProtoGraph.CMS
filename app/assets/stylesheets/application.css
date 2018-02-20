@@ -18,6 +18,7 @@
  *= require app/sign-up-area.css
  *= require app/folders_sidebar.scss
  *= require app/card_as_a_todo.scss
+ *= require app/stories_edit_plan.scss
  *= require jquery-ui
  *= require_self
  */
