@@ -1,6 +1,7 @@
 .cms-sidebar {
   color: black;
-  background: #EEEEEE;
+  background: #ffffff;
+  border-right: 1px solid #ECEFF1;
   padding: 0px;
   height: 100vh;
   position: fixed;
@@ -27,7 +28,6 @@
     font-size: 18px;
     border-radius: 0px;
     line-height: 40px;
-    border-bottom: 1px solid #E0E0E0;
     color: black !important;
     &:focus {
       outline: none;
@@ -41,19 +41,19 @@
     font-size: 14px;
     line-height: 14px;
     margin-top: 1px;
-    background: #B0BEC5;
-    border: #B0BEC5;
+    background: #ECEFF1;
+    border: #ECEFF1;
     border-bottom: 0px solid #4e6773;
   }
   .show > .btn-secondary.dropdown-toggle {
     &:hover {
-      background: #B0BEC5;
+      background: #ECEFF1;
     }
     background: transparent;
     border-color: #E0E0E0;
   }
   .btn-secondary:hover {
-    background: #B0BEC5;
+    background: #ECEFF1;
   }
   .show > .btn-secondary.dropdown-toggle::after {
     float: right;
@@ -81,15 +81,15 @@
       border: 0px;
       font-size: 14px;
       &:hover {
-        background: #B0BEC5;
+        background: #ECEFF1;
       }
     }
   }
   .list-group-item.active {
     /*background: #455A64;*/
-    background: #B0BEC5;
+    background: #ECEFF1;
     &:hover {
-      background: #B0BEC5;
+      background: #ECEFF1;
     }
   }
   .dropup {
@@ -99,8 +99,6 @@
       background: transparent;
       text-align: center;
       font-size: 14px;
-      border-top: 1px solid #E0E0E0;
-      border-bottom: 1px solid #E0E0E0;
     }
   }
   .user-image {
@@ -122,7 +120,7 @@
   position: absolute;
   width: 100%;
   bottom: 20px;
-  background: #EEEEEE;
+  background: #ffffff;
 }
 
 .help-text {
@@ -140,7 +138,9 @@
 
 .steps-navigation-bar {
   height: 50px;
-  background: #fafafa;
+  background: white;
+  border-bottom: 1px solid #ECEFF1;
+  
   padding-left: 20px;
   padding-right: 20px;
   .steps-to-build-page {
