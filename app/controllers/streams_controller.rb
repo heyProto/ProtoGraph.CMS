@@ -63,7 +63,7 @@ class StreamsController < ApplicationController
             ActiveRecord::Base.connection.close
         end
         if @stream.pages.first.present?
-            redirect_to edit_account_site_page_path(@account, @site, @stream.pages.first), notice: t('cs')
+            redirect_back(fallback_location: account_site_pages_path(@account, @site, folder_id: (@folder.present? ? @folder.id : nil)), notice:t("published.stream"))
         else
           redirect_to account_site_stream_path(@account, @site, @stream, folder_id: @folder.blank? ? nil : @folder.id), notice: t("published.stream")
         end
