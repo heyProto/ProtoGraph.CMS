@@ -1,2 +1,1 @@
-//= require medium-editor
-//= require medium-editor-insert-plugin
+//= require ./vendors-stories/medium-editor.min.js
