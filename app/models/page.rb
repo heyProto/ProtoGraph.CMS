@@ -222,16 +222,19 @@ class Page < ApplicationRecord
   end
 
   class << self
-    def collect_between(first, last=nil)
+    def collect_between(first, last=nil, include_last=false)
+      a = []
       if first.nil? and last.present?
-        [last]
+        a = [last]
       elsif last.nil?
-        [first]
+        a = [first]
       elsif first == last
-        []
+        a = []
       else
-        [first, *collect_between(first.next, last)]
+        a =[first, *collect_between(first.next, last)]
       end
+      a << last if include_last
+      return a
     end
 
     def get_title(text)
@@ -251,6 +254,7 @@ class Page < ApplicationRecord
     all_elements = Nokogiri::HTML(content).search('body').children
     first_element = all_elements.first
     all_h2_elements = all_elements.search("h2")
+    last_element = all_elements.last
     unless first_element == all_h2_elements.first
       html_part = ""
       Page.collect_between(first_element, all_h2_elements.first).each do |elem|
@@ -264,6 +268,13 @@ class Page < ApplicationRecord
         html_part += elem.to_s
       end
       paragraphs << html_part
+    end
+    unless last_element == all_h2_elements.last
+      html_part = paragraphs[-1]
+      Page.collect_between(all_h2_elements.last, last_element, include_last: true).each do |elem|
+        html_part += elem.to_s
+      end
+      paragraphs[-1] = html_part
     end
     paragraphs
   end
