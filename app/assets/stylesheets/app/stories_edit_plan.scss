@@ -1,4 +1,5 @@
 .planning-card {
+  width: 70%;
   .lable {
     font-size: 10px;
     color: #666;
@@ -8,22 +9,24 @@
     letter-spacing: 0.5px;
     margin-bottom: 5px;
   }
-  .plan-title input {
+  .plan-title .input {
     padding: 3px 5px;
     background: transparent;
     border-color: transparent;
     font-size: 24px;
     border-radius: 2px;
     color: #333;
+    width: 100%;
   }
-  .plan-description textarea {
+  .plan-description .textarea {
     padding: 5px;
     background: transparent;
     border-color: transparent;
     font-size: 14px;
     border-radius: 2px;
+    width: 100%;
   }
-  img.glyphicons-img {
+  .glyphicons-img {
     height: 12px;
     opacity: 0.3;
     margin-right: 5px;
@@ -32,6 +35,7 @@
   .form-check-label {
     font-size: 14px;
     color: #666;
+    padding-left: 0px;
   }
 }
 
@@ -41,7 +45,103 @@
 }
 
 .planning-card .todo-list-area {
-  input {
+  .single-todo{
+    width: 100%;
+    height: 30px;
+    padding-top: 2px;
+    cursor: pointer;
+    border-radius: 4px;
+    &:hover{
+      background: #fafafa;
+    }
+
+    .todo-status-icon{
+      opacity: 0.5;
+    }
+
+    .todo-text{
+      padding-top: 2px;
+      font-size: 14px;
+      color: #444;
+    }
+
+    .float-right{
+      display: inline-block;
+      float: right;
+    }
+    .if-card-present-icon{
+      font-size: 12px;
+      color: #999;
+    }
+    .user-avatar-and-time-ago{
+      width: 140px;
+      text-align: left;
+      margin-left: 30px;
+      font-size: 12px;
+      color: #999;
+    }
+    .delete-todo-icon{
+      width: 20px;
+      text-align: right;
+      color: #444;
+    }
+    .todo-status-icon, .todo-text, .if-card-present-icon, .user-avatar-and-time-ago, .delete-todo-icon{
+      display: inline-block;
+      float: left;
+    }
+  }
+
+  .new-todo{
+    .single-todo{
+      width: 100%;
+      height: 50px;
+      padding-top: 2px;
+      cursor: pointer;
+      margin-top: 10px;
+      &:hover{
+        background: transparent;
+      }
+    }
+    textarea{
+      background: #fafafa;
+      border-color: transparent;
+      width: 100%;
+      font-size: 14px;
+      color: #444;
+    }
+    .todo-text{
+      width: 60%;
+      margin-left: 10px;
+    }
+    .todo-status-icon{
+      margin-top: 5px;
+      opacity: 0.1;
+    }
+
+    .user-avatar-and-time-ago{
+      margin-left: 0px;
+      .form-group{
+        margin-bottom:0px;
+        .form-control{
+          height: 33px;
+        }
+      }
+    }
+    .delete-todo-icon{
+      width: 80px;
+      cursor: pointer;
+      input{
+        background: transparent;
+        width: 70px;
+        color: #444;
+        margin-left: 10px;
+        border-color: #ccc;
+        height: 33px;
+      }
+    }
+  }
+
+  .input {
     background: transparent;
     border-color: transparent;
   }

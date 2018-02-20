@@ -1,40 +1,58 @@
-<style>
-    table.table.table-sm.table-form > tbody > tr > td{border: 0px !important; padding-top: 1px; padding-bottom: 1px;}
-</style>
-<br/>
-<h4 style="color: gray; font-weight: 100;">TODOS</h4>
-<table class="table table-sm table-form">
-  <tbody>
-      <%= simple_form_for(@page_todo, url: account_site_story_page_todos_path(@account, @site, @page, folder_id: @page.folder_id), method: :post) do |f| %>
-        <%= f.error_notification %>
-        <div class="form-inputs">
-          <%= f.hidden_field :page_id, value: @page.id %>
-          <%= f.hidden_field :created_by, value: current_user.id %>
-          <%= f.hidden_field :updated_by, value: current_user.id %>
-            <tr>
-              <td><%= image_tag "glyphicons-154-unchecked.png", height: "16px" %></td>
-              <td style=" width: 480px;"><%= f.input :task, label: false, input_html: {rows: 1} %></td>
-              <td style=" width: 80px;"><%= f.input :template_card_id, label: false, as: :select, collection: @template_cards.map{|z| [z.name, z.id]}, include_blank: "Card" %></td>
-              <td><%= f.button :submit, "Add", class: "btn btn-sm btn-secondary" %></td>
-              <td></td>
-          </tr>
-        </div>
-      <% end %>
-    <% @page_todos.each do |page_todo| %>
-      <tr>
-        <td>
-            <%= link_to image_tag(page_todo.is_completed ? "glyphicons-153-check.png" : "glyphicons-154-unchecked.png", height: "16px"), complete_account_site_story_page_todo_path(@account, @site, @page, page_todo, folder_id: @page.folder_id) %>
-        </td>
+<div class="row row-with-less-negative-margin">
+  <div class="col-sm-16 todo-list-area">
+      <div class="lable">Todos</div>
 
-        <td style="<%= page_todo.is_completed ? "color: gray; text-decoration: line-through; " : nil %>"><%= page_todo.task %></td>
-        <td>
-            <% if page_todo.template_card.present? %>
-                <%= image_tag page_todo.template_card.icon_url, title: page_todo.template_card.name, height: "30px;", width: "30px;" %>
-            <% end %>
-        </td>
-        <td class="hint"><%= image_tag avatar_url(page_todo.updator.email), width: "16px", height: "16px" %> <%= time_ago_in_words page_todo.updated_at %></td>
-        <td><%= link_to 'x', account_site_story_page_todo_path(@account, @site, @page, page_todo), method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+      <div class="todo-list-area">
+        <% @page_todos.each do |page_todo| %>
+
+        <div class="single-todo">
+          <div class="todo-status-icon">
+            <%= link_to image_tag(page_todo.is_completed ? "glyphicons-153-check.png" : "glyphicons-154-unchecked.png", height: "16px"), complete_account_site_story_page_todo_path(@account, @site, @page, page_todo, folder_id: @page.folder_id) %>
+          </div>
+          <div class="todo-text" style="<%= page_todo.is_completed ? "color: gray; text-decoration: line-through; " : nil %>">
+            &nbsp &nbsp<%= page_todo.task %>
+          </div>
+          <div class="float-right">
+            <div class="if-card-present-icon">
+              <% if page_todo.template_card.present? %>
+                    <%= image_tag page_todo.template_card.icon_url, title: page_todo.template_card.name, height: "30px;", width: "30px;" %>
+                  <% end %>
+            </div>
+            <div class="user-avatar-and-time-ago">
+              <%= image_tag avatar_url(page_todo.updator.email), width: "16px", height: "16px" %> <%= time_ago_in_words page_todo.updated_at %>
+            </div>
+            <div class="delete-todo-icon">
+              <%= link_to 'x', account_site_story_page_todo_path(@account, @site, @page, page_todo), method: :delete, data: { confirm: 'Are you sure?' } %>
+            </div>
+          </div>
+        </div>
+        <%end%>
+      </div>
+
+      <div class="todo-list-area new-todo">
+        <%= simple_form_for(@page_todo, url: account_site_story_page_todos_path(@account, @site, @page, folder_id: @page.folder_id), method: :post) do |f| %>
+          <%= f.error_notification %>
+        <div class="single-todo">
+          <div class="todo-status-icon">
+            <%= image_tag "glyphicons-154-unchecked.png", height: "16px" %>
+            <%= f.hidden_field :page_id, value: @page.id %>
+            <%= f.hidden_field :created_by, value: current_user.id %>
+            <%= f.hidden_field :updated_by, value: current_user.id %>
+          </div>
+          <div class="todo-text">
+            <%= f.input :task, label: false, input_html: {rows: 1} %>
+          </div>
+          <div class="float-right">
+            <div class="user-avatar-and-time-ago">
+              <%= f.input :template_card_id, label: false, as: :select, collection: @template_cards.map{|z| [z.name, z.id]}, include_blank: "Card" %>
+            </div>
+            <div class="delete-todo-icon">
+              <%= f.button :submit, "Add", class: "btn btn-sm btn-secondary" %>
+            </div>
+          </div>
+        </div>
+        <%end%>
+      </div>
+    </div>
+  </div>
+</div>

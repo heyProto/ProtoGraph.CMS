@@ -13,7 +13,7 @@
 
 <div class="row">
     <div class="col-sm-13">
-        <div style="margin-left: auto; margin-right: auto; width: 80%;">
+        <div class="planning-card">
             <% if @page.intersection.present? %>
                 <div class="story-pitch-intersection">
                     <%= @page.intersection.name %>
@@ -24,40 +24,58 @@
                     <% end %>
                 </div>
             <% end %>
-            <h2 style="margin-top: 10px; font-size: 1.3em;"><%= best_in_place @page, :one_line_concept, url: account_site_page_path(@account, @site, @page) %></h2>
-            <%= best_in_place @page, :description, as: :textarea, url: account_site_page_path(@account, @site, @page), place_holder: "Edit the description" %>
-            <br/>
-            <br/>
-            <br/>
-            <div class="row">
-                <div class="col-sm-6">
-                    <h4 style="color: gray; font-weight: 100;">ELEMENTS</h4>
-                    <%= best_in_place @page, :has_image_other_than_cover, as: :checkbox, collection: {false: "No", true: "Yes"}, url: account_site_page_path(@account, @site, @page) %>
-                    <%= image_tag "glyphicons-139-picture.png", height: "16px", class: @page.has_image_other_than_cover ? nil : "disabled" %>
-                    &nbsp;&nbsp;
-                    <%= best_in_place @page, :has_audio, as: :checkbox, collection: {false: "No", true: "Yes"}, url: account_site_page_path(@account, @site, @page) %>
-                    <%= image_tag "glyphicons-301-microphone.png", height: "16px", class: @page.has_audio ? nil : "disabled" %>
-                    &nbsp;&nbsp;
-                    <%= best_in_place @page, :has_video, as: :checkbox, collection: {false: "No", true: "Yes"}, url: account_site_page_path(@account, @site, @page) %>
-                    <%= image_tag "glyphicons-181-facetime-video.png", height: "13px", class: @page.has_video ? nil : "disabled" %>
-                    &nbsp;&nbsp;
-                    <%= best_in_place @page, :has_data, as: :checkbox, collection: {false: "No", true: "Yes"}, url: account_site_page_path(@account, @site, @page) %>
-                    <%= image_tag "glyphicons-43-pie-chart.png", height: "16px", class:  @page.has_data ? nil : "disabled" %>
+            <div class="input-group input-group-lg plan-title">
+              <%= best_in_place @page, :one_line_concept, url: account_site_page_path(@account, @site, @page), inner_class:"input", class:"input" %>
+            </div>
+            <div class="input-group plan-description">
+            <%= best_in_place @page, :description, as: :textarea, url: account_site_page_path(@account, @site, @page), place_holder: "Edit the description", class:"textarea", inner_class:"textarea" %>
+            </div>
+            <br>
+            <div class="row row-with-less-negative-margin">
+                <div class="col-sm-8">
+                    <div class="lable">Elements</div>
+                    <br>
+                    <div class="form-check form-check-inline">
+                        <%= image_tag "glyphicons-139-picture.png", class: @page.has_image_other_than_cover ? nil : "disabled", class:"glyphicons-img", inner_class:"glyphicons-img" %>
+
+                        <%= best_in_place @page, :has_image_other_than_cover, as: :checkbox, collection: {false: "No", true: "Yes"}, url: account_site_page_path(@account, @site, @page), class:"form-check-label", inner_class:"form-check-label" %>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <%= image_tag "glyphicons-301-microphone.png", class: @page.has_audio ? nil : "disabled", class:"glyphicons-img", inner_class:"glyphicons-img" %>
+
+                        <%= best_in_place @page, :has_audio, as: :checkbox, collection: {false: "No", true: "Yes"}, url: account_site_page_path(@account, @site, @page), class:"form-check-label", inner_class:"form-check-label" %>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <%= image_tag "glyphicons-181-facetime-video.png", class: @page.has_video ? nil : "disabled", class:"glyphicons-img", inner_class:"glyphicons-img" %>
+
+                        <%= best_in_place @page, :has_video, as: :checkbox, collection: {false: "No", true: "Yes"}, url: account_site_page_path(@account, @site, @page), class:"form-check-label", inner_class:"form-check-label" %>
+                    </div>
+                    <div class="form-check form-check-inline">
+
+                        <%= image_tag "glyphicons-43-pie-chart.png", class:  @page.has_data ? nil : "disabled", class:"glyphicons-img", inner_class:"glyphicons-img"  %>
+
+                        <%= best_in_place @page, :has_data, as: :checkbox, collection: {false: "No", true: "Yes"}, url: account_site_page_path(@account, @site, @page), class:"form-check-label", inner_class:"form-check-label"  %>
+                    </div>
                 </div>
-                <div class="col-sm-4">
-                    <h4 style="color: gray; font-weight: 100;">DUE DATE</h4>
-                    <%= best_in_place @page, :due, as: :date, url: account_site_page_path(@account, @site, @page) %>
+                <div class="col-sm-3">
+                    <div class="lable">Due</div>
+                    <br>
+                    <div class="form-check form-check-inline">
+                        <%= image_tag "glyphicons-46-calendar.png", class:  @page.has_data ? nil : "disabled", class:"glyphicons-img", inner_class:"glyphicons-img"  %>
+                        <%= best_in_place @page, :due, as: :date, url: account_site_page_path(@account, @site, @page), class:"form-check-label", inner_class:"form-check-label" %>
+                    </div>
                 </div>
-                <div class="col-sm-6">
-                    <h4 style="color: gray; font-weight: 100;">PUBLISH DATE</h4>
-                    <%= best_in_place @page, :published_at, as: :date, url: account_site_page_path(@account, @site, @page) %>
+                <div class="col-sm-5">
+                    <div class="lable">Publish</div>
+                    <br>
+                    <div class="form-check form-check-inline">
+                        <%= image_tag "glyphicons-46-calendar.png", class:  @page.has_data ? nil : "disabled", class:"glyphicons-img", inner_class:"glyphicons-img"  %>
+                        <%= best_in_place @page, :published_at, as: :date, url: account_site_page_path(@account, @site, @page), class:"form-check-label", inner_class:"form-check-label" %>
+                    </div>  
                 </div>
             </div>
-            <br/>
-            <br/>
+            <br>
             <%= render partial: "page_todos/index"%>
-            
-            
         </div>
     </div>
 	<div class="col-sm-3 help-text">

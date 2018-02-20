@@ -97,10 +97,10 @@ class Page < ApplicationRecord
   after_create :set_url
   after_create :create_page_streams
   after_create :push_json_to_s3
-  after_update :update_page_image
+  # after_update :update_page_image
   after_update :create_page_streams
   after_update :create_paragraph_card, if: "self.prepare_cards_for_assembling=='true'"
-  after_update :push_json_to_s3
+  # after_update :push_json_to_s3
 
   # Slug
 
