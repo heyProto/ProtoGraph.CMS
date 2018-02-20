@@ -18,15 +18,16 @@
               <p style="font-size: 11px; color: #455A64; ">
                  <%= @page.one_line_concept %>
               </p>
-               <img src='/assets/glyphicons-139-picture.png' height='13px;' class="<%= @page.has_image_other_than_cover ? nil : "disabled" %>"/> &nbsp;
-               <img src='/assets/glyphicons-301-microphone.png'  height='13px;' class="<%= @page.has_audio ? nil : "disabled" %>"/> &nbsp;
-               <img src='/assets/glyphicons-181-facetime-video.png' height='12px;' class="<%= @page.has_video ? nil : "disabled" %>"/> &nbsp;
-               <img src='/assets/glyphicons-43-pie-chart.png' height='13px;' class="<%= @page.has_data ? nil : "disabled" %>"/> &nbsp;
-               <br/>
-               <span style="font-size: 11px; color: #455A64; ">
-                   by
-                   <%= @page.due %>
-               </span>
+              <%= image_tag "glyphicons-139-picture.png", height: 13, class: @page.has_image_other_than_cover ? nil : "disabled" %> &nbsp;
+              <%= image_tag "glyphicons-301-microphone.png", height: 13, class: @page.has_audio ? nil : "disabled" %> &nbsp;
+              <%= image_tag "glyphicons-181-facetime-video.png", height: 13, class: @page.has_video ? nil : "disabled" %> &nbsp;
+              <%= image_tag "glyphicons-43-pie-chart.png", height: 13, class: @page.has_data ? nil : "disabled" %>
+
+              <br/>
+              <span style="font-size: 11px; color: #455A64; ">
+                by
+                <%= @page.due %>
+              </span>
 
             <br/>
         <% end %>
@@ -51,4 +52,3 @@
               </tr>
             </table>
         </div>
-        
