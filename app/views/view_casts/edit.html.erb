@@ -1,3 +1,16 @@
+<%= content_for :page_title do %>
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+          <% if @folder.present? %>
+              <li class="breadcrumb-item"><%= link_to truncate(folder_name_trunc_(@folder), length: 24, ommission: ".."), account_site_folder_view_casts_path(@account, @site, @folder), "data-turbolinks"=> false %></li>
+          <% end %>
+          <li class="breadcrumb-item"><%= link_to "Cards", account_site_folder_view_casts_path(@account, @site, @folder), "data-turbolinks"=> false %></li> 
+          <li class="breadcrumb-item active" aria-current="page"><%= @view_cast.name %></li>
+          <li class="breadcrumb-item active" aria-current="page">Edit</li>
+      </ol>
+    </nav>
+<% end %>
+
 <%= stylesheet_link_tag "ProtoGraph.Container.toCardForm" %>
 <link rel="stylesheet" type="text/css" href="<%= @view_cast.template_card.css %>">
 <%= stylesheet_link_tag "image_bank.css" %>
