@@ -1,22 +1,10 @@
 class AccountsController < ApplicationController
 
   before_action :authenticate_user!
-  before_action :sudo_role_can_account_settings, only: [:edit, :update]
+  before_action :sudo_role_can_account_settings, only: [:update]
 
   def new
     @account = Account.new
-  end
-
-  def edit
-    @is_admin = true
-    @permissions = @account.permissions.not_hidden.where(ref_role_slug: "owner").includes(:user).page params[:page]
-    @permission_invite = PermissionInvite.new
-    @permission_invites = @account.permission_invites.where(ref_role_slug: "owner")
-    @people_count = @account.permissions.not_hidden.where(ref_role_slug: "owner").count
-    @pending_invites_count = @account.permission_invites.where(ref_role_slug: "owner").count
-    @permission_invites = @account.permission_invites.where(ref_role_slug: "owner")
-    @people_count = @account.permissions.not_hidden.where(ref_role_slug: "owner").count
-    @pending_invites_count = @account.permission_invites.where(ref_role_slug: "owner").count
   end
 
   def update
@@ -24,27 +12,8 @@ class AccountsController < ApplicationController
     respond_to do |format|
       if @account.update(a_params)
         format.json { respond_with_bip(@account) }
-        format.html {
-          redirect_to edit_account_path(@account), notice: t("us")
-        }
       else
         format.json { respond_with_bip(@account) }
-        format.html {
-          @is_admin = true
-          @permissions = @account.permissions.not_hidden.where(ref_role_slug: "owner").includes(:user).page params[:page]
-          @people_count = @account.users.count
-          @permission_invite = PermissionInvite.new
-          @permission_invites = @account.permission_invites.where(ref_role_slug: "owner")
-          @people_count = @account.permissions.not_hidden.where(ref_role_slug: "owner").count
-          @pending_invites_count = @account.permission_invites.where(ref_role_slug: "owner").count
-          @permission_invites = @account.permission_invites.where(ref_role_slug: "owner")
-          @people_count = @account.permissions.not_hidden.where(ref_role_slug: "owner").count
-          @pending_invites_count = @account.permission_invites.where(ref_role_slug: "owner").count
-          if @account.header_logo_id.nil?
-            @account.build_header_logo
-          end
-          render "edit"
-        }
       end
     end
   end

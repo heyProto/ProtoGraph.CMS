@@ -1,87 +1,92 @@
-
-        <div class="col-sm-6" style="padding: 0px; margin-left: auto; margin-right: auto;">
-            
-                <h6>Editorial Planning for <%= @site.domain %></h6>
-            <h1><%= action_name.titleize %></h1>
-            <hr/>
-
-    <% if @data.first.blank? %>
-        <div class="hint">No rows yet</div>
-    <% else %>
-              <table class="table table-sm table-responsive">
-                <tbody>
-                  <% @data.each do |ref_category| %>
-                    <tr>
-                      <td style="border: 0px;">
-                        <% if ref_category.is_disabled %>
-                          <span class="proto-restrict-remove"><%= ref_category.name %></span>
-                        <% else %>
-                              <%= best_in_place ref_category, :name, url: [@account, @site, ref_category] %>
-                        <% end %>
-                        <div class="hint"><%= ref_category.updator.name %></div>
-                      </td>
-
-                      <td style="border: 0px;">
-                        <% if action_name != "verticals" %>
-                            <% if not ref_category.is_disabled %>
-                              <% if ref_category.count > 0 %>
-                                  <%= link_to 'Disable', disable_account_site_ref_category_path(@account, @site, ref_category), method: :put, data: { confirm: 'Are you sure?' } %>
-                              <% else %>
-
-                                  <%= link_to 'x', account_site_ref_category_path(@account, @site, ref_category), method: :delete, data: { confirm: 'Are you sure?' } %>
-                              <% end %>
-                            <% end %>
-                        <% else %>
-                            <% if ref_category.pages.count < 1 %>
-                              <%= link_to 'x', account_site_ref_category_path(@account, @site, ref_category), method: :delete, data: { confirm: 'Are you sure?' }, input_html: {"disabled": true} %>
+<%= content_for :page_title do %>
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><%= link_to "Admin", account_site_admins_path(@account, @site), "data-turbolinks"=> false %></li>
+        <li class="breadcrumb-item active" aria-current="page">Editorial Planning</li>
+        <li class="breadcrumb-item active" aria-current="page"><%= action_name.titleize %></li>
+      </ol>
+    </nav>
+<% end %>
+<div class="row">
+    <div class="col-sm-13">
+        <div style="margin-left: auto; margin-right: auto; width: 500px;">
+            <% if @data.first.blank? %>
+                <div class="hint">No rows yet</div>
+            <% else %>
+                  <table class="table table-sm table-responsive">
+                    <tbody>
+                      <% @data.each do |ref_category| %>
+                        <tr>
+                          <td style="border: 0px;">
+                            <% if ref_category.is_disabled %>
+                              <span class="proto-restrict-remove"><%= ref_category.name %></span>
                             <% else %>
-                              <%= link_to 'x', "#", style: "color: #d3d3d3;","data-title" => "You cannot delete this vertical as it has associated pages", "data-toggle" => "tooltip", "data-placement" => "bottom" %>
+                                  <%= best_in_place ref_category, :name, url: [@account, @site, ref_category] %>
                             <% end %>
+                            <div class="hint"><%= ref_category.updator.name %></div>
+                          </td>
+                          <td style="border: 0px;">
+                            <% if action_name != "verticals" %>
+                                <% if not ref_category.is_disabled %>
+                                  <% if ref_category.count > 0 %>
+                                      <%= link_to 'Disable', disable_account_site_ref_category_path(@account, @site, ref_category), method: :put, data: { confirm: 'Are you sure?' } %>
+                                  <% else %>
+
+                                      <%= link_to 'x', account_site_ref_category_path(@account, @site, ref_category), method: :delete, data: { confirm: 'Are you sure?' } %>
+                                  <% end %>
+                                <% end %>
+                            <% else %>
+                                <% if ref_category.pages.count < 1 %>
+                                  <%= link_to 'x', account_site_ref_category_path(@account, @site, ref_category), method: :delete, data: { confirm: 'Are you sure?' }, input_html: {"disabled": true} %>
+                                <% else %>
+                                  <%= link_to 'x', "#", style: "color: #d3d3d3;","data-title" => "You cannot delete this vertical as it has associated pages", "data-toggle" => "tooltip", "data-placement" => "bottom" %>
+                                <% end %>
+                            <% end %>
+                          </td>
+                        </tr>
                         <% end %>
-                      </td>
-                    </tr>
-                    <% end %>
-                </tbody>
-              </table>
+                    </tbody>
+                  </table>
+            <% end %>
+        </div>
+    </div>
+	<div class="col-sm-3 help-text">
+		<!--<h2>Email Settings</h2>
+		<p>Your default support email address is prototype@pro.to. Any email sent here gets automatically converted into a ticket that you can get working on.</p>
+		<p>You can configure your Freshdesk account to use a support email in your own domain, like <a href="">support@mycompany.com</a> by forwarding emails from this address to <a href="">protoprototype@heyproto.freshdesk.com</a>. To create a new support email box, click “Edit” under global email settings.</p>-->
+        <% if action_name != "verticals" %>
+            <%= simple_form_for(@instance, url: account_site_ref_categories_path(@account, @site), method: :post) do |f| %>
+            <%= f.error_notification %>
+            <%= f.hidden_field :genre, value: @genre %>
+            <%= f.hidden_field :site_id, value: @site.id %>
 
-    <% end %>
-  </div>
-  <% content_for :filters_sidebar do %>
-      <br/>
-      <br/>
-      <br/>
-      <% if action_name != "verticals" %>
-          <%= simple_form_for(@instance, url: account_site_ref_categories_path(@account, @site), method: :post) do |f| %>
-          <%= f.error_notification %>
-          <%= f.hidden_field :genre, value: @genre %>
-          <%= f.hidden_field :site_id, value: @site.id %>
+            <div class="form-inputs">
+                <% unless @site.is_english %>
+                  <%= f.input :english_name, required: true, minlength: 3 , maxlength: 15, hint: "This is used for url management." %>
+                <% end %>
+                <%= f.input :name, required: true, minlength: 3 , maxlength: 15 %>
+            </div>
+            <div class="form-actions">
+                <%= f.button :submit, value: "Add", class: "btn btn-sm btn-secondary" %>
+            </div>
+            <% end %>
+        <% else %>      
+            <%= simple_form_for(@instance, url: account_site_ref_categories_path(@account, @site), method: :post) do |f| %>
+            <%= f.error_notification %>
+            <%= f.hidden_field :genre, value: "series" %>
+            <%= f.hidden_field :site_id, value: @site.id %>
 
-          <div class="form-inputs">
+            <div class="form-inputs">
+              <%= f.input :name, required: true, minlength: 3 , maxlength: 15, hint: "Choose carefully. Once set, you cannot change the name." %>
               <% unless @site.is_english %>
                 <%= f.input :english_name, required: true, minlength: 3 , maxlength: 15, hint: "This is used for url management." %>
               <% end %>
-              <%= f.input :name, required: true, minlength: 3 , maxlength: 15 %>
-          </div>
-          <div class="form-actions">
-              <%= f.button :submit, value: "Add", class: "btn btn-primary" %>
-          </div>
-          <% end %>
-      <% else %>      
-          <%= simple_form_for(@instance, url: account_site_ref_categories_path(@account, @site), method: :post) do |f| %>
-          <%= f.error_notification %>
-          <%= f.hidden_field :genre, value: "series" %>
-          <%= f.hidden_field :site_id, value: @site.id %>
-
-          <div class="form-inputs">
-            <%= f.input :name, required: true, minlength: 3 , maxlength: 15, hint: "Choose carefully. Once set, you cannot change the name." %>
-            <% unless @site.is_english %>
-              <%= f.input :english_name, required: true, minlength: 3 , maxlength: 15, hint: "This is used for url management." %>
+              <%= f.input :name_html, as: :text, label: "Brand the vertical", hint: "Use HTML (span tag) to add CSS. Note, the length of the series cannot be more than 15 characters.", required: true, minlength: 3 , maxlength: 50 %>
+            </div>
+            <div class="form-actions">
+                <%= f.button :submit, value: "Add a vertical", class: "btn btn-sm btn-secondary" %>
+            </div>
             <% end %>
-            <%= f.input :name_html, as: :text, label: "Brand the vertical", hint: "Use HTML (span tag) to add CSS. Note, the length of the series cannot be more than 15 characters.", required: true, minlength: 3 , maxlength: 50 %>
-          </div>
-          <div class="form-actions">
-              <%= f.button :submit, value: "Add a vertical", class: "btn btn-primary" %>
-          </div>
-          <% end %>
-      <% end %>
-  <% end %>
+        <% end %>
+	</div>
+</div>

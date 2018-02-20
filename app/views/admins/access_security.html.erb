@@ -1,25 +1,35 @@
+<%= content_for :page_title do %>
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><%= link_to "Admin", account_site_admins_path(@account, @site), "data-turbolinks"=> false %></li>
+        <li class="breadcrumb-item active" aria-current="page">Invite People</li>
+        <li class="breadcrumb-item active" aria-current="page">Security</li>
+      </ol>
+    </nav>
+<% end %>
 <div class="row">
-    <div class="col-sm-6" style="padding: 0px; margin-left: auto; margin-right: auto;">
-        
-            <h6>Access to Site <%= @site.domain %></h6>
-        <h1>Security</h1>
-        <hr/>
-        <br/>
-        <h3>How do you want members to sign up?</h3>
-        <br/>
-        <div style="margin-left: 50px;">
-            <p class="hint">Choose to make your team signup process invitation only, or allow anyone with a certain email address format to sign up.</p>
-            <%= simple_form_for [@account, @site] do |f| %>
-              <%= f.error_notification %>
-              <div class="form-inputs">
-                <%= f.input :email_domain, as: :string, hint: "E.g. google.com. Don't use common domains like gmail, outlook, yahoo, etc." %>
-                <%= f.input :sign_up_mode, as: :select, collection: Site::SIGN_UP_MODES.map{|z| [z, z]}, include_blank: false %>
-                <%= f.input :default_role, as: :select, collection: @permission_roles, include_blank: false %>
-                <%= f.input :from_page, as: :hidden, input_html: {value: "access_security"}%>
-                <%= f.button :submit, "Save", class: "btn btn-primary" %>
-              </div>
-            <% end %>
+    <div class="col-sm-13">
+        <div style="margin-left: auto; margin-right: auto; width: 500px;">
+            <h3>How do you want members to sign up?</h3>
+            <br/>
+            <div style="margin-left: 0px;">
+                <p class="hint">Choose to make your team signup process invitation only, or allow anyone with a certain email address format to sign up.</p>
+                <%= simple_form_for [@account, @site] do |f| %>
+                  <%= f.error_notification %>
+                  <div class="form-inputs">
+                    <%= f.input :email_domain, as: :string, hint: "E.g. google.com. Don't use common domains like gmail, outlook, yahoo, etc." %>
+                    <%= f.input :sign_up_mode, as: :select, collection: Site::SIGN_UP_MODES.map{|z| [z, z]}, include_blank: false %>
+                    <%= f.input :default_role, as: :select, collection: @permission_roles, include_blank: false %>
+                    <%= f.input :from_page, as: :hidden, input_html: {value: "access_security"}%>
+                    <%= f.button :submit, "Save", class: "btn btn-sm btn-secondary" %>
+                  </div>
+                <% end %>
+            </div>
         </div>
-
-</div>
+    </div>
+	<div class="col-sm-3 help-text">
+		<!--<h2>Email Settings</h2>
+		<p>Your default support email address is prototype@pro.to. Any email sent here gets automatically converted into a ticket that you can get working on.</p>
+		<p>You can configure your Freshdesk account to use a support email in your own domain, like <a href="">support@mycompany.com</a> by forwarding emails from this address to <a href="">protoprototype@heyproto.freshdesk.com</a>. To create a new support email box, click “Edit” under global email settings.</p>-->
+	</div>
 </div>

@@ -3,7 +3,7 @@
       <ol class="breadcrumb">
         <li class="breadcrumb-item"><%= link_to "Admin", account_site_admins_path(@account, @site), "data-turbolinks"=> false %></li>
         <li class="breadcrumb-item active" aria-current="page">Site</li>
-        <li class="breadcrumb-item active" aria-current="page">Setup</li>
+        <li class="breadcrumb-item active" aria-current="page">Integrations</li>
       </ol>
     </nav>
 <% end %>
@@ -12,14 +12,12 @@
         <div style="margin-left: auto; margin-right: auto; width: 500px;">
             <%= simple_form_for [@account, @site] do |f| %>
               <%= f.error_notification %>
-              <%= f.input :domain, hint: "Where is the site hosted?" %>
-              <%= f.input :description, hint: "This will be used in footers, search results, and other places." %>
-              <%= f.input :primary_language, as: :select, collection: [["English", "English"], ["Hindi", "Hindi"]], include_blank: false %>
-              <%= f.input :default_seo_keywords, hint: "These default keywords will be used on homepage.", label: "Default SEO Keywords" %>
-              <%= f.input :created_by, as: :hidden, input_html: {value: current_user.id} %>
-              <%= f.input :updated_by, as: :hidden, input_html: {value: current_user.id} %>
-              <%= f.input :from_page, as: :hidden, input_html: {value: "site_setup"}%>
-
+              <%= f.input :g_a_tracking_id, label: "Google Analytics Tracking Code", hint: "Example: UA-23849503-1" %>
+              <%= f.input :facebook_url %>
+              <%= f.input :twitter_url %>
+              <%= f.input :instagram_url %>
+              <%= f.input :youtube_url %>
+              <%= f.input :from_page, as: :hidden, input_html: {value: "product_integrations"}%>
               <%= f.button :submit, "Save", class: "btn btn-sm btn-secondary" %>
             <% end %>
         </div>

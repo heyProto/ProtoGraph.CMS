@@ -62,9 +62,15 @@ Rails.application.routes.draw do
       put "change_role", on: :member
     end
     resources :permission_invites
+    resources :admins, only: [:index] do
+      get "account_owners", on: :collection
+    end
     resources :sites do
       resources :admins, only: [:index] do
-        get "access_team", "access_security", "product_theme", "product_integrations", "editorial_folders", "site_setup", on: :collection
+        get "access_team", "access_security", "editorial_folders", on: :collection
+        get 'site/setup', to: "admins#site_setup", on: :collection
+        get 'site/theming', to: "admins#site_theming", on: :collection
+        get 'site/integrations', to: "admins#site_integrations", on: :collection
       end
       resources :permissions do
         put "change_role", on: :member

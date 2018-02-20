@@ -1,9 +1,15 @@
+<%= content_for :page_title do %>
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><%= link_to "Admin", account_site_admins_path(@account, @site), "data-turbolinks"=> false %></li>
+        <li class="breadcrumb-item active" aria-current="page">Invite People</li>
+        <li class="breadcrumb-item active" aria-current="page">Account Owners</li>
+      </ol>
+    </nav>
+<% end %>
 <div class="row">
-    <div class="col-sm-6" style="padding: 0px; margin-left: auto; margin-right: auto;">
-        <h6>Access for Account <%= best_in_place @account, :username, url: [@account] %></h6>
-        <h1>Owners</h1>
-        <hr/>
-        <div style="margin-left: 0px;">
+    <div class="col-sm-13">
+        <div style="margin-left: auto; margin-right: auto; width: 500px;">
             <table class="table table-hover">
                 <tbody>
                     <% @permissions.each do |permission| %>
@@ -44,7 +50,7 @@
                                     <%= permission_invite.email %>
                                     <div class="hint">Invited by <%= permission_invite.creator.name %> <%= time_ago_in_words (permission_invite.created_at) %>.</div>
                                 </td>
-                                <td style="border: 0px;"><%= link_to "Remove".html_safe, account_permission_invite_path(@account, permission_invite, redirect_url: edit_account_path(@account)), method: :delete, data: { confirm: 'Are you sure?' } %>
+                                <td style="border: 0px;"><%= link_to "Remove".html_safe, account_permission_invite_path(@account, permission_invite, redirect_url: account_owners_account_admins_path(@account)), method: :delete, data: { confirm: 'Are you sure?' } %>
                                 </td>
                             </tr>
                         <% end %>
@@ -53,34 +59,29 @@
             <% end %>
         </div>
     </div>
+	<div class="col-sm-3 help-text">
+		<!--<h2>Email Settings</h2>
+		<p>Your default support email address is prototype@pro.to. Any email sent here gets automatically converted into a ticket that you can get working on.</p>
+		<p>You can configure your Freshdesk account to use a support email in your own domain, like <a href="">support@mycompany.com</a> by forwarding emails from this address to <a href="">protoprototype@heyproto.freshdesk.com</a>. To create a new support email box, click “Edit” under global email settings.</p>-->
+        <%= simple_form_for [@account, @permission_invite] do |f| %>
+        <% if @permission_invite.errors.any? %>
+        <div id="error_explanation" class="ui error message">
+          <div class="header">
+            <%= pluralize(@permission_invite.errors.count, "error") %> prohibited this permission_invite from being saved:
+          </div>
+          <% @permission_invite.errors.full_messages.each do |message| %>
+          <p><%= message %></p>
+          <% end %>
+        </div>
+        <% end %>
+        <%= f.hidden_field :permissible_type, value: "Account" %>
+        <%= f.hidden_field :permissible_id, value: @account.id %>
+        <%= f.hidden_field :created_by, value: current_user.id %>
+        <%= f.hidden_field :updated_by, value: current_user.id %>
+        <%= f.input :email, id: :permission_invite_email, required: true, autofocus: true %>
+        <%= f.hidden_field :redirect_url, value: account_owners_account_admins_path(@account) %>
+        <%= f.input :ref_role_slug, as: :hidden, input_html: {value: "owner"} %>
+        <%= f.submit "Invite", class: "btn btn-sm btn-secondary" %>
+        <% end %>
+	</div>
 </div>
-
-
-<% content_for :filters_sidebar do %>
-    <br/>
-    <br/>
-    <br/>
-    <br/>
-    <br/>
-    <%= simple_form_for [@account, @permission_invite] do |f| %>
-    <% if @permission_invite.errors.any? %>
-    <div id="error_explanation" class="ui error message">
-      <div class="header">
-        <%= pluralize(@permission_invite.errors.count, "error") %> prohibited this permission_invite from being saved:
-      </div>
-      <% @permission_invite.errors.full_messages.each do |message| %>
-      <p><%= message %></p>
-      <% end %>
-    </div>
-    <% end %>
-    <%= f.hidden_field :permissible_type, value: "Account" %>
-    <%= f.hidden_field :permissible_id, value: @account.id %>
-    <%= f.hidden_field :created_by, value: current_user.id %>
-    <%= f.hidden_field :updated_by, value: current_user.id %>
-    <%= f.input :email, id: :permission_invite_email, required: true, autofocus: true %>
-    <%= f.hidden_field :redirect_url, value: edit_account_path(@account) %>
-    <%= f.input :ref_role_slug, as: :hidden, input_html: {value: "owner"} %>
-    <%= f.submit "Invite", class: "btn btn-primary" %>
-    <% end %>
-    <% end %>
-

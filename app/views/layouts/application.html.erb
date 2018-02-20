@@ -19,18 +19,15 @@
                   <%= yield %>
               </div>
           <% else %>
-              <div class="col-xl-2 sticky-top" style="background: #B0BEC5; color: #546E7A; height: 100vh;">
-                  <%= render partial: "layouts/application_left" %>
-              </div>
-              <div class="col-xl-12" style="padding: 0px 1px;">
-                  <%= render partial: "layouts/application_middle" %>
-                  <div style="padding: 20px;">
-                      <%= yield %>
+              <div class="col-xl-2" style="padding: 0px;">
+                    <div class="cms-sidebar">
+                      <%= render partial: "layouts/application_left" %>
                   </div>
               </div>
-              <div class="col-xl-2 sticky-top" style="background: #FAFAFA; height: 100vh;">
-                  <%= render partial: "layouts/application_right" %>
+              <div class="col-xl-14" style="padding: 0px 1px;">
+                  <%= render partial: "layouts/application_middle" %>
                   <br/>
+                  <div style="padding: 0px 20px;"><%= yield %></div>
                   <%= yield(:filters_sidebar) %>
               </div>
           <% end %>

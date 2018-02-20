@@ -3,6 +3,8 @@ class PermissionsController < ApplicationController
   before_action :authenticate_user!, :sudo_role_can_add_site_people
   before_action :set_permission, only: [:change_owner_role, :change_role, :destroy]
 
+  #TODO: Code Cleanup: permissions#change_owner_role seems to be used only inside admins#account_owners. Can we collapse that controller and view into admins#account_owners?
+  
   def change_owner_role
     @permissions = @account.permissions.not_hidden.where(ref_role_slug: "owner").includes(:user).page params[:page]
     @permission_invite = PermissionInvite.new

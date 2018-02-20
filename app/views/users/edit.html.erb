@@ -1,8 +1,8 @@
-
+<%= content_for :page_title do %>
+    Profile
+<% end %>
 <div class="row">
     <div class="col-sm-6" style="padding: 0px; margin-left: auto; margin-right: auto;">
-        <h1>Profile</h1>
-        <br/>
         <h3>Tell your colleagues who are you?</h3>
         <hr/>
         <div style="margin-left: 50px;">
@@ -32,7 +32,7 @@
         <hr/>
         <div style="margin-left: 50px;">
             <% @accounts_owned.each do |account| %>
-                <%= link_to account.username, edit_account_path(account) %>
+                <%= link_to account.username, account_owners_account_admins_path(account) %>
                 <p class="hint">Click to configure</p>
             <% end %>
             <% if current_user.is_admin_from_pykih %>

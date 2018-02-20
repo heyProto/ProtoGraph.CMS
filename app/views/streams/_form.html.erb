@@ -14,7 +14,7 @@
       <%= f.input :order_by_value, label: "Sort Order", collection: [["Descending", "desc"], ["Ascending", 'asc']] %>
       <%= f.input :order_by_type, label: "Sort Column type", collection: [["Date", 'date'], ["String", "string", "Number", "number"]]   %>
       <%= f.input :include_data, as: :boolean, label: "Include Data" %>
-      <%= f.submit (controller_name == 'streams' and ["show", "edit", "update"].include?(action_name)) ? "Update the Stream" : "Create a new Stream", class: 'btn btn-primary' %>
+      <%= f.submit (controller_name == 'streams' and ["show", "edit", "update"].include?(action_name)) ? "Update the Stream" : "Create a new Stream", class: 'btn btn-sm btn-secondary' %>
     <% end %>
   </div>
 </div>

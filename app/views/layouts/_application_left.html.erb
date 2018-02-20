@@ -6,39 +6,107 @@
             </a>
         </div>
     </nav>
-<% else %>
-    <div class="folders_sidebar">
-        <ul class="navbar-nav" style="margin-top: 10px;">
-            <% if @site.present? %>
-                <% if !is_admins_controller or (controller_name != 'accounts' and ['new','create'].include?(action_name)) %>
-                    <% if @accounts.count > 1 %>        
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <h6 class="sidebar-head"><%= truncate @site.name, length: 15, ommission: ".." %></h6>
-                            </a>
-                            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                                <% @accounts.each do |a| %>
-                                    <%= link_to "#{a.username}: #{a.site.name}", account_site_path(a, a.site), class: "dropdown-item" %>
-                                <% end %>
-                            </div>
-                        </li>
-                    <% end %>
+    <div class="bottom-aligned">
+<% else %>    
+    <% if @site.present? %>
+        <% if !is_admins_controller or (controller_name != 'accounts' and ['new','create'].include?(action_name)) %>
+            <div class="dropdown show vertical-selection-dropdown">
+                <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color: #607D8B !important;">
+                  <%= truncate @site.name, length: 15, ommission: ".." %>
+                </a>
+              <% if @accounts.count > 1 %>
+                  <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                      <% @accounts.each do |a| %>
+                          <%= link_to "#{a.username}: #{a.site.name}", account_site_path(a, a.site), class: "dropdown-item" %>
+                      <% end %>
+                  </div>
+              <% end %>
+            </div>
+        <% end %>
+    
+        <div class="dropdown show">
+        	<span class="text-uppercase">select folder</span>
+          <a class="btn btn-secondary btn-sm dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <% if @folder.blank? %>
+                  Select a folder
+              <% elsif (@folder.present? and @folder.id.blank?) %>
+                  Home
+              <% else %>
+                  <%= @folder.name %>
+              <% end %>
+          </a>
+          <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+              <%= link_to "Home", account_site_path(@account, @site), class: "dropdown-item" %>
+              <% @folders.each do |folder| %>
+                  <%= link_to truncate(folder_name_trunc_(folder), length: 24, ommission: ".."), account_site_folder_view_casts_path(@account, @site, folder), class: "dropdown-item" %>
+              <% end %>
+          </div>
+        </div>
+    	<span class="text-uppercase">create</span>
+        <div class="list-group list-group-flush">
+        
+        
+              <% if @folder.present? and @folder.id.present? %>
+                  <% if @folder.vertical.present? and @folder.is_for_stories %>
+                      <%= link_to "Stories", account_site_pages_path(@account, @site, folder_id: @folder.id), class: (controller_name == "pages" and action_name != "manager") ? "list-group-item list-group-item-action active" : "list-group-item list-group-item-action", "data-turbolinks"=> false %>
+                  <% end %>
+                  <%= link_to "Cards", account_site_folder_view_casts_path(@account, @site, @folder), class: controller_name == "view_casts" ? "list-group-item list-group-item-action active" : "list-group-item list-group-item-action", "data-turbolinks"=> false %>
+              <% end %>
+              <%= link_to "Images", account_images_path(@account, folder_id: @folder.present? ? @folder.id : nil), "data-turbolinks"=> false, class: (controller_name == "images") ? "list-group-item list-group-item-action active" : "list-group-item list-group-item-action" %>
+        
+          </div>
+          <div class="bottom-aligned">
+
+            <span class="text-uppercase">Site Settings</span>
+        	<div class="list-group list-group-flush">          
+              <%= link_to "Page Builder", manager_account_site_pages_path(@account, @site, folder_id: @folder.present? ? @folder.id : nil), "data-turbolinks"=> false, class: (controller_name == "pages" and action_name == "manager") ? "list-group-item active list-group-item-action" : "list-group-item list-group-item-action" %>
+              <%= link_to "Admin", account_site_admins_path(@account, @site), "data-turbolinks"=> false, class: @is_admin ? "list-group-item active list-group-item-action" : "list-group-item list-group-item-action" %>
+        	</div>
+        <% end %>
+    	
+<% end %>
+    	<div class="btn-group dropup">
+    	  <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    	    <div class="user-image"><%= image_tag avatar_url(current_user.email), class: "rounded", style: "width: 30px;" %></div>
+    	  </button>
+    	  <div class="dropdown-menu">
+            <%= link_to 'Profile', edit_user_path(current_user), class: "dropdown-item" %>
+            <%= link_to 'Settings', edit_user_registration_path, class: "dropdown-item" %>
+            <%= link_to "Sign out", destroy_user_session_path, class: "dropdown-item" %>
+            <% if 1 == 2 %>
+                <%= link_to "Audio Bank", account_audios_path(@account), "data-turbolinks"=> false, class: "dropdown-item"  %>
+                <% if @site.present? %>
+                      <% if controller_name == "folders" and @folder.id.present? and current_user.is_admin_from_pykih %>
+                        <%= link_to "Add multiple cards", account_site_folder_uploads_path(@account, @site, @folder), "data-turbolinks"=> false, class: "dropdown-item", style: "color: gold;" %>
+                        <%= link_to "Edit Folder", edit_account_site_folder_path(@account, @site, @folder),class: "dropdown-item", style: "color: gold;" %>
+                      <% end %>
+                <% end %>
+                <% if current_user.is_admin_from_pykih %>
+                    <%= link_to 'Online users', admin_online_users_path, class: "dropdown-item", class: "dropdown-item", style: "color: gold;" %>
+                    <%= link_to "Ref: Publishers", ref_link_sources_path, class: "dropdown-item", class: "dropdown-item", style: "color: gold;" %>
                 <% end %>
             <% end %>
-        </ul>
-        <ul>
-            <li class="<%= (controller_name == "sites" and action_name == "show") ? "active" : nil %>"><%= link_to "Home", account_site_path(@account, @site) %></li>
-        </ul>
-        <div class="list-title channels" style="padding-top: 0px; margin-top: 0px; line-height: 1em; margin-bottom: 10px;">
-            FOLDERS
-            <% if @folder.present? and @folder.id.blank? %>
-                <span style="float: right; font-weight: 400; font-size: 14px;"><%= link_to image_tag("glyphicons-191-plus-sign.png", height: "15px"), new_account_site_folder_path(@account, @site) %></span>
-            <% end %>
-        </div>
-        <ul>
-            <% @folders.each do |folder| %>
-                <li class="<%= (@folder.present? and folder.id == @folder.id) ? "active" : nil %>"><%= link_to truncate(folder_name_trunc_(folder), length: 24, ommission: ".."), account_site_folder_view_casts_path(@account, @site, folder) %></li>
-            <% end %>
-        </ul>
+    	  </div>
+    	</div>
     </div>
-<% end %>
+<% if 1 == 2 %>
+
+
+            
+                <span style="float: right; font-weight: 400; font-size: 14px;"><%= link_to image_tag("glyphicons-191-plus-sign.png", height: "15px"), new_account_site_folder_path(@account, @site) %></span>
+            <form class="form-inline my-2 my-lg-0">
+                <% if controller_name == "view_casts" %>
+                    <%= link_to '+ Add a card', new_account_site_folder_view_cast_path(@account, @site, @folder), data: {turbolinks: false}, class: "btn btn-sm btn-dark" %>
+                <% elsif controller_name == "pages" and action_name == "index" %>
+                    <% link_to '+ Add a story', new_account_site_page_path(@account, @site, folder_id: @folder.id), data: {turbolinks: false}, class: "btn btn-sm btn-dark" %>
+                    <%= render partial: "pages/new" %>  
+                <% elsif controller_name == "images" %>
+                    <%= link_to '+ Upload an image', "#",id: "upload_image_button" ,class: "btn btn-sm btn-dark", "data-toggle" => "modal", "data-target" => "#fileUploadModal" %>
+                    <script type="text/javascript">
+                        $(document).on('turbolinks:load', function(){
+                            $('#fileUploadModal').appendTo("body");
+                        })
+                    </script>
+                <% end %>
+            </form>
+        <% end %>
