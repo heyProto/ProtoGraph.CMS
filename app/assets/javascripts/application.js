@@ -33,5 +33,7 @@ $(document).on('turbolinks:load', function (e) {
   $('select.dropdown').dropdown();
   // $('.ui.accordion').accordion();
   $(".best_in_place").best_in_place();
-  $.extend($.fn.datepicker.defaults, { format: 'mm-dd-yyyy' });
+  $.datepicker.setDefaults({
+    dateFormat: 'yy-mm-dd'
+  });
 });

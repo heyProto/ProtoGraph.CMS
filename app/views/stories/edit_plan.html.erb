@@ -62,7 +62,7 @@
                     <br>
                     <div class="form-check form-check-inline">
                         <%= image_tag "glyphicons-46-calendar.png", class:  @page.has_data ? nil : "disabled", class:"glyphicons-img", inner_class:"glyphicons-img"  %>
-                        <%= best_in_place @page, :due, as: :date, url: account_site_page_path(@account, @site, @page), class:"form-check-label", inner_class:"form-check-label" %>
+                        <%= best_in_place @page, :due, as: :date, url: account_site_page_path(@account, @site, @page), class:"form-check-label 2", inner_class:"form-check-label" %>
                     </div>
                 </div>
                 <div class="col-sm-5">
@@ -71,7 +71,7 @@
                     <div class="form-check form-check-inline">
                         <%= image_tag "glyphicons-46-calendar.png", class:  @page.has_data ? nil : "disabled", class:"glyphicons-img", inner_class:"glyphicons-img"  %>
                         <%= best_in_place @page, :published_at, as: :date, url: account_site_page_path(@account, @site, @page), class:"form-check-label", inner_class:"form-check-label" %>
-                    </div>  
+                    </div>
                 </div>
             </div>
             <br>

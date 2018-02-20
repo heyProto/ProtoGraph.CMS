@@ -50,8 +50,6 @@ class PagesController < ApplicationController
   def update
     @page.updated_by = current_user.id
     p_params = page_params
-    puts p_params[:due]
-    puts "=========="
     if params[:commit] == 'Update' and page_params["publish"] != "1"
       p_params["status"] = 'unlisted'
     end
