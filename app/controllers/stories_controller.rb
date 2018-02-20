@@ -1,7 +1,7 @@
 class StoriesController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_page, only: [:edit, :edit_plan, :edit_write, :edit_assemble, :edit_distribute]
-  before_action :sudo_can_see_all_pages, only: [:edit, :edit_plan, :edit_write, :edit_assemble, :edit_distribute]
+  before_action :set_page, only: [:edit_plan, :edit_write, :edit_assemble, :edit_distribute]
+  before_action :sudo_can_see_all_pages, only: [:edit_plan, :edit_write, :edit_assemble, :edit_distribute]
 
   def index
     if params[:page].present?
@@ -29,44 +29,6 @@ class StoriesController < ApplicationController
       @ref_intersection = RefCategory.where(site_id: @site.id, genre: "intersection", is_disabled: [false, nil]).order(:name).map {|r| ["#{r.name}", r.id]}
       @ref_sub_intersection = RefCategory.where(site_id: @site.id, genre: "sub intersection", is_disabled: [false, nil]).order(:name).map {|r| ["#{r.name}", r.id]}
       @article = TemplatePage.where(name: "article").first
-    end
-  end
-
-  def edit
-    if @page.template_page.name == "article"
-      redirect_to edit_plan_account_site_page_path(@account, @site, @page)
-    else
-      @ref_intersection = RefCategory.where(site_id: @site.id, genre: "intersection", is_disabled: [false, nil]).order(:name).map {|r| ["#{r.name}", r.id]}
-      @ref_sub_intersection = RefCategory.where(site_id: @site.id, genre: "sub intersection", is_disabled: [false, nil]).order(:name).map {|r| ["#{r.name}", r.id]}
-      @cover_image_alignment = ['vertical', 'horizontal'].map {|r| ["#{r.titlecase}", r]}
-      @view_cast = @page.view_cast if @page.view_cast_id.present?
-      @page_streams = @page.page_streams
-      @page.publish = @page.status == 'published'
-      @is_article_page = @page.template_page.name == "article"
-      @image = @page.cover_image
-      if @image.blank?
-          @page.build_cover_image
-      end
-
-      if @page.status != "draft"
-        if @page.template_page.name == "Homepage: Vertical"
-          @page_stream_16 = @page.streams.where(title: "#{@page.id.to_s}_Section_16c_Hero").first
-          @page_stream_16.view_cast_id_list = @page_stream_16.view_cast_ids.pluck(:entity_value).join(",")
-          @page_stream_07 = @page.streams.where(title: "#{@page.id.to_s}_Section_7c").first
-          @page_stream_07.view_cast_id_list = @page_stream_07.view_cast_ids.pluck(:entity_value).join(",")
-          @page_stream_04 = @page.streams.where(title: "#{@page.id.to_s}_Section_4c").first
-          @page_stream_04.view_cast_id_list = @page_stream_04.view_cast_ids.pluck(:entity_value).join(",")
-          @page_stream_03 = @page.streams.where(title: "#{@page.id.to_s}_Section_3c").first
-          @page_stream_03.view_cast_id_list = @page_stream_03.view_cast_ids.pluck(:entity_value).join(",")
-          @page_stream_02 = @page.streams.where(title: "#{@page.id.to_s}_Section_2c").first
-          @page_stream_02.view_cast_id_list = @page_stream_02.view_cast_ids.pluck(:entity_value).join(",")
-          @page_streamH16 = @page_stream_16.page_streams.where(page_id: @page.id).first
-          @page_streamH07 = @page_stream_07.page_streams.where(page_id: @page.id).first
-          @page_streamH04 = @page_stream_04.page_streams.where(page_id: @page.id).first
-          @page_streamH03 = @page_stream_03.page_streams.where(page_id: @page.id).first
-          @page_streamH02 = @page_stream_02.page_streams.where(page_id: @page.id).first
-        end
-      end
     end
   end
 

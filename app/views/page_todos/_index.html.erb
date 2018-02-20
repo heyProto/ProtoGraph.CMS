@@ -5,7 +5,7 @@
 <h4 style="color: gray; font-weight: 100;">TODOS</h4>
 <table class="table table-sm table-form">
   <tbody>
-      <%= simple_form_for(@page_todo, url: account_site_page_page_todos_path(@account, @site, @page, folder_id: @page.folder_id), method: :post) do |f| %>
+      <%= simple_form_for(@page_todo, url: account_site_story_page_todos_path(@account, @site, @page, folder_id: @page.folder_id), method: :post) do |f| %>
         <%= f.error_notification %>
         <div class="form-inputs">
           <%= f.hidden_field :page_id, value: @page.id %>
@@ -23,9 +23,9 @@
     <% @page_todos.each do |page_todo| %>
       <tr>
         <td>
-            <%= link_to image_tag(page_todo.is_completed ? "glyphicons-153-check.png" : "glyphicons-154-unchecked.png", height: "16px"), complete_account_site_page_page_todo_path(@account, @site, @page, page_todo, folder_id: @page.folder_id) %>
+            <%= link_to image_tag(page_todo.is_completed ? "glyphicons-153-check.png" : "glyphicons-154-unchecked.png", height: "16px"), complete_account_site_story_page_todo_path(@account, @site, @page, page_todo, folder_id: @page.folder_id) %>
         </td>
-        
+
         <td style="<%= page_todo.is_completed ? "color: gray; text-decoration: line-through; " : nil %>"><%= page_todo.task %></td>
         <td>
             <% if page_todo.template_card.present? %>
@@ -33,7 +33,7 @@
             <% end %>
         </td>
         <td class="hint"><%= image_tag avatar_url(page_todo.updator.email), width: "16px", height: "16px" %> <%= time_ago_in_words page_todo.updated_at %></td>
-        <td><%= link_to 'x', account_site_page_page_todo_path(@account, @site, @page, page_todo), method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to 'x', account_site_story_page_todo_path(@account, @site, @page, page_todo), method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
   </tbody>

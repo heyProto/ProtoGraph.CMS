@@ -22,8 +22,8 @@
     </div>
 <% else %>
     <div class="row" style="margin: 0px; padding: 0px;">
-        <% @pages.each do |d| %>                
-        	<%= link_to edit_plan_account_site_page_path(@account, @site, d, folder_id: d.folder_id), "data-turbolinks"=> false do %>
+        <% @pages.each do |d| %>
+        	<%= link_to edit_plan_account_site_story_path(@account, @site, d, folder_id: d.folder_id), "data-turbolinks"=> false do %>
                 <div class="card-as-a-todo">
             		<!-- <div class="status-signal status-red"></div> -->
                     <% if d.intersection.present? %>
@@ -38,7 +38,7 @@
                     <% end %>
             		<div class="card-information">
             			<div class="card-title"><%= truncate(d.headline, length: 55, ommission: "..") %></div>
-            			<div class="card-type">toStory 
+            			<div class="card-type">toStory
                             <span class="card-id">
                                 <% if d.view_cast.present? %>
                                     #<%= d.view_cast.id.to_s %>
@@ -56,7 +56,7 @@
             		</div>
             	</div>
             <% end %>
-        <% end %>       
+        <% end %>
     </div>
     <%= paginate @pages, theme: 'twitter-bootstrap-4', pagination_class: "pagination-sm" %>
 <% end %>
