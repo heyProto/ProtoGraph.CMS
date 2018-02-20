@@ -65,6 +65,10 @@
   color: #666;
 }
 
-.page_content{
+.edit_page .page_content{
   min-height: 80vh;
+}
+
+.edit_page .form-actions{
+  margin-bottom: 50px;
 }
