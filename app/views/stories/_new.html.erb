@@ -32,16 +32,16 @@
                         <label class='control-label date optional' style="justify-content: left;">What do you want in this story?</label>
                         <div class="row">
                             <div class="col-sm-3">
-                                <%= f.input :has_image_other_than_cover, label: "&nbsp; <img src='/assets/glyphicons-139-picture.png' height='17px;'/>".html_safe %>
+                                <%= f.input :has_image_other_than_cover, label: "&nbsp; #{image_tag "glyphicons-139-picture.png", height: 17}".html_safe %>
                             </div>
                             <div class="col-sm-3">
-                                <%= f.input :has_audio, label: "&nbsp; <img src='/assets/glyphicons-301-microphone.png'  height='17px;'/>".html_safe %>
+                                <%= f.input :has_audio, label: "&nbsp; #{image_tag "glyphicons-301-microphone.png", height: 17}".html_safe %>
                             </div>
                             <div class="col-sm-3">
-                                <%= f.input :has_video, label: "&nbsp; <img src='/assets/glyphicons-181-facetime-video.png' height='16px;'/>".html_safe %>
+                                <%= f.input :has_video, label: "&nbsp; #{image_tag "glyphicons-181-facetime-video.png", height: 16}".html_safe %>
                             </div>
                             <div class="col-sm-2">
-                                <%= f.input :has_data, label: "&nbsp; <img src='/assets/glyphicons-43-pie-chart.png' height='17px;'/>".html_safe %>
+                                <%= f.input :has_data, label: "&nbsp; #{image_tag "glyphicons-43-pie-chart.png", height: 17}".html_safe %>
                             </div>
                             <div class="col-sm-4">
                                 <%= f.input :is_sponsored, label: "&nbsp; Sponsored?".html_safe %>

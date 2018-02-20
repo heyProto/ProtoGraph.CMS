@@ -269,7 +269,7 @@ class Page < ApplicationRecord
       end
       paragraphs << html_part
     end
-    unless last_element == all_h2_elements.last
+    unless (last_element == all_h2_elements.last or all_h2_elements.count == 0)
       html_part = paragraphs[-1]
       Page.collect_between(all_h2_elements.last, last_element, include_last: true).each do |elem|
         html_part += elem.to_s
