@@ -1,3 +1,25 @@
+<%= content_for :page_title do %>
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><%= link_to @site.domain, account_site_path(@account, @site), "data-turbolinks"=> false %></li>
+        <li class="breadcrumb-item active" aria-current="page">Page Builder</li>
+      </ol>
+    </nav>
+<% end %>
+
+<div class="row">
+    <div class="col-sm-13">
+        <div style="margin-left: auto; margin-right: auto; width: 500px;">
+        </div>
+    </div>
+	<div class="col-sm-3 help-text">
+		<!--<h2>Email Settings</h2>
+		<p>Your default support email address is prototype@pro.to. Any email sent here gets automatically converted into a ticket that you can get working on.</p>
+		<p>You can configure your Freshdesk account to use a support email in your own domain, like <a href="">support@mycompany.com</a> by forwarding emails from this address to <a href="">protoprototype@heyproto.freshdesk.com</a>. To create a new support email box, click “Edit” under global email settings.</p>-->
+	</div>
+</div>
+
+
 - Set a global_slug in each template. Same method to remove spaces from username.
 
 Create VERSIONS
