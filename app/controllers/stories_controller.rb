@@ -15,7 +15,7 @@ class StoriesController < ApplicationController
       @page.updated_by = current_user.id
       @page.collaborator_lists = ["#{current_user.id}"] if ["contributor", "writer"].include?(@permission_role.slug)
       if @page.save
-        redirect_to account_site_pages_path(@account, @site, folder_id: @page.folder_id), notice: 'Page was successfully created.'
+        redirect_to account_site_stories_path(@account, @site, folder_id: @page.folder_id), notice: 'Page was successfully created.'
       else
         render :back, alert: @page.errors.full_messages
       end
