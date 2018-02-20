@@ -58,7 +58,7 @@
                         </div>
                         <br/>
                         <div class="form-actions">
-                          <%= f.button :submit, "Add", url: chabbi_account_site_pages_path(@account, @site, folder_id: @folder.id), method: :post %>
+                          <%= f.button :submit, "Add" %>
                         </div>
                     </div>
                 <% end %>
@@ -71,7 +71,7 @@
         $('.quick-pitch-story-card').css('display', 'block')
         $('.dropdown-menu-card').css('display', 'block');
         event.stopPropagation();
-    });	
+    });
     $(document).click(function(e) {
         if (!$(e.target).is('.dropdown-menu-card, .dropdown-menu-card *')) {
             $(".dropdown-menu-card").css('display', 'none')

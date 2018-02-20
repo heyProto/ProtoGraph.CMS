@@ -4,12 +4,12 @@
           <% if @folder.present? %>
               <li class="breadcrumb-item"><%= link_to truncate(folder_name_trunc_(@folder), length: 24, ommission: ".."), account_site_folder_view_casts_path(@account, @site, @folder), "data-turbolinks"=> false %></li>
           <% end %>
-          <li class="breadcrumb-item"><%= link_to "Stories", account_site_pages_path(@account, @site, folder_id: @folder.id), "data-turbolinks"=> false %></li> 
+          <li class="breadcrumb-item"><%= link_to "Stories", account_site_stories_path(@account, @site, folder_id: @folder.id), "data-turbolinks"=> false %></li>
           <li class="breadcrumb-item active" aria-current="page"><%= @page.one_line_concept %></li>
       </ol>
     </nav>
 <% end %>
-<%= render partial: "pages/stories_header" %>
+<%= render partial: "stories/stories_header" %>
 <div class="row">
     <div class="col-sm-13">
         <div style="margin-left: auto; margin-right: auto; width: 70%;">
@@ -29,10 +29,10 @@
                     <%= f.input :cover_image_alignment, collection: @cover_image_alignment, selected: "horizontal", required: true %>
                     <%= f.input :publish, as: :boolean, label: "&nbsp; Publish Page?".html_safe, hint: "Until you want the Story Card to be published live on your site, do not mark the article as published." %>
                     <% if @page.view_cast_id.present? %>
-                        <b>toStoryCard</b>                
+                        <b>toStoryCard</b>
                         <div id="protoCard"></div>
                     <% end %>
-                
+
                 </div>
                 <div class="form-actions">
                   <%= f.button :submit, "Save" %>
@@ -45,7 +45,7 @@
         </div>
     </div>
 	<div class="col-sm-3 help-text">
-        <%= render partial: "pages/stories_sidebar" %>
+        <%= render partial: "stories/stories_sidebar" %>
 		<!--<h2>Email Settings</h2>
 		<p>Your default support email address is prototype@pro.to. Any email sent here gets automatically converted into a ticket that you can get working on.</p>
 		<p>You can configure your Freshdesk account to use a support email in your own domain, like <a href="">support@mycompany.com</a> by forwarding emails from this address to <a href="">protoprototype@heyproto.freshdesk.com</a>. To create a new support email box, click “Edit” under global email settings.</p>-->

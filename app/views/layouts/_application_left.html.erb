@@ -7,7 +7,7 @@
         </div>
     </nav>
     <div class="bottom-aligned">
-<% else %>    
+<% else %>
     <% if @site.present? %>
         <% if !is_admins_controller or (controller_name != 'accounts' and ['new','create'].include?(action_name)) %>
             <div class="dropdown show vertical-selection-dropdown">
@@ -45,7 +45,7 @@
         <div class="list-group list-group-flush">
           <% if @folder.present? and @folder.id.present? %>
               <% if @folder.vertical.present? and @folder.is_for_stories %>
-                  <%= link_to "Stories", account_site_pages_path(@account, @site, folder_id: @folder.id), class: (controller_name == "pages" and action_name != "manager") ? "list-group-item list-group-item-action active" : "list-group-item list-group-item-action", "data-turbolinks"=> false %>
+                  <%= link_to "Stories", account_site_stories_path(@account, @site, folder_id: @folder.id), class: (controller_name == "stories" and action_name != "manager") ? "list-group-item list-group-item-action active" : "list-group-item list-group-item-action", "data-turbolinks"=> false %>
               <% end %>
               <%= link_to "Cards", account_site_folder_view_casts_path(@account, @site, @folder), class: controller_name == "view_casts" ? "list-group-item list-group-item-action active" : "list-group-item list-group-item-action", "data-turbolinks"=> false %>
           <% end %>
@@ -53,12 +53,12 @@
         </div>
         <div class="bottom-aligned">
             <span class="text-uppercase">Site Settings</span>
-        	<div class="list-group list-group-flush">          
+        	<div class="list-group list-group-flush">
               <%= link_to "Page Builder", manager_account_site_pages_path(@account, @site, folder_id: @folder.present? ? @folder.id : nil), "data-turbolinks"=> false, class: (controller_name == "pages" and action_name == "manager") ? "list-group-item active list-group-item-action" : "list-group-item list-group-item-action" %>
               <%= link_to "Admin", account_site_admins_path(@account, @site), "data-turbolinks"=> false, class: @is_admin ? "list-group-item active list-group-item-action" : "list-group-item list-group-item-action" %>
         </div>
     <% end %>
-    	
+
 <% end %>
 <div class="btn-group dropup">
 	  <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
