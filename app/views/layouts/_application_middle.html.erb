@@ -16,7 +16,7 @@
                             <%= link_to '+ Add a card', new_account_site_folder_view_cast_path(@account, @site, @folder), data: {turbolinks: false} %>
                         </button>
                     </li>
-                <% elsif controller_name == "pages" and action_name == "index" %>
+                <% elsif controller_name == "stories" and action_name == "index" %>
                     <form class="form-inline my-2 my-lg-0"><li><%= render partial: "stories/new" %></li></form>
                 <% elsif controller_name == "images" %>
                     <li>

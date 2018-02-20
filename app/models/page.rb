@@ -378,8 +378,8 @@ class Page < ApplicationRecord
       view_cast = ViewCast.create({
         name: title,
         site_id: site.id,
-        template_card_id: TemplateCard.where(name: 'toParagraph').first.id,
-        template_datum_id: TemplateDatum.where(name: 'toParagraph').first.id,
+        template_card_id: to_para_card.id,
+        template_datum_id: to_para_schema.id,
         created_by: created_by,
         updated_by: updated_by,
         seo_blockquote: "<blockquote><h4#>#{title}</h4><p>#{para}</p></blockquote>",
@@ -391,7 +391,7 @@ class Page < ApplicationRecord
       payload = {}
       payload["payload"] = {"data": {"text": para}}.to_json
       payload["api_slug"] = view_cast.datacast_identifier
-      payload["schema_url"] = TemplateDatum.where(name: 'toParagraph').first.schema_json
+      payload["schema_url"] = to_para_schema.schema_json
       payload["source"] = "form"
       payload["bucket_name"] = site.cdn_bucket
       r = Api::ProtoGraph::Datacast.create(payload)

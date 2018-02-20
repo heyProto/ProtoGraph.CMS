@@ -31,7 +31,7 @@
               <% elsif (@folder.present? and @folder.id.blank?) %>
                   Home
               <% else %>
-                  <%= @folder.name %>
+                  <%= truncate(folder_name_trunc_(@folder), length: 15, ommission: "..") %>
               <% end %>
           </a>
           <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">

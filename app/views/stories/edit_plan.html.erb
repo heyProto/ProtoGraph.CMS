@@ -33,16 +33,16 @@
                 <div class="col-sm-6">
                     <h4 style="color: gray; font-weight: 100;">ELEMENTS</h4>
                     <%= best_in_place @page, :has_image_other_than_cover, as: :checkbox, collection: {false: "No", true: "Yes"}, url: account_site_page_path(@account, @site, @page) %>
-                    <img src='/assets/glyphicons-139-picture.png' height='16px;' class="<%= @page.has_image_other_than_cover ? nil : "disabled" %>"/>
+                    <%= image_tag "glyphicons-139-picture.png", height: "16px", class: @page.has_image_other_than_cover ? nil : "disabled" %>
                     &nbsp;&nbsp;
                     <%= best_in_place @page, :has_audio, as: :checkbox, collection: {false: "No", true: "Yes"}, url: account_site_page_path(@account, @site, @page) %>
-                    <img src='/assets/glyphicons-301-microphone.png' height='16px;' class="<%= @page.has_audio ? nil : "disabled" %>"/>
+                    <%= image_tag "glyphicons-301-microphone.png", height: "16px", class: @page.has_audio ? nil : "disabled" %>
                     &nbsp;&nbsp;
                     <%= best_in_place @page, :has_video, as: :checkbox, collection: {false: "No", true: "Yes"}, url: account_site_page_path(@account, @site, @page) %>
-                    <img src='/assets/glyphicons-181-facetime-video.png' height='13px;' class="<%= @page.has_video ? nil : "disabled" %>"/>
+                    <%= image_tag "glyphicons-181-facetime-video.png", height: "13px", class: @page.has_video ? nil : "disabled" %>
                     &nbsp;&nbsp;
                     <%= best_in_place @page, :has_data, as: :checkbox, collection: {false: "No", true: "Yes"}, url: account_site_page_path(@account, @site, @page) %>
-                    <img src='/assets/glyphicons-43-pie-chart.png' height='16px;' class="<%= @page.has_data ? nil : "disabled" %>"/>
+                    <%= image_tag "glyphicons-43-pie-chart.png", height: "16px", class:  @page.has_data ? nil : "disabled" %>
                 </div>
                 <div class="col-sm-4">
                     <h4 style="color: gray; font-weight: 100;">DUE DATE</h4>

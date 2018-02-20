@@ -70,7 +70,7 @@ class Site < ApplicationRecord
     #ACCESSORS
     accepts_nested_attributes_for :logo_image, :favicon
     attr_accessor :from_page
-    
+
     #VALIDATIONS
     validates :name, presence: true, uniqueness: {scope: :account}
 
@@ -237,7 +237,8 @@ class Site < ApplicationRecord
                 "reverse_font_colour": "#{self.reverse_font_colour}",
                 "primary_language": "#{self.primary_language}",
                 "story_card_style": "#{self.story_card_style}",
-                "story_card_flip": self.story_card_flip
+                "story_card_flip": self.story_card_flip,
+                "favicon_url": "#{favicon.present? ? favicon.image_url : ""}"
             }
             key = "#{self.header_json_key}"
             encoded_file = Base64.encode64(header_json.to_json)
