@@ -11,7 +11,7 @@ class PagesController < ApplicationController
 
   def edit
     if @page.template_page.name == "article"
-      redirect_to edit_plan_account_site_page_path(@account, @site, @page)
+      redirect_to edit_plan_account_site_story_path(@account, @site, @page)
     else
       @ref_intersection = RefCategory.where(site_id: @site.id, genre: "intersection", is_disabled: [false, nil]).order(:name).map {|r| ["#{r.name}", r.id]}
       @ref_sub_intersection = RefCategory.where(site_id: @site.id, genre: "sub intersection", is_disabled: [false, nil]).order(:name).map {|r| ["#{r.name}", r.id]}
