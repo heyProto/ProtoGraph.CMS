@@ -1,30 +1,41 @@
 <%= content_for :page_title do %>
     Images
 <% end %>
-<% content_for :filters_sidebar do %>
-      <%= render partial: "images/form" %>
-    <% if @account.images.present? %>
-      <%= render partial: "images/search_form" %>
-    <% end %>
-<% end %>
 <%= stylesheet_link_tag "image_bank.css" %>
-<%= paginate @images, theme: 'twitter-bootstrap-4', pagination_class: "pagination-sm" %>
-<% if (params[:q].present? and @images.blank?) %>
-  <div class="blankslate blankslate-spacious">
-    <%# Print all params without nil or blank space %>
-    <% h = params[:q].as_json(@folder).keep_if {|k, v| v != nil and v != ""} %>
-    <% search_params = [] %>
-    <% h.each {|k, v| search_params << "#{k.split("_")[0]} containing \"#{v}\""} %>
-    <h3>No images with <%= search_params.join(" and ") %> found</h3>
-  </div>
-<% elsif @images.first.present? %>
-  <div id="imageContainer"></div>
-<% else %>
-  <div class="blankslate blankslate-spacious">
-    <h3>No images uploaded yet.</h3>
-    <p>Use the [+ Upload image] button on the top right.</p>
-  </div>
-<% end %>
+<div class="row">
+    <div class="col-sm-13">
+        <div style="margin-left: auto; margin-right: auto; width: 90%;">
+            <%= paginate @images, theme: 'twitter-bootstrap-4', pagination_class: "pagination-sm" %>
+            <% if (params[:q].present? and @images.blank?) %>
+              <div class="blankslate blankslate-spacious">
+                <%# Print all params without nil or blank space %>
+                <% h = params[:q].as_json(@folder).keep_if {|k, v| v != nil and v != ""} %>
+                <% search_params = [] %>
+                <% h.each {|k, v| search_params << "#{k.split("_")[0]} containing \"#{v}\""} %>
+                <h3>No images with <%= search_params.join(" and ") %> found</h3>
+              </div>
+            <% elsif @images.first.present? %>
+              <div id="imageContainer"></div>
+            <% else %>
+              <div class="blankslate blankslate-spacious">
+                <h3>No images uploaded yet.</h3>
+                <p>Use the [+ Upload image] button on the top right.</p>
+              </div>
+            <% end %>
+        </div>
+    </div>
+	<div class="col-sm-3 help-text">
+        <%= render partial: "images/form" %>
+        <% if @account.images.present? %>
+          <%= render partial: "images/search_form" %>
+        <% end %>
+		<!--<h2>Email Settings</h2>
+		<p>Your default support email address is prototype@pro.to. Any email sent here gets automatically converted into a ticket that you can get working on.</p>
+		<p>You can configure your Freshdesk account to use a support email in your own domain, like <a href="">support@mycompany.com</a> by forwarding emails from this address to <a href="">protoprototype@heyproto.freshdesk.com</a>. To create a new support email box, click “Edit” under global email settings.</p>-->
+	</div>
+</div>
+
+
 <%= javascript_include_tag "justified.js" %>
 <%= javascript_include_tag "select2.js" %>
 <script type="text/javascript">
