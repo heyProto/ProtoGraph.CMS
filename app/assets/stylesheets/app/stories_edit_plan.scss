@@ -1,0 +1,80 @@
+.planning-card {
+  .lable {
+    font-size: 10px;
+    color: #666;
+    opacity: 1;
+    display: inline-block;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 5px;
+  }
+  .plan-title input {
+    padding: 3px 5px;
+    background: transparent;
+    border-color: transparent;
+    font-size: 24px;
+    border-radius: 2px;
+    color: #333;
+  }
+  .plan-description textarea {
+    padding: 5px;
+    background: transparent;
+    border-color: transparent;
+    font-size: 14px;
+    border-radius: 2px;
+  }
+  img.glyphicons-img {
+    height: 12px;
+    opacity: 0.3;
+    margin-right: 5px;
+    /*margin-top: 5px;*/
+  }
+  .form-check-label {
+    font-size: 14px;
+    color: #666;
+  }
+}
+
+.row-with-less-negative-margin {
+  margin-left: -5px;
+  margin-right: -5px;
+}
+
+.planning-card .todo-list-area {
+  input {
+    background: transparent;
+    border-color: transparent;
+  }
+  .input-group-text {
+    background: transparent;
+    border-color: transparent;
+    input[type=checkbox] {
+      font-size: 20px;
+    }
+  }
+  .adding-new-todo {
+    input {
+      background: #fafafa;
+      border-color: #fafafa;
+      margin-top: 10px;
+    }
+    .new-todo-action-buttons {
+      opacity: 0;
+    }
+    .input-group > .form-control:focus .new-todo-action-buttons {
+      display: inline-block;
+      opacity: 1;
+    }
+  }
+  .input-group-append button {
+    border-color: #fafafa;
+    background: #fafafa;
+    margin-top: 10px;
+  }
+  .input-group:hover {
+    input, .input-group-text, textarea {
+      background: #fafafa;
+      cursor: pointer;
+    }
+  }
+}
