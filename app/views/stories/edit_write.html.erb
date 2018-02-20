@@ -21,7 +21,6 @@
                 </div>
               <div class="form-actions">
                 <%= f.hidden_field :prepare_cards_for_assembling, value: true %>
-                <%= f.hidden_field :status, value: "published" %>
                 <%= f.button :submit, "Save and prepare cards for assembling" %>
                 &nbsp
                 <span id='autosave_text' class="hint-text"></span>
@@ -56,16 +55,20 @@
       }
     }
     $(document).on("turbolinks:load", function(){
-        var editor = new MediumEditor('.editable');
-        setEndOfContenteditable(document.querySelector('.editable.medium-editor-element'))
-        $('.editable').mediumInsert({
-            editor: editor,
-            addons: false,
-            toolbar: {
-              buttons: ['bold', 'h2', 'h3', 'quote', 'anchor', 'unorderedlist', 'orderedlist', 'divider']
-            }
+        var editor = new MediumEditor('.editable', {
+          placeholder: {
+            text: "Tell your story...",
+            hideOnClick: false
+          },
+          toolbar: {
+            buttons: ['bold', 'h2', 'h3', 'quote', 'anchor', 'unorderedlist', 'orderedlist']
+          }
         });
-        $('.editable.medium-editor-element').attr('data-placeholder', 'Tell your story...');
+        setEndOfContenteditable(document.querySelector('.editable.medium-editor-element'))
+        let anchor = document.getElementsByClassName('medium-editor-action-anchor')[0];
+        if(anchor){
+          anchor.innerHTML = "<img src=\"https://cdn.protograph.pykih.com/Assets/compose-card/link.png\" class=\"link-image\"/ height=15>"
+        }
         var saveInterval = setInterval(function(){
             $("#autosave_text").text("Saving...");
             var data = $('form.simple_form.edit_page:first').serializeArray().reduce(

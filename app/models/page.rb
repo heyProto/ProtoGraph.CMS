@@ -97,15 +97,14 @@ class Page < ApplicationRecord
   after_create :set_url
   after_create :create_page_streams
   after_create :push_json_to_s3
-  # after_update :update_page_image
-  after_update :create_page_streams
+  after_update :update_page_image
   after_update :create_paragraph_card, if: "self.prepare_cards_for_assembling=='true'"
   # after_update :push_json_to_s3
 
   # Slug
 
   def before_validation_set
-    self.english_headline = self.headline if self.site.is_english
+    self.english_headline = self.headline if (self.site.is_english)
   end
 
   def html_key
@@ -255,26 +254,30 @@ class Page < ApplicationRecord
     first_element = all_elements.first
     all_h2_elements = all_elements.search("h2")
     last_element = all_elements.last
-    unless first_element == all_h2_elements.first
-      html_part = ""
-      Page.collect_between(first_element, all_h2_elements.first).each do |elem|
-        html_part += elem.to_s
+    if all_h2_elements.count > 0
+      unless first_element == all_h2_elements.first
+        html_part = ""
+        Page.collect_between(first_element, all_h2_elements.first).each do |elem|
+          html_part += elem.to_s
+        end
+        paragraphs << html_part
       end
-      paragraphs << html_part
-    end
-    all_h2_elements.each_with_index do |h2, i|
-      html_part = ""
-      Page.collect_between(h2, all_h2_elements[i+1]).each do |elem|
-        html_part += elem.to_s
+      all_h2_elements.each_with_index do |h2, i|
+        html_part = ""
+        Page.collect_between(h2, all_h2_elements[i+1]).each do |elem|
+          html_part += elem.to_s
+        end
+        paragraphs << html_part
       end
-      paragraphs << html_part
-    end
-    unless (last_element == all_h2_elements.last or all_h2_elements.count == 0)
-      html_part = paragraphs[-1]
-      Page.collect_between(all_h2_elements.last, last_element, include_last: true).each do |elem|
-        html_part += elem.to_s
+      unless (last_element == all_h2_elements.last)
+        html_part = paragraphs[-1]
+        Page.collect_between(all_h2_elements.last, last_element, include_last: true).each do |elem|
+          html_part += elem.to_s
+        end
+        paragraphs[-1] = html_part
       end
-      paragraphs[-1] = html_part
+    else
+      paragraphs << all_elements.to_s
     end
     paragraphs
   end
@@ -459,39 +462,37 @@ class Page < ApplicationRecord
   end
 
   def create_page_streams
-    if (self.streams.count == 0) and ((self.from_api and self.status != 'draft') or (self.saved_change_to_status? and self.status_before_last_save == 'draft'))
-      streams = []
-      case self.template_page.name
-      when 'Homepage: Vertical'
-        streams = [["Section_16c_Hero", "Hero"], ["Section_7c", "Originals"], ["Section_4c", "Digests"], ["Section_3c", "Feed"], ["Section_2c", "Opinions"]]
-      when 'article'
-        streams = [["Story_Narrative", "Narrative"], ["Story_Related", "Related"]]
-      when 'data grid'
-        streams = [["Data_Grid", "#{self.id}_Section_data"]]
-      else
-        streams = [["Data_Grid", "#{self.id}_Section_data"]]
-      end
-      streams.each do |s|
-        stream = Stream.create!({
-          col_name: "Page",
-          col_id: self.id,
-          account_id: self.account_id,
-          site_id: self.site_id,
-          folder_id: self.folder_id,
-          created_by: self.created_by,
-          updated_by: self.updated_by,
-          title: "#{self.id}_#{s.first}",
-          description: "#{self.id}-#{s.first} stream #{self.summary}"
-        })
+    streams = []
+    case self.template_page.name
+    when 'Homepage: Vertical'
+      streams = [["Section_16c_Hero", "Hero"], ["Section_7c", "Originals"], ["Section_4c", "Digests"], ["Section_3c", "Feed"], ["Section_2c", "Opinions"]]
+    when 'article'
+      streams = [["Story_Narrative", "Narrative"], ["Story_Related", "Related"]]
+    when 'data grid'
+      streams = [["Data_Grid", "#{self.id}_Section_data"]]
+    else
+      streams = [["Data_Grid", "#{self.id}_Section_data"]]
+    end
+    streams.each do |s|
+      stream = Stream.create!({
+        col_name: "Page",
+        col_id: self.id,
+        account_id: self.account_id,
+        site_id: self.site_id,
+        folder_id: self.folder_id,
+        created_by: self.created_by,
+        updated_by: self.updated_by,
+        title: "#{self.id}_#{s.first}",
+        description: "#{self.id}-#{s.first} stream #{self.summary}"
+      })
 
-        page_stream = PageStream.create!({
-          page_id: self.id,
-          stream_id: stream.id,
-          name_of_stream: s.last,
-          created_by: self.created_by,
-          updated_by: self.updated_by
-        })
-      end
+      page_stream = PageStream.create!({
+        page_id: self.id,
+        stream_id: stream.id,
+        name_of_stream: s.last,
+        created_by: self.created_by,
+        updated_by: self.updated_by
+      })
     end
     true
   end

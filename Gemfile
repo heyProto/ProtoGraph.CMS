@@ -50,10 +50,6 @@ gem 'carrierwave'
 gem 'ransack'
 gem 'ntc', bitbucket: "pykih_/name-that-colour", require: false
 
-#Stories
-gem 'medium-editor-rails'
-gem 'medium-editor-insert-plugin-rails'
-
 #Encryption
 #gem "attr_encrypted", "~> 3.0.0"
 
