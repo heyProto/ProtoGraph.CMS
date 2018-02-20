@@ -16,7 +16,6 @@
  *= require app/theme.css
  *= require app/style.css
  *= require app/sign-up-area.css
- *= require app/admins.scss
  *= require app/folders_sidebar.scss
  *= require app/card_as_a_todo.scss
  *= require jquery-ui
