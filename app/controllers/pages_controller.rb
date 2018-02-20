@@ -1,36 +1,7 @@
 class PagesController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_page, only: [:edit, :edit_plan, :edit_write, :edit_assemble, :edit_distribute, :update, :destroy, :remove_cover_image]
-  before_action :sudo_can_see_all_pages, only: [:edit, :edit_plan, :edit_write, :edit_assemble, :edit_distribute, :update, :manager, :remove_cover_image, :create]
-
-  def index
-    if params[:page].present?
-      p_params = page_params
-      if p_params.has_key?('cover_image_attributes') and !p_params['cover_image_attributes'].has_key?("image")
-        p_params.delete('cover_image_attributes')
-      end
-      @page = Page.new(p_params)
-      @page.headline = @page.one_line_concept
-      @page.created_by = current_user.id
-      @page.updated_by = current_user.id
-      @page.collaborator_lists = ["#{current_user.id}"] if ["contributor", "writer"].include?(@permission_role.slug)
-      if @page.save
-        redirect_to account_site_pages_path(@account, @site, folder_id: @page.folder_id), notice: 'Page was successfully created.'
-      else
-        render :back, alert: @page.errors.full_messages
-      end
-    else
-      if @permission_role.can_see_all_pages
-        @pages = @folder.pages.where.not(template_page_id: TemplatePage.where(name: "section").pluck(:id).uniq).order(updated_at: :desc).page(params[:page]).per(30)
-      else
-        @pages = current_user.pages(@folder).where.not(template_page_id: TemplatePage.where(name: "section").pluck(:id).uniq).order(updated_at: :desc).page(params[:page]).per(30)
-      end
-      @page = Page.new
-      @ref_intersection = RefCategory.where(site_id: @site.id, genre: "intersection", is_disabled: [false, nil]).order(:name).map {|r| ["#{r.name}", r.id]}
-      @ref_sub_intersection = RefCategory.where(site_id: @site.id, genre: "sub intersection", is_disabled: [false, nil]).order(:name).map {|r| ["#{r.name}", r.id]}
-      @article = TemplatePage.where(name: "article").first
-    end
-  end
+  before_action :set_page, only: [:edit, :update, :destroy, :remove_cover_image]
+  before_action :sudo_can_see_all_pages, only: [:edit, :update, :manager, :remove_cover_image, :create]
 
   def manager
     @genre = "series"
@@ -74,55 +45,6 @@ class PagesController < ApplicationController
         end
       end
     end
-  end
-
-  def edit_plan
-    @ref_intersection = RefCategory.where(site_id: @site.id, genre: "intersection", is_disabled: [false, nil]).order(:name).map {|r| ["#{r.name}", r.id]}
-    @ref_sub_intersection = RefCategory.where(site_id: @site.id, genre: "sub intersection", is_disabled: [false, nil]).order(:name).map {|r| ["#{r.name}", r.id]}
-    @template_cards = @account.template_cards.where(is_current_version: true)
-    @page_todo = PageTodo.new
-    @page_todos = @page.page_todos.order(:sort_order)
-    #  ->>> page_authors
-  end
-
-  def edit_assemble
-    @view_cast = @page.view_cast if @page.view_cast_id.present?
-    @page_streams = @page.page_streams
-    @page.publish = @page.status == 'published'
-    @is_article_page = @page.template_page.name == "article"
-    @image = @page.cover_image
-    if @image.blank?
-        @page.build_cover_image
-    end
-    #  cover_image_id_7_column          :integer
-    #  cover_image_id_4_column
-    #  cover_image_id_3_column
-    #  cover_image_id_2_column
-    #  cover_image_credit
-    if @page.status != "draft"
-        @page_stream_narrative = @page.streams.where(title: "#{@page.id.to_s}_Story_Narrative").first
-        @page_stream_narrative.view_cast_id_list = @page_stream_narrative.view_cast_ids.pluck(:entity_value).join(",")
-        @page_stream_related = @page.streams.where(title: "#{@page.id.to_s}_Story_Related").first
-        @page_stream_related.view_cast_id_list = @page_stream_related.view_cast_ids.pluck(:entity_value).join(",")
-        @page_stream_related7c = @page_stream_related.page_streams.first
-        @page_stream_narrative7c = @page_stream_narrative.page_streams.first
-    end
-  end
-
-  def edit_write
-    #- Seamless writing experience that gets converted into many Compose Cards
-    #- Rao's app / Medium / Google Doc
-  end
-
-  def edit_distribute
-    #  cover_image_url_facebook         :text(65535)
-    #  cover_image_url_square           :text(65535)
-    # - Tags []
-    # - Related to Geography?
-    #     > Country
-    #     > State
-    #     > District
-    #     > Location
   end
 
   def update

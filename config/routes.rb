@@ -92,12 +92,13 @@ Rails.application.routes.draw do
       end
       resources :pages do
         get "manager", on: :collection
-        get "edit/plan", to: "pages#edit_plan", on: :member
-        get "edit/write", to: "pages#edit_write", on: :member
-        get "edit/assemble", to: "pages#edit_assemble", on: :member
-        get "edit/distribute", to: "pages#edit_distribute", on: :member
         put "remove_cover_image", on: :member
-        post "chabbi", to: "pages#create", on: :collection
+      end
+      resources :stories, only: [:index] do
+        get "edit/plan", to: "stories#edit_plan", on: :member
+        get "edit/write", to: "stories#edit_write", on: :member
+        get "edit/assemble", to: "stories#edit_assemble", on: :member
+        get "edit/distribute", to: "stories#edit_distribute", on: :member
         resources :page_todos do
           get "complete", on: :member
         end

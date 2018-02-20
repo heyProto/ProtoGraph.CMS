@@ -1,6 +1,6 @@
 .cms-sidebar {
   color: black;
-  background: #CFD8DC;
+  background: #EEEEEE;
   padding: 0px;
   height: 100vh;
   position: fixed;
@@ -27,7 +27,7 @@
     font-size: 18px;
     border-radius: 0px;
     line-height: 40px;
-    border-bottom: 1px solid #c5c5c5;
+    border-bottom: 1px solid #E0E0E0;
     color: black !important;
     &:focus {
       outline: none;
@@ -50,7 +50,7 @@
       background: #B0BEC5;
     }
     background: transparent;
-    border-color: #c5c5c5;
+    border-color: #E0E0E0;
   }
   .btn-secondary:hover {
     background: #B0BEC5;
@@ -99,8 +99,8 @@
       background: transparent;
       text-align: center;
       font-size: 14px;
-      border-top: 1px solid #c5c5c5;
-      border-bottom: 1px solid #c5c5c5;
+      border-top: 1px solid #E0E0E0;
+      border-bottom: 1px solid #E0E0E0;
     }
   }
   .user-image {
@@ -122,7 +122,7 @@
   position: absolute;
   width: 100%;
   bottom: 20px;
-  background: #CFD8DC;
+  background: #EEEEEE;
 }
 
 .help-text {
@@ -167,28 +167,26 @@
   .steps-to-build-page {
     a {
       font-size: 14px;
-      color: #999 !important;
+      color: black !important;
       border-bottom: 3px solid transparent;
       width: 100px;
       text-align: center;
       float: right;
       padding-top: 12px;
       padding-bottom: 13px;
-      &.active {
-        border-bottom: 3px solid #4e6773;
-        color: black !important;
-      }
-      &:hover {
-        border-bottom: 3px solid #607d8b4d;
-      }
     }
     button {
-      background: transparent;
+      background: #FFEBEE;
       margin-top: 9px;
-      border: 1px solid #dadfe3;
-      color: #666;
+      border: 1px solid #FFEBEE;
+      color: black;
       font-size: 14px;
       margin-left: 10px;
+      a{
+          float: none;
+          padding-top: 0px;
+          padding-bottom: 0px;
+      }
     }
   }
 }
