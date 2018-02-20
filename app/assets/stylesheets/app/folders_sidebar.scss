@@ -1,10 +1,10 @@
 .cms-sidebar {
   color: black;
-  
   background: #CFD8DC;
   padding: 0px;
   height: 100vh;
-  position: relative;
+  position: fixed;
+  width: 12.5%;
   span.text-uppercase {
     font-size: 10px;
     color: #607D8B;
