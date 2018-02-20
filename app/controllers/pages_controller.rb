@@ -50,6 +50,8 @@ class PagesController < ApplicationController
   def update
     @page.updated_by = current_user.id
     p_params = page_params
+    puts p_params[:due]
+    puts "=========="
     if params[:commit] == 'Update' and page_params["publish"] != "1"
       p_params["status"] = 'unlisted'
     end
@@ -63,7 +65,7 @@ class PagesController < ApplicationController
           redirect_back(fallback_location: account_site_pages_path(@account, @site, folder_id: (@folder.present? ? @folder.id : nil)), notice: 'Page was successfully updated.')
         }
       else
-        format.json { respond_with_bip(@page) }
+        format.json { ss respond_with_bip(@page) }
         format.html {
           @ref_series = RefCategory.where(site_id: @site.id, genre: "series", is_disabled: [false, nil]).order(:name).map {|r| ["#{r.name}", r.id]}
           @ref_intersection = RefCategory.where(site_id: @site.id, genre: "intersection", is_disabled: [false, nil]).order(:name).map {|r| ["#{r.name}", r.id]}

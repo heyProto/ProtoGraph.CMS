@@ -11,6 +11,7 @@ class StoriesController < ApplicationController
       end
       @page = Page.new(p_params)
       @page.headline = @page.one_line_concept
+      @page.english_headline = @page.one_line_concept unless @site.is_english
       @page.created_by = current_user.id
       @page.updated_by = current_user.id
       @page.collaborator_lists = ["#{current_user.id}"] if ["contributor", "writer"].include?(@permission_role.slug)

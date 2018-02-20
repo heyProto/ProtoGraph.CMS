@@ -34,14 +34,6 @@
       <div class="col-sm-6" style="margin-left: auto; margin-right: auto;">
           <%= f.error_notification %>
           <div class="form-inputs">
-              <% if @is_article_page %>
-                  <% unless @site.is_english %>
-                      <%= f.input :english_headline, required: true, minlength: 50 , maxlength: 90, hint: "This is used for url management." %>
-                      <% end %>
-                      <%= f.input :headline, required: true, minlength: 50 , maxlength: 90, hint: "Minimum length: 50 chars. Maximum length: 90 chars." %>
-
-                  <%= f.input :summary, minlength: 50 , maxlength: 220, hint: "Minimum length: 50 chars. Maximum length: 200 chars." %>
-              <% end %>
               <%= f.input :byline, required: true, label: "What byline do you want on the website?" %>
               <%= f.input :publish, as: :boolean, label: "&nbsp; Publish Page?".html_safe, hint: "Until you want the Story Card to be published live on your site, do not mark the article as published." %>
               <div class="form-actions">
@@ -58,21 +50,6 @@
       </div>
       <div class="col-sm-2">
           <div class="form-inputs">
-              <% if @is_article_page %>
-                  <p><b>Classification:</b></p>
-                  <% if @ref_intersection.first.present? %>
-                      <%= f.input :ref_category_intersection_id, label: "Intersection", collection: @ref_intersection, include_blank: true %>
-                  <% end %>
-                  <% if @ref_sub_intersection.first.present? %>
-                      <%= f.input :ref_category_sub_intersection_id, label: "Sub Intersection", collection: @ref_sub_intersection, include_blank: true %>
-                  <% end %>
-                  <%= f.input :is_sponsored, label: "&nbsp; Is Sponsored?".html_safe %>
-                  <p><b>Story elements:</b></p>
-                  <%= f.input :has_data, label: "&nbsp; Data or charts?".html_safe %>
-                  <%= f.input :has_image_other_than_cover, label: "&nbsp; Image?".html_safe %>
-                  <%= f.input :has_audio, label: "&nbsp; Audio?".html_safe %>
-                  <%= f.input :has_video, label: "&nbsp; Video?".html_safe %>
-              <% end %>
               <p><b>SEO:</b></p>
               <%= f.input :meta_keywords %>
               <%= f.input :meta_description %>
@@ -82,30 +59,7 @@
 <% end %>
 <hr/>
 <% if @page.status != "draft" %>
-  <% if @page.template_page.name == "article" %>
-      <div class="row">
-          <div class="col-sm-8">
-              <h4><%= best_in_place @page_stream_narrative7c, :name_of_stream, url: [@account, @site, @page_stream_narrative7c] %></h4>
-              <%= simple_form_for(@page_stream_narrative, url: [@account, @site, @page_stream_narrative]) do |f| %>
-                <%= f.input :view_cast_id_list, input_html: { class: 'ui search fluid dropdown proto-tagged-input', multiple: true, "data-role" => "tagsinput" }, label: "Card IDs" %>
-                <%= f.submit "Save", class: 'btn btn-sm btn-primary' %>
-                |
-                <%= link_to "Publish", publish_account_site_stream_path(@account, @site, @page_stream_narrative, folder_id: @folder.blank? ? nil : @folder.id),"data-turbolinks"=> false, class: "btn btn-outline", method: :post %>
-                <%= link_to ".", "#{@site.cdn_endpoint}/#{@page_stream_narrative.cdn_key}", target: "blank" %>
-              <% end %>
-          </div>
-          <div class="col-sm-4">
-              <h4><%= best_in_place @page_stream_related7c, :name_of_stream, url: [@account, @site, @page_stream_related7c] %></h4>
-              <%= simple_form_for(@page_stream_related, url: [@account, @site, @page_stream_related]) do |f| %>
-                <%= f.input :view_cast_id_list, input_html: { class: 'ui search fluid dropdown proto-tagged-input', multiple: true, "data-role" => "tagsinput" }, label: "Card IDs" %>
-                <%= f.submit "Save", class: 'btn btn-sm btn-primary' %>
-                |
-                <%= link_to "Publish", publish_account_site_stream_path(@account, @site, @page_stream_related, folder_id: @folder.blank? ? nil : @folder.id),"data-turbolinks"=> false, class: "btn btn-outline", method: :post %>
-                <%= link_to ".", "#{@site.cdn_endpoint}/#{@page_stream_related.cdn_key}", target: "blank" %>
-              <% end %>
-          </div>
-      </div>
-  <% elsif @page.template_page.name == "Homepage: Vertical" %>
+  <% if @page.template_page.name == "Homepage: Vertical" %>
       <div class="row">
           <div class="col-sm-16">
               <h4><%= best_in_place @page_streamH16, :name_of_stream, url: [@account, @site, @page_streamH16] %></h4>
@@ -202,24 +156,24 @@
   <% end %>
 <% end %>
 
-<!-- <div class='row'>
+<div class='row'>
   <div class='col-sm-3'>
     <h4>All Cards</h4>
   </div>
   <div class='col-sm-3'>
-    <h4><%= best_in_place @page_stream_narrative7c, :name_of_stream, url: [@account, @site, @page_stream_narrative7c] %></h4>
+    <h4><%= best_in_place @page_streamH07, :name_of_stream, url: [@account, @site, @page_streamH07] %></h4>
   </div>
   <div class='col-sm-3'>
-    <h4><%= best_in_place @page_stream_related7c, :name_of_stream, url: [@account, @site, @page_stream_related7c] %></h4>
+    <h4><%= best_in_place @page_streamH04, :name_of_stream, url: [@account, @site, @page_streamH04] %></h4>
   </div>
   <div class='col-sm-3'>
-
+    <h4><%= best_in_place @page_streamH02, :name_of_stream, url: [@account, @site, @page_streamH02] %></h4>
   </div>
   <div class='col-sm-3'>
-
+    <h4><%= best_in_place @page_streamH03, :name_of_stream, url: [@account, @site, @page_streamH03] %></h4>
   </div>
 </div>
- -->
+
 
 <%= javascript_include_tag "select2.js" %>
 <script type="text/javascript">
