@@ -1,66 +1,67 @@
+<%= content_for :page_title do %>
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            <%= link_to "Images", account_images_path(@account, folder_id: @folder.present? ? @folder.id : nil), "data-turbolinks"=> false %>
+        </li>
+        <li class="breadcrumb-item active" aria-current="page"><%= @image.name %></li>
+      </ol>
+    </nav>
+<% end %>
 <% w = @image.image_width %>
 <% h = @image.image_height %>
-<div class="container">
-  <div class="row">
-    <div class="col-16">
-      <h1 style="margin-bottom: 20px; font-weight: 600; margin-top: 0px; font-size: 20px;">
-        <%= @image.name %>
-      </h1>
-    </div>
-  </div>
-</div>
-<br/>
-<br/>
-<div class="container">
-  <div class='row' style="background: #efefef; text-align: center;">
-    <div class='col-sm-16'>
-        <!-- <span class="oi" data-glyph="copywriting"></span> -->
-      <div class='mx-auto'>
-          <a href="<%= @image.image_url %>" target="_blank">
-            <%= image_tag(@image.image_url, class: "img-responsive", id: "main_image")  %>
-          </a>
-          <div class="photograph-image-details" style="display: block;">
-            <%= "#{w} x #{h} (#{w / w.gcd(h)} : #{h / w.gcd(h)})"%>
-          </div>
-      </div>
-    </div>
-  </div>
-</div>
-<br/>
-<br/>
+
 <div class="row">
-  <a id="openFileUpload" class='btn btn-primary' href='#' data-toggle='modal' data-target='#imageCropperModal'>Crop original image to create variation</a>
-  <div class="col-sm-16">
-    <div style="position: relative;">
-      <% if @image.image_variation.present? %>
-        <br/>
-        <br/>
-        <h3 class="protograph-image-form-heading">Variations</h3>
-      <% end %>
-    </div>
-    <% if @image.image_variation.present? %>
-      <div class="function" id="variationImages"></div>
-    <% end %>
-    <% if @image.colour_swatches.present? %>
-      <div class="image-colours">
-        <div class="function dominant">
-          <h3>Dominant Color</h3>
-          <% dom_colour =  @image.colour_swatches.dominant.first%>
-          <div class="swatch" title="<%= dom_colour.name %>" style="background-color: rgb(<%= dom_colour.red %>, <%= dom_colour.green %>, <%= dom_colour.blue %>);"></div>
-          <div class="function palette">
-            <h3>Palette</h3>
-            <div class="swatches">
-              <% @image.colour_swatches.palette.each do |colour| %>
-                <div class="swatch" title="<%= colour.name %>" style="background-color: rgb(<%= colour.red %>, <%= colour.green %>, <%= colour.blue %>);"></div>
+    <div class="col-sm-13">
+        <div style="margin-left: auto; margin-right: auto; width: 500px;">
+            <div class='mx-auto'>
+                <a href="<%= @image.image_url %>" target="_blank">
+                  <%= image_tag(@image.image_url, class: "img-responsive", id: "main_image")  %>
+                </a>
+                <div class="photograph-image-details" style="display: block;">
+                  <%= "#{w} x #{h} (#{w / w.gcd(h)} : #{h / w.gcd(h)})"%>
+                </div>
+            </div>
+            <br/>
+            
+            <div style="position: relative;">
+              <% if @image.image_variation.present? %>
+                <br/>
+                <br/>
+                <h3 class="protograph-image-form-heading">Variations</h3>
               <% end %>
             </div>
-          </div>
-        </div>
+            <% if @image.image_variation.present? %>
+              <div class="function" id="variationImages"></div>
+            <% end %>
+            <% if @image.colour_swatches.present? %>
+              <div class="image-colours">
+                <div class="function dominant">
+                  <h3>Dominant Color</h3>
+                  <% dom_colour =  @image.colour_swatches.dominant.first%>
+                  <div class="swatch" title="<%= dom_colour.name %>" style="background-color: rgb(<%= dom_colour.red %>, <%= dom_colour.green %>, <%= dom_colour.blue %>);"></div>
+                  <div class="function palette">
+                    <h3>Palette</h3>
+                    <div class="swatches">
+                      <% @image.colour_swatches.palette.each do |colour| %>
+                        <div class="swatch" title="<%= colour.name %>" style="background-color: rgb(<%= colour.red %>, <%= colour.green %>, <%= colour.blue %>);"></div>
+                      <% end %>
+                    </div>
+                  </div>
+                </div>
 
-      </div>
-    <% end %>
-  </div>
+              </div>
+            <% end %>
+        </div>
+    </div>
+	<div class="col-sm-3 help-text">
+        <a id="openFileUpload" class='btn btn-sm btn-secondary' href='#' data-toggle='modal' data-target='#imageCropperModal'>Crop original image to create variation</a>
+		<!--<h2>Email Settings</h2>
+		<p>Your default support email address is prototype@pro.to. Any email sent here gets automatically converted into a ticket that you can get working on.</p>
+		<p>You can configure your Freshdesk account to use a support email in your own domain, like <a href="">support@mycompany.com</a> by forwarding emails from this address to <a href="">protoprototype@heyproto.freshdesk.com</a>. To create a new support email box, click “Edit” under global email settings.</p>-->
+	</div>
 </div>
+
 <script type="text/javascript">
 <% if @image.image_variation.present? %>
   var images = <%= @image.image_variation.as_json.to_json.html_safe %>;

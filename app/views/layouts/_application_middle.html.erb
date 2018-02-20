@@ -1,30 +1,46 @@
-  <nav class="navbar sticky-top navbar-expand-lg navbar-light" style="background: #FAFAFA;">
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <% if @site.present? %>
-          <ul class="navbar-nav mr-auto">
-              <li class="<%=(controller_name == "pages" and action_name == "manager") ? "nav-item active" : "nav-item" %>"><%= link_to "Page Builder", manager_account_site_pages_path(@account, @site, folder_id: @folder.present? ? @folder.id : nil), "data-turbolinks"=> false, class:"nav-link" %></li>
-              <% if @folder.present? and @folder.id.present? %>
-                  <% if @folder.vertical.present? and @folder.is_for_stories %>
-                      <li class="<%=(controller_name == "pages" and action_name != "manager") ? "nav-item active" : "nav-item" %>"><%= link_to "Stories", account_site_pages_path(@account, @site, folder_id: @folder.id), class:"nav-link", "data-turbolinks"=> false %></li>
-                  <% end %>
-                  <li class="<%=controller_name == "view_casts" ? "nav-item active" : "nav-item"%>"><%= link_to "Cards", account_site_folder_view_casts_path(@account, @site, @folder), class:"nav-link", "data-turbolinks"=> false %></li>
-              <% end %>
-              <li class="<%=(controller_name == "images") ? "nav-item active" : "nav-item" %>"><%= link_to "Images", account_images_path(@account, folder_id: @folder.present? ? @folder.id : nil), "data-turbolinks"=> false, class:"nav-link"  %></li>
-          </ul>
-          <form class="form-inline my-2 my-lg-0">
-              <% if controller_name == "view_casts" %>
-                  <%= link_to '+ Add a card', new_account_site_folder_view_cast_path(@account, @site, @folder), data: {turbolinks: false}, class: "btn btn-sm btn-dark" %>
-              <% elsif controller_name == "pages" and action_name == "index" %>
-                  <%= link_to '+ Add a story', new_account_site_page_path(@account, @site, folder_id: @folder.id), data: {turbolinks: false}, class: "btn btn-sm btn-dark" %>
-              <% elsif controller_name == "images" %>
-                  <%= link_to '+ Upload an image', "#",id: "upload_image_button" ,class: "btn btn-sm btn-dark", "data-toggle" => "modal", "data-target" => "#fileUploadModal" %>
-                  <script type="text/javascript">
-                      $(document).on('turbolinks:load', function(){
-                          $('#fileUploadModal').appendTo("body");
-                      })
-                  </script>
-              <% end %>
-          </form>
-      <% end %>
-    </div>
-</nav>
+<div class="steps-navigation-bar">
+	<div class="current-page-title"><%= yield :page_title %></div>
+	<div class="steps-to-build-page">
+		<ul class="nav justify-content-end">
+            <%= yield :page_navigation %>
+
+                <% if controller_name == "sites" and action_name == "show" %>
+                    <li>
+                        <button class="btn btn-sm btn-secondary btn-sm" type="button">
+                            <%= link_to '+ Add a folder', new_account_site_folder_path(@account, @site), data: {turbolinks: false} %>
+                        </button>
+                    </li>
+                <% elsif controller_name == "view_casts" and action_name == "index" %></li>
+                    <li>
+                        <button class="btn btn-sm btn-secondary btn-sm" type="button">
+                            <%= link_to '+ Add a card', new_account_site_folder_view_cast_path(@account, @site, @folder), data: {turbolinks: false} %>
+                        </button>
+                    </li>
+                <% elsif controller_name == "pages" and action_name == "index" %>
+                    <form class="form-inline my-2 my-lg-0"><li><%= render partial: "stories/new" %></li></form>
+                <% elsif controller_name == "images" %>
+                    <li>
+                        <button class="btn btn-sm btn-secondary btn-sm" type="button">
+                          <%= link_to '+ Upload an image', "#",id: "upload_image_button", "data-toggle" => "modal", "data-target" => "#fileUploadModal" %>
+                        </button>
+                    </li>
+                    <script type="text/javascript">
+                        $(document).on('turbolinks:load', function(){
+                            $('#fileUploadModal').appendTo("body");
+                        })
+                    </script>
+                <% end %>
+
+		</ul>
+	</div>
+</div>
+
+<% content_for :page_navigation do %>
+    <li><button type="button" class="btn btn-sm btn-secondary btn-sm">Small button</button></li>
+<% end %>
+
+
+
+
+
+

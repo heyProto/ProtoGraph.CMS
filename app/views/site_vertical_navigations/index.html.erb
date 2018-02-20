@@ -1,62 +1,77 @@
-
-  <div class="col-sm-6" style="margin-left: auto; margin-right: auto;">
-    <%= link_to "Page Builder", manager_account_site_pages_path(@account, @site) %>
-    <h1>Navigation for <%= @ref_category.name %></h1>
-    <hr/>
-    <% if @site_vertical_navigations.first.blank? %>
-        <div class="hint">No rows yet</div>
-    <% else %>
-      <table class="table table-sm table-responsive">
-        <tbody>
-          <% @site_vertical_navigations.each do |site_vertical_navigation| %>
-            <tr>
-              <td><%= site_vertical_navigation.name %>
-                  <div class="hint">
-                      <%= site_vertical_navigation.url %>
-                      <% if site_vertical_navigation.launch_in_new_window %>
-                          [/]
-                      <% end %>
-                  </div>
-              </td>
-              <td><%= link_to 'Remove', account_site_ref_category_site_vertical_navigation_path(@account, @site, @ref_category, site_vertical_navigation), method: :delete, data: { confirm: 'Are you sure?' } %></td>
-            </tr>
-          <% end %>
-        </tbody>
-      </table>
-    <% end %>
-
-    <br>
-    <h1>Vertical URL</h1>
-    <hr>
-
-    <%= simple_form_for([@account, @site, @ref_category]) do |f| %>
-      <%= f.error_notification %>
-
-        <div class="form-inputs">
-          <%= f.input :vertical_page_url, required: true%>
-        </div>
-
-        <div class="form-actions">
-          <%= f.button :submit, "Save", class: "btn btn-primary" %>
-        </div>
-    <% end %>
-  </div>
-
-
-<% content_for :filters_sidebar do %>
-    <%= simple_form_for(@site_vertical_navigation, url: account_site_ref_category_site_vertical_navigations_path(@account, @site, @ref_category), method: :post) do |f| %>
-      <%= f.error_notification %>
-
-      <div class="form-inputs">
-        <%= f.input :site_id, as: :hidden, input_html: {value: @site.id} %>
-        <%= f.input :ref_category_vertical_id, as: :hidden, input_html: {value: @ref_category.id} %>
-        <%= f.input :name, required: true, minlength: 3 , maxlength: 15 %>
-        <%= f.input :url, required: true, minlength: 4 %>
-        <%= f.input :launch_in_new_window, label: "&nbsp; Launch in new window".html_safe %>
-      </div>
-
-      <div class="form-actions">
-        <%= f.button :submit, "Add", class: "btn btn-primary" %>
-      </div>
-    <% end %>
+<%= content_for :page_title do %>
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><%= link_to @site.domain, account_site_path(@account, @site), "data-turbolinks"=> false %></li>
+        <li class="breadcrumb-item"><%= link_to "Page Builder", manager_account_site_pages_path(@account, @site, folder_id: @folder.present? ? @folder.id : nil), "data-turbolinks"=> false %></li>
+        <li class="breadcrumb-item active" aria-current="page"><%= @ref_category.name %></li>
+        <li class="breadcrumb-item active" aria-current="page">Navigation</li>
+      </ol>
+    </nav>
 <% end %>
+
+<div class="row">
+    <div class="col-sm-13">
+        <div style="margin-left: auto; margin-right: auto; width: 500px;">
+            <% if @site_vertical_navigations.first.blank? %>
+                <div class="hint">No navigation links yet</div>
+            <% else %>
+              <table class="table table-sm table-responsive">
+                <tbody>
+                  <% @site_vertical_navigations.each do |site_vertical_navigation| %>
+                    <tr>
+                      <td><%= site_vertical_navigation.name %>
+                          <div class="hint">
+                              <%= site_vertical_navigation.url %>
+                              <% if site_vertical_navigation.launch_in_new_window %>
+                                  [/]
+                              <% end %>
+                          </div>
+                      </td>
+                      <td><%= link_to 'Remove', account_site_ref_category_site_vertical_navigation_path(@account, @site, @ref_category, site_vertical_navigation), method: :delete, data: { confirm: 'Are you sure?' } %></td>
+                    </tr>
+                  <% end %>
+                </tbody>
+              </table>
+            <% end %>
+            <hr/>
+            <br/>
+            <br/>
+            <h3>What happens when you click on the site header?</h3>
+            <%= simple_form_for([@account, @site, @ref_category]) do |f| %>
+              <%= f.error_notification %>
+                <div class="form-inputs">
+                  <%= f.input :vertical_page_url, required: true%>
+                </div>
+                <div class="form-actions">
+                  <%= f.button :submit, "Save", class: "btn btn-sm btn-secondary" %>
+                </div>
+            <% end %>
+            
+            
+        </div>
+    </div>
+	<div class="col-sm-3 help-text">
+        <%= simple_form_for(@site_vertical_navigation, url: account_site_ref_category_site_vertical_navigations_path(@account, @site, @ref_category), method: :post) do |f| %>
+          <%= f.error_notification %>
+
+          <div class="form-inputs">
+            <%= f.input :site_id, as: :hidden, input_html: {value: @site.id} %>
+            <%= f.input :ref_category_vertical_id, as: :hidden, input_html: {value: @ref_category.id} %>
+            <%= f.input :name, required: true, minlength: 3 , maxlength: 15 %>
+            <%= f.input :url, required: true, minlength: 4 %>
+            <%= f.input :launch_in_new_window, label: "&nbsp; Launch in new window".html_safe %>
+          </div>
+
+          <div class="form-actions">
+            <%= f.button :submit, "Add", class: "btn btn-sm btn-secondary" %>
+          </div>
+        <% end %>
+		<!--<h2>Email Settings</h2>
+		<p>Your default support email address is prototype@pro.to. Any email sent here gets automatically converted into a ticket that you can get working on.</p>
+		<p>You can configure your Freshdesk account to use a support email in your own domain, like <a href="">support@mycompany.com</a> by forwarding emails from this address to <a href="">protoprototype@heyproto.freshdesk.com</a>. To create a new support email box, click “Edit” under global email settings.</p>-->
+	</div>
+</div>
+
+
+    
+

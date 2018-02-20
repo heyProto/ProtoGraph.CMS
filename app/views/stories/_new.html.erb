@@ -1,0 +1,80 @@
+<div class="dropdown">
+    <button class="btn btn-sm btn-dark dropdown-toggle" type="button" id="dropdownMenu2">
+      + Quick add a story idea
+    </button>
+    <div class="dropdown-menu dropdown-menu-card dropdown-menu-right quick-pitch-story-card" style="right: 0; left: auto; width: 600px;">
+        <div style="padding: 20px; font-size: 1rem;">
+                <%= simple_form_for [@account, @site, @page] do |f| %>
+                    <%= f.error_notification %>
+                    <div class="form-inputs">
+                        <%= f.hidden_field :ref_category_series_id, value: @folder.ref_category_vertical_id %>
+                        <%= f.hidden_field :account_id, value: @account.id %>
+                        <%= f.hidden_field :site_id, value: @site.id %>
+                        <%= f.hidden_field :folder_id, value: @folder.id %>
+                        <%= f.hidden_field :template_page_id, value: @article.id %>
+                        <div class="row">
+                            <div class="col-xs-8">
+                                <% if @ref_intersection.first.present? %>
+                                    <%= f.input :ref_category_intersection_id, label: "Intersection", collection: @ref_intersection, include_blank: true, input_html: {style: "width: 100%;", class: "selectpicker"} %>
+                                <% end %>
+                            </div>
+                            <div class="col-xs-8">
+                                <% if @ref_sub_intersection.first.present? %>
+                                    <%= f.input :ref_category_sub_intersection_id, label: "Sub Intersection", collection: @ref_sub_intersection, include_blank: true, input_html: {style: "width: 100%;"} %>
+                                <% end %>
+                            </div>
+                        </div>
+                        <br/>
+                        <%= f.input :one_line_concept, required: true, placeholder: "*Story pitch in at max 90 chars", minlength: 11 , maxlength: 90, label: false, input_html: {style: "width: 100%;"} %>
+                        <br/>
+                        <%= f.input :byline, required: true, label: "Assigned to", input_html: {style: "width: 100%;"} %>
+                        <br/>
+                        <label class='control-label date optional' style="justify-content: left;">What do you want in this story?</label>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <%= f.input :has_image_other_than_cover, label: "&nbsp; <img src='/assets/glyphicons-139-picture.png' height='17px;'/>".html_safe %>
+                            </div>
+                            <div class="col-sm-3">
+                                <%= f.input :has_audio, label: "&nbsp; <img src='/assets/glyphicons-301-microphone.png'  height='17px;'/>".html_safe %>
+                            </div>
+                            <div class="col-sm-3">
+                                <%= f.input :has_video, label: "&nbsp; <img src='/assets/glyphicons-181-facetime-video.png' height='16px;'/>".html_safe %>
+                            </div>
+                            <div class="col-sm-2">
+                                <%= f.input :has_data, label: "&nbsp; <img src='/assets/glyphicons-43-pie-chart.png' height='17px;'/>".html_safe %>
+                            </div>
+                            <div class="col-sm-4">
+                                <%= f.input :is_sponsored, label: "&nbsp; Sponsored?".html_safe %>
+                            </div>
+                        </div>
+                        <br/>
+                        <div class="row">
+                            <div class="col-sm-8">
+                                <%= f.input :due, as: :date, label: "ETA:", label_html: {style: "width: 100%; justify-content: left;"} %>
+                            </div>
+                            <div class="col-sm-8">
+                                <%= f.input :published_at, as: :date, label: "Planned publish date:", label_html: {style: "width: 100%; justify-content: left;"} %>
+                            </div>
+                        </div>
+                        <br/>
+                        <div class="form-actions">
+                          <%= f.button :submit, "Add" %>
+                        </div>
+                    </div>
+                <% end %>
+
+                </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $('#dropdownMenu2').on('click', function(event) {
+        $('.quick-pitch-story-card').css('display', 'block')
+        $('.dropdown-menu-card').css('display', 'block');
+        event.stopPropagation();
+    });
+    $(document).click(function(e) {
+        if (!$(e.target).is('.dropdown-menu-card, .dropdown-menu-card *')) {
+            $(".dropdown-menu-card").css('display', 'none')
+        }
+    });
+</script>

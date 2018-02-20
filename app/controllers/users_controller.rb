@@ -1,11 +1,6 @@
 class UsersController < ApplicationController
     before_action :authenticate_user!
 
-    def show
-        @accounts = current_user.accounts
-        @account = Account.new
-    end
-
     def edit
       @user = current_user
       @accounts_owned = Account.where(id: current_user.permissions.where(ref_role_slug: "owner", permissible_type: "Account").pluck(:permissible_id).uniq)

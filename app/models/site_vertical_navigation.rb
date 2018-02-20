@@ -61,11 +61,7 @@ class SiteVerticalNavigation < ApplicationRecord
   def before_create_set
     self.launch_in_new_window = false if self.launch_in_new_window.blank?
     final = SiteVerticalNavigation.where(site_id: self.site_id, ref_category_vertical_id: self.ref_category_vertical_id).order("sort_order DESC").first
-    if final.blank?
-      self.sort_order = 1
-    else
-      self.sort_order = final.sort_order + 10
-    end
+    self.sort_order = final.blank? ? 1 : (final.sort_order + 10)
     true
   end
 

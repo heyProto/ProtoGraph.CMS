@@ -1,0 +1,77 @@
+<%= content_for :page_title do %>
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+          <% if @folder.present? %>
+              <li class="breadcrumb-item"><%= link_to truncate(folder_name_trunc_(@folder), length: 24, ommission: ".."), account_site_folder_view_casts_path(@account, @site, @folder), "data-turbolinks"=> false %></li>
+          <% end %>
+          <li class="breadcrumb-item"><%= link_to "Stories", account_site_stories_path(@account, @site, folder_id: @folder.id), "data-turbolinks"=> false %></li>
+          <li class="breadcrumb-item active" aria-current="page"><%= @page.one_line_concept %></li>
+      </ol>
+    </nav>
+<% end %>
+<%= render partial: "stories/stories_header" %>
+
+<div class="row">
+    <div class="col-sm-13">
+        <div style="margin-left: auto; margin-right: auto; width: 500px;">
+        </div>
+    </div>
+	<div class="col-sm-3 help-text">
+		<!--<h2>Email Settings</h2>
+		<p>Your default support email address is prototype@pro.to. Any email sent here gets automatically converted into a ticket that you can get working on.</p>
+		<p>You can configure your Freshdesk account to use a support email in your own domain, like <a href="">support@mycompany.com</a> by forwarding emails from this address to <a href="">protoprototype@heyproto.freshdesk.com</a>. To create a new support email box, click “Edit” under global email settings.</p>-->
+	</div>
+</div>
+
+<div class="row">
+    <div class="col-sm-11" style="margin-left: auto; margin-right: auto;">
+        <%= simple_form_for(@page, url: account_site_page_path(@account, @site), method: :put) do |f| %>
+            <%= f.error_notification %>
+            <div class="form-inputs">
+                <%= f.input :content, as: :text, required: true, minlength: 100, input_html: {rows: 30, style: "border: 0px; padding-left: 0px;", class: "editable"}, label: false, placeholder: "Tell your story..." %>
+            </div>
+          <div class="form-actions">
+            <%= f.hidden_field :prepare_cards_for_assembling, value: true %>
+            <%= f.hidden_field :status, value: "published" %>
+            <%= f.button :submit, "Save and prepare cards for assembling" %>
+            &nbsp
+            <span id='autosave_text' class="hint-text"></span>
+          </div>
+        <% end %>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(document).on("turbolinks:load", function(){
+        var editor = new MediumEditor('.editable');
+        $('.editable').mediumInsert({
+            editor: editor,
+            addons: false,
+            toolbar: {
+              buttons: ['bold', 'h2', 'h3', 'quote', 'anchor', 'unorderedlist', 'orderedlist', 'divider']
+              }
+        });
+        var saveInterval = setInterval(function(){
+            $("#autosave_text").text("Saving...");
+            var data = $('form.simple_form.edit_page:first').serializeArray().reduce(
+              function(obj, item) {
+                if (['page[prepare_cards_for_assembling]'].indexOf(item.name) < 0) {
+                  obj[item.name] = item.value;
+                }
+                return obj;
+            }, {});
+            $.ajax({
+              type: "PUT",
+              beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
+              url: $('form.simple_form.edit_page:first').attr('action'),
+              data: data,
+              dataType: "json",
+              success: function(data) {
+                setTimeout(function(){
+                  $("#autosave_text").text("All changes saved");
+                }, 1000);
+              }
+            });
+        }, 30000);
+    })
+</script>

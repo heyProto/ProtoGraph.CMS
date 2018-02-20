@@ -1,3 +1,14 @@
+<%= content_for :page_title do %>
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+          <% if @folder.present? %>
+              <li class="breadcrumb-item"><%= link_to truncate(folder_name_trunc_(@folder), length: 24, ommission: ".."), account_site_folder_view_casts_path(@account, @site, @folder), "data-turbolinks"=> false %></li>
+          <% end %>
+          <li class="breadcrumb-item active" aria-current="page">Stories</li>
+      </ol>
+    </nav>
+<% end %>
+
 <% if @pages.first.blank? %>
     <br/>
     <br/>
@@ -11,11 +22,8 @@
     </div>
 <% else %>
     <div class="row" style="margin: 0px; padding: 0px;">
-        <h1 style="margin: 0px; padding: 0px; padding-left: 18px; font-weight: 100;">Stories</h1>
-    </div>
-    <div class="row" style="margin: 0px; padding: 0px;">
-        <% @pages.each do |d| %>                
-        	<%= link_to edit_account_site_page_path(@account, @site, d, folder_id: d.folder_id), "data-turbolinks"=> false do %>
+        <% @pages.each do |d| %>
+        	<%= link_to edit_plan_account_site_story_path(@account, @site, d, folder_id: d.folder_id), "data-turbolinks"=> false do %>
                 <div class="card-as-a-todo">
             		<!-- <div class="status-signal status-red"></div> -->
                     <% if d.intersection.present? %>
@@ -29,8 +37,8 @@
                 		</div>
                     <% end %>
             		<div class="card-information">
-            			<div class="card-title"><%= truncate(d.headline, length: 200, ommission: "..") %></div>
-            			<div class="card-type">toStory 
+            			<div class="card-title"><%= truncate(d.headline, length: 55, ommission: "..") %></div>
+            			<div class="card-type">toStory
                             <span class="card-id">
                                 <% if d.view_cast.present? %>
                                     #<%= d.view_cast.id.to_s %>
@@ -48,7 +56,7 @@
             		</div>
             	</div>
             <% end %>
-        <% end %>       
+        <% end %>
     </div>
     <%= paginate @pages, theme: 'twitter-bootstrap-4', pagination_class: "pagination-sm" %>
 <% end %>

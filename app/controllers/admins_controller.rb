@@ -16,7 +16,7 @@ class AdminsController < ApplicationController
     @permission_roles = PermissionRole.where.not(slug: 'owner').pluck(:name, :slug)
   end
 
-  def product_theme
+  def site_theming
     @is_admin = true
     if @site.logo_image_id.nil?
       @site.build_logo_image
@@ -27,13 +27,25 @@ class AdminsController < ApplicationController
     @permission_roles = PermissionRole.where.not(slug: 'owner').pluck(:name, :slug)
   end
 
-  def product_integrations
+  def site_integrations
     @is_admin = true
     @permission_roles = PermissionRole.where.not(slug: 'owner').pluck(:name, :slug)
   end
 
   def editorial_folders
     @is_admin = true
+  end
+  
+  def account_owners
+    @is_admin = true
+    @permissions = @account.permissions.not_hidden.where(ref_role_slug: "owner").includes(:user).page params[:page]
+    @permission_invite = PermissionInvite.new
+    @permission_invites = @account.permission_invites.where(ref_role_slug: "owner")
+    @people_count = @account.permissions.not_hidden.where(ref_role_slug: "owner").count
+    @pending_invites_count = @account.permission_invites.where(ref_role_slug: "owner").count
+    @permission_invites = @account.permission_invites.where(ref_role_slug: "owner")
+    @people_count = @account.permissions.not_hidden.where(ref_role_slug: "owner").count
+    @pending_invites_count = @account.permission_invites.where(ref_role_slug: "owner").count
   end
   
 end

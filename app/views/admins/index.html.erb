@@ -1,3 +1,6 @@
+<%= content_for :page_title do %>
+    Admin
+<% end %>
 <div class="col-sm-7" style="margin-left: auto; margin-right: auto;">
     <br/><br/>
     <h2 style="font-weight: 100;">Site</h2>
@@ -10,13 +13,13 @@
         </div>
         
         <div class="col-sm-5">
-            <a href=<%= product_theme_account_site_admins_path(@account, @site)%>>
+            <a href=<%= site_theming_account_site_admins_path(@account, @site)%>>
                 <div class="administration-options"><%= image_tag "glyphicons-484-bring-to-front.png" %></div>
                 <p>Theming</p>
             </a>
         </div>
         <div class="col-sm-5">
-            <a href=<%= product_integrations_account_site_admins_path(@account, @site)%>>
+            <a href=<%= site_integrations_account_site_admins_path(@account, @site)%>>
                 <div class="administration-options"><%= image_tag "glyphicons-138-cogwheels.png" %></div>
                 <p>Integrations</p>
             </a>
@@ -38,7 +41,7 @@
             </a>
         </div>
         <div class="col-sm-5">
-            <a href=<%= edit_account_path(@account)%>>
+            <a href=<%= account_owners_account_admins_path(@account)%>>
                 <div class="administration-options"><%= image_tag "glyphicons-522-user-lock.png" %></div>
                 <p>Account Owners</p>
             </a>

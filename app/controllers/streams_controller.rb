@@ -37,7 +37,7 @@ class StreamsController < ApplicationController
         if @stream.update(s_params)
             track_activity(@stream)
             if @stream.pages.first.present?
-                redirect_to edit_account_site_page_path(@account, @site, @stream.pages.first), notice: t('cs')
+                redirect_back(fallback_location: account_site_pages_path(@account, @site, folder_id: (@folder.present? ? @folder.id : nil)), notice: t('us'))
             else
                 redirect_to account_site_stream_path(@account, @site, @stream, folder_id: @folder.blank? ? nil : @folder.id), notice: t('cs')
             end

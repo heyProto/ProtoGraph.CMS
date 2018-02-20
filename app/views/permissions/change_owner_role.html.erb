@@ -48,7 +48,7 @@
                                     <%= permission_invite.email %>
                                     <div class="hint">Invited by <%= permission_invite.creator.name %> <%= time_ago_in_words (permission_invite.created_at) %>.</div>
                                 </td>
-                                <td style="border: 0px;"><%= link_to "Remove".html_safe, account_permission_invite_path(@account, permission_invite, redirect_url: edit_account_path(@account)), method: :delete, data: { confirm: 'Are you sure?' } %>
+                                <td style="border: 0px;"><%= link_to "Remove".html_safe, account_permission_invite_path(@account, permission_invite, redirect_url: account_owners_account_admins_path(@account)), method: :delete, data: { confirm: 'Are you sure?' } %>
                                 </td>
                             </tr>
                         <% end %>
@@ -66,7 +66,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <div class='modal-title'>Invite members</div>
-        <a href="<%= edit_account_path(@account) %>">
+        <a href="<%= account_owners_account_admins_path(@account) %>">
             <span aria-hidden="true">&times;</span>
         </a>
       </div>
@@ -75,12 +75,12 @@
             <%= simple_form_for(@permission, url: change_role_account_permission_path(@account, @permission), method: :put) do |f| %>
                 <%= f.input :site_ref_role_slug, collection: @permission_roles, include_blank: false, label: "New Role" %>
                 <%= f.input :sites, collection: @sites, lable: "Sites", input_html: { class: 'ui search fluid dropdown', multiple: true}, required: true  %>
-                <%= f.hidden_field :redirect_url, value: edit_account_path(@account) %>
+                <%= f.hidden_field :redirect_url, value: account_owners_account_admins_path(@account) %>
                 <%= f.hidden_field :status, value: "Deactivated" %>
 
                 <%= f.submit "Update", class: "btn btn-light" %> &nbsp OR
                 &nbsp
-                <%= link_to "Remove".html_safe, account_permission_path(@account, @permission, redirect_url: edit_account_path(@account)), method: :delete, data: { confirm: 'Are you sure?' } %>
+                <%= link_to "Remove".html_safe, account_permission_path(@account, @permission, redirect_url: account_owners_account_admins_path(@account)), method: :delete, data: { confirm: 'Are you sure?' } %>
             <% end %>
 
         </div>
