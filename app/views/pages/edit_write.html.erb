@@ -4,7 +4,7 @@
           <% if @folder.present? %>
               <li class="breadcrumb-item"><%= link_to truncate(folder_name_trunc_(@folder), length: 24, ommission: ".."), account_site_folder_view_casts_path(@account, @site, @folder), "data-turbolinks"=> false %></li>
           <% end %>
-          <li class="breadcrumb-item"><%= link_to "Stories", account_site_pages_path(@account, @site, folder_id: @folder.id), "data-turbolinks"=> false %></li> 
+          <li class="breadcrumb-item"><%= link_to "Stories", account_site_pages_path(@account, @site, folder_id: @folder.id), "data-turbolinks"=> false %></li>
           <li class="breadcrumb-item active" aria-current="page"><%= @page.one_line_concept %></li>
       </ol>
     </nav>
@@ -35,7 +35,7 @@
             <%= f.hidden_field :status, value: "published" %>
             <%= f.button :submit, "Save and prepare cards for assembling" %>
             &nbsp
-            <span class="hint-text">Saving...</span>
+            <span id='autosave_text' class="hint-text"></span>
           </div>
         <% end %>
     </div>
@@ -52,6 +52,7 @@
               }
         });
         var saveInterval = setInterval(function(){
+            $("#autosave_text").text("Saving...");
             var data = $('form.simple_form.edit_page:first').serializeArray().reduce(
               function(obj, item) {
                 if (['page[prepare_cards_for_assembling]'].indexOf(item.name) < 0) {
@@ -59,7 +60,6 @@
                 }
                 return obj;
             }, {});
-
             $.ajax({
               type: "PUT",
               beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
@@ -67,7 +67,9 @@
               data: data,
               dataType: "json",
               success: function(data) {
-                generate_notify({text: "Saving...", alert: "success"})
+                setTimeout(function(){
+                  $("#autosave_text").text("All changes saved");
+                }, 1000);
               }
             });
         }, 30000);
