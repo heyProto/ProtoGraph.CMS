@@ -1,6 +1,14 @@
-<div class="row" style="margin: 0px; padding: 0px;">
-    <h1 style="margin: 0px; padding: 0px; padding-left: 0px; font-weight: 100;">Stories</h1>
-</div>
+<%= content_for :page_title do %>
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+          <% if @folder.present? %>
+              <li class="breadcrumb-item"><%= link_to truncate(folder_name_trunc_(@folder), length: 24, ommission: ".."), account_site_folder_view_casts_path(@account, @site, @folder), "data-turbolinks"=> false %></li>
+          <% end %>
+          <li class="breadcrumb-item active" aria-current="page">Stories</li>
+      </ol>
+    </nav>
+<% end %>
+
 <% if @pages.first.blank? %>
     <br/>
     <br/>

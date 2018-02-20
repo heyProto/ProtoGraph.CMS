@@ -15,7 +15,7 @@
               <td><%= image_tag "glyphicons-154-unchecked.png", height: "16px" %></td>
               <td style=" width: 480px;"><%= f.input :task, label: false, input_html: {rows: 1} %></td>
               <td style=" width: 80px;"><%= f.input :template_card_id, label: false, as: :select, collection: @template_cards.map{|z| [z.name, z.id]}, include_blank: "Card" %></td>
-              <td><%= f.button :submit, "Add", class: "btn btn-sm btn-light" %></td>
+              <td><%= f.button :submit, "Add", class: "btn btn-sm btn-secondary" %></td>
               <td></td>
           </tr>
         </div>
