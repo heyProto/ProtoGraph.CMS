@@ -1,77 +1,101 @@
-<%= render partial: "pages/edit_header" %>
-<div class="row">
-    <div class="col-sm-11" style="margin-left: auto; margin-right: auto;">
-        <%= simple_form_for(@page, url: account_site_page_path(@account, @site), method: :put) do |f| %>
-            <%= f.error_notification %>
-            <div class="form-inputs">
-                <% if !@site.is_english or 1 == 1 %>
-                    <%= f.input :english_headline, required: true, minlength: 50 , maxlength: 90, hint: "This is used for url management.", label: "Write the headline in English",input_html: {style: "font-size: 28px; border: 0px; padding-left: 0px;"} %>
-                <% end %>
-                <%= f.input :headline, required: true, minlength: 50 , maxlength: 90, hint: "Minimum length: 50 chars. Maximum length: 90 chars.", input_html: {style: "font-size: 28px; border: 0px; padding-left: 0px;"}, placeholder: "Title", label: false, autofocus: true %>
-
-                <% if @page.cover_image_id.blank? %>
-                    <%= f.fields_for :cover_image do |cover_image| %>
-                        <%= cover_image.input :image, label: false, placeholder: "Upload cover image", input_html: {style: "width: 100%; background: lightgray; min-height: 200px; cursor: pointer; padding: 100px 0px;", onchange: "readURL(this);"}%>
-                        <%= cover_image.hidden_field :account_id, value: @account.id %>
-                        <%= cover_image.hidden_field :is_cover, value: true %>
-                        <%= cover_image.hidden_field :created_by, value: current_user.id %>
-                        <%= cover_image.hidden_field :updated_by, value: current_user.id %>
-                    <% end %>
-                <% else %>
-                    <%= image_tag(@page.cover_image_url,style: 'width: 100%', class: "img-fluid") %>
-                    <br/>
-                    <%= link_to "Remove", remove_cover_image_account_site_page_path(@account, @site, @page), method: :put%>
-                    <br/>
-                <% end %>
-                <%= f.input :publish, as: :boolean, label: "&nbsp; Publish Page?".html_safe, hint: "Until you want the Story Card to be published live on your site, do not mark the article as published." %>
-                <div class="form-actions">
-                  <% if @page.status == 'draft' %>
-                    <%= f.button :submit, "Save as draft" %>
-                  <% end %>
-                  <%= f.button :submit, "Update" %>
-                  <% if @page.status != 'draft' %>
-                    &nbsp;&nbsp;|&nbsp;&nbsp;
-                    <%= link_to "Preview", @page.html_url, target: "_blank" %>
-                  <% end %>
-                </div>
-            </div>
-        <% end %>
-    </div>
-</div>
-<% if @page.status != "draft" %>
-    <div class="row">
-        <div class="col-sm-7" style="margin-left: auto; margin-right: auto; width: 540px;">
-            <br/>
-            <br/>
-            <br/>
-
-                <h4><%= best_in_place @page_stream_narrative7c, :name_of_stream, url: [@account, @site, @page_stream_narrative7c] %></h4>
-                <%= simple_form_for(@page_stream_narrative, url: [@account, @site, @page_stream_narrative]) do |f| %>
-                  <%= f.input :view_cast_id_list, input_html: { class: 'ui search fluid dropdown proto-tagged-input', multiple: true, "data-role" => "tagsinput" }, label: "Card IDs" %>
-                  <%= f.submit "Save", class: 'btn btn-sm btn-primary' %>
-                  |
-                  <%= link_to "Publish", publish_account_site_stream_path(@account, @site, @page_stream_narrative, folder_id: @folder.blank? ? nil : @folder.id),"data-turbolinks"=> false, class: "btn btn-outline", method: :post %>
-                  <%= link_to ".", "#{@site.cdn_endpoint}/#{@page_stream_narrative.cdn_key}", target: "blank" %>
-                <% end %>
-
-        </div>
-        <div class="col-sm-4" style="width: 300px;">
-            <br/>
-            <br/>
-            <br/>
-
-                <h4><%= best_in_place @page_stream_related7c, :name_of_stream, url: [@account, @site, @page_stream_related7c] %></h4>
-                <%= simple_form_for(@page_stream_related, url: [@account, @site, @page_stream_related]) do |f| %>
-                  <%= f.input :view_cast_id_list, input_html: { class: 'ui search fluid dropdown proto-tagged-input', multiple: true, "data-role" => "tagsinput" }, label: "Card IDs" %>
-                  <%= f.submit "Save", class: 'btn btn-sm btn-primary' %>
-                  |
-                  <%= link_to "Publish", publish_account_site_stream_path(@account, @site, @page_stream_related, folder_id: @folder.blank? ? nil : @folder.id),"data-turbolinks"=> false, class: "btn btn-outline", method: :post %>
-                  <%= link_to ".", "#{@site.cdn_endpoint}/#{@page_stream_related.cdn_key}", target: "blank" %>
-                <% end %>
-
-        </div>
-    </div>
+<%= content_for :page_title do %>
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+          <% if @folder.present? %>
+              <li class="breadcrumb-item"><%= link_to truncate(folder_name_trunc_(@folder), length: 24, ommission: ".."), account_site_folder_view_casts_path(@account, @site, @folder), "data-turbolinks"=> false %></li>
+          <% end %>
+          <li class="breadcrumb-item"><%= link_to "Stories", account_site_pages_path(@account, @site, folder_id: @folder.id), "data-turbolinks"=> false %></li> 
+          <li class="breadcrumb-item active" aria-current="page"><%= @page.one_line_concept %></li>
+      </ol>
+    </nav>
 <% end %>
+<%= render partial: "pages/stories_header" %>
+<div class="row">
+    <div class="col-sm-13">
+        <div style="margin-left: auto; margin-right: auto; width: 90%;">
+            <div class="row">
+                <%= simple_form_for(@page, url: account_site_page_path(@account, @site), method: :put) do |f| %>
+                    <%= f.error_notification %>
+                    <div class="form-inputs">
+                        <% if !@site.is_english or 1 == 1 %>
+                            <%= f.input :english_headline, required: true, minlength: 50 , maxlength: 90, hint: "This is used for url management.", label: "Write the headline in English",input_html: {style: "font-size: 28px; border: 0px; padding-left: 0px;"} %>
+                        <% end %>
+                        <%= f.input :headline, required: true, minlength: 50 , maxlength: 90, hint: "Minimum length: 50 chars. Maximum length: 90 chars.", input_html: {style: "font-size: 28px; border: 0px; padding-left: 0px;"}, placeholder: "Title", label: false, autofocus: true %>
+
+                        <% if @page.cover_image_id.blank? %>
+                            <%= f.fields_for :cover_image do |cover_image| %>
+                                <%= cover_image.input :image, label: false, placeholder: "Upload cover image", input_html: {style: "width: 100%; background: lightgray; min-height: 200px; cursor: pointer; padding: 100px 0px;", onchange: "readURL(this);"}%>
+                                <%= cover_image.hidden_field :account_id, value: @account.id %>
+                                <%= cover_image.hidden_field :is_cover, value: true %>
+                                <%= cover_image.hidden_field :created_by, value: current_user.id %>
+                                <%= cover_image.hidden_field :updated_by, value: current_user.id %>
+                            <% end %>
+                        <% else %>
+                            <%= image_tag(@page.cover_image_url,style: 'width: 100%', class: "img-fluid") %>
+                            <br/>
+                            <%= link_to "Remove", remove_cover_image_account_site_page_path(@account, @site, @page), method: :put%>
+                            <br/>
+                        <% end %>
+                        <%= f.input :publish, as: :boolean, label: "&nbsp; Publish Page?".html_safe, hint: "Until you want the Story Card to be published live on your site, do not mark the article as published." %>
+                        <div class="form-actions">
+                          <% if @page.status == 'draft' %>
+                            <%= f.button :submit, "Save as draft" %>
+                          <% end %>
+                          <%= f.button :submit, "Update" %>
+                          <% if @page.status != 'draft' %>
+                            &nbsp;&nbsp;|&nbsp;&nbsp;
+                            <%= link_to "Preview", @page.html_url, target: "_blank" %>
+                          <% end %>
+                        </div>
+                    </div>
+                <% end %>
+            </div>
+            <% if @page.status != "draft" %>
+                <div class="row">
+                    <div class="col-sm-7" style="margin-left: auto; margin-right: auto; width: 540px;">
+                        <br/>
+                        <br/>
+                        <br/>
+
+                            <h4><%= best_in_place @page_stream_narrative7c, :name_of_stream, url: [@account, @site, @page_stream_narrative7c] %></h4>
+                            <%= simple_form_for(@page_stream_narrative, url: [@account, @site, @page_stream_narrative]) do |f| %>
+                              <%= f.input :view_cast_id_list, input_html: { class: 'ui search fluid dropdown proto-tagged-input', multiple: true, "data-role" => "tagsinput" }, label: "Card IDs" %>
+                              <%= f.submit "Save", class: 'btn btn-sm btn-primary' %>
+                              |
+                              <%= link_to "Publish", publish_account_site_stream_path(@account, @site, @page_stream_narrative, folder_id: @folder.blank? ? nil : @folder.id),"data-turbolinks"=> false, class: "btn btn-outline", method: :post %>
+                              <%= link_to ".", "#{@site.cdn_endpoint}/#{@page_stream_narrative.cdn_key}", target: "blank" %>
+                            <% end %>
+
+                    </div>
+                    <div class="col-sm-4" style="width: 300px;">
+                        <br/>
+                        <br/>
+                        <br/>
+
+                            <h4><%= best_in_place @page_stream_related7c, :name_of_stream, url: [@account, @site, @page_stream_related7c] %></h4>
+                            <%= simple_form_for(@page_stream_related, url: [@account, @site, @page_stream_related]) do |f| %>
+                              <%= f.input :view_cast_id_list, input_html: { class: 'ui search fluid dropdown proto-tagged-input', multiple: true, "data-role" => "tagsinput" }, label: "Card IDs" %>
+                              <%= f.submit "Save", class: 'btn btn-sm btn-primary' %>
+                              |
+                              <%= link_to "Publish", publish_account_site_stream_path(@account, @site, @page_stream_related, folder_id: @folder.blank? ? nil : @folder.id),"data-turbolinks"=> false, class: "btn btn-outline", method: :post %>
+                              <%= link_to ".", "#{@site.cdn_endpoint}/#{@page_stream_related.cdn_key}", target: "blank" %>
+                            <% end %>
+
+                    </div>
+                </div>
+            <% end %>
+        </div>
+    </div>
+	<div class="col-sm-3 help-text">
+        <%= render partial: "pages/stories_sidebar" %>
+	</div>
+</div>
+
+
+
+
+
+
 
 <%= javascript_include_tag "select2.js" %>
 <script type="text/javascript">
@@ -87,5 +111,4 @@
         reader.readAsDataURL(input.files[0]);
       }
     };
-</script>
 </script>
