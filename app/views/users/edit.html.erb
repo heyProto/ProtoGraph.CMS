@@ -1,51 +1,59 @@
 <%= content_for :page_title do %>
     Profile
 <% end %>
+
 <div class="row">
-    <div class="col-sm-6" style="padding: 0px; margin-left: auto; margin-right: auto;">
-        <h3>Tell your colleagues who are you?</h3>
-        <hr/>
-        <div style="margin-left: 50px;">
-            <%= image_tag avatar_url(current_user.email, 200), class: "rounded" %>
-            <br/>
-            <p class="hint">To change the profile image, register with <a href="http://gravatar.com/" target="_blank">gravatar.com</a> with email ID <%= current_user.email %> and upload a square image there (Twitter DP).</p>
-            <%= simple_form_for(@user, html: { method: :put }) do |f| %>
-              <%= f.error_notification %>
-              <%= f.input :name %>
-              <%= f.input :email, label: "Primary Email ID" %>
-              <%= f.button :submit, value: "Save", class: "btn btn-light" %>
-            <% end %>
-            <br/>
-        </div>
-        <% if @accounts_member.first.present? %>
-            <h3>Accounts that you are part of</h3>
+    <div class="col-sm-13">
+        <div style="margin-left: auto; margin-right: auto; width: 500px;">
+            <h3>Tell your colleagues who are you?</h3>
             <hr/>
             <div style="margin-left: 50px;">
-                <% @accounts_member.each do |account| %>
-                    <%= account.username %>
-                    <br/>
+                <%= image_tag avatar_url(current_user.email, 200), class: "rounded" %>
+                <br/>
+                <p class="hint">To change the profile image, register with <a href="http://gravatar.com/" target="_blank">gravatar.com</a> with email ID <%= current_user.email %> and upload a square image there (Twitter DP).</p>
+                <%= simple_form_for(@user, html: { method: :put }) do |f| %>
+                  <%= f.error_notification %>
+                  <%= f.input :name %>
+                  <%= f.input :email, label: "Primary Email ID" %>
+                  <%= f.button :submit, value: "Save", class: "btn btn-light" %>
                 <% end %>
+                <br/>
             </div>
-            <br/>
-        <% end %>
-        <h3>Accounts you own</h3>
-        <hr/>
-        <div style="margin-left: 50px;">
-            <% @accounts_owned.each do |account| %>
-                <%= link_to account.username, account_owners_account_admins_path(account) %>
-                <p class="hint">Click to configure</p>
+            <% if @accounts_member.first.present? %>
+                <h3>Accounts that you are part of</h3>
+                <hr/>
+                <div style="margin-left: 50px;">
+                    <% @accounts_member.each do |account| %>
+                        <%= account.username %>
+                        <br/>
+                    <% end %>
+                </div>
+                <br/>
             <% end %>
-            <% if 1 == 2 %>
-                <% if current_user.is_admin_from_pykih %>
-                    <%= simple_form_for @account do |f| %>
-                        <h4>Add a new Account</h4>
-                        <%= f.input :username, id: :account_username, hint: "<span style='color: red'>Choose wisely. You cannot change it later.</span>".html_safe %>
-                        <%= f.input :site_name, hint: "<span style='color: red'>Choose wisely. You cannot change it later.</span>".html_safe %>
-                        <%= f.input :domain, required: true %>
-                        <%= f.submit "Add", class: "btn btn-light" %>
+            <h3>Accounts you own</h3>
+            <hr/>
+            <div style="margin-left: 50px;">
+                <% @accounts_owned.each do |account| %>
+                    <%= link_to account.username, account_owners_account_admins_path(account) %>
+                    <p class="hint">Click to configure</p>
+                <% end %>
+                <% if 1 == 2 %>
+                    <% if current_user.is_admin_from_pykih %>
+                        <%= simple_form_for @account do |f| %>
+                            <h4>Add a new Account</h4>
+                            <%= f.input :username, id: :account_username, hint: "<span style='color: red'>Choose wisely. You cannot change it later.</span>".html_safe %>
+                            <%= f.input :site_name, hint: "<span style='color: red'>Choose wisely. You cannot change it later.</span>".html_safe %>
+                            <%= f.input :domain, required: true %>
+                            <%= f.submit "Add", class: "btn btn-light" %>
+                        <% end %>
                     <% end %>
                 <% end %>
-            <% end %>
+            </div>
         </div>
     </div>
+	<div class="col-sm-3 help-text">
+		<!--<h2>Email Settings</h2>
+		<p>Your default support email address is prototype@pro.to. Any email sent here gets automatically converted into a ticket that you can get working on.</p>
+		<p>You can configure your Freshdesk account to use a support email in your own domain, like <a href="">support@mycompany.com</a> by forwarding emails from this address to <a href="">protoprototype@heyproto.freshdesk.com</a>. To create a new support email box, click “Edit” under global email settings.</p>-->
+	</div>
 </div>
