@@ -11,7 +11,7 @@
     <% if @site.present? %>
         <% if !is_admins_controller or (controller_name != 'accounts' and ['new','create'].include?(action_name)) %>
             <div class="dropdown show vertical-selection-dropdown">
-                <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color: #607D8B !important;">
+                <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color: black !important;">
                   <%= truncate @site.name, length: 15, ommission: ".." %>
                 </a>
               <% if @accounts.count > 1 %>

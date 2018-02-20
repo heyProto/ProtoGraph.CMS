@@ -175,24 +175,25 @@
       padding-top: 12px;
       padding-bottom: 13px;
       &.active {
-        border-bottom: 3px solid #4e6773;
-        color: #444 !important;
+        background: #000000;
+        color: white !important;
       }
       &:hover {
         border-bottom: 3px solid #607d8b4d;
       }
     }
     button {
-      background: #FFEBEE;
+      background: #000000;
       margin-top: 9px;
-      border: 1px solid #FFEBEE;
-      color: black;
+      border: 1px solid #000000;
+      color: white;
       font-size: 14px;
       margin-left: 10px;
       a{
           float: none;
           padding-top: 0px;
           padding-bottom: 0px;
+          color: white !important;
       }
     }
   }
