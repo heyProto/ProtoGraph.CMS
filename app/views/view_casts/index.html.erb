@@ -1,39 +1,57 @@
-<div class="row" style="margin: 0px; padding: 0px;">
-    <h1 style="margin: 0px; padding: 0px; padding-left: 0px; font-weight: 100;">Cards</h1>
-</div>
-<% if @view_casts.first.blank? %>
-    <br/>
-    <br/>
-    <div class="blankslate blankslate-spacious">
-        <% if @folder.is_trash %>
-            <h3>There are no cards in the recycle bin.</h3>
-        <% else %>
-            <h3>No cards created yet.</h3>
-            <p>Use the [+ Add a card] button on the top right.</p>
-        <% end %>
-    </div>
-<% else %>
-    <div class="row" style="margin: 0px; padding: 0px;">
-        <% @view_casts.each do |d| %>
-        	<%= link_to [@account, @site,  @folder,d], "data-turbolinks"=> false do %>
-                <div class="card-as-a-todo">
-            		<div class="card-information">
-            			<div class="card-title"><%= truncate(d.name, length: 200, ommission: "..") %></div>
-            			<div class="card-type"><%= d.template_card.name %> <span class="card-id">#<%=d.id.to_s%></span></div>
-            			<div class="card-footer">
-            				<div class="users-list">
-            					<div class="single-user"><%= image_tag avatar_url(d.updator.email), width: "16px", height: "16px" %></div>
-            				</div>
-            				<div class="due-on">
-            					<%= time_ago_in_words(d.updated_at) %>
-            				</div>
-            			</div>
-            		</div>
-            	</div>
-            <% end %>
-        <% end %>
-    </div>
-    <div style="padding-left: 18px;">
-        <%= paginate @view_casts, theme: 'twitter-bootstrap-4', pagination_class: "pagination-sm" %>
-    </div>
+<%= content_for :page_title do %>
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+          <% if @folder.present? %>
+              <li class="breadcrumb-item"><%= link_to truncate(folder_name_trunc_(@folder), length: 24, ommission: ".."), account_site_folder_view_casts_path(@account, @site, @folder), "data-turbolinks"=> false %></li>
+          <% end %>
+        <li class="breadcrumb-item active" aria-current="page">Cards</li>
+      </ol>
+    </nav>
 <% end %>
+<div class="row">
+    <div class="col-sm-13">
+        <div style="width: 90%;">
+            <% if @view_casts.first.blank? %>
+                <br/>
+                <br/>
+                <div class="blankslate blankslate-spacious">
+                    <% if @folder.is_trash %>
+                        <h3>There are no cards in the recycle bin.</h3>
+                    <% else %>
+                        <h3>No cards created yet.</h3>
+                        <p>Use the [+ Add a card] button on the top right.</p>
+                    <% end %>
+                </div>
+            <% else %>
+                <div class="row" style="margin: 0px; padding: 0px;">
+                    <% @view_casts.each do |d| %>
+                    	<%= link_to [@account, @site,  @folder,d], "data-turbolinks"=> false do %>
+                            <div class="card-as-a-todo">
+                        		<div class="card-information">
+                        			<div class="card-title"><%= truncate(d.name, length: 200, ommission: "..") %></div>
+                        			<div class="card-type"><%= d.template_card.name %> <span class="card-id">#<%=d.id.to_s%></span></div>
+                        			<div class="card-footer">
+                        				<div class="users-list">
+                        					<div class="single-user"><%= image_tag avatar_url(d.updator.email), width: "16px", height: "16px" %></div>
+                        				</div>
+                        				<div class="due-on">
+                        					<%= time_ago_in_words(d.updated_at) %>
+                        				</div>
+                        			</div>
+                        		</div>
+                        	</div>
+                        <% end %>
+                    <% end %>
+                </div>
+                <div style="padding-left: 18px;">
+                    <%= paginate @view_casts, theme: 'twitter-bootstrap-4', pagination_class: "pagination-sm" %>
+                </div>
+            <% end %>
+        </div>
+    </div>
+	<div class="col-sm-3 help-text">
+		<!--<h2>Email Settings</h2>
+		<p>Your default support email address is prototype@pro.to. Any email sent here gets automatically converted into a ticket that you can get working on.</p>
+		<p>You can configure your Freshdesk account to use a support email in your own domain, like <a href="">support@mycompany.com</a> by forwarding emails from this address to <a href="">protoprototype@heyproto.freshdesk.com</a>. To create a new support email box, click “Edit” under global email settings.</p>-->
+	</div>
+</div>
