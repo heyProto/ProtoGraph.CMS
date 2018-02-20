@@ -270,7 +270,7 @@ class Page < ApplicationRecord
         paragraphs << html_part
       end
       unless (last_element == all_h2_elements.last)
-        html_part = paragraphs[-1]
+        html_part = ""
         Page.collect_between(all_h2_elements.last, last_element, include_last: true).each do |elem|
           html_part += elem.to_s
         end
@@ -453,6 +453,9 @@ class Page < ApplicationRecord
     self.status = 'published' if self.publish == '1'
     if self.cover_image_id.blank?
       self.cover_image_id_7_column = nil
+    end
+    if self.content_changed?
+      self.content = self.content.gsub(/<div.*?>|<\/div>/, '')
     end
     true
   end
