@@ -5,8 +5,10 @@
             <%= f.error_notification %>
             <div class="form-inputs">
                 <% if !@site.is_english or 1 == 1 %>
-                    <%= f.input :english_headline, required: true, minlength: 50 , maxlength: 90, hint: "This is used for url management.", label: "Write the headline in English" %>
+                    <%= f.input :english_headline, required: true, minlength: 50 , maxlength: 90, hint: "This is used for url management.", label: "Write the headline in English",input_html: {style: "font-size: 28px; border: 0px; padding-left: 0px;"} %>
                 <% end %>
+                <%= f.input :headline, required: true, minlength: 50 , maxlength: 90, hint: "Minimum length: 50 chars. Maximum length: 90 chars.", input_html: {style: "font-size: 28px; border: 0px; padding-left: 0px;"}, placeholder: "Title", label: false, autofocus: true %>
+
                 <% if @page.cover_image_id.blank? %>
                     <%= f.fields_for :cover_image do |cover_image| %>
                         <%= cover_image.input :image, label: false, placeholder: "Upload cover image", input_html: {style: "width: 100%; background: lightgray; min-height: 200px; cursor: pointer; padding: 100px 0px;", onchange: "readURL(this);"}%>
@@ -42,7 +44,7 @@
             <br/>
             <br/>
             <br/>
-        
+
                 <h4><%= best_in_place @page_stream_narrative7c, :name_of_stream, url: [@account, @site, @page_stream_narrative7c] %></h4>
                 <%= simple_form_for(@page_stream_narrative, url: [@account, @site, @page_stream_narrative]) do |f| %>
                   <%= f.input :view_cast_id_list, input_html: { class: 'ui search fluid dropdown proto-tagged-input', multiple: true, "data-role" => "tagsinput" }, label: "Card IDs" %>

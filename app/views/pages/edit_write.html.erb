@@ -4,7 +4,6 @@
         <%= simple_form_for(@page, url: account_site_page_path(@account, @site), method: :put) do |f| %>
             <%= f.error_notification %>
             <div class="form-inputs">
-                <%= f.input :headline, required: true, minlength: 50 , maxlength: 90, hint: "Minimum length: 50 chars. Maximum length: 90 chars.", input_html: {style: "font-size: 28px; border: 0px; padding-left: 0px;"}, placeholder: "Title", label: false, autofocus: true %>
                 <%= f.input :content, as: :text, required: true, minlength: 100, input_html: {rows: 30, style: "border: 0px; padding-left: 0px;", class: "editable"}, label: false, placeholder: "Tell your story..." %>
             </div>
           <div class="form-actions">
@@ -25,15 +24,15 @@
               buttons: ['bold', 'h2', 'h3', 'quote', 'anchor', 'unorderedlist', 'orderedlist', 'divider']
               }
         });
-
         var saveInterval = setInterval(function(){
             var data = $('form.simple_form.edit_page:first').serializeArray().reduce(
               function(obj, item) {
-                if (item.name != 'page[prepare_cards_for_assembling]') {
+                if (['page[prepare_cards_for_assembling]'].indexOf(item.name) < 0) {
                   obj[item.name] = item.value;
                 }
                 return obj;
             }, {});
+
             $.ajax({
               type: "PUT",
               beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
