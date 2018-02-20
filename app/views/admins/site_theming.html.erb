@@ -12,7 +12,7 @@
         <div style="margin-left: auto; margin-right: auto; width: 500px;">
             <h3>Logos</h3>
             <br/>
-            <div style="margin-left: 50px;">
+            <div style="margin-left: 0px;">
                 <p>Publication logo</p>
                 <p class="hint">Use the logo you use as your Twitter Profile. It is square and should be at least 400 × 400px in size.</p>
                 <div style="margin-left: 0px;">
@@ -77,7 +77,7 @@
             <br/>
             <h3>Colours</h3>
             <br/>
-            <div style="margin-left: 50px;">
+            <div style="margin-left: 0px;">
                 <%= simple_form_for [@account, @site] do |f| %>
                   <%= f.error_notification %>
                   <%= f.input :house_colour, input_html: {type: :color, style: "height: 40px;"}, label: "House Color", hint: "Choose your brand colour. Wherever possible, we will use this colour.", required: true %>
@@ -92,7 +92,7 @@
             <br/>
             <h3>toStory Card</h3>
             <br/>
-            <div style="margin-left: 50px;">
+            <div style="margin-left: 0px;">
                 <%= simple_form_for [@account, @site] do |f| %>
                   <%= f.error_notification %>
                   <%= f.input :story_card_style, as: :select, collection: [["Clear: Color", "Clear: Color"], ["Clear: Black & White", "Clear: Black & White"], ["Blur: Color", "Blur: Color"]], label: "Story card Style", include_blank: false %>
@@ -105,7 +105,7 @@
             <br/>
             <h3>Header</h3>
             <br/>
-            <div style="margin-left: 50px;">
+            <div style="margin-left: 0px;">
               <%= simple_form_for [@account, @site] do |f| %>
                 <%= f.input :header_url, as: :string, required: true, label: "URL" %>
                 <%= f.input :header_background_color, input_html: {type: :color, style: "height: 40px;"}, required: true, label: "Background Color" %>
