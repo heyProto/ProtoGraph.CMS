@@ -8,6 +8,7 @@
             </div>
           <div class="form-actions">
             <%= f.hidden_field :prepare_cards_for_assembling, value: true %>
+            <%= f.hidden_field :status, value: "published" %>
             <%= f.button :submit, "Save and prepare cards for assembling" %>
           </div>
         <% end %>
