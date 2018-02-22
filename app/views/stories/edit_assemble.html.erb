@@ -52,36 +52,109 @@
             </div>
             <% if @page.status != "draft" %>
                 <div class="row">
-                    <div class="col-sm-7" style="margin-left: auto; margin-right: auto; width: 540px;">
-                        <br/>
-                        <br/>
-                        <br/>
+                  <div class='col-sm-4' style="margin: 0px 15px 0px 0px;padding: 0px; border-right: 1px solid #ECEFF1">
+                    <h4>All Cards</h4>
+                    <% @all_cards.each do |d| %>
+                      <div class="card-as-a-todo move-to-action" data-view-cast-id="<%= d.id %>" style='margin: 0px;'>
+                        <div class="card-information">
+                          <div class="card-title"><%= truncate(d.name, length: 200, ommission: "..") %></div>
+                          <div class="card-type"><%= d.template_card.name %> <span class="card-id">#<%=d.id.to_s%></span></div>
+                          <div class="card-footer">
+                            <div class="users-list">
+                              <div class="single-user"><%= image_tag avatar_url(d.updator.email), width: "16px", height: "16px" %></div>
+                            </div>
+                            <div class="due-on">
+                              <%= time_ago_in_words(d.updated_at) %>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="call-to-action">
+                          <%= link_to "<div class='action-button action-preview'>Preview</div>".html_safe, [@account, @site, d.folder, d], "data-turbolinks" => false %>
+                          <%= link_to "<div class='action-button action-edit'>Edit</div>".html_safe, edit_account_site_folder_view_cast_path(@account, @site, d.folder, d), "data-turbolinks" => false %>
+                        </div>
+                        <div class="action-move-to">
+                          <div class="hint-text">Move To</div>
+                          <br>
+                          <ul class="list-group list-group-flush">
+                            <li class="list-group-item" data-page-stream-url="<%= account_site_stream_stream_entities_path(@account, @site, @page_stream_narrative) %>"><%= @page_stream_narrative7c.name_of_stream %></li>
+                            <li class="list-group-item" data-page-stream-url="<%= account_site_stream_stream_entities_path(@account, @site, @page_stream_related) %>"><%= @page_stream_related7c.name_of_stream %></li>
+                          </ul>
+                        </div>
+                      </div>
+                    <% end %>
+                  </div>
+                  <div class='col-sm-4' style="margin: 0px;padding: 0px">
+                    <h4 style='display: inline'><%= best_in_place @page_stream_narrative7c, :name_of_stream, url: [@account, @site, @page_stream_narrative7c] %></h4>
+                    |
+                    <%= link_to "Publish", publish_account_site_stream_path(@account, @site, @page_stream_narrative, folder_id: @folder.blank? ? nil : @folder.id),"data-turbolinks"=> false, method: :post %>
+                    <% @page_stream_narrative.cards.each  do |d| %>
+                      <div class="card-as-a-todo move-to-action" data-view-cast-id="<%= d.id %>" style='margin: 0px;'>
+                        <div class="card-information">
+                          <div class="card-title"><%= truncate(d.name, length: 200, ommission: "..") %></div>
+                          <div class="card-type"><%= d.template_card.name %> <span class="card-id">#<%=d.id.to_s%></span></div>
+                          <div class="card-footer">
+                            <div class="users-list">
+                              <div class="single-user"><%= image_tag avatar_url(d.updator.email), width: "16px", height: "16px" %></div>
+                            </div>
+                            <div class="due-on">
+                              <%= time_ago_in_words(d.updated_at) %>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="call-to-action">
+                          <%= link_to "<div class='action-button action-preview'>Preview</div>".html_safe, [@account, @site, d.folder, d], "data-turbolinks" => false %>
+                          <%= link_to "<div class='action-button action-edit'>Edit</div>".html_safe, edit_account_site_folder_view_cast_path(@account, @site, d.folder, d), "data-turbolinks" => false %>
+                        </div>
+                        <div class="action-move-to">
+                          <div class="hint-text">Move To</div>
+                          <div class="remove-button">
+                            <%= link_to "Remove", [@account, @site, @page_stream_narrative, @page_stream_narrative.stream_entities.view_casts.where(entity_value: d.id).first ], method: :delete %>
+                          </div>
 
-                            <h4><%= best_in_place @page_stream_narrative7c, :name_of_stream, url: [@account, @site, @page_stream_narrative7c] %></h4>
-                            <%= simple_form_for(@page_stream_narrative, url: [@account, @site, @page_stream_narrative]) do |f| %>
-                              <%= f.input :view_cast_id_list, input_html: { class: 'ui search fluid dropdown proto-tagged-input', multiple: true, "data-role" => "tagsinput" }, label: "Card IDs" %>
-                              <%= f.submit "Save", class: 'btn btn-sm btn-primary' %>
-                              |
-                              <%= link_to "Publish", publish_account_site_stream_path(@account, @site, @page_stream_narrative, folder_id: @folder.blank? ? nil : @folder.id),"data-turbolinks"=> false, class: "btn btn-outline", method: :post %>
-                              <%= link_to ".", "#{@site.cdn_endpoint}/#{@page_stream_narrative.cdn_key}", target: "blank" %>
-                            <% end %>
+                          <br>
+                          <ul class="list-group list-group-flush">
+                            <li class="list-group-item" data-page-stream-url="<%= account_site_stream_stream_entities_path(@account, @site, @page_stream_related) %>"><%= @page_stream_related7c.name_of_stream %></li>
+                          </ul>
+                        </div>
+                      </div>
+                    <% end %>
+                  </div>
+                  <div class='col-sm-4' style="margin: 0px;padding: 0px">
+                    <h4 style='display: inline'><%= best_in_place @page_stream_related7c, :name_of_stream, url: [@account, @site, @page_stream_related] %></h4>
+                    |
+                    <%= link_to "Publish", publish_account_site_stream_path(@account, @site, @page_stream_related, folder_id: @folder.blank? ? nil : @folder.id),"data-turbolinks"=> false, method: :post %>
+                    <% @page_stream_related.cards.each  do |d| %>
+                      <div class="card-as-a-todo move-to-action" data-view-cast-id="<%= d.id %>" style='margin: 0px;'>
+                        <div class="card-information">
+                          <div class="card-title"><%= truncate(d.name, length: 200, ommission: "..") %></div>
+                          <div class="card-type"><%= d.template_card.name %> <span class="card-id">#<%=d.id.to_s%></span></div>
+                          <div class="card-footer">
+                            <div class="users-list">
+                              <div class="single-user"><%= image_tag avatar_url(d.updator.email), width: "16px", height: "16px" %></div>
+                            </div>
+                            <div class="due-on">
+                              <%= time_ago_in_words(d.updated_at) %>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="call-to-action">
+                          <%= link_to "<div class='action-button action-preview'>Preview</div>".html_safe, [@account, @site, d.folder, d], "data-turbolinks" => false %>
+                          <%= link_to "<div class='action-button action-edit'>Edit</div>".html_safe, edit_account_site_folder_view_cast_path(@account, @site, d.folder, d), "data-turbolinks" => false %>
+                        </div>
+                        <div class="action-move-to">
+                          <div class="hint-text">Move To</div>
+                          <div class="remove-button">
+                            <%= link_to "Remove", [@account, @site, @page_stream_related, @page_stream_related.stream_entities.view_casts.where(entity_value: d.id).first ], method: :delete %>
+                          </div>
 
-                    </div>
-                    <div class="col-sm-4" style="width: 300px;">
-                        <br/>
-                        <br/>
-                        <br/>
-
-                            <h4><%= best_in_place @page_stream_related7c, :name_of_stream, url: [@account, @site, @page_stream_related7c] %></h4>
-                            <%= simple_form_for(@page_stream_related, url: [@account, @site, @page_stream_related]) do |f| %>
-                              <%= f.input :view_cast_id_list, input_html: { class: 'ui search fluid dropdown proto-tagged-input', multiple: true, "data-role" => "tagsinput" }, label: "Card IDs" %>
-                              <%= f.submit "Save", class: 'btn btn-sm btn-primary' %>
-                              |
-                              <%= link_to "Publish", publish_account_site_stream_path(@account, @site, @page_stream_related, folder_id: @folder.blank? ? nil : @folder.id),"data-turbolinks"=> false, class: "btn btn-outline", method: :post %>
-                              <%= link_to ".", "#{@site.cdn_endpoint}/#{@page_stream_related.cdn_key}", target: "blank" %>
-                            <% end %>
-
-                    </div>
+                          <br>
+                          <ul class="list-group list-group-flush">
+                            <li class="list-group-item" data-page-stream-url="<%= account_site_stream_stream_entities_path(@account, @site, @page_stream_narrative) %>"><%= @page_stream_narrative7c.name_of_stream %></li>
+                          </ul>
+                        </div>
+                      </div>
+                    <% end %>
+                  </div>
                 </div>
             <% end %>
         </div>
@@ -93,14 +166,24 @@
 
 
 
-
+<%= simple_form_for(@stream_entity, url: [@account, @site, @page_stream_related, @stream_entity]) do |f| %>
+    <%= f.hidden_field :entity_value, id: "stream_view_cast_id" %>
+    <%= f.hidden_field :entity_type, value: "view_cast_id" %>
+    <%= f.hidden_field :is_excluded, value: false %>
+  <% end %>
 
 
 
 <%= javascript_include_tag "select2.js" %>
 <script type="text/javascript">
-    $(document).on("turoblinks:load",function() {
+    $(document).on("turbolinks:load",function() {
       $('.proto-tagged-input').tagsinput();
+      $('.action-move-to .list-group li').off('click')
+      $('.action-move-to .list-group li').on('click', function(){
+        $("#new_stream_entity").attr("action", this.dataset.pageStreamUrl);
+        $("#stream_view_cast_id").val($(this).parents('.card-as-a-todo').data().viewCastId);
+        $("#new_stream_entity").submit();
+      })
     });
     function readURL(input) {
      if (input.files && input.files[0]) {
