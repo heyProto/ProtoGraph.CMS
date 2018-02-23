@@ -15,50 +15,52 @@
 <div class="row">
     <div class="col-sm-13">
         <div style="margin-left: auto; margin-right: auto; width: 800px;">
-            <table class="table table-sm table-hover">
-                <thead>
-                    <tr>
-                        <th>Name
-                        </th>
-                        <th>#Cards
-                        </th>
-                        <th>#Stories
-                        </th>
-                        <th>For Stories?
-                        </th>
-                        <th>Is Archived?
-                        </th>
-                        <th>Created
-                        </th>
-                        <th>Updated
-                        </th>
-                        <th>
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <% @folders.each do |folder| %>
+            <% if @folders.first.present? %>
+                <table class="table table-sm table-hover">
+                    <thead>
                         <tr>
-                            <td><%= folder_name_(folder).html_safe %>
-                            </td>
-                            <td class="hint"><%= folder.view_casts.count %>
-                            </td>
-                            <td class="hint"><%= folder.pages.count %>
-                            </td>
-                            <td class="hint"><%= folder.is_for_stories %>
-                            </td>
-                            <td class="hint"><%= folder.is_archived %>
-                            </td>
-                            <td class="hint"><%= image_tag avatar_url(folder.creator.email), class: "rounded" %> <%= time_ago_in_words folder.created_at %>
-                            </td>
-                            <td class="hint"><%= image_tag avatar_url(folder.updator.email), class: "rounded" %> <%= time_ago_in_words folder.updated_at %>
-                            </td>
-                            <td><%= link_to "Edit", edit_account_site_folder_path(@account, @site, folder) %>
-                            </td>
+                            <th>Name
+                            </th>
+                            <th>#Cards
+                            </th>
+                            <th>#Stories
+                            </th>
+                            <th>For Stories?
+                            </th>
+                            <th>Is Archived?
+                            </th>
+                            <th>Created
+                            </th>
+                            <th>Updated
+                            </th>
+                            <th>
+                            </th>
                         </tr>
-                    <% end %>
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        <% @folders.each do |folder| %>
+                            <tr>
+                                <td><%= folder_name_(folder).html_safe %>
+                                </td>
+                                <td class="hint"><%= folder.view_casts.count %>
+                                </td>
+                                <td class="hint"><%= folder.pages.count %>
+                                </td>
+                                <td class="hint"><%= folder.is_for_stories %>
+                                </td>
+                                <td class="hint"><%= folder.is_archived %>
+                                </td>
+                                <td class="hint"><%= image_tag avatar_url(folder.creator.email), class: "rounded" %> <%= time_ago_in_words folder.created_at %>
+                                </td>
+                                <td class="hint"><%= image_tag avatar_url(folder.updator.email), class: "rounded" %> <%= time_ago_in_words folder.updated_at %>
+                                </td>
+                                <td><%= link_to "Edit", edit_account_site_folder_path(@account, @site, folder) %>
+                                </td>
+                            </tr>
+                        <% end %>
+                    </tbody>
+                </table>
+            <% end %>
         </div>
     </div>
 	<div class="col-sm-3 help-text">

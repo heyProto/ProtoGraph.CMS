@@ -59,6 +59,7 @@
               <%= link_to "Page Builder", manager_account_site_pages_path(@account, @site, folder_id: @folder.present? ? @folder.id : nil), "data-turbolinks"=> false, class: (controller_name == "pages" and action_name == "manager") ? "list-group-item active list-group-item-action" : "list-group-item list-group-item-action" %>
               <%= link_to "Site Admin", account_site_admins_path(@account, @site), "data-turbolinks"=> false, class: @is_admin ? "list-group-item active list-group-item-action" : "list-group-item list-group-item-action" %>
             </div>
+            <span class="text-uppercase">Me</span>
     <% end %>
 
 <% end %>

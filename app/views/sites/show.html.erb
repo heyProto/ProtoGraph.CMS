@@ -1,0 +1,52 @@
+<%= content_for :page_title do %>
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item active" aria-current="page">Home</li>
+      </ol>
+    </nav>
+<% end %>
+<div class="row">
+    <div class="col-sm-13">
+        <div style="margin-left: auto; margin-right: auto; width: 600px;">
+            <% if @folders.first.present? %>
+                
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Folder
+                            </th>
+                            <th>#Cards
+                            </th>
+                            <th>#Stories
+                            </th>
+                            <th>Updated
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% @folders.each do |folder| %>
+                            <tr>
+                                <td>
+                                    <%= image_tag "glyphicons-441-folder-closed.png" %>
+                                    &nbsp;
+                                    <%= link_to folder_name_(folder).html_safe, account_site_folder_view_casts_path(@account, @site, folder) %>
+                                </td>
+                                <td class="hint"><%= folder.view_casts.count %>
+                                </td>
+                                <td class="hint"><%= folder.pages.count %>
+                                </td>
+                                <td class="hint"><%= image_tag avatar_url(folder.updator.email), class: "rounded" %> <%= time_ago_in_words folder.updated_at %>
+                                </td>
+                            </tr>
+                        <% end %>
+                    </tbody>
+                </table>
+            <% end %>
+        </div>
+    </div>
+	<div class="col-sm-3 help-text">
+		<!--<h2>Email Settings</h2>
+		<p>Your default support email address is prototype@pro.to. Any email sent here gets automatically converted into a ticket that you can get working on.</p>
+		<p>You can configure your Freshdesk account to use a support email in your own domain, like <a href="">support@mycompany.com</a> by forwarding emails from this address to <a href="">protoprototype@heyproto.freshdesk.com</a>. To create a new support email box, click “Edit” under global email settings.</p>-->
+	</div>
+</div>
