@@ -37,15 +37,13 @@
                     <%= link_to account.username, account_owners_account_admins_path(account) %>
                     <p class="hint">Click to configure</p>
                 <% end %>
-                <% if 1 == 2 %>
-                    <% if current_user.is_admin_from_pykih %>
-                        <%= simple_form_for @account do |f| %>
-                            <h4>Add a new Account</h4>
-                            <%= f.input :username, id: :account_username, hint: "<span style='color: red'>Choose wisely. You cannot change it later.</span>".html_safe %>
-                            <%= f.input :site_name, hint: "<span style='color: red'>Choose wisely. You cannot change it later.</span>".html_safe %>
-                            <%= f.input :domain, required: true %>
-                            <%= f.submit "Add", class: "btn btn-light" %>
-                        <% end %>
+                <% if current_user.is_admin_from_pykih %>
+                    <%= simple_form_for @account do |f| %>
+                        <h4>Add a new Account</h4>
+                        <%= f.input :username, id: :account_username, hint: "<span style='color: red'>Choose wisely. You cannot change it later.</span>".html_safe %>
+                        <%= f.input :site_name, hint: "<span style='color: red'>Choose wisely. You cannot change it later.</span>".html_safe %>
+                        <%= f.input :domain, required: true %>
+                        <%= f.submit "Add", class: "btn btn-light" %>
                     <% end %>
                 <% end %>
             </div>
