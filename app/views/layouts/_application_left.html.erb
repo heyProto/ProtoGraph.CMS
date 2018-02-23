@@ -24,22 +24,9 @@
             </div>
         <% end %>
         <div class="dropdown show">
-        	<span class="text-uppercase">select folder</span>
-          <a class="btn btn-secondary btn-sm dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              <% if @folder.blank? %>
-                  Select a folder
-              <% elsif (@folder.present? and @folder.id.blank?) %>
-                  Home
-              <% else %>
-                  <%= truncate(folder_name_trunc_(@folder), length: 15, ommission: "..") %>
-              <% end %>
-          </a>
-          <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-              <%= link_to "Home", account_site_path(@account, @site), class: "dropdown-item" %>
-              <% @folders.each do |folder| %>
-                  <%= link_to truncate(folder_name_trunc_(folder), length: 24, ommission: ".."), account_site_folder_view_casts_path(@account, @site, folder), class: "dropdown-item" %>
-              <% end %>
-          </div>
+            <div class="list-group list-group-flush">
+                <%= link_to "Home", account_site_path(@account, @site), class: (@folder.blank? or @folder.id.blank?) ? "list-group-item list-group-item-action active" : "list-group-item list-group-item-action" %>
+            </div>
         </div>
     	<% if @folder.present? and @folder.id.present? %>
             <span class="text-uppercase">create</span>
