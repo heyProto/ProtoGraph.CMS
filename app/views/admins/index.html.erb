@@ -57,11 +57,19 @@
             </a>    
         </div>
         <div class="col-sm-5">
+            <a href=<%= editorial_folders_account_site_admins_path(@account,@site) %>>
+                <div class="administration-options"><%= image_tag "glyphicons-145-folder-open.png" %></div>
+                <p>Folders</p>
+            </a>    
+        </div>
+        <div class="col-sm-5">
             <a href=<%= intersection_account_site_path(@account, @site)%>>
                 <div class="administration-options"><%= image_tag "glyphicons-66-tag.png" %></div>
                 <p>Intersections</p>
             </a>
         </div>
+    </div>
+    <div class="row">
         <div class="col-sm-5">
             <a href=<%= sub_intersection_account_site_path(@account,@site)%>>
                 <div class="administration-options"><%= image_tag "glyphicons-67-tags.png" %></div>

@@ -3,6 +3,7 @@ class FoldersController < ApplicationController
   before_action :sudo_role_can_folder_settings, only: [:edit, :update]
 
   def new
+    @is_admin = true
     @folder = @account.folders.new
     @is_admin = true
     @folder.is_for_stories = true
@@ -10,6 +11,7 @@ class FoldersController < ApplicationController
   end
 
   def edit
+    @is_admin = true
     if @folder.is_trash
       redirect_back(fallback_location: [@account], alert: t("pd.folder"))
     end
@@ -25,6 +27,7 @@ class FoldersController < ApplicationController
     else
       @verticals = @site.ref_categories.where(genre: 'series').pluck(:name, :id)
       @folder.collaborator_lists = @folder.users.pluck(:id)
+      @is_admin = true
       render "edit"
     end
   end
