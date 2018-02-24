@@ -60,9 +60,9 @@
         </div>
     </div>
 	<div class="col-sm-3 help-text">
-		<!--<h2>Email Settings</h2>
-		<p>Your default support email address is prototype@pro.to. Any email sent here gets automatically converted into a ticket that you can get working on.</p>
-		<p>You can configure your Freshdesk account to use a support email in your own domain, like <a href="">support@mycompany.com</a> by forwarding emails from this address to <a href="">protoprototype@heyproto.freshdesk.com</a>. To create a new support email box, click “Edit” under global email settings.</p>-->
+		<h2>Account Owners</h2>
+		<p>Whomever you invite here will have admin access to all your sites and settings.</p>
+        <hr/>
         <%= simple_form_for [@account, @permission_invite] do |f| %>
         <% if @permission_invite.errors.any? %>
         <div id="error_explanation" class="ui error message">

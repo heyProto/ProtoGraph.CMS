@@ -22,23 +22,28 @@ class Upload < ApplicationRecord
   #CONSTANTS
   UPLOAD_STATUSES = ["waiting", "uploading", "failed", "completed"]
   #CUSTOM TABLES
+  #CONCERNS
+  include AssociableBy
+  
   #GEMS
   #ASSOCIATIONS
   belongs_to :account
   belongs_to :site
   belongs_to :template_card
   belongs_to :folder
-  include Associable
+
   #ACCESSORS
   mount_uploader :attachment, CsvUploader
+  
   #VALIDATIONS
   validates :attachment, presence: true
   validates :folder, presence: true
   validates :upload_status, inclusion: { in: Upload::UPLOAD_STATUSES }
+  
   #CALLBACKS
   after_commit :validate_csv, on: :create
+  
   #SCOPE
-
   #OTHER
   def validate_csv
     CsvVerificationWorker.perform_async(self.id)

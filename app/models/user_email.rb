@@ -18,6 +18,8 @@ class UserEmail < ApplicationRecord
     #CONSTANTS
     #CUSTOM TABLES
     #GEMS
+    include Propagatable
+    
     #ASSOCIATIONS
     belongs_to :user
 
@@ -26,6 +28,7 @@ class UserEmail < ApplicationRecord
     validates :email, presence: true
     validates :email, uniqueness: true
     validates_format_of :email, with: /\A\S+@.+\.\S+\z/, message: "Please enter a valid email address"
+    
     #CALLBACKS
     #SCOPE
     #OTHER

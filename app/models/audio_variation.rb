@@ -20,8 +20,9 @@ class AudioVariation < ApplicationRecord
   #CONSTANTS
   #CUSTOM TABLES
   #GEMS
+  include Propagatable
+  
   #ASSOCIATIONS
-  include Associable
   belongs_to :audio
   delegate :account, to: :audio
   #ACCESSORS

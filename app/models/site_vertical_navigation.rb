@@ -19,12 +19,14 @@ class SiteVerticalNavigation < ApplicationRecord
 
   #CONSTANTS
   #CUSTOM TABLES
+  #CONCERNS
+  include AssociableBy
+  include Propagatable
+  
   #GEMS
   #ASSOCIATIONS
   belongs_to :site
   belongs_to :ref_category, class_name: "RefCategory", foreign_key: "ref_category_vertical_id"
-  belongs_to :creator, class_name: "User", foreign_key: "created_by"
-  belongs_to :updator, class_name: "User", foreign_key: "updated_by"
 
   #ACCESSORS
   validates :name, presence: true

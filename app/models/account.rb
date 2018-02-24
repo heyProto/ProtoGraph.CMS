@@ -21,6 +21,9 @@ class Account < ApplicationRecord
 
     #CONSTANTS
     #CUSTOM TABLES
+    #CONCERNS
+    include Propagatable
+
     #GEMS
     extend FriendlyId
     friendly_id :username, use: :slugged

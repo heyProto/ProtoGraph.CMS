@@ -12,7 +12,7 @@
         <div style="margin-left: auto; margin-right: auto; width: 500px;">
             <%= simple_form_for [@account, @site] do |f| %>
               <%= f.error_notification %>
-              <%= f.input :domain, hint: "Where is the site hosted?" %>
+              <%= f.input :domain, hint: "We recommend using a subdomain p.mysite.com", label: "Custom domain where the site will be hosted" %>
               <%= f.input :description, hint: "This will be used in footers, search results, and other places." %>
               <%= f.input :primary_language, as: :select, collection: [["English", "English"], ["Hindi", "Hindi"]], include_blank: false %>
               <%= f.input :default_seo_keywords, hint: "These default keywords will be used on homepage.", label: "Default SEO Keywords" %>
@@ -25,8 +25,12 @@
         </div>
     </div>
 	<div class="col-sm-3 help-text">
-		<!--<h2>Email Settings</h2>
-		<p>Your default support email address is prototype@pro.to. Any email sent here gets automatically converted into a ticket that you can get working on.</p>
-		<p>You can configure your Freshdesk account to use a support email in your own domain, like <a href="">support@mycompany.com</a> by forwarding emails from this address to <a href="">protoprototype@heyproto.freshdesk.com</a>. To create a new support email box, click “Edit” under global email settings.</p>-->
+		<h2>What domain should I use?</h2>
+		<p>If you are using ProtoTYPE for sandboxing editorial, workflow and product ideas then we recommend using a subdomain <b>p.mysite.com</b>. This way, your editorial team can launch new verticals without any new inputs from your technology team. Every subsequent vertical will have URL p.mysite.com/vertical-name</p>
+        <p>If you are using ProtoTYPE as your main CMS, contact us and we will help you set it up on your main domain e.g. mysite.com.</p>
+        <hr/>
+		<h2>Primary Language</h2>
+		<p>Based on your selected language, we will enable or disable some fields and change call to action buttons on certain cards like Quiz.</p>
+		<p>Do not see the language your site is in? No problem. Reach out to us. We are open to working with your team to configure ProtoTYPE for your language.</p>
 	</div>
 </div>

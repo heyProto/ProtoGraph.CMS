@@ -30,34 +30,41 @@
 #
 
 class ViewCast < ApplicationRecord
+  
     #CONSTANTS
     #CUSTOM TABLES
-
+    #CONCERNS
+    include AssociableBy
+    include AssociableSite
+    include Propagatable
+    
     #GEMS
     extend FriendlyId
     friendly_id :name, use: :slugged
+    
     #ASSOCIATIONS
-    belongs_to :account
     belongs_to :folder, optional: true
     belongs_to :template_datum
     belongs_to :template_card
-    belongs_to :site
-    belongs_to :creator, class_name: "User", foreign_key: "created_by"
-    belongs_to :updator, class_name: "User", foreign_key: "updated_by"
     has_many :permissions, ->{where(status: "Active", permissible_type: 'ViewCast')}, foreign_key: "permissible_id", dependent: :destroy
     has_many :users, through: :permissions
+    
     #ACCESSORS
     attr_accessor :dataJSON, :schemaJSON, :stop_callback, :redirect_url, :collaborator_lists
+    
     #VALIDATIONS
     validates :slug, uniqueness: true
+    
     #CALLBACKS
     before_create :before_create_set
     after_create :after_create_set
     before_save :before_save_set
     after_save :after_save_set
     before_destroy :before_destroy_set
+    
     #SCOPE
     default_scope ->{includes(:account)}
+    
     #OTHER
 
     def remote_urls

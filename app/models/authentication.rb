@@ -23,6 +23,8 @@ class Authentication < ApplicationRecord
   #CONSTANTS
   #CUSTOM TABLES
   #GEMS
+  include Propagatable
+  
   #ASSOCIATIONS
   belongs_to :user
   #ACCESSORS

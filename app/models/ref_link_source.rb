@@ -15,6 +15,9 @@
 class RefLinkSource < ApplicationRecord
   #CONSTANTS
   #CUSTOM TABLES
+  #CONCERNS
+  include AssociableBy
+  
   #GEMS
   #ASSOCIATIONS
   belongs_to :creator, class_name: "User", foreign_key: "created_by"

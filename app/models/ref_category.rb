@@ -23,6 +23,10 @@
 class RefCategory < ApplicationRecord
     #CONSTANTS
     #CUSTOM TABLES
+    #CONCERNS
+    include AssociableBy
+    include Propagatable
+    
     #GEMS
     before_validation :before_validation_set
     extend FriendlyId

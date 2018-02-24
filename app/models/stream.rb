@@ -40,8 +40,13 @@ class Stream < ApplicationRecord
         "toWaterExploitation": ["decadal_decrease_score"],
         "toWell": ["well_score"]
     }
+    
+    #CONCERNS
+    include AssociableBy
+    include AssociableSite
+    include Propagatable
+    
     #GEMS
-    include Associable
     extend FriendlyId
     friendly_id :title, use: :slugged
 

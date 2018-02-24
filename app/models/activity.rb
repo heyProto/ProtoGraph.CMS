@@ -15,6 +15,10 @@
 #
 
 class Activity < ApplicationRecord
+  
+  #GEMS
+  include Propagatable
+  
   belongs_to :user
   belongs_to :account
   belongs_to :site

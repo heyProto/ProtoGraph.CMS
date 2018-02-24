@@ -17,6 +17,8 @@ class ColourSwatch < ApplicationRecord
     #CONSTANTS
     #CUSTOM TABLES
     #GEMS
+    include Propagatable
+    
     #ASSOCIATIONS
     belongs_to :image
     #ACCESSORS

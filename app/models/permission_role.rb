@@ -36,6 +36,9 @@
 class PermissionRole < ApplicationRecord
     #CONSTANTS
     #CUSTOM TABLES
+    #CONCERNS
+    include AssociableBy
+    
     #GEMS
     #ASSOCIATIONS
     #ACCESSORS

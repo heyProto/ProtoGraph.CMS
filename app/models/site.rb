@@ -47,6 +47,10 @@ class Site < ApplicationRecord
     #CONSTANTS
     SIGN_UP_MODES = ["Any email from your domain", "Invitation only"]
     #CUSTOM TABLES
+    #CONCERNS
+    include Propagatable
+    include AssociableBy
+    
     #GEMS
     before_validation :set_english_name
     extend FriendlyId

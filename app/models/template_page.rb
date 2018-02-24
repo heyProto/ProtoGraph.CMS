@@ -30,7 +30,11 @@ class TemplatePage < ApplicationRecord
 
     #CONSTANTS
     CDN_BASE_URL = "#{ENV['AWS_S3_ENDPOINT']}"
+    
     #CUSTOM TABLES
+    #CONCERNS
+    include AssociableBy
+    
     #GEMS
     require 'version'
     extend FriendlyId

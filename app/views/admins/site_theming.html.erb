@@ -10,11 +10,20 @@
 <div class="row">
     <div class="col-sm-13">
         <div style="margin-left: auto; margin-right: auto; width: 500px;">
-            <h3>Logos</h3>
+            <p>Configuration done here will impact each and every card and page on your site. After you update here, it should take anywhere between 1 to 2 minutes for the changes to reflect on your site.</p>
+        </div>
+    </div>
+    <div class="col-sm-3 help-text">
+    </div>
+</div>
+<br/>
+<div class="row">
+    <div class="col-sm-13">
+        <div style="margin-left: auto; margin-right: auto; width: 500px;">
+            <hr/>
             <br/>
             <div style="margin-left: 0px;">
                 <p>Publication logo</p>
-                <p class="hint">Use the logo you use as your Twitter Profile. It is square and should be at least 400 × 400px in size.</p>
                 <div style="margin-left: 0px;">
                   <% if @site.logo_image_id.present? %>
                     <%= image_tag(@site.logo_image.original_image.image_url, class: "rounded", style: "width: 100px;") %>
@@ -45,7 +54,6 @@
                 </div>
                 <br/>
                 <p>Publication favicon</p>
-                <p class="hint">This is used by mobile browsers to represent a page, appearing in browser tabs and similar places. It is square and should be at least 16 × 16px in size.</p>
                 <div style="margin-left: 0px;">
                   <% if @site.favicon_id.present? %>
                     <%= image_tag(@site.favicon.original_image.image_url, class: "rounded", style: "max-width: 100px;") %>
@@ -74,8 +82,19 @@
                   <% end %>
                 </div>
             </div>
-            <br/>
-            <h3>Colours</h3>
+        </div>
+    </div>
+	<div class="col-sm-3 help-text">
+		<br/>
+        <h2>Logos</h2>
+        <p><b>Favicon</b>: Use the logo you use as your Twitter Profile. It is square and should be at least 400 × 400px in size.</p>
+	</div>
+</div>
+<br/>
+<div class="row">
+    <div class="col-sm-13">
+        <div style="margin-left: auto; margin-right: auto; width: 500px;">
+            <hr/>
             <br/>
             <div style="margin-left: 0px;">
                 <%= simple_form_for [@account, @site] do |f| %>
@@ -88,9 +107,18 @@
                   <%= f.button :submit, "Update", class: "btn btn-sm btn-secondary" %>
               <% end %>
             </div>
-            <br/>
-            <br/>
-            <h3>toStory Card</h3>
+        </div>
+    </div>
+	<div class="col-sm-3 help-text">
+		<br/>
+        <h2>Colours</h2>
+	</div>
+</div>
+<br/>
+<div class="row">
+    <div class="col-sm-13">
+        <div style="margin-left: auto; margin-right: auto; width: 500px;">
+            <hr/>
             <br/>
             <div style="margin-left: 0px;">
                 <%= simple_form_for [@account, @site] do |f| %>
@@ -101,9 +129,18 @@
                   <%= f.button :submit, "Update", class: "btn btn-sm btn-secondary" %>
               <% end %>
             </div>
-            <br/>
-            <br/>
-            <h3>Header</h3>
+        </div>
+    </div>
+	<div class="col-sm-3 help-text">
+		<br/>
+        <h2>toStory Card</h2>
+	</div>
+</div>
+<br/>
+<div class="row">
+    <div class="col-sm-13">
+        <div style="margin-left: auto; margin-right: auto; width: 500px;">
+            <hr/>
             <br/>
             <div style="margin-left: 0px;">
               <%= simple_form_for [@account, @site] do |f| %>
@@ -118,8 +155,10 @@
         </div>
     </div>
 	<div class="col-sm-3 help-text">
-		<!--<h2>Email Settings</h2>
-		<p>Your default support email address is prototype@pro.to. Any email sent here gets automatically converted into a ticket that you can get working on.</p>
-		<p>You can configure your Freshdesk account to use a support email in your own domain, like <a href="">support@mycompany.com</a> by forwarding emails from this address to <a href="">protoprototype@heyproto.freshdesk.com</a>. To create a new support email box, click “Edit” under global email settings.</p>-->
+		<br/>
+        <h2>Site Header</h2>
+        <%= image_tag "header-wire.png", class: "img-fluid"%>
 	</div>
 </div>
+<br/>
+<br/>

@@ -21,8 +21,10 @@
 class Folder < ApplicationRecord
     #CONSTANTS
     #CUSTOM TABLES
-    include Associable
     #GEMS
+    include Propagatable
+    include AssociableBy
+    
     extend FriendlyId
     friendly_id :name, use: :slugged
 

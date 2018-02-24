@@ -24,6 +24,8 @@
 class ImageVariation < ApplicationRecord
   #CONSTANTS
   #CUSTOM TABLES
+  #CONCERNS
+  include Propagatable  
   #GEMS
   #ASSOCIATIONS
   belongs_to :image
