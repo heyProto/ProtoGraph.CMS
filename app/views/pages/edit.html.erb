@@ -153,7 +153,8 @@
     <h4 style='display: inline'><%= best_in_place @page_streamH07, :name_of_stream, url: [@account, @site, @page_streamH07] %></h4>
     |
     <%= link_to "Publish", publish_account_site_stream_path(@account, @site, @page_stream_07, folder_id: @folder.blank? ? nil : @folder.id),"data-turbolinks"=> false, method: :post %>
-    <% @page_stream_07.cards.each  do |d| %>
+    <% @page_stream_07.cards.each_with_index  do |d, i| %>
+      <% stream_entity = @page_stream_07.stream_entities.view_casts.where(entity_value: d.id).first %>
       <div class="card-as-a-todo move-to-action" data-view-cast-id="<%= d.id %>" style='margin: 0px;'>
         <div class="card-information">
           <div class="card-title"><%= truncate(d.name, length: 200, ommission: "..") %></div>
@@ -172,9 +173,17 @@
           <%= link_to "<div class='action-button action-edit'>Edit</div>".html_safe, edit_account_site_folder_view_cast_path(@account, @site, d.folder, d), "data-turbolinks" => false %>
         </div>
         <div class="action-move-to">
-          <div class="hint-text">Move To</div>
+          <div class="hint-text">
+            Move
+            <% if i != 0  %>
+              <%= link_to image_tag('up.png', height: 10), move_up_account_site_stream_stream_entity_path(@account, @site, @page_stream_07, stream_entity), method: :put %>
+            <% end %>
+            <% if i != (@page_stream_07.cards.count - 1)%>
+            <%= link_to image_tag('down.png', height: 10), move_down_account_site_stream_stream_entity_path(@account, @site, @page_stream_07, stream_entity), method: :put %>
+            <% end %>
+          </div>
           <div class="remove-button">
-            <%= link_to "Remove", [@account, @site, @page_stream_07, @page_stream_07.stream_entities.view_casts.where(entity_value: d.id).first ], method: :delete %>
+            <%= link_to "Remove", [@account, @site, @page_stream_07, stream_entity ], method: :delete %>
           </div>
 
           <br>
@@ -192,7 +201,8 @@
     <h4 style='display: inline'><%= best_in_place @page_streamH04, :name_of_stream, url: [@account, @site, @page_streamH04] %></h4>
     |
     <%= link_to "Publish", publish_account_site_stream_path(@account, @site, @page_stream_04, folder_id: @folder.blank? ? nil : @folder.id),"data-turbolinks"=> false, method: :post %>
-    <% @page_stream_04.cards.each  do |d| %>
+    <% @page_stream_04.cards.each_with_index  do |d, i| %>
+      <% stream_entity = @page_stream_04.stream_entities.view_casts.where(entity_value: d.id).first %>
       <div class="card-as-a-todo move-to-action" data-view-cast-id="<%= d.id %>" style='margin: 0px;'>
         <div class="card-information">
           <div class="card-title"><%= truncate(d.name, length: 200, ommission: "..") %></div>
@@ -211,9 +221,17 @@
           <%= link_to "<div class='action-button action-edit'>Edit</div>".html_safe, edit_account_site_folder_view_cast_path(@account, @site, d.folder, d), "data-turbolinks" => false %>
         </div>
         <div class="action-move-to">
-          <div class="hint-text">Move To</div>
+          <div class="hint-text">
+            Move
+            <% if i != 0  %>
+              <%= link_to image_tag('up.png', height: 10), move_up_account_site_stream_stream_entity_path(@account, @site, @page_stream_04, stream_entity), method: :put %>
+            <% end %>
+            <% if i != (@page_stream_04.cards.count - 1)%>
+              <%= link_to image_tag('down.png', height: 10), move_down_account_site_stream_stream_entity_path(@account, @site, @page_stream_04, stream_entity), method: :put %>
+            <% end %>
+          </div>
           <div class="remove-button">
-            <%= link_to "Remove", [@account, @site, @page_stream_04, @page_stream_04.stream_entities.view_casts.where(entity_value: d.id).first ], method: :delete %>
+            <%= link_to "Remove", [@account, @site, @page_stream_04, stream_entity ], method: :delete %>
           </div>
 
           <br>
@@ -231,7 +249,8 @@
     <h4 style='display: inline'><%= best_in_place @page_streamH02, :name_of_stream, url: [@account, @site, @page_streamH02] %></h4>
     |
     <%= link_to "Publish", publish_account_site_stream_path(@account, @site, @page_stream_02, folder_id: @folder.blank? ? nil : @folder.id),"data-turbolinks"=> false, method: :post %>
-    <% @page_stream_02.cards.each  do |d| %>
+    <% @page_stream_02.cards.each_with_index  do |d, i| %>
+      <% stream_entity = @page_stream_02.stream_entities.view_casts.where(entity_value: d.id).first %>
       <div class="card-as-a-todo move-to-action" data-view-cast-id="<%= d.id %>" style='margin: 0px;'>
         <div class="card-information">
           <div class="card-title"><%= truncate(d.name, length: 200, ommission: "..") %></div>
@@ -250,9 +269,17 @@
           <%= link_to "<div class='action-button action-edit'>Edit</div>".html_safe, edit_account_site_folder_view_cast_path(@account, @site, d.folder, d), "data-turbolinks" => false %>
         </div>
         <div class="action-move-to">
-          <div class="hint-text">Move To</div>
+          <div class="hint-text">
+            Move
+            <% if i != 0  %>
+              <%= link_to image_tag('up.png', height: 10), move_up_account_site_stream_stream_entity_path(@account, @site, @page_stream_02, stream_entity), method: :put %>
+            <% end %>
+            <% if i != (@page_stream_02.cards.count - 1)%>
+              <%= link_to image_tag('down.png', height: 10), move_down_account_site_stream_stream_entity_path(@account, @site, @page_stream_02, stream_entity), method: :put %>
+            <% end %>
+          </div>
           <div class="remove-button">
-            <%= link_to "Remove", [@account, @site, @page_stream_02, @page_stream_02.stream_entities.view_casts.where(entity_value: d.id).first ], method: :delete %>
+            <%= link_to "Remove", [@account, @site, @page_stream_02, stream_entity ], method: :delete %>
           </div>
 
           <br>
@@ -270,7 +297,8 @@
     <h4 style='display: inline'><%= best_in_place @page_streamH03, :name_of_stream, url: [@account, @site, @page_streamH03] %></h4>
     |
     <%= link_to "Publish", publish_account_site_stream_path(@account, @site, @page_stream_04, folder_id: @folder.blank? ? nil : @folder.id),"data-turbolinks"=> false, method: :post %>
-    <% @page_stream_03.cards.each  do |d| %>
+    <% @page_stream_03.cards.each_with_index  do |d, i| %>
+      <% stream_entity = @page_stream_03.stream_entities.view_casts.where(entity_value: d.id).first %>
       <div class="card-as-a-todo move-to-action" data-view-cast-id="<%= d.id %>" style='margin: 0px;'>
         <div class="card-information">
           <div class="card-title"><%= truncate(d.name, length: 200, ommission: "..") %></div>
@@ -289,9 +317,17 @@
           <%= link_to "<div class='action-button action-edit'>Edit</div>".html_safe, edit_account_site_folder_view_cast_path(@account, @site, d.folder, d), "data-turbolinks" => false %>
         </div>
         <div class="action-move-to">
-          <div class="hint-text">Move To</div>
+          <div class="hint-text">
+            Move
+            <% if i != 0  %>
+              <%= link_to image_tag('up.png', height: 10), move_up_account_site_stream_stream_entity_path(@account, @site, @page_stream_02, stream_entity), method: :put %>
+            <% end %>
+            <% if i != (@page_stream_03.cards.count - 1)%>
+              <%= link_to image_tag('down.png', height: 10), move_down_account_site_stream_stream_entity_path(@account, @site, @page_stream_02, stream_entity), method: :put %>
+            <% end %>
+          </div>
           <div class="remove-button">
-            <%= link_to "Remove", [@account, @site, @page_stream_03, @page_stream_03.stream_entities.view_casts.where(entity_value: d.id).first ], method: :delete %>
+            <%= link_to "Remove", [@account, @site, @page_stream_03, stream_entity ], method: :delete %>
           </div>
 
           <br>

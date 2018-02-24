@@ -98,7 +98,8 @@ class Stream < ApplicationRecord
             else
                 view_cast = ViewCast.none
             end
-            view_cast_or = self.view_cast_ids.present? ? account.view_casts.where(id: self.view_cast_ids.pluck(:entity_value)).where.not(folder_id: account.folders.where(is_trash: true).first.id) : ViewCast.none
+            vc_ids = self.view_cast_ids.pluck(:entity_value)
+            view_cast_or = vc_ids.present? ? account.view_casts.where(id: vc_ids).where.not(folder_id: account.folders.where(is_trash: true).first.id).order("field(id, #{vc_ids.join(",")})") : ViewCast.none
             view_casts = view_cast + view_cast_or
             return view_casts
         end
@@ -238,11 +239,7 @@ class Stream < ApplicationRecord
     end
 
     def after_create_set
-        Thread.new do
-            sleep 1
-            self.publish_cards
-            ActiveRecord::Base.connection.close
-        end
+        StreamPublisher.perform_at(5.seconds.from_now, self.id)
     end
 
     def after_save_set

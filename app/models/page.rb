@@ -418,9 +418,8 @@ class Page < ApplicationRecord
         card.destroy
       end
     end
-    narrative_stream.view_cast_ids.destroy_all
-    narrative_stream.update(view_cast_id_list: [view_cast_lists.join(",")])
-    narrative_stream.publish_cards
+    narrative_stream.update(view_cast_id_list: [view_cast_lists.reverse.join(",")])
+    StreamPublisher.perform_async(narrative_stream.id)
   end
 
   #PRIVATE

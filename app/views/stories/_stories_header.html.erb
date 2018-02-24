@@ -1,15 +1,15 @@
 <%= content_for :page_navigation do %>
       <li class="nav-item">
-        <%= link_to "Plan", edit_plan_account_site_story_path(@account, @site, @page, folder_id: @page.folder_id), class: (action_name == "edit_plan" ? "nav-link active" : "nav-link") %>
+        <%= link_to "Plan", (action_name == "edit_plan" ? "#" : edit_plan_account_site_story_path(@account, @site, @page, folder_id: @page.folder_id)), class: (action_name == "edit_plan" ? "nav-link active" : "nav-link"),"data-turbolinks" => "false" %>
       </li>
       <li class="nav-item">
-        <%= link_to "Write", edit_write_account_site_story_path(@account, @site, @page, folder_id: @page.folder_id), class: (action_name == "edit_write" ? "nav-link active" : "nav-link"), "data-no-turbolink" => true %>
+        <%= link_to "Write", (action_name == "edit_write" ? "#" : edit_write_account_site_story_path(@account, @site, @page, folder_id: @page.folder_id)), class: (action_name == "edit_write" ? "nav-link active" : "nav-link"), "data-turbolinks" => "false" %>
       </li>
       <li class="nav-item">
-        <%= link_to "Assemble", edit_assemble_account_site_story_path(@account, @site, @page, folder_id: @page.folder_id), class: (action_name == "edit_assemble" ? "nav-link active" : "nav-link") %>
+        <%= link_to "Assemble", (action_name == "edit_assemble" ?  "#" : edit_assemble_account_site_story_path(@account, @site, @page, folder_id: @page.folder_id)), class: (action_name == "edit_assemble" ? "nav-link active" : "nav-link"), "data-turbolinks" => "false" %>
       </li>
       <li class="nav-item">
-        <%= link_to "Package", edit_distribute_account_site_story_path(@account, @site, @page, folder_id: @page.folder_id), class: (action_name == "edit_distribute" ? "nav-link active" : "nav-link") %>
+        <%= link_to "Package", (action_name == "edit_distribute" ? "#" :  edit_distribute_account_site_story_path(@account, @site, @page, folder_id: @page.folder_id)), class: (action_name == "edit_distribute" ? "nav-link active" : "nav-link"),"data-turbolinks" => "false" %>
       </li>
 <% end %>
 
