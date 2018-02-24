@@ -19,7 +19,7 @@
 #  publish_count        :integer
 #  is_public            :boolean
 #  git_url              :text(65535)
-#  git_branch           :string(255)
+#  git_branch           :string(255)      default("master")
 #  created_by           :integer
 #  updated_by           :integer
 #  template_datum_id    :integer

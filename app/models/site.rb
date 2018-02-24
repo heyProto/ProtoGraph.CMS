@@ -41,6 +41,7 @@
 #  slug                    :string(255)
 #  is_english              :boolean          default(TRUE)
 #  english_name            :string(255)
+#  story_card_flip         :boolean          default(FALSE)
 #
 
 class Site < ApplicationRecord

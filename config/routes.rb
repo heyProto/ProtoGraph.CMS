@@ -106,7 +106,9 @@ Rails.application.routes.draw do
       end
       resources :streams do
         post :publish, on: :member
-        resources :stream_entities, only: [:create, :destroy]
+        resources :stream_entities, only: [:create, :destroy] do
+          put "move_up", "move_down", on: :member
+        end
       end
       resources :page_streams, only: [:update]
     end
