@@ -34,6 +34,7 @@ class AdminsController < ApplicationController
 
   def editorial_folders
     @is_admin = true
+    @folders = @permission_role.can_see_all_folders ? @site.folders : current_user.folders(@site)
   end
   
   def account_owners

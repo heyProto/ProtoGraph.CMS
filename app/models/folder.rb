@@ -53,8 +53,9 @@ class Folder < ApplicationRecord
     def move_friendly_id_error_to_name
         errors.add :name, *errors.delete(:friendly_id) if errors[:friendly_id].present?
     end
+    
     #SCOPE
-    default_scope { where("is_archived IS NULL OR is_archived = false")}
+    scope :active, -> { where("is_archived IS NULL OR is_archived = false")}
     
     #OTHER
     def should_generate_new_friendly_id?

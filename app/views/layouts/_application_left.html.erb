@@ -24,39 +24,29 @@
             </div>
         <% end %>
         <div class="dropdown show">
-        	<span class="text-uppercase">select folder</span>
-          <a class="btn btn-secondary btn-sm dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              <% if @folder.blank? %>
-                  Select a folder
-              <% elsif (@folder.present? and @folder.id.blank?) %>
-                  Home
-              <% else %>
-                  <%= truncate(folder_name_trunc_(@folder), length: 15, ommission: "..") %>
-              <% end %>
-          </a>
-          <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-              <%= link_to "Home", account_site_path(@account, @site), class: "dropdown-item" %>
-              <% @folders.each do |folder| %>
-                  <%= link_to truncate(folder_name_trunc_(folder), length: 24, ommission: ".."), account_site_folder_view_casts_path(@account, @site, folder), class: "dropdown-item" %>
-              <% end %>
-          </div>
+            <div class="list-group list-group-flush">
+                <%= link_to "Home", account_site_path(@account, @site), class: ((@folder.blank? or @folder.id.blank?) and !@is_admin and !@is_page_builder and controller_name != "images") ? "list-group-item list-group-item-action active" : "list-group-item list-group-item-action" %>
+            </div>
         </div>
-    	<span class="text-uppercase">create</span>
-        <div class="list-group list-group-flush">
-          <% if @folder.present? and @folder.id.present? %>
-              <% if @folder.vertical.present? and @folder.is_for_stories %>
-                  <%= link_to "Stories", account_site_stories_path(@account, @site, folder_id: @folder.id), class: (controller_name == "stories" and action_name != "manager") ? "list-group-item list-group-item-action active" : "list-group-item list-group-item-action", "data-turbolinks"=> false %>
+    	<% if @folder.present? and @folder.id.present? %>
+            <span class="text-uppercase">create</span>
+            <div class="list-group list-group-flush">
+              <% if @folder.present? and @folder.id.present? %>
+                  <%= link_to "Cards", account_site_folder_view_casts_path(@account, @site, @folder), class: controller_name == "view_casts" ? "list-group-item list-group-item-action active" : "list-group-item list-group-item-action", "data-turbolinks"=> false %>
+                  <% if @folder.vertical.present? and @folder.is_for_stories %>
+                      <%= link_to "Stories", account_site_stories_path(@account, @site, folder_id: @folder.id), class: (controller_name == "stories" and action_name != "manager") ? "list-group-item list-group-item-action active" : "list-group-item list-group-item-action", "data-turbolinks"=> false %>
+                  <% end %>
               <% end %>
-              <%= link_to "Cards", account_site_folder_view_casts_path(@account, @site, @folder), class: controller_name == "view_casts" ? "list-group-item list-group-item-action active" : "list-group-item list-group-item-action", "data-turbolinks"=> false %>
-          <% end %>
-          <%= link_to "Images", account_images_path(@account, folder_id: @folder.present? ? @folder.id : nil), "data-turbolinks"=> false, class: (controller_name == "images") ? "list-group-item list-group-item-action active" : "list-group-item list-group-item-action" %>
-        </div>
+            </div>
+        <% end %>
         <div class="bottom-aligned">
-            <span class="text-uppercase">Site Settings</span>
+            <span class="text-uppercase">Site</span>
         	<div class="list-group list-group-flush">
-              <%= link_to "Page Builder", manager_account_site_pages_path(@account, @site, folder_id: @folder.present? ? @folder.id : nil), "data-turbolinks"=> false, class: (controller_name == "pages" and action_name == "manager") ? "list-group-item active list-group-item-action" : "list-group-item list-group-item-action" %>
-              <%= link_to "Admin", account_site_admins_path(@account, @site), "data-turbolinks"=> false, class: @is_admin ? "list-group-item active list-group-item-action" : "list-group-item list-group-item-action" %>
-        </div>
+              <%= link_to "Image Bank", account_images_path(@account, folder_id: @folder.present? ? @folder.id : nil), "data-turbolinks"=> false, class: (controller_name == "images") ? "list-group-item list-group-item-action active" : "list-group-item list-group-item-action" %>
+              <%= link_to "Page Builder", manager_account_site_pages_path(@account, @site, folder_id: @folder.present? ? @folder.id : nil), "data-turbolinks"=> false, class: @is_page_builder ? "list-group-item active list-group-item-action" : "list-group-item list-group-item-action" %>
+              <%= link_to "Site Admin", account_site_admins_path(@account, @site), "data-turbolinks"=> false, class: @is_admin ? "list-group-item active list-group-item-action" : "list-group-item list-group-item-action" %>
+            </div>
+            <span class="text-uppercase">Me</span>
     <% end %>
 
 <% end %>

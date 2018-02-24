@@ -67,7 +67,8 @@ Rails.application.routes.draw do
     end
     resources :sites do
       resources :admins, only: [:index] do
-        get "access_team", "access_security", "editorial_folders", on: :collection
+        get "access_team", "access_security", on: :collection
+        get 'editorial/folders', to: "admins#editorial_folders", on: :collection
         get 'site/setup', to: "admins#site_setup", on: :collection
         get 'site/theming', to: "admins#site_theming", on: :collection
         get 'site/integrations', to: "admins#site_integrations", on: :collection

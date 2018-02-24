@@ -3,14 +3,7 @@
 	<div class="steps-to-build-page">
 		<ul class="nav justify-content-end">
             <%= yield :page_navigation %>
-
-                <% if controller_name == "sites" and action_name == "show" %>
-                    <li>
-                        <button class="btn btn-sm btn-secondary btn-sm" type="button">
-                            <%= link_to '+ Add a folder', new_account_site_folder_path(@account, @site), data: {turbolinks: false} %>
-                        </button>
-                    </li>
-                <% elsif controller_name == "view_casts" and action_name == "index" %></li>
+                <% if controller_name == "view_casts" and action_name == "index" %></li>
                     <li>
                         <button class="btn btn-sm btn-secondary btn-sm" type="button">
                             <%= link_to '+ Add a card', new_account_site_folder_view_cast_path(@account, @site, @folder), data: {turbolinks: false} %>
