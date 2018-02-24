@@ -213,7 +213,7 @@ class Page < ApplicationRecord
     self.update_column(:page_object_url, "#{self.site.cdn_endpoint}/#{key}")
     # if !Rails.env.development?
       # PagesWorker.perform_async(self.id)
-    response = Api::ProtoGraph::Page.create_or_update_page(self.datacast_identifier, self.template_page.s3_identifier, self.site.cdn_bucket, self.site.cdn_endpoint)
+    response = Api::ProtoGraph::Page.create_or_update_page(self.datacast_identifier, self.template_page.s3_identifier, self.site.cdn_bucket, ENV['AWS_S3_ENDPOINT'])
     # end
     Api::ProtoGraph::CloudFront.invalidate(self.site, ["/#{key}", "/#{self.html_key}.html"], 2)
     create_story_card
@@ -470,11 +470,11 @@ class Page < ApplicationRecord
     when 'Homepage: Vertical'
       streams = [["Section_16c_Hero", "Hero"], ["Section_7c", "Originals"], ["Section_4c", "Digests"], ["Section_3c", "Feed"], ["Section_2c", "Opinions"]]
     when 'article'
-      streams = [["Section_16c_Hero", "Hero"], ["Story_Narrative", "Narrative"], ["Story_Related", "Related"]]
+      streams = [["Story_16c_Hero", "Hero"], ["Story_Narrative", "Narrative"], ["Story_Related", "Related"]]
     when 'data grid'
-      streams = [["Section_16c_Hero", "Hero"], ["Data_Grid", "#{self.id}_Section_data"]]
+      streams = [["Data_16c_Hero", "Hero"], ["Data_Grid", "#{self.id}_Section_data"]]
     else
-      streams = [["Section_16c_Hero", "Hero"], ["Data_Grid", "#{self.id}_Section_data"]]
+      streams = [["Data_16c_Hero", "Hero"], ["Data_Grid", "#{self.id}_Section_data"]]
     end
     streams.each do |s|
       stream = Stream.create!({
