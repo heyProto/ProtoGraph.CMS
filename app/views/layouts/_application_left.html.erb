@@ -25,7 +25,7 @@
         <% end %>
         <div class="dropdown show">
             <div class="list-group list-group-flush">
-                <%= link_to "Home", account_site_path(@account, @site), class: ((@folder.blank? or @folder.id.blank?) and !@is_admin and !@is_page_builder) ? "list-group-item list-group-item-action active" : "list-group-item list-group-item-action" %>
+                <%= link_to "Home", account_site_path(@account, @site), class: ((@folder.blank? or @folder.id.blank?) and !@is_admin and !@is_page_builder and controller_name != "images") ? "list-group-item list-group-item-action active" : "list-group-item list-group-item-action" %>
             </div>
         </div>
     	<% if @folder.present? and @folder.id.present? %>
