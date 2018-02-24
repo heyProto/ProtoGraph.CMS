@@ -25,7 +25,7 @@
         <% end %>
         <div class="dropdown show">
             <div class="list-group list-group-flush">
-                <%= link_to "Home", account_site_path(@account, @site), class: (@folder.blank? or @folder.id.blank?) ? "list-group-item list-group-item-action active" : "list-group-item list-group-item-action" %>
+                <%= link_to "Home", account_site_path(@account, @site), class: ((@folder.blank? or @folder.id.blank?) and !@is_admin and !@is_page_builder and controller_name != "images") ? "list-group-item list-group-item-action active" : "list-group-item list-group-item-action" %>
             </div>
         </div>
     	<% if @folder.present? and @folder.id.present? %>
@@ -43,7 +43,7 @@
             <span class="text-uppercase">Site</span>
         	<div class="list-group list-group-flush">
               <%= link_to "Image Bank", account_images_path(@account, folder_id: @folder.present? ? @folder.id : nil), "data-turbolinks"=> false, class: (controller_name == "images") ? "list-group-item list-group-item-action active" : "list-group-item list-group-item-action" %>
-              <%= link_to "Page Builder", manager_account_site_pages_path(@account, @site, folder_id: @folder.present? ? @folder.id : nil), "data-turbolinks"=> false, class: (controller_name == "pages" and action_name == "manager") ? "list-group-item active list-group-item-action" : "list-group-item list-group-item-action" %>
+              <%= link_to "Page Builder", manager_account_site_pages_path(@account, @site, folder_id: @folder.present? ? @folder.id : nil), "data-turbolinks"=> false, class: @is_page_builder ? "list-group-item active list-group-item-action" : "list-group-item list-group-item-action" %>
               <%= link_to "Site Admin", account_site_admins_path(@account, @site), "data-turbolinks"=> false, class: @is_admin ? "list-group-item active list-group-item-action" : "list-group-item list-group-item-action" %>
             </div>
             <span class="text-uppercase">Me</span>

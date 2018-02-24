@@ -7,12 +7,14 @@ class PagesController < ApplicationController
     @genre = "series"
     @data = @site.verticals.order(:name)
     @instance = @site.verticals.new
+    @is_page_builder = true
   end
 
   def edit
     if @page.template_page.name == "article"
       redirect_to edit_plan_account_site_story_path(@account, @site, @page, folder_id: @folder.present? ? @folder.id : nil)
     else
+      @is_page_builder = true
       @ref_intersection = RefCategory.where(site_id: @site.id, genre: "intersection", is_disabled: [false, nil]).order(:name).map {|r| ["#{r.name}", r.id]}
       @ref_sub_intersection = RefCategory.where(site_id: @site.id, genre: "sub intersection", is_disabled: [false, nil]).order(:name).map {|r| ["#{r.name}", r.id]}
       @cover_image_alignment = ['vertical', 'horizontal'].map {|r| ["#{r.titlecase}", r]}
@@ -72,6 +74,7 @@ class PagesController < ApplicationController
           @page.publish = @page.status == 'published'
           if @page.status != "draft"
             if @page.template_page.name == "Homepage: Vertical"
+              @is_page_builder = true
               @page_stream_16 = @page.streams.where(title: "#{@page.id.to_s}_Section_16c_Hero").first
               @page_stream_16.view_cast_id_list = @page_stream_16.view_cast_ids.pluck(:entity_value).join(",")
               @page_stream_07 = @page.streams.where(title: "#{@page.id.to_s}_Section_7c").first
