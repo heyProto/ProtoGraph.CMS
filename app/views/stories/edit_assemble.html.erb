@@ -85,8 +85,7 @@
                   </div>
                   <div class='col-sm-4' style="margin: 0px;padding: 0px">
                     <h4 style='display: inline'><%= best_in_place @page_stream_narrative7c, :name_of_stream, url: [@account, @site, @page_stream_narrative7c] %></h4>
-                    |
-                    <%= link_to "Publish", publish_account_site_stream_path(@account, @site, @page_stream_narrative, folder_id: @folder.blank? ? nil : @folder.id),"data-turbolinks"=> false, method: :post %>
+                    <%= link_to ".", publish_account_site_stream_path(@account, @site, @page_stream_narrative, folder_id: @folder.blank? ? nil : @folder.id),"data-turbolinks"=> false, method: :post, style: "color: white" %>
                     <% @page_stream_narrative.cards.each_with_index do |d, i| %>
                       <% stream_entity = @page_stream_narrative.stream_entities.view_casts.where(entity_value: d.id).first %>
                       <div class="card-as-a-todo move-to-action" data-view-cast-id="<%= d.id %>" style='margin: 0px;'>
@@ -110,9 +109,11 @@
                           <div class="hint-text">
                             Move
                             <% if i != 0  %>
+                              &nbsp
                               <%= link_to image_tag('up.png', height: 10), move_up_account_site_stream_stream_entity_path(@account, @site, @page_stream_narrative, stream_entity), method: :put %>
                             <% end %>
                             <% if i != (@page_stream_narrative.cards.count - 1)%>
+                              &nbsp
                               <%= link_to image_tag('down.png', height: 10), move_down_account_site_stream_stream_entity_path(@account, @site, @page_stream_narrative, stream_entity), method: :put %>
                             <% end %>
                           </div>
@@ -130,8 +131,7 @@
                   </div>
                   <div class='col-sm-4' style="margin: 0px;padding: 0px">
                     <h4 style='display: inline'><%= best_in_place @page_stream_related7c, :name_of_stream, url: [@account, @site, @page_stream_related] %></h4>
-                    |
-                    <%= link_to "Publish", publish_account_site_stream_path(@account, @site, @page_stream_related, folder_id: @folder.blank? ? nil : @folder.id),"data-turbolinks"=> false, method: :post %>
+                    <%= link_to ".", publish_account_site_stream_path(@account, @site, @page_stream_related, folder_id: @folder.blank? ? nil : @folder.id),"data-turbolinks"=> false, method: :post, style: "color: white" %>
                     <% @page_stream_related.cards.each_with_index  do |d, i| %>
                       <% stream_entity = @page_stream_related.stream_entities.view_casts.where(entity_value: d.id).first %>
                       <div class="card-as-a-todo move-to-action" data-view-cast-id="<%= d.id %>" style='margin: 0px;'>
@@ -155,9 +155,11 @@
                           <div class="hint-text">
                             Move
                             <% if i != 0  %>
+                              &nbsp
                               <%= link_to image_tag('up.png', height: 10), move_up_account_site_stream_stream_entity_path(@account, @site, @page_stream_related, stream_entity), method: :put %>
                             <% end %>
                             <% if i != (@page_stream_related.cards.count - 1)%>
+                              &nbsp
                               <%= link_to image_tag('down.png', height: 10), move_down_account_site_stream_stream_entity_path(@account, @site, @page_stream_related, stream_entity), method: :put %>
                             <% end %>
                           </div>
