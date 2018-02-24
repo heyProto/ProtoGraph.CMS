@@ -57,11 +57,8 @@ class StreamsController < ApplicationController
     end
 
     def publish
-        Thread.new do
-            @stream.publish_cards
-            track_activity(@stream)
-            ActiveRecord::Base.connection.close
-        end
+        StreamPublisher.perform_async(@stream.id)
+        track_activity(@stream)
         if @stream.pages.first.present?
             redirect_back(fallback_location: account_site_pages_path(@account, @site, folder_id: (@folder.present? ? @folder.id : nil)), notice:t("published.stream"))
         else
