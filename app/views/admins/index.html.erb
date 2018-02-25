@@ -1,14 +1,17 @@
 <%= content_for :page_title do %>
-    Admin
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><%= link_to @site.domain, account_site_path(@account, @site), "data-turbolinks"=> false %></li>
+      </ol>
+    </nav>
 <% end %>
 
 
 
 <div class="row">
     <div class="col-sm-13">
-        <div style="margin-left: auto; margin-right: auto; width: 500px;">
-            <br/><br/>
-            <h2 style="font-weight: 400;">Account: <%= @account.username %></h2>
+        <div style="margin-left: auto; margin-right: auto; width: 600px;">
+            <h3 style="font-weight: 800;">Admin for Account: <%= @account.username %></h3>
             <div class="row">
                 <div class="col-sm-5">
                     <a href=<%= account_owners_account_admins_path(@account)%>>
@@ -18,7 +21,7 @@
                 </div>
             </div>
             <br/>
-            <h2 style="font-weight: 400;">Site: <%= @site.domain %></h2>
+            <h3 style="font-weight: 800;">Admin for Site: <%= @site.domain %></h3>
             <br/>
             <h3 style="font-weight: 100;">Setup</h3>
             <div class="row">
@@ -68,19 +71,11 @@
                     </a>    
                 </div>
                 <div class="col-sm-5">
-                    <a href=<%= editorial_folders_account_site_admins_path(@account,@site) %>>
-                        <div class="administration-options"><%= image_tag "glyphicons-145-folder-open.png" %></div>
-                        <p>Folders</p>
-                    </a>    
-                </div>
-                <div class="col-sm-5">
                     <a href=<%= intersection_account_site_path(@account, @site)%>>
                         <div class="administration-options"><%= image_tag "glyphicons-66-tag.png" %></div>
                         <p>Intersections</p>
                     </a>
                 </div>
-            </div>
-            <div class="row">
                 <div class="col-sm-5">
                     <a href=<%= sub_intersection_account_site_path(@account,@site)%>>
                         <div class="administration-options"><%= image_tag "glyphicons-67-tags.png" %></div>
@@ -88,17 +83,18 @@
                     </a>    
                 </div>
             </div>
+            <div class="row">
+                <div class="col-sm-5">
+                    <a href=<%= editorial_folders_account_site_admins_path(@account,@site) %>>
+                        <div class="administration-options"><%= image_tag "glyphicons-145-folder-open.png" %></div>
+                        <p>Folders</p>
+                    </a>    
+                </div>
+            </div>
             <br/><br/><br/><br/>
         </div>
     </div>
 	<div class="col-sm-3 help-text">
-		<h2>How is ProtoTYPE structured?</h2>
-		<p><b>Account</b> can own multiple <b>sites</b>. (E.g. Vox Media owns sites Verge, Vox.com, etc.).</p>
-        <p>Each site has many <b>verticals</b> within it. (E.g. Verge has Culture, Transportation, etc.)</p>
-        <p>Programming is further broken down into <b>intersections</b>. (E.g. Transportation has Ride-Sharing, Autonomy, etc.)</p>
-        <p>Stories can be grouped together into short term topics called <b>sub intersections</b>. (E.g. Black Panther Movie)</p>
-        <p>Thus, Culture + Transportation + Black Panther Movie, results in an article called - <%= link_to "Black Panther’s Wakanda is a transportation utopia with a dash of reality", "https://www.theverge.com/2018/2/23/17044448/black-panther-wakanda-maglev-train-hyperloop-transportation", target: "_blank"%> </p>
-        <hr/>
-        <p>When programming, we recommend Editors to organise articles and cards in <b>folders</b>.</p>
+		<%= render partial: "admins/sidebar_structured" %>
 	</div>
 </div>

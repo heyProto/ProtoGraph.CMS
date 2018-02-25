@@ -1,6 +1,7 @@
 <%= content_for :page_title do %>
     <nav aria-label="breadcrumb">
       <ol class="breadcrumb">
+        <li class="breadcrumb-item"><%= link_to @site.domain, account_site_path(@account, @site), "data-turbolinks"=> false %></li>
         <li class="breadcrumb-item"><%= link_to "Admin", account_site_admins_path(@account, @site), "data-turbolinks"=> false %></li>
         <li class="breadcrumb-item active" aria-current="page">Invite People</li>
         <li class="breadcrumb-item active" aria-current="page">Account Owners</li>
@@ -60,9 +61,6 @@
         </div>
     </div>
 	<div class="col-sm-3 help-text">
-		<h2>Account Owners</h2>
-		<p>Whomever you invite here will have admin access to all your sites and settings.</p>
-        <hr/>
         <%= simple_form_for [@account, @permission_invite] do |f| %>
         <% if @permission_invite.errors.any? %>
         <div id="error_explanation" class="ui error message">
@@ -83,5 +81,8 @@
         <%= f.input :ref_role_slug, as: :hidden, input_html: {value: "owner"} %>
         <%= f.submit "Invite", class: "btn btn-sm btn-secondary" %>
         <% end %>
+        <hr/>
+		<h2>Account Owners</h2>
+		<p>Whomever you invite here will have admin access to all your sites and settings.</p>
 	</div>
 </div>

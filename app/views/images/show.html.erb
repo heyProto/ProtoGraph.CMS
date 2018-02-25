@@ -1,9 +1,8 @@
 <%= content_for :page_title do %>
     <nav aria-label="breadcrumb">
       <ol class="breadcrumb">
-        <li class="breadcrumb-item">
-            <%= link_to "Images", account_images_path(@account, folder_id: @folder.present? ? @folder.id : nil), "data-turbolinks"=> false %>
-        </li>
+        <li class="breadcrumb-item"><%= link_to @site.domain, account_site_path(@account, @site), "data-turbolinks"=> false %></li>
+        <li class="breadcrumb-item"><%= link_to "Images", account_images_path(@account, folder_id: @folder.present? ? @folder.id : nil), "data-turbolinks"=> false %></li>
         <li class="breadcrumb-item active" aria-current="page"><%= @image.name %></li>
       </ol>
     </nav>

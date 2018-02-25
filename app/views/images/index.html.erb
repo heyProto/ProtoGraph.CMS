@@ -1,5 +1,10 @@
 <%= content_for :page_title do %>
-    Images
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><%= link_to @site.domain, account_site_path(@account, @site), "data-turbolinks"=> false %></li>
+        <li class="breadcrumb-item active" aria-current="page">Images</li>
+      </ol>
+    </nav>
 <% end %>
 <%= stylesheet_link_tag "image_bank.css" %>
 <div class="row">
