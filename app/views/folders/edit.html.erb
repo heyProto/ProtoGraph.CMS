@@ -12,8 +12,6 @@
                 <%= f.input :name, required: true %>
                 <%= f.input :site_id, as: :hidden, input_html: {value: @site.id} %>
                 <%= f.input :is_archived, as: :boolean, label: "&nbsp; Is Archived?".html_safe %>
-                <%= f.input :ref_category_vertical_id, collection: @verticals, label: "Vertical" %>
-                <%= f.input :is_for_stories, as: :boolean, label: "&nbsp; Use this folder to file stories?".html_safe, hint: "Implication: You wont be able to create data cards in this folder."%>
                 <% if @site.users.count > 0 %>
                     <%=  f.input :collaborator_lists,  collection: @site.users.pluck(:name, :id), input_html: { class: 'ui search fluid dropdown', multiple: true}, label: "Add Collaborators" %>
                 <% end %>
@@ -22,10 +20,9 @@
         </div>
     </div>
 	<div class="col-sm-3 help-text">
-		<!--<%= image_tag "help.png", style: "float: right; right: 0; top: 0; position: relative;" %>
-            <h2>Email Settings</h2>
-		<p>Your default support email address is prototype@pro.to. Any email sent here gets automatically converted into a ticket that you can get working on.</p>
-		<p>You can configure your Freshdesk account to use a support email in your own domain, like <a href="">support@mycompany.com</a> by forwarding emails from this address to <a href="">protoprototype@heyproto.freshdesk.com</a>. To create a new support email box, click “Edit” under global email settings.</p>-->
+		<%= image_tag "help.png", style: "float: right; right: 0; top: 0; position: relative;" %>
+        <h2>Edit Folder</h2>
+		<p>Archive folders whose stories you have published. Archived folders are not visible in site any more. You can find them and unarchive them if you need.</p>
 	</div>
 </div>
 
