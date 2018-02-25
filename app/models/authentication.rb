@@ -16,14 +16,20 @@
 #  updated_at          :datetime         not null
 #  user_id             :integer
 #  site_id             :integer
+#  created_by          :integer
+#  updated_by          :integer
+#  account_id          :integer
 #
+
+#TODO AMIT - Handle created_by, updated_by, account_id - RP added retrospectively. Need migration of old rows and BAU handling.
 
 class Authentication < ApplicationRecord
 
   #CONSTANTS
   #CUSTOM TABLES
-  #GEMS
+  #CONCERNS
   include Propagatable
+  include AssociableByAcSi
   
   #ASSOCIATIONS
   belongs_to :user

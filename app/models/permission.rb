@@ -20,11 +20,10 @@ class Permission < ApplicationRecord
     REF_DEFAULT_ROLES = [['Writer', 'writer'], ["Editor", "editor"]]
     REF_ROLES = [["Editor", "editor"], ['Writer', 'writer'], ['Contributor', 'contributor']]
     #CUSTOM TABLES
-    #CONCERNS
-    include AssociableBy
-    include Propagatable
-    
     #GEMS
+    #CONCERNS
+    include Propagatable
+    include AssociableBy
     #ASSOCIATIONS
     belongs_to :user
     validates :permissible_type, presence: true

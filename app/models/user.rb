@@ -32,7 +32,7 @@ class User < ApplicationRecord
     devise :database_authenticatable, :registerable, :confirmable,
          :recoverable, :rememberable, :trackable, :validatable,
          :omniauthable, omniauth_providers: [:twitter]
-
+    #CONCERNS
     #ASSOCIATIONS
     has_many :permissions, ->{where(status: "Active")}
     has_many :activities

@@ -60,17 +60,14 @@ class Page < ApplicationRecord
   before_validation :before_validation_set
   extend FriendlyId
   friendly_id :english_headline, use: :slugged
-
+  #CONCERNS
+  include Propagatable
+  include AssociableByAcSiFo
   #ASSOCIATIONS
-  belongs_to :account
-  belongs_to :site
-  belongs_to :folder, optional: true
   belongs_to :series, class_name: "RefCategory", foreign_key: :ref_category_series_id, optional: true
   belongs_to :intersection, class_name: "RefCategory", foreign_key: :ref_category_intersection_id, optional: true
   belongs_to :sub_intersection, class_name: "RefCategory", foreign_key: :ref_category_sub_intersection_id, optional: true
   belongs_to :view_cast, optional: true
-  belongs_to :creator, class_name: "User", foreign_key: "created_by"
-  belongs_to :updator, class_name: "User", foreign_key: "updated_by"
   belongs_to :template_page
   belongs_to :col7_cover_image, class_name: "ImageVariation", foreign_key: "cover_image_id_7_column", optional: true
   belongs_to :cover_image, class_name: "Image", optional: true

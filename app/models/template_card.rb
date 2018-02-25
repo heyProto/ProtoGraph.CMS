@@ -42,17 +42,13 @@ class TemplateCard < ApplicationRecord
     serialize :allowed_views
 
     #CUSTOM TABLES
-    #CONCERNS
-    include AssociableBy
-    include Versionable
-    
     #GEMS
     extend FriendlyId
     friendly_id :slug_candidates, use: :scoped, scope: [:account_id]
-
+    #CONCERNS
+    include AssociableByAc
     #ASSOCIATIONS
     belongs_to :template_datum
-    belongs_to :account
     has_many :view_casts
     has_many :uploads
     

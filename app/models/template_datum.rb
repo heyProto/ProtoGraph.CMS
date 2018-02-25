@@ -11,21 +11,25 @@
 #  publish_count :integer
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
-#  status        :string(255)
 #  s3_identifier :string(255)
+#  status        :string(255)
+#  created_by    :integer
+#  updated_by    :integer
 #
+
+#TODO AMIT - Handle created_by, updated_by - RP added retrospectively. Need migration of old rows and BAU handling.
 
 class TemplateDatum < ApplicationRecord
 
     #CONSTANTS
     CDN_BASE_URL = "#{ENV['AWS_S3_ENDPOINT']}"
     #CUSTOM TABLES
-    #CONCERNS
     #GEMS
     require 'version'
     extend FriendlyId
     friendly_id :slug_candidates, use: :slugged
-
+    #CONCERNS
+    include AssociableBy
     #ASSOCIATIONS
     has_many :template_cards
 

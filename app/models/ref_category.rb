@@ -18,24 +18,23 @@
 #  slug              :string(255)
 #  english_name      :string(255)
 #  vertical_page_url :text(65535)
+#  account_id        :integer
 #
+
+#TODO AMIT - Handle account_id - RP added retrospectively. Need migration of old rows and BAU handling.
 
 class RefCategory < ApplicationRecord
     #CONSTANTS
     #CUSTOM TABLES
-    #CONCERNS
-    include AssociableBy
-    include Propagatable
-    
     #GEMS
     before_validation :before_validation_set
     extend FriendlyId
     friendly_id :english_name, use: :slugged
+    #CONCERNS
+    include Propagatable
+    include AssociableByAcSi
     #ASSOCIATIONS
-    belongs_to :site
     has_one :stream, foreign_key: 'id', primary_key: 'stream_id'
-    belongs_to :creator, class_name: "User", foreign_key: "created_by"
-    belongs_to :updator, class_name: "User", foreign_key: "updated_by"
     has_many :navigations, class_name: "SiteVerticalNavigation", foreign_key: "ref_category_vertical_id", dependent: :destroy
     has_one :folder, foreign_key: 'ref_category_vertical_id'
     has_many :pages, foreign_key: 'ref_category_series_id'

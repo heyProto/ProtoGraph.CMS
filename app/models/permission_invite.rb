@@ -17,11 +17,10 @@ class PermissionInvite < ApplicationRecord
 
     #CONSTANTS
     #CUSTOM TABLES
-    #CONCERNS
-    include AssociableBy
-    include Propagatable
-    
     #GEMS
+    #CONCERNS
+    include Propagatable
+    include AssociableBy
     #ASSOCIATIONS
     belongs_to :permissible, polymorphic: true
 

@@ -41,19 +41,13 @@ class Stream < ApplicationRecord
         "toWell": ["well_score"]
     }
     
-    #CONCERNS
-    include AssociableBy
-    include AssociableSite
-    include Propagatable
-    
     #GEMS
     extend FriendlyId
     friendly_id :title, use: :slugged
-
-
+    #CONCERNS
+    include Propagatable
+    include AssociableByAcSiFo
     #ASSOCIATIONS
-    belongs_to :folder, optional: true
-    belongs_to :site
     has_many :folder_ids, ->{folders}, class_name: "StreamEntity", foreign_key: "stream_id"
     has_many :template_card_ids, ->{template_cards}, class_name: "StreamEntity", foreign_key: "stream_id"
     has_many :view_cast_ids, ->{view_casts}, class_name: "StreamEntity", foreign_key: "stream_id"

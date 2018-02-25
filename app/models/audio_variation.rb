@@ -14,17 +14,20 @@
 #  created_at         :datetime         not null
 #  updated_at         :datetime         not null
 #  audio_key          :text(65535)
+#  account_id         :integer
 #
+
+#TODO AMIT - Handle account_id - RP added retrospectively. Need migration of old rows and BAU handling.
 
 class AudioVariation < ApplicationRecord
   #CONSTANTS
   #CUSTOM TABLES
   #GEMS
+  #CONCERNS
   include Propagatable
-  
+  include AssociableByAc
   #ASSOCIATIONS
   belongs_to :audio
-  delegate :account, to: :audio
   #ACCESSORS
   #VALIDATIONS
   #CALLBACKS

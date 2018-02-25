@@ -19,17 +19,20 @@
 #  mode             :string(255)
 #  is_social_image  :boolean
 #  is_smart_cropped :boolean          default(FALSE)
+#  account_id       :integer
 #
+
+#TODO AMIT - Handle account_id - RP added retrospectively. Need migration of old rows and BAU handling.
 
 class ImageVariation < ApplicationRecord
   #CONSTANTS
   #CUSTOM TABLES
-  #CONCERNS
-  include Propagatable  
   #GEMS
+  #CONCERNS
+  include Propagatable
+  include AssociableByAc
   #ASSOCIATIONS
   belongs_to :image
-  delegate :account, to: :image
   #ACCESSORS
   attr_accessor :crop_x, :crop_y, :crop_w, :crop_h, :resize
   #VALIDATIONS

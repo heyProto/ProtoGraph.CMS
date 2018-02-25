@@ -33,13 +33,13 @@
 #  updated_at                  :datetime         not null
 #
 
+# TODO AMIT - Rename this table to ref_permission_role
+
 class PermissionRole < ApplicationRecord
     #CONSTANTS
     #CUSTOM TABLES
-    #CONCERNS
-    include AssociableBy
-    
     #GEMS
+    #CONCERNS
     #ASSOCIATIONS
     #ACCESSORS
     #VALIDATIONS

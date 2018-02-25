@@ -23,15 +23,11 @@ class Upload < ApplicationRecord
   #CONSTANTS
   UPLOAD_STATUSES = ["waiting", "uploading", "failed", "completed"]
   #CUSTOM TABLES
-  #CONCERNS
-  include AssociableBy
-  
   #GEMS
+  #CONCERNS
+  include AssociableByAcSiFo
   #ASSOCIATIONS
-  belongs_to :account
-  belongs_to :site
   belongs_to :template_card
-  belongs_to :folder
 
   #ACCESSORS
   mount_uploader :attachment, CsvUploader

@@ -12,16 +12,18 @@
 #  folder_id      :integer
 #  account_id     :integer
 #  site_id        :integer
+#  created_by     :integer
+#  updated_by     :integer
 #
+
+#TODO AMIT - Handle created_by, updated_by - RP added retrospectively. Need migration of old rows and BAU handling.
 
 class Activity < ApplicationRecord
   
   #GEMS
-  include Propagatable
+  #CONCERNS
+  include AssociableByAcSiFo
   
   belongs_to :user
-  belongs_to :account
-  belongs_to :site
-  belongs_to :folder, optional: true
   belongs_to :trackable, polymorphic: true
 end

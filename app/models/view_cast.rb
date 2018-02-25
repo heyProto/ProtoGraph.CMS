@@ -33,17 +33,13 @@ class ViewCast < ApplicationRecord
   
     #CONSTANTS
     #CUSTOM TABLES
-    #CONCERNS
-    include AssociableBy
-    include AssociableSite
-    include Propagatable
-    
     #GEMS
     extend FriendlyId
     friendly_id :name, use: :slugged
-    
+    #CONCERNS
+    include Propagatable
+    include AssociableByAcSiFo
     #ASSOCIATIONS
-    belongs_to :folder, optional: true
     belongs_to :template_datum
     belongs_to :template_card
     has_many :permissions, ->{where(status: "Active", permissible_type: 'ViewCast')}, foreign_key: "permissible_id", dependent: :destroy

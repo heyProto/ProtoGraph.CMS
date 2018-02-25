@@ -17,11 +17,9 @@
 class StreamEntity < ApplicationRecord
     #CONSTANTS
     #CUSTOM TABLES
+    #GEMS
     #CONCERNS
     include AssociableBy
-    include Propagatable
-    
-    #GEMS
     #ASSOCIATIONS
     belongs_to :stream
     #ACCESSORS

@@ -27,10 +27,12 @@ class Image < ApplicationRecord
   #CONSTANTS
   #CUSTOM TABLES
   #GEMS
-
   paginates_per 100
+  #CONCERNS
+  include Propagatable
+  include AssociableByAc
+  
   #ASSOCIATIONS
-  belongs_to :account
   has_many :image_variation, -> {where.not(is_original: true)}, dependent: :destroy
   has_one :original_image, -> {where(is_original: true)}, class_name: "ImageVariation", foreign_key: "image_id", dependent: :destroy
   has_many :activities

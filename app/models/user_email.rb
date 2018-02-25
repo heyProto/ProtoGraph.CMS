@@ -18,8 +18,8 @@ class UserEmail < ApplicationRecord
     #CONSTANTS
     #CUSTOM TABLES
     #GEMS
+    #CONCERNS
     include Propagatable
-    
     #ASSOCIATIONS
     belongs_to :user
 

@@ -24,7 +24,10 @@
 #  updated_by          :integer
 #  created_at          :datetime         not null
 #  updated_at          :datetime         not null
+#  account_id          :integer
 #
+
+#TODO AMIT - Handle account_id - RP added retrospectively. Need migration of old rows and BAU handling. SHOULD BE ABLE TO RESTRICT certain pages by certain accounts.
 
 class TemplatePage < ApplicationRecord
 
@@ -32,14 +35,12 @@ class TemplatePage < ApplicationRecord
     CDN_BASE_URL = "#{ENV['AWS_S3_ENDPOINT']}"
     
     #CUSTOM TABLES
-    #CONCERNS
-    include AssociableBy
-    
     #GEMS
     require 'version'
     extend FriendlyId
     friendly_id :slug_candidates, use: :slugged
-
+    #CONCERNS
+    include AssociableByAc
     #ASSOCIATIONS
     has_many :pages
 
