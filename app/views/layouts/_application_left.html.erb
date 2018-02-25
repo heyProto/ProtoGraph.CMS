@@ -12,12 +12,12 @@
         <% if !is_admins_controller or (controller_name != 'accounts' and ['new','create'].include?(action_name)) %>
             <div class="dropdown show vertical-selection-dropdown">
                 <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color: black !important;">
-                  <%= truncate @site.name, length: 15, ommission: ".." %>
+                  <%= truncate @site.domain, length: 15, ommission: ".." %>
                 </a>
               <% if @accounts.count > 1 %>
                   <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                       <% @accounts.each do |a| %>
-                          <%= link_to "#{a.username}: #{a.site.name}", account_site_path(a, a.site), class: "dropdown-item" %>
+                          <%= link_to "#{a.username}: #{a.site.domain}", account_site_path(a, a.site), class: "dropdown-item" %>
                       <% end %>
                   </div>
               <% end %>
