@@ -1,11 +1,7 @@
 <%= content_for :page_title do %>
-    <nav aria-label="breadcrumb">
-      <ol class="breadcrumb">
-        <li class="breadcrumb-item"><%= link_to @site.domain, account_site_path(@account, @site), "data-turbolinks"=> false %></li>
         <li class="breadcrumb-item"><%= link_to "Page Builder", manager_account_site_pages_path(@account, @site), "data-turbolinks"=> false %></li>
         <li class="breadcrumb-item active" aria-current="page"><%= @page.series.name %></li>
-      </ol>
-    </nav>
+      
 <% end %>
 
 <div class="row">

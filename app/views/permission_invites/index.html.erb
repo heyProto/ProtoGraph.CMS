@@ -1,11 +1,7 @@
 <%= content_for :page_title do %>
-    <nav aria-label="breadcrumb">
-      <ol class="breadcrumb">
         <li class="breadcrumb-item"><%= link_to "Admin", account_site_admins_path(@account, @site), "data-turbolinks"=> false %></li>
-        <li class="breadcrumb-item active" aria-current="page">Invite People</li>
+        <li class="breadcrumb-item active" aria-current="page">Admin for Site: <%= @site.domain %></li>
         <li class="breadcrumb-item active" aria-current="page">Site Team</li>
-      </ol>
-    </nav>
 <% end %>
 <div class="row">
     <div class="col-sm-13">
@@ -99,6 +95,7 @@
             <%= f.submit "Invite", class: "btn btn-sm btn-secondary" %>
         <% end %>
         <hr/>
+        <%= image_tag "help.png", style: "float: right; right: 0; top: 0; position: relative;" %>
 		<h2>Site Roles</h2>
 		<p><b>Editors</b> are allowed to everything within this site. They are restricted from changing account settings or adding new sites.</p>
         <p><b>Writers</b> cannot do what Editors cannot do. Additionally, they cannot change site settings, add site team and can see only those folders, cards, streams and pages they create.</p>

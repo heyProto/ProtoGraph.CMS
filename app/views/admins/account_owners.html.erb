@@ -1,12 +1,9 @@
 <%= content_for :page_title do %>
-    <nav aria-label="breadcrumb">
-      <ol class="breadcrumb">
-        <li class="breadcrumb-item"><%= link_to @site.domain, account_site_path(@account, @site), "data-turbolinks"=> false %></li>
+    
         <li class="breadcrumb-item"><%= link_to "Admin", account_site_admins_path(@account, @site), "data-turbolinks"=> false %></li>
-        <li class="breadcrumb-item active" aria-current="page">Invite People</li>
-        <li class="breadcrumb-item active" aria-current="page">Account Owners</li>
-      </ol>
-    </nav>
+        <li class="breadcrumb-item active" aria-current="page">Admin for Account: <%= @account.username %></li>
+        <li class="breadcrumb-item active" aria-current="page">Owners</li>
+    
 <% end %>
 <div class="row">
     <div class="col-sm-13">
@@ -82,6 +79,7 @@
         <%= f.submit "Invite", class: "btn btn-sm btn-secondary" %>
         <% end %>
         <hr/>
+        <%= image_tag "help.png", style: "float: right; right: 0; top: 0; position: relative;" %>
 		<h2>Account Owners</h2>
 		<p>Whomever you invite here will have admin access to all your sites and settings.</p>
 	</div>

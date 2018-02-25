@@ -1,12 +1,7 @@
 <%= content_for :page_title do %>
-    <nav aria-label="breadcrumb">
-      <ol class="breadcrumb">
-        <li class="breadcrumb-item"><%= link_to @site.domain, account_site_path(@account, @site), "data-turbolinks"=> false %></li>
-        <li class="breadcrumb-item"><%= link_to "Admin", account_site_admins_path(@account, @site), "data-turbolinks"=> false %></li>
-        <li class="breadcrumb-item active" aria-current="page">Site</li>
-        <li class="breadcrumb-item active" aria-current="page">Theming</li>
-      </ol>
-    </nav>
+    <li class="breadcrumb-item"><%= link_to "Admin", account_site_admins_path(@account, @site), "data-turbolinks"=> false %></li>
+    <li class="breadcrumb-item active" aria-current="page">Admin for Site: <%= @site.domain %></li>
+    <li class="breadcrumb-item active" aria-current="page">Theming</li>
 <% end %>
 <div class="row">
     <div class="col-sm-13">
@@ -17,6 +12,7 @@
         </div>
     </div>
     <div class="col-sm-3 help-text">
+        <%= image_tag "help.png", style: "float: right; right: 0; top: 0; position: relative;" %>
     </div>
 </div>
 <div class="row">

@@ -1,5 +1,17 @@
 <div class="steps-navigation-bar fixed-top">
-	<div class="current-page-title"><%= yield :page_title %></div>
+	<div class="current-page-title">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <% if @site.present? %>
+                    <li class="breadcrumb-item"><%= link_to @site.domain, account_site_path(@account, @site), "data-turbolinks"=> false %></li>
+                    <% if @folder.present? and @folder.id.present? %>
+                        <li class="breadcrumb-item"><%= link_to truncate(folder_name_trunc_(@folder), length: 24, ommission: ".."), account_site_folder_view_casts_path(@account, @site, @folder), "data-turbolinks"=> false %></li>
+                    <% end %>
+                <% end %>
+                <%= yield :page_title %>
+            </ol>
+        </nav>
+    </div>
 	<div class="steps-to-build-page">
 		<ul class="nav justify-content-end">
             <%= yield :page_navigation %>

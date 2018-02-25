@@ -1,12 +1,6 @@
-<%= content_for :page_title do %>
-    <nav aria-label="breadcrumb">
-      <ol class="breadcrumb">
-        <li class="breadcrumb-item"><%= link_to @site.domain, account_site_path(@account, @site), "data-turbolinks"=> false %></li>
-      </ol>
-    </nav>
+<%= content_for :page_title do %>    
+    <li class="breadcrumb-item active" aria-current="page">Admin</li>
 <% end %>
-
-
 
 <div class="row">
     <div class="col-sm-13">
@@ -16,7 +10,7 @@
                 <div class="col-sm-5">
                     <a href=<%= account_owners_account_admins_path(@account)%>>
                         <div class="administration-options"><%= image_tag "glyphicons-522-user-lock.png" %></div>
-                        <p>Account Owners</p>
+                        <p>Owners</p>
                     </a>
                 </div>
             </div>

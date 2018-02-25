@@ -1,11 +1,8 @@
 <%= content_for :page_title do %>
-    <nav aria-label="breadcrumb">
-      <ol class="breadcrumb">
         <li class="breadcrumb-item"><%= link_to "Admin", account_site_admins_path(@account, @site), "data-turbolinks"=> false %></li>
-        <li class="breadcrumb-item active" aria-current="page">Editorial Planning</li>
+        <li class="breadcrumb-item active" aria-current="page">Admin for Site: <%= @site.domain %></li>
         <li class="breadcrumb-item active" aria-current="page"><%= action_name.titleize %></li>
-      </ol>
-    </nav>
+      
 <% end %>
 <div class="row">
     <div class="col-sm-13">
