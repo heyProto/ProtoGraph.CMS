@@ -52,7 +52,7 @@ class TemplateCard < ApplicationRecord
     belongs_to :template_datum
     has_many :view_casts
     has_many :uploads
-    
+
     #ACCESSORS
     attr_accessor :previous_version_id
 
