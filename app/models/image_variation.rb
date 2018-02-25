@@ -33,7 +33,8 @@ class ImageVariation < ApplicationRecord
   include AssociableByAc
   #ASSOCIATIONS
   belongs_to :image
-  belongs_to :account, through: :image
+  delegate :account, to: :image
+
   #ACCESSORS
   attr_accessor :crop_x, :crop_y, :crop_w, :crop_h, :resize
   #VALIDATIONS
