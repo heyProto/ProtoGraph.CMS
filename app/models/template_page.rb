@@ -41,6 +41,7 @@ class TemplatePage < ApplicationRecord
     friendly_id :slug_candidates, use: :slugged
     #CONCERNS
     include AssociableByAc
+    include Versionable
     #ASSOCIATIONS
     has_many :pages
 

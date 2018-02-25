@@ -30,6 +30,7 @@ class TemplateDatum < ApplicationRecord
     friendly_id :slug_candidates, use: :slugged
     #CONCERNS
     include AssociableBy
+    include Versionable
     #ASSOCIATIONS
     has_many :template_cards
 

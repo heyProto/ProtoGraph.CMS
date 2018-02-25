@@ -47,6 +47,7 @@ class TemplateCard < ApplicationRecord
     friendly_id :slug_candidates, use: :scoped, scope: [:account_id]
     #CONCERNS
     include AssociableByAc
+    include Versionable
     #ASSOCIATIONS
     belongs_to :template_datum
     has_many :view_casts
