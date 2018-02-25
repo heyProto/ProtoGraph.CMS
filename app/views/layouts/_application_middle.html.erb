@@ -4,7 +4,7 @@
             <ol class="breadcrumb">
                 <% if @site.present? %>
                     <% if controller_name != "sites" %>
-                        <li class="breadcrumb-item"><%= link_to @site.domain, account_site_path(@account, @site), "data-turbolinks"=> false %></li>
+                        <li class="breadcrumb-item"><%= link_to @site.domain.downcase, account_site_path(@account, @site), "data-turbolinks"=> false %></li>
                     <% end %>
                     <% if @folder.present? and @folder.id.present? %>
                         <li class="breadcrumb-item"><%= link_to truncate(folder_name_trunc_(@folder), length: 24, ommission: ".."), account_site_folder_view_casts_path(@account, @site, @folder), "data-turbolinks"=> false %></li>
