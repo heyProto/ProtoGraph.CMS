@@ -52,6 +52,8 @@
                   <% if @page.status != 'draft' %>
                     &nbsp;&nbsp;|&nbsp;&nbsp;
                     <%= link_to "Preview", @page.html_url, target: "_blank" %>
+                    &nbsp;&nbsp;|&nbsp;&nbsp;
+                    #<span class='card-id'><%= @page.view_cast_id %></span>
                   <% end %>
                 </div>
             <% end %>
