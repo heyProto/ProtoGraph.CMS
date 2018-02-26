@@ -5,6 +5,7 @@
   <%= csrf_meta_tags %>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="turbolinks-visit-control" content="reload">
   <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
   <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
 
@@ -12,28 +13,11 @@
 <body data-turbolinks=<%= (controller_name == "view_casts" and ['new', 'edit'].include?(action_name)) ? "false" : "true" %>>
   <div class="container-fluid" style="padding: 0px;">
       <div class="row" style="margin:0px;">
-          <% if !user_signed_in? %>
-              <div class="col-sm-16">
-                  <br/><br/>
-                  <%= yield %>
-              </div>
-          <% else %>
-              <div class="col-xl-2 sticky-top" style="background: #B0BEC5; color: #546E7A; height: 100vh;">
-                  <%= render partial: "layouts/application_left" %>
-              </div>
-              <div class="col-xl-12" style="padding: 0px 1px;">
-                  <%= render partial: "layouts/application_middle" %>
-                  <div style="padding: 50px;">
-                      <%= yield %>
-                  </div>
-              </div>
-              <div class="col-xl-2 sticky-top" style="background: #FAFAFA; height: 100vh;">
-                  <%= render partial: "layouts/application_right" %>
-                  <br/>
-                  <%= yield(:filters_sidebar) %>
-              </div>
-          <% end %>
+          <div class="steps-navigation-bar fixed-top" style="margin-left: 0px;">
+              <%= render partial: "layouts/application_middle" %>
+          </div>
       </div>
+      <%= yield %>
   </div>
 
 

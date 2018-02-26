@@ -22,7 +22,7 @@
         <div class="col-sm-13">
             <div style="margin-left: auto; margin-right: auto; width: 90%;">
             <% @pages.each do |d| %>
-            	<%= link_to edit_plan_account_site_story_path(@account, @site, d, folder_id: d.folder_id), "data-turbolinks"=> false do %>
+            	<%= link_to edit_write_account_site_story_path(@account, @site, d, folder_id: d.folder_id), "data-turbolinks"=> false do %>
                     <div class="card-as-a-todo">
                 		<!-- <div class="status-signal status-red"></div> -->
                         <% if d.intersection.present? %>

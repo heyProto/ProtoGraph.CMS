@@ -25,7 +25,9 @@
                   </div>
               </div>
               <div class="col-xl-14" style="padding: 0px 1px;">
-                  <%= render partial: "layouts/application_middle" %>
+                  <div class="steps-navigation-bar fixed-top">
+                      <%= render partial: "layouts/application_middle" %>
+                  </div>
                   <br/><br/><br/><br/>
                   <div style="padding: 0px 20px;"><%= yield %></div>
                   <%= yield(:filters_sidebar) %>
