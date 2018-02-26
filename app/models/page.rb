@@ -116,7 +116,6 @@ class Page < ApplicationRecord
 
   def html_url
     "#{self.site.cdn_endpoint}/#{html_key}.html"
-    # Change during Multi Domain functionality
   end
 
   def series_7c_stream
@@ -285,10 +284,7 @@ class Page < ApplicationRecord
       if self.from_api
         push_page_object_to_s3
       else
-        Thread.new do
-          push_page_object_to_s3
-          ActiveRecord::Base.connection.close
-        end
+        PagePublisher.perform_async(self.id)
       end
       true
     end
