@@ -16,9 +16,9 @@ class RefLinkSource < ApplicationRecord
   #CONSTANTS
   #CUSTOM TABLES
   #GEMS
+  #CONCERNS
+  include AssociableBy
   #ASSOCIATIONS
-  belongs_to :creator, class_name: "User", foreign_key: "created_by"
-  belongs_to :updator, class_name: "User", foreign_key: "updated_by"
   #ACCESSORS
   #VALIDATIONS
   validates :name, presence: true, uniqueness: true

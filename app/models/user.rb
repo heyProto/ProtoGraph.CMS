@@ -29,17 +29,17 @@ class User < ApplicationRecord
     #CONSTANTS
     #CUSTOM TABLES
     #GEMS
-  devise :database_authenticatable, :registerable, :confirmable,
+    devise :database_authenticatable, :registerable, :confirmable,
          :recoverable, :rememberable, :trackable, :validatable,
          :omniauthable, omniauth_providers: [:twitter]
-
+    #CONCERNS
     #ASSOCIATIONS
     has_many :permissions, ->{where(status: "Active")}
-    # has_many :accounts, through: :permissions, source: :permissible, source_type: "Account"
     has_many :activities
     has_many :uploads
     has_many :user_emails
     has_many :authentications
+    
     #ACCESSORS
     attr_accessor :username, :domain
 
@@ -47,12 +47,15 @@ class User < ApplicationRecord
     validates :name, presence: true, length: { in: 3..24 }
     validates :email, presence: true, uniqueness: { case_sensitive: false }, format: { with: /\A[^@\s]+@([^@.\s]+\.)+[^@.\s]+\z/ }
     validate :email_invited
+    
     #CALLBACKS
     before_create :before_create_set
     after_create :welcome_user
     after_commit :add_user_email, on: [:create]
+    
     #SCOPE
     scope :online, -> { where('updated_at > ?', 10.minutes.ago) }
+    
     #OTHER
 
     def permission_object(site_id, s="Active")

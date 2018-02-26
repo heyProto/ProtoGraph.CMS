@@ -12,22 +12,17 @@
         <% if !is_admins_controller or (controller_name != 'accounts' and ['new','create'].include?(action_name)) %>
             <div class="dropdown show vertical-selection-dropdown">
                 <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color: black !important;">
-                  <%= truncate @site.name, length: 15, ommission: ".." %>
+                  <%= truncate @site.domain, length: 15, ommission: ".." %>
                 </a>
               <% if @accounts.count > 1 %>
                   <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                       <% @accounts.each do |a| %>
-                          <%= link_to "#{a.username}: #{a.site.name}", account_site_path(a, a.site), class: "dropdown-item" %>
+                          <%= link_to "#{a.username}: #{a.site.domain}", account_site_path(a, a.site), class: "dropdown-item" %>
                       <% end %>
                   </div>
               <% end %>
             </div>
         <% end %>
-        <div class="dropdown show">
-            <div class="list-group list-group-flush">
-                <%= link_to "Home", account_site_path(@account, @site), class: ((@folder.blank? or @folder.id.blank?) and !@is_admin and !@is_page_builder and controller_name != "images") ? "list-group-item list-group-item-action active" : "list-group-item list-group-item-action" %>
-            </div>
-        </div>
     	<% if @folder.present? and @folder.id.present? %>
             <span class="text-uppercase">create</span>
             <div class="list-group list-group-flush">

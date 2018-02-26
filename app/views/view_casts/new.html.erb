@@ -1,13 +1,6 @@
-<%= content_for :page_title do %>
-    <nav aria-label="breadcrumb">
-      <ol class="breadcrumb">
-          <% if @folder.present? %>
-              <li class="breadcrumb-item"><%= link_to truncate(folder_name_trunc_(@folder), length: 24, ommission: ".."), account_site_folder_view_casts_path(@account, @site, @folder), "data-turbolinks"=> false %></li>
-          <% end %>
-          <li class="breadcrumb-item"><%= link_to "Cards", account_site_folder_view_casts_path(@account, @site, @folder), "data-turbolinks"=> false %></li> 
-          <li class="breadcrumb-item active" aria-current="page">New</li>
-      </ol>
-    </nav>
+<%= content_for :page_title do %>      
+    <li class="breadcrumb-item"><%= link_to "Cards", account_site_folder_view_casts_path(@account, @site, @folder), "data-turbolinks"=> false %></li> 
+    <li class="breadcrumb-item active" aria-current="page">New</li>
 <% end %>
 
 <%= stylesheet_link_tag "ProtoGraph.Container.toCardForm" %>

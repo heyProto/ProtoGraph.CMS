@@ -21,16 +21,14 @@
 class Folder < ApplicationRecord
     #CONSTANTS
     #CUSTOM TABLES
-    include Associable
     #GEMS
     extend FriendlyId
     friendly_id :name, use: :slugged
-
-    after_validation :move_friendly_id_error_to_name
+    #CONCERNS
+    include Propagatable
+    include AssociableByAcSi
 
     #ASSOCIATIONS
-    belongs_to :account
-    belongs_to :site
     has_many :streams, dependent: :destroy
     has_many :uploads, dependent: :destroy
     has_many :activities
@@ -39,16 +37,15 @@ class Folder < ApplicationRecord
     has_many :permissions, ->{where(status: "Active", permissible_type: 'Folder')}, foreign_key: "permissible_id", dependent: :destroy
     has_many :users, through: :permissions
     belongs_to :vertical, class_name: "RefCategory", foreign_key: 'ref_category_vertical_id', optional: true
+    has_many :view_casts, dependent: :destroy
     #ACCESSORS
     attr_accessor :is_system_generated, :collaborator_lists
     #VALIDATIONS
     validates :name, exclusion: {in: ["Recycle Bin"], message: "Is a reserved name."}, unless: :is_system_generated
     validates :name, uniqueness: {scope: [:account, :ref_category_vertical_id], message: "Folder name is already used."}
-    has_many :view_casts, dependent: :destroy
-
-
     #CALLBACKS
     after_save :after_save_set
+    after_validation :move_friendly_id_error_to_name
 
     def move_friendly_id_error_to_name
         errors.add :name, *errors.delete(:friendly_id) if errors[:friendly_id].present?

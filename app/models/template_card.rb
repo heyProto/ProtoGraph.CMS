@@ -36,8 +36,6 @@
 
 class TemplateCard < ApplicationRecord
 
-    include Associable
-    include Versionable
     #CONSTANTS
     STATUS = ["Draft", "Ready to Publish", "Published", "Deactivated"]
     CDN_BASE_URL = "#{ENV['AWS_S3_ENDPOINT']}"
@@ -47,12 +45,14 @@ class TemplateCard < ApplicationRecord
     #GEMS
     extend FriendlyId
     friendly_id :slug_candidates, use: :scoped, scope: [:account_id]
-
+    #CONCERNS
+    include AssociableByAc
+    include Versionable
     #ASSOCIATIONS
     belongs_to :template_datum
-    belongs_to :account
     has_many :view_casts
     has_many :uploads
+
     #ACCESSORS
     attr_accessor :previous_version_id
 

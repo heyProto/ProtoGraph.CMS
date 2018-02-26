@@ -1,13 +1,6 @@
 <%= content_for :page_title do %>
-    <nav aria-label="breadcrumb">
-      <ol class="breadcrumb">
-          <% if @folder.present? %>
-              <li class="breadcrumb-item"><%= link_to truncate(folder_name_trunc_(@folder), length: 24, ommission: ".."), account_site_folder_view_casts_path(@account, @site, @folder), "data-turbolinks"=> false %></li>
-          <% end %>
-          <li class="breadcrumb-item"><%= link_to "Cards", account_site_folder_view_casts_path(@account, @site, @folder), "data-turbolinks"=> false %></li> 
-          <li class="breadcrumb-item active" aria-current="page"><%= @view_cast.name %></li>
-      </ol>
-    </nav>
+    <li class="breadcrumb-item"><%= link_to "Cards", account_site_folder_view_casts_path(@account, @site, @folder), "data-turbolinks"=> false %></li> 
+    <li class="breadcrumb-item active" aria-current="page"><%= @view_cast.name %></li>
 <% end %>
 <br/>
 <% if @view_cast.is_invalidating %>
@@ -46,17 +39,19 @@
               <div class="proto-graph-code-area-title">Option #3 - SEO friendly iFrame for specific mode</div>
               <textarea class="proto-graph-code protograph-iframe" readonly><div id="<%= "ProtoCard#{@view_cast.id}" %>"><%= (sanitize @view_cast.seo_blockquote.to_s, tags: %w(p blockquote ul li h1 h2 h3 h4 h5 h6)) %></div><script src="https://cdn.protograph.pykih.com/lib/protoGraph.min.js" async></script><script type="text/javascript">var <%= "ProtoCard#{@view_cast.id}" %> = setInterval(function(){if (window.ProtoEmbed){clearInterval(<%= "ProtoCard#{@view_cast.id}" %>)};new ProtoEmbed.initFrame(document.getElementById("<%= "ProtoCard#{@view_cast.id}" %>"), "<%= "#{@view_cast.template_card.index_html}?view_cast_id=#{@view_cast.datacast_identifier}%26schema_id=#{@view_cast.template_datum.s3_identifier}%26base_url=#{@site.cdn_endpoint}" %>" , "laptop")}, 200)</script></textarea>
               </br>
-  
-              <div class="proto-graph-code-area-title"> Option #4 - Protograph Wordpress Shortcode</div>
-              <textarea class="proto-graph-code" readonly>[ie-protograph view_cast_id="<%= @view_cast.datacast_identifier %>" schema_id="<%= @view_cast.template_datum.s3_identifier %>" id="<%= "ProtoCard#{@view_cast.id}" %>" frame_id="<%= @view_cast.template_card.s3_identifier %>"]<%= (sanitize @view_cast.seo_blockquote.to_s, tags: %w(p blockquote ul li h1 h2 h3 h4 h5 h6)) %>[/ie-protograph]</textarea>
-              </br>
+              <% if @account.slug == "indianexpress" %>
+                  <div class="proto-graph-code-area-title"> Option #4 - Protograph Wordpress Shortcode</div>
+                  <textarea class="proto-graph-code" readonly>[ie-protograph view_cast_id="<%= @view_cast.datacast_identifier %>" schema_id="<%= @view_cast.template_datum.s3_identifier %>" id="<%= "ProtoCard#{@view_cast.id}" %>" frame_id="<%= @view_cast.template_card.s3_identifier %>"]<%= (sanitize @view_cast.seo_blockquote.to_s, tags: %w(p blockquote ul li h1 h2 h3 h4 h5 h6)) %>[/ie-protograph]</textarea>
+                  </br>
+              <% end %>
             </div>
         </div>
     </div>
 	<div class="col-sm-3 help-text">
-		<!--<h2>Email Settings</h2>
-		<p>Your default support email address is prototype@pro.to. Any email sent here gets automatically converted into a ticket that you can get working on.</p>
-		<p>You can configure your Freshdesk account to use a support email in your own domain, like <a href="">support@mycompany.com</a> by forwarding emails from this address to <a href="">protoprototype@heyproto.freshdesk.com</a>. To create a new support email box, click “Edit” under global email settings.</p>-->
+    		<%= image_tag "help.png", style: "float: right; right: 0; top: 0; position: relative;" %>
+            <h2>iFrame the card in your site</h2>
+    		<p>Do</p>
+              <br/>
           <div class="hint">
             <table class="table table-sm hint">
               <tr>
@@ -116,6 +111,8 @@
               | <%= link_to "Delete the Card", [@account, @site, @folder, @view_cast], method: :delete, "data-turbolinks"=> false, data: {confirm: "Are you sure you want to delete this card"} %>
             <% end %>
           <% end %>
+          
+    		
 	</div>
 </div>
 

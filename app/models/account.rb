@@ -3,8 +3,8 @@
 # Table name: accounts
 #
 #  id            :integer          not null, primary key
-#  username      :string(191)
-#  slug          :string(191)
+#  username      :string(255)
+#  slug          :string(255)
 #  status        :string(255)
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
@@ -24,7 +24,7 @@ class Account < ApplicationRecord
     #GEMS
     extend FriendlyId
     friendly_id :username, use: :slugged
-
+    #CONCERNS
     #ASSOCIATIONS
     has_many :permissions, ->{where(status: "Active", permissible_type: 'Account')}, foreign_key: "permissible_id", dependent: :destroy
     has_many :users, through: :permissions

@@ -1,11 +1,9 @@
 <%= content_for :page_title do %>
-    <nav aria-label="breadcrumb">
-      <ol class="breadcrumb">
+    
         <li class="breadcrumb-item"><%= link_to "Admin", account_site_admins_path(@account, @site), "data-turbolinks"=> false %></li>
-        <li class="breadcrumb-item active" aria-current="page">Invite People</li>
-        <li class="breadcrumb-item active" aria-current="page">Account Owners</li>
-      </ol>
-    </nav>
+        <li class="breadcrumb-item active" aria-current="page">Admin for Account: <%= @account.username %></li>
+        <li class="breadcrumb-item active" aria-current="page">Owners</li>
+    
 <% end %>
 <div class="row">
     <div class="col-sm-13">
@@ -60,9 +58,6 @@
         </div>
     </div>
 	<div class="col-sm-3 help-text">
-		<!--<h2>Email Settings</h2>
-		<p>Your default support email address is prototype@pro.to. Any email sent here gets automatically converted into a ticket that you can get working on.</p>
-		<p>You can configure your Freshdesk account to use a support email in your own domain, like <a href="">support@mycompany.com</a> by forwarding emails from this address to <a href="">protoprototype@heyproto.freshdesk.com</a>. To create a new support email box, click “Edit” under global email settings.</p>-->
         <%= simple_form_for [@account, @permission_invite] do |f| %>
         <% if @permission_invite.errors.any? %>
         <div id="error_explanation" class="ui error message">
@@ -83,5 +78,9 @@
         <%= f.input :ref_role_slug, as: :hidden, input_html: {value: "owner"} %>
         <%= f.submit "Invite", class: "btn btn-sm btn-secondary" %>
         <% end %>
+        <hr/>
+        <%= image_tag "help.png", style: "float: right; right: 0; top: 0; position: relative;" %>
+		<h2>Account Owners</h2>
+		<p>Whomever you invite here will have admin access to all your sites and settings.</p>
 	</div>
 </div>

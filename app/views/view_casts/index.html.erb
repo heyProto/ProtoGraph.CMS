@@ -1,16 +1,9 @@
-<%= content_for :page_title do %>
-    <nav aria-label="breadcrumb">
-      <ol class="breadcrumb">
-          <% if @folder.present? %>
-              <li class="breadcrumb-item"><%= link_to truncate(folder_name_trunc_(@folder), length: 24, ommission: ".."), account_site_folder_view_casts_path(@account, @site, @folder), "data-turbolinks"=> false %></li>
-          <% end %>
-        <li class="breadcrumb-item active" aria-current="page">Cards</li>
-      </ol>
-    </nav>
+<%= content_for :page_title do %>      
+    <li class="breadcrumb-item active" aria-current="page">Cards</li>
 <% end %>
 <div class="row">
     <div class="col-sm-13">
-        <div style="width: 90%;">
+        <div style="margin-left: auto; margin-right: auto; width: 90%;">
             <% if @view_casts.first.blank? %>
                 <br/>
                 <br/>

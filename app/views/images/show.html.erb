@@ -1,12 +1,7 @@
 <%= content_for :page_title do %>
-    <nav aria-label="breadcrumb">
-      <ol class="breadcrumb">
-        <li class="breadcrumb-item">
-            <%= link_to "Images", account_images_path(@account, folder_id: @folder.present? ? @folder.id : nil), "data-turbolinks"=> false %>
-        </li>
+        <li class="breadcrumb-item"><%= link_to "Image Bank", account_images_path(@account, folder_id: @folder.present? ? @folder.id : nil), "data-turbolinks"=> false %></li>
         <li class="breadcrumb-item active" aria-current="page"><%= @image.name %></li>
-      </ol>
-    </nav>
+      
 <% end %>
 <% w = @image.image_width %>
 <% h = @image.image_height %>
@@ -56,7 +51,7 @@
     </div>
 	<div class="col-sm-3 help-text">
         <a id="openFileUpload" class='btn btn-sm btn-secondary' href='#' data-toggle='modal' data-target='#imageCropperModal'>Crop original image to create variation</a>
-		<!--<h2>Email Settings</h2>
+		<!--<%= image_tag "help.png", style: "float: right; right: 0; top: 0; position: relative;" %><h2>Email Settings</h2>
 		<p>Your default support email address is prototype@pro.to. Any email sent here gets automatically converted into a ticket that you can get working on.</p>
 		<p>You can configure your Freshdesk account to use a support email in your own domain, like <a href="">support@mycompany.com</a> by forwarding emails from this address to <a href="">protoprototype@heyproto.freshdesk.com</a>. To create a new support email box, click “Edit” under global email settings.</p>-->
 	</div>

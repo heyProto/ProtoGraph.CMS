@@ -21,12 +21,13 @@ class Permission < ApplicationRecord
     REF_ROLES = [["Editor", "editor"], ['Writer', 'writer'], ['Contributor', 'contributor']]
     #CUSTOM TABLES
     #GEMS
+    #CONCERNS
+    include Propagatable
+    include AssociableBy
     #ASSOCIATIONS
     belongs_to :user
     validates :permissible_type, presence: true
     validates :permissible_id, presence: true
-    belongs_to :creator, class_name: "User", foreign_key: "created_by"
-    belongs_to :updator, class_name: "User", foreign_key: "updated_by"
     belongs_to :permissible, polymorphic: true
     belongs_to :permission_role, foreign_key: 'ref_role_slug', primary_key: 'slug'
 

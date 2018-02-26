@@ -1,12 +1,9 @@
 <%= content_for :page_title do %>
-    <nav aria-label="breadcrumb">
-      <ol class="breadcrumb">
-          <% if @folder.present? %>
-              <li class="breadcrumb-item"><%= link_to truncate(folder_name_trunc_(@folder), length: 24, ommission: ".."), account_site_folder_view_casts_path(@account, @site, @folder), "data-turbolinks"=> false %></li>
-          <% end %>
+    
+          
+          
           <li class="breadcrumb-item active" aria-current="page">Stories</li>
-      </ol>
-    </nav>
+      
 <% end %>
 
 <% if @pages.first.blank? %>
@@ -22,41 +19,50 @@
     </div>
 <% else %>
     <div class="row" style="margin: 0px; padding: 0px;">
-        <% @pages.each do |d| %>
-        	<%= link_to edit_plan_account_site_story_path(@account, @site, d, folder_id: d.folder_id), "data-turbolinks"=> false do %>
-                <div class="card-as-a-todo">
-            		<!-- <div class="status-signal status-red"></div> -->
-                    <% if d.intersection.present? %>
-                		<div class="intersection">
-                            <%= d.intersection.name %>
-                            <% if d.sub_intersection.present? %>
-                    			<div class="sub-section">
-                                    <%= d.sub_intersection.name %>
-                    			</div>
-                            <% end %>
-                		</div>
-                    <% end %>
-            		<div class="card-information">
-            			<div class="card-title"><%= truncate(d.headline, length: 55, ommission: "..") %></div>
-            			<div class="card-type">toStory
-                            <span class="card-id">
-                                <% if d.view_cast.present? %>
-                                    #<%= d.view_cast.id.to_s %>
+        <div class="col-sm-13">
+            <div style="margin-left: auto; margin-right: auto; width: 90%;">
+            <% @pages.each do |d| %>
+            	<%= link_to edit_plan_account_site_story_path(@account, @site, d, folder_id: d.folder_id), "data-turbolinks"=> false do %>
+                    <div class="card-as-a-todo">
+                		<!-- <div class="status-signal status-red"></div> -->
+                        <% if d.intersection.present? %>
+                    		<div class="intersection">
+                                <%= d.intersection.name %>
+                                <% if d.sub_intersection.present? %>
+                        			<div class="sub-section">
+                                        <%= d.sub_intersection.name %>
+                        			</div>
                                 <% end %>
-                            </span>
-                        </div>
-            			<div class="card-footer">
-            				<div class="users-list">
-            					<div class="single-user"><%= image_tag avatar_url(d.updator.email), width: "16px", height: "16px" %></div>
-            				</div>
-            				<div class="due-on">
-            					<%= time_ago_in_words(d.updated_at) %>
-            				</div>
-            			</div>
-            		</div>
-            	</div>
+                    		</div>
+                        <% end %>
+                		<div class="card-information">
+                			<div class="card-title"><%= truncate(d.headline, length: 55, ommission: "..") %></div>
+                			<div class="card-type">toStory
+                                <span class="card-id">
+                                    <% if d.view_cast.present? %>
+                                        #<%= d.view_cast.id.to_s %>
+                                    <% end %>
+                                </span>
+                            </div>
+                			<div class="card-footer">
+                				<div class="users-list">
+                					<div class="single-user"><%= image_tag avatar_url(d.updator.email), width: "16px", height: "16px" %></div>
+                				</div>
+                				<div class="due-on">
+                					<%= time_ago_in_words(d.updated_at) %>
+                				</div>
+                			</div>
+                		</div>
+                	</div>
+                <% end %>
             <% end %>
-        <% end %>
+        </div>
+        </div>
+    	<div class="col-sm-3 help-text">
+            <%= image_tag "help.png", style: "float: right; right: 0; top: 0; position: relative;" %>
+    		<h2>Stories</h2>
+    		<p>.</p>
+    	</div>
     </div>
     <%= paginate @pages, theme: 'twitter-bootstrap-4', pagination_class: "pagination-sm" %>
 <% end %>

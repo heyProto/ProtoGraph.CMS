@@ -24,13 +24,13 @@
 #  client_token            :string(255)
 #  access_token            :string(255)
 #  client_secret           :string(255)
-#  favicon_id              :integer
-#  logo_image_id           :integer
 #  facebook_url            :text(65535)
 #  twitter_url             :text(65535)
 #  instagram_url           :text(65535)
 #  youtube_url             :text(65535)
 #  g_a_tracking_id         :string(255)
+#  favicon_id              :integer
+#  logo_image_id           :integer
 #  sign_up_mode            :string(255)
 #  default_role            :string(255)
 #  story_card_style        :string(255)
@@ -42,7 +42,11 @@
 #  is_english              :boolean          default(TRUE)
 #  english_name            :string(255)
 #  story_card_flip         :boolean          default(FALSE)
+#  created_by              :integer
+#  updated_by              :integer
 #
+
+#TODO AMIT - Handle created_by, updated_by - RP added retrospectively. Need migration of old rows and BAU handling.
 
 class Site < ApplicationRecord
     #CONSTANTS
@@ -52,8 +56,10 @@ class Site < ApplicationRecord
     before_validation :set_english_name
     extend FriendlyId
     friendly_id :english_name, use: :slugged
+    #CONCERNS
+    include Propagatable
+    include AssociableByAc
     #ASSOCIATIONS
-    belongs_to :account
     has_many :folders
     has_many :streams
     has_many :activities

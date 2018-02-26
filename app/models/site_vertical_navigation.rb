@@ -13,19 +13,21 @@
 #  created_at               :datetime         not null
 #  updated_at               :datetime         not null
 #  sort_order               :integer
+#  account_id               :integer
 #
+
+#TODO AMIT - Handle account_id - RP added retrospectively. Need migration of old rows and BAU handling.
 
 class SiteVerticalNavigation < ApplicationRecord
 
   #CONSTANTS
   #CUSTOM TABLES
   #GEMS
+  #CONCERNS
+  include Propagatable
+  include AssociableByAcSi
   #ASSOCIATIONS
-  belongs_to :site
   belongs_to :ref_category, class_name: "RefCategory", foreign_key: "ref_category_vertical_id"
-  belongs_to :creator, class_name: "User", foreign_key: "created_by"
-  belongs_to :updator, class_name: "User", foreign_key: "updated_by"
-
   #ACCESSORS
   validates :name, presence: true
   validates :url, presence: true, format: {:with => /[a-zA-Z0-9][a-zA-Z0-9-]{1,61}[a-zA-Z0-9]\.[a-zA-Z]{2,}/ }, allow_blank: true, allow_nil: true, length: { in: 3..240 }

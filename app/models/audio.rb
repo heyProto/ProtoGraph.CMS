@@ -21,9 +21,13 @@ class Audio < ApplicationRecord
 
   #GEMS
   paginates_per 24
+  
+  #CONCERNS
+  include Propagatable
+  include AssociableByAc
+  
   #ASSOCIATIONS
-  include Associable
-  belongs_to :account
+  delegate :account, to: :image
   has_many :audio_variation, -> {where.not(is_original: true)}, dependent: :destroy
   has_one :original_audio, -> {where(is_original: true)}, class_name: "AudioVariation", foreign_key: "audio_id"
   has_many :activities
