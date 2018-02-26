@@ -55,6 +55,7 @@ class Page < ApplicationRecord
 
   #CONSTANTS
   STATUS = [["Draft", 'draft'],['Unlisted', 'unlisted'],["Published", 'published']]
+  PLANNING_ATTRIBUTES = []
   #CUSTOM TABLES
   #GEMS
   before_validation :before_validation_set

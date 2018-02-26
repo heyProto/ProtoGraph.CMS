@@ -1,7 +1,7 @@
 <%= content_for :page_title do %>
         <li class="breadcrumb-item"><%= link_to "Page Builder", manager_account_site_pages_path(@account, @site), "data-turbolinks"=> false %></li>
         <li class="breadcrumb-item active" aria-current="page"><%= @page.series.name %></li>
-      
+
 <% end %>
 
 <div class="row">
@@ -352,12 +352,13 @@
     <% end %>
   </div>
 
-  <%= simple_form_for(@stream_entity, url: [@account, @site, @page_stream_07, @stream_entity]) do |f| %>
-    <%= f.hidden_field :entity_value, id: "stream_view_cast_id" %>
-    <%= f.hidden_field :entity_type, value: "view_cast_id" %>
-    <%= f.hidden_field :is_excluded, value: false %>
+  <% if @page.status == 'draft' %>
+    <%= simple_form_for(@stream_entity, url: [@account, @site, @page_stream_07, @stream_entity]) do |f| %>
+      <%= f.hidden_field :entity_value, id: "stream_view_cast_id" %>
+      <%= f.hidden_field :entity_type, value: "view_cast_id" %>
+      <%= f.hidden_field :is_excluded, value: false %>
+    <% end %>
   <% end %>
-
 </div>
 
 <%= javascript_include_tag "select2.js" %>
