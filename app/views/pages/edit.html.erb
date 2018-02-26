@@ -430,7 +430,6 @@
 
 <script type="text/javascript">
   $(document).on("turbolinks:load",function() {
-    $('.proto-tagged-input').tagsinput();
     $('.action-move-to .list-group li').off('click')
     $('.action-move-to .list-group li').on('click', function(){
       $("#new_stream_entity").attr("action", this.dataset.pageStreamUrl);
