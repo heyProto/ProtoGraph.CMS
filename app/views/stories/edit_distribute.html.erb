@@ -7,22 +7,6 @@
         <div style="margin-left: auto; margin-right: auto; width: 540px;">
             <%= simple_form_for(@page, url: account_site_page_path(@account, @site), method: :put) do |f| %>
                 <%= f.error_notification %>
-                <div class="form-inputs">    
-                    <%= f.input :publish, as: :boolean, label: "&nbsp; Publish Page?".html_safe, hint: "Until you want the Story Card to be published live on your site, do not mark the article as published." %>
-                    <div class="form-actions">
-                      <% if @page.status == 'draft' %>
-                        <%= f.button :submit, "Save as draft" %>
-                      <% end %>
-                      <%= f.button :submit, "Update" %>
-                      <% if @page.status != 'draft' %>
-                        &nbsp;&nbsp;|&nbsp;&nbsp;
-                        <%= link_to "Preview", @page.html_url, target: "_blank" %>
-                      <% end %>
-                    </div>
-                </div>
-            <% end %>
-            <%= simple_form_for(@page, url: account_site_page_path(@account, @site), method: :put) do |f| %>
-                <%= f.error_notification %>
                 <div class="form-inputs">
                     <h3>Package the story</h3>
                     <br/>
@@ -61,7 +45,10 @@
                     <%= f.input :meta_description %>
                 </div>
                 <div class="form-actions">
-                  <%= f.button :submit, "Save" %>
+                  <% if @page.status == 'draft' %>
+                    <%= f.button :submit, "Save as draft" %>
+                  <% end %>
+                  <%= f.button :submit, "Publish" %>
                   <% if @page.status != 'draft' %>
                     &nbsp;&nbsp;|&nbsp;&nbsp;
                     <%= link_to "Preview", @page.html_url, target: "_blank" %>
