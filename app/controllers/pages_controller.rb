@@ -49,14 +49,14 @@ class PagesController < ApplicationController
   def update
     @page.updated_by = current_user.id
     p_params = page_params
-    if params[:commit] == 'Update' and page_params["publish"] != "1"
-      p_params["status"] = 'unlisted'
+    if params[:commit] == 'Publish'
+      p_params["status"] = 'publish'
     end
     if p_params.has_key?('cover_image_attributes') and !p_params['cover_image_attributes'].has_key?("image")
       p_params.delete('cover_image_attributes')
     end
     from_page = params[:page][:from_page]
-    
+
 
     respond_to do |format|
       if @page.update_attributes(p_params)

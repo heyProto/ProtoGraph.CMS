@@ -1,18 +1,15 @@
-
 <%= content_for :page_title do %>
-        <li class="breadcrumb-item"><%= link_to "Page Builder", manager_account_site_pages_path(@account, @site), "data-turbolinks"=> false %></li>
-        <li class="breadcrumb-item active" aria-current="page"><%= @page.series.name %></li>
-
+  <li class="breadcrumb-item"><%= link_to "Page Builder", manager_account_site_pages_path(@account, @site), "data-turbolinks"=> false %></li>
+  <li class="breadcrumb-item active" aria-current="page"><%= @page.series.name %></li>
 <% end %>
-
 <div class="row">
-        <div class="col-sm-6" style="margin-left: auto; margin-right: auto;">
-            <h1>Edit Page</h1>
-            <br/><br/>
-        </div>
-        <div class="col-sm-2">
-            <br/>
-        </div>
+  <div class="col-sm-6" style="margin-left: auto; margin-right: auto;">
+      <h1>Edit Page</h1>
+      <br/><br/>
+  </div>
+  <div class="col-sm-2">
+      <br/>
+  </div>
 </div>
 <%= simple_form_for(@page, url: account_site_page_path(@account, @site), method: :put) do |f| %>
   <div class="row">
@@ -42,17 +39,6 @@
           <%= f.error_notification %>
           <div class="form-inputs">
               <%= f.input :byline, required: true, label: "What byline do you want on the website?" %>
-              <%= f.input :publish, as: :boolean, label: "&nbsp; Publish Page?".html_safe, hint: "Until you want the Story Card to be published live on your site, do not mark the article as published." %>
-              <div class="form-actions">
-                <% if @page.status == 'draft' %>
-                  <%= f.button :submit, "Save as draft" %>
-                <% end %>
-                <%= f.button :submit, "Update" %>
-                <% if @page.status != 'draft' %>
-                  &nbsp;&nbsp;|&nbsp;&nbsp;
-                  <%= link_to "Preview", @page.html_url, target: "_blank" %>
-                <% end %>
-              </div>
           </div>
       </div>
       <div class="col-sm-2">
