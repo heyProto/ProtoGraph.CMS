@@ -5,13 +5,37 @@
 <div class="row">
     <div class="col-sm-13">
         <div style="margin-left: auto; margin-right: auto; width: 540px;">
-            
+            <%= simple_form_for(@page, url: account_site_page_path(@account, @site), method: :put) do |f| %>
+                <%= f.error_notification %>
+                <div class="form-inputs">    
+                    <%= f.input :publish, as: :boolean, label: "&nbsp; Publish Page?".html_safe, hint: "Until you want the Story Card to be published live on your site, do not mark the article as published." %>
+                    <div class="form-actions">
+                      <% if @page.status == 'draft' %>
+                        <%= f.button :submit, "Save as draft" %>
+                      <% end %>
+                      <%= f.button :submit, "Update" %>
+                      <% if @page.status != 'draft' %>
+                        &nbsp;&nbsp;|&nbsp;&nbsp;
+                        <%= link_to "Preview", @page.html_url, target: "_blank" %>
+                      <% end %>
+                    </div>
+                </div>
+            <% end %>
             <%= simple_form_for(@page, url: account_site_page_path(@account, @site), method: :put) do |f| %>
                 <%= f.error_notification %>
                 <div class="form-inputs">
-                    
-                    
-
+                    <h3>Package the story</h3>
+                    <br/>
+                    <%= f.input :headline, required: true, minlength: 10 , maxlength: 90, hint: "Minimum length: 50 chars. Maximum length: 90 chars.", placeholder: "Title", label: "Headline", autofocus: true %>
+                    <% if !@site.is_english or 1 == 1 %>
+                        <%= f.input :english_headline, required: true, minlength: 10 , maxlength: 90, hint: "This is used for url management.", label: "Write the headline in English" %>
+                    <% end %>
+                    <%= f.input :summary, minlength: 50 , maxlength: 220, hint: "Minimum length: 50 chars. Maximum length: 200 chars." %>
+                    <%= f.input :published_at, as: :datetime %>
+                    <br/>
+                    <hr/>
+                    <h3>Cover Image</h3>
+                    <br/>
                     <% if @page.cover_image_id.blank? %>
                         <%= f.fields_for :cover_image do |cover_image| %>
                             <%= cover_image.input :image, label: false, placeholder: "Upload cover image", input_html: {style: "width: 100%; background: lightgray; min-height: 200px; cursor: pointer; padding: 100px 0px;", onchange: "readURL(this);"}%>
@@ -26,60 +50,10 @@
                         <%= link_to "Remove", remove_cover_image_account_site_page_path(@account, @site, @page), method: :put%>
                         <br/>
                     <% end %>
-                    <%= f.input :publish, as: :boolean, label: "&nbsp; Publish Page?".html_safe, hint: "Until you want the Story Card to be published live on your site, do not mark the article as published." %>
-                    <div class="form-actions">
-                      <% if @page.status == 'draft' %>
-                        <%= f.button :submit, "Save as draft" %>
-                      <% end %>
-                      <%= f.button :submit, "Update" %>
-                      <% if @page.status != 'draft' %>
-                        &nbsp;&nbsp;|&nbsp;&nbsp;
-                        <%= link_to "Preview", @page.html_url, target: "_blank" %>
-                      <% end %>
-                    </div>
-                </div>
-            <% end %>
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            <%= simple_form_for(@page, url: account_site_page_path(@account, @site), method: :put) do |f| %>
-                <%= f.error_notification %>
-                <div class="form-inputs">
-                    <h3>Package the story</h3>
-                    <br/>
-                    <%= f.input :headline, required: true, minlength: 10 , maxlength: 90, hint: "Minimum length: 50 chars. Maximum length: 90 chars.", placeholder: "Title", label: "Headline", autofocus: true %>
-                    <% if !@site.is_english or 1 == 1 %>
-                        <%= f.input :english_headline, required: true, minlength: 10 , maxlength: 90, hint: "This is used for url management.", label: "Write the headline in English" %>
-                    <% end %>
-                    <%= f.input :summary, minlength: 50 , maxlength: 220, hint: "Minimum length: 50 chars. Maximum length: 200 chars." %>
-                    <%= f.input :published_at, as: :datetime %>
-                    <hr/>
-                    <h3>Cover Image</h3>
-                    <br/>
                     <%= f.input :cover_image_alignment, collection: @cover_image_alignment, selected: "horizontal", required: true %>
-                    <%= f.input :publish, as: :boolean, label: "&nbsp; Publish Page?".html_safe, hint: "Until you want the Story Card to be published live on your site, do not mark the article as published." %>
-                    <% if @page.view_cast_id.present? %>
-                        <b>toStoryCard</b>
-                        <div id="protoCard"></div>
-                    <% end %>
+                    <br/>
                     <hr/>
-                    <h3>Distribution</h3>
+                    <h3>Prepare for Distribution</h3>
                     <br/>
                     <%= f.input :share_text_facebook %>
                     <%= f.input :share_text_twitter %>
