@@ -1,24 +1,17 @@
-<%= content_for :page_title do %>
-    
-          
-          
-          <li class="breadcrumb-item"><%= link_to "Stories", account_site_stories_path(@account, @site, folder_id: @folder.id), "data-turbolinks"=> false %></li>
-          <li class="breadcrumb-item active" aria-current="page"><%= truncate(@page.one_line_concept, length: 100, ommission: "..") %></li>
-      
-<% end %>
 <%= render partial: "stories/stories_header" %>
-
 <div class="row">
     <div class="col-sm-13">
-        <div style="margin-left: auto; margin-right: auto; width: 600px;">
+        <br/><br/><br/><br/>
+        <div style="margin-left: auto; margin-right: auto; width: 540px;">
             <%= simple_form_for(@page, url: account_site_page_path(@account, @site), method: :put) do |f| %>
                 <%= f.error_notification %>
                 <div class="form-inputs">
                     <%= f.input :content, as: :text, required: true, minlength: 100, input_html: {rows: 30, style: "border: 0px; padding-left: 0px;", class: "editable"}, label: false, placeholder: "Tell your story...", autofocus: true %>
+                    <%= f.hidden_field :from_page, value: "edit_write" %>
                 </div>
               <div class="form-actions">
                 <%= f.hidden_field :prepare_cards_for_assembling, value: true %>
-                <%= f.button :submit, "Save and prepare cards for assembling" %>
+                <%= f.button :submit, "'Save as Cards' --> and go to ASSEMBLE", class: "btn btn-lg btn-success" %>
                 &nbsp
                 <span id='autosave_text' class="hint-text"></span>
 
@@ -27,12 +20,20 @@
             <br/><br/><br/>
         </div>
     </div>
-	<div class="col-sm-3 help-text">
-		<!--<%= image_tag "help.png", style: "float: right; right: 0; top: 0; position: relative;" %><h2>Email Settings</h2>
-		<p>Your default support email address is prototype@pro.to. Any email sent here gets automatically converted into a ticket that you can get working on.</p>
-		<p>You can configure your Freshdesk account to use a support email in your own domain, like <a href="">support@mycompany.com</a> by forwarding emails from this address to <a href="">protoprototype@heyproto.freshdesk.com</a>. To create a new support email box, click “Edit” under global email settings.</p>-->
-	</div>
+    <div class="col-sm-3 help-text" style="font-family: 'Lato', sans-serif;">
+        <br/><br/><br/><br/>
+		<%= image_tag "help.png", style: "float: right; right: 0; top: 0; position: relative;" %><h2>How to write?</h2>
+        <p>Select text to change formatting, add headers, or create links.</p>
+        <%= image_tag "formatting.gif", class: "img-fluid", style: "margin: 0px 0px 10px 30px; width: 70%;" %>
+        <p>To add cover image, headline, images, videos or iFrames, go to the next tab "Assemble" and more cards.</p>
+        <p>ProtoTYPE is constantly auto-saving. When ready to publish, press 'Save as Cards' button. ProtoTYPE then creates cards of all text between H2 headers.</p>
+        <hr/>
+        <div class="story-plan">
+            <%= render partial: "stories/edit_plan" %>
+        </div>
+    </div>
 </div>
+
 <script type="text/javascript">
     function setEndOfContenteditable(contentEditableElement) {
       var range,selection;

@@ -1,9 +1,15 @@
+<<<<<<< HEAD
 <%= content_for :page_title do %>
     <li class="breadcrumb-item"><%= link_to "Stories", account_site_stories_path(@account, @site, folder_id: @folder.id), "data-turbolinks"=> false %></li>
     <li class="breadcrumb-item active" aria-current="page"><%= truncate(@page.one_line_concept, length: 100, ommission: "..") %></li>
 
 <% end %>
+=======
+>>>>>>> c49b563c08cce69e2ff592cd877d145694d76bbd
 <%= render partial: "stories/stories_header" %>
+<br/>
+<br/>
+<br/>
 <div class="row">
   <div class="col-sm-13">
     <div style="margin-left: auto; margin-right: auto; width: 90%;">

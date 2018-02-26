@@ -79,7 +79,7 @@ class Page < ApplicationRecord
   has_many :users, through: :permissions
 
   #ACCESSORS
-  attr_accessor :collaborator_lists, :publish, :from_api, :prepare_cards_for_assembling
+  attr_accessor :collaborator_lists, :publish, :from_api, :prepare_cards_for_assembling, :from_page
   accepts_nested_attributes_for :cover_image
 
   #VALIDATIONS

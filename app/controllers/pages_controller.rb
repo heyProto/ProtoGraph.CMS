@@ -12,7 +12,7 @@ class PagesController < ApplicationController
 
   def edit
     if @page.template_page.name == "article"
-      redirect_to edit_plan_account_site_story_path(@account, @site, @page, folder_id: @folder.present? ? @folder.id : nil)
+      redirect_to edit_write_account_site_story_path(@account, @site, @page, folder_id: @page.folder_id)
     else
       @is_page_builder = true
       @ref_intersection = RefCategory.where(site_id: @site.id, genre: "intersection", is_disabled: [false, nil]).order(:name).map {|r| ["#{r.name}", r.id]}
@@ -55,11 +55,18 @@ class PagesController < ApplicationController
     if p_params.has_key?('cover_image_attributes') and !p_params['cover_image_attributes'].has_key?("image")
       p_params.delete('cover_image_attributes')
     end
+    from_page = params[:page][:from_page]
+    
+
     respond_to do |format|
       if @page.update_attributes(p_params)
         format.json { respond_with_bip(@page) }
         format.html {
-          redirect_back(fallback_location: account_site_pages_path(@account, @site, folder_id: (@folder.present? ? @folder.id : nil)), notice: 'Page was successfully updated.')
+          if @page.template_page.name == "article" and from_page == "edit_write"
+            redirect_to edit_assemble_account_site_story_path(@account, @site, @page, folder_id: @page.folder_id)
+          else
+            redirect_back(fallback_location: account_site_pages_path(@account, @site, folder_id: (@folder.present? ? @folder.id : nil)), notice: 'Page was successfully updated.')
+          end
         }
       else
         format.json { respond_with_bip(@page) }

@@ -96,7 +96,6 @@ Rails.application.routes.draw do
         put "remove_cover_image", on: :member
       end
       resources :stories, only: [:index] do
-        get "edit/plan", to: "stories#edit_plan", on: :member
         get "edit/write", to: "stories#edit_write", on: :member
         get "edit/assemble", to: "stories#edit_assemble", on: :member
         get "edit/distribute", to: "stories#edit_distribute", on: :member

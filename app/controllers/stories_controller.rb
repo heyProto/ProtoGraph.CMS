@@ -1,7 +1,7 @@
 class StoriesController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_page, only: [:edit_plan, :edit_write, :edit_assemble, :edit_distribute]
-  before_action :sudo_can_see_all_pages, only: [:edit_plan, :edit_write, :edit_assemble, :edit_distribute]
+  before_action :set_page, only: [:edit_write, :edit_assemble, :edit_distribute]
+  before_action :sudo_can_see_all_pages, only: [:edit_write, :edit_write, :edit_assemble, :edit_distribute]
 
   def index
     if params[:page].present? and params[:page].class != String
@@ -31,15 +31,6 @@ class StoriesController < ApplicationController
       @ref_sub_intersection = RefCategory.where(site_id: @site.id, genre: "sub intersection", is_disabled: [false, nil]).order(:name).map {|r| ["#{r.name}", r.id]}
       @article = TemplatePage.where(name: "article").first
     end
-  end
-
-  def edit_plan
-    @ref_intersection = RefCategory.where(site_id: @site.id, genre: "intersection", is_disabled: [false, nil]).order(:name).map {|r| ["#{r.name}", r.id]}
-    @ref_sub_intersection = RefCategory.where(site_id: @site.id, genre: "sub intersection", is_disabled: [false, nil]).order(:name).map {|r| ["#{r.name}", r.id]}
-    @template_cards = @account.template_cards.where(is_current_version: true)
-    @page_todo = PageTodo.new
-    @page_todos = @page.page_todos.order(:sort_order)
-    #  ->>> page_authors
   end
 
   def edit_assemble
@@ -74,11 +65,18 @@ class StoriesController < ApplicationController
         @page_streamH16 = @page.page_streams.where(name_of_stream: "Hero").first
         @stream_entity = StreamEntity.new
     end
+    render layout: "application-pages"
   end
-
+  
   def edit_write
     #- Seamless writing experience that gets converted into many Compose Cards
     #- Rao's app / Medium / Google Doc
+    @ref_intersection = RefCategory.where(site_id: @site.id, genre: "intersection", is_disabled: [false, nil]).order(:name).map {|r| ["#{r.name}", r.id]}
+    @ref_sub_intersection = RefCategory.where(site_id: @site.id, genre: "sub intersection", is_disabled: [false, nil]).order(:name).map {|r| ["#{r.name}", r.id]}
+    @template_cards = @account.template_cards.where(is_current_version: true)
+    @page_todo = PageTodo.new
+    @page_todos = @page.page_todos.order(:sort_order)
+    render layout: "application-pages"
   end
 
   def edit_distribute
@@ -90,6 +88,7 @@ class StoriesController < ApplicationController
     #     > State
     #     > District
     #     > Location
+    render layout: "application-pages"
   end
 
   private
