@@ -29,7 +29,6 @@ class PagesController < ApplicationController
       if @page.status != "draft"
         if @page.template_page.name == "Homepage: Vertical"
           @page_stream_16 = @page.streams.where(title: "#{@page.id.to_s}_Section_16c_Hero").first
-          @page_stream_16.view_cast_id_list = @page_stream_16.view_cast_ids.pluck(:entity_value).join(",")
           @page_stream_07 = @page.streams.where(title: "#{@page.id.to_s}_Section_7c").first
           @page_stream_04 = @page.streams.where(title: "#{@page.id.to_s}_Section_4c").first
           @page_stream_03 = @page.streams.where(title: "#{@page.id.to_s}_Section_3c").first
@@ -103,7 +102,7 @@ class PagesController < ApplicationController
 
   def remove_cover_image
     @page.update_attributes(cover_image_id: nil, cover_image_id_7_column: nil)
-    redirect_to edit_account_site_page_path(@account, @site, @page, @folder.present? ? {folder_id: @folder.id} : nil), notice: t("ds")
+    redirect_back(fallback_location: account_site_pages_path(@account, @site, folder_id: (@folder.present? ? @folder.id : nil)), notice: t("ds"))
   end
 
   def destroy
