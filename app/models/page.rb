@@ -280,7 +280,8 @@ class Page < ApplicationRecord
   end
 
   def push_json_to_s3
-    if self.status != "draft"
+    transformed_keys = self.saved_changes.transform_values(&:first)
+    if self.status != "draft" and transformed_keys.present? and  (["url","is_open","due","description","one_line_concept","content"] & self.saved_changes.transform_values(&:first).keys).length == 0
       if self.from_api
         push_page_object_to_s3
       else
@@ -421,7 +422,7 @@ class Page < ApplicationRecord
   private
 
   def update_page_image
-    if self.cover_image.present? and self.cover_image.id.present? and self.cover_image.image_variation.first.present?
+    if self.cover_image.present? and self.cover_image_id_7_column.nil? and self.cover_image.id.present? and self.cover_image.image_variation.first.present?
       self.update_column(:cover_image_id_7_column, self.cover_image.image_variation.first.id)
     end
   end

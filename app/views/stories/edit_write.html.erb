@@ -72,7 +72,7 @@
             $("#autosave_text").text("Saving...");
             var data = $('form.simple_form.edit_page:first').serializeArray().reduce(
               function(obj, item) {
-                if (['page[prepare_cards_for_assembling]'].indexOf(item.name) < 0) {
+                if (['page[prepare_cards_for_assembling]', 'page[from_page]'].indexOf(item.name) < 0) {
                   obj[item.name] = item.value;
                 }
                 return obj;
