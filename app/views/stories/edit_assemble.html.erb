@@ -1,210 +1,245 @@
 <%= render partial: "stories/stories_header" %>
-<br/>
-<br/>
-<br/>
 <div class="row">
-  <div class="col-sm-13">
-    <div style="margin-left: auto; margin-right: auto; width: 90%;">
-      <% if @page.status != "draft" %>
-        <div class="row">
-          <div class="col-sm-16">
-            <h4><%= best_in_place @page_streamH16, :name_of_stream, url: [@account, @site, @page_streamH16] %></h4>
-              <%= link_to ".", publish_account_site_stream_path(@account, @site, @page_stream_16, folder_id: @folder.blank? ? nil : @folder.id),"data-turbolinks"=> false, class: "btn btn-outline", method: :post, style: 'color: white' %>
-              <% if @page_stream_16.cards.present? %>
-                <% d = @page_stream_16.cards.first %>
-                <% stream_entity = @page_stream_16.stream_entities.view_casts.where(entity_value: d.id).first %>
-                <div class="card-as-a-todo move-to-action" data-view-cast-id="<%= d.id %>" data-stream-entity-id="<%= stream_entity.id %>" style='margin: 0px;'>
-                  <div class="card-information">
-                    <div class="card-title"><%= truncate(d.name, length: 200, ommission: "..") %></div>
-                    <div class="card-type"><%= d.template_card.name %> <span class="card-id">#<%=d.id.to_s%></span></div>
-                    <div class="card-footer">
-                      <div class="users-list">
-                        <div class="single-user"><%= image_tag avatar_url(d.updator.email), width: "16px", height: "16px" %></div>
-                      </div>
-                      <div class="due-on">
-                        <%= time_ago_in_words(d.updated_at) %>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="call-to-action">
-                    <%= link_to "<div class='action-button action-preview'>Preview</div>".html_safe, [@account, @site, d.folder, d], "data-turbolinks" => false %>
-                    <%= link_to "<div class='action-button action-edit'>Edit</div>".html_safe, edit_account_site_folder_view_cast_path(@account, @site, d.folder, d), "data-turbolinks" => false %>
-                  </div>
-                  <div class="action-move-to">
-                    <div class="hint-text">Move To</div>
-                    <div class="remove-button">
-                      <%= link_to "Remove", [@account, @site, @page_stream_16, stream_entity ], method: :delete %>
-                    </div>
-                    <br>
-                    <ul class="list-group list-group-flush">
-                      <% if (["col7", "col4"] - d.template_card.allowed_views).blank? %>
-                        <li class="list-group-item" data-page-stream-url="<%= account_site_stream_stream_entities_path(@account, @site, @page_stream_narrative) %>"><%= @page_stream_narrative7c.name_of_stream %></li>
-                      <% end %>
-
-                      <% if (d.template_card.allowed_views & ["col4"]).present? %>
-                        <li class="list-group-item" data-page-stream-url="<%= account_site_stream_stream_entities_path(@account, @site, @page_stream_related) %>"><%= @page_stream_related7c.name_of_stream %></li>
-                      <% end %>
-                    </ul>
-                  </div>
-                </div>
-              <% else %>
-                <p><b>No card added</b></p>
-              <% end %>
-              <br/>
-              <br/>
-            </div>
-          </div>
-          <div class="row">
-            <div class='col-sm-4' style="margin: 0px 15px 0px 0px;padding: 0px; border-right: 1px solid #ECEFF1">
-              <h4>All Cards</h4>
-              <% @all_cards.each do |d| %>
-                <div class="card-as-a-todo move-to-action" data-view-cast-id="<%= d.id %>" style='margin: 0px;'>
-                  <div class="card-information">
-                    <div class="card-title"><%= truncate(d.name, length: 200, ommission: "..") %></div>
-                    <div class="card-type"><%= d.template_card.name %> <span class="card-id">#<%=d.id.to_s%></span></div>
-                    <div class="card-footer">
-                      <div class="users-list">
-                        <div class="single-user"><%= image_tag avatar_url(d.updator.email), width: "16px", height: "16px" %></div>
-                      </div>
-                      <div class="due-on">
-                        <%= time_ago_in_words(d.updated_at) %>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="call-to-action">
-                    <%= link_to "<div class='action-button action-preview'>Preview</div>".html_safe, [@account, @site, d.folder, d], "data-turbolinks" => false %>
-                    <%= link_to "<div class='action-button action-edit'>Edit</div>".html_safe, edit_account_site_folder_view_cast_path(@account, @site, d.folder, d), "data-turbolinks" => false %>
-                  </div>
-                  <div class="action-move-to">
-                    <div class="hint-text">Move To</div>
-                    <br>
-                    <ul class="list-group list-group-flush">
-                      <% if (["col16", "col4"] - d.template_card.allowed_views).blank? %>
-                        <li class="list-group-item" data-page-stream-url="<%= account_site_stream_stream_entities_path(@account, @site, @page_stream_16) %>"><%= @page_streamH16.name_of_stream %></li>
-                      <% end %>
-                      <% if (["col7", "col4"] - d.template_card.allowed_views).blank? %>
-                        <li class="list-group-item" data-page-stream-url="<%= account_site_stream_stream_entities_path(@account, @site, @page_stream_narrative) %>"><%= @page_stream_narrative7c.name_of_stream %></li>
-                      <% end %>
-
-                      <% if (d.template_card.allowed_views & ["col4"]).present? %>
-                        <li class="list-group-item" data-page-stream-url="<%= account_site_stream_stream_entities_path(@account, @site, @page_stream_related) %>"><%= @page_stream_related7c.name_of_stream %></li>
-                      <% end %>
-                    </ul>
-                  </div>
-                </div>
-              <% end %>
-            </div>
-            <div class='col-sm-4' style="margin: 0px;padding: 0px">
-              <h4 style='display: inline'><%= best_in_place @page_stream_narrative7c, :name_of_stream, url: [@account, @site, @page_stream_narrative7c] %></h4>
-              <%= link_to ".", publish_account_site_stream_path(@account, @site, @page_stream_narrative, folder_id: @folder.blank? ? nil : @folder.id),"data-turbolinks"=> false, method: :post, style: "color: white" %>
-              <% @page_stream_narrative.cards.each_with_index do |d, i| %>
-                <% stream_entity = @page_stream_narrative.stream_entities.view_casts.where(entity_value: d.id).first %>
-                <div class="card-as-a-todo move-to-action" data-view-cast-id="<%= d.id %>" data-stream-entity-id="<%= stream_entity.id %>" style='margin: 0px;'>
-                  <div class="card-information">
-                    <div class="card-title"><%= truncate(d.name, length: 200, ommission: "..") %></div>
-                    <div class="card-type"><%= d.template_card.name %> <span class="card-id">#<%=d.id.to_s%></span></div>
-                    <div class="card-footer">
-                      <div class="users-list">
-                        <div class="single-user"><%= image_tag avatar_url(d.updator.email), width: "16px", height: "16px" %></div>
-                      </div>
-                      <div class="due-on">
-                        <%= time_ago_in_words(d.updated_at) %>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="call-to-action">
-                    <%= link_to "<div class='action-button action-preview'>Preview</div>".html_safe, [@account, @site, d.folder, d], "data-turbolinks" => false %>
-                    <%= link_to "<div class='action-button action-edit'>Edit</div>".html_safe, edit_account_site_folder_view_cast_path(@account, @site, d.folder, d), "data-turbolinks" => false %>
-                  </div>
-                  <div class="action-move-to">
-                    <div class="hint-text">
-                      Move
-                      <% if i != 0  %>
-                        &nbsp
-                        <%= link_to image_tag('up.png', height: 10), move_up_account_site_stream_stream_entity_path(@account, @site, @page_stream_narrative, stream_entity), method: :put %>
-                      <% end %>
-                      <% if i != (@page_stream_narrative.cards.count - 1)%>
-                        &nbsp
-                        <%= link_to image_tag('down.png', height: 10), move_down_account_site_stream_stream_entity_path(@account, @site, @page_stream_narrative, stream_entity), method: :put %>
-                      <% end %>
-                    </div>
-                    <div class="remove-button">
-                      <%= link_to "Remove", [@account, @site, @page_stream_narrative, stream_entity], method: :delete %>
-                    </div>
-
-                    <br>
-                    <ul class="list-group list-group-flush">
-                      <% if (["col16", "col4"] - d.template_card.allowed_views).blank? %>
-                        <li class="list-group-item" data-page-stream-url="<%= account_site_stream_stream_entities_path(@account, @site, @page_stream_16) %>"><%= @page_streamH16.name_of_stream %></li>
-                      <% end %>
-                      <% if (d.template_card.allowed_views & ["col4"]).present? %>
-                        <li class="list-group-item" data-page-stream-url="<%= account_site_stream_stream_entities_path(@account, @site, @page_stream_related) %>"><%= @page_stream_related7c.name_of_stream %></li>
-                      <% end %>
-                    </ul>
-                  </div>
-                </div>
-              <% end %>
-            </div>
-            <div class='col-sm-4' style="margin: 0px;padding: 0px">
-              <h4 style='display: inline'><%= best_in_place @page_stream_related7c, :name_of_stream, url: [@account, @site, @page_stream_related] %></h4>
-              <%= link_to ".", publish_account_site_stream_path(@account, @site, @page_stream_related, folder_id: @folder.blank? ? nil : @folder.id),"data-turbolinks"=> false, method: :post, style: "color: white" %>
-              <% @page_stream_related.cards.each_with_index  do |d, i| %>
-                <% stream_entity = @page_stream_related.stream_entities.view_casts.where(entity_value: d.id).first %>
-                <div class="card-as-a-todo move-to-action" data-view-cast-id="<%= d.id %>" data-stream-entity-id="<%= stream_entity.id %>"
-                  style='margin: 0px;'>
-                  <div class="card-information">
-                    <div class="card-title"><%= truncate(d.name, length: 200, ommission: "..") %></div>
-                    <div class="card-type"><%= d.template_card.name %> <span class="card-id">#<%=d.id.to_s%></span></div>
-                    <div class="card-footer">
-                      <div class="users-list">
-                        <div class="single-user"><%= image_tag avatar_url(d.updator.email), width: "16px", height: "16px" %></div>
-                      </div>
-                      <div class="due-on">
-                        <%= time_ago_in_words(d.updated_at) %>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="call-to-action">
-                    <%= link_to "<div class='action-button action-preview'>Preview</div>".html_safe, [@account, @site, d.folder, d], "data-turbolinks" => false %>
-                    <%= link_to "<div class='action-button action-edit'>Edit</div>".html_safe, edit_account_site_folder_view_cast_path(@account, @site, d.folder, d), "data-turbolinks" => false %>
-                  </div>
-                  <div class="action-move-to">
-                    <div class="hint-text">
-                      Move
-                      <% if i != 0  %>
-                        &nbsp
-                        <%= link_to image_tag('up.png', height: 10), move_up_account_site_stream_stream_entity_path(@account, @site, @page_stream_related, stream_entity), method: :put %>
-                      <% end %>
-                      <% if i != (@page_stream_related.cards.count - 1)%>
-                        &nbsp
-                        <%= link_to image_tag('down.png', height: 10), move_down_account_site_stream_stream_entity_path(@account, @site, @page_stream_related, stream_entity), method: :put %>
-                      <% end %>
-                    </div>
-                    <div class="remove-button">
-                      <%= link_to "Remove", [@account, @site, @page_stream_related, stream_entity ], method: :delete %>
-                    </div>
-
-                    <br>
-                    <ul class="list-group list-group-flush">
-                      <% if (["col16", "col4"] - d.template_card.allowed_views).blank? %>
-                        <li class="list-group-item" data-page-stream-url="<%= account_site_stream_stream_entities_path(@account, @site, @page_stream_16) %>"><%= @page_streamH16.name_of_stream %></li>
-                      <% end %>
-                      <% if (["col7", "col4"] - d.template_card.allowed_views).blank? %>
-                        <li class="list-group-item" data-page-stream-url="<%= account_site_stream_stream_entities_path(@account, @site, @page_stream_narrative) %>"><%= @page_stream_narrative7c.name_of_stream %></li>
-                      <% end %>
-                    </ul>
-                  </div>
-                </div>
-              <% end %>
-            </div>
-          </div>
-      <% end %>
+    <div class="col-sm-3" style="padding: 30px 30px 0px 30px;">
+        <br/><br/>
+        <p class="hint">All cards created in folders related to this vertical.</p>
     </div>
-  </div>
-	<div class="col-sm-3 help-text">
-        <%= render partial: "stories/stories_sidebar" %>
-	</div>
+    <div class="col-sm-10">
+        <div class="row" style="padding: 0px;">
+            <div class="col-sm-5" style="padding: 30px 30px 0px 30px;">
+                <br/><br/>
+                <p class="hint">This is where the cover image is shown. If you add a card to this stream, then cover image will not be shown.</p>
+            </div>
+            <div class="col-sm-5" style="padding: 30px 30px 0px 30px;">
+                <br/><br/>
+                <p class="hint">Narrative is the actual story. By default every time, you "Save as Cards" in Write tab, all existing cards will trickle down to bottom.</p>
+            </div>
+            <div class="col-sm-5" style="padding: 30px 30px 0px 30px;">
+                <br/><br/>
+                <p class="hint">Related is the right sidebar in story page, where you can put related images, videos, data cards, etc.</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-3 help-text">
+    </div>
 </div>
+<div class="row">
+    <div class="col-sm-3" style="background: #37474F; padding: 30px;">
+        <h4 style="color: white; text-align: center;">Card Bank</h4>
+        <br/>
+        <% @all_cards.each do |d| %>
+          <div class="card-as-a-todo move-to-action" data-view-cast-id="<%= d.id %>" style='width: 180px; margin-bottom: 10px; margin-left: 50%; transform: translate(-50%,0%); '>
+            <div class="card-information">
+              <div class="card-title"><%= truncate(d.name, length: 200, ommission: "..") %></div>
+              <div class="card-type"><%= d.template_card.name %> <span class="card-id">#<%=d.id.to_s%></span></div>
+              <div class="card-footer">
+                <div class="users-list">
+                  <div class="single-user"><%= image_tag avatar_url(d.updator.email), width: "16px", height: "16px" %></div>
+                </div>
+                <div class="due-on">
+                  <%= time_ago_in_words(d.updated_at) %>
+                </div>
+              </div>
+            </div>
+            <div class="call-to-action">
+              <%= link_to "<div class='action-button action-preview'>Preview</div>".html_safe, [@account, @site, d.folder, d], "data-turbolinks" => false %>
+              <%= link_to "<div class='action-button action-edit'>Edit</div>".html_safe, edit_account_site_folder_view_cast_path(@account, @site, d.folder, d), "data-turbolinks" => false %>
+            </div>
+            <div class="action-move-to">
+              <div class="hint-text">Move To</div>
+              <br>
+              <ul class="list-group list-group-flush">
+                <% if (["col16", "col4"] - d.template_card.allowed_views).blank? %>
+                  <li class="list-group-item" data-page-stream-url="<%= account_site_stream_stream_entities_path(@account, @site, @page_stream_16) %>"><%= @page_streamH16.name_of_stream %></li>
+                <% end %>
+                <% if (["col7", "col4"] - d.template_card.allowed_views).blank? %>
+                  <li class="list-group-item" data-page-stream-url="<%= account_site_stream_stream_entities_path(@account, @site, @page_stream_narrative) %>"><%= @page_stream_narrative7c.name_of_stream %></li>
+                <% end %>
+
+                <% if (d.template_card.allowed_views & ["col4"]).present? %>
+                  <li class="list-group-item" data-page-stream-url="<%= account_site_stream_stream_entities_path(@account, @site, @page_stream_related) %>"><%= @page_stream_related7c.name_of_stream %></li>
+                <% end %>
+              </ul>
+            </div>
+          </div>
+        <% end %>
+    </div>
+    <div class="col-sm-10">
+        <div class="row" style="padding: 0px;">
+            <div class="col-sm-5" style="background: #90A4AE; padding: 30px;">
+                <h4 style="color: white; text-align: center;">
+                    Stream:
+                    <%= best_in_place @page_streamH16, :name_of_stream, url: [@account, @site, @page_streamH16], style: "border-bottom: 1px dotted black;" %>
+                    <%= link_to ".", publish_account_site_stream_path(@account, @site, @page_stream_16, folder_id: @folder.blank? ? nil : @folder.id),"data-turbolinks"=> false, method: :post, style: 'color: #90A4AE' %>
+                </h4>
+                <br/>
+                <% if @page_stream_16.cards.present? %>
+                  <% d = @page_stream_16.cards.first %>
+                  <% stream_entity = @page_stream_16.stream_entities.view_casts.where(entity_value: d.id).first %>
+                  <div class="card-as-a-todo move-to-action" data-view-cast-id="<%= d.id %>" data-stream-entity-id="<%= stream_entity.id %>" style='width: 180px; margin-bottom: 10px; margin-left: 50%; transform: translate(-50%,0%); '>
+                    <div class="card-information">
+                      <div class="card-title"><%= truncate(d.name, length: 200, ommission: "..") %></div>
+                      <div class="card-type"><%= d.template_card.name %> <span class="card-id">#<%=d.id.to_s%></span></div>
+                      <div class="card-footer">
+                        <div class="users-list">
+                          <div class="single-user"><%= image_tag avatar_url(d.updator.email), width: "16px", height: "16px" %></div>
+                        </div>
+                        <div class="due-on">
+                          <%= time_ago_in_words(d.updated_at) %>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="call-to-action">
+                      <%= link_to "<div class='action-button action-preview'>Preview</div>".html_safe, [@account, @site, d.folder, d], "data-turbolinks" => false %>
+                      <%= link_to "<div class='action-button action-edit'>Edit</div>".html_safe, edit_account_site_folder_view_cast_path(@account, @site, d.folder, d), "data-turbolinks" => false %>
+                    </div>
+                    <div class="action-move-to">
+                      <div class="hint-text">Move To</div>
+                      <div class="remove-button">
+                        <%= link_to "Remove", [@account, @site, @page_stream_16, stream_entity ], method: :delete %>
+                      </div>
+                      <br>
+                      <ul class="list-group list-group-flush">
+                        <% if (["col7", "col4"] - d.template_card.allowed_views).blank? %>
+                          <li class="list-group-item" data-page-stream-url="<%= account_site_stream_stream_entities_path(@account, @site, @page_stream_narrative) %>"><%= @page_stream_narrative7c.name_of_stream %></li>
+                        <% end %>
+
+                        <% if (d.template_card.allowed_views & ["col4"]).present? %>
+                          <li class="list-group-item" data-page-stream-url="<%= account_site_stream_stream_entities_path(@account, @site, @page_stream_related) %>"><%= @page_stream_related7c.name_of_stream %></li>
+                        <% end %>
+                      </ul>
+                    </div>
+                  </div>
+                <% else %>
+                  <p style="font-size: 12px; text-align: center;"><b>No card added</b></p>
+                <% end %>
+            </div>
+            <div class="col-sm-5" style="background: #B0BEC5; padding: 30px;">
+                <h4 style="color: black; text-align: center;">
+                    Stream: 
+                    <%= best_in_place @page_stream_narrative7c, :name_of_stream, url: [@account, @site, @page_stream_narrative7c], style: "border-bottom: 1px dotted black;" %>
+                    <%= link_to ".", publish_account_site_stream_path(@account, @site, @page_stream_narrative, folder_id: @folder.blank? ? nil : @folder.id),"data-turbolinks"=> false, method: :post, style: "color: #B0BEC5" %>
+                </h4>
+                <br/>
+                <% @page_stream_narrative.cards.each_with_index do |d, i| %>
+                  <% stream_entity = @page_stream_narrative.stream_entities.view_casts.where(entity_value: d.id).first %>
+                  <div class="card-as-a-todo move-to-action" data-view-cast-id="<%= d.id %>" data-stream-entity-id="<%= stream_entity.id %>" style='width: 180px; margin-bottom: 10px; margin-left: 50%; transform: translate(-50%,0%); '>
+                    <div class="card-information">
+                      <div class="card-title"><%= truncate(d.name, length: 200, ommission: "..") %></div>
+                      <div class="card-type"><%= d.template_card.name %> <span class="card-id">#<%=d.id.to_s%></span></div>
+                      <div class="card-footer">
+                        <div class="users-list">
+                          <div class="single-user"><%= image_tag avatar_url(d.updator.email), width: "16px", height: "16px" %></div>
+                        </div>
+                        <div class="due-on">
+                          <%= time_ago_in_words(d.updated_at) %>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="call-to-action">
+                      <%= link_to "<div class='action-button action-preview'>Preview</div>".html_safe, [@account, @site, d.folder, d], "data-turbolinks" => false %>
+                      <%= link_to "<div class='action-button action-edit'>Edit</div>".html_safe, edit_account_site_folder_view_cast_path(@account, @site, d.folder, d), "data-turbolinks" => false %>
+                    </div>
+                    <div class="action-move-to">
+                      <div class="hint-text">
+                        Move
+                        <% if i != 0  %>
+                          &nbsp
+                          <%= link_to image_tag('up.png', height: 10), move_up_account_site_stream_stream_entity_path(@account, @site, @page_stream_narrative, stream_entity), method: :put %>
+                        <% end %>
+                        <% if i != (@page_stream_narrative.cards.count - 1)%>
+                          &nbsp
+                          <%= link_to image_tag('down.png', height: 10), move_down_account_site_stream_stream_entity_path(@account, @site, @page_stream_narrative, stream_entity), method: :put %>
+                        <% end %>
+                      </div>
+                      <div class="remove-button">
+                        <%= link_to "Remove", [@account, @site, @page_stream_narrative, stream_entity], method: :delete %>
+                      </div>
+
+                      <br>
+                      <ul class="list-group list-group-flush">
+                        <% if (["col16", "col4"] - d.template_card.allowed_views).blank? %>
+                          <li class="list-group-item" data-page-stream-url="<%= account_site_stream_stream_entities_path(@account, @site, @page_stream_16) %>"><%= @page_streamH16.name_of_stream %></li>
+                        <% end %>
+                        <% if (d.template_card.allowed_views & ["col4"]).present? %>
+                          <li class="list-group-item" data-page-stream-url="<%= account_site_stream_stream_entities_path(@account, @site, @page_stream_related) %>"><%= @page_stream_related7c.name_of_stream %></li>
+                        <% end %>
+                      </ul>
+                    </div>
+                  </div>
+                <% end %>
+            </div>
+            <div class="col-sm-5" style="background: #CFD8DC; padding: 30px;">
+                <h4 style="color: black; text-align: center;">
+                    Stream: 
+                    <%= best_in_place @page_stream_related7c, :name_of_stream, url: [@account, @site, @page_stream_related], style: "border-bottom: 1px dotted black;" %>
+                    <%= link_to ".", publish_account_site_stream_path(@account, @site, @page_stream_related, folder_id: @folder.blank? ? nil : @folder.id),"data-turbolinks"=> false, method: :post, style: "color: #CFD8DC" %>
+                </h4>
+                <br/>
+                <% @page_stream_related.cards.each_with_index  do |d, i| %>
+                  <% stream_entity = @page_stream_related.stream_entities.view_casts.where(entity_value: d.id).first %>
+                  <div class="card-as-a-todo move-to-action" data-view-cast-id="<%= d.id %>" data-stream-entity-id="<%= stream_entity.id %>" style='width: 180px; margin-bottom: 10px; margin-left: 50%; transform: translate(-50%,0%); '>
+                    <div class="card-information">
+                      <div class="card-title"><%= truncate(d.name, length: 200, ommission: "..") %></div>
+                      <div class="card-type"><%= d.template_card.name %> <span class="card-id">#<%=d.id.to_s%></span></div>
+                      <div class="card-footer">
+                        <div class="users-list">
+                          <div class="single-user"><%= image_tag avatar_url(d.updator.email), width: "16px", height: "16px" %></div>
+                        </div>
+                        <div class="due-on">
+                          <%= time_ago_in_words(d.updated_at) %>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="call-to-action">
+                      <%= link_to "<div class='action-button action-preview'>Preview</div>".html_safe, [@account, @site, d.folder, d], "data-turbolinks" => false %>
+                      <%= link_to "<div class='action-button action-edit'>Edit</div>".html_safe, edit_account_site_folder_view_cast_path(@account, @site, d.folder, d), "data-turbolinks" => false %>
+                    </div>
+                    <div class="action-move-to">
+                      <div class="hint-text">
+                        Move
+                        <% if i != 0  %>
+                          &nbsp
+                          <%= link_to image_tag('up.png', height: 10), move_up_account_site_stream_stream_entity_path(@account, @site, @page_stream_related, stream_entity), method: :put %>
+                        <% end %>
+                        <% if i != (@page_stream_related.cards.count - 1)%>
+                          &nbsp
+                          <%= link_to image_tag('down.png', height: 10), move_down_account_site_stream_stream_entity_path(@account, @site, @page_stream_related, stream_entity), method: :put %>
+                        <% end %>
+                      </div>
+                      <div class="remove-button">
+                        <%= link_to "Remove", [@account, @site, @page_stream_related, stream_entity ], method: :delete %>
+                      </div>
+
+                      <br>
+                      <ul class="list-group list-group-flush">
+                        <% if (["col16", "col4"] - d.template_card.allowed_views).blank? %>
+                          <li class="list-group-item" data-page-stream-url="<%= account_site_stream_stream_entities_path(@account, @site, @page_stream_16) %>"><%= @page_streamH16.name_of_stream %></li>
+                        <% end %>
+                        <% if (["col7", "col4"] - d.template_card.allowed_views).blank? %>
+                          <li class="list-group-item" data-page-stream-url="<%= account_site_stream_stream_entities_path(@account, @site, @page_stream_narrative) %>"><%= @page_stream_narrative7c.name_of_stream %></li>
+                        <% end %>
+                      </ul>
+                    </div>
+                  </div>
+                <% end %>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-3 help-text">
+		<%= image_tag "help.png", style: "float: right; right: 0; top: 0; position: relative;" %>
+        <h2>Add card from Card Bank</h2>
+        <p>Hover over a card in the Card Bank to unveil list of streams. Click on a stream name to add to that stream.</p>
+        <%= image_tag "assemble-add.png", width: "180px;", height: "160px;", style: "border: 1px solid lightgray; margin-left: 30px; margin-bottom: 30px;" %>
+        <h2>Sort cards within a stream</h2>
+        <p>Post hover, click on a up or down arrows.</p>
+        <%= image_tag "assemble-sort.png", width: "180px;", height: "160px;", style: "border: 1px solid lightgray; margin-left: 30px; margin-bottom: 30px;" %>
+        <h2>Remove a card from a stream</h2>
+        <p>Post hover, click on the remove button.</p>
+        <%= image_tag "assemble-remove.png", width: "180px;", height: "160px;", style: "border: 1px solid lightgray; margin-left: 30px; margin-bottom: 30px;" %>
+    </div>
+</div>
+
 
 <%= simple_form_for(@stream_entity, url: [@account, @site, @page_stream_related, @stream_entity]) do |f| %>
     <%= f.hidden_field :entity_value, id: "stream_view_cast_id" %>
