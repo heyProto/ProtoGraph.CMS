@@ -18,7 +18,9 @@ module Propagatable
           self.sub_intersection.update_attributes(updated_at: Time.now)     if self.sub_intersection.present?
         elsif self.class.to_s == "SiteVerticalNavigation"
           self.ref_category.update_attributes(updated_at: Time.now)         if self.ref_category.present?
-        elsif ["Image", "Audio", "RefCategory", "Folder"].index(self.class.to_s).present?
+        elsif ["Image", "Audio"].index(self.class.to_s).present?
+          self.account.update_attributes(updated_at: Time.now)                 if self.site.present?
+        elsif ["RefCategory", "Folder"].index(self.class.to_s).present?
           self.site.update_attributes(updated_at: Time.now)                 if self.site.present?
         elsif ["PageStream", "PageTodo"].index(self.class.to_s).present?
           self.page.update_attributes(updated_at: Time.now)                 if self.page.present?
