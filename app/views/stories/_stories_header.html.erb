@@ -5,7 +5,7 @@
 
 <%= content_for :page_navigation do %>
       <li class="nav-item">
-        <%= link_to "Write", (action_name == "edit_write" ? "#" : edit_write_account_site_story_path(@account, @site, @page, folder_id: @page.folder_id)), class: (action_name == "edit_write" ? "nav-link active" : "nav-link"), "data-turbolinks" => "false" %>
+        <%= link_to "File", (action_name == "edit_write" ? "#" : edit_write_account_site_story_path(@account, @site, @page, folder_id: @page.folder_id)), class: (action_name == "edit_write" ? "nav-link active" : "nav-link"), "data-turbolinks" => "false" %>
       </li>
       <li class="nav-item">
         <%= link_to "Assemble", (action_name == "edit_assemble" ?  "#" : edit_assemble_account_site_story_path(@account, @site, @page, folder_id: @page.folder_id)), class: (action_name == "edit_assemble" ? "nav-link active" : "nav-link"), "data-turbolinks" => "false" %>
