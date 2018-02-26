@@ -1,10 +1,10 @@
 <%= content_for :page_title do %>
-    
-          
-          
+
+
+
           <li class="breadcrumb-item"><%= link_to "Stories", account_site_stories_path(@account, @site, folder_id: @folder.id), "data-turbolinks"=> false %></li>
           <li class="breadcrumb-item active" aria-current="page"><%= truncate(@page.one_line_concept, length: 100, ommission: "..") %></li>
-      
+
 <% end %>
 <%= render partial: "stories/stories_header" %>
 <div class="row">
@@ -182,13 +182,14 @@
 </div>
 
 
-
-<%= simple_form_for(@stream_entity, url: [@account, @site, @page_stream_related, @stream_entity]) do |f| %>
+<% if @page.status != 'draft' %>
+  <%= simple_form_for(@stream_entity, url: [@account, @site, @page_stream_related, @stream_entity]) do |f| %>
     <%= f.hidden_field :entity_value, id: "stream_view_cast_id" %>
     <%= f.hidden_field :entity_type, value: "view_cast_id" %>
     <%= f.hidden_field :is_excluded, value: false %>
     <%= f.hidden_field :page_id, value: @page.id %>
   <% end %>
+<% end %>
 
 
 
