@@ -23,13 +23,14 @@ class StreamEntity < ApplicationRecord
     #ASSOCIATIONS
     belongs_to :stream
     #ACCESSORS
-    attr_accessor :page_id
+    attr_accessor :page_id, :remove_stream_entity_id
     #VALIDATIONS
     validates :entity_type, presence: true
     validates :entity_value, presence: true, uniqueness: {scope: [:entity_type, :stream_id]}
     #CALLBACKS
     before_save :before_save_set
     before_create :set_sort_order
+    after_create :after_create_set
     before_destroy :before_destroy_set
     #SCOPE
     scope :folders, -> {where(entity_type: "folder_id")}
@@ -47,6 +48,12 @@ class StreamEntity < ApplicationRecord
 
     def before_save_set
         self.is_excluded = false if self.is_excluded.blank?
+    end
+
+    def after_create_set
+        if self.remove_stream_entity_id.present?
+            StreamEntity.where(id: remove_stream_entity_id).destroy_all
+        end
     end
 
     def set_sort_order

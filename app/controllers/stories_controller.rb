@@ -71,7 +71,6 @@ class StoriesController < ApplicationController
           title = "#{@page.id.to_s}_Data_16c_Hero"
         end
         @page_stream_16 = @page.streams.where(title: title).first
-        @page_stream_16.view_cast_id_list = @page_stream_16.view_cast_ids.pluck(:entity_value).join(",")
         @page_streamH16 = @page.page_streams.where(name_of_stream: "Hero").first
         @stream_entity = StreamEntity.new
     end

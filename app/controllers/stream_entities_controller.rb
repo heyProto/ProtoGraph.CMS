@@ -43,7 +43,7 @@ class StreamEntitiesController < ApplicationController
     private
 
     def stream_entity_params
-        params.require(:stream_entity).permit(:stream_id, :entity_type, :entity_value, :is_excluded, :page_id)
+        params.require(:stream_entity).permit(:stream_id, :entity_type, :entity_value, :is_excluded, :page_id, :remove_stream_entity_id)
     end
 
     def set_stream
