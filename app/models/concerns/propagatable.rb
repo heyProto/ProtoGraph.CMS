@@ -1,12 +1,12 @@
 module Propagatable
     extend ActiveSupport::Concern
-    
+
     included do
       after_commit :propogate_updated_at
     end
-    
+
     private
-    
+
     def propogate_updated_at
       if self.saved_changes.present?
         if ["ViewCast", "Stream"].index(self.class.to_s).present?
@@ -19,7 +19,7 @@ module Propagatable
         elsif self.class.to_s == "SiteVerticalNavigation"
           self.ref_category.update_attributes(updated_at: Time.now)         if self.ref_category.present?
         elsif ["Image", "Audio"].index(self.class.to_s).present?
-          self.account.update_attributes(updated_at: Time.now)                 if self.site.present?
+          self.account.update_attributes(updated_at: Time.now)              if self.account.present?
         elsif ["RefCategory", "Folder"].index(self.class.to_s).present?
           self.site.update_attributes(updated_at: Time.now)                 if self.site.present?
         elsif ["PageStream", "PageTodo"].index(self.class.to_s).present?
@@ -39,10 +39,10 @@ module Propagatable
         end
       end
       true
-      
+
       #TODO AMIT - How do we handle this for Permission and PermissionInvite
       #-----------
-      #This is not applicable for following models - 
+      #This is not applicable for following models -
        # ref_link_source
        # user
        # permission_role
@@ -55,5 +55,5 @@ module Propagatable
        # upload
       #-----------
     end
-    
+
 end
