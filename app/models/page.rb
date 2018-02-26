@@ -164,7 +164,7 @@ class Page < ApplicationRecord
       h
     end
 
-    page = self.as_json(methods: [:html_key])
+    page = self.as_json(methods: [:html_key,:cover_image_url,:cover_image_url_7_column])
     page['layout'] = self.template_page.as_json
 
     json = {
@@ -467,11 +467,11 @@ class Page < ApplicationRecord
     when 'Homepage: Vertical'
       streams = [["Section_16c_Hero", "Hero"], ["Section_7c", "Originals"], ["Section_4c", "Digests"], ["Section_3c", "Feed"], ["Section_2c", "Opinions"]]
     when 'article'
-      streams = [["Story_Narrative", "Narrative"], ["Story_Related", "Related"]]
+      streams = [["Story_16c_Hero", "Hero"], ["Story_Narrative", "Narrative"], ["Story_Related", "Related"]]
     when 'data grid'
-      streams = [["Data_Grid", "#{self.id}_Section_data"]]
+      streams = [["Data_16c_Hero", "Hero"], ["Data_Grid", "#{self.id}_Section_data"]]
     else
-      streams = [["Data_Grid", "#{self.id}_Section_data"]]
+      streams = [["Data_16c_Hero", "Hero"], ["Data_Grid", "#{self.id}_Section_data"]]
     end
     streams.each do |s|
       stream = Stream.create!({

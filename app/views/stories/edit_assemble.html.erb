@@ -43,6 +43,20 @@
                 <% end %>
             </div>
             <% if @page.status != "draft" %>
+              <div class="row">
+                <div class="col-sm-16">
+                  <h4><%= best_in_place @page_streamH16, :name_of_stream, url: [@account, @site, @page_streamH16] %></h4>
+                    <%= simple_form_for(@page_stream_16, url: [@account, @site, @page_stream_16]) do |f| %>
+                      <%= f.input :view_cast_id_list, input_html: { class: 'ui search fluid dropdown proto-tagged-input', multiple: true, "data-role" => "tagsinput" }, label: "Card IDs" %>
+                      <%= f.submit "Save", class: 'btn btn-sm btn-primary' %>
+                      |
+                      <%= link_to "Publish", publish_account_site_stream_path(@account, @site, @page_stream_16, folder_id: @folder.blank? ? nil : @folder.id),"data-turbolinks"=> false, class: "btn btn-outline", method: :post %>
+                      <%= link_to ".", "#{@site.cdn_endpoint}/#{@page_stream_16.cdn_key}", target: "blank" %>
+                    <% end %>
+                      <br/>
+                      <br/>
+                  </div>
+                </div>
                 <div class="row">
                   <div class='col-sm-4' style="margin: 0px 15px 0px 0px;padding: 0px; border-right: 1px solid #ECEFF1">
                     <h4>All Cards</h4>
