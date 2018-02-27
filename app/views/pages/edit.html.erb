@@ -35,6 +35,7 @@
     <div class="row">
         <div class="col-sm-2" style="background: #37474F; padding: 30px 0px;">
             <h4 style="color: white; text-align: center;">Card Bank</h4>
+            <%= link_to ".", nil,"data-turbolinks"=> false, method: :post, style: "color: #37474F" %>
             <% @all_cards.each do |d| %>
               <div class="card-as-a-todo move-to-action" data-view-cast-id="<%= d.id %>" style='width: 180px; margin-bottom: 10px; margin-left: 50%; transform: translate(-50%,0%); '>
                 <div class="card-information">
