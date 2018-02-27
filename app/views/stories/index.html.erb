@@ -1,9 +1,9 @@
 <%= content_for :page_title do %>
-    
-          
-          
+
+
+
           <li class="breadcrumb-item active" aria-current="page">Stories</li>
-      
+
 <% end %>
 
 <% if @pages.first.blank? %>
@@ -24,8 +24,7 @@
             <% @pages.each do |d| %>
             	<%= link_to edit_write_account_site_story_path(@account, @site, d, folder_id: d.folder_id), "data-turbolinks"=> false do %>
                     <div class="card-as-a-todo">
-                		<!-- <div class="status-signal status-red"></div> -->
-                        <% if d.intersection.present? %>
+                		<% if d.intersection.present? %>
                     		<div class="intersection">
                                 <%= d.intersection.name %>
                                 <% if d.sub_intersection.present? %>
@@ -48,9 +47,10 @@
                 				<div class="users-list">
                 					<div class="single-user"><%= image_tag avatar_url(d.updator.email), width: "16px", height: "16px" %></div>
                 				</div>
-                				<div class="due-on">
-                					<%= time_ago_in_words(d.updated_at) %>
-                				</div>
+                                <div class="status-signal <%= d.status == 'draft' ? "status-red" : "status-green" %>"></div>
+                                <div class="due-on">
+                                    <%= time_ago_in_words(d.updated_at) %>
+                                </div>
                 			</div>
                 		</div>
                 	</div>

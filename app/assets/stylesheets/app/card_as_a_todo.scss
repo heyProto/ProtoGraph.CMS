@@ -101,9 +101,10 @@
         height: 10px;
         width: 10px;
         display: inline-block;
-        float: left;
+        float: right;
         margin-right: 5px;
-        margin-top: 5px;
+        margin-top: 7px;
+        margin-left: 5px;
     }
     .due-on {
         font-size: 12px;
@@ -113,7 +114,10 @@
         padding: 3px;
     }
     .status-red {
-        background: #D64759;
+        background: #DE5869;
+    }
+    .status-green {
+        background: #71CFBA;
     }
     .call-to-action {
         width: 100%;
