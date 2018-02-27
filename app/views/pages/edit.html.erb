@@ -382,8 +382,17 @@
     </div>
 </div>
 
+<% if @page.status != 'draft' %>
+  <%= simple_form_for(@stream_entity, url: [@account, @site, @page_stream_07, @stream_entity]) do |f| %>
+    <%= f.hidden_field :entity_value, id: "stream_view_cast_id" %>
+    <%= f.hidden_field :entity_type, value: "view_cast_id" %>
+    <%= f.hidden_field :is_excluded, value: false %>
+    <%= f.hidden_field :remove_stream_entity_id, id: "remove_stream_entity_id" %>
+  <% end %>
+<% end %>
 
-  
+
+
 
 <script type="text/javascript">
   $(document).on("turbolinks:load",function() {
