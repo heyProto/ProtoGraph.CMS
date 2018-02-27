@@ -62,7 +62,7 @@ class StoriesController < ApplicationController
     #- Rao's app / Medium / Google Doc
     #@ref_intersection = RefCategory.where(site_id: @site.id, genre: "intersection", is_disabled: [false, nil]).order(:name).map {|r| ["#{r.name}", r.id]}
     #@ref_sub_intersection = RefCategory.where(site_id: @site.id, genre: "sub intersection", is_disabled: [false, nil]).order(:name).map {|r| ["#{r.name}", r.id]}
-    #@template_cards = @account.template_cards.where(is_current_version: true)
+    @template_cards = @account.template_cards.where(is_current_version: true)
     @page_todo = PageTodo.new
     @page_todos = @page.page_todos.order(:sort_order)
     render layout: "application-pages"
