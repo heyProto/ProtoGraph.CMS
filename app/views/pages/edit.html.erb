@@ -1,9 +1,4 @@
-<%= content_for :page_title do %>
-  <li class="breadcrumb-item"><%= link_to "Page Builder", manager_account_site_pages_path(@account, @site), "data-turbolinks"=> false %></li>
-  <li class="breadcrumb-item active" aria-current="page"><%= @page.series.name %></li>
-<% end %>
-<br/>
-<br/>
+<%= render partial: "pages/header" %>
 <div class="container-fluid" style="width: 1800px; overflow-x: scroll;">
     <div class="row">
         <div class="col-sm-2" style="padding: 30px 30px 0px 30px;">

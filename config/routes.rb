@@ -94,6 +94,7 @@ Rails.application.routes.draw do
       resources :pages do
         get "manager", on: :collection
         put "remove_cover_image", on: :member
+        get "distribute", on: :member
       end
       resources :stories, only: [:index] do
         get "edit/write", to: "stories#edit_write", on: :member
