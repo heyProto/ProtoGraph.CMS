@@ -43,6 +43,7 @@ class PagesController < ApplicationController
           @stream_entity = StreamEntity.new
         end
       end
+      render layout: "application-pages"
     end
   end
 
