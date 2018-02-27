@@ -87,8 +87,7 @@
                     <h4 style='text-align: center;'>Stream: <%= best_in_place @page_streamH16, :name_of_stream, url: [@account, @site, @page_streamH16], style: "border-bottom: 1px dotted black;" %></h4>
                     <%= link_to ".", publish_account_site_stream_path(@account, @site, @page_stream_16, folder_id: @folder.blank? ? nil : @folder.id),"data-turbolinks"=> false, method: :post, style: "color: #78909C" %>
 
-                    <% if @page_stream_16.cards.present? %>
-                      <% d = @page_stream_16.cards.first %>
+                    <% @page_stream_16.cards.each do |d| %>
                       <% stream_entity = @page_stream_16.stream_entities.view_casts.where(entity_value: d.id).first %>
                       <div class="card-as-a-todo move-to-action" data-view-cast-id="<%= d.id %>" data-stream-entity-id="<%= stream_entity.id %>" style='width: 180px; margin-bottom: 10px; margin-left: 50%; transform: translate(-50%,0%); '>
                         <div class="card-information">
@@ -132,8 +131,6 @@
                           </ul>
                         </div>
                       </div>
-                    <% else %>
-                      <p><b>No card added</b></p>
                     <% end %>
                 </div>
                 <div class="col-sm-3" style=" background: #90A4AE; padding: 30px 0px;">
@@ -383,8 +380,17 @@
     </div>
 </div>
 
+<% if @page.status != 'draft' %>
+  <%= simple_form_for(@stream_entity, url: [@account, @site, @page_stream_07, @stream_entity]) do |f| %>
+    <%= f.hidden_field :entity_value, id: "stream_view_cast_id" %>
+    <%= f.hidden_field :entity_type, value: "view_cast_id" %>
+    <%= f.hidden_field :is_excluded, value: false %>
+    <%= f.hidden_field :remove_stream_entity_id, id: "remove_stream_entity_id" %>
+  <% end %>
+<% end %>
 
-  
+
+
 
 <script type="text/javascript">
   $(document).on("turbolinks:load",function() {
