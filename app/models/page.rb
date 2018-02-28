@@ -165,6 +165,7 @@ class Page < ApplicationRecord
 
     page = self.as_json(methods: [:html_key,:cover_image_url,:cover_image_url_7_column])
     page['layout'] = self.template_page.as_json
+    navigation_json = self.get_navigation_json if self.template_page.is_article_page?
 
     json = {
       "site_attributes": {
@@ -202,6 +203,7 @@ class Page < ApplicationRecord
           "name_of_stream": "MORE IN THE VERTICAL"
         }
       end
+      json["navigation_json"] = navigation_json
     end
     key = "#{self.datacast_identifier}/page.json"
     encoded_file = Base64.encode64(json.to_json)
@@ -215,6 +217,24 @@ class Page < ApplicationRecord
     Api::ProtoGraph::CloudFront.invalidate(self.site, ["/#{key}", "/#{self.html_key}.html"], 2)
     create_story_card
     true
+  end
+
+  def get_navigation_json
+    narrative_stream = self.streams.where(title: "#{self.id}_Story_Narrative").first
+    narrative_stream_cards = narrative_stream.cards
+    nav_json = []
+    narrative_stream_cards.each do |card|
+      data = JSON.parse(RestClient.get("#{card.site.cdn_endpoint}/#{card.datacast_identifier}/data.json"))
+      puts data
+      json = {
+        "section": data["data"]["section"] || "",
+        "view_cast_identifier": card.datacast_identifier,
+        "view_cast_id": card.id
+      }
+      puts json
+      nav_json << json
+    end
+    nav_json
   end
 
   class << self
