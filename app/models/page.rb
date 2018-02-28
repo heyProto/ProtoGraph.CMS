@@ -225,13 +225,11 @@ class Page < ApplicationRecord
     nav_json = []
     narrative_stream_cards.each do |card|
       data = JSON.parse(RestClient.get("#{card.site.cdn_endpoint}/#{card.datacast_identifier}/data.json"))
-      puts data
       json = {
         "section": data["data"]["section"] || "",
         "view_cast_identifier": card.datacast_identifier,
         "view_cast_id": card.id
       }
-      puts json
       nav_json << json
     end
     nav_json
