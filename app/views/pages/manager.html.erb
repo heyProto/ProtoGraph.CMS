@@ -1,8 +1,5 @@
 <%= content_for :page_title do %>
-    
-        
-        <li class="breadcrumb-item active" aria-current="page">Page Builder</li>
-      
+    <li class="breadcrumb-item active" aria-current="page">Page Builder</li>
 <% end %>
 <div class="row">
     <div class="col-sm-13">
@@ -24,7 +21,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <% @data.each do |ref_category| %>                
+                        <% @data.each do |ref_category| %>
                             <% d = ref_category.vertical_page %>
                             <tr>
                                 <td class="hint">
