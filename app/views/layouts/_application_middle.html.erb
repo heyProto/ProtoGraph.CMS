@@ -2,20 +2,20 @@
 	<div class="current-page-title">
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
-                
-                <!-- MOJO #3 If there is no account then you need to show ProtoTYPE logo 
-                    <% if !@on_an_account_page %>
+
+                <!-- MOJO #3 If there is no account then you need to show ProtoTYPE logo
+                    <%# if !@on_an_account_page %>
                         <nav class="navbar navbar-expand-lg">
                             <div class="container-fluid" style="padding-left: 0px;">
-                                <a class="navbar-brand" href=<%= @on_an_account_page ? account_site_path(@account, @site) : root_url %>>
-                                  <%=  image_tag("proto-logo.png", style: "margin-top: 4px; height: 30px; margin-bottom: 20px;", class: "d-inline-block align-top") %>
+                                <a class="navbar-brand" href=<%#= @on_an_account_page ? account_site_path(@account, @site) : root_url %>>
+                                  <%#=  image_tag("proto-logo.png", style: "margin-top: 4px; height: 30px; margin-bottom: 20px;", class: "d-inline-block align-top") %>
                                 </a>
                             </div>
                         </nav>
                         <div class="bottom-aligned">
                 -->
-                
-                
+
+
                 <% if @site.present? %>
                     <% if controller_name != "sites" %>
                         <!-- 1. Move name of site from left sidebar into breadcrumbs as dropdown.
@@ -62,9 +62,4 @@
 <% content_for :page_navigation do %>
     <li><button type="button" class="btn btn-sm btn-secondary btn-sm">Small button</button></li>
 <% end %>
-
-
-
-
-
 
