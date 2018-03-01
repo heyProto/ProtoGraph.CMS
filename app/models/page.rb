@@ -242,6 +242,13 @@ class Page < ApplicationRecord
         return html_text.xpath("//text()").to_s[0..80].strip
       end
     end
+
+    def get_section(html_text)
+      parsed_html_text = Nokogiri::HTML(html_text)
+      h2_tag = parsed_html_text.search("h2:first")
+      h2_tag.present? ? h2_tag.children.text : ""
+    end
+
   end
 
   def collect_all_paras
@@ -385,6 +392,7 @@ class Page < ApplicationRecord
     view_cast_lists = []
     all_paras.each do |para|
       title = Page.get_title(para)
+      section = Page.get_section(para)
       view_cast = ViewCast.create({
         name: title,
         site_id: site.id,
@@ -399,7 +407,7 @@ class Page < ApplicationRecord
         optionalConfigJSON: {}.to_json
       })
       payload = {}
-      payload["payload"] = {"data": {"text": para}}.to_json
+      payload["payload"] = {"data": {"text": para, "section": section}}.to_json
       payload["api_slug"] = view_cast.datacast_identifier
       payload["schema_url"] = to_para_schema.schema_json
       payload["source"] = "form"
