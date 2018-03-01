@@ -150,6 +150,29 @@ class Page < ApplicationRecord
     self.slug.nil? || english_headline_changed?
   end
 
+  def get_major_stream_blockquotes
+    major_stream_blockquotes = {}
+    case self.template_page.name
+    when 'Homepage: Vertical'
+      major_streams = ["#{self.id}_Section_16c_Hero", "#{self.id}_Section_7c", "#{self.id}_Section_4c" , "#{self.id}_Section_3c", "#{self.id}_Section_2c"]
+    when 'article'
+      major_streams = ["#{self.id}_Story_16c_Hero", "#{self.id}_Story_Narrative"]
+    else
+      major_streams = []
+    end
+
+    self.streams.each do |stream|
+      if (major_streams & [stream.title]).length > 0
+        major_stream_blockquotes[stream.title] = {}
+        major_stream_blockquotes[stream.title] = []
+        stream.cards.each do |card|
+          major_stream_blockquotes[stream.title] << [card.datacast_identifier, card.seo_blockquote]
+        end
+      end
+    end
+    major_stream_blockquotes
+  end
+
   def push_page_object_to_s3
     site = self.site
     streams = self.page_streams.includes(:stream).map do |e|
@@ -190,6 +213,7 @@ class Page < ApplicationRecord
       "vertical_header_json_url": "#{self.series.vertical_header_url}",
       "homepage_header_json_url": "#{self.site.homepage_header_url}",
       "site_header_json_url": "#{self.site.header_json_url}",
+      "major_stream_blockquotes": get_major_stream_blockquotes
     }
 
     if self.template_page.name == 'article'
@@ -210,10 +234,7 @@ class Page < ApplicationRecord
     content_type = "application/json"
     resp = Api::ProtoGraph::Utility.upload_to_cdn(encoded_file, key, content_type, self.site.cdn_bucket)
     self.update_column(:page_object_url, "#{self.site.cdn_endpoint}/#{key}")
-    # if !Rails.env.development?
-      # PagesWorker.perform_async(self.id)
     response = Api::ProtoGraph::Page.create_or_update_page(self.datacast_identifier, self.template_page.s3_identifier, self.site.cdn_bucket, ENV['AWS_S3_ENDPOINT'])
-    # end
     Api::ProtoGraph::CloudFront.invalidate(self.site, ["/#{key}", "/#{self.html_key}.html"], 2)
     create_story_card
     true
@@ -224,7 +245,7 @@ class Page < ApplicationRecord
     narrative_stream_cards = narrative_stream.cards
     nav_json = []
     narrative_stream_cards.each do |card|
-      data = JSON.parse(RestClient.get("#{card.site.cdn_endpoint}/#{card.datacast_identifier}/data.json"))
+      data = JSON.parse(RestClient.get(card.data_url))
       json = {
         "section": data["data"]["section"] || "",
         "view_cast_identifier": card.datacast_identifier,
@@ -396,7 +417,7 @@ class Page < ApplicationRecord
     data["data"]["publishername"] = ""
     data["data"]["sponsored"] = self.is_sponsored.to_s if self.is_sponsored.present?
     data["data"]["domainurl"] = Addressable::URI.parse(self.url.to_s).origin if self.url.present?
-    data["data"]["faviconurl"] = site.favicon.present? ? site.favicon.thumbnail_url : "" if self.site.favicon.present?
+    data["data"]["faviconurl"] = site.favicon.present? ? "#{site.cdn_endpoint}/#{site.favicon.thumbnail_key}" : "" if self.site.favicon.present?
     data["data"]["publishername"] = Addressable::URI.parse(self.url.to_s).origin if self.url.present?
     data["data"]["col7imageurl"] = self.cover_image_url_7_column.to_s if self.cover_image_url_7_column.present?
     data
