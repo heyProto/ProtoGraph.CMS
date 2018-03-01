@@ -17,7 +17,7 @@ def update_quiz_cards
     cards = template_card.view_casts
     cards.each do |card|
         begin
-            data = JSON.parse(RestClient.get("#{card.site.cdn_endpoint}/#{card.datacast_identifier}/data.json"))
+            data = JSON.parse(RestClient.get(card.data_url))
             data["data"]["section"] = data["data"]["basic_datapoints"]["quiz_title"]
             encoded_file = Base64.encode64(data.to_json)
             content_type = "application/json"
@@ -34,7 +34,7 @@ def update_timeline_cards
     cards = template_card.view_casts
     cards.each do |card|
         begin
-            data = JSON.parse(RestClient.get("#{card.site.cdn_endpoint}/#{card.datacast_identifier}/data.json"))
+            data = JSON.parse(RestClient.get(card.data_url))
             data["data"]["section"] = data["mandatory_config"]["timeline_title"]
             encoded_file = Base64.encode64(data.to_json)
             content_type = "application/json"
@@ -51,7 +51,7 @@ def update_compose_cards
     cards = template_card.view_casts
     cards.each do |card|
         begin
-            data = JSON.parse(RestClient.get("#{card.site.cdn_endpoint}/#{card.datacast_identifier}/data.json"))
+            data = JSON.parse(RestClient.get(card.data_url))
             data["data"]["section"] = Page.get_section(data["data"]["text"])
             encoded_file = Base64.encode64(data.to_json)
             content_type = "application/json"
@@ -68,7 +68,7 @@ def update_cluster_cards
     cards = template_card.view_casts
     cards.each do |card|
         begin
-            data = JSON.parse(RestClient.get("#{card.site.cdn_endpoint}/#{card.datacast_identifier}/data.json"))
+            data = JSON.parse(RestClient.get(card.data_url))
             data["data"]["section"] = data["data"]["title"]
             encoded_file = Base64.encode64(data.to_json)
             content_type = "application/json"
