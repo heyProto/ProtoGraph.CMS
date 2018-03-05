@@ -24,13 +24,13 @@
 #  client_token            :string(255)
 #  access_token            :string(255)
 #  client_secret           :string(255)
+#  favicon_id              :integer
+#  logo_image_id           :integer
 #  facebook_url            :text(65535)
 #  twitter_url             :text(65535)
 #  instagram_url           :text(65535)
 #  youtube_url             :text(65535)
 #  g_a_tracking_id         :string(255)
-#  favicon_id              :integer
-#  logo_image_id           :integer
 #  sign_up_mode            :string(255)
 #  default_role            :string(255)
 #  story_card_style        :string(255)
@@ -44,6 +44,7 @@
 #  story_card_flip         :boolean          default(FALSE)
 #  created_by              :integer
 #  updated_by              :integer
+#  seo_name                :string(255)
 #
 
 #TODO AMIT - Handle created_by, updated_by - RP added retrospectively. Need migration of old rows and BAU handling.
@@ -181,6 +182,7 @@ class Site < ApplicationRecord
         self.primary_language = "English" if self.primary_language.nil?
         self.header_background_color = '#FFFFFF'
         self.header_positioning = "left"
+        self.seo_name = self.name
         true
     end
 

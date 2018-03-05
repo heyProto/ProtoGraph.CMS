@@ -43,7 +43,7 @@ class SitesController < ApplicationController
                                  :house_colour, :reverse_house_colour, :font_colour, :reverse_font_colour, :stream_url, :email_domain,
                                  :stream_id, :cdn_provider, :cdn_id, :host, :cdn_endpoint, :client_token, :access_token, :story_card_style,
                                  :client_secret, :facebook_url, :twitter_url, :instagram_url, :youtube_url, :g_a_tracking_id, :logo_image_id, :favicon_id, :default_role, :sign_up_mode,
-                                 :header_background_color, :header_url, :header_positioning, :english_name, :is_english, :story_card_flip,
+                                 :header_background_color, :header_url, :header_positioning, :english_name, :is_english, :story_card_flip, :seo_name,
                                  logo_image_attributes: [:image, :account_id, :is_logo, :created_by, :updated_by],
                                  favicon_attributes: [:image, :account_id, :is_favicon, :created_by, :updated_by])
   end

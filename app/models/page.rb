@@ -205,7 +205,8 @@ class Page < ApplicationRecord
         "favicon_url": site.favicon.present? ? site.favicon.image_url : "",
         "ga_code": site.g_a_tracking_id,
         "story_card_style": site.story_card_style,
-        "primary_language": site.primary_language
+        "primary_language": site.primary_language,
+        "seo_name": site.seo_name
       },
       "streams": streams,
       "page": page,
@@ -414,7 +415,6 @@ class Page < ApplicationRecord
     data["data"]["country"] = "India"
     data["data"]["state"] = ""
     data["data"]["city"] = ""
-    data["data"]["publishername"] = ""
     data["data"]["sponsored"] = self.is_sponsored.to_s if self.is_sponsored.present?
     data["data"]["domainurl"] = Addressable::URI.parse(self.url.to_s).origin if self.url.present?
     data["data"]["faviconurl"] = site.favicon.present? ? "#{account.cdn_endpoint}/#{site.favicon.thumbnail_key}" : "" if self.site.favicon.present?

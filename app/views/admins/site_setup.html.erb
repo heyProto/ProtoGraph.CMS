@@ -1,4 +1,4 @@
-<%= content_for :page_title do %>    
+<%= content_for :page_title do %>
     <li class="breadcrumb-item"><%= link_to "Admin", account_site_admins_path(@account, @site), "data-turbolinks"=> false %></li>
     <li class="breadcrumb-item active" aria-current="page">Admin for Site: <%= @site.domain %></li>
     <li class="breadcrumb-item active" aria-current="page">Setup</li>
@@ -9,6 +9,7 @@
             <%= simple_form_for [@account, @site] do |f| %>
               <%= f.error_notification %>
               <%= f.input :domain, hint: "We recommend using a subdomain p.mysite.com", label: "Custom domain where the site will be hosted" %>
+              <%= f.input :seo_name, label: "Publication Name", hint: "We will be using this name for seo purpose only" %>
               <%= f.input :description, hint: "This will be used in footers, search results, and other places." %>
               <%= f.input :primary_language, as: :select, collection: [["English", "English"], ["Hindi", "Hindi"]], include_blank: false %>
               <%= f.input :default_seo_keywords, hint: "These default keywords will be used on homepage.", label: "Default SEO Keywords" %>
