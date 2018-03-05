@@ -40,7 +40,7 @@ class Stream < ApplicationRecord
         "toWaterExploitation": ["decadal_decrease_score"],
         "toWell": ["well_score"]
     }
-    
+
     #GEMS
     extend FriendlyId
     friendly_id :title, use: :slugged
@@ -291,6 +291,10 @@ class Stream < ApplicationRecord
                 a = user.create_permission("Stream", self.id, "contributor")
             end
             self.permissions.where(permissible_id: (prev_collaborator_ids - self.collaborator_lists.map{|a| a.to_i})).update_all(status: 'Deactivated')
+        end
+
+        self.pages.each do |p|
+            PagePublisher.perform_async(p.id)
         end
     end
 

@@ -55,6 +55,10 @@ class TemplatePage < ApplicationRecord
     #SCOPE
     #OTHER
 
+    def is_article_page?
+        self.name == "article"
+    end
+
     def slug_candidates
         ["#{self.name}-#{self.version.to_s}"]
     end
