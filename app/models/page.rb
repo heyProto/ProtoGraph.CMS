@@ -156,7 +156,7 @@ class Page < ApplicationRecord
     when 'Homepage: Vertical'
       major_streams = ["#{self.id}_Section_16c_Hero", "#{self.id}_Section_7c", "#{self.id}_Section_4c" , "#{self.id}_Section_3c", "#{self.id}_Section_2c"]
     when 'article'
-      major_streams = ["#{self.id}_Story_16c_Hero", "#{self.id}_Story_Narrative"]
+      major_streams = ["#{self.id}_Story_16c_Hero", "#{self.id}_Story_Narrative", "#{self.id}_Story_Related"]
     else
       major_streams = []
     end
