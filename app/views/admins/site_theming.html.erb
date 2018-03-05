@@ -6,21 +6,8 @@
 <div class="row">
     <div class="col-sm-13">
         <div style="margin-left: auto; margin-right: auto; width: 500px;">
-            <div class="help-text">
-                <p>Configuration done here will impact each and every card and page on your site. After you update here, it should take anywhere between 1 to 2 minutes for the changes to reflect on your site.</p>
-            </div>
-        </div>
-    </div>
-    <div class="col-sm-3 help-text">
-        <%= image_tag "help.png", style: "float: right; right: 0; top: 0; position: relative;" %>
-    </div>
-</div>
-<div class="row">
-    <div class="col-sm-13">
-        <div style="margin-left: auto; margin-right: auto; width: 500px;">
-            <hr/>
-            <h2 style="font-weight: 100;">Site Header</h2>
-            <br/>
+            <h2 style="font-weight: 400;">Site Header</h2>
+            <br>
             <p>Publication logo</p>
             <% if @site.logo_image_id.present? %>
               <%= image_tag(@site.logo_image.original_image.image_url, class: "rounded", style: "width: 100px;") %>
@@ -56,23 +43,8 @@
               <%= f.input :from_page, as: :hidden, input_html: {value: "product_theme"}%>
               <%= f.button :submit, "Update", class: "btn btn-sm btn-secondary" %>
             <% end %>
-        </div>
-    </div>
-	<div class="col-sm-3 help-text">
-		<hr/>
-        <p>Based on configuration here, you can style the header of your sites.</p>
-        <%= image_tag "header-wire.png", class: "img-fluid"%>
-        <br/>
-        <%= image_tag "header-express.png", class: "img-fluid"%>
-	</div>
-</div>
-<br/>
-<div class="row">
-    <div class="col-sm-13">
-        <div style="margin-left: auto; margin-right: auto; width: 500px;">
-            <hr/>
-            <h2 style="font-weight: 100;">Favicon</h2>
-            <br/>
+            <br><br><br>
+            <h2 style="font-weight: 400;">Favicon</h2>
             <% if @site.favicon_id.present? %>
               <%= image_tag(@site.favicon.original_image.image_url, class: "rounded", style: "max-width: 100px;") %>
               <br/>
@@ -98,20 +70,9 @@
                 <%= f.button :submit, "Upload", class: "btn btn-sm btn-secondary" %>
               <% end %>
             <% end %>
-        </div>
-    </div>
-	<div class="col-sm-3 help-text">
-		<hr/>
-        <p>Use the logo you use as your Twitter Profile. It is square and should be at least 400 × 400px in size.</p>
-	</div>
-</div>
-<br/>
-<div class="row">
-    <div class="col-sm-13">
-        <div style="margin-left: auto; margin-right: auto; width: 500px;">
-            <hr/>
-            <h2 style="font-weight: 100;">Colours</h2>
-            <br/>
+            <br><br><br>
+            <h2 style="font-weight: 400;">Colours</h2>
+            <br>
             <%= simple_form_for [@account, @site] do |f| %>
                 <%= f.error_notification %>
                 <%= f.input :house_colour, input_html: {type: :color, style: "height: 40px;"}, label: "House Color", required: true %>
@@ -121,38 +82,37 @@
                 <%= f.input :from_page, as: :hidden, input_html: {value: "product_theme"}%>
                 <%= f.button :submit, "Update", class: "btn btn-sm btn-secondary" %>
             <% end %>
-        </div>
-    </div>
-	<div class="col-sm-3 help-text">
-		<hr/>
-        <p><b>House colour</b> is your primary brand colour. Wherever possible, we will use this colour. Example in below image, the tag is red because House Colour of the publication is red.</p>
-        <%= image_tag "story-card-bw.png", class: "img-fluid" %>
-        <br/><br/>
-        <p><b>Reverse House colour:</b> Choose a color that is diagonally opposite from your House Color on the color wheel. All sponsored articles will be colored with Reverse House Color.</p>
-	</div>
-</div>
-<br/>
-<div class="row">
-    <div class="col-sm-13">
-        <div style="margin-left: auto; margin-right: auto; width: 500px;">
-            <hr/>
-            <h2 style="font-weight: 100;">Style the toStory Card</h2>
-            <br/>
+            <br><br><br>
+            <h2 style="font-weight: 400;">Style the toStory Card</h2>
+            <br>
             <%= simple_form_for [@account, @site] do |f| %>
                 <%= f.error_notification %>
                 <%= f.input :story_card_style, as: :select, collection: [["Clear: Color", "Clear: Color"], ["Clear: Black & White", "Clear: Black & White"], ["Blur: Color", "Blur: Color"]], label: "Style", include_blank: false %>
                 <%= f.input :story_card_flip, as: :select, collection: [["Yes", true], ["No", false]], label: "Show summary of story by flipping the card", include_blank: false %>
                 <%= f.input :from_page, as: :hidden, input_html: {value: "product_theme"}%>
                 <%= f.button :submit, "Update", class: "btn btn-sm btn-secondary" %>
-            <% end %>                
+            <% end %>
         </div>
     </div>
-	<div class="col-sm-3 help-text">
-		<hr/>
+    <div class="col-sm-3 help-text">
+        <%= image_tag "help.png", style: "float: right; right: 0; top: 0; position: relative;" %>
+        <p>Configuration done here will impact each and every card and page on your site. After you update here, it should take anywhere between 1 to 2 minutes for the changes to reflect on your site.</p>
+        <hr/>
+        <p>Based on configuration here, you can style the header of your sites.</p>
+        <%= image_tag "header-wire.png", class: "img-fluid"%>
+        <br/>
+        <%= image_tag "header-express.png", class: "img-fluid"%>
+        <hr/>
+        <p>Use the logo you use as your Twitter Profile. It is square and should be at least 400 × 400px in size.</p>
+        <hr/>
+        <p><b>House colour</b> is your primary brand colour. Wherever possible, we will use this colour. Example in below image, the tag is red because House Colour of the publication is red.</p>
+        <%= image_tag "story-card-bw.png", class: "img-fluid" %>
+        <br/><br/>
+        <p><b>Reverse House colour:</b> Choose a color that is diagonally opposite from your House Color on the color wheel. All sponsored articles will be colored with Reverse House Color.</p>
+        <hr/>
         <p><b>Show summary of story by flipping the card</b> allows readers to quickly know what is the article about without opening it.</p>
         <%= image_tag "show-summary-on-flip.gif", class: "img-fluid"%>
-        
-	</div>
+    </div>
 </div>
 <br/>
 <br/>
