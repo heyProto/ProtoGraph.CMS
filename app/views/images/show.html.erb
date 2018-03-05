@@ -1,6 +1,6 @@
 <%= content_for :page_title do %>
         <li class="breadcrumb-item"><%= link_to "Image Bank", account_images_path(@account, folder_id: @folder.present? ? @folder.id : nil), "data-turbolinks"=> false %></li>
-        <li class="breadcrumb-item active" aria-current="page"><%= @image.name %></li>
+        <li class="breadcrumb-item active" aria-current="page"><%= truncate(@image.name, length: 24, ommission: "..") %></li>
       
 <% end %>
 <% w = @image.image_width %>

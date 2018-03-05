@@ -1,6 +1,6 @@
 <%= content_for :page_title do %>
     <li class="breadcrumb-item"><%= link_to "Cards", account_site_folder_view_casts_path(@account, @site, @folder), "data-turbolinks"=> false %></li> 
-    <li class="breadcrumb-item active" aria-current="page"><%= @view_cast.name %></li>
+    <li class="breadcrumb-item active" aria-current="page"><%= truncate(@view_cast.name, length: 24, ommission: "..") %></li>
     <li class="breadcrumb-item active" aria-current="page">Edit</li>
 <% end %>
 
