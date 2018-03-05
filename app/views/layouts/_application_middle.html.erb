@@ -2,26 +2,39 @@
 	<div class="current-page-title">
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
-
-                <!-- MOJO #3 If there is no account then you need to show ProtoTYPE logo
-                    <%# if !@on_an_account_page %>
-                        <nav class="navbar navbar-expand-lg">
-                            <div class="container-fluid" style="padding-left: 0px;">
-                                <a class="navbar-brand" href=<%#= @on_an_account_page ? account_site_path(@account, @site) : root_url %>>
-                                  <%#=  image_tag("proto-logo.png", style: "margin-top: 4px; height: 30px; margin-bottom: 20px;", class: "d-inline-block align-top") %>
-                                </a>
-                            </div>
-                        </nav>
-                        <div class="bottom-aligned">
-                -->
-
-
+                <% if !@on_an_account_page %>
+                  <li class='breadcrumb-item settings-page-breadcrumb'>
+                    <nav class="navbar navbar-expand-lg">
+                        <div class="container-fluid" style="padding-left: 0px;">
+                            <a class="navbar-brand" href=<%= @on_an_account_page ? account_site_path(@account, @site) : root_url %>>
+                              <%=  image_tag("proto-logo.png", style: "height: 30px; margin-top: -5px;", class: "d-inline-block align-top") %>
+                            </a>
+                        </div>
+                    </nav>
+                  </li>
+                <% end %>
                 <% if @site.present? %>
-                    <% if controller_name != "sites" %>
                         <!-- 1. Move name of site from left sidebar into breadcrumbs as dropdown.
 
                         Move from _application_left.html.erb to _application_middle.html.erb
                         Remove the if condition and replace the li with dropdown-->
+                        <li style="display: inline-block; float: left; margin-right: 15px; margin-top: -8px;">
+                            <% if !is_admins_controller or (controller_name != 'accounts' and ['new','create'].include?(action_name)) %>
+                                <div class="dropdown show vertical-selection-dropdown">
+                                    <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color: black !important;">
+                                      <%= truncate @site.domain, length: 15, ommission: ".." %>
+                                    </a>
+                                  <% if @accounts.count > 1 %>
+                                      <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                          <% @accounts.each do |a| %>
+                                              <%= link_to "#{a.username}: #{a.site.domain}", account_site_path(a, a.site), class: "dropdown-item" %>
+                                          <% end %>
+                                      </div>
+                                  <% end %>
+                                </div>
+                            <% end %>
+                        </li>
+                    <% if controller_name != "sites" %>
                         <li class="breadcrumb-item"><%= link_to @site.domain, account_site_path(@account, @site), "data-turbolinks"=> false %></li>
                     <% end %>
                     <% if @folder.present? and @folder.id.present? %>
@@ -55,6 +68,36 @@
                         })
                     </script>
                 <% end %>
+                <% if @site.present? %>
+                  <li style="margin-left: 15px;">
+                      <div class="site-dropdown">
+                          <div class="btn-group dropdown">
+                            <button type="button" class="btn btn-small btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                              Site
+                            </button>
+                            <div class="dropdown-menu">
+                              <%= link_to "Image Bank", account_images_path(@account, folder_id: @folder.present? ? @folder.id : nil), "data-turbolinks"=> false, class: (controller_name == "images") ? "dropdown-item active" : "dropdown-item" %>
+                              <%= link_to "Page Builder", manager_account_site_pages_path(@account, @site, folder_id: @folder.present? ? @folder.id : nil), "data-turbolinks"=> false, class: @is_page_builder ? "dropdown-item active" : "dropdown-item" %>
+                              <%= link_to "Site Admin", account_site_admins_path(@account, @site), "data-turbolinks"=> false, class: @is_admin ? "dropdown-item active" : "dropdown-item" %>
+                              </div>
+                          </div>
+                      </div>
+                  </li>
+                <% end %>
+                <li>
+                    <div class="admin-dropdown">
+                        <div class="btn-group dropdown">
+                          <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <div class="user-image"><%= image_tag avatar_url(current_user.email), class: "rounded", style: "width: 30px;" %></div>
+                          </button>
+                          <div class="dropdown-menu">
+                            <%= link_to 'Profile', edit_user_path(current_user), class: "dropdown-item" %>
+                            <%= link_to 'Settings', edit_user_registration_path, class: "dropdown-item" %>
+                            <%= link_to "Sign out", destroy_user_session_path, class: "dropdown-item" %>
+                          </div>
+                        </div>
+                    </div>
+                </li>
                 <!-- MOJO TODO #2 - 2. Take the person photo and it's dropdown from sidebar left and put it as RIGHT aligned last dropdown. Move from _application_left.html.erb to _application_middle.html.erb -->
 		</ul>
 	</div>

@@ -1,29 +1,38 @@
-<%= content_for :page_title do %>
-    <li class="breadcrumb-item"><%= link_to "Cards", account_site_folder_view_casts_path(@account, @site, @folder), "data-turbolinks"=> false %></li> 
-    <li class="breadcrumb-item active" aria-current="page"><%= @view_cast.name %></li>
-<% end %>
-<br/>
-<% if @view_cast.is_invalidating %>
-  <div class="alert alert-warning" role="alert">
-    The data is getting updated. It generally takes between 5 seconds to 5 minutes. If it doesn't update, please contact us at team@pykih.com
-  </div>
-  <br/>
-<% end %>
-<div style="margin-left: 40%;">
-    <div class="btn-group">
-      <% @view_cast.template_card.allowed_views.each do |mode|%>
-        <button class="btn btn-sm platform_buttons" type="button" id="<%= mode %>"><%= mode.titleize %></button>
-      <% end %>
-    </div>
-</div>
-<br/>
-<div id="protoCard" style='width: 90%; margin-bottom: 40px;'>
-  <%= sanitize @view_cast.seo_blockquote.to_s, tags: %w(p blockquote ul li h1 h2 h3 h4 h5 h6) %>
-</div>
-
-
 <div class="row">
     <div class="col-sm-13">
+      <div class="page-center-div">
+        <div class="btn-group" role="group" aria-label="Basic example">
+          <button type="button" class="btn btn-small btn-secondary active">
+            <%= link_to "Cards", account_site_folder_view_casts_path(@account, @site, @folder) %>
+          </button>
+          <button type="button" class="btn btn-small btn-secondary">
+            <%= link_to "Stories", account_site_stories_path(@account, @site,folder_id: @folder.id) %>
+          </button>
+        </div>
+        <br><br>
+      </div>
+      <%= content_for :page_title do %>
+          <li class="breadcrumb-item"><%= link_to "Cards", account_site_folder_view_casts_path(@account, @site, @folder), "data-turbolinks"=> false %></li> 
+          <li class="breadcrumb-item active" aria-current="page"><%= @view_cast.name %></li>
+      <% end %>
+      <br/>
+      <% if @view_cast.is_invalidating %>
+        <div class="alert alert-warning" role="alert">
+          The data is getting updated. It generally takes between 5 seconds to 5 minutes. If it doesn't update, please contact us at team@pykih.com
+        </div>
+        <br/>
+      <% end %>
+      <div style="margin-left: 40%;">
+          <div class="btn-group">
+            <% @view_cast.template_card.allowed_views.each do |mode|%>
+              <button class="btn btn-sm platform_buttons" type="button" id="<%= mode %>"><%= mode.titleize %></button>
+            <% end %>
+          </div>
+      </div>
+      <br/>
+      <div id="protoCard" style='width: 90%; margin-bottom: 40px;'>
+        <%= sanitize @view_cast.seo_blockquote.to_s, tags: %w(p blockquote ul li h1 h2 h3 h4 h5 h6) %>
+      </div>
         <div style="margin-left: auto; margin-right: auto; width: 500px;">
             <script src="https://cdn.protograph.pykih.com/lib/protoGraph.min.js" async></script>
             <div class="proto-graph-code-area">

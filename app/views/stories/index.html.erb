@@ -1,25 +1,46 @@
 <%= content_for :page_title do %>
-
-
-
-          <li class="breadcrumb-item active" aria-current="page">Stories</li>
-
+  <li class="breadcrumb-item active" aria-current="page">Stories</li>
 <% end %>
 
 <% if @pages.first.blank? %>
-    <br/>
-    <br/>
-    <div class="blankslate blankslate-spacious">
-        <% if @folder.is_trash %>
-            <h3>There are no stories in the recycle bin.</h3>
-        <% else %>
-            <h3>No stories created yet.</h3>
-            <p>Use the [+ Add a story] button on the top right.</p>
-        <% end %>
+    <div class="col-sm-13">
+        <div class="page-center-div">
+            <div class="btn-group" role="group" aria-label="Basic example">
+              <button type="button" class="btn btn-small btn-secondary">
+                <%= link_to "Cards", account_site_folder_view_casts_path(@account, @site, @folder) %>
+              </button>
+              <button type="button" class="btn btn-small btn-secondary active">
+                <%= link_to "Stories", account_site_stories_path(@account, @site,folder_id: @folder.id) %>
+              </button>
+            </div>
+        </div>
+        <div class="blankslate blankslate-spacious">
+            <% if @folder.is_trash %>
+                <h3>There are no stories in the recycle bin.</h3>
+            <% else %>
+                <h3>No stories created yet.</h3>
+                <p>Use the [+ Add a story] button on the top right.</p>
+            <% end %>
+        </div>
+    </div>
+    <div class="col-sm-3 help-text">
+        <%= image_tag "help.png", style: "float: right; right: 0; top: 0; position: relative;" %>
+        <h2>Stories</h2>
+        <p>.</p>
     </div>
 <% else %>
     <div class="row" style="margin: 0px; padding: 0px;">
         <div class="col-sm-13">
+            <div class="page-center-div">
+                <div class="btn-group" role="group" aria-label="Basic example">
+                  <button type="button" class="btn btn-small btn-secondary">
+                    <%= link_to "Cards", account_site_folder_view_casts_path(@account, @site, @folder) %>
+                  </button>
+                  <button type="button" class="btn btn-small btn-secondary active">
+                    <%= link_to "Stories", account_site_stories_path(@account, @site,folder_id: @folder.id) %>
+                  </button>
+                </div>
+            </div>
             <div style="margin-left: auto; margin-right: auto;">
             <% @pages.each do |d| %>
             	<%= link_to edit_write_account_site_story_path(@account, @site, d, folder_id: d.folder_id), "data-turbolinks"=> false do %>

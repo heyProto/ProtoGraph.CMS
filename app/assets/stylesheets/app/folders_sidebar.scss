@@ -55,11 +55,12 @@
   .btn-secondary:hover {
     background: #ECEFF1;
   }
-  .show > .btn-secondary.dropdown-toggle::after {
+  .show > button.btn.btn-secondary.dropdown-toggle::after {
     float: right;
     font-size: 16px;
     margin-top: 18px;
     margin-right: 7px;
+    color: red;
   }
   .btn-secondary {
     &::after {
@@ -123,8 +124,43 @@
   background: #ffffff;
 }
 
+.page-center-div{
+  display: inline-block;
+  width: 100%;
+  text-align: center;
+  .btn-group{
+    margin-left: auto;
+    margin-right: auto;
+    .btn-secondary{
+      background: white;
+      color: #333;
+      font-size: 12px;
+      text-transform: uppercase;
+      border: 1px solid #efefef;
+      letter-spacing: 0.5px;
+      a{
+        color: black;
+      }
+    }
+    .btn-secondary.active{
+      background: #efefef;
+    }
+  }
+}
+
 .help-text {
   font-family: 'Lato', sans-serif;
+  border-left: 1px solid #efefef;
+  margin-top: -40px;
+  padding-top: 20px;
+  height: 95vh;
+  position: fixed;
+  right: 0px;
+  overflow-y: scroll;
+  padding-bottom: 100px;
+  top: 90px;
+  z-index: 900;
+  background: white;
   h2 {
     font-weight: 100;
     font-size: 18px;
@@ -140,7 +176,7 @@
 }
 
 .steps-navigation-bar {
-    margin-left: 12.5%;
+    // margin-left: 12.5%;
   height: 50px;
   background: white;
   border-bottom: 1px solid #ECEFF1;
@@ -149,6 +185,67 @@
   .steps-to-build-page {
     display: inline-block;
     float: right;
+    a{
+      width: 100% !important;
+      text-align: left !important;
+    }
+  }
+
+  button.btn.btn-secondary.dropdown-toggle::after {
+    float: right;
+    font-size: 14px;
+    margin-top: -16px;
+    margin-right: 7px;
+    color: black;
+  }
+
+  .site-dropdown{
+    button{
+      height: 31px;
+      padding: 0px 10px;
+    }
+    button.btn.btn-secondary.dropdown-toggle::after{
+      float: inherit;
+      font-size: 14px;
+      margin-top: 0px;
+      margin-right: 0px;
+      color: white;
+    }
+  }
+
+  .vertical-selection-dropdown{
+    .btn-secondary{
+      background: transparent;
+      border: transparent;
+      &:focus{
+        background: transparent;
+        border: transparent;
+        box-shadow: none;
+      }
+    }
+    .show>.btn-secondary.dropdown-toggle{
+      background: white;
+      border: transparent;
+    }
+  }
+  .admin-dropdown{
+    .btn-group>.btn:first-child{
+      margin-left: 0;
+      width: 80px;
+      padding: 0px;
+      background: transparent;
+      border: transparent;
+      &:focus{
+        background: transparent;
+        border: transparent;
+        box-shadow: none;
+      }
+      .dropup .dropdown-toggle::after{
+        float: right;
+        color: black;
+        margin-top: -20px;
+      }
+    }
   }
   .current-page-title {
     display: inline-block;
@@ -172,8 +269,6 @@
       color: black !important;
       border-bottom: 3px solid transparent;
       width: 100px;
-      text-align: center;
-      float: right;
       padding-top: 12px;
       padding-bottom: 13px;
       &.active {
@@ -181,7 +276,7 @@
         color: white !important;
       }
       &:hover {
-        border-bottom: 3px solid #607d8b4d;
+        border-bottom: 3px solid transparent;
       }
     }
     button {
@@ -196,6 +291,19 @@
           padding-top: 0px;
           padding-bottom: 0px;
           color: white !important;
+      }
+    }
+  }
+}
+
+.settings-page-breadcrumb{
+  .navbar{
+    padding: 0px;
+    .navbar-brand{
+      padding: 0px;
+      margin: 0px;
+      img{
+        margin: 0px;
       }
     }
   }
