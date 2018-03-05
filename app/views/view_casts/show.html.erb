@@ -122,7 +122,7 @@
           </div>
           <div class='sigle-detail'>
             <%= simple_form_for([@account, @site, @folder, @view_cast]) do |f|%>
-              <div class="card-detail-lable">Move to another folder:</div>
+              <div class="card-detail-lable">Move to another workspace:</div>
               <div class="card-detail-Value"><%= f.input :folder_id, collection: @folders_dropdown, include_blank: false, label: false %></div>
             <% end %>
           </div>
