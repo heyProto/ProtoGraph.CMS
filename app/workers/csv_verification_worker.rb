@@ -113,7 +113,7 @@ class CsvVerificationWorker
         template_datum_id: @upload.template_card.template_datum.id,
         name: name,
         template_card_id: @upload.template_card.id,
-        seo_blockquote: "<blockquote><h3>#{name}</h3><p>#{seo_blockquote_text}</p></blockquote>",
+        seo_blockquote: @upload.template_card.name != "toStory" ? "<blockquote><h3>#{name}</h3><p>#{seo_blockquote_text}</p></blockquote>" : seo_blockquote_text,
         optionalConfigJSON: optional_config_json,
       }
     }
