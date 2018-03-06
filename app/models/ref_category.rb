@@ -51,6 +51,7 @@ class RefCategory < ApplicationRecord
     after_create :after_create_set
     before_update :before_update_set
     after_destroy :update_site_verticals
+    after_update :update_page_seo_content
     after_update :update_site_verticals
     #SCOPE
     #OTHER
@@ -93,8 +94,11 @@ class RefCategory < ApplicationRecord
             Api::ProtoGraph::CloudFront.invalidate(self.site, ["/#{key}"], 1)
             ActiveRecord::Base.connection.close
         end
-        if self.vertical_page.present?
-            self.vertical_page.update(meta_description: description, meta_keywords: keywords)
+    end
+
+    def update_page_seo_content
+        if (["keywords", "description"] & self.saved_changes.transform_values(&:first).keys).length > 0
+            self.vertical_page.update_columns(meta_description: description, meta_keywords: keywords)
         end
     end
 
