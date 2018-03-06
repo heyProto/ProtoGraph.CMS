@@ -93,6 +93,9 @@ class RefCategory < ApplicationRecord
             Api::ProtoGraph::CloudFront.invalidate(self.site, ["/#{key}"], 1)
             ActiveRecord::Base.connection.close
         end
+        if self.vertical_page.present?
+            self.vertical_page.update(meta_description: description, meta_keywords: keywords)
+        end
     end
 
     def before_validation_set
@@ -140,8 +143,10 @@ class RefCategory < ApplicationRecord
             ref_category_series_id: self.id,
             created_by: self.created_by,
             updated_by: self.updated_by,
-            datacast_identifier: '',
-            url: "#{vertical_page_url}"
+            datacast_identifier: "",
+            url: "#{vertical_page_url}",
+            meta_description: "#{description}",
+            meta_keywords: "#{keywords}"
         })
         page.push_json_to_s3
         #Update the site vertical json
