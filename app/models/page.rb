@@ -342,12 +342,13 @@ class Page < ApplicationRecord
     if self.status != 'draft'
       site = self.site
       self.update_column(:published_at, Time.now)
+      payload_json = create_datacast_json
       if self.view_cast.present?
         view_cast = self.view_cast
         view_cast.update({
           name: self.headline,
           updated_by: self.updated_by,
-          seo_blockquote: "<blockquote><h4#>#{self.headline}</h4></blockquote>",
+          seo_blockquote: TemplateCard.to_story_render_SEO(payload_json["data"]),
           optionalConfigJSON: {
             "house_color": site.house_colour,
             "inverse_house_color": site.reverse_house_colour,
@@ -371,7 +372,7 @@ class Page < ApplicationRecord
           }.to_json,
           created_by: self.created_by,
           updated_by: self.updated_by,
-          seo_blockquote: "<blockquote><h4#>#{self.headline}</h4></blockquote>",
+          seo_blockquote:  TemplateCard.to_story_render_SEO(payload_json["data"]),
           folder_id: self.folder_id,
           default_view: "title_text",
           account_id: self.account_id,
@@ -379,7 +380,7 @@ class Page < ApplicationRecord
         })
       end
       payload = {}
-      payload["payload"] = create_datacast_json.to_json
+      payload["payload"] = payload_json.to_json
       payload["api_slug"] = view_cast.datacast_identifier
       payload["schema_url"] = view_cast.template_datum.schema_json
       payload["source"] = "form"
