@@ -2,7 +2,7 @@
         <li class="breadcrumb-item"><%= link_to "Admin", account_site_admins_path(@account, @site), "data-turbolinks"=> false %></li>
         <li class="breadcrumb-item active" aria-current="page">Admin for Site: <%= @site.domain %></li>
         <li class="breadcrumb-item active" aria-current="page"><%= action_name.titleize %></li>
-      
+
 <% end %>
 <div class="row">
     <div class="col-sm-13">
@@ -19,6 +19,8 @@
                               <span class="proto-restrict-remove"><%= ref_category.name %></span>
                             <% else %>
                                   <%= best_in_place ref_category, :name, url: [@account, @site, ref_category] %>
+                                  <div class="hint"><%= best_in_place ref_category, :description, url: [@account, @site, ref_category] %></div>
+                                  <div class="hint"><%= best_in_place ref_category, :keywords, url: [@account, @site, ref_category] %></div>
                             <% end %>
                             <div class="hint"><%= ref_category.updator.name %></div>
                           </td>
@@ -64,7 +66,7 @@
                 <%= f.button :submit, value: "Add", class: "btn btn-sm btn-secondary" %>
             </div>
             <% end %>
-        <% else %>      
+        <% else %>
             <%= simple_form_for(@instance, url: account_site_ref_categories_path(@account, @site), method: :post) do |f| %>
             <%= f.error_notification %>
             <%= f.hidden_field :genre, value: "series" %>
@@ -76,6 +78,8 @@
                 <%= f.input :english_name, required: true, minlength: 3 , maxlength: 15, hint: "This is used for url management." %>
               <% end %>
               <%= f.input :name_html, as: :text, label: "Brand the vertical", hint: "Use HTML (span tag) to add CSS. Note, the length of the series cannot be more than 15 characters.", required: true, minlength: 3 , maxlength: 50 %>
+              <%= f.input :description, as: :text, label: "Description", hint: "Used for SEO.", required: true %>
+              <%= f.input :keywords, as: :text, label: "Keywords", hint: "Used for SEO.", required: true %>
             </div>
             <div class="form-actions">
                 <%= f.button :submit, value: "Add a vertical", class: "btn btn-sm btn-secondary" %>

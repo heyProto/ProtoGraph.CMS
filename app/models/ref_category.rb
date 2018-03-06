@@ -19,6 +19,8 @@
 #  english_name      :string(255)
 #  vertical_page_url :text(65535)
 #  account_id        :integer
+#  description       :text(65535)
+#  keywords          :text(65535)
 #
 
 #TODO AMIT - Handle account_id - RP added retrospectively. Need migration of old rows and BAU handling.
