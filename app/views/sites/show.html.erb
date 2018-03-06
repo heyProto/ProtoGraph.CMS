@@ -1,6 +1,3 @@
-<%= content_for :page_title do %>
-    <li class="breadcrumb-item active" aria-current="page"><%= @site.domain %></li>
-<% end %>
 <div class="row">
     <div class="col-sm-13">
         <div style="margin-left: auto; margin-right: auto; width: 600px;">
@@ -9,7 +6,7 @@
                 <table class="table table-hover">
                     <thead>
                         <tr>
-                            <th>Folder
+                            <th>Workspace
                             </th>
                             <th>#Cards
                             </th>
@@ -43,6 +40,6 @@
 	<div class="col-sm-3 help-text">
 		<%= image_tag "help.png", style: "float: right; right: 0; top: 0; position: relative;" %>
         <h2>Welcome to <%= truncate(@site.domain, length: 15) %></h2>
-		<p>ProtoTYPE requires editors to organise writers, cards and pages into folders. You can manage folders from Site Admin.</p>
+		<p>ProtoTYPE requires editors to organise writers, cards and pages into workspaces. You can manage workspaces from Site Admin.</p>
 	</div>
 </div>

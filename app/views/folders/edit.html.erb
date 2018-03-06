@@ -1,8 +1,8 @@
 <%= content_for :page_title do %>
         <li class="breadcrumb-item"><%= link_to "Admin", account_site_admins_path(@account, @site), "data-turbolinks"=> false %></li>
         <li class="breadcrumb-item active" aria-current="page">Admin for Site: <%= @site.domain %></li>
-        <li class="breadcrumb-item"><%= link_to "Folders", editorial_folders_account_site_admins_path(@account,@site), "data-turbolinks"=> false %></li>
-        <li class="breadcrumb-item active" aria-current="page">Edit Folder</li>
+        <li class="breadcrumb-item"><%= link_to "Workspaces", editorial_folders_account_site_admins_path(@account,@site), "data-turbolinks"=> false %></li>
+        <li class="breadcrumb-item active" aria-current="page">Edit Workspace</li>
       
 <% end %>
 <div class="row">
@@ -21,8 +21,8 @@
     </div>
 	<div class="col-sm-3 help-text">
 		<%= image_tag "help.png", style: "float: right; right: 0; top: 0; position: relative;" %>
-        <h2>Edit Folder</h2>
-		<p>Archive folders whose stories you have published. Archived folders are not visible in site any more. You can find them and unarchive them if you need.</p>
+        <h2>Edit Workspace</h2>
+		<p>Archive workspace whose stories you have published. Archived workspaces are not visible in site any more. You can find them and unarchive them if you need.</p>
 	</div>
 </div>
 
