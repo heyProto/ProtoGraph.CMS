@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180305071747) do
+ActiveRecord::Schema.define(version: 20180306184007) do
 
   create_table "accounts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
     t.string "username", limit: 191, collation: "utf8mb4_unicode_ci"
@@ -326,6 +326,8 @@ ActiveRecord::Schema.define(version: 20180305071747) do
     t.string "english_name"
     t.text "vertical_page_url"
     t.integer "account_id"
+    t.text "description"
+    t.text "keywords"
   end
 
   create_table "ref_link_sources", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|

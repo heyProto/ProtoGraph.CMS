@@ -19,6 +19,8 @@
 #  english_name      :string(255)
 #  vertical_page_url :text(65535)
 #  account_id        :integer
+#  description       :text(65535)
+#  keywords          :text(65535)
 #
 
 #TODO AMIT - Handle account_id - RP added retrospectively. Need migration of old rows and BAU handling.
@@ -49,6 +51,7 @@ class RefCategory < ApplicationRecord
     after_create :after_create_set
     before_update :before_update_set
     after_destroy :update_site_verticals
+    after_update :update_page_seo_content
     after_update :update_site_verticals
     #SCOPE
     #OTHER
@@ -90,6 +93,12 @@ class RefCategory < ApplicationRecord
             resp = Api::ProtoGraph::Utility.upload_to_cdn(encoded_file, key, content_type, self.site.cdn_bucket)
             Api::ProtoGraph::CloudFront.invalidate(self.site, ["/#{key}"], 1)
             ActiveRecord::Base.connection.close
+        end
+    end
+
+    def update_page_seo_content
+        if (["keywords", "description"] & self.saved_changes.transform_values(&:first).keys).length > 0
+            self.vertical_page.update_columns(meta_description: description, meta_keywords: keywords)
         end
     end
 
@@ -138,8 +147,10 @@ class RefCategory < ApplicationRecord
             ref_category_series_id: self.id,
             created_by: self.created_by,
             updated_by: self.updated_by,
-            datacast_identifier: '',
-            url: "#{vertical_page_url}"
+            datacast_identifier: "",
+            url: "#{vertical_page_url}",
+            meta_description: "#{description}",
+            meta_keywords: "#{keywords}"
         })
         page.push_json_to_s3
         #Update the site vertical json
