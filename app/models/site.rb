@@ -165,6 +165,30 @@ class Site < ApplicationRecord
         self.english_name = self.name if (self.is_english || self.english_name.blank?)
     end
 
+    # <?xml version="1.0" encoding="UTF-8"?>
+    # <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+    # <url>
+    #     <loc>http://www.example.com/foo.html</loc>
+    # </url>
+    # </urlset>
+
+
+    def publish_sitemap
+        builder = Nokogiri::XML::Builder.new(:encoding => 'UTF-8') do |xml|
+            xml.urlset {
+                xml.xmlns "http://www.sitemaps.org/schemas/sitemap/0.9"
+                self.pages.each do |p|
+                    puts p.html_url
+                    xml.url {
+                        xml.loc p.html_url
+                    }
+                end
+            }
+        end
+        # Update the sitemap.xml
+        puts builder.to_xml
+    end
+
     private
 
 
