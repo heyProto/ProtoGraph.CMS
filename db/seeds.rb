@@ -84,6 +84,9 @@ t_education = TemplateDatum.create({name: "Education: District Map", version: "0
 t_data_irbf_grid = TemplateDatum.create({name: "toDataIRBFGrid", version: "0.0.1", s3_identifier: "1e0b58753372e47acf63"})
 t_data_irbf_tooltip = TemplateDatum.create({name: "toDataIRBFTooltip", version: "0.0.1", s3_identifier: "a862be0d38c67658aed4"})
 
+#DH
+t_html = TemplateDatum.create({name: "toHTML", version: "0.0.1", s3_identifier: "95a46775489f3ce54267"})
+
 puts "----> Creating Template Cards"
 
 TemplateCard.create({git_url: "git@github.com:icfjknightfellows/ProtoGraph.Card.toExplain.git", name: "toExplain", git_branch: "master", git_repo_name: "ProtoGraph.Card.toExplain", status: "published", is_public: true, account_id: icfj_account.id, created_by: user_id, updated_by: user_id, template_datum_id: t_explain.id, elevator_pitch: "Write explainers once. Reuse across stories.", description: "If news content focuses on the ‘Who, What, When, and Where,’ explainers looks to inform the reader of the ‘How and Why.’ It attempts to get behind the news to give the reader background information about a story to ensure that they are able to properly understand events as they unfold. <br/><br/>The toExplain card allows you to write short explainers that you can reuse across articles to provide readers with context.", s3_identifier: "f96a388525160ed7", has_multiple_uploads: true, allowed_views: ["laptop", "mobile"]})
@@ -119,6 +122,7 @@ TemplateCard.create({git_url: "git@bitbucket.org:pykih_/protograph.card.todatair
 TemplateCard.create({git_url: "git@bitbucket.org:pykih_/protograph.card.todatairbftooltip.git", name: "toData: IRBF Tooltip", git_branch: "master", git_repo_name: "ProtoGraph.Card.toDataIRBFTooltip", status: "published", is_public: false, account_id: oxfam_account.id, created_by: user_id, updated_by: user_id, template_datum_id: t_data_irbf_tooltip.id, elevator_pitch: "", description: "", s3_identifier: "2931317d3b08401c2dd9",has_multiple_uploads: false, allowed_views: ["tooltip"]})
 TemplateCard.create({git_url: "git@bitbucket.org:pykih_/protograph.card.toorganvizcover.git", name: "Organ: CoverViz", git_branch: "master", git_repo_name: "ProtoGraph.Card.toOrganCoverVizCard", status: "published", is_public: true, account_id: pykih_account.id, created_by: user_id, updated_by: user_id, template_datum_id: t_organ_viz.id, elevator_pitch: "", description: "", s3_identifier: "9e058a64d0949988645e",has_multiple_uploads: false, allowed_views: ["col16", "col4"]})
 TemplateCard.create({git_url: "git@bitbucket.org:pykih_/protograph.card.toeducationdistrictmap.git", name: "Education: District Map", git_branch: "master", git_repo_name: "ProtoGraph.Card.toEducationDistrictMap", status: "published", is_public: true, account_id: pykih_account.id, created_by: user_id, updated_by: user_id, template_datum_id: t_education.id, elevator_pitch: "", description: "", s3_identifier: "85e16c8b12fda33055f6",has_multiple_uploads: false, allowed_views: ["col7", "col4", "col2"]})
+TemplateCard.create({git_url: "git@bitbucket.org:pykih_/protograph.card.tohtml.git", name: "DH: HTML", git_branch: "master", git_repo_name: "ProtoGraph.Card.HTMLCard", status: "published", is_public: false, account_id: pykih_account.id, created_by: user_id, updated_by: user_id, template_datum_id: t_html.id, elevator_pitch: "", description: "", s3_identifier: "8346e50f6a0c4858703e",has_multiple_uploads: false, allowed_views: ["col7", "col4"]})
 
 TemplatePage.create({
   name: "Homepage: Vertical",

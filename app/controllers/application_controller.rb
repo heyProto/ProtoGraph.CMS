@@ -1,4 +1,5 @@
 class ApplicationController < ActionController::Base
+  before_action :log_additional_data
   protect_from_forgery with: :exception, unless: :json_request?
   protect_from_forgery with: :null_session, if: :json_request?
   before_action :sudo
@@ -115,6 +116,16 @@ class ApplicationController < ActionController::Base
         end
       end
   	end
+  end
+
+  protected
+
+  def log_additional_data
+    if current_user.present?
+      request.env["exception_notifier.exception_data"] = {
+        current_user: current_user
+      }
+    end
   end
 
 end
