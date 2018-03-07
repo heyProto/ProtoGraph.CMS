@@ -167,9 +167,8 @@ class TemplateCard < ApplicationRecord
     end
 
     def self.to_story_render_SEO(data)
-        "<blockquote> <h2>#{data["headline"] || ""}</h2> <p>#{data["byline"] || ""}</p><p>#{data["publishedat"] || ""}</p><p>#{data["series"] || ""}</p><p>#{data["genre"] || ""}</p><p>#{data["subgenre"] || ""}</p></blockquote>"
+        "<blockquote> #{data['headline'] ? "<h2>#{data['headline']}</h2>" : ''}#{data['byline'] ? "<p>#{data['byline']}</p>" : ''}#{data['publishedat'] ? "<p>#{data['publishedat']}</p>" : ''}#{data['series'] ? "<p>#{data['series']}</p>" : ''}#{data['genre'] ? "<p>#{data['genre']}</p>" : ''}#{data['subgenre'] ? "<p>#{data['subgenre']}</p>" : ''}#{data['summary'] ? "<p>#{data['summary']}</p>" : ''}</blockquote>"
     end
-
 
     #PRIVATE
     private
