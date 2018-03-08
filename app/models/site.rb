@@ -165,6 +165,18 @@ class Site < ApplicationRecord
         self.english_name = self.name if (self.is_english || self.english_name.blank?)
     end
 
+    def sitemap_key
+        "sitemap.xml"
+    end
+
+    def sitemap_url
+        "#{cdn_endpoint}/#{sitemap_key}"
+    end
+
+    def robot_txt_key
+        "robot.txt"
+    end
+
     # <?xml version="1.0" encoding="UTF-8"?>
     # <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     # <url>
@@ -185,8 +197,24 @@ class Site < ApplicationRecord
                 end
             }
         end
-        # Update the sitemap.xml
-        puts builder.to_xml
+        key = "#{self.sitemap_key}"
+        encoded_file = Base64.encode64(builder.to_xml)
+        content_type = "application/xml"
+        resp = Api::ProtoGraph::Utility.upload_to_cdn(encoded_file, key, content_type, self.cdn_bucket)
+        Api::ProtoGraph::CloudFront.invalidate(self, ["/#{key}"], 1)
+    end
+
+    def publish_robot_txt
+        robot_txt = ""
+        robot_txt += "User-agent: *\n"
+        robot_txt += "Allow: /\n"
+        robot_txt += "Sitemap: #{self.cdn_endpoint}/#{self.sitemap_key}\n"
+
+        key = "#{self.robot_txt_key}"
+        encoded_file = Base64.encode64(robot_txt)
+        content_type = "plain/text"
+        resp = Api::ProtoGraph::Utility.upload_to_cdn(encoded_file, key, content_type, self.cdn_bucket)
+        Api::ProtoGraph::CloudFront.invalidate(self, ["/#{key}"], 1)
     end
 
     private
