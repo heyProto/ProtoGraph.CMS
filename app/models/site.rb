@@ -190,7 +190,6 @@ class Site < ApplicationRecord
             xml.urlset {
                 xml.xmlns "http://www.sitemaps.org/schemas/sitemap/0.9"
                 self.pages.each do |p|
-                    puts p.html_url
                     xml.url {
                         xml.loc p.html_url
                     }
