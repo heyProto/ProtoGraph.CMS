@@ -86,6 +86,7 @@ t_data_irbf_tooltip = TemplateDatum.create({name: "toDataIRBFTooltip", version: 
 
 #DH
 t_html = TemplateDatum.create({name: "toHTML", version: "0.0.1", s3_identifier: "95a46775489f3ce54267"})
+t_datawrapper = TemplateDatum.create({name: "toDatawrapper", version: "0.0.1", s3_identifier: "1cad6e26582e31e45f99"})
 
 puts "----> Creating Template Cards"
 
@@ -123,6 +124,7 @@ TemplateCard.create({git_url: "git@bitbucket.org:pykih_/protograph.card.todatair
 TemplateCard.create({git_url: "git@bitbucket.org:pykih_/protograph.card.toorganvizcover.git", name: "Organ: CoverViz", git_branch: "master", git_repo_name: "ProtoGraph.Card.toOrganCoverVizCard", status: "published", is_public: true, account_id: pykih_account.id, created_by: user_id, updated_by: user_id, template_datum_id: t_organ_viz.id, elevator_pitch: "", description: "", s3_identifier: "9e058a64d0949988645e",has_multiple_uploads: false, allowed_views: ["col16", "col4"]})
 TemplateCard.create({git_url: "git@bitbucket.org:pykih_/protograph.card.toeducationdistrictmap.git", name: "Education: District Map", git_branch: "master", git_repo_name: "ProtoGraph.Card.toEducationDistrictMap", status: "published", is_public: true, account_id: pykih_account.id, created_by: user_id, updated_by: user_id, template_datum_id: t_education.id, elevator_pitch: "", description: "", s3_identifier: "85e16c8b12fda33055f6",has_multiple_uploads: false, allowed_views: ["col7", "col4", "col2"]})
 TemplateCard.create({git_url: "git@bitbucket.org:pykih_/protograph.card.tohtml.git", name: "DH: HTML", git_branch: "master", git_repo_name: "ProtoGraph.Card.HTMLCard", status: "published", is_public: false, account_id: pykih_account.id, created_by: user_id, updated_by: user_id, template_datum_id: t_html.id, elevator_pitch: "", description: "", s3_identifier: "8346e50f6a0c4858703e",has_multiple_uploads: false, allowed_views: ["col7", "col4"]})
+TemplateCard.create({git_url: "git@bitbucket.org:pykih_/todwchart.git", name: "DH: Datawrapper", git_branch: "master", git_repo_name: "ProtoGraph.Card.toDWChart", status: "published", is_public: false, account_id: dh_account.id, created_by: user_id, updated_by: user_id, template_datum_id: t_datawrapper.id, elevator_pitch: "", description: "", s3_identifier: "79fadf27771f80149d7b",has_multiple_uploads: false, allowed_views: ["col16", "col7", "col4"]})
 
 TemplatePage.create({
   name: "Homepage: Vertical",
