@@ -238,6 +238,8 @@ class Page < ApplicationRecord
     response = Api::ProtoGraph::Page.create_or_update_page(self.datacast_identifier, self.template_page.s3_identifier, self.site.cdn_bucket, ENV['AWS_S3_ENDPOINT'])
     Api::ProtoGraph::CloudFront.invalidate(self.site, ["/#{key}", "/#{self.html_key}.html"], 2)
     create_story_card
+    site.publish_sitemap
+    site.publish_robot_txt
     true
   end
 
