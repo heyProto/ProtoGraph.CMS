@@ -177,13 +177,9 @@ class Site < ApplicationRecord
         "robot.txt"
     end
 
-    # <?xml version="1.0" encoding="UTF-8"?>
-    # <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-    # <url>
-    #     <loc>http://www.example.com/foo.html</loc>
-    # </url>
-    # </urlset>
-
+    # Iteally, we should create multiple sitemap.xml files one for each vertical.
+    # As per the guide lines listed here: https://support.google.com/webmasters/answer/183668?hl=en
+    # It is more efficient to break down sitemap to smaller chunks and compiling a sitemap index file and submitting a index file instead of individual sitemap files.
 
     def publish_sitemap
         builder = Nokogiri::XML::Builder.new(:encoding => 'UTF-8') do |xml|
@@ -202,6 +198,8 @@ class Site < ApplicationRecord
         resp = Api::ProtoGraph::Utility.upload_to_cdn(encoded_file, key, content_type, self.cdn_bucket)
         Api::ProtoGraph::CloudFront.invalidate(self, ["/#{key}"], 1)
     end
+
+    # If we have more than one sitemap, we can create a list one below the other.
 
     def publish_robot_txt
         robot_txt = ""
