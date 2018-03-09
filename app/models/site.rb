@@ -166,7 +166,7 @@ class Site < ApplicationRecord
     end
 
     def sitemap_key
-        "sitemap.xml"
+        "sitemap.xml.gz"
     end
 
     def sitemap_url
@@ -182,25 +182,27 @@ class Site < ApplicationRecord
     # It is more efficient to break down sitemap to smaller chunks and compiling a sitemap index file and submitting a index file instead of individual sitemap files.
 
     def publish_sitemap
-        builder = Nokogiri::XML::Builder.new(:encoding => 'UTF-8') do |xml|
-            xml.urlset {
-                xml.xmlns "http://www.sitemaps.org/schemas/sitemap/0.9"
-                self.pages.each do |p|
-                    xml.url {
-                        xml.loc p.html_url
-                    }
-                end
-            }
+        require 'aws-sdk'
+        SitemapGenerator::Sitemap.verbose = true
+        SitemapGenerator::Sitemap.adapter = SitemapGenerator::AwsSdkAdapter.new(self.cdn_bucket,
+            aws_access_key_id: ENV['AWS_ACCESS_KEY_ID'],
+            aws_secret_access_key: ENV['AWS_SECRET_ACCESS_KEY'],
+            aws_region: 'ap-south-1'
+        )
+
+        site = self
+        SitemapGenerator::Sitemap.create({
+            default_host: self.cdn_endpoint,
+            sitemaps_host: self.cdn_endpoint
+        }) do
+            site.pages.each do |page|
+                add "#{site.cdn_bucket}/#{page.html_key}.html"
+            end
         end
-        key = "#{self.sitemap_key}"
-        encoded_file = Base64.encode64(builder.to_xml)
-        content_type = "application/xml"
-        resp = Api::ProtoGraph::Utility.upload_to_cdn(encoded_file, key, content_type, self.cdn_bucket)
-        Api::ProtoGraph::CloudFront.invalidate(self, ["/#{key}"], 1)
+        SitemapGenerator::Sitemap.ping_search_engines
     end
 
     # If we have more than one sitemap, we can create a list one below the other.
-
     def publish_robot_txt
         robot_txt = ""
         robot_txt += "User-agent: *\n"
