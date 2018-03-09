@@ -95,6 +95,7 @@
                           <div class="dropdown-menu">
                             <%= link_to 'Profile', edit_user_path(current_user), class: "dropdown-item" %>
                             <%= link_to 'Settings', edit_user_registration_path, class: "dropdown-item" %>
+                            <%= link_to 'Help', "https://heyproto.freshdesk.com/support/home", target: "_blank", class: "dropdown-item" %>
                             <%= link_to "Sign out", destroy_user_session_path, class: "dropdown-item" %>
                           </div>
                         </div>
