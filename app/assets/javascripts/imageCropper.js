@@ -10,14 +10,18 @@ function readURL(input) {
       $(".protograph-new-image").css('display', 'block');
       $('#image_name').val(input.files[0].name.replace(/\.[^/.]+$/, ""));
       $("#cropbox").attr('src', e.target.result);
-      $('#cropbox').Jcrop({
-        setSelect: [0, 0, 420, 420],
-        onSelect: update,
-        onChange: update,
-        boxHeight: 350,
-        boxWidth: 500,
-        aspectRatio: ($('#aspectRatioMenu li.item.active').data().width / $('#aspectRatioMenu li.item.active').data().height)
-      }, function(){ JCropInstance = this});
+      setTimeout(function () {
+        var image = $('#cropbox')[0];
+        $('#cropbox').Jcrop({
+          setSelect: [0, 0, 420, 420],
+          onSelect: update,
+          onChange: update,
+          boxHeight: 350,
+          boxWidth: 500,
+          trueSize: [image.naturalWidth, image.naturalHeight],
+          aspectRatio: ($('#aspectRatioMenu li.item.active').data().width / $('#aspectRatioMenu li.item.active').data().height)
+        }, function(){ JCropInstance = this});
+      }, 0);
     }
     reader.readAsDataURL(input.files[0]);
   } else {
@@ -85,13 +89,15 @@ $(document).ready(function () {
       aspectRatio = 0;
     }
 
+    var image = $('#cropbox')[0];
     $('#cropbox').Jcrop({
       setSelect: [0, 0, 420, 420],
       onSelect: update,
       onChange: update,
       boxHeight: 350,
       boxWidth: 500,
-      aspectRatio: aspectRatio
+      aspectRatio: aspectRatio,
+      trueSize: [image.naturalWidth, image.naturalHeight],
     },function(){ JCropInstance = this});
 
     e.preventDefault();
