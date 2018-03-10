@@ -84,4 +84,9 @@ Rails.application.configure do
   # routes, locales, etc. This feature depends on the listen gem.
   config.file_watcher = ActiveSupport::EventedFileUpdateChecker
   AWS_API_DATACAST_URL = "https://d9y49oyask.execute-api.ap-south-1.amazonaws.com/development"
+
+  SitemapGenerator::Sitemap.search_engines = {
+    google: "http://www.google.com/webmasters/tools/ping?sitemap=%s",
+    bing: "http://www.bing.com/ping?sitemap=%s"
+  }
 end

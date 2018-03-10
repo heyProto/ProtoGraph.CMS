@@ -174,7 +174,7 @@ class Site < ApplicationRecord
     end
 
     def robot_txt_key
-        "robot.txt"
+        "robots.txt"
     end
 
     # Iteally, we should create multiple sitemap.xml files one for each vertical.
@@ -193,10 +193,11 @@ class Site < ApplicationRecord
         site = self
         SitemapGenerator::Sitemap.create({
             default_host: self.cdn_endpoint,
-            sitemaps_host: self.cdn_endpoint
+            sitemaps_host: self.cdn_endpoint,
+            public_path: "tmp/#{self.cdn_bucket}/"
         }) do
-            site.pages.each do |page|
-                add "#{site.cdn_bucket}/#{page.html_key}.html"
+            site.pages.where(status: "published").each do |page|
+                add "#{page.html_key}.html"
             end
         end
         SitemapGenerator::Sitemap.ping_search_engines
