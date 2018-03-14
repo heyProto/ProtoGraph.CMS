@@ -99,7 +99,9 @@ class ViewCast < ApplicationRecord
 
     def before_save_set
         self.datacast_identifier = SecureRandom.hex(12) if self.datacast_identifier.blank?
-        self.series = self.folder.vertical.name if self.series.blank? and self.folder.vertical.present?
+        if self.folder.present? and self.series.blank? and self.folder.vertical.present?
+            self.series = self.folder.vertical.name
+        end
         if self.optionalConfigJSON_changed? and self.optionalConfigJSON.present?
             key = "#{self.datacast_identifier}/view_cast.json"
             encoded_file = Base64.encode64(self.optionalConfigJSON)
