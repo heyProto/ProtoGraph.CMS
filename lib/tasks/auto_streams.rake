@@ -23,7 +23,9 @@ namespace :auto_streams do
             end
             stream.publish_cards
             stream.publish_rss
-            site.permissions.each do |permission|
+
+            site.all_members.each do |d|
+                permission = Permission.find(d[1])
                 if permission.stream.blank?
                     s = Stream.create!({
                         is_automated_stream: true,
