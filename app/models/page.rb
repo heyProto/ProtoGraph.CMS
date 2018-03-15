@@ -207,7 +207,8 @@ class Page < ApplicationRecord
         "ga_code": site.g_a_tracking_id,
         "story_card_style": site.story_card_style,
         "primary_language": site.primary_language,
-        "seo_name": site.seo_name
+        "seo_name": site.seo_name,
+        "is_lazy_loading_activated": site.is_lazy_loading_activated
       },
       "streams": streams,
       "page": page,

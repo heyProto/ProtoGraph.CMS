@@ -2,49 +2,50 @@
 #
 # Table name: sites
 #
-#  id                      :integer          not null, primary key
-#  account_id              :integer
-#  name                    :string(255)
-#  domain                  :string(255)
-#  created_at              :datetime         not null
-#  updated_at              :datetime         not null
-#  description             :text(65535)
-#  primary_language        :string(255)
-#  default_seo_keywords    :text(65535)
-#  house_colour            :string(255)
-#  reverse_house_colour    :string(255)
-#  font_colour             :string(255)
-#  reverse_font_colour     :string(255)
-#  stream_url              :text(65535)
-#  stream_id               :integer
-#  cdn_provider            :string(255)
-#  cdn_id                  :string(255)
-#  host                    :text(65535)
-#  cdn_endpoint            :text(65535)
-#  client_token            :string(255)
-#  access_token            :string(255)
-#  client_secret           :string(255)
-#  favicon_id              :integer
-#  logo_image_id           :integer
-#  facebook_url            :text(65535)
-#  twitter_url             :text(65535)
-#  instagram_url           :text(65535)
-#  youtube_url             :text(65535)
-#  g_a_tracking_id         :string(255)
-#  sign_up_mode            :string(255)
-#  default_role            :string(255)
-#  story_card_style        :string(255)
-#  email_domain            :string(255)
-#  header_background_color :string(255)
-#  header_url              :text(65535)
-#  header_positioning      :string(255)
-#  slug                    :string(255)
-#  is_english              :boolean          default(TRUE)
-#  english_name            :string(255)
-#  story_card_flip         :boolean          default(FALSE)
-#  created_by              :integer
-#  updated_by              :integer
-#  seo_name                :string(255)
+#  id                        :integer          not null, primary key
+#  account_id                :integer
+#  name                      :string(255)
+#  domain                    :string(255)
+#  created_at                :datetime         not null
+#  updated_at                :datetime         not null
+#  description               :text(65535)
+#  primary_language          :string(255)
+#  default_seo_keywords      :text(65535)
+#  house_colour              :string(255)
+#  reverse_house_colour      :string(255)
+#  font_colour               :string(255)
+#  reverse_font_colour       :string(255)
+#  stream_url                :text(65535)
+#  stream_id                 :integer
+#  cdn_provider              :string(255)
+#  cdn_id                    :string(255)
+#  host                      :text(65535)
+#  cdn_endpoint              :text(65535)
+#  client_token              :string(255)
+#  access_token              :string(255)
+#  client_secret             :string(255)
+#  favicon_id                :integer
+#  logo_image_id             :integer
+#  facebook_url              :text(65535)
+#  twitter_url               :text(65535)
+#  instagram_url             :text(65535)
+#  youtube_url               :text(65535)
+#  g_a_tracking_id           :string(255)
+#  sign_up_mode              :string(255)
+#  default_role              :string(255)
+#  story_card_style          :string(255)
+#  email_domain              :string(255)
+#  header_background_color   :string(255)
+#  header_url                :text(65535)
+#  header_positioning        :string(255)
+#  slug                      :string(255)
+#  is_english                :boolean          default(TRUE)
+#  english_name              :string(255)
+#  story_card_flip           :boolean          default(FALSE)
+#  created_by                :integer
+#  updated_by                :integer
+#  seo_name                  :string(255)
+#  is_lazy_loading_activated :boolean          default(TRUE)
 #
 
 #TODO AMIT - Handle created_by, updated_by - RP added retrospectively. Need migration of old rows and BAU handling.
@@ -94,6 +95,7 @@ class Site < ApplicationRecord
     before_update :before_update_set
     after_create :after_create_set
     after_save :after_save_set
+    after_update :after_update_publish_site_pages
     #SCOPE
     #OTHER
 
@@ -316,6 +318,23 @@ class Site < ApplicationRecord
             content_type = "application/json"
             resp = Api::ProtoGraph::Utility.upload_to_cdn(encoded_file, key, content_type, self.cdn_bucket)
             Api::ProtoGraph::CloudFront.invalidate(self, ["/#{key}"], 1)
+            ActiveRecord::Base.connection.close
+        end
+    end
+
+    def after_update_publish_site_pages
+        Thread.new do
+            if self.saved_change_to_is_lazy_loading_activated?
+                self.pages.each do |p|
+                    begin
+                        p.push_page_object_to_s3
+                    rescue => e
+                        puts "Site:#{self.id}  Page Updation failed after updating the lazy loading feature."
+                        puts "#{e}"
+                        puts "<EOM>"
+                    end
+                end
+            end
             ActiveRecord::Base.connection.close
         end
     end

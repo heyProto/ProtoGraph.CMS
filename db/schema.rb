@@ -399,6 +399,7 @@ ActiveRecord::Schema.define(version: 20180314100241) do
     t.integer "created_by"
     t.integer "updated_by"
     t.string "seo_name"
+    t.boolean "is_lazy_loading_activated", default: true
   end
 
   create_table "stream_entities", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
