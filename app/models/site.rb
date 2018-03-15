@@ -95,6 +95,7 @@ class Site < ApplicationRecord
     before_update :before_update_set
     after_create :after_create_set
     after_save :after_save_set
+    after_update :after_update_publish_site_pages
     #SCOPE
     #OTHER
 
@@ -307,19 +308,23 @@ class Site < ApplicationRecord
             content_type = "application/json"
             resp = Api::ProtoGraph::Utility.upload_to_cdn(encoded_file, key, content_type, self.cdn_bucket)
             Api::ProtoGraph::CloudFront.invalidate(self, ["/#{key}"], 1)
+            ActiveRecord::Base.connection.close
+        end
+    end
 
-            begin
-                if self.is_lazy_loading_activated_changed?
-                    self.pages.each do |p|
-                        p.push_page_json_to_s3
+    def after_update_publish_site_pages
+        Thread.new do
+            if self.saved_change_to_is_lazy_loading_activated?
+                self.pages.each do |p|
+                    begin
+                        p.push_page_object_to_s3
+                    rescue => e
+                        puts "Site:#{self.id}  Page Updation failed after updating the lazy loading feature."
+                        puts "#{e}"
+                        puts "<EOM>"
                     end
                 end
-            rescue => e
-                puts "Site:#{self.id}  Page Updation failed after updating the lazy loading feature."
-                puts "#{e}"
-                puts "<EOM>"
             end
-
             ActiveRecord::Base.connection.close
         end
     end
