@@ -219,6 +219,18 @@ class Site < ApplicationRecord
         Api::ProtoGraph::CloudFront.invalidate(self, ["/#{key}"], 1)
     end
 
+
+    def all_members
+        members = []
+        account.permissions.not_hidden.each do |p|
+            members << [p.username, p.id]
+        end
+        self.permissions.not_hidden.each do |p|
+            members << [p.username, p.id]
+        end
+        members
+    end
+
     private
 
 
@@ -250,20 +262,21 @@ class Site < ApplicationRecord
     end
 
     def after_create_set
-        # user_id = account.users.present? ? account.users.first.id : nil
-        # stream = Stream.create!({
-        #     is_automated_stream: true,
-        #     col_name: "Site",
-        #     col_id: self.id,
-        #     updated_by: user_id,
-        #     created_by: user_id,
-        #     account_id: account_id,
-        #     title: self.name,
-        #     description: "#{self.name} stream",
-        #     limit: 50
-        # })
+        user_id = account.users.present? ? account.users.first.id : nil
+        stream = Stream.create!({
+            is_automated_stream: true,
+            col_name: "Site",
+            col_id: self.id,
+            updated_by: user_id,
+            created_by: user_id,
+            account_id: account_id,
+            site_id: self.id,
+            title: self.name,
+            description: "#{self.name} site stream",
+            limit: 50
+        })
 
-        # self.update_columns(stream_url: "#{self.cdn_endpoint}/#{stream.cdn_key}", stream_id: stream.id)
+        self.update_columns(stream_url: "#{self.cdn_endpoint}/#{stream.cdn_key}", stream_id: stream.id)
         create_sudo_permission("owner")
         key = "#{self.homepage_header_key}"
         encoded_file = Base64.encode64([].to_json)
@@ -282,9 +295,6 @@ class Site < ApplicationRecord
                 cdn_endpoint: ENV['AWS_S3_ENDPOINT']
             )
         end
-        # rescue => e
-        #     #Send email to AB
-        # end
     end
 
     def after_save_set

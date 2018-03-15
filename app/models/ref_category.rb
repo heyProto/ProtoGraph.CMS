@@ -69,7 +69,14 @@ class RefCategory < ApplicationRecord
     # end
 
     def view_casts
-        ViewCast.where("#{genre}": self.name)
+        if genre == "series"
+            ViewCast.where(series: self.name)
+        elsif genre == 'intersection'
+            ViewCast.where(genre: self.name)
+        else
+            ViewCast.where(sub_genre: self.name)
+        end
+
     end
 
     def vertical_header_key
@@ -122,22 +129,18 @@ class RefCategory < ApplicationRecord
     end
 
     def after_create_set
-        # s = Stream.create!({
-        #     is_automated_stream: true,
-        #     col_name: "RefCategory",
-        #     col_id: self.id,
-        #     account_id: self.site.account_id,
-        #     title: self.name,
-        #     description: "#{self.name} stream",
-        #     limit: 50
-        # })
+        s = Stream.create!({
+            is_automated_stream: true,
+            col_name: "RefCategory",
+            col_id: self.id,
+            account_id: self.site.account_id,
+            title: self.name,
+            description: "#{self.name} stream",
+            site_id: self.site_id,
+            limit: 50
+        })
 
-        # Thread.new do
-        #     s.publish_cards
-        #     ActiveRecord::Base.connection.close
-        # end
-
-        # self.update_columns(stream_url: "#{s.site.cdn_endpoint}/#{s.cdn_key}", stream_id: s.id)
+        self.update_columns(stream_url: "#{s.site.cdn_endpoint}/#{s.cdn_key}", stream_id: s.id)
 
         # Create a new page object
         page = Page.create({account_id: self.site.account_id,
