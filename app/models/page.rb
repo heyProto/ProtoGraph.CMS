@@ -218,61 +218,46 @@ class Page < ApplicationRecord
       "site_header_json_url": "#{self.site.header_json_url}",
       "major_stream_blockquotes": get_major_stream_blockquotes
     }
-
-    if self.template_page.name == 'article'
-      s = series_7c_stream
-      if s.present?
-        json["more_in_the_series"] = {
-          "id": s.id,
-          "title": s.title,
-          "datacast_identifier": s.datacast_identifier,
-          "url": "#{site.cdn_endpoint}/#{s.cdn_key}",
-          "name_of_stream": "MORE IN THE VERTICAL"
-        }
-      end
-      if self.intersection.present?
-        intersection_stream = self.intersection.stream
-        json["intersection_stream"] = {
-          "id": intersection_stream.id,
-          "title": "#{intersection.name} stream",
-          "datacast_identifier": intersection_stream.datacast_identifier,
-          "rss_url": "#{site.cdn_endpoint}/#{intersection_stream.cdn_rss_key}",
-          "url": "#{site.cdn_endpoint}/#{intersection_stream.cdn_key}",
-          "name_of_stream": "#{intersection.name.titleize}"
-        }
-      end
-      if self.sub_intersection.present?
-        sub_intersection_stream = self.sub_intersection.stream
-        json["sub_intersection_stream"] = {
-          "id": sub_intersection_stream.id,
-          "title": "#{sub_intersection.name} stream",
-          "datacast_identifier": sub_intersection_stream.datacast_identifier,
-          "rss_url": "#{site.cdn_endpoint}/#{sub_intersection_stream.cdn_rss_key}",
-          "url": "#{site.cdn_endpoint}/#{sub_intersection_stream.cdn_key}",
-          "name_of_stream": "#{sub_intersection.name.titleize}"
-        }
-      end
-      if self.series.present?
-        series_stream = self.series.stream
-        json["series_stream"] = {
-          "id": series_stream.id,
-          "title": "#{series.name} stream",
-          "datacast_identifier": series_stream.datacast_identifier,
-          "rss_url": "#{site.cdn_endpoint}/#{series_stream.cdn_rss_key}",
-          "url": "#{site.cdn_endpoint}/#{series_stream.cdn_key}",
-          "name_of_stream": "#{series.name.titleize}"
-        }
-      end
-      site_stream = self.site.stream
-      json["site_stream"] = {
-        "id": site_stream.id,
-        "title": "#{site.name} stream",
-        "datacast_identifier": site_stream.datacast_identifier,
-        "rss_url": "#{site.cdn_endpoint}/#{site_stream.cdn_rss_key}",
-        "url": "#{site.cdn_endpoint}/#{site_stream.cdn_key}",
-        "name_of_stream": "#{site.name.titleize}"
+    series_stream = self.series.stream
+    json["more_in_the_series"] = {
+      "id": series_stream.id,
+      "title": "#{series.name} stream",
+      "datacast_identifier": series_stream.datacast_identifier,
+      "rss_url": "#{site.cdn_endpoint}/#{series_stream.cdn_rss_key}",
+      "url": "#{site.cdn_endpoint}/#{series_stream.cdn_key}",
+      "name_of_stream": "MORE IN THE VERTICAL"
+    }
+    site_stream = self.site.stream
+    json["more_in_the_site"] = {
+      "id": site_stream.id,
+      "title": "#{site.name} stream",
+      "datacast_identifier": site_stream.datacast_identifier,
+      "rss_url": "#{site.cdn_endpoint}/#{site_stream.cdn_rss_key}",
+      "url": "#{site.cdn_endpoint}/#{site_stream.cdn_key}",
+      "name_of_stream": "#{site.name.titleize}"
+    }
+    json["navigation_json"] = navigation_json
+    if self.intersection.present?
+      intersection_stream = self.intersection.stream
+      json["more_in_the_intersection"] = {
+        "id": intersection_stream.id,
+        "title": "#{intersection.name} stream",
+        "datacast_identifier": intersection_stream.datacast_identifier,
+        "rss_url": "#{site.cdn_endpoint}/#{intersection_stream.cdn_rss_key}",
+        "url": "#{site.cdn_endpoint}/#{intersection_stream.cdn_key}",
+        "name_of_stream": "More in Intersection"
       }
-      json["navigation_json"] = navigation_json
+    end
+    if self.sub_intersection.present?
+      sub_intersection_stream = self.sub_intersection.stream
+      json["more_in_the_sub_intersection"] = {
+        "id": sub_intersection_stream.id,
+        "title": "#{sub_intersection.name} stream",
+        "datacast_identifier": sub_intersection_stream.datacast_identifier,
+        "rss_url": "#{site.cdn_endpoint}/#{sub_intersection_stream.cdn_rss_key}",
+        "url": "#{site.cdn_endpoint}/#{sub_intersection_stream.cdn_key}",
+        "name_of_stream": "More in Sub Intersection"
+      }
     end
     key = "#{self.datacast_identifier}/page.json"
     encoded_file = Base64.encode64(json.to_json)
