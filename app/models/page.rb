@@ -588,6 +588,7 @@ class Page < ApplicationRecord
   def after_save_set
       if self.template_page.name == 'Homepage: Vertical'
         self.series.update_site_verticals
+        self.series.update_columns(description: self.meta_description, keywords: self.meta_keywords)
       end
       if self.collaborator_lists.present?
           self.collaborator_lists = self.collaborator_lists.reject(&:empty?)

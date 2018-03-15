@@ -263,8 +263,8 @@ class Stream < ApplicationRecord
                     xml.link "#{self.site.cdn_endpoint}"
                     xml.send("atom:link", "rel": "self","type": 'application/rss+xml',  "href": "#{self.site.cdn_endpoint}/#{self.cdn_rss_key}")
                     cards.each do |d|
-                        xml.item {
-                            if d.template_card.name == 'toStory'
+                        if d.template_card.name == 'toStory'
+                            xml.item {
                                 begin
                                     data = JSON.parse(RestClient.get(d.data_url).body)["data"]
                                     xml.link data["url"]
@@ -281,8 +281,8 @@ class Stream < ApplicationRecord
                                 rescue => e
                                     d.destroy
                                 end
-                            end
-                        }
+                            }
+                        end
                     end
                 }
             }

@@ -3,8 +3,10 @@ class RefCategoriesController < ApplicationController
   before_action :authenticate_user!
   before_action :sudo_role_can_add_site_categories, only: [:create]
   before_action :sudo_role_can_disable_site_categories, only: [:update]
-  before_action :set_entity, only: [:update, :destroy, :disable]
+  before_action :set_entity, only: [:edit, :update, :destroy, :disable]
 
+  def edit
+  end
 
   def verticals
     @is_admin = true

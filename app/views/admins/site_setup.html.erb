@@ -17,7 +17,6 @@
               <%= f.input :created_by, as: :hidden, input_html: {value: current_user.id} %>
               <%= f.input :updated_by, as: :hidden, input_html: {value: current_user.id} %>
               <%= f.input :from_page, as: :hidden, input_html: {value: "site_setup"}%>
-
               <%= f.button :submit, "Save", class: "btn btn-sm btn-secondary" %>
             <% end %>
         </div>
@@ -31,5 +30,10 @@
 		<h2>Primary Language</h2>
 		<p>Based on your selected language, we will enable or disable some fields and change call to action buttons on certain cards like Quiz.</p>
 		<p>Do not see the language your site is in? No problem. Reach out to us. We are open to working with your team to configure ProtoTYPE for your language.</p>
+    <p>You can check
+    <%= link_to "RSS Feed", "#{@site.cdn_endpoint}/#{@site.stream.cdn_rss_key}", target: "blank"  %> for the whole site here.</p>
+    <p>
+      You can download the <%= link_to "Sitemap", "#{@site.cdn_endpoint}/sitemap.xml.gz", target: "blank"  %> for your site.
+    </p>
 	</div>
 </div>
