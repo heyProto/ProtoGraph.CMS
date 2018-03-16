@@ -70,11 +70,11 @@ class RefCategory < ApplicationRecord
 
     def view_casts
         if genre == "series"
-            ViewCast.where(series: self.name)
+            ViewCast.where(template_card_id: TemplateCard.where(name: "toStory").pluck(:id)).where(series: self.name)
         elsif genre == 'intersection'
-            ViewCast.where(genre: self.name)
+            ViewCast.where(template_card_id: TemplateCard.where(name: "toStory").pluck(:id)).where(genre: self.name)
         else
-            ViewCast.where(sub_genre: self.name)
+            ViewCast.where(template_card_id: TemplateCard.where(name: "toStory").pluck(:id)).where(sub_genre: self.name)
         end
 
     end

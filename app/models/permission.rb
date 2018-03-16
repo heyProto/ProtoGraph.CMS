@@ -54,7 +54,7 @@ class Permission < ApplicationRecord
 
     def view_casts
         if self.permissible_type == "Site"
-            ViewCast.where(byline_id: self.id)
+            ViewCast.where(template_card_id: TemplateCard.where(name: "toStory").pluck(:id)).where(byline_id: self.id)
         else
             ViewCast.none
         end
