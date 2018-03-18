@@ -3,9 +3,9 @@ class Api::V1::TemplateCardsController < ApiController
     def index
         if @folder.vertical.present?
           if @folder.is_for_stories
-            @template_cards = @account.template_cards.where(is_current_version: true, name: ['toImage', 'toVideo: Youtube', 'toCluster', 'toQuiz', 'toTimeline', 'toStory', 'toVideo: JWPlayer', 'toProfile', 'toData: Rating with drill down', 'toData: IRBF Grid', 'toData: IRBF Tooltip', "DH: HTML", "DH: Datawrapper"]).order(:sort_order)
+            @template_cards = @account.template_cards.where(is_current_version: true, name: ['toImage', 'toVideo: Youtube', 'toCluster', 'toQuiz', 'toTimeline', 'toVideo: JWPlayer', 'toProfile', 'toData: Rating with drill down', 'toData: IRBF Grid', 'toData: IRBF Tooltip', "DH: HTML", "DH: Datawrapper"]).order(:sort_order)
           else
-            @template_cards = @account.template_cards.where(is_current_version: true).where.not(name: ['toImage', 'toVideo: Youtube', 'toCluster', 'toQuiz', 'toTimeline', 'toStory', 'toExplain', 'toArticle', 'toVideo: JWPlayer', 'toProfile', 'toData: IRBF Grid', 'toData: IRBF Tooltip',"DH: HTML", "DH: Datawrapper"])
+            @template_cards = @account.template_cards.where(is_current_version: true).where.not(name: ['toImage', 'toVideo: Youtube', 'toCluster', 'toQuiz', 'toTimeline', 'toExplain', 'toArticle', 'toVideo: JWPlayer', 'toProfile', 'toData: IRBF Grid', 'toData: IRBF Tooltip',"DH: HTML", "DH: Datawrapper"])
           end
         else
           @template_cards = @account.template_cards.where(is_current_version: true, name: ['toQuiz', 'toTimeline'])
