@@ -64,6 +64,7 @@ Rails.application.routes.draw do
     resources :permission_invites
     resources :admins, only: [:index] do
       get "account_owners", on: :collection
+      get "sites", to: "admins#sites", on: :collection
     end
     resources :sites do
       resources :admins, only: [:index] do

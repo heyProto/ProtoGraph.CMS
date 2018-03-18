@@ -13,6 +13,12 @@
                         <p>Owners</p>
                     </a>
                 </div>
+                <div class="col-sm-5">
+                    <a href=<%= sites_account_admins_path(@account)%>>
+                        <div class="administration-options"><%= image_tag "glyphicons-609-newspaper.png" %></div>
+                        <p>Sites</p>
+                    </a>
+                </div>
             </div>
             <br/>
             <h3 style="font-weight: 800;">Admin for Site: <%= @site.domain %></h3>

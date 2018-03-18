@@ -5,6 +5,9 @@ class AdminsController < ApplicationController
   def index
     @is_admin = true
   end
+  
+  def sites
+  end
 
   def site_setup
     @is_admin = true

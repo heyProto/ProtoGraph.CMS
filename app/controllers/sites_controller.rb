@@ -15,6 +15,8 @@ class SitesController < ApplicationController
     if @site.update(site_params)
       if from == "site_setup"
         redirect_to site_setup_account_site_admins_path(@account, @site), notice: 'site was successfully updated.'
+      elsif from = "sites"
+        redirect_to sites_account_admins_path(@account), notice: 'site was successfully updated.'
       elsif from == "product_theme"
         redirect_to site_theming_account_site_admins_path(@account, @site), notice: 'site was successfully updated.'
       elsif from == "product_integrations"
