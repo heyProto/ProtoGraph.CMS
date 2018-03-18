@@ -71,26 +71,15 @@
                     </script>
                 <% end %>
                 <% if @site.present? %>
-                  <li style="margin-left: 15px;">
-                      <div class="site-dropdown">
-                          <div class="btn-group dropdown">
-                            <button type="button" class="btn btn-small btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                              Site
-                            </button>
-                            <div class="dropdown-menu">
-                              <%= link_to "Image Bank", account_images_path(@account, folder_id: @folder.present? ? @folder.id : nil), "data-turbolinks"=> false, class: (controller_name == "images") ? "dropdown-item active" : "dropdown-item" %>
-                              <%= link_to "Page Builder", manager_account_site_pages_path(@account, @site, folder_id: @folder.present? ? @folder.id : nil), "data-turbolinks"=> false, class: @is_page_builder ? "dropdown-item active" : "dropdown-item" %>
-                              <%= link_to "Site Admin", account_site_admins_path(@account, @site), "data-turbolinks"=> false, class: @is_admin ? "dropdown-item active" : "dropdown-item" %>
-                              </div>
-                          </div>
-                      </div>
-                  </li>
+                  <li class="nav-item"><%= link_to "Page Builder", manager_account_site_pages_path(@account, @site, folder_id: @folder.present? ? @folder.id : nil), "data-turbolinks"=> false, class: "nav-link", style: @is_page_builder ? "background: #f0f0f0;" : nil %></li>
+                  <li class="nav-item"><%= link_to image_tag("glyphicons-139-picture.png", size: "13", title: "Image Bank"), account_images_path(@account, folder_id: @folder.present? ? @folder.id : nil), "data-turbolinks"=> false, class: "nav-link", style: controller_name == "images" ? "background: #f0f0f0;" : nil %></li>
+                  <li class="nav-item"><%= link_to image_tag("glyphicons-137-cogwheel.png", size: "13", title: "Site Admin"), account_site_admins_path(@account, @site), "data-turbolinks"=> false, class: "nav-link", style: @is_admin ? "background: #f0f0f0;" : nil %></li>
                 <% end %>
                 <li>
                     <div class="admin-dropdown">
                         <div class="btn-group dropdown">
                           <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <div class="user-image"><%= image_tag avatar_url(current_user.email), class: "rounded", style: "width: 30px;" %></div>
+                            <div class="user-image"><%= image_tag avatar_url(current_user.email), class: "rounded", style: "width: 24px;" %></div>
                           </button>
                           <div class="dropdown-menu">
                             <%= link_to 'Profile', edit_user_path(current_user), class: "dropdown-item" %>
