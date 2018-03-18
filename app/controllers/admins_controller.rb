@@ -15,6 +15,7 @@ class AdminsController < ApplicationController
     if @site.favicon_id.nil?
       @site.build_favicon
     end
+    @permission_roles = PermissionRole.where.not(slug: 'owner').pluck(:name, :slug)  
   end
 
   def site_setup
