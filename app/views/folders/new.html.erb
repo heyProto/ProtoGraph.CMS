@@ -1,6 +1,6 @@
 <%= content_for :page_title do %>
         <li class="breadcrumb-item"><%= link_to "Admin", account_site_admins_path(@account, @site), "data-turbolinks"=> false %></li>
-        <li class="breadcrumb-item active" aria-current="page">Admin for Site: <%= @site.domain %></li>
+        <li class="breadcrumb-item active" aria-current="page">Site: <%= @site.domain %></li>
         <li class="breadcrumb-item"><%= link_to "Workspaces", editorial_folders_account_site_admins_path(@account,@site), "data-turbolinks"=> false %></li>
         <li class="breadcrumb-item active" aria-current="page">New Workspace</li>
 <% end %>

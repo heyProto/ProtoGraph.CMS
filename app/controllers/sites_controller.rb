@@ -19,6 +19,8 @@ class SitesController < ApplicationController
         redirect_to sites_account_admins_path(@account), notice: 'site was successfully updated.'
       elsif from == "product_theme"
         redirect_to site_theming_account_site_admins_path(@account, @site), notice: 'site was successfully updated.'
+      elsif from == "basic_theming"
+        redirect_to basic_theming_account_site_admins_path(@account, @site), notice: 'site was successfully updated.'
       elsif from == "product_integrations"
         redirect_to site_integrations_account_site_admins_path(@account, @site), notice: 'site was successfully updated.'
       elsif from == "access_security"

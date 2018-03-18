@@ -7,6 +7,14 @@ class AdminsController < ApplicationController
   end
   
   def sites
+    @is_admin = true
+  end
+  
+  def basic_theming
+    @is_admin = true
+    if @site.favicon_id.nil?
+      @site.build_favicon
+    end
   end
 
   def site_setup
@@ -24,10 +32,6 @@ class AdminsController < ApplicationController
     if @site.logo_image_id.nil?
       @site.build_logo_image
     end
-    if @site.favicon_id.nil?
-      @site.build_favicon
-    end
-    @permission_roles = PermissionRole.where.not(slug: 'owner').pluck(:name, :slug)
   end
 
   def site_integrations
