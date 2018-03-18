@@ -10,8 +10,6 @@
       <%= simple_form_for [@account, @site, @ref_category] do |f| %>
         <h4>
           <%=  @ref_category.name %>
-
-          <%= link_to (image_tag "rss_symbol.png", height: 10, width: 10), "#{@site.cdn_endpoint}/#{@ref_category.stream.cdn_rss_key}", target: "blank"  %>
         </h4>
         <%= f.hidden_field :site_id, value: @site.id %>
         <div class="form-inputs">
