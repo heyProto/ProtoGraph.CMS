@@ -14,6 +14,8 @@
             <tr>
               <td>Name
               </td>
+              <td>
+              </td>
               <td>Description
               </td>
               <td>Keywords
@@ -35,7 +37,8 @@
                   <% else %>
                     <%= ref_category.name %>
                   <% end %>
-                  <%= link_to (image_tag "rss_symbol.png", height: 10, width: 10), "#{@site.cdn_endpoint}/#{ref_category.stream.cdn_rss_key}", target: "blank"  %>
+                </td>
+                <td><%= link_to (image_tag "rss_symbol.png", height: 10, width: 10), "#{@site.cdn_endpoint}/#{ref_category.stream.cdn_rss_key}", target: "blank"  %>
                 </td>
                 <td class='hint'>
                   <%= truncate(ref_category.description, length: 50, ommission: "..") %>
