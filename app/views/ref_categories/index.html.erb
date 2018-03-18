@@ -70,10 +70,10 @@
             <%= f.hidden_field :site_id, value: @site.id %>
 
             <div class="form-inputs">
+                <%= f.input :name, required: true, minlength: 3 , maxlength: 15 %>
                 <% unless @site.is_english %>
                   <%= f.input :english_name, required: true, minlength: 3 , maxlength: 15, hint: "This is used for url management." %>
                 <% end %>
-                <%= f.input :name, required: true, minlength: 3 , maxlength: 15 %>
             </div>
             <div class="form-actions">
                 <%= f.button :submit, value: "Add", class: "btn btn-sm btn-secondary" %>
