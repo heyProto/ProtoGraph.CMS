@@ -32,6 +32,8 @@ class SitesController < ApplicationController
         render "admins/site_setup"
       elsif from == "product_theme"
         render "admins/product_theme"
+      elsif from == "basic_theming"
+        render "admins/basic_theming"
       elsif from == "product_integrations"
         render "admins/product_integrations"
       elsif from == "access_security"
