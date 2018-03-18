@@ -13,7 +13,7 @@
               <%= f.input :description, hint: "This will be used in footers, search results, and other places." %>
               <%= f.input :primary_language, as: :select, collection: [["English", "English"], ["Hindi", "Hindi"]], include_blank: false %>
               <%= f.input :default_seo_keywords, hint: "These default keywords will be used on homepage.", label: "Default SEO Keywords" %>
-              <%= f.input :is_lazy_loading_activated, as: :boolean, hint: "Lazy loading helps in improving page performance by loading content on demand.", label: "Activate lazy loading" %>
+              <%= f.input :is_lazy_loading_activated, as: :boolean, hint: "Lazy loading helps in improving page performance by loading content on demand.", label: "&nbsp; Activate lazy loading".html_safe %>
               <%= f.input :created_by, as: :hidden, input_html: {value: current_user.id} %>
               <%= f.input :updated_by, as: :hidden, input_html: {value: current_user.id} %>
               <%= f.input :from_page, as: :hidden, input_html: {value: "site_setup"}%>
@@ -30,10 +30,9 @@
 		<h2>Primary Language</h2>
 		<p>Based on your selected language, we will enable or disable some fields and change call to action buttons on certain cards like Quiz.</p>
 		<p>Do not see the language your site is in? No problem. Reach out to us. We are open to working with your team to configure ProtoTYPE for your language.</p>
-    <p>You can check
-    <%= link_to "RSS Feed", "#{@site.cdn_endpoint}/#{@site.stream.cdn_rss_key}", target: "blank"  %> for the whole site here.</p>
-    <p>
-      You can download the <%= link_to "Sitemap", "#{@site.cdn_endpoint}/sitemap.xml.gz", target: "blank"  %> for your site.
-    </p>
+        <hr/>
+        <p>You can check
+        <%= link_to "RSS Feed", "#{@site.cdn_endpoint}/#{@site.stream.cdn_rss_key}", target: "blank"  %> for the whole site here.</p>
+        <p>You can download the <%= link_to "Sitemap", "#{@site.cdn_endpoint}/sitemap.xml.gz", target: "blank"  %> for your site.</p>
 	</div>
 </div>
