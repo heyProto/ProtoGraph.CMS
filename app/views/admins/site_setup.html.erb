@@ -19,6 +19,10 @@
               <%= f.input :from_page, as: :hidden, input_html: {value: "site_setup"}%>
               <%= f.button :submit, "Save", class: "btn btn-sm btn-secondary" %>
             <% end %>
+            <hr/>
+            <p>You can check
+            <%= link_to "RSS Feed", "#{@site.cdn_endpoint}/#{@site.stream.cdn_rss_key}", target: "blank"  %> for the whole site here.</p>
+            <p>You can download the <%= link_to "Sitemap", "#{@site.cdn_endpoint}/sitemap.xml.gz", target: "blank"  %> for your site.</p>
         </div>
     </div>
 	<div class="col-sm-3 help-text">
@@ -30,9 +34,5 @@
         <p>
             <%= link_to "Don't see language of your choice?", "https://heyproto.freshdesk.com/support/solutions/articles/36000031523-is-prototype-multi-lingual-", target: "_blank"%>
         </p>
-        <hr/>
-        <p>You can check
-        <%= link_to "RSS Feed", "#{@site.cdn_endpoint}/#{@site.stream.cdn_rss_key}", target: "blank"  %> for the whole site here.</p>
-        <p>You can download the <%= link_to "Sitemap", "#{@site.cdn_endpoint}/sitemap.xml.gz", target: "blank"  %> for your site.</p>
 	</div>
 </div>
