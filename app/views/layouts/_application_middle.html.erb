@@ -86,6 +86,9 @@
                             <%= link_to 'Settings', edit_user_registration_path, class: "dropdown-item" %>
                             <%= link_to 'Help', "https://heyproto.freshdesk.com/support/home", target: "_blank", class: "dropdown-item" %>
                             <%= link_to "Sign out", destroy_user_session_path, class: "dropdown-item" %>
+                            <% if current_user.is_admin_from_pykih %>
+                                <%= link_to 'Ref: Link Sources', ref_link_sources_path, class: "dropdown-item" %>
+                            <% end %>
                           </div>
                         </div>
                     </div>
