@@ -225,7 +225,9 @@
         </div>
     </div>
     <div class="col-sm-3 help-text">
-		<%= image_tag "help.png", style: "float: right; right: 0; top: 0; position: relative;" %>
+        <%= link_to '+ Add a card', new_account_site_folder_view_cast_path(@account, @site, @folder), data: {turbolinks: false} %>
+        <hr>
+        <%= image_tag "help.png", style: "float: right; right: 0; top: 0; position: relative;" %>
         <h2>Add card from Card Bank</h2>
         <p>Hover over a card in the Card Bank to unveil list of streams. Click on a stream name to add to that stream.</p>
         <%= image_tag "assemble-add.png", width: "180px;", height: "160px;", style: "border: 1px solid lightgray; margin-left: 30px; margin-bottom: 30px;" %>
@@ -235,8 +237,6 @@
         <h2>Remove a card from a stream</h2>
         <p>Post hover, click on the remove button.</p>
         <%= image_tag "assemble-remove.png", width: "180px;", height: "160px;", style: "border: 1px solid lightgray; margin-left: 30px; margin-bottom: 30px;" %>
-        <hr>
-        <%= link_to '+ Add a card', new_account_site_folder_view_cast_path(@account, @site, @folder), data: {turbolinks: false} %>
     </div>
 </div>
 
