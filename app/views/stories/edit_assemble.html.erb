@@ -235,6 +235,8 @@
         <h2>Remove a card from a stream</h2>
         <p>Post hover, click on the remove button.</p>
         <%= image_tag "assemble-remove.png", width: "180px;", height: "160px;", style: "border: 1px solid lightgray; margin-left: 30px; margin-bottom: 30px;" %>
+        <hr>
+        <%= link_to '+ Add a card', new_account_site_folder_view_cast_path(@account, @site, @folder), data: {turbolinks: false} %>
     </div>
 </div>
 

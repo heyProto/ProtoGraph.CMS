@@ -58,7 +58,7 @@
         </div>
     </div>
 	<div class="col-sm-3 help-text">
-        <%= page_status(@page) %>
+        <%= page_tatus(@page) %>
         <p style="font-size: 11px; color: #455A64; margin-bottom: 0px; padding-bottom: 3px; font-weight: 800;"><%= @page.is_sponsored ? "SPONSORED IDEA" : "STORY IDEA"%></p>
         <p style="font-size: 11px; color: #455A64; margin-top: 0px; padding-top: 0px;"><%= image_tag avatar_url(@page.creator.email), width: "16px", height: "16px" %> on <%= @page.created_at.strftime("%e %b %Y") %></p>
         <div class="hint">
