@@ -223,10 +223,10 @@ class Site < ApplicationRecord
     def all_members
         members = []
         account.permissions.not_hidden.each do |p|
-            members << [p.username, p.id]
+            members << [p.name, p.id]
         end
         self.permissions.not_hidden.each do |p|
-            members << [p.username, p.id]
+            members << [p.name, p.id]
         end
         members
     end

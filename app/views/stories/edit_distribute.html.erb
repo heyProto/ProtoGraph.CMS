@@ -16,6 +16,7 @@
                         <%= f.input :english_headline, required: true, minlength: 10 , maxlength: 90, hint: "This is used for url management.", label: "Write the headline in English" %>
                     <% end %>
                     <%= f.input :summary, minlength: 50 , maxlength: 220, hint: "Minimum length: 50 chars. Maximum length: 200 chars.", input_html: {id: "proto_app_page_summary"} %>
+                    <%= f.input :byline_id, collection: @site.all_members, required: true, label: "Byline Stream", input_html: {style: "width: 100%;"} %>
                     <%= f.input :published_at, as: :datetime %>
                     <br/>
                     <hr/>

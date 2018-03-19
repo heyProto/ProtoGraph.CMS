@@ -39,7 +39,7 @@ class PermissionInvitesController < ApplicationController
       if @permission_invite.save
         if @permission_invite.create_user
           # TODO: AMIT code adding user here.
-          # TODO: AMIT add permission object. 
+          # TODO: AMIT add permission object.
         end
         if !@permission_invite.do_not_email_user
             PermissionInvites.invite(current_user, @account, @permission_invite.email).deliver

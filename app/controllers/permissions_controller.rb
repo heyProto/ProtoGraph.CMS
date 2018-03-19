@@ -7,6 +7,11 @@ class PermissionsController < ApplicationController
   end
   
   def update
+    if @permission.update(permission_params)
+        redirect_to edit_account_permission_path(@account, @permission), notice: t('us')
+    else
+      render :edit, alert: @permission.errors.full_messages
+    end
   end
   
   def change_owner_role
