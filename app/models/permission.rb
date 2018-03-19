@@ -17,6 +17,7 @@
 #  stream_url       :text(65535)
 #  bio              :text(65535)
 #  meta_description :text(65535)
+#  name             :string(255)
 #
 
 class Permission < ApplicationRecord

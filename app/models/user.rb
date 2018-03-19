@@ -83,10 +83,10 @@ class User < ApplicationRecord
     def create_permission(permissible_type, permissible_id, r, is_hidden=false)
         p = Permission.where(user_id: self.id, permissible_id: permissible_id, permissible_type: permissible_type).first
         if p.present?
-            p.update_attributes(status: "Active", ref_role_slug: r, updated_by: self.id, is_hidden: is_hidden, bio: self.bio, meta_description: self.bio)
+            p.update_attributes(status: "Active", ref_role_slug: r, updated_by: self.id, is_hidden: is_hidden, name: self.name, bio: self.bio, meta_description: self.bio)
         else
             p = Permission.create(user_id: self.id, permissible_id: permissible_id, permissible_type: permissible_type, created_by: self.id, 
-                                  updated_by: self.id, ref_role_slug: r,is_hidden: is_hidden, bio: self.bio, meta_description: self.bio)
+                                  updated_by: self.id, ref_role_slug: r,is_hidden: is_hidden, name: self.name, bio: self.bio, meta_description: self.bio)
         end
         p
     end

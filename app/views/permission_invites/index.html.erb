@@ -5,7 +5,7 @@
 <% end %>
 <div class="row">
     <div class="col-sm-13">
-        <div style="margin-left: auto; margin-right: auto; width: 500px;">
+        <div style="margin-left: auto; margin-right: auto; width: 72%;">
             <% if @permissions.first.blank? %>
                 <p class="hint">No team members invited yet.</p>
             <% else %>
@@ -13,7 +13,7 @@
                     <tbody>
                         <% @permissions.each do |permission| %>
                             <tr>
-                                <td style="width: 10%; border: 0px;"><img class="rounded" src=<%=avatar_url(permission.user.email)%>>
+                                <td style="width: 25px; border: 0px;"><img class="rounded" src=<%=avatar_url(permission.user.email)%>>
                                 </td>
                                 <td style="border: 0px;">
                                     <%= permission.user.name %>
@@ -26,7 +26,13 @@
                                         <div class="hint">Last seen <%= time_ago_in_words(permission.user.current_sign_in_at) %> ago.</div>
                                     <% end %>
                                 </td>
-                                <td style="border: 0px;">
+                                <td style="border: 0px;" class="hint">
+                                    <%= permission.bio %>
+                                </td>
+                                <td style="border: 0px; width: 70px;">
+                                    <%= link_to "Edit", edit_account_permission_path(@account, permission) %>
+                                </td>
+                                <td style="border: 0px; width: 100px;">
                                     <%= simple_form_for(permission, url: change_role_account_site_permission_path(@account, @site, permission), class: "permission_forms", method: :put) do |f| %>
                                         <%= f.hidden_field :updated_by, value: current_user.id %>
                                         <%= f.hidden_field :redirect_url, value: account_site_permission_invites_path(@account, @site) %>
@@ -52,7 +58,7 @@
                     <tbody>
                         <% @permission_invites.each do |permission_invite| %>
                             <tr>
-                                <td style="width: 10%; border: 0px;"><img class="rounded" src=<%=avatar_url(permission_invite.email)%>>
+                                <td style="width: 25px; border: 0px;"><img class="rounded" src=<%=avatar_url(permission_invite.email)%>>
                                 </td>
                                 <td style="border: 0px;">
                                     <%= permission_invite.email %>
@@ -62,7 +68,7 @@
                                         </div>
                                 </td>
                                 <td style="border: 0px;">
-                                    <%= link_to "Remove".html_safe, account_permission_invite_path(@account, permission_invite,redirect_url: account_site_permission_invites_path(@account, @site)), method: :delete, data: { confirm: 'Are you sure?' } %>
+                                    <%= link_to "x", account_permission_invite_path(@account, permission_invite,redirect_url: account_site_permission_invites_path(@account, @site)), method: :delete, data: { confirm: 'Are you sure?' } %>
                                 </td>
                             </tr>
                         <% end %>

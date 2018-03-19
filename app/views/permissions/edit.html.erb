@@ -1,0 +1,24 @@
+<%= content_for :page_title do %>
+    <li class="breadcrumb-item"><%= link_to "Admin", account_site_admins_path(@account, @site), "data-turbolinks"=> false %></li>
+    <li class="breadcrumb-item active" aria-current="page">Site: <%= @site.domain %></li>
+    <li class="breadcrumb-item"><%= link_to "Site Team", account_site_permission_invites_path(@account, @site), "data-turbolinks"=> false %></li>
+    <li class="breadcrumb-item active" aria-current="page">Edit</li>
+<% end %>
+
+<div class="row">
+    <div class="col-sm-13">
+        <div style="margin-left: auto; margin-right: auto; width: 500px;">
+            <h3>Site Member: <%= @permission.user.email %></h3>
+            <hr/>
+            <%= simple_form_for(@permission, url: [@account, @permission], html: { method: :put }) do |f| %>
+              <%= f.error_notification %>
+              <%= f.input :name %>
+              <%= f.input :bio, input_html: {maxlength: 160}, hint: "Maximum 160 characters" %>
+              <%= f.input :meta_description %>
+              <%= f.button :submit, value: "Save", class: "btn btn-light" %>
+            <% end %>
+        </div>
+    </div>
+    <div class="col-sm-3 help-text">
+    </div>
+</div>

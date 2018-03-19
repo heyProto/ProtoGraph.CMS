@@ -11,5 +11,6 @@ class AddCols394003ToUsers < ActiveRecord::Migration[5.1]
     add_column :permission_invites, :do_not_email_user, :boolean
     add_column :permissions, :bio, :text
     add_column :permissions, :meta_description, :text
+    add_column :permissions, :name, :string
   end
 end
