@@ -412,7 +412,7 @@ class Page < ApplicationRecord
       payload["schema_url"] = view_cast.template_datum.schema_json
       payload["source"] = "form"
       payload["bucket_name"] = site.cdn_bucket
-      if self.view_cast_id.present?
+      if self.view_cast.present?
         r = Api::ProtoGraph::Datacast.update(payload)
       else
         r = Api::ProtoGraph::Datacast.create(payload)
