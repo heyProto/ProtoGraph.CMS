@@ -17,6 +17,12 @@
                   <%= f.error_notification %>
                   <%= f.input :name %>
                   <%= f.input :email, label: "Primary Email ID" %>
+                  <%= f.input :bio, input_html: {maxlength: 160}, hint: "Maximum 160 characters" %>
+                  <%= f.input :website, as: :url, input_html: {rows: 1}, label: "Website URL" %>
+                  <%= f.input :facebook, as: :url, input_html: {rows: 1}, label: "Facebook Profile URL" %>
+                  <%= f.input :twitter, as: :url, input_html: {rows: 1}, label: "Twitter Profile URL" %>
+                  <%= f.input :linkedin, as: :url, input_html: {rows: 1}, label: "LinkedIn Profile URL" %>
+                  <%= f.input :phone %>
                   <%= f.button :submit, value: "Save", class: "btn btn-light" %>
                 <% end %>
                 <br/>

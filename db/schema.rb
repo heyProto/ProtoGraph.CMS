@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180314100241) do
+ActiveRecord::Schema.define(version: 20180319041805) do
 
   create_table "accounts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
     t.string "username", limit: 191, collation: "utf8mb4_unicode_ci"
@@ -263,6 +263,9 @@ ActiveRecord::Schema.define(version: 20180314100241) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "permissible_type", collation: "utf8_general_ci"
+    t.string "name"
+    t.boolean "create_user"
+    t.boolean "do_not_email_user"
   end
 
   create_table "permission_roles", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
@@ -309,6 +312,8 @@ ActiveRecord::Schema.define(version: 20180314100241) do
     t.string "permissible_type", collation: "utf8_general_ci"
     t.integer "stream_id"
     t.text "stream_url"
+    t.text "bio"
+    t.text "meta_description"
   end
 
   create_table "ref_categories", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
@@ -591,6 +596,12 @@ ActiveRecord::Schema.define(version: 20180314100241) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "can_publish_link_sources", default: false
+    t.text "bio"
+    t.text "website"
+    t.text "facebook"
+    t.text "twitter"
+    t.string "phone"
+    t.text "linkedin"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true

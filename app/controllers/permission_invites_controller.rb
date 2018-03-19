@@ -63,6 +63,6 @@ class PermissionInvitesController < ApplicationController
     end
 
     def permission_invite_params
-      params.require(:permission_invite).permit(:email, :ref_role_slug, :created_by, :updated_by, :permissible_type, :permissible_id, :redirect_url)
+      params.require(:permission_invite).permit(:email, :ref_role_slug, :created_by, :name, :create_user, :do_not_email_user, :updated_by, :permissible_type, :permissible_id, :redirect_url)
     end
 end

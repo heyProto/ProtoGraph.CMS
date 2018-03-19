@@ -35,6 +35,6 @@ class PermissionsController < ApplicationController
     end
 
     def permission_params
-      params.require(:permission).permit(:user_id, :account_id, :ref_role_slug, :status, :created_by, :updated_by, :redirect_url, :site_ref_role_slug, sites: [])
+      params.require(:permission).permit(:user_id, :account_id, :ref_role_slug, :status, :bio, :meta_description, :created_by, :updated_by, :redirect_url, :site_ref_role_slug, sites: [])
     end
 end

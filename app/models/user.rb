@@ -22,6 +22,12 @@
 #  created_at               :datetime         not null
 #  updated_at               :datetime         not null
 #  can_publish_link_sources :boolean          default(FALSE)
+#  bio                      :text(65535)
+#  website                  :text(65535)
+#  facebook                 :text(65535)
+#  twitter                  :text(65535)
+#  phone                    :string(255)
+#  linkedin                 :text(65535)
 #
 
 class User < ApplicationRecord
@@ -46,7 +52,11 @@ class User < ApplicationRecord
     #VALIDATIONS
     validates :name, presence: true, length: { in: 3..24 }
     validates :email, presence: true, uniqueness: { case_sensitive: false }, format: { with: /\A[^@\s]+@([^@.\s]+\.)+[^@.\s]+\z/ }
-    validate :email_invited, on: [:create]
+    validate :email_invited, on: [:create]    
+    validates :website, format: {:with => /[a-zA-Z0-9][a-zA-Z0-9-]{1,61}[a-zA-Z0-9]\.[a-zA-Z]{2,}/ }, allow_blank: true, allow_nil: true, length: { in: 9..240 }
+    validates :facebook, format: {:with => /[a-zA-Z0-9][a-zA-Z0-9-]{1,61}[a-zA-Z0-9]\.[a-zA-Z]{2,}/ }, allow_blank: true, allow_nil: true, length: { in: 9..240 }
+    validates :twitter, format: {:with => /[a-zA-Z0-9][a-zA-Z0-9-]{1,61}[a-zA-Z0-9]\.[a-zA-Z]{2,}/ }, allow_blank: true, allow_nil: true, length: { in: 9..240 }
+    validates :linkedin, format: {:with => /[a-zA-Z0-9][a-zA-Z0-9-]{1,61}[a-zA-Z0-9]\.[a-zA-Z]{2,}/ }, allow_blank: true, allow_nil: true, length: { in: 9..240 }
 
     #CALLBACKS
     before_create :before_create_set
