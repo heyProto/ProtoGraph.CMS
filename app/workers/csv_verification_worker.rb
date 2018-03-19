@@ -44,7 +44,6 @@ class CsvVerificationWorker
             o['data'] = o['data'].reject{|a,v| v.nil? || v.to_s.strip.empty? }
             stdout = o.to_json
           end
-          #write code to reject blanks
           card_array_filtered << stdout
         elsif stderr.present?
           filtering_errors << [row_number, stderr]
@@ -83,6 +82,12 @@ class CsvVerificationWorker
     view_cast.site_id = @upload.site_id
     view_cast.created_by = @upload.creator.id
     view_cast.updated_by = @upload.updator.id
+    if view_cast.template_card.name == 'toStory'
+      card_data["data"]["series"] = @upload.folder.vertical.name if @upload.folder.vertical.present?
+      view_cast.by_line = card_data['data']["by_line"]
+      view_cast.genre = card_data['data']["genre"]
+      view_cast.sub_genre = card_data['data']["subgenre"]
+    end
     if view_cast.save
       payload["api_slug"] = view_cast.datacast_identifier
       payload["schema_url"] = view_cast.template_datum.schema_json
