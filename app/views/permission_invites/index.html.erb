@@ -89,9 +89,12 @@
             <%= f.hidden_field :permissible_id, value: @site.id %>
             <%= f.hidden_field :created_by, value: current_user.id %>
             <%= f.hidden_field :updated_by, value: current_user.id %>
-            <%= f.input :email, id: :permission_invite_email, required: true, autofocus: true %>
+            <%= f.input :name, required: true, autofocus: true %>
+            <%= f.input :email, as: :email, id: :permission_invite_email, required: true, hint: "Ensure this email really belongs to the author. If you use someone else's email ID, and that person is on ProtoTYPE then they will get access to the account." %>
             <%= f.hidden_field :redirect_url, value: account_site_permission_invites_path(@account, @site) %>
             <%= f.input :ref_role_slug, collection: @permission_roles, include_blank: false, label: "Role" %>
+            <%= f.input :create_user, as: :boolean, label: "&nbsp; Go ahead and create user?".html_safe, hint: "We will assign a random secure password." %>
+            <%= f.input :do_not_email_user, as: :boolean, label: "&nbsp; Do not email this user".html_safe, hint: "Use this if writer will send you the article over email and you will file it." %>
             <%= f.submit "Invite", class: "btn btn-sm btn-secondary" %>
         <% end %>
         <hr/>
