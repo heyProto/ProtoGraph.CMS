@@ -37,7 +37,13 @@ class PermissionInvitesController < ApplicationController
       end
     else
       if @permission_invite.save
-        PermissionInvites.invite(current_user, @account, @permission_invite.email).deliver
+        if @permission_invite.create_user
+          # TODO: AMIT code adding user here.
+          # TODO: AMIT add permission object. 
+        end
+        if !@permission_invite.do_not_email_user
+            PermissionInvites.invite(current_user, @account, @permission_invite.email).deliver
+        end
         redirect_to permission_invite_params[:redirect_url], notice: t("permission_invite.invite")
       else
         @permissions = @account.permissions.includes(:user).page params[:page]
