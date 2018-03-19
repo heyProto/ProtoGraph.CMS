@@ -10,7 +10,6 @@
 #  meta_keywords                    :string(255)
 #  meta_description                 :text(65535)
 #  summary                          :text(65535)
-#  byline                           :string(255)
 #  cover_image_url_facebook         :text(65535)
 #  cover_image_url_square           :text(65535)
 #  cover_image_alignment            :string(255)
@@ -49,6 +48,7 @@
 #  share_text_twitter               :text(65535)
 #  one_line_concept                 :string(255)
 #  content                          :text(65535)
+#  byline_id                        :integer
 #
 
 class Page < ApplicationRecord
@@ -68,6 +68,7 @@ class Page < ApplicationRecord
   belongs_to :series, class_name: "RefCategory", foreign_key: :ref_category_series_id, optional: true
   belongs_to :intersection, class_name: "RefCategory", foreign_key: :ref_category_intersection_id, optional: true
   belongs_to :sub_intersection, class_name: "RefCategory", foreign_key: :ref_category_sub_intersection_id, optional: true
+  belongs_to :byline, class_name: "Permission", foreign_key: :byline_id, optional: true
   belongs_to :view_cast, optional: true
   belongs_to :template_page
   belongs_to :col7_cover_image, class_name: "ImageVariation", foreign_key: "cover_image_id_7_column", optional: true
@@ -156,7 +157,7 @@ class Page < ApplicationRecord
     when 'Homepage: Vertical'
       major_streams = ["#{self.id}_Section_16c_Hero", "#{self.id}_Section_7c", "#{self.id}_Section_4c" , "#{self.id}_Section_3c", "#{self.id}_Section_2c"]
     when 'article'
-      major_streams = ["#{self.id}_Story_16c_Hero", "#{self.id}_Story_Narrative"]
+      major_streams = ["#{self.id}_Story_16c_Hero", "#{self.id}_Story_Narrative", "#{self.id}_Story_Related"]
     else
       major_streams = []
     end
@@ -205,7 +206,9 @@ class Page < ApplicationRecord
         "favicon_url": site.favicon.present? ? site.favicon.image_url : "",
         "ga_code": site.g_a_tracking_id,
         "story_card_style": site.story_card_style,
-        "primary_language": site.primary_language
+        "primary_language": site.primary_language,
+        "seo_name": site.seo_name,
+        "is_lazy_loading_activated": site.is_lazy_loading_activated
       },
       "streams": streams,
       "page": page,
@@ -215,19 +218,46 @@ class Page < ApplicationRecord
       "site_header_json_url": "#{self.site.header_json_url}",
       "major_stream_blockquotes": get_major_stream_blockquotes
     }
-
-    if self.template_page.name == 'article'
-      s = series_7c_stream
-      if s.present?
-        json["more_in_the_series"] = {
-          "id": s.id,
-          "title": s.title,
-          "datacast_identifier": s.datacast_identifier,
-          "url": "#{site.cdn_endpoint}/#{s.cdn_key}",
-          "name_of_stream": "MORE IN THE VERTICAL"
-        }
-      end
-      json["navigation_json"] = navigation_json
+    series_stream = self.series.stream
+    json["more_in_the_series"] = {
+      "id": series_stream.id,
+      "title": "#{series.name} stream",
+      "datacast_identifier": series_stream.datacast_identifier,
+      "rss_url": "#{site.cdn_endpoint}/#{series_stream.cdn_rss_key}",
+      "url": "#{site.cdn_endpoint}/#{series_stream.cdn_key}",
+      "name_of_stream": "MORE IN THE VERTICAL"
+    }
+    site_stream = self.site.stream
+    json["more_in_the_site"] = {
+      "id": site_stream.id,
+      "title": "#{site.name} stream",
+      "datacast_identifier": site_stream.datacast_identifier,
+      "rss_url": "#{site.cdn_endpoint}/#{site_stream.cdn_rss_key}",
+      "url": "#{site.cdn_endpoint}/#{site_stream.cdn_key}",
+      "name_of_stream": "#{site.name.titleize}"
+    }
+    json["navigation_json"] = navigation_json
+    if self.intersection.present?
+      intersection_stream = self.intersection.stream
+      json["more_in_the_intersection"] = {
+        "id": intersection_stream.id,
+        "title": "#{intersection.name} stream",
+        "datacast_identifier": intersection_stream.datacast_identifier,
+        "rss_url": "#{site.cdn_endpoint}/#{intersection_stream.cdn_rss_key}",
+        "url": "#{site.cdn_endpoint}/#{intersection_stream.cdn_key}",
+        "name_of_stream": "More in Intersection"
+      }
+    end
+    if self.sub_intersection.present?
+      sub_intersection_stream = self.sub_intersection.stream
+      json["more_in_the_sub_intersection"] = {
+        "id": sub_intersection_stream.id,
+        "title": "#{sub_intersection.name} stream",
+        "datacast_identifier": sub_intersection_stream.datacast_identifier,
+        "rss_url": "#{site.cdn_endpoint}/#{sub_intersection_stream.cdn_rss_key}",
+        "url": "#{site.cdn_endpoint}/#{sub_intersection_stream.cdn_key}",
+        "name_of_stream": "More in Sub Intersection"
+      }
     end
     key = "#{self.datacast_identifier}/page.json"
     encoded_file = Base64.encode64(json.to_json)
@@ -237,6 +267,8 @@ class Page < ApplicationRecord
     response = Api::ProtoGraph::Page.create_or_update_page(self.datacast_identifier, self.template_page.s3_identifier, self.site.cdn_bucket, ENV['AWS_S3_ENDPOINT'])
     Api::ProtoGraph::CloudFront.invalidate(self.site, ["/#{key}", "/#{self.html_key}.html"], 2)
     create_story_card
+    site.publish_sitemap
+    site.publish_robot_txt
     true
   end
 
@@ -341,20 +373,19 @@ class Page < ApplicationRecord
     if self.status != 'draft'
       site = self.site
       self.update_column(:published_at, Time.now)
+      payload_json = create_datacast_json
       if self.view_cast.present?
         view_cast = self.view_cast
         view_cast.update({
           name: self.headline,
-          updated_by: self.updated_by,
-          seo_blockquote: "<blockquote><h4#>#{self.headline}</h4></blockquote>",
-          optionalConfigJSON: {
-            "house_color": site.house_colour,
-            "inverse_house_color": site.reverse_house_colour,
-            "house_font_color": site.font_colour,
-            "inverse_house_font_color": site.reverse_font_colour,
-          }.to_json,
+          seo_blockquote: TemplateCard.to_story_render_SEO(payload_json["data"]),
           folder_id: self.folder_id,
-          is_autogenerated: false
+          by_line: (self.byline.present? and self.byline.username.present?) ? self.byline.username : "",
+          genre: (self.intersection.present? and self.intersection.name.present?) ? self.intersection.name.to_s : "",
+          sub_genre: (self.sub_intersection.present? and self.sub_intersection.name.present?) ? self.sub_intersection.name.to_s : "",
+          is_autogenerated: true,
+          updated_by: self.updated_by,
+          byline_id: self.byline_id
         })
       else
         view_cast = ViewCast.create({
@@ -362,23 +393,21 @@ class Page < ApplicationRecord
           site_id: site.id,
           template_card_id: TemplateCard.where(name: 'toStory').first.id,
           template_datum_id: TemplateDatum.where(name: 'toStory').first.id,
-          optionalConfigJSON: {
-            "house_color": site.house_colour,
-            "inverse_house_color": site.reverse_house_colour,
-            "house_font_color": site.font_colour,
-            "inverse_house_font_color": site.reverse_font_colour,
-          }.to_json,
-          created_by: self.created_by,
-          updated_by: self.updated_by,
-          seo_blockquote: "<blockquote><h4#>#{self.headline}</h4></blockquote>",
+          seo_blockquote:  TemplateCard.to_story_render_SEO(payload_json["data"]),
           folder_id: self.folder_id,
           default_view: "title_text",
           account_id: self.account_id,
-          is_autogenerated: false
+          by_line: (self.byline.present? and self.byline.username.present?) ? self.byline.username : "",
+          genre: (self.intersection.present? and self.intersection.name.present?) ? self.intersection.name.to_s : "",
+          sub_genre: (self.sub_intersection.present? and self.sub_intersection.name.present?) ? self.sub_intersection.name.to_s : "",
+          created_by: self.created_by,
+          updated_by: self.updated_by,
+          is_autogenerated: true,
+          byline_id: self.byline_id
         })
       end
       payload = {}
-      payload["payload"] = create_datacast_json.to_json
+      payload["payload"] = payload_json.to_json
       payload["api_slug"] = view_cast.datacast_identifier
       payload["schema_url"] = view_cast.template_datum.schema_json
       payload["source"] = "form"
@@ -398,7 +427,7 @@ class Page < ApplicationRecord
     data = {"data" => {}}
     data["data"]["url"] = self.html_url.to_s if self.html_url.present?
     data["data"]["headline"] = self.headline.to_s if self.headline.present?
-    data["data"]["byline"] = self.byline.to_s if self.byline.present?
+    data["data"]["byline"] = (self.byline.present? and self.byline.username.present?) ? self.byline.username : "",
     data["data"]["publishedat"] = self.published_at.strftime("%Y-%m-%dT%H:%M") if self.published_at.present?
     data["data"]["series"] = self.series.name.to_s if self.series.present? and self.series.name.present?
     data["data"]["genre"] = self.intersection.name.to_s if self.intersection.present? and self.intersection.name.present?
@@ -414,7 +443,6 @@ class Page < ApplicationRecord
     data["data"]["country"] = "India"
     data["data"]["state"] = ""
     data["data"]["city"] = ""
-    data["data"]["publishername"] = ""
     data["data"]["sponsored"] = self.is_sponsored.to_s if self.is_sponsored.present?
     data["data"]["domainurl"] = Addressable::URI.parse(self.url.to_s).origin if self.url.present?
     data["data"]["faviconurl"] = site.favicon.present? ? "#{account.cdn_endpoint}/#{site.favicon.thumbnail_key}" : "" if self.site.favicon.present?
@@ -545,6 +573,7 @@ class Page < ApplicationRecord
   def after_save_set
       if self.template_page.name == 'Homepage: Vertical'
         self.series.update_site_verticals
+        self.series.update_columns(description: self.meta_description, keywords: self.meta_keywords)
       end
       if self.collaborator_lists.present?
           self.collaborator_lists = self.collaborator_lists.reject(&:empty?)

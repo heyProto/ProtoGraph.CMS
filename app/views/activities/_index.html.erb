@@ -16,7 +16,7 @@
                 <%= a.user.name %>
                 <%= a.action.sub(/e?$/, "ed")  %>
                 <% if a.trackable.class.to_s == "Folder" %>
-                  a folder
+                  a workspace
                   <%= link_to a.trackable.name.titleize, [a.trackable.account, a.trackable.site, a.trackable] %>
                 <% elsif a.trackable.class.to_s == "ViewCast" %>
                   a card

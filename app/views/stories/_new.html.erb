@@ -27,7 +27,7 @@
                         <br/>
                         <%= f.input :one_line_concept, required: true, placeholder: "*Story pitch in at max 90 chars", minlength: 11 , maxlength: 90, label: false, input_html: {style: "width: 100%;"} %>
                         <br/>
-                        <%= f.input :byline, required: true, label: "Assigned to", input_html: {style: "width: 100%;"} %>
+                        <%= f.input :byline_id, collection: @site.all_members, required: true, label: "Byline Stream", input_html: {style: "width: 100%;"} %>
                         <br/>
                         <label class='control-label date optional' style="justify-content: left;">What do you want in this story?</label>
                         <div class="row">

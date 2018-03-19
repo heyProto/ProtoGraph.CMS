@@ -166,6 +166,9 @@ class TemplateCard < ApplicationRecord
         Api::ProtoGraph::CloudFront.invalidate(nil, ["/#{self.s3_identifier}/*"], 1)
     end
 
+    def self.to_story_render_SEO(data)
+        "<blockquote> #{data['headline'] ? "<h2>#{data['headline']}</h2>" : ''}#{data['byline'] ? "<p>#{data['byline']}</p>" : ''}#{data['publishedat'] ? "<p>#{data['publishedat']}</p>" : ''}#{data['series'] ? "<p>#{data['series']}</p>" : ''}#{data['genre'] ? "<p>#{data['genre']}</p>" : ''}#{data['subgenre'] ? "<p>#{data['subgenre']}</p>" : ''}#{data['summary'] ? "<p>#{data['summary']}</p>" : ''}</blockquote>"
+    end
 
     #PRIVATE
     private

@@ -112,4 +112,8 @@ Rails.application.configure do
 
 
   # Do not dump schema after migrations.
+  SitemapGenerator::Sitemap.search_engines = {
+    google: "http://www.google.com/webmasters/tools/ping?sitemap=%s",
+    bing: "http://www.bing.com/ping?sitemap=%s"
+  }
 end

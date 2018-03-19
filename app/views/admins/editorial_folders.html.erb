@@ -1,12 +1,13 @@
 <%= content_for :page_navigation do %>
     <button class="btn btn-sm btn-secondary btn-sm" type="button">
-        <%= link_to '+ Add a folder', new_account_site_folder_path(@account, @site), data: {turbolinks: false} %>
+        <%= link_to '+ Add a Workspace', new_account_site_folder_path(@account, @site), data: {turbolinks: false} %>
     </button>
 <% end %>
 <%= content_for :page_title do %>
         <li class="breadcrumb-item"><%= link_to "Admin", account_site_admins_path(@account, @site), "data-turbolinks"=> false %></li>
-        <li class="breadcrumb-item active" aria-current="page">Admin for Site: <%= @site.domain %></li>
-        <li class="breadcrumb-item active" aria-current="page">Folders</li>
+        <li class="breadcrumb-item active" aria-current="page">Site: <%= @site.domain %></li>
+        <li class="breadcrumb-item active" aria-current="page">Publish micro-sites</li>
+        <li class="breadcrumb-item active" aria-current="page">Workspaces</li>
       
 <% end %>
 <div class="row">

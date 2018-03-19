@@ -3,11 +3,13 @@ class StreamEntitiesController < ApplicationController
     before_action :set_stream
     before_action :set_stream_entity, except: [:create]
 
-
     def create
         @stream_entity = @stream.stream_entities.new(stream_entity_params)
         if @stream_entity.save
             StreamPublisher.perform_async(@stream.id)
+            @stream.pages.each do |p|
+                PagePublisher.perform_async(p.id)
+            end
             redirect_back(fallback_location: root_url, notice: "Added Successfully.")
         else
             redirect_back(fallback_location: root_url, notice: "Something went wrong.")
@@ -19,6 +21,9 @@ class StreamEntitiesController < ApplicationController
         @stream_entity.destroy
         @stream.view_cast_ids.where("sort_order > ?", old_sort_order).update_all("sort_order = sort_order - 1")
         StreamPublisher.perform_async(@stream.id)
+        @stream.pages.each do |p|
+            PagePublisher.perform_async(p.id)
+        end
         redirect_back(fallback_location: root_url, notice: "Removed Successfully.")
     end
 
@@ -28,6 +33,9 @@ class StreamEntitiesController < ApplicationController
         @stream_entity.sort_order = @stream_entity.sort_order.to_i - 1
         @stream_entity.save!
         StreamPublisher.perform_async(@stream.id)
+        @stream.pages.each do |p|
+            PagePublisher.perform_async(p.id)
+        end
         redirect_back(fallback_location: root_url)
     end
 
@@ -37,6 +45,9 @@ class StreamEntitiesController < ApplicationController
         @stream_entity.sort_order = @stream_entity.sort_order.to_i + 1
         @stream_entity.save!
         StreamPublisher.perform_async(@stream.id)
+        @stream.pages.each do |p|
+            PagePublisher.perform_async(p.id)
+        end
         redirect_back(fallback_location: root_url)
     end
 

@@ -1,0 +1,51 @@
+<%= content_for :page_title do %>
+  <li class="breadcrumb-item"><%= link_to "Admin", account_site_admins_path(@account, @site), "data-turbolinks"=> false %></li>
+  <li class="breadcrumb-item active" aria-current="page">Site: <%= @site.domain %></li>
+  <li class="breadcrumb-item active" aria-current="page">Publish micro-sites</li>
+  <% if @ref_category.genre == "intersection" %>
+      <li class="breadcrumb-item"><%= link_to "Intersections", intersection_account_site_path(@account, @site), "data-turbolinks"=> false %></li>
+  <% elsif @ref_category.genre == "sub intersection" %>
+      <li class="breadcrumb-item"><%= link_to "Sub Intersections", sub_intersection_account_site_path(@account,@site), "data-turbolinks"=> false %></li>
+  <% end %>
+  <li class="breadcrumb-item active" aria-current="page"><%= @ref_category.name %></li>  
+<% end %>
+
+<div class="row">
+  <div class="col-sm-13">
+    <div style="margin-left: auto; margin-right: auto; width: 500px;">
+      <%= simple_form_for [@account, @site, @ref_category] do |f| %>
+        <h4>
+          <%=  @ref_category.name %>
+        </h4>
+        <%= f.hidden_field :site_id, value: @site.id %>
+        <div class="form-inputs">
+          <%= f.input :description, as: :text, label: "Description", hint: "Used for SEO.", required: true %>
+          <%= f.input :keywords, as: :text, label: "Keywords", hint: "Used for SEO.", required: true %>
+        </div>
+        <div class="form-actions">
+            <%= f.button :submit, value: "Update", class: "btn btn-sm btn-secondary" %>
+        </div>
+        <td class='hint'>
+  <%# if action_name != "verticals" %>
+      <%# unless ref_category.is_disabled %>
+        <%# if ref_category.count > 0 %>
+          <%#= link_to 'Disable', disable_account_site_ref_category_path(@account, @site, ref_category), method: :put, data: { confirm: 'Are you sure?' } %>
+        <%# else %>
+          <%#= link_to 'x', account_site_ref_category_path(@account, @site, ref_category), method: :delete, data: { confirm: 'Are you sure?' } %>
+        <%# end %>
+      <%# end %>
+  <%# else %>
+      <%# if ref_category.pages.count < 1 %>
+        <%#= link_to 'x', account_site_ref_category_path(@account, @site, ref_category), method: :delete, data: { confirm: 'Are you sure?' }, input_html: {"disabled": true} %>
+      <%# else %>
+        <%#= link_to 'x', "#", style: "color: #d3d3d3;","data-title" => "You cannot delete this vertical as it has associated pages", "data-toggle" => "tooltip", "data-placement" => "bottom" %>
+      <%# end %>
+  <%# end %>
+</td>
+      <% end %>
+    </div>
+  </div>
+    <div class="col-sm-3 help-text">
+      <%= render partial: "admins/sidebar_structured" %>
+    </div>
+</div>

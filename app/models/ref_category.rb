@@ -19,6 +19,8 @@
 #  english_name      :string(255)
 #  vertical_page_url :text(65535)
 #  account_id        :integer
+#  description       :text(65535)
+#  keywords          :text(65535)
 #
 
 #TODO AMIT - Handle account_id - RP added retrospectively. Need migration of old rows and BAU handling.
@@ -49,6 +51,7 @@ class RefCategory < ApplicationRecord
     after_create :after_create_set
     before_update :before_update_set
     after_destroy :update_site_verticals
+    after_update :update_page_seo_content
     after_update :update_site_verticals
     #SCOPE
     #OTHER
@@ -66,7 +69,14 @@ class RefCategory < ApplicationRecord
     # end
 
     def view_casts
-        ViewCast.where("#{genre}": self.name)
+        if genre == "series"
+            ViewCast.where(template_card_id: TemplateCard.where(name: "toStory").pluck(:id)).where(series: self.name)
+        elsif genre == 'intersection'
+            ViewCast.where(template_card_id: TemplateCard.where(name: "toStory").pluck(:id)).where(genre: self.name)
+        else
+            ViewCast.where(template_card_id: TemplateCard.where(name: "toStory").pluck(:id)).where(sub_genre: self.name)
+        end
+
     end
 
     def vertical_header_key
@@ -93,6 +103,12 @@ class RefCategory < ApplicationRecord
         end
     end
 
+    def update_page_seo_content
+        if (["keywords", "description"] & self.saved_changes.transform_values(&:first).keys).length > 0
+            self.vertical_page.update_columns(meta_description: description, meta_keywords: keywords)
+        end
+    end
+
     def before_validation_set
         self.english_name = self.name if self.site.is_english
     end
@@ -113,22 +129,18 @@ class RefCategory < ApplicationRecord
     end
 
     def after_create_set
-        # s = Stream.create!({
-        #     is_automated_stream: true,
-        #     col_name: "RefCategory",
-        #     col_id: self.id,
-        #     account_id: self.site.account_id,
-        #     title: self.name,
-        #     description: "#{self.name} stream",
-        #     limit: 50
-        # })
+        s = Stream.create!({
+            is_automated_stream: true,
+            col_name: "RefCategory",
+            col_id: self.id,
+            account_id: self.site.account_id,
+            title: self.name,
+            description: "#{self.name} stream",
+            site_id: self.site_id,
+            limit: 50
+        })
 
-        # Thread.new do
-        #     s.publish_cards
-        #     ActiveRecord::Base.connection.close
-        # end
-
-        # self.update_columns(stream_url: "#{s.site.cdn_endpoint}/#{s.cdn_key}", stream_id: s.id)
+        self.update_columns(stream_url: "#{s.site.cdn_endpoint}/#{s.cdn_key}", stream_id: s.id)
 
         # Create a new page object
         page = Page.create({account_id: self.site.account_id,
@@ -138,8 +150,10 @@ class RefCategory < ApplicationRecord
             ref_category_series_id: self.id,
             created_by: self.created_by,
             updated_by: self.updated_by,
-            datacast_identifier: '',
-            url: "#{vertical_page_url}"
+            datacast_identifier: "",
+            url: "#{vertical_page_url}",
+            meta_description: "#{description}",
+            meta_keywords: "#{keywords}"
         })
         page.push_json_to_s3
         #Update the site vertical json

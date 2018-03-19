@@ -5,7 +5,7 @@
 <div class="row">
     <div class="col-sm-13">
         <div style="margin-left: auto; margin-right: auto; width: 540px;">
-            <%= simple_form_for(@page, url: account_site_page_path(@account, @site), method: :put) do |f| %>
+            <%= simple_form_for(@page, url: account_site_page_path(@account, @site), method: :put, html: {id: "proto_app_package_form"}) do |f| %>
                 <%= f.error_notification %>
                 <div class="form-inputs">
                     <br/>
@@ -15,7 +15,8 @@
                     <% if !@site.is_english or 1 == 1 %>
                         <%= f.input :english_headline, required: true, minlength: 10 , maxlength: 90, hint: "This is used for url management.", label: "Write the headline in English" %>
                     <% end %>
-                    <%= f.input :summary, minlength: 50 , maxlength: 220, hint: "Minimum length: 50 chars. Maximum length: 200 chars." %>
+                    <%= f.input :summary, minlength: 50 , maxlength: 220, hint: "Minimum length: 50 chars. Maximum length: 200 chars.", input_html: {id: "proto_app_page_summary"} %>
+                    <%= f.input :byline_id, collection: @site.all_members, required: true, label: "Byline Stream", input_html: {style: "width: 100%;"} %>
                     <%= f.input :published_at, as: :datetime %>
                     <br/>
                     <hr/>
@@ -43,7 +44,7 @@
                     <%= f.input :share_text_facebook %>
                     <%= f.input :share_text_twitter %>
                     <%= f.input :meta_keywords %>
-                    <%= f.input :meta_description %>
+                    <%= f.input :meta_description, input_html: {id: "proto_app_page_meta_desc", is_edited: (@page.summary == @page.meta_description) ? false : true, og_value: @page.meta_description } %>
                 </div>
                 <div class="form-actions">
                   <% if @page.status == 'draft' %>
@@ -91,3 +92,37 @@
 <br/>
 <br/>
 <br/>
+<script>
+    $(document).on("turbolinks:load", function(){
+        var form = $("#proto_app_package_form"),
+            summary = $("#proto_app_page_summary"),
+            meta_description = $("#proto_app_page_meta_desc");
+
+        if (!meta_description.val().length) {
+            meta_description.val(summary.val());
+        }
+
+        summary.on('blur', function () {
+            var is_edited = meta_description.attr("is_edited");
+            if (is_edited === "false") {
+                meta_description.val(summary.val());
+            }
+        });
+
+        meta_description.on('keyup', function (e) {
+            var $this = $(this),
+                is_edited = $this.attr("is_edited"),
+                val = $this.val(),
+                og_value = $this.attr("og_value");
+
+            if (is_edited === "false") {
+                $this.attr("is_edited", true);
+            }
+
+            if (val === og_value) {
+                $this.attr("is_edited", false);
+            }
+        });
+
+    });
+</script>

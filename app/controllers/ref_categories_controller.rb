@@ -3,8 +3,10 @@ class RefCategoriesController < ApplicationController
   before_action :authenticate_user!
   before_action :sudo_role_can_add_site_categories, only: [:create]
   before_action :sudo_role_can_disable_site_categories, only: [:update]
-  before_action :set_entity, only: [:update, :destroy, :disable]
+  before_action :set_entity, only: [:edit, :update, :destroy, :disable]
 
+  def edit
+  end
 
   def verticals
     @is_admin = true
@@ -102,7 +104,7 @@ class RefCategoriesController < ApplicationController
 
     def entity_params
       if params[:ref_category].present?
-        params.require(:ref_category).permit(:site_id, :genre, :name, :english_name,:name_html, :is_disabled, :created_by, :updated_by, :vertical_page_url)
+        params.require(:ref_category).permit(:site_id, :genre, :name, :english_name,:name_html, :is_disabled, :created_by, :updated_by, :vertical_page_url, :description, :keywords)
       end
     end
 end

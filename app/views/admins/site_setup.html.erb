@@ -1,6 +1,7 @@
-<%= content_for :page_title do %>    
+<%= content_for :page_title do %>
     <li class="breadcrumb-item"><%= link_to "Admin", account_site_admins_path(@account, @site), "data-turbolinks"=> false %></li>
-    <li class="breadcrumb-item active" aria-current="page">Admin for Site: <%= @site.domain %></li>
+    <li class="breadcrumb-item active" aria-current="page">Site: <%= @site.domain %></li>
+    <li class="breadcrumb-item active" aria-current="page">Publish micro-sites</li>
     <li class="breadcrumb-item active" aria-current="page">Setup</li>
 <% end %>
 <div class="row">
@@ -8,26 +9,19 @@
         <div style="margin-left: auto; margin-right: auto; width: 500px;">
             <%= simple_form_for [@account, @site] do |f| %>
               <%= f.error_notification %>
-              <%= f.input :domain, hint: "We recommend using a subdomain p.mysite.com", label: "Custom domain where the site will be hosted" %>
               <%= f.input :description, hint: "This will be used in footers, search results, and other places." %>
-              <%= f.input :primary_language, as: :select, collection: [["English", "English"], ["Hindi", "Hindi"]], include_blank: false %>
               <%= f.input :default_seo_keywords, hint: "These default keywords will be used on homepage.", label: "Default SEO Keywords" %>
-              <%= f.input :created_by, as: :hidden, input_html: {value: current_user.id} %>
+              <%= f.input :is_lazy_loading_activated, as: :boolean, hint: "Lazy loading helps in improving page performance by loading content on demand.", label: "&nbsp; Activate lazy loading".html_safe %>
               <%= f.input :updated_by, as: :hidden, input_html: {value: current_user.id} %>
               <%= f.input :from_page, as: :hidden, input_html: {value: "site_setup"}%>
-
               <%= f.button :submit, "Save", class: "btn btn-sm btn-secondary" %>
             <% end %>
+            <hr/>
+            <p>You can check
+            <%= link_to "RSS Feed", "#{@site.cdn_endpoint}/#{@site.stream.cdn_rss_key}", target: "blank"  %> for the whole site here.</p>
+            <p>You can download the <%= link_to "Sitemap", "#{@site.cdn_endpoint}/sitemap.xml.gz", target: "blank"  %> for your site.</p>
         </div>
     </div>
 	<div class="col-sm-3 help-text">
-        <%= image_tag "help.png", style: "float: right; right: 0; top: 0; position: relative;" %>
-		<h2>What domain should I use?</h2>
-		<p>If you are using ProtoTYPE for sandboxing editorial, workflow and product ideas then we recommend using a subdomain <b>p.mysite.com</b>. This way, your editorial team can launch new verticals without any new inputs from your technology team. Every subsequent vertical will have URL p.mysite.com/vertical-name</p>
-        <p>If you are using ProtoTYPE as your main CMS, contact us and we will help you set it up on your main domain e.g. mysite.com.</p>
-        <hr/>
-		<h2>Primary Language</h2>
-		<p>Based on your selected language, we will enable or disable some fields and change call to action buttons on certain cards like Quiz.</p>
-		<p>Do not see the language your site is in? No problem. Reach out to us. We are open to working with your team to configure ProtoTYPE for your language.</p>
 	</div>
 </div>

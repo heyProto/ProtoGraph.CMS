@@ -2,48 +2,50 @@
 #
 # Table name: sites
 #
-#  id                      :integer          not null, primary key
-#  account_id              :integer
-#  name                    :string(255)
-#  domain                  :string(255)
-#  created_at              :datetime         not null
-#  updated_at              :datetime         not null
-#  description             :text(65535)
-#  primary_language        :string(255)
-#  default_seo_keywords    :text(65535)
-#  house_colour            :string(255)
-#  reverse_house_colour    :string(255)
-#  font_colour             :string(255)
-#  reverse_font_colour     :string(255)
-#  stream_url              :text(65535)
-#  stream_id               :integer
-#  cdn_provider            :string(255)
-#  cdn_id                  :string(255)
-#  host                    :text(65535)
-#  cdn_endpoint            :text(65535)
-#  client_token            :string(255)
-#  access_token            :string(255)
-#  client_secret           :string(255)
-#  facebook_url            :text(65535)
-#  twitter_url             :text(65535)
-#  instagram_url           :text(65535)
-#  youtube_url             :text(65535)
-#  g_a_tracking_id         :string(255)
-#  favicon_id              :integer
-#  logo_image_id           :integer
-#  sign_up_mode            :string(255)
-#  default_role            :string(255)
-#  story_card_style        :string(255)
-#  email_domain            :string(255)
-#  header_background_color :string(255)
-#  header_url              :text(65535)
-#  header_positioning      :string(255)
-#  slug                    :string(255)
-#  is_english              :boolean          default(TRUE)
-#  english_name            :string(255)
-#  story_card_flip         :boolean          default(FALSE)
-#  created_by              :integer
-#  updated_by              :integer
+#  id                        :integer          not null, primary key
+#  account_id                :integer
+#  name                      :string(255)
+#  domain                    :string(255)
+#  created_at                :datetime         not null
+#  updated_at                :datetime         not null
+#  description               :text(65535)
+#  primary_language          :string(255)
+#  default_seo_keywords      :text(65535)
+#  house_colour              :string(255)
+#  reverse_house_colour      :string(255)
+#  font_colour               :string(255)
+#  reverse_font_colour       :string(255)
+#  stream_url                :text(65535)
+#  stream_id                 :integer
+#  cdn_provider              :string(255)
+#  cdn_id                    :string(255)
+#  host                      :text(65535)
+#  cdn_endpoint              :text(65535)
+#  client_token              :string(255)
+#  access_token              :string(255)
+#  client_secret             :string(255)
+#  favicon_id                :integer
+#  logo_image_id             :integer
+#  facebook_url              :text(65535)
+#  twitter_url               :text(65535)
+#  instagram_url             :text(65535)
+#  youtube_url               :text(65535)
+#  g_a_tracking_id           :string(255)
+#  sign_up_mode              :string(255)
+#  default_role              :string(255)
+#  story_card_style          :string(255)
+#  email_domain              :string(255)
+#  header_background_color   :string(255)
+#  header_url                :text(65535)
+#  header_positioning        :string(255)
+#  slug                      :string(255)
+#  is_english                :boolean          default(TRUE)
+#  english_name              :string(255)
+#  story_card_flip           :boolean          default(FALSE)
+#  created_by                :integer
+#  updated_by                :integer
+#  seo_name                  :string(255)
+#  is_lazy_loading_activated :boolean          default(TRUE)
 #
 
 #TODO AMIT - Handle created_by, updated_by - RP added retrospectively. Need migration of old rows and BAU handling.
@@ -83,16 +85,17 @@ class Site < ApplicationRecord
 
     validates :domain, format: {:with => /[a-zA-Z0-9][a-zA-Z0-9-]{1,61}[a-zA-Z0-9]\.[a-zA-Z]{2,}/ }, allow_blank: true, allow_nil: true, length: { in: 3..240 }, exclusion: { in: %w(gmail.com outlook.com yahoo.com mail.com),
     message: "%{value} is reserved." }
-    # validates :facebook_url, format: {:with => /[a-zA-Z0-9][a-zA-Z0-9-]{1,61}[a-zA-Z0-9]\.[a-zA-Z]{2,}/ }, allow_blank: true, allow_nil: true, length: { in: 9..240 }
-    # validates :twitter_url, format: {:with => /[a-zA-Z0-9][a-zA-Z0-9-]{1,61}[a-zA-Z0-9]\.[a-zA-Z]{2,}/ }, allow_blank: true, allow_nil: true, length: { in: 9..240 }
-    # validates :instagram_url, format: {:with => /[a-zA-Z0-9][a-zA-Z0-9-]{1,61}[a-zA-Z0-9]\.[a-zA-Z]{2,}/ }, allow_blank: true, allow_nil: true, length: { in: 9..240 }
-    # validates :youtube_url, format: {:with => /[a-zA-Z0-9][a-zA-Z0-9-]{1,61}[a-zA-Z0-9]\.[a-zA-Z]{2,}/ }, allow_blank: true, allow_nil: true, length: { in: 9..240 }
+    validates :facebook_url, format: {:with => /[a-zA-Z0-9][a-zA-Z0-9-]{1,61}[a-zA-Z0-9]\.[a-zA-Z]{2,}/ }, allow_blank: true, allow_nil: true, length: { in: 9..240 }
+    validates :twitter_url, format: {:with => /[a-zA-Z0-9][a-zA-Z0-9-]{1,61}[a-zA-Z0-9]\.[a-zA-Z]{2,}/ }, allow_blank: true, allow_nil: true, length: { in: 9..240 }
+    validates :instagram_url, format: {:with => /[a-zA-Z0-9][a-zA-Z0-9-]{1,61}[a-zA-Z0-9]\.[a-zA-Z]{2,}/ }, allow_blank: true, allow_nil: true, length: { in: 9..240 }
+    validates :youtube_url, format: {:with => /[a-zA-Z0-9][a-zA-Z0-9-]{1,61}[a-zA-Z0-9]\.[a-zA-Z]{2,}/ }, allow_blank: true, allow_nil: true, length: { in: 9..240 }
 
     #CALLBACKS
     before_create :before_create_set
     before_update :before_update_set
     after_create :after_create_set
     after_save :after_save_set
+    after_update :after_update_publish_site_pages
     #SCOPE
     #OTHER
 
@@ -164,6 +167,70 @@ class Site < ApplicationRecord
         self.english_name = self.name if (self.is_english || self.english_name.blank?)
     end
 
+    def sitemap_key
+        "sitemap.xml.gz"
+    end
+
+    def sitemap_url
+        "#{cdn_endpoint}/#{sitemap_key}"
+    end
+
+    def robot_txt_key
+        "robots.txt"
+    end
+
+    # Iteally, we should create multiple sitemap.xml files one for each vertical.
+    # As per the guide lines listed here: https://support.google.com/webmasters/answer/183668?hl=en
+    # It is more efficient to break down sitemap to smaller chunks and compiling a sitemap index file and submitting a index file instead of individual sitemap files.
+
+    def publish_sitemap
+        require 'aws-sdk'
+        SitemapGenerator::Sitemap.verbose = true
+        SitemapGenerator::Sitemap.adapter = SitemapGenerator::AwsSdkAdapter.new(self.cdn_bucket,
+            aws_access_key_id: ENV['AWS_ACCESS_KEY_ID'],
+            aws_secret_access_key: ENV['AWS_SECRET_ACCESS_KEY'],
+            aws_region: 'ap-south-1'
+        )
+
+        site = self
+        SitemapGenerator::Sitemap.create({
+            default_host: self.cdn_endpoint,
+            sitemaps_host: self.cdn_endpoint,
+            public_path: "tmp/#{self.cdn_bucket}/"
+        }) do
+            site.pages.where(status: "published").each do |page|
+                add "#{page.html_key}.html"
+            end
+        end
+        SitemapGenerator::Sitemap.ping_search_engines
+    end
+
+    # If we have more than one sitemap, we can create a list one below the other.
+    def publish_robot_txt
+        robot_txt = ""
+        robot_txt += "User-agent: *\n"
+        robot_txt += "Allow: /\n"
+        robot_txt += "Sitemap: #{self.cdn_endpoint}/#{self.sitemap_key}\n"
+
+        key = "#{self.robot_txt_key}"
+        encoded_file = Base64.encode64(robot_txt)
+        content_type = "plain/text"
+        resp = Api::ProtoGraph::Utility.upload_to_cdn(encoded_file, key, content_type, self.cdn_bucket)
+        Api::ProtoGraph::CloudFront.invalidate(self, ["/#{key}"], 1)
+    end
+
+
+    def all_members
+        members = []
+        account.permissions.not_hidden.each do |p|
+            members << [p.name, p.id]
+        end
+        self.permissions.not_hidden.each do |p|
+            members << [p.name, p.id]
+        end
+        members
+    end
+
     private
 
 
@@ -181,6 +248,7 @@ class Site < ApplicationRecord
         self.primary_language = "English" if self.primary_language.nil?
         self.header_background_color = '#FFFFFF'
         self.header_positioning = "left"
+        self.seo_name = self.name
         true
     end
 
@@ -194,20 +262,21 @@ class Site < ApplicationRecord
     end
 
     def after_create_set
-        # user_id = account.users.present? ? account.users.first.id : nil
-        # stream = Stream.create!({
-        #     is_automated_stream: true,
-        #     col_name: "Site",
-        #     col_id: self.id,
-        #     updated_by: user_id,
-        #     created_by: user_id,
-        #     account_id: account_id,
-        #     title: self.name,
-        #     description: "#{self.name} stream",
-        #     limit: 50
-        # })
+        user_id = account.users.present? ? account.users.first.id : nil
+        stream = Stream.create!({
+            is_automated_stream: true,
+            col_name: "Site",
+            col_id: self.id,
+            updated_by: user_id,
+            created_by: user_id,
+            account_id: account_id,
+            site_id: self.id,
+            title: self.name,
+            description: "#{self.name} site stream",
+            limit: 50
+        })
 
-        # self.update_columns(stream_url: "#{self.cdn_endpoint}/#{stream.cdn_key}", stream_id: stream.id)
+        self.update_columns(stream_url: "#{self.cdn_endpoint}/#{stream.cdn_key}", stream_id: stream.id)
         create_sudo_permission("owner")
         key = "#{self.homepage_header_key}"
         encoded_file = Base64.encode64([].to_json)
@@ -226,9 +295,6 @@ class Site < ApplicationRecord
                 cdn_endpoint: ENV['AWS_S3_ENDPOINT']
             )
         end
-        # rescue => e
-        #     #Send email to AB
-        # end
     end
 
     def after_save_set
@@ -252,6 +318,23 @@ class Site < ApplicationRecord
             content_type = "application/json"
             resp = Api::ProtoGraph::Utility.upload_to_cdn(encoded_file, key, content_type, self.cdn_bucket)
             Api::ProtoGraph::CloudFront.invalidate(self, ["/#{key}"], 1)
+            ActiveRecord::Base.connection.close
+        end
+    end
+
+    def after_update_publish_site_pages
+        Thread.new do
+            if self.saved_change_to_is_lazy_loading_activated?
+                self.pages.each do |p|
+                    begin
+                        p.push_page_object_to_s3
+                    rescue => e
+                        puts "Site:#{self.id}  Page Updation failed after updating the lazy loading feature."
+                        puts "#{e}"
+                        puts "<EOM>"
+                    end
+                end
+            end
             ActiveRecord::Base.connection.close
         end
     end

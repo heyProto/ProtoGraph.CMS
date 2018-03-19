@@ -54,6 +54,8 @@ gem 'ntc', bitbucket: "pykih_/name-that-colour", require: false
 #gem "attr_encrypted", "~> 3.0.0"
 
 gem 'acts-as-taggable-on'
+gem 'aws-sdk'
+gem 'sitemap_generator'
 
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]

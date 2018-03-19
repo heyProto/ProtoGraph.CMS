@@ -16,6 +16,8 @@
                             </th>
                             <th>
                             </th>
+                            <th>
+                            </th>
                             <th>Last updated
                             </th>
                         </tr>
@@ -40,6 +42,9 @@
                                 </td>
                                 <td>
                                     <%= link_to "Navigation", account_site_ref_category_site_vertical_navigations_path(@account, @site, ref_category, folder_id: @folder.present? ? @folder.id : nil) %>
+                                </td>
+                                <td>
+                                    <%= link_to (image_tag 'rss_symbol.png', height: 10, width: 10), "#{@site.cdn_endpoint}/#{ref_category.stream.cdn_rss_key}", target: "blank"   %>
                                 </td>
                                 <td class="hint">
                                     <% if d.present? %>

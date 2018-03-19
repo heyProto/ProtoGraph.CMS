@@ -2,15 +2,18 @@
 #
 # Table name: permission_invites
 #
-#  id               :integer          not null, primary key
-#  permissible_id   :integer
-#  email            :string(255)
-#  ref_role_slug    :string(255)
-#  created_by       :integer
-#  updated_by       :integer
-#  created_at       :datetime         not null
-#  updated_at       :datetime         not null
-#  permissible_type :string(255)
+#  id                :integer          not null, primary key
+#  permissible_id    :integer
+#  email             :string(255)
+#  ref_role_slug     :string(255)
+#  created_by        :integer
+#  updated_by        :integer
+#  created_at        :datetime         not null
+#  updated_at        :datetime         not null
+#  permissible_type  :string(255)
+#  name              :string(255)
+#  create_user       :boolean
+#  do_not_email_user :boolean
 #
 
 class PermissionInvite < ApplicationRecord

@@ -1,0 +1,33 @@
+<%= content_for :page_title do %>
+    <li class="breadcrumb-item"><%= link_to "Admin", account_site_admins_path(@account, @site), "data-turbolinks"=> false %></li>
+    <li class="breadcrumb-item active" aria-current="page">Admin for Account: <%= @account.username %></li>
+    <li class="breadcrumb-item active" aria-current="page">Sites</li>
+<% end %>
+<div class="row">
+    <div class="col-sm-13">
+        <div style="margin-left: auto; margin-right: auto; width: 500px;">
+            <%= simple_form_for [@account, @site] do |f| %>
+              <%= f.error_notification %>
+              <%= f.input :domain, hint: "We recommend using a subdomain p.mysite.com", label: "Custom domain where the site will be hosted", disabled: true %>
+              <%= f.input :seo_name, label: "Publication Name", hint: "We will be using this name for seo purpose only", disabled: true %>
+              <%= f.input :primary_language, as: :select, collection: [["English", "English"], ["Hindi", "Hindi"]], include_blank: false %>
+              <%= f.input :updated_by, as: :hidden, input_html: {value: current_user.id} %>
+              <%= f.input :from_page, as: :hidden, input_html: {value: "sites"}%>
+              <%= f.button :submit, "Save", class: "btn btn-sm btn-secondary" %>
+            <% end %>
+        </div>
+    </div>
+	<div class="col-sm-3 help-text">
+        <%= image_tag "help.png", style: "float: right; right: 0; top: 0; position: relative;" %>
+		<h2>FAQs</h2>
+        <p>
+            <%= link_to "Can I add more than one site in one account?", "https://heyproto.freshdesk.com/support/solutions/articles/36000036595-can-i-add-more-than-one-site-in-one-account-", target: "_blank"%>
+        </p>
+        <p>
+            <%= link_to "Which subdomain should I use?", "https://heyproto.freshdesk.com/support/solutions/articles/36000036544-which-subdomain-should-i-use-", target: "_blank"%>
+        </p>
+        <p>
+            <%= link_to "Don't see language of your choice?", "https://heyproto.freshdesk.com/support/solutions/articles/36000031523-is-prototype-multi-lingual-", target: "_blank"%>
+        </p>
+	</div>
+</div>

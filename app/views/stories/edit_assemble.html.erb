@@ -2,7 +2,7 @@
 <div class="row">
     <div class="col-sm-3" style="padding: 30px 30px 0px 30px;">
         <br/><br/>
-        <p class="hint">All cards created in folders related to this vertical.</p>
+        <p class="hint">All cards created in workspaces related to this vertical.</p>
     </div>
     <div class="col-sm-10">
         <div class="row" style="padding: 0px;">
@@ -225,7 +225,9 @@
         </div>
     </div>
     <div class="col-sm-3 help-text">
-		<%= image_tag "help.png", style: "float: right; right: 0; top: 0; position: relative;" %>
+        <%= link_to '+ Add a card', new_account_site_folder_view_cast_path(@account, @site, @folder), data: {turbolinks: false} %>
+        <hr>
+        <%= image_tag "help.png", style: "float: right; right: 0; top: 0; position: relative;" %>
         <h2>Add card from Card Bank</h2>
         <p>Hover over a card in the Card Bank to unveil list of streams. Click on a stream name to add to that stream.</p>
         <%= image_tag "assemble-add.png", width: "180px;", height: "160px;", style: "border: 1px solid lightgray; margin-left: 30px; margin-bottom: 30px;" %>

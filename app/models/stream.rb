@@ -80,10 +80,15 @@ class Stream < ApplicationRecord
         if is_automated_stream
             if col_name == "Site"
                 site = Site.find(col_id)
-                view_casts = site.view_casts.limit(self.limit).offset(self.offset)
-            else col_name == "RefCategory"
+                view_casts = site.view_casts.where(template_card_id: TemplateCard.where(name: "toStory").pluck(:id)).limit(self.limit).offset(self.offset).order(updated_at: :desc, created_at: :desc)
+            elsif col_name == "RefCategory"
                 ref_cat = RefCategory.find(col_id)
-                view_casts = ref_cat.view_casts.limit(self.limit).offset(self.offset)
+                view_casts = ref_cat.view_casts.limit(self.limit).offset(self.offset).order(updated_at: :desc, created_at: :desc)
+            elsif col_name == 'Permission'
+                permission = Permission.find(col_id)
+                view_casts = permission.view_casts.limit(self.limit).offset(self.offset).order(updated_at: :desc, created_at: :desc)
+            else
+                view_casts = ViewCast.none
             end
             return view_casts
         else
@@ -130,66 +135,81 @@ class Stream < ApplicationRecord
                 d['view_cast_id'] = view_cast.datacast_identifier
                 d['schema_id'] = view_cast.template_datum.s3_identifier
                 if view_cast.template_card.name == 'toReportViolence'
-                    res = JSON.parse(RestClient.get(view_cast.data_url).body)
-                    data = res['data']
-                    d['date'] = Date.parse(data["when_and_where_it_occur"]['approximate_date_of_incident']).strftime('%F')
-                    d['state'] = data["when_and_where_it_occur"]['state']
-                    d["area_classification"] = data["when_and_where_it_occur"]["area_classification"]
-                    d["lat"] = data["when_and_where_it_occur"]["lat"]
-                    d["lng"] = data["when_and_where_it_occur"]["lng"]
-                    d["title"] = data['the_people_involved']["title"]
-                    d["does_the_state_criminalise_victims_actions"] = data["addendum"]["does_the_state_criminalise_victims_actions"]
-                    d["party_whose_chief_minister_is_in_power"] =data["when_and_where_it_occur"]['party_whose_chief_minister_is_in_power']
-                    d["was_incident_planned"] = data["the_incident"]["was_incident_planned"]
-                    d["victim_social_classification"] = data["the_people_involved"]["victim_social_classification"]
-                    d["accused_social_classification"] = data["the_people_involved"]["accused_social_classification"]
-                    d["did_the_police_intervene"] = data["the_incident"]["did_the_police_intervene"]
-                    d["did_the_police_intervention_prevent_death"] = data["the_incident"]["did_the_police_intervention_prevent_death"]
-                    d["classification"] = data["the_incident"]["classification"]
-                    d["police_vehicles_per_km"] = data["when_and_where_it_occur"]["police_vehicles_per_km"]
-                    d["does_state_have_village_defence_force"] = data["when_and_where_it_occur"]["does_state_have_village_defence_force"]
-                    d["police_to_population_in_state"] = data["when_and_where_it_occur"]["police_to_population_in_state"]
-                    d["judge_to_population_in_state"] = data["when_and_where_it_occur"]["judge_to_population_in_state"]
-                    d["is_hate_crime"] = data["hate_crime"]["is_hate_crime"]
-                    d["is_gender_hate_crime"] = data["hate_crime"]["is_gender_hate_crime"]
-                    d["is_caste_hate_crime"] = data["hate_crime"]["is_caste_hate_crime"]
-                    d["is_race_hate_crime"] = data["hate_crime"]["is_race_hate_crime"]
-                    d["is_religion_hate_crime"] = data["hate_crime"]["is_religion_hate_crime"]
-                    d["is_political_affiliation_hate_crime"] = data["hate_crime"]["is_political_affiliation_hate_crime"]
-                    d["is_sexual_orientation_and_gender_identity_hate_crime"] = data["hate_crime"]["is_sexual_orientation_and_gender_identity_hate_crime"]
-                    d["is_disability_hate_crime"] = data["hate_crime"]["is_disability_hate_crime"]
-                    d["is_ethnicity_hate_crime"] = data["hate_crime"]["is_ethnicity_hate_crime"]
-                    d["which_law"] = data["addendum"]["which_law"]
+                    begin
+                        res = JSON.parse(RestClient.get(view_cast.data_url).body)
+                        data = res['data']
+                        d['date'] = Date.parse(data["when_and_where_it_occur"]['approximate_date_of_incident']).strftime('%F')
+                        d['state'] = data["when_and_where_it_occur"]['state']
+                        d["area_classification"] = data["when_and_where_it_occur"]["area_classification"]
+                        d["lat"] = data["when_and_where_it_occur"]["lat"]
+                        d["lng"] = data["when_and_where_it_occur"]["lng"]
+                        d["title"] = data['the_people_involved']["title"]
+                        d["does_the_state_criminalise_victims_actions"] = data["addendum"]["does_the_state_criminalise_victims_actions"]
+                        d["party_whose_chief_minister_is_in_power"] =data["when_and_where_it_occur"]['party_whose_chief_minister_is_in_power']
+                        d["was_incident_planned"] = data["the_incident"]["was_incident_planned"]
+                        d["victim_social_classification"] = data["the_people_involved"]["victim_social_classification"]
+                        d["accused_social_classification"] = data["the_people_involved"]["accused_social_classification"]
+                        d["did_the_police_intervene"] = data["the_incident"]["did_the_police_intervene"]
+                        d["did_the_police_intervention_prevent_death"] = data["the_incident"]["did_the_police_intervention_prevent_death"]
+                        d["classification"] = data["the_incident"]["classification"]
+                        d["police_vehicles_per_km"] = data["when_and_where_it_occur"]["police_vehicles_per_km"]
+                        d["does_state_have_village_defence_force"] = data["when_and_where_it_occur"]["does_state_have_village_defence_force"]
+                        d["police_to_population_in_state"] = data["when_and_where_it_occur"]["police_to_population_in_state"]
+                        d["judge_to_population_in_state"] = data["when_and_where_it_occur"]["judge_to_population_in_state"]
+                        d["is_hate_crime"] = data["hate_crime"]["is_hate_crime"]
+                        d["is_gender_hate_crime"] = data["hate_crime"]["is_gender_hate_crime"]
+                        d["is_caste_hate_crime"] = data["hate_crime"]["is_caste_hate_crime"]
+                        d["is_race_hate_crime"] = data["hate_crime"]["is_race_hate_crime"]
+                        d["is_religion_hate_crime"] = data["hate_crime"]["is_religion_hate_crime"]
+                        d["is_political_affiliation_hate_crime"] = data["hate_crime"]["is_political_affiliation_hate_crime"]
+                        d["is_sexual_orientation_and_gender_identity_hate_crime"] = data["hate_crime"]["is_sexual_orientation_and_gender_identity_hate_crime"]
+                        d["is_disability_hate_crime"] = data["hate_crime"]["is_disability_hate_crime"]
+                        d["is_ethnicity_hate_crime"] = data["hate_crime"]["is_ethnicity_hate_crime"]
+                        d["which_law"] = data["addendum"]["which_law"]
+                    rescue => e
+                        view_cast.destroy
+                        next
+                    end
                 elsif view_cast.template_card.name == "toReportJournalistKilling"
-                    res = JSON.parse(RestClient.get(view_cast.data_url).body)
-                    data = res['data']
-                    d['date'] = Date.parse(data["when_and_where_it_occur"]['date']).strftime('%F')
-                    d["name"] = data["details_about_journalist"]["name"]
-                    d["age"] = data["details_about_journalist"]["age"]
-                    d["gender"] = data["details_about_journalist"]["gender"]
-                    d["image_url"] = data["details_about_journalist"]["image_url"]
-                    d["is_freelancer"] = data["details_about_journalist"]["is_freelancer"]
-                    d["organisation"] = data["details_about_journalist"]["organisation"]
-                    d["organisation_type"] = data["details_about_journalist"]["organisation_type"]
-                    d["beat"] = data["details_about_journalist"]["beat"]
-                    d["journalist_body_of_work"] = data["details_about_journalist"]["journalist_body_of_work"]
-                    d["major_story_link_1"] = data["details_about_journalist"]["major_story_link_1"]
-                    d["major_story_link_2"] = data["details_about_journalist"]["major_story_link_2"]
-                    d["major_story_link_3"] = data["details_about_journalist"]["major_story_link_3"]
-                    d["location"] = data["when_and_where_it_occur"]["location"]
-                    d["state"] = data["when_and_where_it_occur"]["state"]
-                    d["nature_of_assault"] = data["when_and_where_it_occur"]["nature_of_assault"]
-                    d["accussed_names"] = data["when_and_where_it_occur"]["accussed_names"]
-                    d["description_of_attack"] = data["when_and_where_it_occur"]["description_of_attack"]
-                    d["motive_of_attack"] = data["when_and_where_it_occur"]["motive_of_attack"]
-                    d["party"] = data["when_and_where_it_occur"]["party"]
-                    d["is_case_registered"] = data["when_and_where_it_occur"]["is_case_registered"]
-                    d["lat"] = data["when_and_where_it_occur"]["lat"]
-                    d["lng"] = data["when_and_where_it_occur"]["lng"]
+                    begin
+                        res = JSON.parse(RestClient.get(view_cast.data_url).body)
+                        data = res['data']
+                        d['date'] = Date.parse(data["when_and_where_it_occur"]['date']).strftime('%F')
+                        d["name"] = data["details_about_journalist"]["name"]
+                        d["age"] = data["details_about_journalist"]["age"]
+                        d["gender"] = data["details_about_journalist"]["gender"]
+                        d["image_url"] = data["details_about_journalist"]["image_url"]
+                        d["is_freelancer"] = data["details_about_journalist"]["is_freelancer"]
+                        d["organisation"] = data["details_about_journalist"]["organisation"]
+                        d["organisation_type"] = data["details_about_journalist"]["organisation_type"]
+                        d["beat"] = data["details_about_journalist"]["beat"]
+                        d["journalist_body_of_work"] = data["details_about_journalist"]["journalist_body_of_work"]
+                        d["major_story_link_1"] = data["details_about_journalist"]["major_story_link_1"]
+                        d["major_story_link_2"] = data["details_about_journalist"]["major_story_link_2"]
+                        d["major_story_link_3"] = data["details_about_journalist"]["major_story_link_3"]
+                        d["location"] = data["when_and_where_it_occur"]["location"]
+                        d["state"] = data["when_and_where_it_occur"]["state"]
+                        d["nature_of_assault"] = data["when_and_where_it_occur"]["nature_of_assault"]
+                        d["accussed_names"] = data["when_and_where_it_occur"]["accussed_names"]
+                        d["description_of_attack"] = data["when_and_where_it_occur"]["description_of_attack"]
+                        d["motive_of_attack"] = data["when_and_where_it_occur"]["motive_of_attack"]
+                        d["party"] = data["when_and_where_it_occur"]["party"]
+                        d["is_case_registered"] = data["when_and_where_it_occur"]["is_case_registered"]
+                        d["lat"] = data["when_and_where_it_occur"]["lat"]
+                        d["lng"] = data["when_and_where_it_occur"]["lng"]
+                    rescue => e
+                        view_cast.destroy
+                        next
+                    end
                 elsif (view_cast.template_card.name == 'WaterExploitation' or self.include_data)
-                    res = JSON.parse(RestClient.get(view_cast.data_url).body)
-                    data = res['data']
-                    d.merge!(data)
+                    begin
+                        res = JSON.parse(RestClient.get(view_cast.data_url).body)
+                        data = res['data']
+                        d.merge!(data)
+                    rescue => e
+                        view_cast.destroy
+                        next
+                    end
                 end
                 d['iframe_url']= "#{view_cast.template_card.index_html}?view_cast_id=#{view_cast.datacast_identifier}%26schema_id=#{view_cast.template_datum.s3_identifier}%26base_url=#{site.cdn_endpoint}"
                 d['default_view'] = "#{view_cast.default_view}"
@@ -225,9 +245,54 @@ class Stream < ApplicationRecord
         "#{self.datacast_identifier}/index.json"
     end
 
+    def cdn_rss_key
+        "#{self.datacast_identifier}/index.xml"
+    end
+
     def update_card_count
         self.card_count = self.cards.count
         self.update_column(:card_count, self.cards.count)
+    end
+
+    def publish_rss
+        builder = Nokogiri::XML::Builder.new(:encoding => 'UTF-8') do |xml|
+            xml.rss(version: "2.0", "xmlns:atom": "http://www.w3.org/2005/Atom"){
+                xml.channel {
+                    xml.title "#{self.title}"
+                    xml.description "#{self.description}"
+                    xml.link "#{self.site.cdn_endpoint}"
+                    xml.send("atom:link", "rel": "self","type": 'application/rss+xml',  "href": "#{self.site.cdn_endpoint}/#{self.cdn_rss_key}")
+                    cards.each do |d|
+                        if d.template_card.name == 'toStory'
+                            xml.item {
+                                begin
+                                    data = JSON.parse(RestClient.get(d.data_url).body)["data"]
+                                    xml.link data["url"]
+                                    xml.title data['headline']
+                                    xml.description data['summary']
+                                    if data['publishedat'].present?
+                                        xml.pubDate Date.parse(data['publishedat']).strftime("%a, %e %b %Y %H:%M:%S %z")
+                                    end
+                                    if data.has_key?('image') and data['image_url'].present?
+                                        xml.image {
+                                            xml.url data['image_url']
+                                        }
+                                    end
+                                rescue => e
+                                    d.destroy
+                                end
+                            }
+                        end
+                    end
+                }
+            }
+        end
+
+        #Uploading the data
+        encoded_file = Base64.encode64(builder.to_xml)
+        content_type = "application/xml"
+        resp = Api::ProtoGraph::Utility.upload_to_cdn(encoded_file, self.cdn_rss_key, content_type, self.site.cdn_bucket)
+        Api::ProtoGraph::CloudFront.invalidate(self.site, ["/#{self.cdn_rss_key}"], 1)
     end
 
     #PRIVATE

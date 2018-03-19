@@ -44,7 +44,6 @@ class CsvVerificationWorker
             o['data'] = o['data'].reject{|a,v| v.nil? || v.to_s.strip.empty? }
             stdout = o.to_json
           end
-          #write code to reject blanks
           card_array_filtered << stdout
         elsif stderr.present?
           filtering_errors << [row_number, stderr]
@@ -83,6 +82,12 @@ class CsvVerificationWorker
     view_cast.site_id = @upload.site_id
     view_cast.created_by = @upload.creator.id
     view_cast.updated_by = @upload.updator.id
+    if view_cast.template_card.name == 'toStory'
+      card_data["data"]["series"] = @upload.folder.vertical.name if @upload.folder.vertical.present?
+      view_cast.by_line = card_data['data']["by_line"]
+      view_cast.genre = card_data['data']["genre"]
+      view_cast.sub_genre = card_data['data']["subgenre"]
+    end
     if view_cast.save
       payload["api_slug"] = view_cast.datacast_identifier
       payload["schema_url"] = view_cast.template_datum.schema_json
@@ -113,7 +118,7 @@ class CsvVerificationWorker
         template_datum_id: @upload.template_card.template_datum.id,
         name: name,
         template_card_id: @upload.template_card.id,
-        seo_blockquote: "<blockquote><h3>#{name}</h3><p>#{seo_blockquote_text}</p></blockquote>",
+        seo_blockquote: @upload.template_card.name != "toStory" ? "<blockquote><h3>#{name}</h3><p>#{seo_blockquote_text}</p></blockquote>" : seo_blockquote_text,
         optionalConfigJSON: optional_config_json,
       }
     }
@@ -122,6 +127,7 @@ class CsvVerificationWorker
   def get_view_cast_details(card_data)
     # converts card_data keys to symbols because of data retrieval in different cards
     # card_data = card_data.symbolize_keys
+    puts card_data
     params = {toReportViolence: {
                 name: "data/copy_paste_from_article/headline",
                 seo_blockquote_text: "data/when_and_where_it_occur/approximate_date_of_incident,
@@ -191,7 +197,7 @@ class CsvVerificationWorker
               },
               toStory: {
                 name: "data/headline",
-                seo_blockquote_text: "",
+                seo_blockquote_text: TemplateCard.to_story_render_SEO(card_data["data"]),
                 optional_config_json: {
                   "house_color": "#{@upload.site.house_colour}",
                   "inverse_house_color": "#{@upload.site.reverse_house_colour}",
@@ -208,13 +214,17 @@ class CsvVerificationWorker
     name_path.split("/").each do |dir|
       name = name[dir]
     end
-    seo_text = ""
-    seo_blockquote_text_path.split(",").each do |field|
-      seo_blockquote_text = card_data
-      field.strip.split("/").each do |dir|
-        seo_blockquote_text = seo_blockquote_text[dir]
+    if @upload.template_card.name != "toStory"
+      seo_text = ""
+      seo_blockquote_text_path.split(",").each do |field|
+        seo_blockquote_text = card_data
+        field.strip.split("/").each do |dir|
+          seo_blockquote_text = seo_blockquote_text[dir]
+        end
+        seo_text = seo_blockquote_text.to_s + "</p>\n<p>" + seo_text
       end
-      seo_text = seo_blockquote_text.to_s + "</p>\n<p>" + seo_text
+    else
+      seo_text = seo_blockquote_text_path
     end
 
     optional_config_json = params[@upload.template_card.name.to_sym][:optional_config_json]
