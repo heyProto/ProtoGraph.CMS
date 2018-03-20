@@ -208,7 +208,8 @@ class Page < ApplicationRecord
         "story_card_style": site.story_card_style,
         "primary_language": site.primary_language,
         "seo_name": site.seo_name,
-        "is_lazy_loading_activated": site.is_lazy_loading_activated
+        "is_lazy_loading_activated": site.is_lazy_loading_activated,
+        "comscore_code": site.comscore_code
       },
       "streams": streams,
       "page": page,
