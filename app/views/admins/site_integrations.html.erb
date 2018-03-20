@@ -1,4 +1,4 @@
-<%= content_for :page_title do %>    
+<%= content_for :page_title do %>
     <li class="breadcrumb-item"><%= link_to "Admin", account_site_admins_path(@account, @site), "data-turbolinks"=> false %></li>
     <li class="breadcrumb-item active" aria-current="page">Site: <%= @site.domain %></li>
     <li class="breadcrumb-item active" aria-current="page">Publish micro-sites</li>
@@ -14,6 +14,7 @@
               <%= f.input :twitter_url %>
               <%= f.input :instagram_url %>
               <%= f.input :youtube_url %>
+              <%= f.input :comscore_code %>
               <%= f.input :from_page, as: :hidden, input_html: {value: "product_integrations"}%>
               <%= f.button :submit, "Save", class: "btn btn-sm btn-secondary" %>
             <% end %>
