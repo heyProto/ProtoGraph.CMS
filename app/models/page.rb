@@ -55,7 +55,7 @@ class Page < ApplicationRecord
 
   #CONSTANTS
   STATUS = [["Draft", 'draft'],["Published", 'published']]
-  PLANNING_ATTRIBUTES = []
+  BLACKLIST_DOMAIN_IDS = ["www", "com", "co", "us", "in", "net", "org", "to"]
   #CUSTOM TABLES
   #GEMS
   before_validation :before_validation_set
@@ -101,7 +101,6 @@ class Page < ApplicationRecord
   after_update :push_json_to_s3
 
   # Slug
-
   def before_validation_set
     self.english_headline = self.headline if (self.site.is_english)
   end
@@ -151,8 +150,24 @@ class Page < ApplicationRecord
     self.slug.nil? || english_headline_changed?
   end
 
+  def remove_nofollow_if_match_domain(seo_blockquote, site_hostname_arrs)
+    parsed_html = Nokogiri::HTML(seo_blockquote)
+    parsed_html.search("a").each do |a_tag|
+      a_tag_attributes = a_tag.attributes
+      url = a_tag_attributes['href'].value
+      url_hostname_arrs = URI.parse(url).hostname.split(".")
+      url_hostname_arrs.reject! {|r| Page::BLACKLIST_DOMAIN_IDS.include?(r)}
+      if (url_hostname_arrs & site_hostname_arrs).length > 0
+        a_tag.remove_attribute('rel')
+      end
+    end
+    return parsed_html.search("blockquote").to_s
+  end
+
   def get_major_stream_blockquotes
     #Change code to remove nofollow here
+    site_hostname_arrs = URI.parse(self.site.cdn_endpoint).hostname.split(".")
+    site_hostname_arrs.reject! {|r| Page::BLACKLIST_DOMAIN_IDS.include?(r)}
     major_stream_blockquotes = {}
     case self.template_page.name
     when 'Homepage: Vertical'
@@ -168,7 +183,11 @@ class Page < ApplicationRecord
         major_stream_blockquotes[stream.title] = {}
         major_stream_blockquotes[stream.title] = []
         stream.cards.each do |card|
-          major_stream_blockquotes[stream.title] << [card.datacast_identifier, card.seo_blockquote]
+          seo_blockquote = card.seo_blockquote
+          if ["toStory", "toCluster"].include?(card.template_card.name)
+            seo_blockquote = remove_nofollow_if_match_domain(seo_blockquote, site_hostname_arrs)
+          end
+          major_stream_blockquotes[stream.title] << [card.datacast_identifier, seo_blockquote]
         end
       end
     end
