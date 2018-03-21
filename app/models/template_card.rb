@@ -167,7 +167,16 @@ class TemplateCard < ApplicationRecord
     end
 
     def self.to_story_render_SEO(data)
-        "<blockquote> #{data['headline'] ? "<h2>#{data['headline']}</h2>" : ''}#{data['byline'] ? "<p>#{data['byline']}</p>" : ''}#{data['publishedat'] ? "<p>#{data['publishedat']}</p>" : ''}#{data['series'] ? "<p>#{data['series']}</p>" : ''}#{data['genre'] ? "<p>#{data['genre']}</p>" : ''}#{data['subgenre'] ? "<p>#{data['subgenre']}</p>" : ''}#{data['summary'] ? "<p>#{data['summary']}</p>" : ''}</blockquote>"
+        "<blockquote><a url=#{data['url']} rel='nofollow'>#{data['headline'] ? "<h2>#{data['headline']}</h2>" : ''}</a>#{data['byline'] ? "<p>#{data['byline']}</p>" : ''}#{data['publishedat'] ? "<p>#{data['publishedat']}</p>" : ''}#{data['series'] ? "<p>#{data['series']}</p>" : ''}#{data['genre'] ? "<p>#{data['genre']}</p>" : ''}#{data['subgenre'] ? "<p>#{data['subgenre']}</p>" : ''}#{data['summary'] ? "<p>#{data['summary']}</p>" : ''}</blockquote>"
+    end
+
+    def self.to_cluster_render_SEO(data)
+        links_html = "<ul>"
+        data["links"].each do |e|
+            links_html += "<li><a href='#{e["link"]}' target='_blank' rel='nofollow'>#{e['publication_name']}</a></li>"
+        end
+        links_html += "</ul>";
+        blockquote_string = "<blockquote><h1>#{data["title"]}</h1><p>#{data["by_line"]}</p><p>#{data["published_date"]}</p>#{links_html}</blockquote>"
     end
 
     #PRIVATE

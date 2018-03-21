@@ -152,6 +152,7 @@ class Page < ApplicationRecord
   end
 
   def get_major_stream_blockquotes
+    #Change code to remove nofollow here
     major_stream_blockquotes = {}
     case self.template_page.name
     when 'Homepage: Vertical'
