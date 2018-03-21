@@ -47,6 +47,7 @@
 #  seo_name                  :string(255)
 #  is_lazy_loading_activated :boolean          default(TRUE)
 #  comscore_code             :text(65535)
+#  is_smart_crop_enabled     :boolean          default(FALSE)
 #
 
 #TODO AMIT - Handle created_by, updated_by - RP added retrospectively. Need migration of old rows and BAU handling.

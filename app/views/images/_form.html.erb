@@ -1,5 +1,5 @@
 <div class="modal fade" id="fileUploadModal" role="dialog"  aria-hidden="true"  tabindex="1" >
-  <div class="modal-dialog" role="document">
+  <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h4 class="modal-title">Add a new image</h4>
@@ -10,52 +10,96 @@
       <div class="modal-body">
         <%= simple_form_for([@account, @new_image]) do |f| %>
           <%= f.error_notification %>
-          <%= f.input :image, as: :file, required: true, hint: 'Size should less than or equal to 500kB. Supported file types are GIF, JPEG, JPG and PNG', input_html: {onChange: "readURL(this)"} %>
+          <%= f.input :image, as: :file, required: true, hint: 'Size should less than or equal to 500kB. Supported file types are GIF, JPEG, JPG and PNG', input_html: {id: "proto_image_bank_image_field"} %>
           <img id="preview_image" src="#" alt="" style='max-height: 200px' />
           <%= f.input :account_id, as: :hidden, input_html: {value: @account.id} %>
           <%= f.input :name, required: true %>
+          <% %w[x y w h].each do |attribute| %>
+            <%= f.input "crop_#{attribute}", as: :hidden %>
+          <% end %>
           <%= f.input :description %>
           <%= f.hidden_field :dominant_colour, value: nil %>
           <%= f.hidden_field :colour_palette, value: nil %>
         <% end %>
       </div>
       <div class='modal-footer'>
-        <input type="submit" value="Upload" form="new_image" class="btn btn-light">
+        <input type="submit" value="Upload" form="new_image" class="btn btn-light" disabled="true" id="proto_image_bank_create_image">
       </div>
     </div>
   </div>
 </div>
 
 <script type="text/javascript">
+function updateCropCoords(coords) {
+    $('#image_crop_x').val(coords.x);
+    $('#image_crop_y').val(coords.y);
+    $('#image_crop_w').val(coords.w);
+    $('#image_crop_h').val(coords.h);
+}
+
  function readURL(input) {
      if (input.files && input.files[0]) {
-         var reader = new FileReader();
-         reader.onload = function (e) {
-             $("#preview_image").attr('src', e.target.result)
-             $('#image_name').val(input.files[0].name.replace(/\.[^/.]+$/, ""));
-         }
-         reader.readAsDataURL(input.files[0]);
+      var reader = new FileReader();
+      reader.onload = function (e) {
+        $('#image_name').val(input.files[0].name.replace(/\.[^/.]+$/, ""));
+        var image = new Image();
+        image.src = e.target.result;
+        image.onload = function () {
+          var width = this.naturalWidth,
+            height = this.naturalHeight;
+
+          if (<%= @site.is_smart_crop_enabled %>) {
+              // Fire the API to get smart croped coordinates.
+          } else {
+            // If not then check the aspect ratio of the image.
+            if ((width % 5 === 0) && (height % 5 === 0)) {
+              // Show the preview and allow to upload.
+              $("#preview_image").attr('src', e.target.result);
+              $("#proto_image_bank_create_image").attr("disabled", "false");
+            } else {
+              $("#preview_image").attr('src', e.target.result);
+              $('#preview_image').Jcrop({
+                setSelect: [0, 0, 1260, 430],
+                onSelect: updateCropCoords,
+                onChange: updateCropCoords,
+                boxHeight: 350,
+                boxWidth: 750,
+                aspectRatio: 5/3
+              });
+              // Show the cropper with 5:3 selected.
+            }
+          }
+
+          $("#proto_image_bank_create_image").attr("disabled", "false");
+          return true;
+        };
+      }
+      reader.readAsDataURL(input.files[0]);
      } else {
-         $("#preview_image").attr('src', "");
-         $('#image_name').val("");
+      $("#preview_image").attr('src', "");
+      $('#image_name').val("");
+      $("#proto_image_bank_create_image").attr("disabled", "true");
      }
  };
 </script>
 
 <script type="text/javascript">
  $(document).on('turbolinks:load', function() {
-     colorThief = new ColorThief()
-     $( "#new_image" ).submit(function( event ) {
-         var img = $("#preview_image")[0];
-         if(img){
-             console.log(img)
-             dom_colour = colorThief.getColor(img)
-             console.log(dom_colour)
-             $("#image_dominant_colour").val(JSON.stringify(dom_colour))
-             pal_colours = colorThief.getPalette(img)
-             console.log(pal_colours)
-             $("#image_colour_palette").val(JSON.stringify(pal_colours))
-         }
-     });
+    var colorThief = new ColorThief();
+    $( "#new_image" ).submit(function( event ) {
+      var img = $("#preview_image")[0];
+      if(img){
+          console.log(img)
+          dom_colour = colorThief.getColor(img)
+          console.log(dom_colour)
+          $("#image_dominant_colour").val(JSON.stringify(dom_colour))
+          pal_colours = colorThief.getPalette(img)
+          console.log(pal_colours)
+          $("#image_colour_palette").val(JSON.stringify(pal_colours))
+      }
+   });
+   $("#proto_image_bank_image_field").on("change", function (event) {
+     readURL(this)
+   });
  });
 </script>

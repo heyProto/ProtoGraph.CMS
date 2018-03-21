@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180320080659) do
+ActiveRecord::Schema.define(version: 20180321084502) do
 
   create_table "accounts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
     t.string "username", limit: 191, collation: "utf8mb4_unicode_ci"
@@ -407,6 +407,7 @@ ActiveRecord::Schema.define(version: 20180320080659) do
     t.string "seo_name"
     t.boolean "is_lazy_loading_activated", default: true
     t.text "comscore_code"
+    t.boolean "is_smart_crop_enabled", default: false
   end
 
   create_table "stream_entities", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|

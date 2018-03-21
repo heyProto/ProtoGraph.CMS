@@ -12,6 +12,7 @@
               <%= f.input :description, hint: "This will be used in footers, search results, and other places." %>
               <%= f.input :default_seo_keywords, hint: "These default keywords will be used on homepage.", label: "Default SEO Keywords" %>
               <%= f.input :is_lazy_loading_activated, as: :boolean, hint: "Lazy loading helps in improving page performance by loading content on demand.", label: "&nbsp; Activate lazy loading".html_safe %>
+              <%= f.input :is_smart_crop_enabled, as: :boolean, label: "&nbsp; Activate smart image cropping".html_safe %>
               <%= f.input :updated_by, as: :hidden, input_html: {value: current_user.id} %>
               <%= f.input :from_page, as: :hidden, input_html: {value: "site_setup"}%>
               <%= f.button :submit, "Save", class: "btn btn-sm btn-secondary" %>
