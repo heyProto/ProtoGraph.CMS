@@ -60,7 +60,7 @@ class Page < ApplicationRecord
   #GEMS
   before_validation :before_validation_set
   extend FriendlyId
-  friendly_id :english_headline, use: :slugged
+  friendly_id :slug_candidates, use: :slugged
   #CONCERNS
   include Propagatable
   include AssociableByAcSiFo
@@ -141,6 +141,10 @@ class Page < ApplicationRecord
     else
       ""
     end
+  end
+
+  def slug_candidates
+    "#{english_headline}-#{id}"
   end
 
   #SCOPE
@@ -393,7 +397,6 @@ class Page < ApplicationRecord
   def create_story_card
     if self.status != 'draft'
       site = self.site
-      self.update_column(:published_at, Time.now)
       payload_json = create_datacast_json
       if self.view_cast.present?
         view_cast = self.view_cast
