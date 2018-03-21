@@ -109,7 +109,7 @@ class Page < ApplicationRecord
     if template_page.name == 'Homepage: Vertical'
       "#{self.series.slug}"
     else
-      "stories/#{self.slug}-#{self.id}"
+      "stories/#{self.slug}"
     end
     # Change during Multi Domain functionality
   end
@@ -144,7 +144,11 @@ class Page < ApplicationRecord
   end
 
   def slug_candidates
-    "#{english_headline}-#{id}"
+    if template_page.name == 'Homepage: Vertical'
+      "#{english_headline}"
+    else
+      "#{english_headline}-#{id}"
+    end
   end
 
   #SCOPE
