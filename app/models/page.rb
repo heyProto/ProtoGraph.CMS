@@ -60,7 +60,7 @@ class Page < ApplicationRecord
   #GEMS
   before_validation :before_validation_set
   extend FriendlyId
-  friendly_id :english_headline, use: :slugged
+  friendly_id :slug_candidates, use: :slugged
   #CONCERNS
   include Propagatable
   include AssociableByAcSiFo
@@ -109,7 +109,7 @@ class Page < ApplicationRecord
     if template_page.name == 'Homepage: Vertical'
       "#{self.series.slug}"
     else
-      "stories/#{self.slug}-#{self.id}"
+      "stories/#{self.slug}"
     end
     # Change during Multi Domain functionality
   end
@@ -124,7 +124,7 @@ class Page < ApplicationRecord
   end
 
   def is_published
-    self.status == 'published'
+    self.status == 'published' or self.status == "publish"
   end
 
   def cover_image_url
@@ -140,6 +140,14 @@ class Page < ApplicationRecord
       self.col7_cover_image.image_url
     else
       ""
+    end
+  end
+
+  def slug_candidates
+    if template_page.name == 'Homepage: Vertical'
+      "#{english_headline}"
+    else
+      "#{english_headline}-#{id}"
     end
   end
 
@@ -393,7 +401,6 @@ class Page < ApplicationRecord
   def create_story_card
     if self.status != 'draft'
       site = self.site
-      self.update_column(:published_at, Time.now)
       payload_json = create_datacast_json
       if self.view_cast.present?
         view_cast = self.view_cast
