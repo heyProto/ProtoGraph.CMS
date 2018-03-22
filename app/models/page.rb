@@ -124,7 +124,7 @@ class Page < ApplicationRecord
   end
 
   def is_published
-    self.status == 'published'
+    self.status == 'published' or self.status == "publish"
   end
 
   def cover_image_url
