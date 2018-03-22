@@ -49,6 +49,7 @@ Rails.application.routes.draw do
           post "/streams/:id/publish", to: "streams#publish", as: :publish_stream
         end
       end
+      post "smartcrop", to: "utilities#smartcrop"
       get '/iframely', to: "utilities#iframely"
       get '/oembed', to: "utilities#oembed"
       resources :view_casts, only: [:show]

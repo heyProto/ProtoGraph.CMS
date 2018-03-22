@@ -1,3 +1,28 @@
+<style>
+  .proto-image-loader {
+    margin: 0 auto;
+    display: none;
+    border: 16px solid #f3f3f3;
+    border-radius: 50%;
+    border-top: 16px solid #3498db;
+    width: 120px;
+    height: 120px;
+    -webkit-animation: spin 2s linear infinite; /* Safari */
+    animation: spin 2s linear infinite;
+  }
+
+  /* Safari */
+  @-webkit-keyframes spin {
+    0% { -webkit-transform: rotate(0deg); }
+    100% { -webkit-transform: rotate(360deg); }
+  }
+
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+</style>
+
 <div class="modal fade" id="fileUploadModal" role="dialog"  aria-hidden="true"  tabindex="1" >
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
@@ -11,7 +36,8 @@
         <%= simple_form_for([@account, @new_image]) do |f| %>
           <%= f.error_notification %>
           <%= f.input :image, as: :file, required: true, hint: 'Size should less than or equal to 500kB. Supported file types are GIF, JPEG, JPG and PNG', input_html: {id: "proto_image_bank_image_field"} %>
-          <img id="preview_image" src="#" alt="" style='max-height: 200px' />
+          <div class="proto-image-loader"></div>
+          <img id="preview_image" src="#" alt="" style='max-height: 200px' class="proto-image-preview" />
           <%= f.input :account_id, as: :hidden, input_html: {value: @account.id} %>
           <%= f.input :name, required: true %>
           <% %w[x y w h].each do |attribute| %>
@@ -31,56 +57,84 @@
 
 <script type="text/javascript">
 function updateCropCoords(coords) {
-    $('#image_crop_x').val(coords.x);
-    $('#image_crop_y').val(coords.y);
-    $('#image_crop_w').val(coords.w);
-    $('#image_crop_h').val(coords.h);
+  $('#image_crop_x').val(coords.x);
+  $('#image_crop_y').val(coords.y);
+  $('#image_crop_w').val(coords.w);
+  $('#image_crop_h').val(coords.h);
 }
 
- function readURL(input) {
-     if (input.files && input.files[0]) {
-      var reader = new FileReader();
-      reader.onload = function (e) {
-        $('#image_name').val(input.files[0].name.replace(/\.[^/.]+$/, ""));
-        var image = new Image();
-        image.src = e.target.result;
-        image.onload = function () {
-          var width = this.naturalWidth,
-            height = this.naturalHeight;
+function readURL(input) {
+  if (input.files && input.files[0]) {
+    $(".proto-image-loader").css('display', 'block');
+    var reader = new FileReader();
+    reader.onload = function (e) {
+      $('#image_name').val(input.files[0].name.replace(/\.[^/.]+$/, ""));
+      var image = new Image();
+      image.src = e.target.result;
+      image.onload = function () {
+        var width = this.naturalWidth,
+          height = this.naturalHeight;
 
-          if (<%= @site.is_smart_crop_enabled %>) {
-              // Fire the API to get smart croped coordinates.
+        if (<%= @site.is_smart_crop_enabled %>) {
+          // Fire the API to get smart croped coordinates.
+          $.ajax({
+            url: "/api/v1/smartcrop",
+            method: "post",
+            headers: {
+              "Content-Type": "application/json"
+            },
+            data: JSON.stringify({
+              image_blob: e.target.result,
+              crop_options: { width: 1260, height: 756}
+            })
+          }).done(function(response) {
+            let data = response.message.data;
+            $(".proto-image-loader").css('display', 'none');
+            $("#preview_image").attr('src', e.target.result);
+            $("#proto_image_bank_create_image").removeAttr("disabled");
+            $('#preview_image').Jcrop({
+              setSelect: [data.x, data.y, (data.x + data.width), (data.y + data.height)],
+              onSelect: updateCropCoords,
+              onChange: updateCropCoords,
+              boxHeight: 350,
+              boxWidth: 750,
+              aspectRatio: 5/3
+            });
+          }).fail(function(xhr) {
+            $(".proto-image-loader").css('display', 'none');
+            console.error('error callback 2', xhr);
+          });
+        } else {
+          // If not then check the aspect ratio of the image.
+          if ((width % 5 === 0) && (height % 5 === 0)) {
+            // Show the preview and allow to upload.
+            $(".proto-image-loader").css('display', 'none');
+            $("#preview_image").attr('src', e.target.result);
+            $("#proto_image_bank_create_image").removeAttr("disabled");
           } else {
-            // If not then check the aspect ratio of the image.
-            if ((width % 5 === 0) && (height % 5 === 0)) {
-              // Show the preview and allow to upload.
-              $("#preview_image").attr('src', e.target.result);
-              $("#proto_image_bank_create_image").attr("disabled", "false");
-            } else {
-              $("#preview_image").attr('src', e.target.result);
-              $('#preview_image').Jcrop({
-                setSelect: [0, 0, 1260, 430],
-                onSelect: updateCropCoords,
-                onChange: updateCropCoords,
-                boxHeight: 350,
-                boxWidth: 750,
-                aspectRatio: 5/3
-              });
-              // Show the cropper with 5:3 selected.
-            }
+            $(".proto-image-loader").css('display', 'none');
+            $("#preview_image").attr('src', e.target.result);
+            $('#preview_image').Jcrop({
+              setSelect: [0, 0, 1260, 430],
+              onSelect: updateCropCoords,
+              onChange: updateCropCoords,
+              boxHeight: 350,
+              boxWidth: 750,
+              aspectRatio: 5/3
+            });
+            // Show the cropper with 5:3 selected.
           }
-
-          $("#proto_image_bank_create_image").attr("disabled", "false");
-          return true;
-        };
-      }
-      reader.readAsDataURL(input.files[0]);
-     } else {
-      $("#preview_image").attr('src', "");
-      $('#image_name').val("");
-      $("#proto_image_bank_create_image").attr("disabled", "true");
-     }
- };
+        }
+        return true;
+      };
+    }
+    reader.readAsDataURL(input.files[0]);
+  } else {
+    $("#preview_image").attr('src', "");
+    $('#image_name').val("");
+    $("#proto_image_bank_create_image").attr("disabled", "true");
+  }
+};
 </script>
 
 <script type="text/javascript">
