@@ -47,6 +47,7 @@
 #  seo_name                  :string(255)
 #  is_lazy_loading_activated :boolean          default(TRUE)
 #  comscore_code             :text(65535)
+#  gtm_id                    :string(255)
 #
 
 #TODO AMIT - Handle created_by, updated_by - RP added retrospectively. Need migration of old rows and BAU handling.
@@ -324,7 +325,7 @@ class Site < ApplicationRecord
     end
 
     def after_update_publish_site_pages
-        if self.saved_change_to_is_lazy_loading_activated? or self.saved_change_to_comscore_code?
+        if self.saved_change_to_is_lazy_loading_activated? or self.saved_change_to_comscore_code? or self.saved_change_to_gtm_id?
             self.pages.each do |p|
                 PagePublisher.perform_async(p.id)
             end

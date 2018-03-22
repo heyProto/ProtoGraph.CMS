@@ -14,7 +14,8 @@
               <%= f.input :twitter_url %>
               <%= f.input :instagram_url %>
               <%= f.input :youtube_url %>
-              <%= f.input :comscore_code %>
+              <%= f.input :comscore_code, as: :string %>
+              <%= f.input :gtm_id, as: :string %>
               <%= f.input :from_page, as: :hidden, input_html: {value: "product_integrations"}%>
               <%= f.button :submit, "Save", class: "btn btn-sm btn-secondary" %>
             <% end %>
