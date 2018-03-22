@@ -29,7 +29,8 @@ class StreamEntitiesController < ApplicationController
 
     def move_up
         old_sort_order = @stream_entity.sort_order
-        @stream.view_cast_ids.where(stream_id: @stream.id, sort_order: (old_sort_order - 1)).first.update(sort_order: old_sort_order)
+        old_stream_entity = @stream.view_cast_ids.where(stream_id: @stream.id, sort_order: (old_sort_order - 1)).first
+        old_stream_entity.update(sort_order: old_sort_order) if old_stream_entity.present?
         @stream_entity.sort_order = @stream_entity.sort_order.to_i - 1
         @stream_entity.save!
         StreamPublisher.perform_async(@stream.id)
@@ -41,7 +42,8 @@ class StreamEntitiesController < ApplicationController
 
     def move_down
         old_sort_order = @stream_entity.sort_order
-        @stream.view_cast_ids.where(sort_order: (old_sort_order + 1)).first.update(sort_order: old_sort_order)
+        old_stream_entity = @stream.view_cast_ids.where(sort_order: (old_sort_order + 1)).first
+        old_stream_entity.update(sort_order: old_sort_order) if old_stream_entity.present?
         @stream_entity.sort_order = @stream_entity.sort_order.to_i + 1
         @stream_entity.save!
         StreamPublisher.perform_async(@stream.id)
