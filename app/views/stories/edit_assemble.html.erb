@@ -200,7 +200,7 @@
             <div class="col-sm-5" style="background: #CFD8DC; padding: 30px 0px;">
                 <h4 style="color: black; text-align: center;">
                     Stream:
-                    <%= best_in_place @page_stream_related7c, :name_of_stream, url: [@account, @site, @page_stream_related], style: "border-bottom: 1px dotted black;" %>
+                    <%= best_in_place @page_stream_related7c, :name_of_stream, url: [@account, @site, @page_stream_related7c], style: "border-bottom: 1px dotted black;" %>
                     <%= link_to ".", publish_account_site_stream_path(@account, @site, @page_stream_related, folder_id: @folder.blank? ? nil : @folder.id),"data-turbolinks"=> false, method: :post, style: "color: #CFD8DC" %>
                 </h4>
                 <br/>
