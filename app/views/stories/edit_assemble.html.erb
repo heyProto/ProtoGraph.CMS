@@ -83,8 +83,7 @@
                     <%= link_to ".", publish_account_site_stream_path(@account, @site, @page_stream_16, folder_id: @folder.blank? ? nil : @folder.id),"data-turbolinks"=> false, method: :post, style: 'color: #90A4AE' %>
                 </h4>
                 <br/>
-
-                <% @page_stream_16.cards.first do |d| %>
+                <% @page_stream_16.cards.each do |d| %>
                   <% stream_entity = @page_stream_16.stream_entities.view_casts.where(entity_value: d.id).first %>
                   <div class="card-as-a-todo move-to-action" data-view-cast-id="<%= d.id %>" data-stream-entity-id="<%= stream_entity.id %>" style='width: 180px; margin-bottom: 10px; margin-left: 50%; transform: translate(-50%,0%); '>
                     <div class="card-information">

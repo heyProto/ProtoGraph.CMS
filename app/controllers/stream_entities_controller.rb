@@ -12,7 +12,7 @@ class StreamEntitiesController < ApplicationController
             end
             redirect_back(fallback_location: root_url, notice: "Added Successfully.")
         else
-            redirect_back(fallback_location: root_url, notice: "Something went wrong.")
+            redirect_back(fallback_location: root_url, alert: "Something went wrong.")
         end
     end
 
