@@ -78,6 +78,7 @@ class StoriesController < ApplicationController
     #     > State
     #     > District
     #     > Location
+    @cover_image_alignment = [["Horizontal", "horizontal"], ["Vertical", "vertical"]]
     @image = @page.cover_image
     if @image.blank?
         @page.build_cover_image
