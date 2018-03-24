@@ -79,6 +79,8 @@ class StoriesController < ApplicationController
     #     > District
     #     > Location
     @cover_image_alignment = [["Horizontal", "horizontal"], ["Vertical", "vertical"]]
+    @ref_category_intersection = @site.ref_categories.where(genre: "intersection").map {|i| [i.name, i.id]}
+    @ref_category_sub_intersection = @site.ref_categories.where(genre: "sub intersection").map {|i| [i.name, i.id]}
     @image = @page.cover_image
     if @image.blank?
         @page.build_cover_image
