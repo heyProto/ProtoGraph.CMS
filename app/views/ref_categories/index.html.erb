@@ -17,6 +17,8 @@
               </td>
               <td>
               </td>
+              <td>Stories
+              </td>
               <td>Description
               </td>
               <td>Keywords
@@ -40,6 +42,13 @@
                   <% end %>
                 </td>
                 <td><%= link_to (image_tag "rss_symbol.png", height: 10, width: 10), "#{@site.cdn_endpoint}/#{ref_category.stream.cdn_rss_key}", target: "blank"  %>
+                </td>
+                <td>
+                    <% if @genre == "intersection" %>
+                        <%= ref_category.stories_with_intersection.count%>
+                    <% elsif @genre == "sub intersection" %>
+                        <%= ref_category.stories_with_sub_intersection.count%>
+                    <% end %>
                 </td>
                 <td class='hint'>
                   <%= truncate(ref_category.description, length: 50, ommission: "..") %>
