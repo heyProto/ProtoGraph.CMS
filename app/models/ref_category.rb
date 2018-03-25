@@ -40,6 +40,10 @@ class RefCategory < ApplicationRecord
     has_many :navigations, class_name: "SiteVerticalNavigation", foreign_key: "ref_category_vertical_id", dependent: :destroy
     has_one :folder, foreign_key: 'ref_category_vertical_id'
     has_many :pages, foreign_key: 'ref_category_series_id'
+        
+    has_many :stories_with_intersection, foreign_key: "ref_category_intersection_id", class_name: "Page"
+    has_many :stories_with_sub_intersection, foreign_key: "ref_category_sub_intersection_id", class_name: "Page"
+
     #ACCESSORS
     #VALIDATIONS
     validates :name, presence: true, uniqueness: {scope: :site}, length: { in: 3..15 }
