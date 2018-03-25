@@ -411,6 +411,7 @@ ActiveRecord::Schema.define(version: 20180325054719) do
     t.string "seo_name"
     t.boolean "is_lazy_loading_activated", default: true
     t.text "comscore_code"
+    t.boolean "is_smart_crop_enabled", default: false
     t.string "gtm_id"
   end
 
