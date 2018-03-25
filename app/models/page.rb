@@ -49,6 +49,10 @@
 #  one_line_concept                 :string(255)
 #  content                          :text(65535)
 #  byline_id                        :integer
+#  reported_from_country            :string(255)
+#  reported_from_state              :string(255)
+#  reported_from_district           :string(255)
+#  reported_from_city               :string(255)
 #
 
 class Page < ApplicationRecord
