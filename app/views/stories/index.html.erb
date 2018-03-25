@@ -41,42 +41,65 @@
                   </button>
                 </div>
             </div>
+            <br/><br/>
             <div style="margin-left: auto; margin-right: auto;">
-            <% @pages.each do |d| %>
-            	<%= link_to edit_write_account_site_story_path(@account, @site, d, folder_id: d.folder_id), "data-turbolinks"=> false do %>
-                    <div class="card-as-a-todo">
-                		<% if d.intersection.present? %>
-                    		<div class="intersection">
-                                <%= d.intersection.name %>
-                                <% if d.sub_intersection.present? %>
-                        			<div class="sub-section">
-                                        <%= d.sub_intersection.name %>
-                        			</div>
-                                <% end %>
-                    		</div>
-                        <% end %>
-                		<div class="card-information">
-                			<div class="card-title"><%= truncate(d.headline, length: 55, ommission: "..") %></div>
-                			<div class="card-type">toStory
-                                <span class="card-id">
-                                    <% if d.view_cast.present? %>
-                                        #<%= d.view_cast.id.to_s %>
-                                    <% end %>
-                                </span>
-                            </div>
-                			<div class="card-footer">
-                				<div class="users-list">
-                					<div class="single-user"><%= image_tag avatar_url(d.updator.email), width: "16px", height: "16px" %></div>
-                				</div>
-                                <div class="status-signal <%= d.status == 'draft' ? "status-red" : "status-green" %>"></div>
-                                <div class="due-on">
-                                    <%= time_ago_in_words(d.updated_at) %>
-                                </div>
-                			</div>
-                		</div>
-                	</div>
-                <% end %>
-            <% end %>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>
+                            </th>
+                            <th>Editorial
+                            </th>
+                            <th>
+                            </th>
+                            <th>Headline
+                            </th>
+                            <th>Byline
+                            </th>
+                            <th>Published At
+                            </th>
+                            <th>Updated by
+                            </th>
+                        </tr>
+                    </thead>
+                    
+                    <% @pages.each do |d| %>
+                        <tbody>
+
+                                <tr>
+                                    <td class="hint">
+                                        <% if d.view_cast.present? %>
+                                            #<%= d.view_cast.id.to_s %>
+                                        <% end %>
+                                    </td>
+                                    <td class="hint">
+                                		<% if d.intersection.present? %>
+                                            <%= d.intersection.name %>
+                                        <% end %>
+                                        <% if d.sub_intersection.present? %>
+                                                /
+                                                <%= d.sub_intersection.name %>
+                                        <% end %>
+                                    </td>
+                                    <td><div class="status-signal <%= d.status == 'draft' ? "status-red" : "status-green" %>"></div>
+                                    </td>
+                                    <td>
+                                        <%= link_to truncate(d.headline, length: 55, ommission: ".."), edit_write_account_site_story_path(@account, @site, d, folder_id: d.folder_id), "data-turbolinks"=> false %>
+                                    </td>
+                                    <td>
+                                        <% if d.byline.present? %>
+                                            <%= d.byline.name %>
+                                        <% end %>
+                                    </td>
+                                    <td class="hint"><%= time_ago_in_words(d.published_at) %>
+                                    </td>
+                                    <td class="hint"><%= image_tag avatar_url(d.updator.email), width: "16px", height: "16px" %> <%= time_ago_in_words(d.updated_at) %>
+                                    </td>
+                                </tr>
+                            <% end %>
+                        </tbody>
+
+                </table>
         </div>
         </div>
     	<div class="col-sm-3 help-text">
