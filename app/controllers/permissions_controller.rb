@@ -2,10 +2,10 @@ class PermissionsController < ApplicationController
 
   before_action :authenticate_user!, :sudo_role_can_add_site_people
   before_action :set_permission, only: [:change_owner_role, :change_role, :destroy, :edit, :update]
-  
+
   def edit
   end
-  
+
   def update
     if @permission.update(permission_params)
         redirect_to edit_account_permission_path(@account, @permission), notice: t('us')
@@ -13,7 +13,7 @@ class PermissionsController < ApplicationController
       render :edit, alert: @permission.errors.full_messages
     end
   end
-  
+
   def change_owner_role
     @permissions = @account.permissions.not_hidden.where(ref_role_slug: "owner").includes(:user).page params[:page]
     @permission_invite = PermissionInvite.new

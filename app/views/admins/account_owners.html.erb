@@ -1,9 +1,9 @@
 <%= content_for :page_title do %>
-    
+
         <li class="breadcrumb-item"><%= link_to "Admin", account_site_admins_path(@account, @site), "data-turbolinks"=> false %></li>
         <li class="breadcrumb-item active" aria-current="page">Admin for Account: <%= @account.username %></li>
         <li class="breadcrumb-item active" aria-current="page">Owners</li>
-    
+
 <% end %>
 <div class="row">
     <div class="col-sm-13">
@@ -24,6 +24,9 @@
                                 <% if permission.user.current_sign_in_at.present? %>
                                 <div class="hint">Last seen <%= time_ago_in_words(permission.user.current_sign_in_at) %> ago.</div>
                                 <% end %>
+                            </td>
+                            <td style="border: 0px; width: 70px;">
+                                <%= link_to "Edit", edit_account_permission_path(@account, permission) %>
                             </td>
                             <td  style="border: 0px;">
                                 <% if current_user.id != permission.user_id and permission.status != "Deactivated" %>
