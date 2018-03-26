@@ -135,21 +135,19 @@
             summary = $("#proto_app_page_summary"),
             meta_description = $("#proto_app_page_meta_desc"),
             fb_text = $("#proto_app_page_fb_text"),
-            tw_text = $("#proto_app_page_tw_text");
+            tw_text = $("#proto_app_page_tw_text"),
+            is_text_edited = [meta_description.attr("is_edited"), fb_text.attr("is_edited"), tw_text.attr("is_edited")];
 
-        if (!meta_description.val().length) {
+        if (!meta_description.val().length && (is_text_edited[0] === "false")) {
             meta_description.val(summary.val());
-            meta_description.attr("is_edited", false);
         }
 
-        if (!fb_text.val().length) {
+        if (!fb_text.val().length  && (is_text_edited[1] === "false")) {
             fb_text.val(summary.val());
-            fb_text.attr("is_edited", false);
         }
 
-        if (!tw_text.val().length) {
+        if (!tw_text.val().length  && (is_text_edited[2] === "false")) {
             tw_text.val(summary.val());
-            tw_text.attr("is_edited", false);
         }
 
         summary.on('blur', function () {
