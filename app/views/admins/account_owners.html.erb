@@ -15,7 +15,7 @@
                             <td style="width: 10%; border: 0px;"><img class="rounded" src=<%=avatar_url(permission.user.email)%>>
                             </td>
                             <td  style="border: 0px;">
-                                <%= permission.user.name %>
+                                <%= permission.name %>
                                 <% if permission.status == "Deactivated" %>
                                     <i style="font-weight: 200; color: gray;">(Deactivated)</i>
                                 <% end %>
