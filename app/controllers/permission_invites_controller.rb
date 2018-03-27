@@ -44,7 +44,7 @@ class PermissionInvitesController < ApplicationController
           new_user.password_confirmation = pass
           new_user.skip_confirmation! if @permission_invite.do_not_email_user
           new_user.save
-          Permission.create(user_id: new_user.id, permissible_type: @permission_invite.permissible_type, permissible_id: @permission_invite.permissible_id, created_by: @permission_invite.created_by, updated_by: @permission_invite.updated_by, ref_role_slug: @permission_invite.ref_role_slug)
+          Permission.create(name: @permission_invite.name, user_id: new_user.id, permissible_type: @permission_invite.permissible_type, permissible_id: @permission_invite.permissible_id, created_by: @permission_invite.created_by, updated_by: @permission_invite.updated_by, ref_role_slug: @permission_invite.ref_role_slug)
         end
         if !@permission_invite.do_not_email_user
             PermissionInvites.invite(current_user, @account, @permission_invite.email).deliver

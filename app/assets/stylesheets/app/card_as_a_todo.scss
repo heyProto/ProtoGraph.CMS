@@ -306,3 +306,22 @@
         color: #4A90E2;
     }
 }
+
+.status-signal {
+    border-radius: 50px;
+    overflow: hidden;
+    height: 10px;
+    width: 10px;
+    display: inline-block;
+    float: right;
+    margin-right: 5px;
+    margin-top: 7px;
+    margin-left: 5px;
+}
+
+.status-red {
+    background: #DE5869;
+}
+.status-green {
+    background: #71CFBA;
+}   

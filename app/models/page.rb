@@ -49,6 +49,10 @@
 #  one_line_concept                 :string(255)
 #  content                          :text(65535)
 #  byline_id                        :integer
+#  reported_from_country            :string(255)
+#  reported_from_state              :string(255)
+#  reported_from_district           :string(255)
+#  reported_from_city               :string(255)
 #
 
 class Page < ApplicationRecord
@@ -237,7 +241,8 @@ class Page < ApplicationRecord
         "primary_language": site.primary_language,
         "seo_name": site.seo_name,
         "is_lazy_loading_activated": site.is_lazy_loading_activated,
-        "comscore_code": site.comscore_code
+        "comscore_code": site.comscore_code,
+        "gtm_id": site.gtm_id
       },
       "streams": streams,
       "page": page,

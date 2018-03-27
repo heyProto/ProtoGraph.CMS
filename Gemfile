@@ -26,7 +26,7 @@ gem 'foreman'
 gem 'json-schema'
 gem 'sidekiq'
 gem 'jquery-ui-rails'
-
+gem 'country_select'
 
 #AUTHENTICATION
 gem 'devise'

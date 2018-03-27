@@ -1,7 +1,11 @@
 <%= content_for :page_title do %>
     <li class="breadcrumb-item"><%= link_to "Admin", account_site_admins_path(@account, @site), "data-turbolinks"=> false %></li>
     <li class="breadcrumb-item active" aria-current="page">Site: <%= @site.domain %></li>
-    <li class="breadcrumb-item"><%= link_to "Site Team", account_site_permission_invites_path(@account, @site), "data-turbolinks"=> false %></li>
+    <% if @permission.permissible_type == "Account" and @permission.ref_role_slug == "owner" %>
+        <li class="breadcrumb-item"><%= link_to "Site Owner", account_owners_account_admins_path(@account), "data-turbolinks"=> false %></li>
+    <% else %>
+        <li class="breadcrumb-item"><%= link_to "Site Team", account_site_permission_invites_path(@account, @site), "data-turbolinks"=> false %></li>
+    <% end %>
     <li class="breadcrumb-item active" aria-current="page">Edit</li>
 <% end %>
 

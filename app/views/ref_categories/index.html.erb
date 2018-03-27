@@ -6,7 +6,7 @@
 <% end %>
 <div class="row">
   <div class="col-sm-13">
-    <div style="margin-left: auto; margin-right: auto; width: 500px;" class='table-responsive'>
+    <div style="margin-left: auto; margin-right: auto; width: 700px;" class='table-responsive'>
       <% if @data.first.blank? %>
         <div class="hint">No rows yet</div>
       <% else %>
@@ -16,6 +16,8 @@
               <td>Name
               </td>
               <td>
+              </td>
+              <td>Stories
               </td>
               <td>Description
               </td>
@@ -40,6 +42,13 @@
                   <% end %>
                 </td>
                 <td><%= link_to (image_tag "rss_symbol.png", height: 10, width: 10), "#{@site.cdn_endpoint}/#{ref_category.stream.cdn_rss_key}", target: "blank"  %>
+                </td>
+                <td>
+                    <% if @genre == "intersection" %>
+                        <%= ref_category.stories_with_intersection.count%>
+                    <% elsif @genre == "sub intersection" %>
+                        <%= ref_category.stories_with_sub_intersection.count%>
+                    <% end %>
                 </td>
                 <td class='hint'>
                   <%= truncate(ref_category.description, length: 50, ommission: "..") %>
