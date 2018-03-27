@@ -49,7 +49,7 @@ class Image < ApplicationRecord
   before_create { self.s3_identifier = SecureRandom.hex(8) }
   after_create :create_image_version
 
-  after_commit :add_colour_swatches, on: :create
+  # after_commit :add_colour_swatches, on: :create
   #SCOPE
   #OTHER
 
@@ -84,42 +84,46 @@ class Image < ApplicationRecord
     self.original_image.image_url
   end
 
-  def add_colour_swatches
-      require "ntc"
-      unless (self.colour_palette.nil? and self.dominant_colour.nil?) or (self.colour_palette.blank? or self.dominant_colour.blank?)
-          colour_dom = JSON.parse(self.dominant_colour)
-          colour_pal = JSON.parse(self.colour_palette)
+  # def add_colour_swatches
+  #     require "ntc"
+  #     unless (self.colour_palette.nil? and self.dominant_colour.nil?) or (self.colour_palette.blank? or self.dominant_colour.blank?)
+  #         colour_dom = JSON.parse(self.dominant_colour)
+  #         colour_pal = JSON.parse(self.colour_palette)
 
-          # Dominant colour name
-          colour_hex = colour_dom.map{|a| a.to_s(16) }.join("")
-          colour_name = Ntc.new(colour_hex).name[1]
-          # Ntc gives [hex_value of closest, name of closest, true if exact match]
-          self.colour_swatches.create(red: colour_dom[0],
-                                      green: colour_dom[1],
-                                      blue: colour_dom[2],
-                                      name: colour_name,
-                                      is_dominant: true)
-          colour_pal.each do |colour|
-            colour_hex = colour.map{|a| a.to_s(16) }.join("")
-            colour_name = Ntc.new(colour_hex).name[1]
-            self.colour_swatches.create(red: colour[0],
-                                        green: colour[1],
-                                        blue: colour[2],
-                                        name: colour_name)
-          end
-      end
-  end
+  #         # Dominant colour name
+  #         colour_hex = colour_dom.map{|a| a.to_s(16) }.join("")
+  #         colour_name = Ntc.new(colour_hex).name[1]
+  #         # Ntc gives [hex_value of closest, name of closest, true if exact match]
+  #         self.colour_swatches.create(red: colour_dom[0],
+  #                                     green: colour_dom[1],
+  #                                     blue: colour_dom[2],
+  #                                     name: colour_name,
+  #                                     is_dominant: true)
+  #         colour_pal.each do |colour|
+  #           colour_hex = colour.map{|a| a.to_s(16) }.join("")
+  #           colour_name = Ntc.new(colour_hex).name[1]
+  #           self.colour_swatches.create(red: colour[0],
+  #                                       green: colour[1],
+  #                                       blue: colour[2],
+  #                                       name: colour_name)
+  #         end
+  #     end
+  # end
 
   #PRIVATE
   private
 
   def create_image_version
-    self.image.crop
+    # self.image.crop
     self.image.recreate_versions!
 
     options = {
       image_id: self.id,
-      is_original: true
+      is_original: true,
+      crop_x: crop_x.to_f,
+      crop_y: crop_y.to_f,
+      crop_w: crop_w.to_f,
+      crop_h: crop_h.to_f
     }
     ImageVariation.create(options)
   end
