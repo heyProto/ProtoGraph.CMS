@@ -37,6 +37,7 @@ class PermissionInvitesController < ApplicationController
       end
     else
       if @permission_invite.save
+        notice = t("permission_invite.invite")
         if @permission_invite.create_user
           new_user = User.new({email: @permission_invite.email,name: @permission_invite.name })
           pass = SecureRandom.hex(10)
@@ -45,11 +46,18 @@ class PermissionInvitesController < ApplicationController
           new_user.skip_confirmation! if @permission_invite.do_not_email_user
           new_user.save
           Permission.create(name: @permission_invite.name, user_id: new_user.id, permissible_type: @permission_invite.permissible_type, permissible_id: @permission_invite.permissible_id, created_by: @permission_invite.created_by, updated_by: @permission_invite.updated_by, ref_role_slug: @permission_invite.ref_role_slug)
+          @permission_invite.destroy
         end
-        if !@permission_invite.do_not_email_user
-            PermissionInvites.invite(current_user, @account, @permission_invite.email).deliver
+        unless @permission_invite.do_not_email_user
+          PermissionInvites.invite(current_user, @account, @permission_invite.email).deliver
+        else
+          if @permission_invite.create_user
+            notice = t("permission_invite.noinvite")
+          else
+            notice = t("permission_invite.nouser_noinvite")
+          end
         end
-        redirect_to permission_invite_params[:redirect_url], notice: t("permission_invite.invite")
+        redirect_to permission_invite_params[:redirect_url], notice: notice
       else
         @permissions = @account.permissions.includes(:user).page params[:page]
         @permission_invites = @account.permission_invites

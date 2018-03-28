@@ -37,6 +37,7 @@ class PermissionInvite < ApplicationRecord
     validate  :is_unique_row?, on: :create
 
     #CALLBACKS
+    before_create :before_create_set
     #SCOPE
     scope :account_permissions, -> { where(permissible_type: "Account") }
     scope :site_permissions, -> { where(permissible_type: "Site") }
@@ -47,6 +48,10 @@ class PermissionInvite < ApplicationRecord
     def is_unique_row?
         errors.add(:email, "already invited.") if PermissionInvite.where(permissible_type: self.permissible_type, permissible_id: self.permissible_id, email: self.email).first.present?
         true
+    end
+
+    def before_create_set
+        self.email = self.email.downcase
     end
 
 end

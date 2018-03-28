@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180327173256) do
+ActiveRecord::Schema.define(version: 20180328092553) do
 
   create_table "accounts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
     t.string "username", limit: 191, collation: "utf8mb4_unicode_ci"
@@ -210,8 +210,8 @@ ActiveRecord::Schema.define(version: 20180327173256) do
     t.integer "site_id"
     t.integer "folder_id"
     t.string "headline", collation: "utf8_general_ci"
-    t.string "meta_keywords", collation: "utf8_general_ci"
-    t.text "meta_description", collation: "utf8_general_ci"
+    t.string "meta_keywords"
+    t.text "meta_description"
     t.text "summary", collation: "utf8_general_ci"
     t.text "cover_image_url_facebook", collation: "utf8_general_ci"
     t.text "cover_image_url_square", collation: "utf8_general_ci"
