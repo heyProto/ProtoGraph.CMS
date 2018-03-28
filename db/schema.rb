@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180328092553) do
+ActiveRecord::Schema.define(version: 20180328120815) do
 
   create_table "accounts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
     t.string "username", limit: 191, collation: "utf8mb4_unicode_ci"
@@ -640,6 +640,7 @@ ActiveRecord::Schema.define(version: 20180328092553) do
     t.integer "ref_category_intersection_id"
     t.integer "ref_category_sub_intersection_id"
     t.integer "ref_category_vertical_id"
+    t.datetime "published_at"
     t.index ["slug"], name: "index_view_casts_on_slug", unique: true
   end
 

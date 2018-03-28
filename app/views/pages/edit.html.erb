@@ -10,8 +10,7 @@
                     <p class="hint">Heavyweights (volume low): Any story that involved investing time / effort / cost in interactive / immersive narratives that go beyond plain chart / map / video embeds.</p>
                 </div>
                 <div class="col-sm-3" style="padding: 30px 30px 0px 30px;">
-                    <p class="hint">Midweights A (volume medium): Stories by publisher staff anywhere that are relevant to the theme and substantive.
-</p>
+                    <p class="hint">Midweights A (volume medium): Stories by publisher staff anywhere that are relevant to the theme and substantive.</p>
                 </div>
                 <div class="col-sm-3" style="padding: 30px 30px 0px 30px;">
                     <p class="hint">Calls-to-Action (volume low): Digests / Petitions / Campaigns / Ads / Sponsored / Polls or any other type of content that encourages audience participation. Enabled primarily by vertical's edit teams or their product partners.</p>
@@ -41,7 +40,7 @@
                       <div class="single-user"><%= image_tag avatar_url(d.updator.email), width: "16px", height: "16px" %></div>
                     </div>
                     <div class="due-on">
-                      <%= time_ago_in_words(d.updated_at) %>
+                      <%= time_ago_in_words(d.published_at) %>
                     </div>
                   </div>
                 </div>
@@ -105,7 +104,7 @@
                               <div class="single-user"><%= image_tag avatar_url(d.updator.email), width: "16px", height: "16px" %></div>
                             </div>
                             <div class="due-on">
-                              <%= time_ago_in_words(d.updated_at) %>
+                              <%= time_ago_in_words(d.published_at) %>
                             </div>
                           </div>
                         </div>
@@ -166,7 +165,7 @@
                               <div class="single-user"><%= image_tag avatar_url(d.updator.email), width: "16px", height: "16px" %></div>
                             </div>
                             <div class="due-on">
-                              <%= time_ago_in_words(d.updated_at) %>
+                              <%= time_ago_in_words(d.published_at) %>
                             </div>
                           </div>
                         </div>
@@ -187,17 +186,7 @@
                           <% end %>
                         </div>
                         <div class="action-move-to">
-                          <div class="hint-text">
-                            Move
-                            <% if i != 0  %>
-                              &nbsp
-                              <%= link_to image_tag('up.png', height: 10), move_up_account_site_stream_stream_entity_path(@account, @site, @page_stream_07, stream_entity), method: :put %>
-                            <% end %>
-                            <% if i != (@page_stream_07.cards.count - 1)%>
-                            &nbsp
-                            <%= link_to image_tag('down.png', height: 10), move_down_account_site_stream_stream_entity_path(@account, @site, @page_stream_07, stream_entity), method: :put %>
-                            <% end %>
-                          </div>
+                          <div class="hint-text">Move To</div>
                           <div class="remove-button">
                             <%= link_to "Remove", [@account, @site, @page_stream_07, stream_entity ], method: :delete %>
                           </div>
@@ -237,7 +226,7 @@
                               <div class="single-user"><%= image_tag avatar_url(d.updator.email), width: "16px", height: "16px" %></div>
                             </div>
                             <div class="due-on">
-                              <%= time_ago_in_words(d.updated_at) %>
+                              <%= time_ago_in_words(d.published_at) %>
                             </div>
                           </div>
                         </div>
@@ -258,17 +247,7 @@
                           <% end %>
                         </div>
                         <div class="action-move-to">
-                          <div class="hint-text">
-                            Move
-                            <% if i != 0  %>
-                              &nbsp
-                              <%= link_to image_tag('up.png', height: 10), move_up_account_site_stream_stream_entity_path(@account, @site, @page_stream_04, stream_entity), method: :put %>
-                            <% end %>
-                            <% if i != (@page_stream_04.cards.count - 1)%>
-                              &nbsp
-                              <%= link_to image_tag('down.png', height: 10), move_down_account_site_stream_stream_entity_path(@account, @site, @page_stream_04, stream_entity), method: :put %>
-                            <% end %>
-                          </div>
+                          <div class="hint-text">Move To</div>
                           <div class="remove-button">
                             <%= link_to "Remove", [@account, @site, @page_stream_04, stream_entity ], method: :delete %>
                           </div>
@@ -306,7 +285,7 @@
                               <div class="single-user"><%= image_tag avatar_url(d.updator.email), width: "16px", height: "16px" %></div>
                             </div>
                             <div class="due-on">
-                              <%= time_ago_in_words(d.updated_at) %>
+                              <%= time_ago_in_words(d.published_at) %>
                             </div>
                           </div>
                         </div>
@@ -327,17 +306,7 @@
                           <% end %>
                         </div>
                         <div class="action-move-to">
-                          <div class="hint-text">
-                            Move
-                            <% if i != 0  %>
-                              &nbsp
-                              <%= link_to image_tag('up.png', height: 10), move_up_account_site_stream_stream_entity_path(@account, @site, @page_stream_02, stream_entity), method: :put %>
-                            <% end %>
-                            <% if i != (@page_stream_02.cards.count - 1)%>
-                              &nbsp
-                              <%= link_to image_tag('down.png', height: 10), move_down_account_site_stream_stream_entity_path(@account, @site, @page_stream_02, stream_entity), method: :put %>
-                            <% end %>
-                          </div>
+                          <div class="hint-text">Move To</div>
                           <div class="remove-button">
                             <%= link_to "Remove", [@account, @site, @page_stream_02, stream_entity ], method: :delete %>
                           </div>
@@ -375,7 +344,7 @@
                               <div class="single-user"><%= image_tag avatar_url(d.updator.email), width: "16px", height: "16px" %></div>
                             </div>
                             <div class="due-on">
-                              <%= time_ago_in_words(d.updated_at) %>
+                              <%= time_ago_in_words(d.published_at) %>
                             </div>
                           </div>
                         </div>
@@ -396,17 +365,7 @@
                           <% end %>
                         </div>
                         <div class="action-move-to">
-                          <div class="hint-text">
-                            Move
-                            <% if i != 0  %>
-                              &nbsp
-                              <%= link_to image_tag('up.png', height: 10), move_up_account_site_stream_stream_entity_path(@account, @site, @page_stream_02, stream_entity), method: :put %>
-                            <% end %>
-                            <% if i != (@page_stream_03.cards.count - 1)%>
-                              &nbsp
-                              <%= link_to image_tag('down.png', height: 10), move_down_account_site_stream_stream_entity_path(@account, @site, @page_stream_02, stream_entity), method: :put %>
-                            <% end %>
-                          </div>
+                          <div class="hint-text">Move To</div>
                           <div class="remove-button">
                             <%= link_to "Remove", [@account, @site, @page_stream_03, stream_entity ], method: :delete %>
                           </div>

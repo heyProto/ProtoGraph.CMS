@@ -80,13 +80,13 @@ class Stream < ApplicationRecord
         if is_automated_stream
             if col_name == "Site"
                 site = Site.find(col_id)
-                view_casts = site.view_casts.where.not(folder_id: account.folders.where(is_trash: true).pluck(:id)).where(template_card_id: TemplateCard.where(name: "toStory").pluck(:id)).limit(self.limit).offset(self.offset).order(updated_at: :desc, created_at: :desc)
+                view_casts = site.view_casts.where.not(folder_id: account.folders.where(is_trash: true).pluck(:id)).where(template_card_id: TemplateCard.where(name: "toStory").pluck(:id)).limit(self.limit).offset(self.offset).order(published_at: :desc)
             elsif col_name == "RefCategory"
                 ref_cat = RefCategory.find(col_id)
-                view_casts = ref_cat.view_casts.where.not(folder_id: account.folders.where(is_trash: true).pluck(:id)).limit(self.limit).offset(self.offset).order(updated_at: :desc, created_at: :desc)
+                view_casts = ref_cat.view_casts.where.not(folder_id: account.folders.where(is_trash: true).pluck(:id)).limit(self.limit).offset(self.offset).order(published_at: :desc)
             elsif col_name == 'Permission'
                 permission = Permission.find(col_id)
-                view_casts = permission.view_casts.where.not(folder_id: account.folders.where(is_trash: true).pluck(:id)).limit(self.limit).offset(self.offset).order(updated_at: :desc, created_at: :desc)
+                view_casts = permission.view_casts.where.not(folder_id: account.folders.where(is_trash: true).pluck(:id)).limit(self.limit).offset(self.offset).order(published_at: :desc)
             else
                 view_casts = ViewCast.none
             end
@@ -102,10 +102,20 @@ class Stream < ApplicationRecord
             else
                 view_cast = ViewCast.none
             end
-            vc_ids = self.view_cast_ids.pluck(:entity_value)
-            view_cast_or = vc_ids.present? ? account.view_casts.where(id: vc_ids).where.not(folder_id: account.folders.where(is_trash: true).first.id).order("field(id, #{vc_ids.join(",")})") : ViewCast.none
-            view_casts = view_cast + view_cast_or
-            return view_casts
+            vc_ids = self.view_cast_ids.order(:sort_order).pluck(:entity_value)
+            view_cast_or = vc_ids.present? ? account.view_casts.where(id: vc_ids).where.not(folder_id: account.folders.where(is_trash: true).first.id) : ViewCast.none
+            if self.title.split("_")[1] == "Section"
+                view_cast_or = view_cast_or.order(published_at: :desc)
+            elsif vc_ids.present?
+                view_cast_or = view_cast_or.order("field(id, #{vc_ids.join(",")})")
+            end
+            if view_cast.present? and view_cast_or.present?
+                return view_cast + view_cast_or
+            elsif view_cast.blank? and view_cast_or.present?
+                return view_cast_or
+            else
+                return view_cast
+            end
         end
     end
 

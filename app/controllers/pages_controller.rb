@@ -31,11 +31,11 @@ class PagesController < ApplicationController
         @page.build_cover_image
       end
       if @page.template_page.name == "Homepage: Vertical"
-        @page_stream_16 = @page.streams.where(title: "#{@page.id.to_s}_Section_16c_Hero").first
-        @page_stream_07 = @page.streams.where(title: "#{@page.id.to_s}_Section_7c").first
-        @page_stream_04 = @page.streams.where(title: "#{@page.id.to_s}_Section_4c").first
-        @page_stream_03 = @page.streams.where(title: "#{@page.id.to_s}_Section_3c").first
-        @page_stream_02 = @page.streams.where(title: "#{@page.id.to_s}_Section_2c").first
+        @page_stream_16 = @page.streams.where(title: "#{@page.id}_Section_16c_Hero").first
+        @page_stream_07 = @page.streams.where(title: "#{@page.id}_Section_7c").first
+        @page_stream_04 = @page.streams.where(title: "#{@page.id}_Section_4c").first
+        @page_stream_03 = @page.streams.where(title: "#{@page.id}_Section_3c").first
+        @page_stream_02 = @page.streams.where(title: "#{@page.id}_Section_2c").first
         @page_streamH16 = @page_stream_16.page_streams.where(page_id: @page.id).first
         @page_streamH07 = @page_stream_07.page_streams.where(page_id: @page.id).first
         @page_streamH04 = @page_stream_04.page_streams.where(page_id: @page.id).first

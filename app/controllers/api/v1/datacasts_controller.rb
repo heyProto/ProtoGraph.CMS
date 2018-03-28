@@ -15,6 +15,7 @@ class Api::V1::DatacastsController < ApiController
         end
         if ['toStory', 'toCluster'].include?(view_cast.template_card.name)
             view_cast.series = @folder.vertical
+            view_cast.published_at = Date.parse(datacast_params['data'][TemplateCard::PUBLISHED_COLUMN_MAP[view_cast.template_card.name]])
             datacast_params['data']['series'] = @folder.vertical.name
         end
         payload["payload"] = datacast_params.to_json
@@ -48,8 +49,11 @@ class Api::V1::DatacastsController < ApiController
             view_cast.by_line = datacast_params['data']["by_line"]
             view_cast.intersection = @site.ref_categories.where(genre: "intersection").where(name: datacast_params['data']["genre"]).first
             view_cast.sub_intersection = @site.ref_categories.where(genre: "sub intersection").where(name: datacast_params['data']["subgenre"]).first
-            view_cast.series = @folder.vertical
             datacast_params['data']['series'] = @folder.vertical.name
+        end
+        if ['toStory', 'toCluster'].include?(view_cast.template_card.name)
+            view_cast.series = @folder.vertical
+            view_cast.published_at = Date.parse(datacast_params['data'][TemplateCard::PUBLISHED_COLUMN_MAP[view_cast.template_card.name]])
         end
         payload["bucket_name"] = @site.cdn_bucket
         r = Api::ProtoGraph::Datacast.update(payload)
