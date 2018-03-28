@@ -40,7 +40,7 @@
                       <div class="single-user"><%= image_tag avatar_url(d.updator.email), width: "16px", height: "16px" %></div>
                     </div>
                     <div class="due-on">
-                      <%= time_ago_in_words(d.published_at.present? ? d.published_at : d.updated_at) %>
+                      <%= time_ago_in_words(d.published_at) %>
                     </div>
                   </div>
                 </div>
@@ -104,7 +104,7 @@
                               <div class="single-user"><%= image_tag avatar_url(d.updator.email), width: "16px", height: "16px" %></div>
                             </div>
                             <div class="due-on">
-                              <%= time_ago_in_words(d.published_at.present? ? d.published_at : d.updated_at) %>
+                              <%= time_ago_in_words(d.published_at) %>
                             </div>
                           </div>
                         </div>
@@ -165,7 +165,7 @@
                               <div class="single-user"><%= image_tag avatar_url(d.updator.email), width: "16px", height: "16px" %></div>
                             </div>
                             <div class="due-on">
-                              <%= time_ago_in_words(d.published_at.present? ? d.published_at : d.updated_at) %>
+                              <%= time_ago_in_words(d.published_at) %>
                             </div>
                           </div>
                         </div>
@@ -226,7 +226,7 @@
                               <div class="single-user"><%= image_tag avatar_url(d.updator.email), width: "16px", height: "16px" %></div>
                             </div>
                             <div class="due-on">
-                              <%= time_ago_in_words(d.published_at.present? ? d.published_at : d.updated_at) %>
+                              <%= time_ago_in_words(d.published_at) %>
                             </div>
                           </div>
                         </div>
@@ -285,7 +285,7 @@
                               <div class="single-user"><%= image_tag avatar_url(d.updator.email), width: "16px", height: "16px" %></div>
                             </div>
                             <div class="due-on">
-                              <%= time_ago_in_words(d.published_at.present? ? d.published_at : d.updated_at) %>
+                              <%= time_ago_in_words(d.published_at) %>
                             </div>
                           </div>
                         </div>
@@ -344,7 +344,7 @@
                               <div class="single-user"><%= image_tag avatar_url(d.updator.email), width: "16px", height: "16px" %></div>
                             </div>
                             <div class="due-on">
-                              <%= time_ago_in_words(d.published_at.present? ? d.published_at : d.updated_at) %>
+                              <%= time_ago_in_words(d.published_at) %>
                             </div>
                           </div>
                         </div>

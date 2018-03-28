@@ -28,6 +28,7 @@
 #  ref_category_intersection_id     :integer
 #  ref_category_sub_intersection_id :integer
 #  ref_category_vertical_id         :integer
+#  published_at                     :datetime
 #
 
 class ViewCast < ApplicationRecord
@@ -138,6 +139,7 @@ class ViewCast < ApplicationRecord
             end
             self.permissions.where(permissible_id: (prev_collaborator_ids - self.collaborator_lists.map{|a| a.to_i})).update_all(status: 'Deactivated')
         end
+        self.update_column(:published_at, self.updated_at) if ["toStory", "toCluster"].exclude?(self.template_card.name)
     end
 
     def after_create_set
