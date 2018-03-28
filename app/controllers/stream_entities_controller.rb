@@ -29,10 +29,13 @@ class StreamEntitiesController < ApplicationController
 
     def move_up
         old_sort_order = @stream_entity.sort_order
-        old_stream_entity = @stream.view_cast_ids.where(stream_id: @stream.id, sort_order: (old_sort_order - 1)).first
-        old_stream_entity.update(sort_order: old_sort_order) if old_stream_entity.present?
-        @stream_entity.sort_order = @stream_entity.sort_order.to_i - 1
-        @stream_entity.save!
+        old_stream_entity = @stream_entity.previous#@stream.view_cast_ids.where(sort_order: (old_sort_order - 1)).first
+        if old_stream_entity.present?
+            new_sort_order = old_stream_entity.sort_order
+            old_stream_entity.update(sort_order: old_sort_order)
+            @stream_entity.sort_order = new_sort_order
+            @stream_entity.save!
+        end
         StreamPublisher.perform_async(@stream.id)
         @stream.pages.each do |p|
             PagePublisher.perform_async(p.id)
@@ -42,10 +45,13 @@ class StreamEntitiesController < ApplicationController
 
     def move_down
         old_sort_order = @stream_entity.sort_order
-        old_stream_entity = @stream.view_cast_ids.where(sort_order: (old_sort_order + 1)).first
-        old_stream_entity.update(sort_order: old_sort_order) if old_stream_entity.present?
-        @stream_entity.sort_order = @stream_entity.sort_order.to_i + 1
-        @stream_entity.save!
+        old_stream_entity = @stream_entity.next#@stream.view_cast_ids.where(sort_order: (old_sort_order + 1)).first
+        if old_stream_entity.present?
+            new_sort_order = old_stream_entity.sort_order
+            old_stream_entity.update(sort_order: old_sort_order)
+            @stream_entity.sort_order = new_sort_order
+            @stream_entity.save!
+        end
         StreamPublisher.perform_async(@stream.id)
         @stream.pages.each do |p|
             PagePublisher.perform_async(p.id)

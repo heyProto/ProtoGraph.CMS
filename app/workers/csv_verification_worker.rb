@@ -83,10 +83,10 @@ class CsvVerificationWorker
     view_cast.created_by = @upload.creator.id
     view_cast.updated_by = @upload.updator.id
     if view_cast.template_card.name == 'toStory'
-      card_data["data"]["series"] = @upload.folder.vertical.name if @upload.folder.vertical.present?
+      card_data["data"]["series"] = @upload.folder.vertical
       view_cast.by_line = card_data['data']["by_line"]
-      view_cast.genre = card_data['data']["genre"]
-      view_cast.sub_genre = card_data['data']["subgenre"]
+      view_cast.intersection = @upload.site.ref_categories.where(genre: "intersection").where(english_name: card_data['data']["genre"]).first
+      view_cast.sub_intersection = @upload.site.ref_categories.where(genre: "sub intersection").where(english_name: card_data['data']["subgenre"]).first
     end
     if view_cast.save
       payload["api_slug"] = view_cast.datacast_identifier

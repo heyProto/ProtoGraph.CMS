@@ -39,6 +39,14 @@ class StreamEntity < ApplicationRecord
     scope :excluded_view_casts, -> {where(entity_type: "view_cast_id", is_excluded: true)}
     #OTHER
 
+    def next
+        a = self.stream.view_cast_ids.where("sort_order > ?", self.sort_order).order(:sort_order).first
+    end
+
+    def previous
+        a = self.stream.view_cast_ids.where("sort_order < ?", self.sort_order).order(sort_order: :desc).last
+    end
+
     #PRIVATE
     private
 

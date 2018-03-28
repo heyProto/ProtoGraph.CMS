@@ -10,11 +10,11 @@ class Api::V1::DatacastsController < ApiController
         view_cast.collaborator_lists = ["#{current_user.id}"] if ["contributor", "writer"].include?(@permission_role.slug)
         if view_cast.template_card.name == 'toStory'
             view_cast.by_line = datacast_params['data']["by_line"]
-            view_cast.genre = datacast_params['data']["genre"]
-            view_cast.sub_genre = datacast_params['data']["subgenre"]
+            view_cast.intersection = @site.ref_categories.where(genre: "intersection").where(name: datacast_params['data']["genre"]).first
+            view_cast.sub_intersection = @site.ref_categories.where(genre: "sub intersection").where(name: datacast_params['data']["subgenre"]).first
         end
         if ['toStory', 'toCluster'].include?(view_cast.template_card.name)
-            view_cast.series = @folder.vertical.name
+            view_cast.series = @folder.vertical
             datacast_params['data']['series'] = @folder.vertical.name
         end
         payload["payload"] = datacast_params.to_json
@@ -46,9 +46,10 @@ class Api::V1::DatacastsController < ApiController
         payload["schema_url"] = view_cast.template_datum.schema_json
         if view_cast.template_card.name == 'toStory'
             view_cast.by_line = datacast_params['data']["by_line"]
-            view_cast.genre = datacast_params['data']["genre"]
-            view_cast.sub_genre = datacast_params['data']["subgenre"]
-            view_cast.series = @folder.vertical.name
+            view_cast.intersection = @site.ref_categories.where(genre: "intersection").where(name: datacast_params['data']["genre"]).first
+            view_cast.sub_intersection = @site.ref_categories.where(genre: "sub intersection").where(name: datacast_params['data']["subgenre"]).first
+            view_cast.series = @folder.vertical
+            datacast_params['data']['series'] = @folder.vertical.name
         end
         payload["bucket_name"] = @site.cdn_bucket
         r = Api::ProtoGraph::Datacast.update(payload)
