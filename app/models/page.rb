@@ -486,6 +486,7 @@ class Page < ApplicationRecord
     data["data"]["faviconurl"] = site.favicon.present? ? "#{account.cdn_endpoint}/#{site.favicon.thumbnail_key}" : "" if self.site.favicon.present?
     data["data"]["publishername"] = Addressable::URI.parse(self.url.to_s).origin if self.url.present?
     data["data"]["col7imageurl"] = self.cover_image_url_7_column.to_s if self.cover_image_url_7_column.present?
+    data['data'] = data['data'].reject{|a,v| v.nil? || v.to_s.strip.empty? }
     data
   end
 

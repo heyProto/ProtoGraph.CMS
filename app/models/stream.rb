@@ -208,7 +208,6 @@ class Stream < ApplicationRecord
                         d["lat"] = data["when_and_where_it_occur"]["lat"]
                         d["lng"] = data["when_and_where_it_occur"]["lng"]
                     rescue => e
-                        view_cast.destroy
                         next
                     end
                 elsif (view_cast.template_card.name == 'WaterExploitation' or self.include_data)
