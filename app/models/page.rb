@@ -115,7 +115,6 @@ class Page < ApplicationRecord
     else
       "stories/#{self.slug}"
     end
-    # Change during Multi Domain functionality
   end
 
   def html_url
@@ -207,7 +206,20 @@ class Page < ApplicationRecord
   end
 
   def push_page_object_to_s3
+    create_story_card
     site = self.site
+    hero_stream = self.streams.where(title: "#{self.id}_Story_16c_Hero").first
+    if hero_stream.present? and hero_stream.cards.count == 0
+      StreamEntity.create({
+        "entity_value": "#{self.view_cast_id}",
+        "entity_type": "view_cast_id",
+        "stream_id": hero_stream.id,
+        "is_excluded": false
+      })
+      hero_stream.reload
+      hero_stream.publish_cards
+      hero_stream.publish_rss
+    end
     streams = self.page_streams.includes(:stream).map do |e|
       k = e.stream.as_json
       h = {}
@@ -300,9 +312,11 @@ class Page < ApplicationRecord
     self.update_column(:page_object_url, "#{self.site.cdn_endpoint}/#{key}")
     response = Api::ProtoGraph::Page.create_or_update_page(self.datacast_identifier, self.template_page.s3_identifier, self.site.cdn_bucket, ENV['AWS_S3_ENDPOINT'])
     Api::ProtoGraph::CloudFront.invalidate(self.site, ["/#{key}", "/#{self.html_key}.html"], 2)
-    create_story_card
     site.publish_sitemap
     site.publish_robot_txt
+    # if self.template_page.name == 'article'
+    #   self.series.vertical_page.push_page_object_to_s3
+    # end
     true
   end
 
@@ -399,9 +413,9 @@ class Page < ApplicationRecord
       if self.from_api
         push_page_object_to_s3
       else
+        # push_page_object_to_s3
         PagePublisher.perform_async(self.id)
       end
-      true
     end
   end
 
@@ -551,7 +565,6 @@ class Page < ApplicationRecord
     self.is_sponsored = false                         if self.is_sponsored.blank?
     self.status = 'draft'                             if self.status.blank?
     self.cover_image_alignment = "horizontal"         if self.cover_image_alignment.blank?
-    # self.url = "#{self.html_url}" if self.url.blank?
     true
   end
 
