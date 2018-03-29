@@ -103,6 +103,8 @@ class Page < ApplicationRecord
   after_update :update_page_image
   after_update :create_paragraph_card, if: "self.prepare_cards_for_assembling=='true'"
   after_update :push_json_to_s3
+  after_commit :update_slug, on: :create
+
 
   # Slug
   def before_validation_set
@@ -151,6 +153,13 @@ class Page < ApplicationRecord
       "#{english_headline}"
     else
       "#{english_headline}-#{id}"
+    end
+  end
+
+  def update_slug
+    unless slug.split("-")[-1]  == self.id.to_s
+      self.slug = nil
+      self.save
     end
   end
 
