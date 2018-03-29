@@ -465,7 +465,7 @@ class Page < ApplicationRecord
     data = {"data" => {}}
     data["data"]["url"] = self.html_url.to_s if self.html_url.present?
     data["data"]["headline"] = self.headline.to_s if self.headline.present?
-    data["data"]["byline"] = (self.byline.present? and self.byline.username.present?) ? self.byline.username : ""
+    data["data"]["byline"] = (self.byline.present? and self.byline.username.present?) ? self.byline.username : "   "
     data["data"]["publishedat"] = self.published_at.strftime("%Y-%m-%dT%H:%M") if self.published_at.present?
     data["data"]["series"] = self.series.name.to_s if self.series.present? and self.series.name.present?
     data["data"]["genre"] = self.intersection.name.to_s if self.intersection.present? and self.intersection.name.present?
@@ -486,7 +486,6 @@ class Page < ApplicationRecord
     data["data"]["faviconurl"] = site.favicon.present? ? "#{account.cdn_endpoint}/#{site.favicon.thumbnail_key}" : "" if self.site.favicon.present?
     data["data"]["publishername"] = Addressable::URI.parse(self.url.to_s).origin if self.url.present?
     data["data"]["col7imageurl"] = self.cover_image_url_7_column.to_s if self.cover_image_url_7_column.present?
-    data['data'] = data['data'].reject{|a,v| v.nil? || v.to_s.strip.empty? }
     data
   end
 
