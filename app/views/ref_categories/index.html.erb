@@ -68,45 +68,46 @@
               </tr>
             <% end %>
           </tbody>
+        </table>
       <% end %>
     </div>
   </div>
 	<div class="col-sm-3 help-text">
-        <% if action_name != "verticals" %>
-            <%= simple_form_for(@instance, url: account_site_ref_categories_path(@account, @site), method: :post) do |f| %>
-            <%= f.error_notification %>
-            <%= f.hidden_field :genre, value: @genre %>
-            <%= f.hidden_field :site_id, value: @site.id %>
+    <% if action_name != "verticals" %>
+      <%= simple_form_for(@instance, url: account_site_ref_categories_path(@account, @site), method: :post) do |f| %>
+        <%= f.error_notification %>
+        <%= f.hidden_field :genre, value: @genre %>
+        <%= f.hidden_field :site_id, value: @site.id %>
 
-            <div class="form-inputs">
-                <%= f.input :name, required: true, minlength: 3 , maxlength: 15 %>
-                <% unless @site.is_english %>
-                  <%= f.input :english_name, required: true, minlength: 3 , maxlength: 15, hint: "This is used for url management." %>
-                <% end %>
-            </div>
-            <div class="form-actions">
-                <%= f.button :submit, value: "Add", class: "btn btn-sm btn-secondary" %>
-            </div>
+        <div class="form-inputs">
+            <%= f.input :name, required: true, minlength: 3 , maxlength: 15 %>
+            <% unless @site.is_english %>
+              <%= f.input :english_name, required: true, minlength: 3 , maxlength: 15, hint: "This is used for url management." %>
             <% end %>
-        <% else %>
-            <%= simple_form_for(@instance, url: account_site_ref_categories_path(@account, @site), method: :post) do |f| %>
-            <%= f.error_notification %>
-            <%= f.hidden_field :genre, value: "series" %>
-            <%= f.hidden_field :site_id, value: @site.id %>
+        </div>
+        <div class="form-actions">
+            <%= f.button :submit, value: "Add", class: "btn btn-sm btn-secondary" %>
+        </div>
+      <% end %>
+    <% else %>
+        <%= simple_form_for(@instance, url: account_site_ref_categories_path(@account, @site), method: :post) do |f| %>
+        <%= f.error_notification %>
+        <%= f.hidden_field :genre, value: "series" %>
+        <%= f.hidden_field :site_id, value: @site.id %>
 
-            <div class="form-inputs">
-              <%= f.input :name, required: true, minlength: 3 , maxlength: 15, hint: "Choose carefully. Once set, you cannot change the name." %>
-              <% unless @site.is_english %>
-                <%= f.input :english_name, required: true, minlength: 3 , maxlength: 15, hint: "This is used for url management." %>
-              <% end %>
-              <%= f.input :name_html, as: :text, label: "Brand the vertical", hint: "Use HTML (span tag) to add CSS. Note, the length of the series cannot be more than 15 characters.", required: true, minlength: 3 , maxlength: 50 %>
-            </div>
-            <div class="form-actions">
-                <%= f.button :submit, value: "Add a vertical", class: "btn btn-sm btn-secondary" %>
-            </div>
-            <% end %>
+        <div class="form-inputs">
+          <%= f.input :name, required: true, minlength: 3 , maxlength: 15, hint: "Choose carefully. Once set, you cannot change the name." %>
+          <% unless @site.is_english %>
+            <%= f.input :english_name, required: true, minlength: 3 , maxlength: 15, hint: "This is used for url management." %>
+          <% end %>
+          <%= f.input :name_html, as: :text, label: "Brand the vertical", hint: "Use HTML (span tag) to add CSS. Note, the length of the series cannot be more than 15 characters.", required: true, minlength: 3 , maxlength: 50 %>
+        </div>
+        <div class="form-actions">
+            <%= f.button :submit, value: "Add a vertical", class: "btn btn-sm btn-secondary" %>
+        </div>
         <% end %>
-        <hr/>
-        <%= render partial: "admins/sidebar_structured" %>
+    <% end %>
+    <hr/>
+    <%= render partial: "admins/sidebar_structured" %>
 	</div>
 </div>

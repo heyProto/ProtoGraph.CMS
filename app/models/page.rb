@@ -314,9 +314,9 @@ class Page < ApplicationRecord
     Api::ProtoGraph::CloudFront.invalidate(self.site, ["/#{key}", "/#{self.html_key}.html"], 2)
     site.publish_sitemap
     site.publish_robot_txt
-    # if self.template_page.name == 'article'
-    #   self.series.vertical_page.push_page_object_to_s3
-    # end
+    if self.template_page.name == 'article'
+      self.series.vertical_page.push_page_object_to_s3
+    end
     true
   end
 
