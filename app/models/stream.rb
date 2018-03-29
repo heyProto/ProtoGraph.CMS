@@ -105,7 +105,7 @@ class Stream < ApplicationRecord
             vc_ids = self.view_cast_ids.order(:sort_order).pluck(:entity_value)
             view_cast_or = vc_ids.present? ? account.view_casts.where(id: vc_ids).where.not(folder_id: account.folders.where(is_trash: true).first.id) : ViewCast.none
             if self.title.split("_")[1] == "Section"
-                view_cast_or = view_cast_or.order(published_at: :desc)
+                view_cast_or = view_cast_or.order("UNIX_TIMESTAMP(published_at) DESC")
             elsif vc_ids.present?
                 view_cast_or = view_cast_or.order("field(id, #{vc_ids.join(",")})")
             end
