@@ -477,7 +477,7 @@ class Page < ApplicationRecord
     data["data"]["interactive"] = self.is_interactive if self.is_interactive.present?
     data["data"]["imageurl"] = self.cover_image_url.to_s if self.cover_image_url.present?
     data["data"]["col7imageurl"] = self.cover_image_url_7_column.to_s if self.cover_image_url_7_column.present?
-    data["data"]["focus"] = "h"
+    data["data"]["focus"] = (self.cover_image_alignment == "horizontal") ? "h" : "v"
     data["data"]["country"] = "India"
     data["data"]["state"] = ""
     data["data"]["city"] = ""

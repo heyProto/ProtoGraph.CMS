@@ -80,13 +80,13 @@ class Stream < ApplicationRecord
         if is_automated_stream
             if col_name == "Site"
                 site = Site.find(col_id)
-                view_casts = site.view_casts.where.not(folder_id: account.folders.where(is_trash: true).pluck(:id)).where(template_card_id: TemplateCard.where(name: "toStory").pluck(:id)).limit(self.limit).offset(self.offset).order(published_at: :desc)
+                view_casts = site.view_casts.where.not(folder_id: account.folders.where(is_trash: true).pluck(:id)).where(template_card_id: TemplateCard.where(name: "toStory").pluck(:id)).limit(self.limit).offset(self.offset).order("UNIX_TIMESTAMP(published_at) DESC")
             elsif col_name == "RefCategory"
                 ref_cat = RefCategory.find(col_id)
-                view_casts = ref_cat.view_casts.where.not(folder_id: account.folders.where(is_trash: true).pluck(:id)).limit(self.limit).offset(self.offset).order(published_at: :desc)
+                view_casts = ref_cat.view_casts.where.not(folder_id: account.folders.where(is_trash: true).pluck(:id)).limit(self.limit).offset(self.offset).order("UNIX_TIMESTAMP(published_at) DESC")
             elsif col_name == 'Permission'
                 permission = Permission.find(col_id)
-                view_casts = permission.view_casts.where.not(folder_id: account.folders.where(is_trash: true).pluck(:id)).limit(self.limit).offset(self.offset).order(published_at: :desc)
+                view_casts = permission.view_casts.where.not(folder_id: account.folders.where(is_trash: true).pluck(:id)).limit(self.limit).offset(self.offset).order("UNIX_TIMESTAMP(published_at) DESC")
             else
                 view_casts = ViewCast.none
             end
