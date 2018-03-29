@@ -157,9 +157,11 @@ class Page < ApplicationRecord
   end
 
   def update_slug
-    unless slug.split("-")[-1]  == self.id.to_s
-      self.slug = nil
-      self.save
+    unless template_page.name == 'Homepage: Vertical'
+      unless slug.split("-")[-1]  == self.id.to_s
+        self.slug = nil
+        self.save
+      end
     end
   end
 
