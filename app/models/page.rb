@@ -219,7 +219,7 @@ class Page < ApplicationRecord
   def push_page_object_to_s3
     create_story_card
     site = self.site
-    hero_stream = self.streams.where(title: "#{self.id}_Story_16c_Hero").first
+    hero_stream = self.streams.where(title: ["#{self.id}_Story_16c_Hero", "#{self.id}_Data_16c_Hero"]).first
     if hero_stream.present? and hero_stream.cards.count == 0
       StreamEntity.create({
         "entity_value": "#{self.view_cast_id}",
