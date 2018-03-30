@@ -282,7 +282,7 @@ class Page < ApplicationRecord
       "datacast_identifier": series_stream.datacast_identifier,
       "rss_url": "#{site.cdn_endpoint}/#{series_stream.cdn_rss_key}",
       "url": "#{site.cdn_endpoint}/#{series_stream.cdn_key}",
-      "name_of_stream": "MORE IN THE VERTICAL"
+      "name_of_stream": "MORE IN #{series.name.upcase}"
     }
     site_stream = self.site.stream
     json["more_in_the_site"] = {
@@ -291,7 +291,7 @@ class Page < ApplicationRecord
       "datacast_identifier": site_stream.datacast_identifier,
       "rss_url": "#{site.cdn_endpoint}/#{site_stream.cdn_rss_key}",
       "url": "#{site.cdn_endpoint}/#{site_stream.cdn_key}",
-      "name_of_stream": "#{site.name.titleize}"
+      "name_of_stream": "MORE IN #{site.name.upcase}"
     }
     json["navigation_json"] = navigation_json
     if self.intersection.present?
@@ -302,7 +302,7 @@ class Page < ApplicationRecord
         "datacast_identifier": intersection_stream.datacast_identifier,
         "rss_url": "#{site.cdn_endpoint}/#{intersection_stream.cdn_rss_key}",
         "url": "#{site.cdn_endpoint}/#{intersection_stream.cdn_key}",
-        "name_of_stream": "More in Intersection"
+        "name_of_stream": "MORE IN #{intersection.name.upcase}"
       }
     end
     if self.sub_intersection.present?
@@ -313,7 +313,7 @@ class Page < ApplicationRecord
         "datacast_identifier": sub_intersection_stream.datacast_identifier,
         "rss_url": "#{site.cdn_endpoint}/#{sub_intersection_stream.cdn_rss_key}",
         "url": "#{site.cdn_endpoint}/#{sub_intersection_stream.cdn_key}",
-        "name_of_stream": "More in Sub Intersection"
+        "name_of_stream": "MORE IN #{sub_intersection.name.upcase}"
       }
     end
     key = "#{self.datacast_identifier}/page.json"
@@ -325,7 +325,7 @@ class Page < ApplicationRecord
     Api::ProtoGraph::CloudFront.invalidate(self.site, ["/#{key}", "/#{self.html_key}.html"], 2)
     site.publish_sitemap
     site.publish_robot_txt
-    if self.template_page.name == 'article'
+    if self.template_page.name != 'Homepage: Vertical'
       self.series.vertical_page.push_page_object_to_s3
     end
     true
