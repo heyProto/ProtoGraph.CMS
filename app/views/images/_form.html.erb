@@ -10,6 +10,13 @@
     -webkit-animation: spin 2s linear infinite; /* Safari */
     animation: spin 2s linear infinite;
   }
+  .proto-invalid-image {
+    display: none;
+    width: 100%;
+    margin-top: .25rem;
+    font-size: 80%;
+    color: #dc3545;
+  }
 
   /* Safari */
   @-webkit-keyframes spin {
@@ -35,7 +42,8 @@
       <div class="modal-body">
         <%= simple_form_for([@account, @new_image]) do |f| %>
           <%= f.error_notification %>
-          <%= f.input :image, as: :file, required: true, hint: 'Size should less than or equal to 500kB. Supported file types are GIF, JPEG, JPG and PNG', input_html: {id: "proto_image_bank_image_field"} %>
+          <%= f.input :image, as: :file, required: true, hint: 'Size should less than or equal to 500kB. Supported file types are JPEG, JPG and PNG', input_html: {id: "proto_image_bank_image_field"} %>
+          <div class="proto-invalid-image">Invalid image. Size should less than or equal to 500kB. Supported file types are JPEG, JPG and PNG.</div>
           <div class="proto-image-loader"></div>
           <img id="preview_image" src="#" alt="" style='max-height: 200px' class="proto-image-preview" />
           <%= f.input :account_id, as: :hidden, input_html: {value: @account.id} %>
@@ -63,8 +71,22 @@ function updateCropCoords(coords) {
   $('#image_crop_h').val(coords.h);
 }
 
+function validateFile(file) {
+  let valid_files = [ "image/png", "image/jpeg" ];
+  if (file.size <= 512000 && (valid_files.indexOf(file.type) >= 0)) return true;
+  return false;
+}
+
+function resetDefaults() {
+  $(".proto-invalid-image").css('display', 'none');
+  $(".proto-image-loader").css('display', 'none');
+  $("#preview_image").attr('src', "");
+  $('#image_name').val("");
+  $("#proto_image_bank_create_image").attr("disabled", "true");
+}
+
 function readURL(input) {
-  if (input.files && input.files[0]) {
+  if (input.files && input.files[0] && validateFile(input.files[0])) {
     $(".proto-image-loader").css('display', 'block');
     var reader = new FileReader();
     reader.onload = function (e) {
@@ -96,13 +118,15 @@ function readURL(input) {
               setSelect: [data.x, data.y, (data.x + data.width), (data.y + data.height)],
               onSelect: updateCropCoords,
               onChange: updateCropCoords,
-              boxHeight: 350,
-              boxWidth: 750,
-              aspectRatio: 5/3
+              boxHeight: height,
+              boxWidth: width,
+              trueSize: [width, height],
+              aspectRatio: (data.width/data.height)
             });
           }).fail(function(xhr) {
             $(".proto-image-loader").css('display', 'none');
-            console.error('error callback 2', xhr);
+            $(".proto-invalid-image").html("Error smart cropping the image. Try uploading the image again.");
+            $(".proto-invalid-image").css('display', 'block');
           });
         } else {
           // If not then check the aspect ratio of the image.
@@ -130,9 +154,8 @@ function readURL(input) {
     }
     reader.readAsDataURL(input.files[0]);
   } else {
-    $("#preview_image").attr('src', "");
-    $('#image_name').val("");
-    $("#proto_image_bank_create_image").attr("disabled", "true");
+    resetDefaults();
+    $(".proto-invalid-image").css('display', 'block');
   }
 };
 </script>
@@ -143,16 +166,14 @@ function readURL(input) {
     $( "#new_image" ).submit(function( event ) {
       var img = $("#preview_image")[0];
       if(img){
-          console.log(img)
           dom_colour = colorThief.getColor(img)
-          console.log(dom_colour)
           $("#image_dominant_colour").val(JSON.stringify(dom_colour))
           pal_colours = colorThief.getPalette(img)
-          console.log(pal_colours)
           $("#image_colour_palette").val(JSON.stringify(pal_colours))
       }
    });
    $("#proto_image_bank_image_field").on("change", function (event) {
+     resetDefaults();
      readURL(this)
    });
  });

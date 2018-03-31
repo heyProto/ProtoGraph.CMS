@@ -36,13 +36,13 @@ class ImageVariation < ApplicationRecord
   delegate :account, to: :image
 
   #ACCESSORS
-  attr_accessor :crop_x, :crop_y, :crop_w, :crop_h, :resize
+  attr_accessor :crop_x, :crop_y, :crop_w, :crop_h, :resize, :autocreate
   #VALIDATIONS
   #CALLBACKS
   # after_create :process_and_upload_image, if: :is_original?
   # after_create :process_and_upload_image_variation, if: :not_is_original?
   # after_commit :process_and_upload_smart_cropped_variation, if: :is_smart_cropped?, on: [:create]
-  after_create :upload_image
+  after_create :upload_image, if: :not_autocreate?
   #SCOPE
   #OTHER
   #PRIVATE
@@ -71,23 +71,16 @@ class ImageVariation < ApplicationRecord
     not self.is_original?
   end
 
+  def not_autocreate?
+    not self.autocreate
+  end
+
   def upload_image
     require "base64"
     image = self.image
-    # og_thumbnail_url = image.image.thumb.url
+
     og_image_url = image.image.url
-
-    # thumb_img_path = CGI.unescape "#{Rails.root.to_s}/public#{og_thumbnail_url}"
     img_path = CGI.unescape "#{Rails.root.to_s}/public#{og_image_url}"
-
-    # thumb_img = Magick::Image.ping(thumb_img_path).first
-    img = Magick::Image.ping(img_path).first
-
-    # thumb_img_h = thumb_img.rows
-    # thumb_img_w = thumb_img.columns
-
-    # img_h = img.rows
-    # img_w = img.columns
 
     data = {
       image_blob: Base64.encode64(File.open(img_path, "rb").read()),
@@ -119,31 +112,48 @@ class ImageVariation < ApplicationRecord
     })
 
     response = JSON.parse(response);
-    puts "response => #{response}"
-    # if response["success"]
-    #   image.update_attributes({
-    #     thumbnail_url: response['data']['thumbnail_url'],
-    #     thumbnail_key: response['data']['thumbnail_key'],
-    #     image_width: img_w,
-    #     image_height: img_h,
-    #     thumbnail_width: thumb_img_w,
-    #     thumbnail_height: thumb_img_h
-    #   })
+    if response["success"]
+      data = response["data"]
+      og_image = data.select { |i| i["mode"] === "og" }[0]
+      thumbnail = data.select { |i| i["mode"] === "thumb" }[0]
+      other_modes = data.select { |i| not ["og", "thumb"].index(i["mode"]).present? }
 
-    #   a = self.update_attributes({
-    #     image_key: response['data']['image_key'],
-    #     image_width: img_w,
-    #     image_height: img_h,
-    #     thumbnail_url: response['data']['thumbnail_url'],
-    #     thumbnail_key: response['data']['thumbnail_key'],
-    #     thumbnail_width: thumb_img_w,
-    #     thumbnail_height: thumb_img_h
-    #   })
-    #   if self.image.is_cover
-    #     resize_and_create_image_variation
-    #   end
-    # end
+      image.update_attributes({
+        thumbnail_url: thumbnail["data"]["Location"],
+        thumbnail_key: thumbnail["data"]["key"],
+        image_width: og_image["width"],
+        image_height: og_image["height"],
+        thumbnail_width: thumbnail["width"],
+        thumbnail_height: thumbnail["height"]
+      })
 
+      a = self.update_attributes({
+        image_key: og_image["data"]["key"],
+        image_width: og_image["width"],
+        image_height: og_image["height"],
+        thumbnail_url: thumbnail["data"]["Location"],
+        thumbnail_key: thumbnail["data"]["key"],
+        thumbnail_width: thumbnail["width"],
+        thumbnail_height: thumbnail["height"],
+        mode: "original"
+      })
+
+      other_modes.each do |img|
+        ImageVariation.create({
+          image_id: self.image_id,
+          image_key: img["data"]["key"],
+          image_width: img["width"],
+          image_height: img["height"],
+          thumbnail_url: thumbnail["data"]["Location"],
+          thumbnail_key: thumbnail["data"]["key"],
+          thumbnail_width: thumbnail["width"],
+          thumbnail_height: thumbnail["height"],
+          mode: img["mode"],
+          autocreate: true,
+          is_original: false
+        })
+      end
+    end
   end
 
   # def process_and_upload_smart_cropped_variation

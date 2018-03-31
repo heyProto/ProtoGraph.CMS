@@ -84,3 +84,12 @@
   color: white;
   z-index: 600;
 }
+.proto-app-image-bank-main-image {
+  position: relative;
+  width: 100%;
+  background: #eee;
+}
+.proto-app-image-bank-main-image img {
+  display: block;
+  margin: 0 auto;
+}

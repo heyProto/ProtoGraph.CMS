@@ -1,8 +1,5 @@
 <%= content_for :page_title do %>
-
-
-        <li class="breadcrumb-item active" aria-current="page">Image Bank</li>
-
+  <li class="breadcrumb-item active" aria-current="page">Image Bank</li>
 <% end %>
 <%= stylesheet_link_tag "image_bank.css" %>
 <div class="row">
@@ -44,7 +41,6 @@
 <%= javascript_include_tag "select2.js" %>
 <script type="text/javascript">
   var images = <%= @images.as_json(folder_id: @folder.present? ? @folder.id : nil).to_json.html_safe %>;
-
   $(document).on("turbolinks:load", function() {
     var maxHeight = 100;
     if (images.length) {

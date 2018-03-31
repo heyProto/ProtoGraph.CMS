@@ -1,7 +1,7 @@
 <%= content_for :page_title do %>
         <li class="breadcrumb-item"><%= link_to "Image Bank", account_images_path(@account, folder_id: @folder.present? ? @folder.id : nil), "data-turbolinks"=> false %></li>
         <li class="breadcrumb-item active" aria-current="page"><%= truncate(@image.name, length: 24, ommission: "..") %></li>
-      
+
 <% end %>
 <% w = @image.image_width %>
 <% h = @image.image_height %>
@@ -9,16 +9,16 @@
 <div class="row">
     <div class="col-sm-13">
         <div style="margin-left: auto; margin-right: auto;">
-            <div class='mx-auto'>
-                <a href="<%= @image.image_url %>" target="_blank">
-                  <%= image_tag(@image.image_url, class: "img-responsive", id: "main_image")  %>
-                </a>
-                <div class="photograph-image-details" style="display: block;">
-                  <%= "#{w} x #{h} (#{w / w.gcd(h)} : #{h / w.gcd(h)})"%>
-                </div>
+            <div class='mx-auto proto-app-image-bank-main-image'>
+              <a href="<%= @image.image_url %>" target="_blank">
+                <%= image_tag(@image.image_url, class: "img-responsive", id: "main_image", width: w)  %>
+              </a>
+              <div class="photograph-image-details" style="display: block;">
+                <%= "#{w} x #{h} (#{w / w.gcd(h)} : #{h / w.gcd(h)})"%>
+              </div>
             </div>
             <br/>
-            
+
             <div style="position: relative;">
               <% if @image.image_variation.present? %>
                 <br/>
