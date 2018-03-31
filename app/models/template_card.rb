@@ -39,6 +39,10 @@ class TemplateCard < ApplicationRecord
     #CONSTANTS
     STATUS = ["Draft", "Ready to Publish", "Published", "Deactivated"]
     CDN_BASE_URL = "#{ENV['AWS_S3_ENDPOINT']}"
+    PUBLISHED_COLUMN_MAP = {
+        "toStory" => "publishedat",
+        "toCluster" => "published_date"
+    }
     serialize :allowed_views
 
     #CUSTOM TABLES

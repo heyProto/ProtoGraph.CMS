@@ -14,19 +14,19 @@ class StreamUpdateWorker
       permission.stream.publish_rss
     end
     #Series
-    series = site.ref_categories.where(genre: "series",name: view_cast.series).first
+    series = view_cast.series
     if series.present? and series.stream.present?
       series.stream.publish_cards
       series.stream.publish_rss
     end
     #genre
-    genre = site.ref_categories.where(genre: "intersection", name: view_cast.genre).first
+    genre = view_cast.intersection
     if genre.present? and genre.stream.present?
       genre.stream.publish_cards
       genre.stream.publish_rss
     end
     #sub_genre
-    sub_genre = site.ref_categories.where(genre: "sub intersection",name: view_cast.sub_genre).first
+    sub_genre = view_cast.sub_intersection
     if sub_genre.present? and sub_genre.stream.present?
       sub_genre.stream.publish_cards
       sub_genre.stream.publish_rss

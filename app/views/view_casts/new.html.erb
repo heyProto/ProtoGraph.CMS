@@ -1,5 +1,5 @@
-<%= content_for :page_title do %>      
-    <li class="breadcrumb-item"><%= link_to "Cards", account_site_folder_view_casts_path(@account, @site, @folder), "data-turbolinks"=> false %></li> 
+<%= content_for :page_title do %>
+    <li class="breadcrumb-item"><%= link_to "Cards", account_site_folder_view_casts_path(@account, @site, @folder), "data-turbolinks"=> false %></li>
     <li class="breadcrumb-item active" aria-current="page">New</li>
 <% end %>
 
@@ -23,8 +23,10 @@
     window.folderSlug = "<%= @folder.slug %>";
     window.ref_link_sources_url = "<%= "#{ENV["AWS_S3_ENDPOINT"]}/Assets/ref_link_sources.json?no-cache=#{Time.now.to_s}" %>";
     window.site_config_url = "<%= "#{@site.header_json_url}?no-cache=#{Time.now.to_s}" %>";
-    <% if @folder.is_for_stories %>
+    <% if @intersections.present? %>
         window.intersection_names =  <%= @intersections.to_json.html_safe %>;
+    <% end %>
+    <% if @subintersections.present? %>
         window.subintersection_names =  <%= @subintersections.to_json.html_safe %>;
     <% end %>
     var JCropInstance;

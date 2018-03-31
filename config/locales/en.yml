@@ -41,6 +41,8 @@ en:
     add: "Successfully added to account."
     invite: "Sent invitation email."
     removed: "Removed from account."
+    noinvite: "The user is added and no invitation sent."
+    nouser_noinvite: "No invitation sent."
   changed:
     public: "Made public."
     private: "Made private."

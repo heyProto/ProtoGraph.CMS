@@ -39,6 +39,14 @@ class StreamEntity < ApplicationRecord
     scope :excluded_view_casts, -> {where(entity_type: "view_cast_id", is_excluded: true)}
     #OTHER
 
+    def next
+        a = self.stream.view_cast_ids.where("sort_order > ?", self.sort_order).order(:sort_order).first
+    end
+
+    def previous
+        a = self.stream.view_cast_ids.where("sort_order < ?", self.sort_order).order(sort_order: :desc).last
+    end
+
     #PRIVATE
     private
 
@@ -57,12 +65,16 @@ class StreamEntity < ApplicationRecord
     end
 
     def set_sort_order
-        if self.stream.title == "#{self.page_id}_Story_Narrative"
-            last_view_cast = stream.view_cast_ids.order(sort_order: :desc).last
-            self.sort_order = last_view_cast.present? ? last_view_cast.sort_order.to_i + 1 : 1
+        if stream.title.split[1] == "Section"
+            sss
         else
-            stream.view_cast_ids.update_all("sort_order = sort_order + 1")
-            self.sort_order = 1
+            if self.stream.title == "#{self.page_id}_Story_Narrative"
+                last_view_cast = stream.view_cast_ids.order(sort_order: :desc).last
+                self.sort_order = last_view_cast.present? ? last_view_cast.sort_order.to_i + 1 : 1
+            else
+                stream.view_cast_ids.update_all("sort_order = sort_order + 1")
+                self.sort_order = 1
+            end
         end
     end
 end

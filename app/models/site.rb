@@ -231,7 +231,7 @@ class Site < ApplicationRecord
         self.permissions.not_hidden.each do |p|
             members << [p.name, p.id]
         end
-        members
+        members.sort_by{|b| b[0].to_s}
     end
 
     private

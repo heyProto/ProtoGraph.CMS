@@ -103,6 +103,8 @@ class Page < ApplicationRecord
   after_update :update_page_image
   after_update :create_paragraph_card, if: "self.prepare_cards_for_assembling=='true'"
   after_update :push_json_to_s3
+  after_commit :update_slug, on: :create
+
 
   # Slug
   def before_validation_set
@@ -115,7 +117,6 @@ class Page < ApplicationRecord
     else
       "stories/#{self.slug}"
     end
-    # Change during Multi Domain functionality
   end
 
   def html_url
@@ -152,6 +153,15 @@ class Page < ApplicationRecord
       "#{english_headline}"
     else
       "#{english_headline}-#{id}"
+    end
+  end
+
+  def update_slug
+    unless template_page.name == 'Homepage: Vertical'
+      unless slug.split("-")[-1]  == self.id.to_s
+        self.slug = nil
+        self.save
+      end
     end
   end
 
@@ -207,7 +217,20 @@ class Page < ApplicationRecord
   end
 
   def push_page_object_to_s3
+    create_story_card
     site = self.site
+    hero_stream = self.streams.where(title: ["#{self.id}_Story_16c_Hero", "#{self.id}_Data_16c_Hero"]).first
+    if hero_stream.present? and hero_stream.cards.count == 0
+      StreamEntity.create({
+        "entity_value": "#{self.view_cast_id}",
+        "entity_type": "view_cast_id",
+        "stream_id": hero_stream.id,
+        "is_excluded": false
+      })
+      hero_stream.reload
+      hero_stream.publish_cards
+      hero_stream.publish_rss
+    end
     streams = self.page_streams.includes(:stream).map do |e|
       k = e.stream.as_json
       h = {}
@@ -259,7 +282,7 @@ class Page < ApplicationRecord
       "datacast_identifier": series_stream.datacast_identifier,
       "rss_url": "#{site.cdn_endpoint}/#{series_stream.cdn_rss_key}",
       "url": "#{site.cdn_endpoint}/#{series_stream.cdn_key}",
-      "name_of_stream": "MORE IN THE VERTICAL"
+      "name_of_stream": "MORE IN #{series.name.upcase}"
     }
     site_stream = self.site.stream
     json["more_in_the_site"] = {
@@ -268,7 +291,7 @@ class Page < ApplicationRecord
       "datacast_identifier": site_stream.datacast_identifier,
       "rss_url": "#{site.cdn_endpoint}/#{site_stream.cdn_rss_key}",
       "url": "#{site.cdn_endpoint}/#{site_stream.cdn_key}",
-      "name_of_stream": "#{site.name.titleize}"
+      "name_of_stream": "MORE IN #{site.name.upcase}"
     }
     json["navigation_json"] = navigation_json
     if self.intersection.present?
@@ -279,7 +302,7 @@ class Page < ApplicationRecord
         "datacast_identifier": intersection_stream.datacast_identifier,
         "rss_url": "#{site.cdn_endpoint}/#{intersection_stream.cdn_rss_key}",
         "url": "#{site.cdn_endpoint}/#{intersection_stream.cdn_key}",
-        "name_of_stream": "More in Intersection"
+        "name_of_stream": "MORE IN #{intersection.name.upcase}"
       }
     end
     if self.sub_intersection.present?
@@ -290,7 +313,7 @@ class Page < ApplicationRecord
         "datacast_identifier": sub_intersection_stream.datacast_identifier,
         "rss_url": "#{site.cdn_endpoint}/#{sub_intersection_stream.cdn_rss_key}",
         "url": "#{site.cdn_endpoint}/#{sub_intersection_stream.cdn_key}",
-        "name_of_stream": "More in Sub Intersection"
+        "name_of_stream": "MORE IN #{sub_intersection.name.upcase}"
       }
     end
     key = "#{self.datacast_identifier}/page.json"
@@ -300,24 +323,28 @@ class Page < ApplicationRecord
     self.update_column(:page_object_url, "#{self.site.cdn_endpoint}/#{key}")
     response = Api::ProtoGraph::Page.create_or_update_page(self.datacast_identifier, self.template_page.s3_identifier, self.site.cdn_bucket, ENV['AWS_S3_ENDPOINT'])
     Api::ProtoGraph::CloudFront.invalidate(self.site, ["/#{key}", "/#{self.html_key}.html"], 2)
-    create_story_card
     site.publish_sitemap
     site.publish_robot_txt
+    if self.template_page.name != 'Homepage: Vertical'
+      self.series.vertical_page.push_page_object_to_s3
+    end
     true
   end
 
   def get_navigation_json
     narrative_stream = self.streams.where(title: "#{self.id}_Story_Narrative").first
-    narrative_stream_cards = narrative_stream.cards
     nav_json = []
-    narrative_stream_cards.each do |card|
-      data = JSON.parse(RestClient.get(card.data_url))
-      json = {
-        "section": data["data"]["section"] || "",
-        "view_cast_identifier": card.datacast_identifier,
-        "view_cast_id": card.id
-      }
-      nav_json << json
+    if narrative_stream.present?
+      narrative_stream_cards = narrative_stream.cards
+      narrative_stream_cards.each do |card|
+        data = JSON.parse(RestClient.get(card.data_url))
+        json = {
+          "section": data["data"]["section"] || "",
+          "view_cast_identifier": card.datacast_identifier,
+          "view_cast_id": card.id
+        }
+        nav_json << json
+      end
     end
     nav_json
   end
@@ -397,9 +424,9 @@ class Page < ApplicationRecord
       if self.from_api
         push_page_object_to_s3
       else
+        # push_page_object_to_s3
         PagePublisher.perform_async(self.id)
       end
-      true
     end
   end
 
@@ -414,11 +441,12 @@ class Page < ApplicationRecord
           seo_blockquote: TemplateCard.to_story_render_SEO(payload_json["data"]),
           folder_id: self.folder_id,
           by_line: (self.byline.present? and self.byline.username.present?) ? self.byline.username : "",
-          genre: (self.intersection.present? and self.intersection.name.present?) ? self.intersection.name.to_s : "",
-          sub_genre: (self.sub_intersection.present? and self.sub_intersection.name.present?) ? self.sub_intersection.name.to_s : "",
+          ref_category_intersection_id: self.ref_category_intersection_id,
+          ref_category_sub_intersection_id: self.ref_category_sub_intersection_id,
           is_autogenerated: true,
           updated_by: self.updated_by,
-          byline_id: self.byline_id
+          byline_id: self.byline_id,
+          published_at: self.published_at
         })
       else
         view_cast = ViewCast.create({
@@ -431,12 +459,14 @@ class Page < ApplicationRecord
           default_view: "title_text",
           account_id: self.account_id,
           by_line: (self.byline.present? and self.byline.username.present?) ? self.byline.username : "",
-          genre: (self.intersection.present? and self.intersection.name.present?) ? self.intersection.name.to_s : "",
-          sub_genre: (self.sub_intersection.present? and self.sub_intersection.name.present?) ? self.sub_intersection.name.to_s : "",
+          ref_category_intersection_id: self.ref_category_intersection_id,
+          ref_category_sub_intersection_id: self.ref_category_sub_intersection_id,
           created_by: self.created_by,
           updated_by: self.updated_by,
           is_autogenerated: true,
-          byline_id: self.byline_id
+          byline_id: self.byline_id,
+          ref_category_vertical_id: self.ref_category_series_id,
+          published_at: self.published_at
         })
       end
       payload = {}
@@ -460,7 +490,7 @@ class Page < ApplicationRecord
     data = {"data" => {}}
     data["data"]["url"] = self.html_url.to_s if self.html_url.present?
     data["data"]["headline"] = self.headline.to_s if self.headline.present?
-    data["data"]["byline"] = (self.byline.present? and self.byline.username.present?) ? self.byline.username : ""
+    data["data"]["byline"] = (self.byline.present? and self.byline.username.present?) ? self.byline.username : "   "
     data["data"]["publishedat"] = self.published_at.strftime("%Y-%m-%dT%H:%M") if self.published_at.present?
     data["data"]["series"] = self.series.name.to_s if self.series.present? and self.series.name.present?
     data["data"]["genre"] = self.intersection.name.to_s if self.intersection.present? and self.intersection.name.present?
@@ -472,7 +502,7 @@ class Page < ApplicationRecord
     data["data"]["interactive"] = self.is_interactive if self.is_interactive.present?
     data["data"]["imageurl"] = self.cover_image_url.to_s if self.cover_image_url.present?
     data["data"]["col7imageurl"] = self.cover_image_url_7_column.to_s if self.cover_image_url_7_column.present?
-    data["data"]["focus"] = "h"
+    data["data"]["focus"] = (self.cover_image_alignment == "horizontal") ? "h" : "v"
     data["data"]["country"] = "India"
     data["data"]["state"] = ""
     data["data"]["city"] = ""
@@ -522,6 +552,7 @@ class Page < ApplicationRecord
         card.destroy
       end
     end
+    narrative_stream.view_cast_ids.delete_all
     narrative_stream.update(view_cast_id_list: [view_cast_lists.reverse.join(",")])
     StreamPublisher.perform_async(narrative_stream.id)
   end
@@ -545,7 +576,6 @@ class Page < ApplicationRecord
     self.is_sponsored = false                         if self.is_sponsored.blank?
     self.status = 'draft'                             if self.status.blank?
     self.cover_image_alignment = "horizontal"         if self.cover_image_alignment.blank?
-    # self.url = "#{self.html_url}" if self.url.blank?
     true
   end
 
