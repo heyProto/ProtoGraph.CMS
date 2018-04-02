@@ -27,8 +27,8 @@
               </td>
               <td>Updated
               </td>
-              <td>
-              </td>
+              <!-- <td>
+              </td> -->
             </tr>
           </thead>
           <tbody>
@@ -62,9 +62,9 @@
                 <td class="hint">
                   <%= image_tag avatar_url(ref_category.updator.email), class: "rounded" %> <%= time_ago_in_words ref_category.updated_at %>
                 </td>
-                <td>
-                  <%= link_to "Edit", (ref_category.genre == "series") ? distribute_account_site_page_path(@account, @site, ref_category.vertical_page) :edit_account_site_ref_category_path(@account, @site, ref_category) %>
-                </td>
+                <!-- <td> -->
+                  <%#= link_to "Edit", (ref_category.genre == "series") ? distribute_account_site_page_path(@account, @site, ref_category.vertical_page) :edit_account_site_ref_category_path(@account, @site, ref_category) %>
+                <!-- </td> -->
               </tr>
             <% end %>
           </tbody>

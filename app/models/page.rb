@@ -177,7 +177,7 @@ class Page < ApplicationRecord
     parsed_html.search("a").each do |a_tag|
       a_tag_attributes = a_tag.attributes
       url = a_tag_attributes['href'].value
-      url_hostname_arrs = URI.parse(url).hostname.split(".")
+      url_hostname_arrs = URI.parse(url.to_s.strip).hostname.split(".")
       url_hostname_arrs.reject! {|r| Page::BLACKLIST_DOMAIN_IDS.include?(r)}
       if (url_hostname_arrs & site_hostname_arrs).length > 0
         a_tag.remove_attribute('rel')
@@ -325,7 +325,7 @@ class Page < ApplicationRecord
     Api::ProtoGraph::CloudFront.invalidate(self.site, ["/#{key}", "/#{self.html_key}.html"], 2)
     site.publish_sitemap
     site.publish_robot_txt
-    if self.template_page.name != 'Homepage: Vertical'
+    if self.template_page.name != 'Homepage: Vertical' and self.saved_changes.transform_values(&:first).keys.include?('published_at')
       self.series.vertical_page.push_page_object_to_s3
     end
     true
