@@ -34,6 +34,8 @@ gem 'omniauth'
 gem 'omniauth-instagram'
 gem 'omniauth-facebook'
 gem 'omniauth-twitter'
+gem 'activerecord-session_store'
+
 
 #VIEWS
 gem 'simple_form', '~> 3.2', '>= 3.2.1'
