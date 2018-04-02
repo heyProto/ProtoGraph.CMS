@@ -38,7 +38,7 @@ class Image < ApplicationRecord
   has_many :activities
   has_many :colour_swatches, dependent: :destroy
   #ACCESSORS
-  attr_accessor :crop_x, :crop_y, :crop_w, :crop_h
+  attr_accessor :crop_x, :crop_y, :crop_w, :crop_h, :image_w, :image_h
   mount_uploader :image, ImageUploader
   attr_accessor :dominant_colour
   attr_accessor :colour_palette
@@ -123,7 +123,9 @@ class Image < ApplicationRecord
       crop_x: crop_x.to_f,
       crop_y: crop_y.to_f,
       crop_w: crop_w.to_f,
-      crop_h: crop_h.to_f
+      crop_h: crop_h.to_f,
+      image_h: image_h.to_f,
+      image_w: image_w.to_f
     }
     ImageVariation.create(options)
   end

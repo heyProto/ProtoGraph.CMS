@@ -1,36 +1,4 @@
-<style>
-  .proto-image-loader {
-    margin: 0 auto;
-    display: none;
-    border: 16px solid #f3f3f3;
-    border-radius: 50%;
-    border-top: 16px solid #3498db;
-    width: 120px;
-    height: 120px;
-    -webkit-animation: spin 2s linear infinite; /* Safari */
-    animation: spin 2s linear infinite;
-  }
-  .proto-invalid-image {
-    display: none;
-    width: 100%;
-    margin-top: .25rem;
-    font-size: 80%;
-    color: #dc3545;
-  }
-
-  /* Safari */
-  @-webkit-keyframes spin {
-    0% { -webkit-transform: rotate(0deg); }
-    100% { -webkit-transform: rotate(360deg); }
-  }
-
-  @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-  }
-</style>
-
-<div class="modal fade" id="fileUploadModal" role="dialog"  aria-hidden="true"  tabindex="1" >
+<div class="modal fade" id="fileUploadModal" role="dialog"  aria-hidden="true"  tabindex="1" data-backdrop="static" data-keyboard="false">
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -51,130 +19,18 @@
           <% %w[x y w h].each do |attribute| %>
             <%= f.input "crop_#{attribute}", as: :hidden %>
           <% end %>
+          <%= f.input :image_w, as: :hidden %>
+          <%= f.input :image_h, as: :hidden %>
           <%= f.input :description %>
           <%= f.hidden_field :dominant_colour, value: nil %>
           <%= f.hidden_field :colour_palette, value: nil %>
         <% end %>
       </div>
       <div class='modal-footer'>
-        <input type="submit" value="Upload" form="new_image" class="btn btn-light" disabled="true" id="proto_image_bank_create_image">
+        <input type="submit" value="Upload" form="new_image" class="btn btn-light proto-disable-item" id="proto_image_bank_create_image">
       </div>
     </div>
   </div>
 </div>
 
-<script type="text/javascript">
-function updateCropCoords(coords) {
-  $('#image_crop_x').val(coords.x);
-  $('#image_crop_y').val(coords.y);
-  $('#image_crop_w').val(coords.w);
-  $('#image_crop_h').val(coords.h);
-}
-
-function validateFile(file) {
-  let valid_files = [ "image/png", "image/jpeg" ];
-  if (file.size <= 512000 && (valid_files.indexOf(file.type) >= 0)) return true;
-  return false;
-}
-
-function resetDefaults() {
-  $(".proto-invalid-image").css('display', 'none');
-  $(".proto-image-loader").css('display', 'none');
-  $("#preview_image").attr('src', "");
-  $('#image_name').val("");
-  $("#proto_image_bank_create_image").attr("disabled", "true");
-}
-
-function readURL(input) {
-  if (input.files && input.files[0] && validateFile(input.files[0])) {
-    $(".proto-image-loader").css('display', 'block');
-    var reader = new FileReader();
-    reader.onload = function (e) {
-      $('#image_name').val(input.files[0].name.replace(/\.[^/.]+$/, ""));
-      var image = new Image();
-      image.src = e.target.result;
-      image.onload = function () {
-        var width = this.naturalWidth,
-          height = this.naturalHeight;
-
-        if (<%= @site.is_smart_crop_enabled %>) {
-          // Fire the API to get smart croped coordinates.
-          $.ajax({
-            url: "/api/v1/smartcrop",
-            method: "post",
-            headers: {
-              "Content-Type": "application/json"
-            },
-            data: JSON.stringify({
-              image_blob: e.target.result,
-              crop_options: { width: 1260, height: 756}
-            })
-          }).done(function(response) {
-            let data = response.message.data;
-            $(".proto-image-loader").css('display', 'none');
-            $("#preview_image").attr('src', e.target.result);
-            $("#proto_image_bank_create_image").removeAttr("disabled");
-            $('#preview_image').Jcrop({
-              setSelect: [data.x, data.y, (data.x + data.width), (data.y + data.height)],
-              onSelect: updateCropCoords,
-              onChange: updateCropCoords,
-              boxHeight: height,
-              boxWidth: width,
-              trueSize: [width, height],
-              aspectRatio: (data.width/data.height)
-            });
-          }).fail(function(xhr) {
-            $(".proto-image-loader").css('display', 'none');
-            $(".proto-invalid-image").html("Error smart cropping the image. Try uploading the image again.");
-            $(".proto-invalid-image").css('display', 'block');
-          });
-        } else {
-          // If not then check the aspect ratio of the image.
-          if ((width % 5 === 0) && (height % 5 === 0)) {
-            // Show the preview and allow to upload.
-            $(".proto-image-loader").css('display', 'none');
-            $("#preview_image").attr('src', e.target.result);
-            $("#proto_image_bank_create_image").removeAttr("disabled");
-          } else {
-            $(".proto-image-loader").css('display', 'none');
-            $("#preview_image").attr('src', e.target.result);
-            $('#preview_image').Jcrop({
-              setSelect: [0, 0, 1260, 430],
-              onSelect: updateCropCoords,
-              onChange: updateCropCoords,
-              boxHeight: 350,
-              boxWidth: 750,
-              aspectRatio: 5/3
-            });
-            // Show the cropper with 5:3 selected.
-          }
-        }
-        return true;
-      };
-    }
-    reader.readAsDataURL(input.files[0]);
-  } else {
-    resetDefaults();
-    $(".proto-invalid-image").css('display', 'block');
-  }
-};
-</script>
-
-<script type="text/javascript">
- $(document).on('turbolinks:load', function() {
-    var colorThief = new ColorThief();
-    $( "#new_image" ).submit(function( event ) {
-      var img = $("#preview_image")[0];
-      if(img){
-          dom_colour = colorThief.getColor(img)
-          $("#image_dominant_colour").val(JSON.stringify(dom_colour))
-          pal_colours = colorThief.getPalette(img)
-          $("#image_colour_palette").val(JSON.stringify(pal_colours))
-      }
-   });
-   $("#proto_image_bank_image_field").on("change", function (event) {
-     resetDefaults();
-     readURL(this)
-   });
- });
-</script>
+<%= render partial: "images/new_image_js" %>

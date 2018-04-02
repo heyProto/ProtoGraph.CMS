@@ -64,8 +64,8 @@
 
 $(document).on("turbolinks:load", function() {
     <% if @image.image_variation.present? %>
-    var maxHeight = 150;
-    $('#variationImages').empty().justifiedImages({
+      var maxHeight = 150;
+      $('#variationImages').empty().justifiedImages({
         images: images,
         rowHeight: maxHeight,
         maxRowHeight: 150,
@@ -88,14 +88,15 @@ $(document).on("turbolinks:load", function() {
             return image;
         },
         margin: 20
-    });
+      });
     <% end %>
 })
 </script>
 
 <%= render partial: "images/form" %>
-<div class="modal" id="imageCropperModal"> <i class="close icon"></i>
-    <%= render partial: "images/cropper", locals: {mode: nil} %>
+<div class="modal" id="imageCropperModal">
+  <i class="close icon"></i>
+  <%= render partial: "images/cropper", locals: {mode: nil} %>
 </div>
 <%= render partial: "images/cropper_js" %>
 <style>

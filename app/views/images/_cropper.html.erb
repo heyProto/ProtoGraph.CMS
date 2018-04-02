@@ -31,11 +31,11 @@
                 1:1 (Timeline Event Image)
               </a>
             </li>
-            <li class="nav-item item" data-width="0" data-height="0" data-crop-type="smart">
+            <!-- <li class="nav-item item" data-width="0" data-height="0" data-crop-type="smart">
               <a class="nav-link" href='#'>
                 Smart Crop
               </a>
-            </li>
+            </li> -->
           </ul>
         </div>
       </nav>
@@ -46,7 +46,6 @@
             <%= f.input "crop_#{attribute}", as: :hidden %>
         <% end %>
         <%= f.input :mode, as: :hidden, input_html: {value: mode.present? ? mode : nil} %>
-        <%= f.input :is_smart_cropped, as: :hidden %>
       <% end %>
     </div>
     <div class='modal-footer'>

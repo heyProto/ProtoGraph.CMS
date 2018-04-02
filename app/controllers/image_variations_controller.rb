@@ -5,6 +5,12 @@ class ImageVariationsController < ApplicationController
   def create
     options = image_variation_params
     options[:is_original] = false
+    options[:crop_x] = options[:crop_x].to_f
+    options[:crop_y] = options[:crop_y].to_f
+    options[:crop_w] = options[:crop_w].to_f
+    options[:crop_h] = options[:crop_h].to_f
+    options[:image_h] = options[:image_h].to_f
+    options[:image_w] = options[:image_w].to_f
     @image_variation = ImageVariation.new(options)
     if @image_variation.save
       track_activity(@image_variation)
@@ -34,7 +40,6 @@ class ImageVariationsController < ApplicationController
   def set_image_variation
     @image_variation = ImageVariation.find(params[:id]) if params[:id]
   end
-
 
   def image_variation_params
     params.require(:image_variation).permit(:image_id, :created_by, :crop_x, :crop_y, :crop_w, :crop_h, :mode, :is_smart_cropped)
