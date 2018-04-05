@@ -38,7 +38,7 @@ class UserSession < ApplicationRecord
                     begin
                         res = Geocoder.search(ip)
                         if res and res[0]
-                            data = res[0]
+                            data = res[0].data
                             a.location_country = data["country_name"]
                             a.location_state = data["region_name"]
                             a.location_city = data["city"]
