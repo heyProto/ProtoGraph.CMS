@@ -12,13 +12,13 @@ Rails.application.routes.draw do
     get 'sign_out', to: 'devise/sessions#destroy'
   end
 
+  namespace :admin do
+    get "user-sessions", to: "user_sessions#index", as: :user_sessions
+  end
+
   resources :users do
       resources :user_emails, only: [:index, :create, :destroy]
       get '/user_emails/confirmation', to: "user_emails#confirmation", as: "email_confirmation"
-  end
-
-  namespace :admin do
-    get "online_users", to: "online_users#index", as: :online_users
   end
 
   resources :ref_link_sources do
