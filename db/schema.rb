@@ -354,6 +354,13 @@ ActiveRecord::Schema.define(version: 20180405155521) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "sessions", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string "session_id", null: false
+    t.text "data"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "site_vertical_navigations", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
     t.integer "site_id"
     t.integer "ref_category_vertical_id"
@@ -584,6 +591,18 @@ ActiveRecord::Schema.define(version: 20180405155521) do
     t.datetime "updated_at", null: false
     t.boolean "is_primary_email"
     t.index ["user_id"], name: "index_user_emails_on_user_id"
+  end
+
+  create_table "user_sessions", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string "session_id"
+    t.integer "user_id"
+    t.string "ip"
+    t.string "user_agent"
+    t.string "location_city"
+    t.string "location_state"
+    t.string "location_country"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|

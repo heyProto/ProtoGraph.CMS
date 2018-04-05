@@ -2,6 +2,7 @@ class ApplicationController < ActionController::Base
   before_action :log_additional_data
   protect_from_forgery with: :exception, unless: :json_request?
   protect_from_forgery with: :null_session, if: :json_request?
+  before_action :log_user_session
   before_action :sudo
   after_action :user_activity
 
@@ -125,6 +126,12 @@ class ApplicationController < ActionController::Base
       request.env["exception_notifier.exception_data"] = {
         current_user: current_user
       }
+    end
+  end
+
+  def log_user_session
+    if current_user.present?
+      UserSession.log(session.id, current_user.id, request.env["REMOTE_ADDR"].to_s, request.env["HTTP_USER_AGENT"].to_s)
     end
   end
 
