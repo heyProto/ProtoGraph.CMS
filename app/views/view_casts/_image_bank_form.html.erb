@@ -47,6 +47,8 @@
           <% %w[x y w h].each do |attribute| %>
               <%= f.input "crop_#{attribute}", as: :hidden %>
           <% end %>
+          <%= f.input :credits %>
+          <%= f.input :credit_link %>
         <% end %>
         <div class="form-group image-url-container" id="image_url_container">
           <label>Image URL</label>

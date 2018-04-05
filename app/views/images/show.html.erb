@@ -17,6 +17,15 @@
                 <%= "#{w} x #{h} (#{w / w.gcd(h)} : #{h / w.gcd(h)})"%>
               </div>
             </div>
+            <% if @image.credits.present? %>
+              <div class="proto-image-byline">By
+                <% if @image.credit_link.present? %>
+                  <a href="#{@image.credit_link}"><%= @image.credits %></a>
+                <% else %>
+                  <%= @image.credits %>
+                <% end %>
+              </div>
+            <% end %>
             <br/>
 
             <div style="position: relative;">
@@ -59,7 +68,7 @@
 
 <script type="text/javascript">
 <% if @image.image_variation.present? %>
-  var images = <%= @image.image_variation.as_json.to_json.html_safe %>;
+  var images = <%= @image.image_variation.where.not({image_width: nil,image_height: nil,thumbnail_width: nil,thumbnail_height: nil}).as_json.to_json.html_safe %>;
 <% end %>
 
 $(document).on("turbolinks:load", function() {

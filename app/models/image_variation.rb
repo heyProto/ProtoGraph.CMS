@@ -42,7 +42,7 @@ class ImageVariation < ApplicationRecord
   # after_create :process_and_upload_image, if: :is_original?
   # after_create :process_and_upload_image_variation, if: :not_is_original?
   # after_commit :process_and_upload_smart_cropped_variation, if: :is_smart_cropped?, on: [:create]
-  after_create :upload_image, if: :not_autocreate?
+  after_create :process_image, if: :not_autocreate?
   #SCOPE
   #OTHER
   #PRIVATE
@@ -64,25 +64,22 @@ class ImageVariation < ApplicationRecord
     }
   end
 
-  private
-
-  def not_is_original?
-    not self.is_original?
-  end
-
-  def not_autocreate?
-    not self.autocreate
-  end
-
   def upload_image
     require "base64"
     image = self.image
 
-    og_image_url = image.image.url
-    img_path = CGI.unescape "#{Rails.root.to_s}/public#{og_image_url}"
+    if self.is_original
+      og_image_url = image.image.url
+      img_path = CGI.unescape "#{Rails.root.to_s}/public#{og_image_url}"
+      image_blob = Base64.encode64(File.open(img_path, "rb").read())
+    else
+      img_path = "#{self.account.site.cdn_endpoint}/#{self.image.original_image.image_key}"
+      res = RestClient.get(img_path)
+      image_blob = Base64.encode64(res.to_s)
+    end
 
     data = {
-      image_blob: Base64.encode64(File.open(img_path, "rb").read()),
+      image_blob: image_blob,
       options: {
         image_type: image.image.content_type.split("/").last,
         content_type: image.image.content_type,
@@ -108,10 +105,6 @@ class ImageVariation < ApplicationRecord
       }
     end
 
-    puts "********************************************************"
-    puts "DATA => #{data.to_json}"
-    puts "********************************************************"
-
     url = "#{AWS_API_DATACAST_URL}/v2-images"
     response = RestClient.post(url, data.to_json, {
       content_type: :json,
@@ -120,23 +113,22 @@ class ImageVariation < ApplicationRecord
     })
 
     response = JSON.parse(response);
-    puts "??????????????????????????????????????????????????????????"
-    puts "RESPONSE => #{response}"
-    puts "??????????????????????????????????????????????????????????"
     if response["success"]
       data = response["data"]
       og_image = data.select { |i| i["mode"] === "og" }[0]
       thumbnail = data.select { |i| i["mode"] === "thumb" }[0]
       other_modes = data.select { |i| not ["og", "thumb"].index(i["mode"]).present? }
 
-      image.update_attributes({
-        thumbnail_url: thumbnail["data"]["Location"],
-        thumbnail_key: thumbnail["data"]["key"],
-        image_width: og_image["width"],
-        image_height: og_image["height"],
-        thumbnail_width: thumbnail["width"],
-        thumbnail_height: thumbnail["height"]
-      })
+      if self.is_original
+        image.update_attributes({
+          thumbnail_url: thumbnail["data"]["Location"],
+          thumbnail_key: thumbnail["data"]["key"],
+          image_width: og_image["width"],
+          image_height: og_image["height"],
+          thumbnail_width: thumbnail["width"],
+          thumbnail_height: thumbnail["height"]
+        })
+      end
 
       a = self.update_attributes({
         image_key: og_image["data"]["key"],
@@ -164,12 +156,32 @@ class ImageVariation < ApplicationRecord
           is_original: false
         })
       end
+
+      FileUtils.rm_rf(img_path)
     else
-      puts "??????????????????????????????????????????????????????????"
-      puts "FAILED RESPONSE => #{response}"
-      puts "??????????????????????????????????????????????????????????"
+      if self.is_original
+        self.image.destroy
+      else
+        self.destroy
+      end
     end
+    true
   end
+
+  private
+
+  def not_is_original?
+    not self.is_original?
+  end
+
+  def not_autocreate?
+    not self.autocreate
+  end
+
+  def process_image
+    ImageWorker.perform_async(id, crop_x, crop_y, crop_w, crop_h, resize, autocreate, image_w, image_h)
+  end
+
 
   # def process_and_upload_smart_cropped_variation
   #   data = {

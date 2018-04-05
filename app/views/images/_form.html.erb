@@ -2,7 +2,12 @@
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h4 class="modal-title">Add a new image</h4>
+        <h4 class="modal-title">
+          Add a new image
+          <% if @site.is_smart_crop_enabled %>
+            <span class="badge badge-warning">Pro</span>
+          <% end %>
+        </h4>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -12,8 +17,8 @@
           <%= f.error_notification %>
           <%= f.input :image, as: :file, required: true, hint: 'Size should less than or equal to 500kB. Supported file types are JPEG, JPG and PNG', input_html: {id: "proto_image_bank_image_field"} %>
           <div class="proto-invalid-image">Invalid image. Size should less than or equal to 500kB. Supported file types are JPEG, JPG and PNG.</div>
-          <div class="proto-image-loader"></div>
-          <img id="preview_image" src="#" alt="" style='max-height: 200px' class="proto-image-preview" />
+          <div class="proto-image-loader">Predictively determining most relevant 5:3 area within the image.</div>
+          <img id="preview_image" src="#" alt="" class="proto-image-preview" />
           <%= f.input :account_id, as: :hidden, input_html: {value: @account.id} %>
           <%= f.input :name, required: true %>
           <% %w[x y w h].each do |attribute| %>
@@ -22,6 +27,8 @@
           <%= f.input :image_w, as: :hidden %>
           <%= f.input :image_h, as: :hidden %>
           <%= f.input :description %>
+          <%= f.input :credits %>
+          <%= f.input :credit_link %>
           <%= f.hidden_field :dominant_colour, value: nil %>
           <%= f.hidden_field :colour_palette, value: nil %>
         <% end %>

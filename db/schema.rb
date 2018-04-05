@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180328120815) do
+ActiveRecord::Schema.define(version: 20180405155521) do
 
   create_table "accounts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
     t.string "username", limit: 191, collation: "utf8mb4_unicode_ci"
@@ -174,6 +174,8 @@ ActiveRecord::Schema.define(version: 20180328120815) do
     t.boolean "is_logo", default: false
     t.boolean "is_favicon", default: false
     t.boolean "is_cover"
+    t.string "credits"
+    t.text "credit_link"
   end
 
   create_table "page_streams", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|

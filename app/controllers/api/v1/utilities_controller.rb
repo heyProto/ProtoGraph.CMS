@@ -109,16 +109,19 @@ class Api::V1::UtilitiesController < ApiController
   end
 
   def smartcrop
-    puts params.inspect
-    url = "#{AWS_API_DATACAST_URL}/images/v2-smartcrop"
-    response = RestClient.post(url, params.to_json, {
-      content_type: :json,
-      accept: :json,
-      "x-api-key" => ENV['AWS_API_KEY']
-    })
+    begin
+      url = "#{AWS_API_DATACAST_URL}/images/v2-smartcrop"
+      response = RestClient.post(url, params.to_json, {
+        content_type: :json,
+        accept: :json,
+        "x-api-key" => ENV['AWS_API_KEY']
+      })
 
-    response = JSON.parse(response);
-    render json: {success: true, message: response.as_json}, status: 200
+      response = JSON.parse(response);
+      render json: {success: true, message: response.as_json}, status: 200
+    rescue Exception => e
+       render json: {success: false, message: e.to_s}, status: 400
+    end
   end
 
   private

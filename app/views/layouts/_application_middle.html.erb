@@ -59,7 +59,7 @@
                 <% elsif controller_name == "stories" and action_name == "index" %>
                     <form class="form-inline my-2 my-lg-0"><li><%= render partial: "stories/new" %></li></form>
                 <% elsif controller_name == "images" %>
-                    <li>
+                    <li style="margin-top: 9px;">
                         <button class="btn btn-sm btn-secondary btn-sm" type="button">
                           <%= link_to '+ Upload an image', "#",id: "upload_image_button", "data-toggle" => "modal", "data-target" => "#fileUploadModal" %>
                         </button>

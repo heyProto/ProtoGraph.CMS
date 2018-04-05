@@ -21,6 +21,8 @@
 #  is_logo          :boolean          default(FALSE)
 #  is_favicon       :boolean          default(FALSE)
 #  is_cover         :boolean
+#  credits          :string(255)
+#  credit_link      :text(65535)
 #
 
 class Image < ApplicationRecord
