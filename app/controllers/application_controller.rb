@@ -131,7 +131,7 @@ class ApplicationController < ActionController::Base
 
   def log_user_session
     if current_user.present?
-      UserSession.log(session.id, current_user.id, request.env["REMOTE_ADDR"].to_s, request.env["HTTP_USER_AGENT"].to_s)
+      UserSession.log(session.id, current_user.id, request.remote_ip.to_s, request.env["HTTP_USER_AGENT"].to_s)
     end
   end
 
