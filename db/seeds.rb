@@ -79,6 +79,7 @@ t_profile = TemplateDatum.create({name: "toProfile", version: "0.0.1", s3_identi
 t_data_rating_with_drilldown = TemplateDatum.create({name: "toDataRatingWithDrillDown", version: "0.0.1", s3_identifier: "40c7877661e32f13d5ce"})
 t_organ_viz = TemplateDatum.create({name: "toOrganVizCoverCard", version: "0.0.1", s3_identifier: "91374b9649fc94970645"})
 t_education = TemplateDatum.create({name: "Education: District Map", version: "0.0.1", s3_identifier: "2c3c711bc90ef1dbff92"})
+t_bio = TemplateDatum.create({name: "toBio", version: "0.0.1", s3_identifier: "5881371a8702951cd5b9"})
 
 # Oxfam
 t_data_irbf_grid = TemplateDatum.create({name: "toDataIRBFGrid", version: "0.0.1", s3_identifier: "1e0b58753372e47acf63"})
@@ -125,6 +126,7 @@ TemplateCard.create({git_url: "git@bitbucket.org:pykih_/protograph.card.toorganv
 TemplateCard.create({git_url: "git@bitbucket.org:pykih_/protograph.card.toeducationdistrictmap.git", name: "Education: District Map", git_branch: "master", git_repo_name: "ProtoGraph.Card.toEducationDistrictMap", status: "published", is_public: true, account_id: pykih_account.id, created_by: user_id, updated_by: user_id, template_datum_id: t_education.id, elevator_pitch: "", description: "", s3_identifier: "85e16c8b12fda33055f6",has_multiple_uploads: false, allowed_views: ["col7", "col4", "col2"]})
 TemplateCard.create({git_url: "git@bitbucket.org:pykih_/protograph.card.tohtml.git", name: "DH: HTML", git_branch: "master", git_repo_name: "ProtoGraph.Card.HTMLCard", status: "published", is_public: false, account_id: pykih_account.id, created_by: user_id, updated_by: user_id, template_datum_id: t_html.id, elevator_pitch: "", description: "", s3_identifier: "8346e50f6a0c4858703e",has_multiple_uploads: false, allowed_views: ["col7", "col4"]})
 TemplateCard.create({git_url: "git@bitbucket.org:pykih_/todwchart.git", name: "DH: Datawrapper", git_branch: "master", git_repo_name: "ProtoGraph.Card.toDWChart", status: "published", is_public: false, account_id: dh_account.id, created_by: user_id, updated_by: user_id, template_datum_id: t_datawrapper.id, elevator_pitch: "", description: "", s3_identifier: "79fadf27771f80149d7b",has_multiple_uploads: false, allowed_views: ["col16", "col7", "col4"]})
+TemplateCard.create({git_url: "git@bitbucket.org:pykih_/protograph.card.tobio.git", name: "toBio", git_branch: "master", git_repo_name: "ProtoGraph.Card.toBio", status: "published", is_public: true, account_id: pykih_account.id, created_by: user_id, updated_by: user_id, template_datum_id: t_bio.id, elevator_pitch: "", description: "", s3_identifier: "c80b9f40b64d145de511",has_multiple_uploads: false, allowed_views: ["col7", "col4", "col3", "col2"]})
 
 TemplatePage.create({
   name: "Homepage: Vertical",
