@@ -27,6 +27,7 @@ gem 'json-schema'
 gem 'sidekiq'
 gem 'jquery-ui-rails'
 gem 'country_select'
+gem "intercom-rails"
 
 #AUTHENTICATION
 gem 'devise'
