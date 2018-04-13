@@ -66,6 +66,7 @@ class ImageVariation < ApplicationRecord
 
   def upload_image
     require "base64"
+    require 'rest-client'
     image = self.image
 
     if self.is_original

@@ -95,7 +95,6 @@ class Image < ApplicationRecord
   def add_colour_swatches
       require "ntc"
       unless (self.colour_palette.nil? and self.dominant_colour.nil?) or (self.colour_palette.blank? or self.dominant_colour.blank?)
-          puts "Adsnaosdnaosidnaosindoaisndoian sodnasodinasoidnasoidnasod"
           colour_dom = JSON.parse(self.dominant_colour)
           colour_pal = JSON.parse(self.colour_palette)
 
