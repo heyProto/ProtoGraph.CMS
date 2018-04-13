@@ -21,6 +21,8 @@
 #  is_logo          :boolean          default(FALSE)
 #  is_favicon       :boolean          default(FALSE)
 #  is_cover         :boolean
+#  credits          :string(255)
+#  credit_link      :text(65535)
 #
 
 class Image < ApplicationRecord
@@ -35,10 +37,16 @@ class Image < ApplicationRecord
   #ASSOCIATIONS
   has_many :image_variation, -> {where.not(is_original: true)}, dependent: :destroy
   has_one :original_image, -> {where(is_original: true)}, class_name: "ImageVariation", foreign_key: "image_id", dependent: :destroy
+  has_one :image_16c, -> {where(mode: "16c")}, class_name: "ImageVariation", foreign_key: "image_id"
+  has_one :image_7c, -> {where(mode: "7c")}, class_name: "ImageVariation", foreign_key: "image_id"
+  has_one :image_4c, -> {where(mode: "4c")}, class_name: "ImageVariation", foreign_key: "image_id"
+  has_one :image_3c, -> {where(mode: "3c")}, class_name: "ImageVariation", foreign_key: "image_id"
+  has_one :image_2c, -> {where(mode: "2c")}, class_name: "ImageVariation", foreign_key: "image_id"
+
   has_many :activities
   has_many :colour_swatches, dependent: :destroy
   #ACCESSORS
-  attr_accessor :crop_x, :crop_y, :crop_w, :crop_h
+  attr_accessor :crop_x, :crop_y, :crop_w, :crop_h, :image_w, :image_h, :instant_output
   mount_uploader :image, ImageUploader
   attr_accessor :dominant_colour
   attr_accessor :colour_palette
@@ -87,6 +95,7 @@ class Image < ApplicationRecord
   def add_colour_swatches
       require "ntc"
       unless (self.colour_palette.nil? and self.dominant_colour.nil?) or (self.colour_palette.blank? or self.dominant_colour.blank?)
+          puts "Adsnaosdnaosidnaosindoaisndoian sodnasodinasoidnasoidnasod"
           colour_dom = JSON.parse(self.dominant_colour)
           colour_pal = JSON.parse(self.colour_palette)
 
@@ -114,12 +123,19 @@ class Image < ApplicationRecord
   private
 
   def create_image_version
-    self.image.crop
+    # self.image.crop
     self.image.recreate_versions!
 
     options = {
       image_id: self.id,
-      is_original: true
+      is_original: true,
+      crop_x: crop_x.to_f,
+      crop_y: crop_y.to_f,
+      crop_w: crop_w.to_f,
+      crop_h: crop_h.to_f,
+      image_h: image_h.to_f,
+      image_w: image_w.to_f,
+      instant_output: instant_output
     }
     ImageVariation.create(options)
   end

@@ -5,9 +5,9 @@ class ImagesController < ApplicationController
   def index
     @q = @account.images.ransack(params[:q])
     if params[:q].present?
-      @images = @q.result(distinct: true).order("created_at desc").page params[:page]
+      @images = @q.result(distinct: true).where.not(thumbnail_width: nil, thumbnail_height: nil, image_width: nil, image_height: nil).order("created_at desc").page params[:page]
     else
-      @images = @account.images.order("created_at desc").page params[:page]
+      @images = @account.images.where.not(thumbnail_width: nil, thumbnail_height: nil, image_width: nil, image_height: nil).order("created_at desc").page params[:page]
     end
     @new_image = Image.new
   end
@@ -21,7 +21,7 @@ class ImagesController < ApplicationController
       if @image.save
         track_activity(@image)
         format.json { render json: {success: true, data: @image}, status: 200 }
-        format.html { redirect_to account_images_path(@account), notice: 'Image added successfully' }
+        format.html { redirect_to account_images_path(@account), notice: 'Image will be added shortly.' }
       else
         format.json { render json: {success: false, errors: @image.errors.full_messages }, status: 400 }
         format.html { redirect_to account_images_path(@account), alert: @image.errors.full_messages }
@@ -42,6 +42,6 @@ class ImagesController < ApplicationController
   end
 
   def image_params
-    params.require(:image).permit(:account_id, :image, :name, :description, :crop_x, :crop_y, :crop_w, :crop_h, :dominant_colour, :colour_palette)
+    params.require(:image).permit(:account_id, :image, :name, :description, :crop_x, :crop_y, :crop_w, :crop_h, :dominant_colour, :colour_palette, :image_w, :image_h, :credits, :credit_link, :instant_output)
   end
 end

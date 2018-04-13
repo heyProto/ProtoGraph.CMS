@@ -1,7 +1,7 @@
 <%= content_for :page_title do %>
         <li class="breadcrumb-item"><%= link_to "Image Bank", account_images_path(@account, folder_id: @folder.present? ? @folder.id : nil), "data-turbolinks"=> false %></li>
         <li class="breadcrumb-item active" aria-current="page"><%= truncate(@image.name, length: 24, ommission: "..") %></li>
-      
+
 <% end %>
 <% w = @image.image_width %>
 <% h = @image.image_height %>
@@ -9,16 +9,25 @@
 <div class="row">
     <div class="col-sm-13">
         <div style="margin-left: auto; margin-right: auto;">
-            <div class='mx-auto'>
-                <a href="<%= @image.image_url %>" target="_blank">
-                  <%= image_tag(@image.image_url, class: "img-responsive", id: "main_image")  %>
-                </a>
-                <div class="photograph-image-details" style="display: block;">
-                  <%= "#{w} x #{h} (#{w / w.gcd(h)} : #{h / w.gcd(h)})"%>
-                </div>
+            <div class='mx-auto proto-app-image-bank-main-image'>
+              <a href="<%= @image.image_url %>" target="_blank">
+                <%= image_tag(@image.image_url, class: "img-responsive", id: "main_image", width: w)  %>
+              </a>
+              <div class="photograph-image-details" style="display: block;">
+                <%= "#{w} x #{h} (#{w / w.gcd(h)} : #{h / w.gcd(h)})"%>
+              </div>
             </div>
+            <% if @image.credits.present? %>
+              <div class="proto-image-byline">By
+                <% if @image.credit_link.present? %>
+                  <a href="#{@image.credit_link}"><%= @image.credits %></a>
+                <% else %>
+                  <%= @image.credits %>
+                <% end %>
+              </div>
+            <% end %>
             <br/>
-            
+
             <div style="position: relative;">
               <% if @image.image_variation.present? %>
                 <br/>
@@ -59,13 +68,13 @@
 
 <script type="text/javascript">
 <% if @image.image_variation.present? %>
-  var images = <%= @image.image_variation.as_json.to_json.html_safe %>;
+  var images = <%= @image.image_variation.where.not({image_width: nil,image_height: nil,thumbnail_width: nil,thumbnail_height: nil}).as_json.to_json.html_safe %>;
 <% end %>
 
 $(document).on("turbolinks:load", function() {
     <% if @image.image_variation.present? %>
-    var maxHeight = 150;
-    $('#variationImages').empty().justifiedImages({
+      var maxHeight = 150;
+      $('#variationImages').empty().justifiedImages({
         images: images,
         rowHeight: maxHeight,
         maxRowHeight: 150,
@@ -88,14 +97,15 @@ $(document).on("turbolinks:load", function() {
             return image;
         },
         margin: 20
-    });
+      });
     <% end %>
 })
 </script>
 
 <%= render partial: "images/form" %>
-<div class="modal" id="imageCropperModal"> <i class="close icon"></i>
-    <%= render partial: "images/cropper", locals: {mode: nil} %>
+<div class="modal" id="imageCropperModal">
+  <i class="close icon"></i>
+  <%= render partial: "images/cropper", locals: {mode: nil} %>
 </div>
 <%= render partial: "images/cropper_js" %>
 <style>

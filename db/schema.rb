@@ -174,6 +174,8 @@ ActiveRecord::Schema.define(version: 20180405190305) do
     t.boolean "is_logo", default: false
     t.boolean "is_favicon", default: false
     t.boolean "is_cover"
+    t.string "credits"
+    t.text "credit_link"
   end
 
   create_table "page_streams", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
@@ -210,8 +212,8 @@ ActiveRecord::Schema.define(version: 20180405190305) do
     t.integer "site_id"
     t.integer "folder_id"
     t.string "headline", collation: "utf8_general_ci"
-    t.string "meta_keywords", collation: "utf8_general_ci"
-    t.text "meta_description", collation: "utf8_general_ci"
+    t.string "meta_keywords"
+    t.text "meta_description"
     t.text "summary", collation: "utf8_general_ci"
     t.text "cover_image_url_facebook", collation: "utf8_general_ci"
     t.text "cover_image_url_square", collation: "utf8_general_ci"
@@ -352,9 +354,12 @@ ActiveRecord::Schema.define(version: 20180405190305) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "sessions", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.string "session_id", null: false
+  create_table "sessions", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
+    t.text "session_id", null: false
     t.text "data"
+    t.string "ip"
+    t.string "location_city"
+    t.string "location_state"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -419,6 +424,7 @@ ActiveRecord::Schema.define(version: 20180405190305) do
     t.boolean "is_lazy_loading_activated", default: true
     t.text "comscore_code"
     t.string "gtm_id"
+    t.boolean "is_smart_crop_enabled", default: false
   end
 
   create_table "stream_entities", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
@@ -590,7 +596,7 @@ ActiveRecord::Schema.define(version: 20180405190305) do
     t.index ["user_id"], name: "index_user_emails_on_user_id"
   end
 
-  create_table "user_sessions", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+  create_table "user_sessions", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
     t.string "session_id"
     t.integer "user_id"
     t.string "ip"

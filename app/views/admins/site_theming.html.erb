@@ -11,7 +11,7 @@
             <br>
             <p>Publication logo</p>
             <% if @site.logo_image_id.present? %>
-              <%= image_tag(@site.logo_image.original_image.image_url, class: "rounded", style: "width: 100px;") %>
+              <%= image_tag(@site.logo_image.original_image.image_url, class: "rounded", style: "width: 100px;", alt: "Uploading image") %>
               <br/>
               <%= simple_form_for [@account, @site] do |f| %>
                 <%= f.error_notification %>
@@ -30,7 +30,7 @@
                   <%= logo_image.input :updated_by, as: :hidden, input_html: {value: current_user.id} %>
                   <%= logo_image.input :account_id, as: :hidden, input_html: {value: @account.id}  %>
                   <%= logo_image.input :is_logo, as: :hidden, input_html: {value: true } %>
-      
+
                 <% end %>
                 <%= f.input :from_page, as: :hidden, input_html: {value: "product_theme"}%>
                 <%= f.button :submit, "Upload", class: "btn btn-sm btn-secondary" %>

@@ -109,15 +109,19 @@ $(document).ready(function () {
   });
 
   $("#new_image").on('ajax:success', function (e, data, status, xhr) {
-    var resonse = e.detail[0];
+    var response = e.detail[0];
     $('#image_url_container').css('display', "block");
-    $('#photo_url').val(resonse.data.image_url);
+    $('#photo_url').val(response.data.image_url);
     $('#photo_url').focus();
     $('#photo_url').select();
     $('#ui_dimmer').removeClass('active');
   }).on('ajax:error', function (e, xhr, status, error) {
-    var resonse = e.detail[0];
-    showAllValidationErrors(resonse.errors);
+    var response = e.detail[0];
+    if (response.constructor === String) {
+      showAllValidationErrors(response);
+    } else {
+      showAllValidationErrors(response.errors);
+    }
     $('#ui_dimmer').removeClass('active');
     $('#image_url_container').css('display', "block");
   });

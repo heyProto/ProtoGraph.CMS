@@ -14,21 +14,21 @@ class ImageUploader < CarrierWave::Uploader::Base
     "uploads/#{model.class.to_s.underscore}/#{mounted_as}/#{model.id}"
   end
 
-  version :thumb do
-    resize_to_fit(nil, 75)
-  end
+  # version :thumb do
+  #   resize_to_fit(nil, 75)
+  # end
 
-  def crop
-    if model.crop_x.present?
-      manipulate! do |img|
-        x = model.crop_x.to_i
-        y = model.crop_y.to_i
-        w = model.crop_w.to_i
-        h = model.crop_h.to_i
-        img.crop!(x, y, w, h)
-      end
-    end
-  end
+  # def crop
+  #   if model.crop_x.present?
+  #     manipulate! do |img|
+  #       x = model.crop_x.to_i
+  #       y = model.crop_y.to_i
+  #       w = model.crop_w.to_i
+  #       h = model.crop_h.to_i
+  #       img.crop!(x, y, w, h)
+  #     end
+  #   end
+  # end
 
   def size_range
     1..500.kilobytes
