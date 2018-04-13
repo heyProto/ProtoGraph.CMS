@@ -33,9 +33,26 @@ class UserSession < ApplicationRecord
             a = where(session_id: session_id).first
             if a.blank?
               a = UserSession.new(session_id: session_id)
+                unless a.ip == ip
+                    a.ip = ip
+                    begin
+                        res = Geocoder.search(ip)
+                        if res and res[0]
+                            data = res[0].data
+                            a.location_country = data["country_name"]
+                            a.location_state = data["region_name"]
+                            a.location_city = data["city"]
+                            a.time_zone = data["time_zone"]
+                            a.latitude = data["latitude"]
+                            a.longitude = data["longitude"]
+                        end
+                    rescue => e
+                    end
+                end
+            else
+                a.ip = ip
             end
             a.user_id = user_id
-            a.ip = ip
             a.user_agent = user_agent
             a.save
         end

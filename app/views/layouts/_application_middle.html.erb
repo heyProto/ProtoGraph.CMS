@@ -84,10 +84,11 @@
                           <div class="dropdown-menu">
                             <%= link_to 'Profile', edit_user_path(current_user), class: "dropdown-item" %>
                             <%= link_to 'Settings', edit_user_registration_path, class: "dropdown-item" %>
-                            <%= link_to 'Help', "https://heyproto.freshdesk.com/support/home", target: "_blank", class: "dropdown-item" %>
                             <%= link_to "Sign out", destroy_user_session_path, class: "dropdown-item" %>
                             <% if current_user.is_admin_from_pykih %>
                                 <%= link_to 'Ref: Link Sources', ref_link_sources_path, class: "dropdown-item" %>
+
+                                <%= link_to "Admin: User Sessions", admin_user_sessions_path, class: "dropdown-item" %>
                             <% end %>
                           </div>
                         </div>
@@ -100,8 +101,3 @@
 <% content_for :page_navigation do %>
     <li><button type="button" class="btn btn-sm btn-secondary btn-sm">Small button</button></li>
 <% end %>
-
-<script type="text/javascript" src="https://s3.amazonaws.com/assets.freshdesk.com/widget/freshwidget.js"></script>
-<script type="text/javascript">
-	FreshWidget.init("", {"queryString": "&widgetType=popup&formTitle=Write+to+us", "utf8": "✓", "widgetType": "popup", "buttonType": "text", "buttonText": "Need help?", "buttonColor": "white", "buttonBg": "#000000", "alignment": "3", "offset": "10px", "formHeight": "500px", "url": "https://heyproto.freshdesk.com"} );
-</script>

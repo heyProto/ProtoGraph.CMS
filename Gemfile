@@ -27,6 +27,7 @@ gem 'json-schema'
 gem 'sidekiq'
 gem 'jquery-ui-rails'
 gem 'country_select'
+gem "intercom-rails"
 
 #AUTHENTICATION
 gem 'devise'
@@ -58,6 +59,7 @@ gem 'ntc', bitbucket: "pykih_/name-that-colour", require: false
 gem 'acts-as-taggable-on'
 gem 'aws-sdk'
 gem 'sitemap_generator'
+gem 'geocoder'
 
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
