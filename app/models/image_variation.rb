@@ -190,7 +190,7 @@ class ImageVariation < ApplicationRecord
 
   def process_image
     unless self.instant_output === "true"
-      ImageWorker.perform_async(id, crop_x, crop_y, crop_w, crop_h, resize, autocreate, image_w, image_h)
+      ImageWorker.perform_async(self.id, crop_x, crop_y, crop_w, crop_h, resize, autocreate, image_w, image_h)
     else
       self.upload_image
     end
