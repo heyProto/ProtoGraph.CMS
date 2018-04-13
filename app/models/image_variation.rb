@@ -74,7 +74,7 @@ class ImageVariation < ApplicationRecord
       img_path = CGI.unescape "#{Rails.root.to_s}/public#{og_image_url}"
       image_blob = Base64.encode64(File.open(img_path, "rb").read())
     else
-      img_path = "#{self.account.site.cdn_endpoint}/#{self.image.original_image.image_key}"
+      img_path = "#{self.account.cdn_endpoint}/#{self.image.original_image.image_key}"
       res = RestClient.get(img_path)
       image_blob = Base64.encode64(res.to_s)
     end
