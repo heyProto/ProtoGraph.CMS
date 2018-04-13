@@ -10,7 +10,7 @@
       <div class="modal-body">
         <%= simple_form_for([@account, @new_image],html: {"data-remote" => "true"}) do |f| %>
           <%= f.error_notification %>
-          <%= f.input :image, as: :file, required: true, hint: 'Size should less than or equal to 500kB. Supported file types are GIF, JPEG, JPG and PNG', input_html: {onChange: "readURL(this)"} %>
+          <%= f.input :image, as: :file, required: true, hint: 'Size should less than or equal to 500kB. Supported file types are JPEG, JPG and PNG', input_html: {onChange: "readURL(this)"} %>
           <div id="image_container" class="protograph-new-image">
             <nav class="navbar navbar-expand-lg navbar-light bg-light" id="aspectRatioMenu">
               <a class="navbar-brand" href="#">Quick crop:</a>
@@ -49,6 +49,7 @@
           <% end %>
           <%= f.input :credits %>
           <%= f.input :credit_link %>
+          <%= f.input :instant_output, as: :hidden, input_html: {value: true} %>
         <% end %>
         <div class="form-group image-url-container" id="image_url_container">
           <label>Image URL</label>

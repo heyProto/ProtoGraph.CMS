@@ -101,6 +101,10 @@
   display: none;
   text-align: center;
 }
+.proto-image-loader img {
+  display: block;
+  margin: 0 auto;
+}
 .proto-invalid-image {
   display: none;
   width: 100%;

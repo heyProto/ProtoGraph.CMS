@@ -1,8 +1,7 @@
 <script type="text/javascript">
     $(document).on('turbolinks:load', function() {
         // Init ColorThief
-        var colorThief = new ColorThief(),
-            jCropInstance;
+        var colorThief = new ColorThief();
 
         $("#new_image").submit(function(event) {
             var img = $("#preview_image")[0];
@@ -34,8 +33,8 @@
         }
 
         var resetDefaults = function() {
-            if (jCropInstance) {
-                jCropInstance.data('Jcrop').destroy();
+            if (window.jCropInstance) {
+                window.jCropInstance.data('Jcrop').destroy();
                 $("#preview_image").css('display', 'none');
                 $("#preview_image").attr({
                     "src": "null",
@@ -107,7 +106,7 @@
                                 $("#preview_image").attr('src', e.target.result);
                                 $("#proto_image_bank_create_image, #proto_image_bank_image_field").removeClass("proto-disable-item");
                                 setTimeout(function() {
-                                    jCropInstance = $('#preview_image').Jcrop({
+                                    window.jCropInstance = $('#preview_image').Jcrop({
                                         setSelect: [data.x, data.y, (data.x + data.width), (data.y + data.height)],
                                         onSelect: updateCropCoords,
                                         onChange: updateCropCoords,
@@ -130,11 +129,13 @@
                                 $(".proto-image-loader").css('display', 'none');
                                 $("#preview_image").attr('src', e.target.result);
                                 $("#proto_image_bank_create_image").removeClass("proto-disable-item");
+                                $("#proto_image_bank_create_image, #proto_image_bank_image_field").removeClass("proto-disable-item");
                             } else {
                                 $(".proto-image-loader").css('display', 'none');
                                 $("#preview_image").attr('src', e.target.result);
+                                $("#proto_image_bank_create_image, #proto_image_bank_image_field").removeClass("proto-disable-item");
                                 setTimeout(function() {
-                                    jCropInstance = $('#preview_image').Jcrop({
+                                    window.jCropInstance = $('#preview_image').Jcrop({
                                         setSelect: [0, 0, 1260, 430],
                                         onSelect: updateCropCoords,
                                         onChange: updateCropCoords,

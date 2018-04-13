@@ -8,7 +8,7 @@
         <div style="margin-left: auto; margin-right: auto; width: 500px;">
             <h2 style="font-weight: 400;">Favicon</h2>
             <% if @site.favicon_id.present? %>
-              <%= image_tag(@site.favicon.original_image.image_url, class: "rounded", style: "max-width: 100px;") %>
+              <%= image_tag(@site.favicon.original_image.image_url, class: "rounded", style: "max-width: 100px;", alt: "Uploading image") %>
               <br/>
               <%= simple_form_for [@account, @site] do |f| %>
                 <%= f.error_notification %>

@@ -37,10 +37,16 @@ class Image < ApplicationRecord
   #ASSOCIATIONS
   has_many :image_variation, -> {where.not(is_original: true)}, dependent: :destroy
   has_one :original_image, -> {where(is_original: true)}, class_name: "ImageVariation", foreign_key: "image_id", dependent: :destroy
+  has_one :image_16c, -> {where(mode: "16c")}, class_name: "ImageVariation", foreign_key: "image_id"
+  has_one :image_7c, -> {where(mode: "7c")}, class_name: "ImageVariation", foreign_key: "image_id"
+  has_one :image_4c, -> {where(mode: "4c")}, class_name: "ImageVariation", foreign_key: "image_id"
+  has_one :image_3c, -> {where(mode: "3c")}, class_name: "ImageVariation", foreign_key: "image_id"
+  has_one :image_2c, -> {where(mode: "2c")}, class_name: "ImageVariation", foreign_key: "image_id"
+
   has_many :activities
   has_many :colour_swatches, dependent: :destroy
   #ACCESSORS
-  attr_accessor :crop_x, :crop_y, :crop_w, :crop_h, :image_w, :image_h
+  attr_accessor :crop_x, :crop_y, :crop_w, :crop_h, :image_w, :image_h, :instant_output
   mount_uploader :image, ImageUploader
   attr_accessor :dominant_colour
   attr_accessor :colour_palette
@@ -51,7 +57,7 @@ class Image < ApplicationRecord
   before_create { self.s3_identifier = SecureRandom.hex(8) }
   after_create :create_image_version
 
-  # after_commit :add_colour_swatches, on: :create
+  after_commit :add_colour_swatches, on: :create
   #SCOPE
   #OTHER
 
@@ -86,31 +92,32 @@ class Image < ApplicationRecord
     self.original_image.image_url
   end
 
-  # def add_colour_swatches
-  #     require "ntc"
-  #     unless (self.colour_palette.nil? and self.dominant_colour.nil?) or (self.colour_palette.blank? or self.dominant_colour.blank?)
-  #         colour_dom = JSON.parse(self.dominant_colour)
-  #         colour_pal = JSON.parse(self.colour_palette)
+  def add_colour_swatches
+      require "ntc"
+      unless (self.colour_palette.nil? and self.dominant_colour.nil?) or (self.colour_palette.blank? or self.dominant_colour.blank?)
+          puts "Adsnaosdnaosidnaosindoaisndoian sodnasodinasoidnasoidnasod"
+          colour_dom = JSON.parse(self.dominant_colour)
+          colour_pal = JSON.parse(self.colour_palette)
 
-  #         # Dominant colour name
-  #         colour_hex = colour_dom.map{|a| a.to_s(16) }.join("")
-  #         colour_name = Ntc.new(colour_hex).name[1]
-  #         # Ntc gives [hex_value of closest, name of closest, true if exact match]
-  #         self.colour_swatches.create(red: colour_dom[0],
-  #                                     green: colour_dom[1],
-  #                                     blue: colour_dom[2],
-  #                                     name: colour_name,
-  #                                     is_dominant: true)
-  #         colour_pal.each do |colour|
-  #           colour_hex = colour.map{|a| a.to_s(16) }.join("")
-  #           colour_name = Ntc.new(colour_hex).name[1]
-  #           self.colour_swatches.create(red: colour[0],
-  #                                       green: colour[1],
-  #                                       blue: colour[2],
-  #                                       name: colour_name)
-  #         end
-  #     end
-  # end
+          # Dominant colour name
+          colour_hex = colour_dom.map{|a| a.to_s(16) }.join("")
+          colour_name = Ntc.new(colour_hex).name[1]
+          # Ntc gives [hex_value of closest, name of closest, true if exact match]
+          self.colour_swatches.create(red: colour_dom[0],
+                                      green: colour_dom[1],
+                                      blue: colour_dom[2],
+                                      name: colour_name,
+                                      is_dominant: true)
+          colour_pal.each do |colour|
+            colour_hex = colour.map{|a| a.to_s(16) }.join("")
+            colour_name = Ntc.new(colour_hex).name[1]
+            self.colour_swatches.create(red: colour[0],
+                                        green: colour[1],
+                                        blue: colour[2],
+                                        name: colour_name)
+          end
+      end
+  end
 
   #PRIVATE
   private
@@ -127,7 +134,8 @@ class Image < ApplicationRecord
       crop_w: crop_w.to_f,
       crop_h: crop_h.to_f,
       image_h: image_h.to_f,
-      image_w: image_w.to_f
+      image_w: image_w.to_f,
+      instant_output: instant_output
     }
     ImageVariation.create(options)
   end
