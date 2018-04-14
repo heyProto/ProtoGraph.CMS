@@ -1,8 +1,7 @@
 <div class="row">
     <div class="col-sm-13">
         <div style="margin-left: auto; margin-right: auto; width: 600px;">
-            <% if @folders.first.present? %>
-                
+            <% if @folders.first.present? %>                
                 <table class="table table-hover">
                     <thead>
                         <tr>
@@ -37,9 +36,4 @@
             <% end %>
         </div>
     </div>
-	<div class="col-sm-3 help-text">
-		<%= image_tag "help.png", style: "float: right; right: 0; top: 0; position: relative;" %>
-        <h2>Welcome to <%= truncate(@site.domain, length: 15) %></h2>
-		<p>ProtoTYPE requires editors to organise writers, cards and pages into workspaces. You can manage workspaces from Site Admin.</p>
-	</div>
 </div>

@@ -1,0 +1,90 @@
+.proto-sidebar{
+    padding: 10px;
+    background: black;
+    font-family: 'Lato', sans-serif;
+    line-height: 1.8rem;
+    
+
+    .sidebar-head {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: white;
+      margin: 0px;
+      padding: 0px;
+    } 
+    
+    li {
+      padding: 0 0rem;
+      cursor: pointer;
+      padding-left: 10px; font-size: 13px;
+    }
+    
+    .list-title {
+      padding: 0 0rem;
+      cursor: pointer;
+    }
+    
+    .profile-name {
+      font-size: 0.9rem;
+      font-weight: 100;
+    }
+    
+    .channels {
+      padding-top: 0rem;
+      font-size: 15px;
+      font-weight: 400;
+    }
+
+    .channels:hover {
+      color: white;
+    }
+    
+    ul {
+      padding: 0;
+      font-size: 1rem;
+      font-weight: 100;
+      list-style-type: none;
+    }
+    
+    span {
+      font-weight: 300;
+      color: rgba(255, 255, 255, 0.25);
+    }
+    
+    .spanadd {
+      position: relative;
+      float: right;
+    }
+    
+    .direct-message {
+      padding-top: 0rem;
+      font-size: 15px;
+      font-weight: 400;
+    }
+
+    .direct-message:hover {
+      color: white;
+    }
+
+    .list-title {
+      margin-top: 1rem;
+    }
+
+    li:hover {
+      background-color: rgba(62, 49, 60, 1);
+      border-radius: 0.2rem;
+      width: 14rem;
+    }
+
+    li:active {
+      background-color: rgba(75, 150, 137, 1);
+      border-radius: 0.2rem;
+      width: 14rem;
+    }
+
+    .profile-name, .channels, ul,
+    .channel-name, .direct-message {
+       color: rgba(255, 255, 255, 0.7);
+    }
+    
+}

@@ -35,7 +35,6 @@ class Account < ApplicationRecord
     has_many :activities, dependent: :destroy
     has_many :images, dependent: :destroy
     has_many :uploads, dependent: :destroy
-    has_many :audios, dependent: :destroy
     has_many :streams, dependent: :destroy
     has_one :site,dependent: :destroy #change it to many later
 
@@ -79,8 +78,6 @@ class Account < ApplicationRecord
     # PermissionInvite.where(account_id: a).delete_all
     # Image.where(account_id: a).delete_all
     # ImageVariation.where(account_id: a).delete_all
-    # Audio.where(account_id: a).delete_all
-    # AudioVariation.where(account_id: a).delete_all
     # Stream.where(account_id: a).delete_all
     # Site.where(account_id: a).delete_all
     # RefCategory.where(account_id: a).delete_all

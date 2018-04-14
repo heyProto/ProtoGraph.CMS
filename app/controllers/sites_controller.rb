@@ -8,6 +8,7 @@ class SitesController < ApplicationController
     @folder = Folder.new
     @folders = @permission_role.can_see_all_folders ? @site.folders.active : current_user.folders(@site).active
     @activities = [] #@account.activities.order("updated_at DESC").limit(30) Need to update the logic for permission
+    #render layout: "z"
   end
 
   def update

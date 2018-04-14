@@ -118,11 +118,7 @@ Rails.application.routes.draw do
     resources :authentications
 
     resources :images, only: [:index, :create, :show]
-    resources :audios, only: [:index, :create, :show]
     resources :image_variations, only: [:create, :show] do
-      post :download, on: :member
-    end
-    resources :audio_variations, only: [:create, :show] do
       post :download, on: :member
     end
   end

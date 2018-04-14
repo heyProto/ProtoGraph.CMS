@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180405190305) do
+ActiveRecord::Schema.define(version: 20180414124735) do
 
   create_table "accounts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
     t.string "username", limit: 191, collation: "utf8mb4_unicode_ci"
@@ -41,39 +41,6 @@ ActiveRecord::Schema.define(version: 20180405190305) do
     t.integer "site_id"
     t.integer "created_by"
     t.integer "updated_by"
-  end
-
-  create_table "audio_variations", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
-    t.integer "audio_id"
-    t.integer "start_time"
-    t.integer "end_time"
-    t.boolean "is_original"
-    t.integer "total_time"
-    t.string "subtitle_file_path", collation: "utf8_general_ci"
-    t.integer "created_by"
-    t.integer "updated_by"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.text "audio_key", collation: "utf8_general_ci"
-    t.integer "account_id"
-    t.index ["audio_id"], name: "index_audio_variations_on_audio_id"
-    t.index ["id"], name: "index_audio_variations_on_id", unique: true
-  end
-
-  create_table "audios", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
-    t.integer "account_id"
-    t.string "name", collation: "utf8_general_ci"
-    t.string "audio", collation: "utf8_general_ci"
-    t.text "description", collation: "utf8_general_ci"
-    t.string "s3_identifier", collation: "utf8_general_ci"
-    t.integer "total_time"
-    t.integer "created_by"
-    t.integer "updated_by"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["account_id"], name: "index_audios_on_account_id"
-    t.index ["id"], name: "index_audios_on_id", unique: true
-    t.index ["s3_identifier"], name: "index_audios_on_s3_identifier", unique: true
   end
 
   create_table "authentications", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
@@ -212,8 +179,8 @@ ActiveRecord::Schema.define(version: 20180405190305) do
     t.integer "site_id"
     t.integer "folder_id"
     t.string "headline", collation: "utf8_general_ci"
-    t.string "meta_keywords"
-    t.text "meta_description"
+    t.string "meta_keywords", collation: "utf8_general_ci"
+    t.text "meta_description", collation: "utf8_general_ci"
     t.text "summary", collation: "utf8_general_ci"
     t.text "cover_image_url_facebook", collation: "utf8_general_ci"
     t.text "cover_image_url_square", collation: "utf8_general_ci"
@@ -354,12 +321,9 @@ ActiveRecord::Schema.define(version: 20180405190305) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "sessions", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
-    t.text "session_id", null: false
+  create_table "sessions", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string "session_id", null: false
     t.text "data"
-    t.string "ip"
-    t.string "location_city"
-    t.string "location_state"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -596,7 +560,7 @@ ActiveRecord::Schema.define(version: 20180405190305) do
     t.index ["user_id"], name: "index_user_emails_on_user_id"
   end
 
-  create_table "user_sessions", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
+  create_table "user_sessions", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "session_id"
     t.integer "user_id"
     t.string "ip"
