@@ -26,6 +26,7 @@
       padding: 0 0rem;
       cursor: pointer;
       padding-left: 10px; font-size: 13px;
+      padding-right: 5px;
     }
     
     .list-title {
@@ -82,12 +83,20 @@
     li:hover {
       background-color: rgba(62, 49, 60, 1);
       border-radius: 0.2rem;
+      padding-right: 5px;
     }
 
-    li:active {
-      background-color: rgba(75, 150, 137, 1);
-      border-radius: 0.2rem;
-      width: 14rem;
+    li.active {
+      background-color: #f4b82e;
+      color: black !important;
+      padding-right: 5px;
+      border-radius: 0.1rem;
+      .spanadd {
+        color: black !important;
+      }
+      a{
+          color: black !important;         
+      }
     }
 
     .profile-name, .channels, ul,

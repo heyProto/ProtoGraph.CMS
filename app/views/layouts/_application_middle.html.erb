@@ -30,15 +30,7 @@
 	<div class="steps-to-build-page">
 		<ul class="nav justify-content-end">
             <%= yield :page_navigation %>
-                <% if controller_name == "view_casts" and (action_name == "index" or action_name == "show") %></li>
-                    <li style="margin-top: 9px;">
-                        <button class="btn btn-sm btn-secondary btn-sm" type="button">
-                            <%= link_to '+ Add a card', new_account_site_folder_view_cast_path(@account, @site, @folder), data: {turbolinks: false} %>
-                        </button>
-                    </li>
-                <% elsif controller_name == "stories" and action_name == "index" %>
-                    <form class="form-inline my-2 my-lg-0"><li><%= render partial: "stories/new" %></li></form>
-                <% elsif controller_name == "images" %>
+                <% if controller_name == "images" %>
                     <li style="margin-top: 9px;">
                         <button class="btn btn-sm btn-secondary btn-sm" type="button">
                           <%= link_to '+ Upload an image', "#",id: "upload_image_button", "data-toggle" => "modal", "data-target" => "#fileUploadModal" %>
@@ -49,9 +41,6 @@
                             $('#fileUploadModal').appendTo("body");
                         })
                     </script>
-                <% end %>
-                <% if @site.present? %>
-                  <li class="nav-item"><%= link_to image_tag("glyphicons-139-picture.png", size: "13", title: "Image Bank"), account_images_path(@account, folder_id: @folder.present? ? @folder.id : nil), "data-turbolinks"=> false, class: "nav-link", style: controller_name == "images" ? "background: #f0f0f0;" : nil %></li>
                 <% end %>
 		</ul>
 	</div>

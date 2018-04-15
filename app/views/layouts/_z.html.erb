@@ -33,7 +33,7 @@
                 <% end %>
             </div>
         </h1>
-        <div class="list-title channels">
+        <div class="list-title channels" style="margin-top: 0px;">
             <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="font-size: 12px; color: gray;">SITE SETTINGS</a>
             <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                 <%= link_to "Settings", edit_account_site_path(@account, @site), class: "dropdown-item" %>
@@ -42,11 +42,13 @@
                 <%= link_to "Editorial planning", intersection_account_site_path(@account, @site), class: "dropdown-item" %>
             </div>
         </div>
+        <div class="list-title channels" style="margin-top: 0px;"><%= link_to "IMAGE BANK", account_images_path(@account, folder_id: @folder.present? ? @folder.id : nil), "data-turbolinks"=> false, style: controller_name == "images" ? "background: #f0f0f0;" : nil %>
+        </div>
         <div class="list-title channels"><%= link_to "SECTIONS", verticals_account_site_path(@account, @site), style: "color: white;" %> <span>(<%=@all_vertical_count%>)</span> <span class="spanadd"><%= link_to image_tag("add.png", size: "18"), verticals_account_site_path(@account, @site) %></span></div>
         <ul>
             <% @all_verticals.each do |ref_category| %>            
                 <% d = ref_category.vertical_page %>
-                <li>
+                <li class="<%= (@ref_category.present? and @ref_category.id.present? and @ref_category.id == ref_category.id) ? "active" : nil %>">
                     <% if d.present? %>
                         <%= link_to "# " + ref_category.name, edit_account_site_page_path(@account, @site, d, folder_id: @folder.present? ? @folder.id : nil), "data-turbolinks"=> false %>
                     <% else %>
@@ -58,7 +60,7 @@
         <div class="list-title direct-message"><%= link_to "WORKSPACES", account_site_folders_path(@account, @site), style: "color: white;" %> <span>(<%=@all_workspaces_count%>)</span> <span class="spanadd"><%= link_to image_tag("add.png", size: "18"), new_account_site_folder_path(@account, @site), data: {turbolinks: false}%></span></div>
         <ul>
             <% @all_workspaces.each do |folder| %>            
-                <li>
+                <li class="<%= (@folder.present? and @folder.id.present? and @folder.id == folder.id) ? "active" : nil %>">
                     <%= link_to folder_name_(folder).html_safe, account_site_folder_view_casts_path(@account, @site, folder) %>
                     <span class="spanadd">(<%= folder.view_casts.count + folder.pages.count %>)</span>
                 </li>
