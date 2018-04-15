@@ -30,24 +30,41 @@
                 </div>
             <% else %>
                 <div class="row" style="margin: 0px; padding: 0px;">
-                    <% @view_casts.each do |d| %>
-                    	<%= link_to [@account, @site,  @folder,d], "data-turbolinks"=> false do %>
-                            <div class="card-as-a-todo">
-                        		<div class="card-information">
-                        			<div class="card-title"><%= truncate(d.name, length: 200, ommission: "..") %></div>
-                        			<div class="card-type"><%= d.template_card.name %> <span class="card-id">#<%=d.id.to_s%></span></div>
-                        			<div class="card-footer">
-                        				<div class="users-list">
-                        					<div class="single-user"><%= image_tag avatar_url(d.updator.email), width: "16px", height: "16px" %></div>
-                        				</div>
-                        				<div class="due-on">
-                        					<%= time_ago_in_words(d.updated_at) %>
-                        				</div>
-                        			</div>
-                        		</div>
-                        	</div>
-                        <% end %>
-                    <% end %>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>
+                                </th>
+                                <th>
+                                </th>
+                                <th>Title
+                                </th>
+                                <th>Card Type
+                                </th>
+                                <th>Updated by
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% @view_casts.each do |d| %>
+                                <tr>
+                                    <td class="hint">
+                                        #<%= d.id.to_s %>
+                                    </td>
+                                    <td><div class="status-signal status-green"></div>
+                                    </td>
+                                    <td>
+                                        <%= link_to truncate(d.name, length: 55, ommission: ".."), [@account, @site,  @folder,d], "data-turbolinks"=> false %>
+                                    </td>
+                                    <td class="hint">
+                                        <%= d.template_card.name %>
+                                    </td>
+                                    <td class="hint"><%= image_tag avatar_url(d.updator.email), width: "16px", height: "16px" %> <%= time_ago_in_words(d.updated_at) %>
+                                    </td>
+                                </tr>
+                            <% end %>
+                        </tbody>
+                    </table>
                 </div>
                 <div style="padding-left: 18px;">
                     <%= paginate @view_casts, theme: 'twitter-bootstrap-4', pagination_class: "pagination-sm" %>
