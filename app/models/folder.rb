@@ -41,8 +41,8 @@ class Folder < ApplicationRecord
     #ACCESSORS
     attr_accessor :is_system_generated, :collaborator_lists
     #VALIDATIONS
-    validates :name, exclusion: {in: ["Recycle Bin"], message: "Is a reserved name."}, unless: :is_system_generated
-    validates :name, uniqueness: {scope: [:account, :ref_category_vertical_id], message: "Folder name is already used."}
+    validates :name, exclusion: {in: ["Trash"], message: "Is a reserved name."}, unless: :is_system_generated
+    validates :name, uniqueness: {scope: [:account, :ref_category_vertical_id], message: "is already used."}
     #CALLBACKS
     after_save :after_save_set
     after_validation :move_friendly_id_error_to_name

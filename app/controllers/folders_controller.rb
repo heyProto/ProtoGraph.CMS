@@ -8,16 +8,13 @@ class FoldersController < ApplicationController
   end
 
   def new
-    @is_admin = true
     @folder = @account.folders.new
-    @is_admin = true
     @folder.is_for_stories = true
     @verticals = @site.ref_categories.where(genre: 'series').pluck(:name, :id)
     render layout: "z"
   end
 
   def edit
-    @is_admin = true
     if @folder.is_trash
       redirect_back(fallback_location: [@account], alert: t("pd.folder"))
     end

@@ -55,7 +55,7 @@ class ViewCastsController < ApplicationController
 
     def destroy
         @view_cast.updator = current_user
-        @view_cast.folder = @account.folders.find_by(name: "Recycle Bin")
+        @view_cast.folder = @account.folders.find_by(name: "Trash")
         if @view_cast.save
             StreamEntity.view_casts.where(entity_value: @view_cast.id.to_s).each do |d|
                 d.destroy

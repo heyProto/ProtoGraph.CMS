@@ -1,17 +1,31 @@
-<%= content_for :page_title do %>
-        <li class="breadcrumb-item"><%= link_to "Image Bank", account_images_path(@account, folder_id: @folder.present? ? @folder.id : nil), "data-turbolinks"=> false %></li>
-        <li class="breadcrumb-item active" aria-current="page"><%= truncate(@image.name, length: 24, ommission: "..") %></li>
-
-<% end %>
 <% w = @image.image_width %>
 <% h = @image.image_height %>
 
 <div class="row">
-    <div class="col-sm-13">
-        <div style="margin-left: auto; margin-right: auto;">
+    <div class="col-sm-16">
+        <div style="margin-left: auto; margin-right: auto; width: 90%">
+            <br/>
+            <br/>
+            <p>
+                <%= link_to "< Back to Image Bank", account_images_path(@account), "data-turbolinks"=> false %>
+                <span style="float: right;">
+                    <%= link_to '+ Upload an image', "#",id: "upload_image_button", "data-toggle" => "modal", "data-target" => "#fileUploadModal", style:"float: right;" %>
+                    <br/>
+                    <br/>
+                    <a id="openFileUpload" class='btn btn-sm btn-secondary' href='#' data-toggle='modal' data-target='#imageCropperModal'>Crop original image to create variation</a>
+                </span>
+            </p>
+            <script type="text/javascript">
+                $(document).on('turbolinks:load', function(){
+                    $('#fileUploadModal').appendTo("body");
+                })
+            </script>
+            <br/>
+            <br/>
+            <br/>
             <div class='mx-auto proto-app-image-bank-main-image'>
               <a href="<%= @image.image_url %>" target="_blank">
-                <%= image_tag(@image.image_url, class: "img-responsive", id: "main_image", width: w)  %>
+                <%= image_tag(@image.image_url, class: "img-fluid", id: "main_image", width: w)  %>
               </a>
               <div class="photograph-image-details" style="display: block;">
                 <%= "#{w} x #{h} (#{w / w.gcd(h)} : #{h / w.gcd(h)})"%>
@@ -59,12 +73,6 @@
             <% end %>
         </div>
     </div>
-	<div class="col-sm-3 help-text">
-        <a id="openFileUpload" class='btn btn-sm btn-secondary' href='#' data-toggle='modal' data-target='#imageCropperModal'>Crop original image to create variation</a>
-		<!--<%= image_tag "help.png", style: "float: right; right: 0; top: 0; position: relative;" %><h2>Email Settings</h2>
-		<p>Your default support email address is prototype@pro.to. Any email sent here gets automatically converted into a ticket that you can get working on.</p>
-		<p>You can configure your Freshdesk account to use a support email in your own domain, like <a href="">support@mycompany.com</a> by forwarding emails from this address to <a href="">protoprototype@heyproto.freshdesk.com</a>. To create a new support email box, click “Edit” under global email settings.</p>-->
-	</div>
 </div>
 
 <script type="text/javascript">

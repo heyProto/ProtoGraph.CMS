@@ -48,7 +48,7 @@ class StreamsController < ApplicationController
 
     def destroy
         @stream.updator = current_user
-        @stream.folder = @account.folders.find_by(name: "Recycle Bin")
+        @stream.folder = @account.folders.find_by(name: "Trash")
         if @stream.save
             redirect_to account_site_streams_path(@account, @site, folder_id: @folder.blank? ? nil : @folder.id), notice: "Stream was deleted successfully"
         else

@@ -1,6 +1,22 @@
 <div class="row">
   <div class="col-sm-13">
     <div style="margin-left: auto; margin-right: auto; width: 700px;" class='table-responsive'>
+      <br/>
+      <br/>
+      <h2>
+          <% if action_name != "sections" %>
+              Editorial Planning
+          <% else %>
+              Sections
+          <% end %>
+      </h2>
+      <br/>
+      <ul class="nav nav-tabs" style="font-size: 12px;">
+        <li class="nav-item"><%= link_to "Intersections", intersections_account_site_path(@account, @site), class: (action_name == "intersections") ? "nav-link active" : "nav-link" %>
+        <li class="nav-item"><%= link_to "Sub Intersections", sub_intersections_account_site_path(@account, @site), class: (action_name == "sub_intersections") ? "nav-link active" : "nav-link" %>
+      </ul>
+      <br/>
+      <br/>
       <% if @data.first.blank? %>
         <div class="hint">No rows yet</div>
       <% else %>
@@ -35,7 +51,10 @@
                     <%= ref_category.name %>
                   <% end %>
                 </td>
-                <td><%= link_to (image_tag "rss_symbol.png", height: 10, width: 10), "#{@site.cdn_endpoint}/#{ref_category.stream.cdn_rss_key}", target: "blank"  %>
+                <td>
+                    <% if ref_category.stream.present? %>
+                        <%= link_to (image_tag "rss_symbol.png", height: 10, width: 10), "#{@site.cdn_endpoint}/#{ref_category.stream.cdn_rss_key}", target: "blank"  %>
+                    <% end %>
                 </td>
                 <td>
                     <% if @genre == "intersection" %>
@@ -67,7 +86,7 @@
     </div>
   </div>
 	<div class="col-sm-3 help-text">
-    <% if action_name != "verticals" %>
+    <% if action_name != "sections" %>
       <%= simple_form_for(@instance, url: account_site_ref_categories_path(@account, @site), method: :post) do |f| %>
         <%= f.error_notification %>
         <%= f.hidden_field :genre, value: @genre %>
@@ -97,7 +116,7 @@
           <%= f.input :name_html, as: :text, label: "Brand the vertical", hint: "Use HTML (span tag) to add CSS. Note, the length of the series cannot be more than 15 characters.", required: true, minlength: 3 , maxlength: 50 %>
         </div>
         <div class="form-actions">
-            <%= f.button :submit, value: "Add a vertical", class: "btn btn-sm btn-secondary" %>
+            <%= f.button :submit, value: "Add a section", class: "btn btn-sm btn-secondary" %>
         </div>
         <% end %>
     <% end %>

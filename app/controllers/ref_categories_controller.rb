@@ -5,31 +5,32 @@ class RefCategoriesController < ApplicationController
   before_action :sudo_role_can_disable_site_categories, only: [:update]
   before_action :set_entity, only: [:edit, :update, :destroy, :disable]
 
-  def edit
+  def edit  
   end
 
-  def verticals
-    @is_admin = true
+  def sections
     @genre = "series"
     @data = @site.ref_categories.where(genre: "series").order(:name)
     @instance = RefCategory.new
-    render :index
+    render :index, layout: "z"
   end
 
-  def intersection
+  def intersections
     @is_admin = true
     @genre = "intersection"
     @data = @site.ref_categories.where(genre: "intersection").order(:name)
     @instance = RefCategory.new
-    render :index
+    @is_admin = true
+    render :index, layout: "z"
   end
 
-  def sub_intersection
+  def sub_intersections
     @is_admin = true
     @genre = "sub intersection"
     @data = @site.ref_categories.where(genre: "sub intersection").order(:name)
     @instance = RefCategory.new
-    render :index
+    @is_admin = true
+    render :index, layout: "z"
   end
 
   def create
@@ -42,11 +43,11 @@ class RefCategoriesController < ApplicationController
       else
         case @ref_category.genre
         when 'series'
-          redirect_to verticals_account_site_path(@account, @site), alert: @ref_category.errors.full_messages
+          redirect_to sections_account_site_path(@account, @site), alert: @ref_category.errors.full_messages
         when 'intersection'
-          redirect_to intersection_account_site_path(@account, @site), alert: @ref_category.errors.full_messages
+          redirect_to intersections_account_site_path(@account, @site), alert: @ref_category.errors.full_messages
         when 'sub intersection'
-          redirect_to sub_intersection_account_site_path(@account, @site), alert: @ref_category.errors.full_messages
+          redirect_to sub_intersections_account_site_path(@account, @site), alert: @ref_category.errors.full_messages
         end
       end
   end
@@ -76,11 +77,11 @@ class RefCategoriesController < ApplicationController
     respond_to do |format|
         case @genre
         when 'series'
-          format.html { redirect_to verticals_account_site_path(@account, @site), notice: "Destroyed"}
+          format.html { redirect_to sections_account_site_path(@account, @site), notice: "Destroyed"}
         when 'intersection'
-          format.html { redirect_to intersection_account_site_path(@account, @site), notice: "Destroyed"}
+          format.html { redirect_to intersections_account_site_path(@account, @site), notice: "Destroyed"}
         when 'sub intersection'
-          format.html { redirect_to sub_intersection_account_site_path(@account, @site), notice: "Destroyed"}
+          format.html { redirect_to sub_intersections_account_site_path(@account, @site), notice: "Destroyed"}
         end
     end
   end
@@ -88,9 +89,9 @@ class RefCategoriesController < ApplicationController
   def custom_redirect_to
     case @ref_category.genre
     when 'intersection'
-      redirect_to intersection_account_site_path(@account, @site), notice: @notice
+      redirect_to intersections_account_site_path(@account, @site), notice: @notice
     when 'sub intersection'
-      redirect_to sub_intersection_account_site_path(@account, @site), notice: @notice
+      redirect_to sub_intersections_account_site_path(@account, @site), notice: @notice
     end
   end
 

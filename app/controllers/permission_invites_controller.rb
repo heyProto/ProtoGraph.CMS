@@ -12,6 +12,7 @@ class PermissionInvitesController < ApplicationController
     @permission_invites = @site.permission_invites
     @permission_roles = PermissionRole.where.not(slug: "owner").pluck(:name, :slug)
     @is_admin = true
+    render layout: "z"
   end
 
   def create

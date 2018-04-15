@@ -33,18 +33,21 @@
                 <% end %>
             </div>
         </h1>
-        <div class="list-title channels" style="margin-top: 0px;">
-            <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="font-size: 12px; color: gray;">SITE SETTINGS</a>
-            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                <%= link_to "Settings", edit_account_site_path(@account, @site), class: "dropdown-item" %>
-                <%= link_to "Integrations", integrations_account_site_path(@account, @site), class: "dropdown-item" %>
-                <%= link_to "Manage members", account_site_permission_invites_path(@account, @site), class: "dropdown-item" %>
-                <%= link_to "Editorial planning", intersection_account_site_path(@account, @site), class: "dropdown-item" %>
-            </div>
-        </div>
-        <div class="list-title channels" style="margin-top: 0px;"><%= link_to "IMAGE BANK", account_images_path(@account, folder_id: @folder.present? ? @folder.id : nil), "data-turbolinks"=> false, style: controller_name == "images" ? "background: #f0f0f0;" : nil %>
-        </div>
-        <div class="list-title channels"><%= link_to "SECTIONS", verticals_account_site_path(@account, @site), style: "color: white;" %> <span>(<%=@all_vertical_count%>)</span> <span class="spanadd"><%= link_to image_tag("add.png", size: "18"), verticals_account_site_path(@account, @site) %></span></div>
+        <ul>
+            <li class="<%= @is_admin ? "active" : nil %>">
+                <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="font-size: 12px; color: gray;">Site Settings</a>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                    <%= link_to "Settings", edit_account_site_path(@account, @site), class: "dropdown-item" %>
+                    <%= link_to "Integrations", integrations_account_site_path(@account, @site), class: "dropdown-item" %>
+                    <%= link_to "Manage members", account_site_permission_invites_path(@account, @site), class: "dropdown-item" %>
+                    <%= link_to "Editorial planning", intersections_account_site_path(@account, @site), class: "dropdown-item" %>
+                </div>
+            </li>
+            <li class="<%= controller_name == "images" ? "active" : nil %>">
+                <%= link_to "Image Bank", account_images_path(@account), "data-turbolinks"=> false %>
+            </li>
+        </ul>
+        <div class="list-title channels"><%= link_to "SECTIONS", sections_account_site_path(@account, @site), style: "color: white;" %> <span>(<%=@all_vertical_count%>)</span> <span class="spanadd"><%= link_to image_tag("add.png", size: "18"), sections_account_site_path(@account, @site) %></span></div>
         <ul>
             <% @all_verticals.each do |ref_category| %>            
                 <% d = ref_category.vertical_page %>

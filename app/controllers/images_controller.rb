@@ -10,6 +10,7 @@ class ImagesController < ApplicationController
       @images = @account.images.where.not(thumbnail_width: nil, thumbnail_height: nil, image_width: nil, image_height: nil).order("created_at desc").page params[:page]
     end
     @new_image = Image.new
+    render layout: "z"
   end
 
   def create
@@ -33,6 +34,7 @@ class ImagesController < ApplicationController
     @new_image = Image.new
     @image_variation = ImageVariation.new
     @activities = @image.activities.order("updated_at DESC").limit(30)
+    render layout: "z"
   end
 
   private
