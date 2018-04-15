@@ -57,7 +57,7 @@
                                     <td><div class="status-signal status-green"></div>
                                     </td>
                                     <td>
-                                        <%= link_to truncate(d.name, length: 55, ommission: ".."), [@account, @site,  @folder,d], "data-turbolinks"=> false %>
+                                        <%= link_to truncate(d.name, length: 45, ommission: ".."), [@account, @site,  @folder,d], "data-turbolinks"=> false %>
                                     </td>
                                     <td class="hint">
                                         <%= d.template_card.name %>

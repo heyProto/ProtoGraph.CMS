@@ -83,7 +83,7 @@
                                     <td><div class="status-signal <%= d.status == 'draft' ? "status-red" : "status-green" %>"></div>
                                     </td>
                                     <td>
-                                        <%= link_to truncate(d.headline, length: 55, ommission: ".."), edit_write_account_site_story_path(@account, @site, d, folder_id: d.folder_id), "data-turbolinks"=> false %>
+                                        <%= link_to truncate(d.headline, length: 45, ommission: ".."), edit_write_account_site_story_path(@account, @site, d, folder_id: d.folder_id), "data-turbolinks"=> false %>
                                     </td>
                                     <td>
                                         <% if d.byline.present? %>
