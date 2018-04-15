@@ -9,6 +9,9 @@
       <li class="nav-item">
         <%= link_to "Package", (action_name == "distribute" ? "#" :  distribute_account_site_page_path(@account, @site, @page, folder_id: @page.folder_id)), class: (action_name == "distribute" ? "nav-link active" : "nav-link"),"data-turbolinks" => "false" %>
       </li>
+      <li class="nav-item">
+          <%= link_to "Navigation", account_site_ref_category_site_vertical_navigations_path(@account, @site, ref_category, folder_id: @folder.present? ? @folder.id : nil), class: (controller_name == "site_vertical_navigations" ? "nav-link active" : "nav-link"),"data-turbolinks" => "false" %>
+      </li>
 <% end %>
 <br/>
 <br/>
