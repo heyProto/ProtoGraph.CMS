@@ -34,7 +34,7 @@ Rails.application.routes.draw do
     namespace :v1 do
       resources :accounts, only: [] do
         resources :sites, only: [] do
-          resources :folders, only: [] do
+          resources :folders do
             resources :pages, only: [:create, :update]
             resources :streams, only: [:create, :update]
           end
@@ -70,7 +70,6 @@ Rails.application.routes.draw do
       get "remove_favicon", "remove_logo", "integrations", on: :member
       resources :admins, only: [:index] do
         get "access_team", "access_security", on: :collection
-        get 'editorial/folders', to: "admins#editorial_folders", on: :collection
       end
       resources :permissions do
         put "change_role", on: :member

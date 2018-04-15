@@ -15,11 +15,6 @@ class AdminsController < ApplicationController
     @is_admin = true
     @permission_roles = PermissionRole.where.not(slug: 'owner').pluck(:name, :slug)
   end
-
-  def editorial_folders
-    @is_admin = true
-    @folders = @permission_role.can_see_all_folders ? @site.folders : current_user.folders(@site)
-  end
   
   def account_owners
     @is_admin = true

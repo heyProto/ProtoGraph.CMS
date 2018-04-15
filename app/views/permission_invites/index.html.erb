@@ -1,11 +1,18 @@
 <%= content_for :page_title do %>
         <li class="breadcrumb-item"><%= link_to "Admin", account_site_admins_path(@account, @site), "data-turbolinks"=> false %></li>
         <li class="breadcrumb-item active" aria-current="page">Site: <%= @site.domain %></li>
-        <li class="breadcrumb-item active" aria-current="page">Site Team</li>
+        <li class="breadcrumb-item active" aria-current="page">Manage Members</li>
 <% end %>
 <div class="row">
     <div class="col-sm-13">
         <div style="margin-left: auto; margin-right: auto; width: 72%;">
+            <ul class="nav nav-tabs" style="font-size: 12px;">
+              <li class="nav-item"><%= link_to "Site Team", account_site_permission_invites_path(@account, @site), class: (controller_name == "permission_invites" and action_name == "index") ? "nav-link active" : "nav-link" %>
+              <li class="nav-item"><%= link_to "Account Owners", account_owners_account_admins_path(@account), class: (controller_name == "admins" and action_name == "account_owners") ? "nav-link active" : "nav-link" %>
+              <li class="nav-item"><%= link_to "Security Settings", access_security_account_site_admins_path(@account, @site), class: (controller_name == "admins" and action_name == "access_security") ? "nav-link active" : "nav-link" %>
+            </ul>
+            <br/>
+            <br/>
             <% if @permissions.first.blank? %>
                 <p class="hint">No team members invited yet.</p>
             <% else %>

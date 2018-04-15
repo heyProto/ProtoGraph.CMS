@@ -1,6 +1,10 @@
 class FoldersController < ApplicationController
   before_action :authenticate_user!
   before_action :sudo_role_can_folder_settings, only: [:edit, :update]
+  
+  def index
+    @folders = @permission_role.can_see_all_folders ? @site.folders : current_user.folders(@site)
+  end
 
   def new
     @is_admin = true

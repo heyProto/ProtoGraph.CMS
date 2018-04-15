@@ -5,16 +5,6 @@
 <div class="row">
     <div class="col-sm-13">
         <div style="margin-left: auto; margin-right: auto; width: 600px;">
-            <h3 style="font-weight: 100;">Admin for Account: <%= @account.username %></h3>
-            <div class="row">
-                <div class="col-sm-5">
-                    <a href=<%= account_owners_account_admins_path(@account)%>>
-                        <div class="administration-options"><%= image_tag "glyphicons-522-user-lock.png" %></div>
-                        <p>Owners</p>
-                    </a>
-                </div>
-            </div>
-            <br/>
             <h2 style="font-weight: 800;">Site: <%= @site.domain %></h2>
             <br/>
             <h3 style="font-weight: 100;">Basic setup</h3>
@@ -22,15 +12,9 @@
                 <div class="col-sm-5">
                     <a href=<%= account_site_permission_invites_path(@account, @site) %>>
                         <div class="administration-options"><%= image_tag "glyphicons-621-visitor-tag.png" %></div>
-                        <p>Site Team</p>
+                        <p>Manage members</p>
                     </a>    
-                </div>
-                <div class="col-sm-5">
-                    <a href=<%= access_security_account_site_admins_path(@account, @site)%>>
-                        <div class="administration-options"><%= image_tag "glyphicons-743-fingerprint-lock.png" %></div>
-                        <p>Security</p>
-                    </a>
-                </div>                
+                </div>      
             </div>
             <br/>
             <h3 style="font-weight: 100;">Publish micro-sites (Verticals)</h3>
@@ -73,7 +57,7 @@
             <h3 style="font-weight: 100;">Organise work inside CMS</h3>
             <div class="row">
                 <div class="col-sm-5">
-                    <a href=<%= editorial_folders_account_site_admins_path(@account,@site) %>>
+                    <a href=<%= account_site_folders_path(@account, @site) %>>
                         <div class="administration-options"><%= image_tag "glyphicons-145-folder-open.png" %></div>
                         <p>Workspaces</p>
                     </a>    
