@@ -48,9 +48,9 @@
                 <% d = ref_category.vertical_page %>
                 <li>
                     <% if d.present? %>
-                        <%= link_to (ref_category.name_html.present? ? ("# " + ref_category.name_html.html_safe) : ("# " + ref_category.name)), edit_account_site_page_path(@account, @site, d, folder_id: @folder.present? ? @folder.id : nil), "data-turbolinks"=> false %>
+                        <%= link_to "# " + ref_category.name, edit_account_site_page_path(@account, @site, d, folder_id: @folder.present? ? @folder.id : nil), "data-turbolinks"=> false %>
                     <% else %>
-                        <%= ref_category.name_html.present? ? ("# " + ref_category.name_html.html_safe) : ("# " + ref_category.name) %>
+                        <%= "# " + ref_category.name %>
                     <% end %>
                 </li>    
             <% end %>
