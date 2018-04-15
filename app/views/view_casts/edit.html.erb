@@ -1,7 +1,6 @@
 <%= content_for :page_title do %>
-    <li class="breadcrumb-item"><%= link_to "Cards", account_site_folder_view_casts_path(@account, @site, @folder), "data-turbolinks"=> false %></li>
-    <li class="breadcrumb-item active" aria-current="page"><%= truncate(@view_cast.name, length: 24, ommission: "..") %></li>
-    <li class="breadcrumb-item active" aria-current="page">Edit</li>
+    <li class="breadcrumb-item active" aria-current="page"><%= link_to truncate(@view_cast.name, length: 24, ommission: ".."), account_site_folder_view_cast_path(@account, @site, @folder, @view_cast), "data-turbolinks"=> false %></li>
+
 <% end %>
 
 <%= stylesheet_link_tag "ProtoGraph.Container.toCardForm" %>
