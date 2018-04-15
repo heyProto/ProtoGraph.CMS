@@ -81,9 +81,9 @@ Rails.application.routes.draw do
         end
         put '/disable', to: "ref_categories#disable", on: :member
       end
-      get "/verticals", to: "ref_categories#verticals", on: :member
-      get "/intersection", to: "ref_categories#intersection", on: :member
-      get "/sub_intersection", to: "ref_categories#sub_intersection", on: :member
+      get "/sections", to: "ref_categories#sections", on: :member
+      get "/intersections", to: "ref_categories#intersections", on: :member
+      get "/sub_intersections", to: "ref_categories#sub_intersections", on: :member
 
       resources :folders do
         resources :view_casts
