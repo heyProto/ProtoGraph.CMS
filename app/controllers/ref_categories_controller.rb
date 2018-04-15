@@ -5,7 +5,7 @@ class RefCategoriesController < ApplicationController
   before_action :sudo_role_can_disable_site_categories, only: [:update]
   before_action :set_entity, only: [:edit, :update, :destroy, :disable]
 
-  def edit
+  def edit  
   end
 
   def verticals
@@ -21,6 +21,7 @@ class RefCategoriesController < ApplicationController
     @genre = "intersection"
     @data = @site.ref_categories.where(genre: "intersection").order(:name)
     @instance = RefCategory.new
+    @is_admin = true
     render :index
   end
 
@@ -29,6 +30,7 @@ class RefCategoriesController < ApplicationController
     @genre = "sub intersection"
     @data = @site.ref_categories.where(genre: "sub intersection").order(:name)
     @instance = RefCategory.new
+    @is_admin = true
     render :index
   end
 
