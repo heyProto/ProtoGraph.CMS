@@ -1,6 +1,7 @@
-<button class="btn btn-sm btn-secondary btn-sm" type="button">
-    <%= link_to '+ Add a card', new_account_site_folder_view_cast_path(@account, @site, @folder), data: {turbolinks: false} %>
-</button>
+<br/>
+<% if !@folder.is_trash %>
+<%= link_to '+ Add a card', new_account_site_folder_view_cast_path(@account, @site, @folder), data: {turbolinks: false}, style: "float: right;" %>
+<% end %>
 <div class="row">
     <div class="col-sm-13">
         <% if @folder.is_for_stories %>
@@ -54,12 +55,7 @@
             <% end %>
         </div>
     </div>
-	<div class="col-sm-3 help-text">
-        <%= image_tag "help.png", style: "float: right; right: 0; top: 0; position: relative;" %>
-		<h2>Cards</h2>
-		<p>A card is an individual piece of content, presented in a concise visual package. You can use cards for three purposes:</p>
-        <p style="padding-left: 30px;">- Write stories using toParagraph, toImage, toVideo cards.</p>
-        <p style="padding-left: 30px;">- Reuse research in long form articles to create snackable, engaging content for low literate audiences using toQuiz and toTimeline cards.</p>
-        <p style="padding-left: 30px;">- Launch <a href="https://reporterslab.org/structured-journalism/" target="_blank">structured journalism</a> projects by capturing structured information e.g. deaths, district profiles, performance cards of elected officials, etc. in cards.</p>
+	<div class="col-sm-3">
+        
 	</div>
 </div>
