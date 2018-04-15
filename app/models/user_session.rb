@@ -12,6 +12,10 @@
 #  location_country :string(255)
 #  created_at       :datetime         not null
 #  updated_at       :datetime         not null
+#  latitude         :string(255)
+#  longitude        :string(255)
+#  time_zone        :string(255)
+#  zip_code         :string(255)
 #
 
 class UserSession < ApplicationRecord
