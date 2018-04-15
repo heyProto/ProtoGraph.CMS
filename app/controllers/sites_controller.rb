@@ -9,6 +9,11 @@ class SitesController < ApplicationController
     redirect_to edit_account_site_path(@account, @site)
   end
   
+  def show
+    folder = @permission_role.can_see_all_folders ? @site.folders.active.where(is_trash: false).first : current_user.folders(@site).active.where(is_trash: false).first
+    redirect_to account_site_folder_view_casts_path(@account, @site, folder)
+  end
+  
   def remove_logo
     @site.update_attributes(logo_image_id: nil)
     redirect_to edit_account_site_path(@account, @site)
