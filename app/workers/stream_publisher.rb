@@ -5,6 +5,7 @@ class StreamPublisher
   def perform(stream_id)
     stream = Stream.find(stream_id)
     stream.publish_cards
+    stream.publish_rss
   end
 
 end

@@ -57,6 +57,10 @@ class ViewCastsController < ApplicationController
         @view_cast.updator = current_user
         @view_cast.folder = @account.folders.find_by(name: "Trash")
         if @view_cast.save
+            StreamEntity.view_casts.where(entity_value: @view_cast.id.to_s).each do |d|
+                d.destroy
+                StreamPublisher(d.stream_id)
+            end
             redirect_to account_site_folder_view_casts_path(@account, @site, @folder), notice: "Card was deleted successfully"
         else
             redirect_to account_site_folder_view_cast_path(@account, @site, @folder, @view_cast), alert: "Card could not be deleted"

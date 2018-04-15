@@ -52,6 +52,9 @@ class StreamEntity < ApplicationRecord
 
     def before_destroy_set
         self.stream.update_card_count
+        self.stream.pages.each do |p|
+            PagePublisher.perform_async(p.id)
+        end
     end
 
     def before_save_set
@@ -65,9 +68,7 @@ class StreamEntity < ApplicationRecord
     end
 
     def set_sort_order
-        if stream.title.split[1] == "Section"
-            sss
-        else
+        if stream.title.split[1] != "Section"
             if self.stream.title == "#{self.page_id}_Story_Narrative"
                 last_view_cast = stream.view_cast_ids.order(sort_order: :desc).last
                 self.sort_order = last_view_cast.present? ? last_view_cast.sort_order.to_i + 1 : 1

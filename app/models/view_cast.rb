@@ -19,9 +19,6 @@
 #  folder_id                        :integer
 #  is_invalidating                  :boolean
 #  default_view                     :string(255)
-#  genre                            :string(255)
-#  sub_genre                        :string(255)
-#  series                           :string(255)
 #  by_line                          :string(255)
 #  site_id                          :integer
 #  is_open                          :boolean
@@ -31,6 +28,7 @@
 #  ref_category_intersection_id     :integer
 #  ref_category_sub_intersection_id :integer
 #  ref_category_vertical_id         :integer
+#  published_at                     :datetime
 #
 
 class ViewCast < ApplicationRecord
