@@ -4,18 +4,20 @@
 <% end %>
 <div class="row">
     <div class="col-sm-13">
-        <% if @folder.is_for_stories %>
+        
             <div class="page-center-div">
                 <div class="btn-group" role="group" aria-label="Basic example">
                   <button type="button" class="btn btn-small btn-secondary active">
                     <%= link_to "Cards", account_site_folder_view_casts_path(@account, @site, @folder) %>
                   </button>
-                  <button type="button" class="btn btn-small btn-secondary">
-                    <%= link_to "Stories", account_site_stories_path(@account, @site,folder_id: @folder.id) %>
-                  </button>
+                  <% if @folder.is_for_stories %>
+                      <button type="button" class="btn btn-small btn-secondary">
+                        <%= link_to "Stories", account_site_stories_path(@account, @site,folder_id: @folder.id) %>
+                      </button>
+                  <% end %>
                 </div>
             </div>
-        <% end %>
+        
         <div style="margin-left: auto; margin-right: auto;">
             <% if @view_casts.first.blank? %>
                 <br/>
