@@ -23,7 +23,7 @@
     <% if @site.present? %>
         <h1 class="list-title sidebar-head">
             <div class="dropdown show vertical-selection-dropdown">
-                <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color: white !important;"><%= truncate @site.domain, length: 15, ommission: ".." %></a>
+                <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color: white !important;"><%= truncate @site.domain, length: 40, ommission: ".." %></a>
                 <% if @accounts.count > 1 %>
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                         <% @accounts.each do |a| %>
