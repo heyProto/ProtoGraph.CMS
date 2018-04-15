@@ -10,35 +10,48 @@ class SitesController < ApplicationController
     @activities = [] #@account.activities.order("updated_at DESC").limit(30) Need to update the logic for permission
     #render layout: "z"
   end
+  
+  def remove_favicon
+    @site.update_attributes(favicon_id: nil)
+    redirect_to edit_account_site_path(@account, @site)
+  end
+  
+  def remove_logo
+    @site.update_attributes(logo_image_id: nil)
+    redirect_to edit_account_site_path(@account, @site)
+  end
+  
+  def edit
+    if @site.favicon_id.nil?
+      @site.build_favicon
+    end
+    if @site.logo_image_id.nil?
+      @site.build_logo_image
+    end
+  end
+  
+  def integrations
+    
+  end
 
   def update
     from = params[:site][:from_page]
     if @site.update(site_params)
-      if from == "site_setup"
-        redirect_to site_setup_account_site_admins_path(@account, @site), notice: 'site was successfully updated.'
-      elsif from == "sites"
-        redirect_to sites_account_admins_path(@account), notice: 'site was successfully updated.'
-      elsif from == "product_theme"
-        redirect_to site_theming_account_site_admins_path(@account, @site), notice: 'site was successfully updated.'
-      elsif from == "basic_theming"
-        redirect_to basic_theming_account_site_admins_path(@account, @site), notice: 'site was successfully updated.'
-      elsif from == "product_integrations"
-        redirect_to site_integrations_account_site_admins_path(@account, @site), notice: 'site was successfully updated.'
+      if from == "product_integrations"
+        redirect_to integrations_account_site_path(@account, @site), notice: 'site was successfully updated.'
       elsif from == "access_security"
         redirect_to access_security_account_site_admins_path(@account, @site), notice: 'site was successfully updated.'
+      else
+        redirect_to edit_account_site_path(@account, @site), notice: 'site was successfully updated.'
       end
     else
       @permission_role = PermissionRole.where.not(slug: 'owner').pluck(:name, :slug)
-      if from == "site_setup"
-        render "admins/site_setup"
-      elsif from == "product_theme"
-        render "admins/site_theming"
-      elsif from == "basic_theming"
-        render "admins/basic_theming"
-      elsif from == "product_integrations"
-        render "admins/product_integrations"
+      if from == "product_integrations"
+        render :integrations
       elsif from == "access_security"
         render "admins/access_security"
+      else
+        render :edit
       end
     end
   end

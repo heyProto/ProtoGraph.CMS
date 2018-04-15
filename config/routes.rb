@@ -65,16 +65,12 @@ Rails.application.routes.draw do
     resources :permission_invites
     resources :admins, only: [:index] do
       get "account_owners", on: :collection
-      get "sites", to: "admins#sites", on: :collection
     end
     resources :sites do
+      get "remove_favicon", "remove_logo", "integrations", on: :member
       resources :admins, only: [:index] do
         get "access_team", "access_security", on: :collection
         get 'editorial/folders', to: "admins#editorial_folders", on: :collection
-        get 'site/setup', to: "admins#site_setup", on: :collection
-        get 'site/theming', to: "admins#site_theming", on: :collection
-        get 'basic/theming', to: "admins#basic_theming", on: :collection
-        get 'site/integrations', to: "admins#site_integrations", on: :collection
       end
       resources :permissions do
         put "change_role", on: :member

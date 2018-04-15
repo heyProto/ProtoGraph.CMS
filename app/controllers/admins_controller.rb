@@ -5,18 +5,6 @@ class AdminsController < ApplicationController
   def index
     @is_admin = true
   end
-  
-  def sites
-    @is_admin = true
-  end
-  
-  def basic_theming
-    @is_admin = true
-    if @site.favicon_id.nil?
-      @site.build_favicon
-    end
-    @permission_roles = PermissionRole.where.not(slug: 'owner').pluck(:name, :slug)  
-  end
 
   def site_setup
     @is_admin = true
@@ -24,18 +12,6 @@ class AdminsController < ApplicationController
   end
   
   def access_security
-    @is_admin = true
-    @permission_roles = PermissionRole.where.not(slug: 'owner').pluck(:name, :slug)
-  end
-
-  def site_theming
-    @is_admin = true
-    if @site.logo_image_id.nil?
-      @site.build_logo_image
-    end
-  end
-
-  def site_integrations
     @is_admin = true
     @permission_roles = PermissionRole.where.not(slug: 'owner').pluck(:name, :slug)
   end

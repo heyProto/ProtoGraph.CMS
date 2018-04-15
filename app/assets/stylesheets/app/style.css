@@ -1,8 +1,8 @@
-body{font-size: 15px; font-family: 'Lato', sans-serif;}
+body{font-size: 15px; font-family: 'Open Sans', sans-serif;}
 a{color: #0366d6;}
 h1{font-size: 2em; line-height: 40px; font-weight: 800;}
 h2{font-size: 1.7em; line-height: 30px; font-weight: 600;}
-h3{font-size: 1.1em; line-height: 20px; font-weight: 600;}
+h3{font-size: 1.2em; line-height: 20px; font-weight: 800; font-weight: bold !important;}
 h4{font-size: 1em; line-height: 20px; font-weight: 600;}
 
 .active > .nav-link{color: black; font-weight: 600 !important;}

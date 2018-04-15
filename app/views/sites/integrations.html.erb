@@ -1,0 +1,22 @@
+<%= content_for :page_title do %>
+    <li class="breadcrumb-item"><%= link_to "Admin", account_site_admins_path(@account, @site), "data-turbolinks"=> false %></li>
+    <li class="breadcrumb-item active" aria-current="page">Site: <%= @site.domain %></li>
+    <li class="breadcrumb-item active" aria-current="page">Integrations</li>
+<% end %>
+<div class="row">
+    <div class="col-sm-16">
+        <div style="margin-left: auto; margin-right: auto; width: 300px;">
+            <h2>Site Integrations</h2>
+            <br/>
+            <%= simple_form_for [@account, @site] do |f| %>
+              <%= f.error_notification %>
+              <%= f.input :g_a_tracking_id, label: "Google Analytics Tracking Code", hint: "The tracking ID is a string like UA-000000-2." %>
+              <p class="hint">Here is <%= link_to "an article", "http://blog.analytics-toolkit.com/2016/google-analytics-tracking-code-id-check-setup/", target: "_blank"%> that shows you how to find your Google Analytics tracking id.</p>
+              <%= f.input :comscore_code, as: :string, label: "ComScore Code" %>
+              <%= f.input :gtm_id, as: :string, label: "Google Tag Manager (GTM) Code" %>
+              <%= f.input :from_page, as: :hidden, input_html: {value: "product_integrations"}%>
+              <%= f.button :submit, "Save", class: "btn btn-sm btn-secondary" %>
+            <% end %>
+        </div>
+    </div>
+</div>
