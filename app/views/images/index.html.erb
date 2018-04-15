@@ -1,10 +1,18 @@
-<%= content_for :page_title do %>
-  <li class="breadcrumb-item active" aria-current="page">Image Bank</li>
-<% end %>
 <%= stylesheet_link_tag "image_bank.css" %>
 <div class="row">
-    <div class="col-sm-13">
+    <div class="col-sm-16">
         <div style="margin-left: auto; margin-right: auto; width: 90%;">
+            <br/>
+            <br/>
+            <%= link_to '+ Upload an image', "#",id: "upload_image_button", "data-toggle" => "modal", "data-target" => "#fileUploadModal", style:"float: right;" %>
+            <script type="text/javascript">
+                $(document).on('turbolinks:load', function(){
+                    $('#fileUploadModal').appendTo("body");
+                })
+            </script>
+            <br/>
+            <br/>
+            <br/>
             <%= paginate @images, theme: 'twitter-bootstrap-4', pagination_class: "pagination-sm" %>
             <% if (params[:q].present? and @images.blank?) %>
               <div class="blankslate blankslate-spacious">
@@ -24,17 +32,22 @@
             <% end %>
         </div>
     </div>
-	<div class="col-sm-3 help-text">
-        <%= render partial: "images/form" %>
-        <% if @account.images.present? %>
-          <%= render partial: "images/search_form" %>
-        <% end %>
-		<!--<%= image_tag "help.png", style: "float: right; right: 0; top: 0; position: relative;" %><h2>Email Settings</h2>
+	
+
+        
+		<!--
+            
+            <%= render partial: "images/form" %>
+            <% if @account.images.present? %>
+              <%= render partial: "images/search_form" %>
+            <% end %>
+            <%= image_tag "help.png", style: "float: right; right: 0; top: 0; position: relative;" %><h2>Email Settings</h2>
 		<p>Your default support email address is prototype@pro.to. Any email sent here gets automatically converted into a ticket that you can get working on.</p>
 		<p>You can configure your Freshdesk account to use a support email in your own domain, like <a href="">support@mycompany.com</a> by forwarding emails from this address to <a href="">protoprototype@heyproto.freshdesk.com</a>. To create a new support email box, click “Edit” under global email settings.</p>-->
-	</div>
+
 </div>
 
+        
 
 <%= javascript_include_tag "justified.js" %>
 <%= javascript_include_tag "JCrop.js" %>

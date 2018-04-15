@@ -42,8 +42,12 @@
                 <%= link_to "Editorial planning", intersection_account_site_path(@account, @site), class: "dropdown-item" %>
             </div>
         </div>
-        <div class="list-title channels" style="margin-top: 0px;"><%= link_to "IMAGE BANK", account_images_path(@account, folder_id: @folder.present? ? @folder.id : nil), "data-turbolinks"=> false, style: controller_name == "images" ? "background: #f0f0f0;" : nil %>
-        </div>
+        <ul>
+            <li class="<%= controller_name == "images" ? "active" : nil %>">
+                <%= link_to "IMAGE BANK", account_images_path(@account), "data-turbolinks"=> false %>
+            </li>
+        </ul>
+        
         <div class="list-title channels"><%= link_to "SECTIONS", verticals_account_site_path(@account, @site), style: "color: white;" %> <span>(<%=@all_vertical_count%>)</span> <span class="spanadd"><%= link_to image_tag("add.png", size: "18"), verticals_account_site_path(@account, @site) %></span></div>
         <ul>
             <% @all_verticals.each do |ref_category| %>            
