@@ -63,13 +63,13 @@ Rails.application.routes.draw do
       put "change_role", on: :member
     end
     resources :permission_invites
-    resources :admins, only: [:index] do
+    resources :admins, only: [] do
       get "account_owners", on: :collection
     end
     resources :sites do
       get "remove_favicon", "remove_logo", "integrations", on: :member
-      resources :admins, only: [:index] do
-        get "access_team", "access_security", on: :collection
+      resources :admins, only: [] do
+        get "access_security", on: :collection
       end
       resources :permissions do
         put "change_role", on: :member

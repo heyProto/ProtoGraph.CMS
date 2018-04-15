@@ -4,6 +4,7 @@ class FoldersController < ApplicationController
   
   def index
     @folders = @permission_role.can_see_all_folders ? @site.folders : current_user.folders(@site)
+    render layout: "z"
   end
 
   def new
@@ -12,6 +13,7 @@ class FoldersController < ApplicationController
     @is_admin = true
     @folder.is_for_stories = true
     @verticals = @site.ref_categories.where(genre: 'series').pluck(:name, :id)
+    render layout: "z"
   end
 
   def edit
@@ -21,6 +23,7 @@ class FoldersController < ApplicationController
     end
     @folder.collaborator_lists = @folder.users.pluck(:id)
     @verticals = @site.ref_categories.where(genre: 'series').pluck(:name, :id)
+    render layout: "z"
   end
 
   def update
@@ -32,7 +35,7 @@ class FoldersController < ApplicationController
       @verticals = @site.ref_categories.where(genre: 'series').pluck(:name, :id)
       @folder.collaborator_lists = @folder.users.pluck(:id)
       @is_admin = true
-      render "edit"
+      render "edit", layout: "z"
     end
   end
 
@@ -47,7 +50,7 @@ class FoldersController < ApplicationController
     else
       @is_admin = true
       @verticals = @site.ref_categories.where(genre: 'series').pluck(:name, :id)
-      render "new"
+      render "new", layout: "z"
     end
   end
 

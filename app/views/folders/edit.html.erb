@@ -1,17 +1,15 @@
-<%= content_for :page_title do %>
-        <li class="breadcrumb-item"><%= link_to "Admin", account_site_admins_path(@account, @site), "data-turbolinks"=> false %></li>
-        <li class="breadcrumb-item active" aria-current="page">Site: <%= @site.domain %></li>
-        <li class="breadcrumb-item"><%= link_to "Workspaces", account_site_folders_path(@account,@site), "data-turbolinks"=> false %></li>
-      
-<% end %>
 <div class="row">
-    <div class="col-sm-13">
-        <div style="margin-left: auto; margin-right: auto; width: 500px;">
+    <div class="col-sm-16">
+        <div style="margin-left: auto; margin-right: auto; width: 300px;">
+            <br/><br/>
+            <h2>Edit Workspace</h2>
+            <br/>
             <%= simple_form_for [@account, @site, @folder] do |f| %>
+                <%= f.input :ref_category_vertical_id, collection: @verticals, label: "Vertical", disabled: true %>
                 <%= f.input :name, required: true %>
                 <%= f.input :site_id, as: :hidden, input_html: {value: @site.id} %>
                 <%= f.input :is_for_stories, as: :boolean, label: "&nbsp; Use this workspace to file stories?".html_safe, hint: "Implication: You wont be able to create data cards in this workspace."%>
-                <%= f.input :is_archived, as: :boolean, label: "&nbsp; Is Archived?".html_safe %>
+                <%= f.input :is_archived, as: :boolean, label: "&nbsp; Is Archived?".html_safe, hint: "Archive workspace whose stories you have published. Archived workspaces are not visible in site any more. You can find them and unarchive them if you need." %>
                 <% if @site.users.count > 0 %>
                     <%=  f.input :collaborator_lists,  collection: @site.users.pluck(:name, :id), input_html: { class: 'ui search fluid dropdown', multiple: true}, label: "Add Collaborators" %>
                 <% end %>
@@ -19,11 +17,6 @@
             <% end %>
         </div>
     </div>
-	<div class="col-sm-3 help-text">
-		<%= image_tag "help.png", style: "float: right; right: 0; top: 0; position: relative;" %>
-        <h2>Edit Workspace</h2>
-		<p>Archive workspace whose stories you have published. Archived workspaces are not visible in site any more. You can find them and unarchive them if you need.</p>
-	</div>
 </div>
 
 

@@ -1,66 +1,54 @@
-<%= content_for :page_navigation do %>
-    <button class="btn btn-sm btn-secondary btn-sm" type="button">
-        <%= link_to '+ Add a Workspace', new_account_site_folder_path(@account, @site), data: {turbolinks: false} %>
-    </button>
-<% end %>
-<%= content_for :page_title do %>
-        <li class="breadcrumb-item"><%= link_to "Admin", account_site_admins_path(@account, @site), "data-turbolinks"=> false %></li>
-        <li class="breadcrumb-item active" aria-current="page">Site: <%= @site.domain %></li>
-        <li class="breadcrumb-item active" aria-current="page">Workspaces</li>
-      
-<% end %>
 <div class="row">
-    <div class="col-sm-13">
-        <div style="margin-left: auto; margin-right: auto; width: 800px;">
-            <% if @folders.first.present? %>
-                <table class="table table-bordered table-hover">
-                    <thead>
+    <div class="col-sm-16">
+        <br/>
+        <br/>
+        <h2>Workspaces</h2>
+        <br/>
+        <% if @folders.first.present? %>
+            <table class="table table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <td>Name
+                        </td>
+                        <td>#Cards
+                        </td>
+                        <td>#Stories
+                        </td>
+                        <td>For Stories?
+                        </td>
+                        <td>Is Archived?
+                        </td>
+                        <td>Created
+                        </td>
+                        <td>Updated
+                        </td>
+                        <td>
+                        </td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% @folders.each do |folder| %>
                         <tr>
-                            <td>Name
+                            <td><%= link_to folder_name_(folder).html_safe, account_site_folder_view_casts_path(@account, @site, folder) %>
                             </td>
-                            <td>#Cards
+                            <td class="hint"><%= folder.view_casts.count %>
                             </td>
-                            <td>#Stories
+                            <td class="hint"><%= folder.pages.count %>
                             </td>
-                            <td>For Stories?
+                            <td class="hint"><%= folder.is_for_stories %>
                             </td>
-                            <td>Is Archived?
+                            <td class="hint"><%= folder.is_archived %>
                             </td>
-                            <td>Created
+                            <td class="hint"><%= image_tag avatar_url(folder.creator.email), class: "rounded" %> <%= time_ago_in_words folder.created_at %>
                             </td>
-                            <td>Updated
+                            <td class="hint"><%= image_tag avatar_url(folder.updator.email), class: "rounded" %> <%= time_ago_in_words folder.updated_at %>
                             </td>
-                            <td>
+                            <td><%= link_to "Edit", edit_account_site_folder_path(@account, @site, folder) %>
                             </td>
                         </tr>
-                    </thead>
-                    <tbody>
-                        <% @folders.each do |folder| %>
-                            <tr>
-                                <td><%= link_to folder_name_(folder).html_safe, account_site_folder_view_casts_path(@account, @site, folder) %>
-                                </td>
-                                <td class="hint"><%= folder.view_casts.count %>
-                                </td>
-                                <td class="hint"><%= folder.pages.count %>
-                                </td>
-                                <td class="hint"><%= folder.is_for_stories %>
-                                </td>
-                                <td class="hint"><%= folder.is_archived %>
-                                </td>
-                                <td class="hint"><%= image_tag avatar_url(folder.creator.email), class: "rounded" %> <%= time_ago_in_words folder.created_at %>
-                                </td>
-                                <td class="hint"><%= image_tag avatar_url(folder.updator.email), class: "rounded" %> <%= time_ago_in_words folder.updated_at %>
-                                </td>
-                                <td><%= link_to "Edit", edit_account_site_folder_path(@account, @site, folder) %>
-                                </td>
-                            </tr>
-                        <% end %>
-                    </tbody>
-                </table>
-            <% end %>
-        </div>
+                    <% end %>
+                </tbody>
+            </table>
+        <% end %>
     </div>
-	<div class="col-sm-3 help-text">
-		<%= render partial: "admins/sidebar_structured" %>
-	</div>
 </div>

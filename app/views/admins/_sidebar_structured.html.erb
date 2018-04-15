@@ -1,9 +1,0 @@
-<%= image_tag "help.png", style: "float: right; right: 0; top: 0; position: relative;" %>
-<h2>How is ProtoTYPE structured?</h2>
-<p><b>Account</b> can own multiple <b>sites</b>. (E.g. Vox Media owns sites Verge, Vox.com, etc.).</p>
-<p style="<%= (action_name == 'verticals') ? "color: blue;" : nil %>">Each site has many <b>verticals</b> within it. (E.g. Verge has Culture, Transportation, etc.)</p>
-<p style="<%= (action_name == 'intersection') ? "color: blue;" : nil %>">Programming is further broken down into <b>intersections</b>. (E.g. Transportation has Ride-Sharing, Autonomy, etc.)</p>
-<p style="<%= (action_name == 'sub_intersection') ? "color: blue;" : nil %>">Stories can be grouped together into short term topics called <b>sub intersections</b>. (E.g. Black Panther Movie)</p>
-<p>Thus, Culture + Transportation + Black Panther Movie, results in an article called - <%= link_to "Black Panther’s Wakanda is a transportation utopia with a dash of reality", "https://www.theverge.com/2018/2/23/17044448/black-panther-wakanda-maglev-train-hyperloop-transportation", target: "_blank", style: "color: gray;"%> </p>
-<hr/>
-<p style="<%= (action_name == 'editorial_folders') ? "color: blue;" : nil %>">When programming, we recommend Editors to organise articles and cards in <b>workspaces</b>.</p>

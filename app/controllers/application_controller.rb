@@ -116,8 +116,8 @@ class ApplicationController < ActionController::Base
           @role = @permission.ref_role_slug
           @all_workspaces = @permission_role.can_see_all_folders ? @site.folders.active : current_user.folders(@site).active
           @all_workspaces_count = @all_workspaces.count
-          @all_vertical = @site.ref_categories.where(genre: "series").order(:name)
-          @all_vertical_count = @all_vertical.count
+          @all_verticals = @site.ref_categories.where(genre: "series").order(:name)
+          @all_vertical_count = @all_verticals.count
         end
       end
   	end

@@ -2,15 +2,6 @@ class AdminsController < ApplicationController
   
   before_action :authenticate_user!
   
-  def index
-    @is_admin = true
-  end
-
-  def site_setup
-    @is_admin = true
-    @permission_roles = PermissionRole.where.not(slug: 'owner').pluck(:name, :slug)  
-  end
-  
   def access_security
     @is_admin = true
     @permission_roles = PermissionRole.where.not(slug: 'owner').pluck(:name, :slug)
