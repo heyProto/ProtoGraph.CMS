@@ -1,19 +1,24 @@
 <br/>
 <form class="form-inline my-2 my-lg-0" style="float: right;"><li style="list-style-type: none;"><%= render partial: "stories/new" %></li></form>
+<div class="row">
+    <div class="col-sm-16">
+        <div class="page-center-div">
+            <div class="btn-group" role="group" aria-label="Basic example">
+              <button type="button" class="btn btn-small btn-secondary ">
+                <%= link_to "Cards", account_site_folder_view_casts_path(@account, @site, @folder) %>
+              </button>
+              <button type="button" class="btn btn-small btn-secondary active">
+                <%= link_to "Stories", account_site_stories_path(@account, @site,folder_id: @folder.id) %>
+              </button>
+            </div>
+        </div>
+        <br/>
+        <br/>
+    </div>
+</div>
+
 <% if @pages.first.blank? %>
     <div class="col-sm-16">
-        <% if @folder.is_for_stories %>
-            <div class="page-center-div">
-                <div class="btn-group" role="group" aria-label="Basic example">
-                  <button type="button" class="btn btn-small btn-secondary">
-                    <%= link_to "Cards", account_site_folder_view_casts_path(@account, @site, @folder) %>
-                  </button>
-                  <button type="button" class="btn btn-small btn-secondary active">
-                    <%= link_to "Stories", account_site_stories_path(@account, @site,folder_id: @folder.id) %>
-                  </button>
-                </div>
-            </div>
-        <% end %>
         <div class="blankslate blankslate-spacious">
             <% if @folder.is_trash %>
                 <h3>There are no stories in the recycle bin.</h3>
@@ -26,20 +31,6 @@
 <% else %>
     <div class="row" style="margin: 0px; padding: 0px;">
         <div class="col-sm-13">
-            <% if @folder.is_for_stories %>
-                <div class="page-center-div">
-                    <div class="btn-group" role="group" aria-label="Basic example">
-                      <button type="button" class="btn btn-small btn-secondary">
-                        <%= link_to "Cards", account_site_folder_view_casts_path(@account, @site, @folder) %>
-                      </button>
-                      <button type="button" class="btn btn-small btn-secondary active">
-                        <%= link_to "Stories", account_site_stories_path(@account, @site,folder_id: @folder.id) %>
-                      </button>
-                    </div>
-                </div>
-            <% end %>
-            <br/>
-            <%= paginate @pages, theme: 'twitter-bootstrap-4', pagination_class: "pagination-sm" %>
             <br/>
             <div style="margin-left: auto; margin-right: auto;">
                 <table class="table">
