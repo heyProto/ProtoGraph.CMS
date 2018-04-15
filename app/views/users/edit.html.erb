@@ -1,15 +1,11 @@
-<%= content_for :page_title do %>
-    
-        <li class="breadcrumb-item active" aria-current="page">Profile</li>
-      
-<% end %>
-
 <div class="row">
-    <div class="col-sm-13">
-        <div style="margin-left: auto; margin-right: auto; width: 500px;">
-            <h3>Tell your colleagues who are you?</h3>
-            <hr/>
-            <div style="margin-left: 50px;">
+    <div class="col-sm-16">
+        <div style="margin-left: auto; margin-right: auto; width: 400px;">
+            <br/>
+            <br/>
+            <h2>Tell your colleagues who are you?</h2>
+            <br/>
+            <div style="margin-left: 0px;">
                 <%= image_tag avatar_url(current_user.email, 200), class: "rounded" %>
                 <br/>
                 <p class="hint">To change the profile image, register with <a href="http://gravatar.com/" target="_blank">gravatar.com</a> with email ID <%= current_user.email %> and upload a square image there (Twitter DP).</p>
@@ -30,7 +26,7 @@
             <% if @accounts_member.first.present? %>
                 <h3>Accounts that you are part of</h3>
                 <hr/>
-                <div style="margin-left: 50px;">
+                <div style="margin-left: 0px;">
                     <% @accounts_member.each do |account| %>
                         <%= account.username %>
                         <br/>
@@ -40,7 +36,7 @@
             <% end %>
             <h3>Accounts you own</h3>
             <hr/>
-            <div style="margin-left: 50px;">
+            <div style="margin-left: 0px;">
                 <% @accounts_owned.each do |account| %>
                     <%= link_to account.username, account_owners_account_admins_path(account) %>
                     <p class="hint">Click to configure</p>
@@ -57,9 +53,4 @@
             </div>
         </div>
     </div>
-	<div class="col-sm-3 help-text">
-		<!--<%= image_tag "help.png", style: "float: right; right: 0; top: 0; position: relative;" %><h2>Email Settings</h2>
-		<p>Your default support email address is prototype@pro.to. Any email sent here gets automatically converted into a ticket that you can get working on.</p>
-		<p>You can configure your Freshdesk account to use a support email in your own domain, like <a href="">support@mycompany.com</a> by forwarding emails from this address to <a href="">protoprototype@heyproto.freshdesk.com</a>. To create a new support email box, click “Edit” under global email settings.</p>-->
-	</div>
 </div>

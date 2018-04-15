@@ -6,6 +6,7 @@ class UsersController < ApplicationController
       @accounts_owned = Account.where(id: current_user.permissions.where(ref_role_slug: "owner", permissible_type: "Account").pluck(:permissible_id).uniq)
       @accounts_member = Account.where(id: Site.where(id: current_user.permissions.where(permissible_type: "Site").where.not(ref_role_slug: "owner").pluck(:permissible_id).uniq).pluck(:account_id).uniq)
       @account = Account.new
+      render layout: "z"
     end
 
     def update
@@ -16,7 +17,7 @@ class UsersController < ApplicationController
         @accounts_owned = Account.where(id: current_user.permissions.where(ref_role_slug: "owner", permissible_type: "Account").pluck(:permissible_id).uniq)
         @accounts_member = Account.where(id: Site.where(id: current_user.permissions.where(permissible_type: "Site").where.not(ref_role_slug: "owner").pluck(:permissible_id).uniq).pluck(:account_id).uniq)
         @account = Account.new
-        render :edit, alert: @user.errors.full_messages
+        render :edit, layout: "z", alert: @user.errors.full_messages
       end
 
     end

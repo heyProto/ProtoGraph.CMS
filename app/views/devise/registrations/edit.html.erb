@@ -1,14 +1,11 @@
-<%= content_for :page_title do %>
-    
-        <li class="breadcrumb-item active" aria-current="page">Settings</li>
-      
-<% end %>
+<br/>
+<br/>
 <div class="row">
-    <div class="col-sm-13">
-      <div style="margin-left: auto; margin-right: auto; width: 500px;">
-        <h3>Email settings</h3>
-        <hr/>
-        <div style="margin-left: 50px;">
+    <div class="col-sm-16">
+      <div style="margin-left: auto; margin-right: auto; width: 400px;">
+        <h2>Email settings</h2>
+        <br/>
+        <div style="margin-left: 0px;">
             <p>Add your secondary email IDs to ProtoTYPE so others can invite you with your secondary email IDs.</p>
             <table class="table">
                 <tbody>
@@ -40,7 +37,7 @@
         </div>
         <h3>Connections</h3>
         <hr/>
-        <div style="margin-left: 50px;">
+        <div style="margin-left: 0px;">
             <% unless current_user.authentications.present? %>
               <div class="row">
                   <div class="col-sm-10">
@@ -69,7 +66,7 @@
         <br/>
         <h3>Password</h3>
         <hr/>
-        <div style="margin-left: 50px;">
+        <div style="margin-left: 0px;">
             <%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
               <%= f.error_notification %>
               <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
@@ -84,15 +81,10 @@
         <br/>
         <h3>Integration tokens</h3>
         <hr/>
-        <div style="margin-left: 50px;">
+        <div style="margin-left: 0px;">
             <p><%= current_user.access_token %> </p>
         </div>
         <br/>
     </div>
-  </div>
-    <div class="col-sm-3 help-text">
-    <!--<%= image_tag "help.png", style: "float: right; right: 0; top: 0; position: relative;" %><h2>Email Settings</h2>
-    <p>Your default support email address is prototype@pro.to. Any email sent here gets automatically converted into a ticket that you can get working on.</p>
-    <p>You can configure your Freshdesk account to use a support email in your own domain, like <a href="">support@mycompany.com</a> by forwarding emails from this address to <a href="">protoprototype@heyproto.freshdesk.com</a>. To create a new support email box, click “Edit” under global email settings.</p>-->
   </div>
 </div>
