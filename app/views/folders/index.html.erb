@@ -43,7 +43,10 @@
                             </td>
                             <td class="hint"><%= image_tag avatar_url(folder.updator.email), class: "rounded" %> <%= time_ago_in_words folder.updated_at %>
                             </td>
-                            <td><%= link_to "Edit", edit_account_site_folder_path(@account, @site, folder) %>
+                            <td>
+                                <% if !folder.is_trash %>
+                                <%= link_to "Edit", edit_account_site_folder_path(@account, @site, folder) %>
+                                <% end %>
                             </td>
                         </tr>
                     <% end %>

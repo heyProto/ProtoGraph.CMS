@@ -55,7 +55,7 @@ class ViewCastsController < ApplicationController
 
     def destroy
         @view_cast.updator = current_user
-        @view_cast.folder = @account.folders.find_by(name: "Recycle Bin")
+        @view_cast.folder = @account.folders.find_by(name: "Trash")
         if @view_cast.save
             redirect_to account_site_folder_view_casts_path(@account, @site, @folder), notice: "Card was deleted successfully"
         else

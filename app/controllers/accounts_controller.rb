@@ -24,14 +24,14 @@ class AccountsController < ApplicationController
       current_user.create_permission( "Account", @account.id, "owner")
       folder = Folder.create({
         account_id: @account.id,
-        name: "Sample Project",
+        name: "Test drive here",
         created_by: current_user.id,
         updated_by: current_user.id,
         site_id: @account.site.id
       })
       folder = Folder.create({
         account_id: @account.id,
-        name: "Recycle Bin",
+        name: "Trash",
         created_by: current_user.id,
         updated_by: current_user.id,
         is_trash: true,
