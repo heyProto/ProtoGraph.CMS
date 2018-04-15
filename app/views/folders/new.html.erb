@@ -1,12 +1,9 @@
-<%= content_for :page_title do %>
-        <li class="breadcrumb-item"><%= link_to "Admin", account_site_admins_path(@account, @site), "data-turbolinks"=> false %></li>
-        <li class="breadcrumb-item active" aria-current="page">Site: <%= @site.domain %></li>
-        <li class="breadcrumb-item"><%= link_to "Workspaces", editorial_folders_account_site_admins_path(@account,@site), "data-turbolinks"=> false %></li>
-        <li class="breadcrumb-item active" aria-current="page">New Workspace</li>
-<% end %>
 <div class="row">
     <div class="col-sm-13">
-        <div style="margin-left: auto; margin-right: auto; width: 500px;">
+        <div style="margin-left: auto; margin-right: auto; width: 300px;">
+            <br/><br/>
+            <h2>Create new Workspace</h2>
+            <br/>
             <%= simple_form_for [@account, @site, @folder] do |f| %>
                 <%= f.input :name, required: true %>
                 <%= f.input :site_id, as: :hidden, input_html: {value: @site.id} %>

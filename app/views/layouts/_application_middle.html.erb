@@ -14,31 +14,11 @@
                   </li>
                 <% end %>
                 <% if @site.present? %>
-                        <!-- 1. Move name of site from left sidebar into breadcrumbs as dropdown.
-
-                        Move from _application_left.html.erb to _application_middle.html.erb
-                        Remove the if condition and replace the li with dropdown-->
-                        <% if controller_name == "sites" and action_name == "show" %>
-                        <li style="display: inline-block; float: left; margin-right: 15px; margin-top: -8px;">
-                            <% if !is_admins_controller or (controller_name != 'accounts' and ['new','create'].include?(action_name)) %>
-                                <div class="dropdown show vertical-selection-dropdown">
-                                    <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color: black !important;">
-                                      <%= truncate @site.domain, length: 15, ommission: ".." %>
-                                    </a>
-                                  <% if @accounts.count > 1 %>
-                                      <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                          <% @accounts.each do |a| %>
-                                              <%= link_to "#{a.username}: #{a.site.domain}", account_site_path(a, a.site), class: "dropdown-item" %>
-                                          <% end %>
-                                      </div>
-                                  <% end %>
-                                </div>
-                            <% end %>
-                        </li>
-                        <% end %>
-                    <% if controller_name != "sites" %>
-                        <li class="breadcrumb-item"><%= link_to @site.domain, account_site_path(@account, @site), "data-turbolinks"=> false %></li>
-                    <% end %>
+                    
+                    <li class="breadcrumb-item">
+                        <%= link_to image_tag("proto-dark.png", height: "18px"), root_url, "data-turbolinks"=> false %>
+                    </li>
+                    
                     <% if @folder.present? and @folder.id.present? %>
                         <li class="breadcrumb-item"><%= link_to truncate(folder_name_trunc_(@folder), length: 24, ommission: ".."), account_site_folder_view_casts_path(@account, @site, @folder), "data-turbolinks"=> false %></li>
                     <% end %>
@@ -50,16 +30,8 @@
 	<div class="steps-to-build-page">
 		<ul class="nav justify-content-end">
             <%= yield :page_navigation %>
-                <% if controller_name == "view_casts" and (action_name == "index" or action_name == "show") %></li>
+                <% if controller_name == "images" %>
                     <li style="margin-top: 9px;">
-                        <button class="btn btn-sm btn-secondary btn-sm" type="button">
-                            <%= link_to '+ Add a card', new_account_site_folder_view_cast_path(@account, @site, @folder), data: {turbolinks: false} %>
-                        </button>
-                    </li>
-                <% elsif controller_name == "stories" and action_name == "index" %>
-                    <form class="form-inline my-2 my-lg-0"><li><%= render partial: "stories/new" %></li></form>
-                <% elsif controller_name == "images" %>
-                    <li>
                         <button class="btn btn-sm btn-secondary btn-sm" type="button">
                           <%= link_to '+ Upload an image', "#",id: "upload_image_button", "data-toggle" => "modal", "data-target" => "#fileUploadModal" %>
                         </button>
@@ -70,40 +42,9 @@
                         })
                     </script>
                 <% end %>
-                <% if @site.present? %>
-                  <li class="nav-item"><%= link_to "Page Builder", manager_account_site_pages_path(@account, @site, folder_id: @folder.present? ? @folder.id : nil), "data-turbolinks"=> false, class: "nav-link", style: @is_page_builder ? "background: #f0f0f0;" : nil %></li>
-                  <li class="nav-item"><%= link_to image_tag("glyphicons-139-picture.png", size: "13", title: "Image Bank"), account_images_path(@account, folder_id: @folder.present? ? @folder.id : nil), "data-turbolinks"=> false, class: "nav-link", style: controller_name == "images" ? "background: #f0f0f0;" : nil %></li>
-                  <li class="nav-item"><%= link_to image_tag("glyphicons-137-cogwheel.png", size: "13", title: "Site Admin"), account_site_admins_path(@account, @site), "data-turbolinks"=> false, class: "nav-link", style: @is_admin ? "background: #f0f0f0;" : nil %></li>
-                <% end %>
-                <li>
-                    <div class="admin-dropdown">
-                        <div class="btn-group dropdown">
-                          <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <div class="user-image"><%= image_tag avatar_url(current_user.email), class: "rounded", style: "width: 24px;" %></div>
-                          </button>
-                          <div class="dropdown-menu">
-                            <%= link_to 'Profile', edit_user_path(current_user), class: "dropdown-item" %>
-                            <%= link_to 'Settings', edit_user_registration_path, class: "dropdown-item" %>
-                            <%= link_to 'Help', "https://heyproto.freshdesk.com/support/home", target: "_blank", class: "dropdown-item" %>
-                            <%= link_to "Sign out", destroy_user_session_path, class: "dropdown-item" %>
-                            <% if current_user.is_admin_from_pykih %>
-                                <%= link_to 'Ref: Link Sources', ref_link_sources_path, class: "dropdown-item" %>
-
-                                <%= link_to "Admin: User Sessions", admin_user_sessions_path, class: "dropdown-item" %>
-                            <% end %>
-                          </div>
-                        </div>
-                    </div>
-                </li>
-                <!-- MOJO TODO #2 - 2. Take the person photo and it's dropdown from sidebar left and put it as RIGHT aligned last dropdown. Move from _application_left.html.erb to _application_middle.html.erb -->
 		</ul>
 	</div>
 
 <% content_for :page_navigation do %>
     <li><button type="button" class="btn btn-sm btn-secondary btn-sm">Small button</button></li>
 <% end %>
-
-<script type="text/javascript" src="https://s3.amazonaws.com/assets.freshdesk.com/widget/freshwidget.js"></script>
-<script type="text/javascript">
-	FreshWidget.init("", {"queryString": "&widgetType=popup&formTitle=Write+to+us", "utf8": "✓", "widgetType": "popup", "buttonType": "text", "buttonText": "Need help?", "buttonColor": "white", "buttonBg": "#000000", "alignment": "3", "offset": "10px", "formHeight": "500px", "url": "https://heyproto.freshdesk.com"} );
-</script>

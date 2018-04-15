@@ -1,9 +1,7 @@
-<%= content_for :page_title do %>
-  <li class="breadcrumb-item active" aria-current="page">Stories</li>
-<% end %>
+<form class="form-inline my-2 my-lg-0"><li><%= render partial: "stories/new" %></li></form>
 
 <% if @pages.first.blank? %>
-    <div class="col-sm-13">
+    <div class="col-sm-16">
         <% if @folder.is_for_stories %>
             <div class="page-center-div">
                 <div class="btn-group" role="group" aria-label="Basic example">
@@ -108,11 +106,6 @@
                 </table>
         </div>
         </div>
-    	<div class="col-sm-3 help-text">
-            <%= image_tag "help.png", style: "float: right; right: 0; top: 0; position: relative;" %>
-    		<h2>Stories</h2>
-    		<p>.</p>
-    	</div>
     </div>
     <%= paginate @pages, theme: 'twitter-bootstrap-4', pagination_class: "pagination-sm" %>
 <% end %>

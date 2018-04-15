@@ -1,10 +1,4 @@
-<%= content_for :page_title do %>
-        <li class="breadcrumb-item"><%= link_to "Page Builder", manager_account_site_pages_path(@account, @site, folder_id: @folder.present? ? @folder.id : nil), "data-turbolinks"=> false %></li>
-        <li class="breadcrumb-item active" aria-current="page"><%= @ref_category.name %></li>
-        <li class="breadcrumb-item active" aria-current="page">Navigation</li>
-      
-<% end %>
-
+<%= render partial: "pages/header" %>
 <div class="row">
     <div class="col-sm-13">
         <div style="margin-left: auto; margin-right: auto; width: 500px;">

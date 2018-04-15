@@ -1,17 +1,10 @@
 class PagesController < ApplicationController
   before_action :authenticate_user!
   before_action :set_page, only: [:edit, :update, :destroy, :remove_cover_image, :distribute]
-  before_action :sudo_can_see_all_pages, only: [:edit, :update, :manager, :remove_cover_image, :create, :distribute]
-
-  def manager
-    @genre = "series"
-    @data = @site.verticals.order(:name)
-    @instance = @site.verticals.new
-    @is_page_builder = true
-  end
+  before_action :sudo_can_see_all_pages, only: [:edit, :update, :remove_cover_image, :create, :distribute]
 
   def distribute
-    @is_page_builder = true
+    
     @cover_image_alignment = ['vertical', 'horizontal'].map {|r| ["#{r.titlecase}", r]}
     @page.publish = @page.status == 'published'
     @image = @page.cover_image
@@ -24,7 +17,7 @@ class PagesController < ApplicationController
     if @page.template_page.name == "article"
       redirect_to edit_write_account_site_story_path(@account, @site, @page, folder_id: @page.folder_id)
     else
-      @is_page_builder = true
+      
       @page.publish = @page.status == 'published'
       @image = @page.cover_image
       if @image.blank?
@@ -82,7 +75,7 @@ class PagesController < ApplicationController
           @page.publish = @page.status == 'published'
           if @page.status != "draft"
             if @page.template_page.name == "Homepage: Vertical"
-              @is_page_builder = true
+              
               @page_stream_16 = @page.streams.where(title: "#{@page.id.to_s}_Section_16c_Hero").first
               @page_stream_16.view_cast_id_list = @page_stream_16.view_cast_ids.pluck(:entity_value).join(",")
               @page_stream_07 = @page.streams.where(title: "#{@page.id.to_s}_Section_7c").first

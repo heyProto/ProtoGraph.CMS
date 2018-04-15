@@ -1,6 +1,6 @@
-<%= content_for :page_title do %>
-    <li class="breadcrumb-item active" aria-current="page">Cards</li>
-<% end %>
+<button class="btn btn-sm btn-secondary btn-sm" type="button">
+    <%= link_to '+ Add a card', new_account_site_folder_view_cast_path(@account, @site, @folder), data: {turbolinks: false} %>
+</button>
 <div class="row">
     <div class="col-sm-13">
         <% if @folder.is_for_stories %>

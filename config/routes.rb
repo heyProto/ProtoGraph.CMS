@@ -34,7 +34,7 @@ Rails.application.routes.draw do
     namespace :v1 do
       resources :accounts, only: [] do
         resources :sites, only: [] do
-          resources :folders, only: [] do
+          resources :folders do
             resources :pages, only: [:create, :update]
             resources :streams, only: [:create, :update]
           end
@@ -49,6 +49,7 @@ Rails.application.routes.draw do
           post "/streams/:id/publish", to: "streams#publish", as: :publish_stream
         end
       end
+      post "smartcrop", to: "utilities#smartcrop"
       get '/iframely', to: "utilities#iframely"
       get '/oembed', to: "utilities#oembed"
       resources :view_casts, only: [:show]
@@ -62,18 +63,13 @@ Rails.application.routes.draw do
       put "change_role", on: :member
     end
     resources :permission_invites
-    resources :admins, only: [:index] do
+    resources :admins, only: [] do
       get "account_owners", on: :collection
-      get "sites", to: "admins#sites", on: :collection
     end
     resources :sites do
-      resources :admins, only: [:index] do
-        get "access_team", "access_security", on: :collection
-        get 'editorial/folders', to: "admins#editorial_folders", on: :collection
-        get 'site/setup', to: "admins#site_setup", on: :collection
-        get 'site/theming', to: "admins#site_theming", on: :collection
-        get 'basic/theming', to: "admins#basic_theming", on: :collection
-        get 'site/integrations', to: "admins#site_integrations", on: :collection
+      get "remove_favicon", "remove_logo", "integrations", on: :member
+      resources :admins, only: [] do
+        get "access_security", on: :collection
       end
       resources :permissions do
         put "change_role", on: :member
@@ -94,7 +90,6 @@ Rails.application.routes.draw do
         resources :uploads, only: [:new, :create, :index]
       end
       resources :pages do
-        get "manager", on: :collection
         put "remove_cover_image", on: :member
         get "distribute", on: :member
       end
@@ -117,11 +112,7 @@ Rails.application.routes.draw do
     resources :authentications
 
     resources :images, only: [:index, :create, :show]
-    resources :audios, only: [:index, :create, :show]
     resources :image_variations, only: [:create, :show] do
-      post :download, on: :member
-    end
-    resources :audio_variations, only: [:create, :show] do
       post :download, on: :member
     end
   end

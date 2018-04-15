@@ -87,8 +87,6 @@ class RefCategoriesController < ApplicationController
 
   def custom_redirect_to
     case @ref_category.genre
-    when 'series'
-      redirect_to manager_account_site_pages_path(@account, @site), notice: @notice
     when 'intersection'
       redirect_to intersection_account_site_path(@account, @site), notice: @notice
     when 'sub intersection'

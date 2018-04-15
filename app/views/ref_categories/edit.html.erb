@@ -1,15 +1,3 @@
-<%= content_for :page_title do %>
-  <li class="breadcrumb-item"><%= link_to "Admin", account_site_admins_path(@account, @site), "data-turbolinks"=> false %></li>
-  <li class="breadcrumb-item active" aria-current="page">Site: <%= @site.domain %></li>
-  <li class="breadcrumb-item active" aria-current="page">Publish micro-sites</li>
-  <% if @ref_category.genre == "intersection" %>
-      <li class="breadcrumb-item"><%= link_to "Intersections", intersection_account_site_path(@account, @site), "data-turbolinks"=> false %></li>
-  <% elsif @ref_category.genre == "sub intersection" %>
-      <li class="breadcrumb-item"><%= link_to "Sub Intersections", sub_intersection_account_site_path(@account,@site), "data-turbolinks"=> false %></li>
-  <% end %>
-  <li class="breadcrumb-item active" aria-current="page"><%= @ref_category.name %></li>  
-<% end %>
-
 <div class="row">
   <div class="col-sm-13">
     <div style="margin-left: auto; margin-right: auto; width: 500px;">
@@ -45,7 +33,4 @@
       <% end %>
     </div>
   </div>
-    <div class="col-sm-3 help-text">
-      <%= render partial: "admins/sidebar_structured" %>
-    </div>
 </div>

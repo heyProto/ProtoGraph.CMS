@@ -18,7 +18,7 @@ module Propagatable
           self.sub_intersection.update_attributes(updated_at: Time.now)     if self.sub_intersection.present?
         elsif self.class.to_s == "SiteVerticalNavigation"
           self.ref_category.update_attributes(updated_at: Time.now)         if self.ref_category.present?
-        elsif ["Image", "Audio"].index(self.class.to_s).present?
+        elsif ["Image"].index(self.class.to_s).present?
           self.account.update_attributes(updated_at: Time.now)              if self.account.present?
         elsif ["RefCategory", "Folder"].index(self.class.to_s).present?
           self.site.update_attributes(updated_at: Time.now)                 if self.site.present?
@@ -30,8 +30,6 @@ module Propagatable
           self.user.update_attributes(updated_at: Time.now)                 if self.user.present?
         elsif ["ImageVariation"].index(self.class.to_s).present?
           self.image.update_attributes(updated_at: Time.now)                if self.image.present?
-        elsif ["AudioVariation"].index(self.class.to_s).present?
-          self.audio.update_attributes(updated_at: Time.now)                if self.audio.present?
         elsif self.class.to_s == "Authentication" and self.user_id.present?
           self.user.update_attributes(updated_at: Time.now)                 if self.user.present?
         elsif self.class.to_s == "Authentication" and self.site_id.present?

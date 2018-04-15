@@ -1,8 +1,13 @@
-<div class="modal fade" id="fileUploadModal" role="dialog"  aria-hidden="true"  tabindex="1" >
-  <div class="modal-dialog" role="document">
+<div class="modal fade" id="fileUploadModal" role="dialog"  aria-hidden="true"  tabindex="1" data-backdrop="static" data-keyboard="false">
+  <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h4 class="modal-title">Add a new image</h4>
+        <h4 class="modal-title">
+          Add a new image
+          <% if @site.is_smart_crop_enabled %>
+            <span class="badge badge-warning">Pro</span>
+          <% end %>
+        </h4>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -10,52 +15,32 @@
       <div class="modal-body">
         <%= simple_form_for([@account, @new_image]) do |f| %>
           <%= f.error_notification %>
-          <%= f.input :image, as: :file, required: true, hint: 'Size should less than or equal to 500kB. Supported file types are GIF, JPEG, JPG and PNG', input_html: {onChange: "readURL(this)"} %>
-          <img id="preview_image" src="#" alt="" style='max-height: 200px' />
+          <%= f.input :image, as: :file, required: true, hint: 'Size should less than or equal to 500kB. Supported file types are JPEG, JPG and PNG', input_html: {id: "proto_image_bank_image_field"} %>
+          <div class="proto-invalid-image">Invalid image. Size should less than or equal to 500kB. Supported file types are JPEG, JPG and PNG.</div>
+          <div class="proto-image-loader">
+            <%= image_tag("crop_icon.png") %>
+            Predictively determining most relevant 5:3 area within the image.
+          </div>
+          <img id="preview_image" src="#" alt="" class="proto-image-preview" />
           <%= f.input :account_id, as: :hidden, input_html: {value: @account.id} %>
           <%= f.input :name, required: true %>
+          <% %w[x y w h].each do |attribute| %>
+            <%= f.input "crop_#{attribute}", as: :hidden %>
+          <% end %>
+          <%= f.input :image_w, as: :hidden %>
+          <%= f.input :image_h, as: :hidden %>
           <%= f.input :description %>
+          <%= f.input :credits %>
+          <%= f.input :credit_link %>
           <%= f.hidden_field :dominant_colour, value: nil %>
           <%= f.hidden_field :colour_palette, value: nil %>
         <% end %>
       </div>
       <div class='modal-footer'>
-        <input type="submit" value="Upload" form="new_image" class="btn btn-light">
+        <input type="submit" value="Upload" form="new_image" class="btn btn-light proto-disable-item" id="proto_image_bank_create_image">
       </div>
     </div>
   </div>
 </div>
 
-<script type="text/javascript">
- function readURL(input) {
-     if (input.files && input.files[0]) {
-         var reader = new FileReader();
-         reader.onload = function (e) {
-             $("#preview_image").attr('src', e.target.result)
-             $('#image_name').val(input.files[0].name.replace(/\.[^/.]+$/, ""));
-         }
-         reader.readAsDataURL(input.files[0]);
-     } else {
-         $("#preview_image").attr('src', "");
-         $('#image_name').val("");
-     }
- };
-</script>
-
-<script type="text/javascript">
- $(document).on('turbolinks:load', function() {
-     colorThief = new ColorThief()
-     $( "#new_image" ).submit(function( event ) {
-         var img = $("#preview_image")[0];
-         if(img){
-             console.log(img)
-             dom_colour = colorThief.getColor(img)
-             console.log(dom_colour)
-             $("#image_dominant_colour").val(JSON.stringify(dom_colour))
-             pal_colours = colorThief.getPalette(img)
-             console.log(pal_colours)
-             $("#image_colour_palette").val(JSON.stringify(pal_colours))
-         }
-     });
- });
-</script>
+<%= render partial: "images/new_image_js" %>

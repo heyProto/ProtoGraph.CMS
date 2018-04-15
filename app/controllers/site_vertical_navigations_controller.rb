@@ -6,7 +6,7 @@ class SiteVerticalNavigationsController < ApplicationController
   def index
     @site_vertical_navigations = @ref_category.navigations
     @site_vertical_navigation = SiteVerticalNavigation.new
-    @is_page_builder = true
+    
   end
 
   def create
@@ -16,7 +16,7 @@ class SiteVerticalNavigationsController < ApplicationController
     if @site_vertical_navigation.save
       redirect_to account_site_ref_category_site_vertical_navigations_path(@account, @site, @ref_category), notice: t('cs')
     else
-      @is_page_builder = true
+      
       @site_vertical_navigations = @ref_category.navigations
       render :index
     end
@@ -38,7 +38,7 @@ class SiteVerticalNavigationsController < ApplicationController
       redirect_to account_site_ref_category_site_vertical_navigations_path(@account, @site, @ref_category), notice: t('us')
     else
       @site_vertical_navigations = @ref_category.navigations
-      @is_page_builder = true
+      
       render :index
     end
   end

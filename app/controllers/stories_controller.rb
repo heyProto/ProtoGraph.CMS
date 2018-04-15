@@ -31,6 +31,7 @@ class StoriesController < ApplicationController
       @ref_sub_intersection = RefCategory.where(site_id: @site.id, genre: "sub intersection", is_disabled: [false, nil]).order(:name).map {|r| ["#{r.name}", r.id]}
       @article = TemplatePage.where(name: "article").first
     end
+    render layout: "z"
   end
 
   def edit_assemble
