@@ -19,7 +19,7 @@ class FoldersController < ApplicationController
       redirect_to account_site_stories_path(@account, @site,folder_id: @folder.id)
     else
       redirect_to account_site_folder_view_casts_path(@account, @site, @folder)
-    else
+    end
   end
 
   def edit
