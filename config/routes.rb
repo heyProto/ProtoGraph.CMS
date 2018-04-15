@@ -90,7 +90,6 @@ Rails.application.routes.draw do
         resources :uploads, only: [:new, :create, :index]
       end
       resources :pages do
-        get "manager", on: :collection
         put "remove_cover_image", on: :member
         get "distribute", on: :member
       end

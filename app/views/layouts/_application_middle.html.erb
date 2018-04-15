@@ -51,7 +51,6 @@
                     </script>
                 <% end %>
                 <% if @site.present? %>
-                  <li class="nav-item"><%= link_to "Page Builder", manager_account_site_pages_path(@account, @site, folder_id: @folder.present? ? @folder.id : nil), "data-turbolinks"=> false, class: "nav-link", style: @is_page_builder ? "background: #f0f0f0;" : nil %></li>
                   <li class="nav-item"><%= link_to image_tag("glyphicons-139-picture.png", size: "13", title: "Image Bank"), account_images_path(@account, folder_id: @folder.present? ? @folder.id : nil), "data-turbolinks"=> false, class: "nav-link", style: controller_name == "images" ? "background: #f0f0f0;" : nil %></li>
                 <% end %>
 		</ul>
