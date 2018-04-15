@@ -13,6 +13,14 @@ class FoldersController < ApplicationController
     @verticals = @site.ref_categories.where(genre: 'series').pluck(:name, :id)
     render layout: "z"
   end
+  
+  def show
+    if @folder.is_for_stories
+      redirect_to account_site_stories_path(@account, @site,folder_id: @folder.id)
+    else
+      redirect_to account_site_folder_view_casts_path(@account, @site, @folder)
+    else
+  end
 
   def edit
     if @folder.is_trash
