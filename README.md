@@ -53,23 +53,10 @@ Streamline sign up / sign in - Can it become oAuth?
 Search Engine
 TemplateCards -- platforms, sizes
 
-Admin pages
-
 Public Activity
 
-Multiple email ID support -- rails g scaffold user_emails user_id:integer email:string token:string confirmation_sent_at:datetime accepted_at:datetime
-
-* Add a Pykih user in all accounts. Hide him.
 
 
-- Sections
-- Sections/new
-- Workspaces
-- Workspaces/new
-
-Site
-- Manage members
-- Editorial Planning
 
 
 Account Owner
@@ -155,3 +142,18 @@ Choose to make your workspace signup process invitation only, or allow anyone wi
   💡 For more help getting started with Slack, read our guide for new members.
 
   Tip: Our support team is available 24/7 and always happy to help. Get in touch with us if you need a hand!
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  Disconnect Landing Page and Verticals
+  Cards - Publish / Draft mode [green and red]
+  Add filters to cards and stories
+  Stories / TABs
+  Pages / TABs
+  Tooltip on Workspaces and sections like in slack
