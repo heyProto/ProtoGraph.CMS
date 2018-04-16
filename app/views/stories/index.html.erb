@@ -24,7 +24,7 @@
                 <h3>There are no stories in the recycle bin.</h3>
             <% else %>
                 <h3>No stories created yet.</h3>
-                <p>Use the [+ Add a story] button on the top right.</p>
+                <p>Use the [+ Add a story] button on the top right or <%= link_to "Reset", account_site_folder_stories_path(@account, @site, @folder) %>.</p>
             <% end %>
         </div>
     </div>
