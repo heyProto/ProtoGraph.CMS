@@ -22,14 +22,9 @@ Contributors can write, edit, and delete their own unpublished posts, but their 
 
 ------------------------------------------------------------------------------------------------------------------------------
   
-Disconnect Landing Page and Verticals
+Standarise every SEO action
+Standarise all RSS 
 Pages / TABs
-Tooltip on Workspaces and sections like in slack
-
-Amit
-- Move articles across folders. Delete unpublished articles.
-- Convert published articles into draft.
-- Cards - Publish / Draft mode [green and red]
 
 16 col - 1 row // dodgy doctors.
 
