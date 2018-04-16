@@ -22,7 +22,7 @@
           <br/><hr/>
           <h3>Customize how it looks</h3>
           <p>Favicon</p>
-          <% if @site.favicon_id.present? %>
+          <% if @site.favicon_id.present? and @site.favicon.present? %>
             <%= image_tag(@site.favicon.original_image.image_url, class: "rounded", style: "max-width: 30px; margin-top: 0px;", alt: "Uploading image") %>
             <br/>
             <%= link_to "Remove", remove_favicon_account_site_path(@account, @site) %>
@@ -43,7 +43,7 @@
           <%= f.input :reverse_font_colour, input_html: {type: :color, style: "height: 40px;"}, label: "Font Color on Reverse House Color", required: true %>
           <%= f.input :story_card_style, as: :select, collection: [["Clear: Color", "Clear: Color"], ["Clear: Black & White", "Clear: Black & White"], ["Blur: Color", "Blur: Color"]], label: "Style", include_blank: false %>
           <br/><br/><hr/>
-          
+
           <h3>Site Header</h3>
           <% if @site.logo_image_id.present? %>
             <%= image_tag(@site.logo_image.original_image.image_url, class: "rounded", style: "width: 100px;", alt: "Uploading image") %>
@@ -68,14 +68,14 @@
           <%= f.button :submit, "Save", class: "btn btn-sm btn-primary" %>
         <% end %>
         <br/><br/>
-        
-        
-        
+
+
+
         <p>You can check
         <%= link_to "RSS Feed", "#{@site.cdn_endpoint}/#{@site.stream.cdn_rss_key}", target: "blank"  %> for the whole site here.</p>
         <p>You can download the <%= link_to "Sitemap", "#{@site.cdn_endpoint}/sitemap.xml.gz", target: "blank"  %> for your site.</p>
-        
-        
+
+
     </div>
 </div>
 </div>

@@ -123,7 +123,7 @@ class Image < ApplicationRecord
 
   def create_image_version
     # self.image.crop
-    self.image.recreate_versions!
+    # self.image.recreate_versions!
 
     options = {
       image_id: self.id,

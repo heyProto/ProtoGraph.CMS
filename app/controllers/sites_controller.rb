@@ -3,24 +3,24 @@ class SitesController < ApplicationController
   before_action :authenticate_user!
   before_action :sudo_role_can_add_site, only: [:new, :create]
   before_action :sudo_role_can_site_settings, only: [:edit, :update]
-  
+
   def remove_favicon
     @site.update_attributes(favicon_id: nil)
     redirect_to edit_account_site_path(@account, @site)
   end
-  
+
   def show
     folder = @permission_role.can_see_all_folders ? @site.folders.active.where(is_trash: false).first : current_user.folders(@site).active.where(is_trash: false).first
     redirect_to account_site_folder_view_casts_path(@account, @site, folder)
   end
-  
+
   def remove_logo
     @site.update_attributes(logo_image_id: nil)
     redirect_to edit_account_site_path(@account, @site)
   end
-  
+
   def edit
-    if @site.favicon_id.nil?
+    if @site.favicon_id.nil? or @site.favicon.nil?
       @site.build_favicon
     end
     if @site.logo_image_id.nil?
@@ -29,7 +29,7 @@ class SitesController < ApplicationController
     @is_admin = true
     render layout: "z"
   end
-  
+
   def integrations
     @is_admin = true
     render layout: "z"
@@ -37,7 +37,14 @@ class SitesController < ApplicationController
 
   def update
     from = params[:site][:from_page]
-    if @site.update(site_params)
+    site_p = site_params
+    unless site_p.has_key?("logo_image_attributes") and site_p["logo_image_attributes"].has_key?("image")
+      site_p.delete('logo_image_attributes')
+    end
+    unless site_p.has_key?("favicon_attributes") and site_p["favicon_attributes"].has_key?("image")
+      site_p.delete('favicon_attributes')
+    end
+    if @site.update(site_p)
       if from == "product_integrations"
         redirect_to integrations_account_site_path(@account, @site), notice: 'site was successfully updated.'
       elsif from == "access_security"
