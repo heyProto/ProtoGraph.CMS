@@ -23,12 +23,12 @@ class StoriesController < ApplicationController
     else
       if @permission_role.can_see_all_pages
         z = @folder.pages.where(template_page_id: TemplatePage.where(name: "article").pluck(:id).uniq)
-        @bylines = User.where(id: z.pluck(:byline_id).uniq)
+        @bylines = Permission.where(id: z.pluck(:byline_id).uniq)
         @q = z.search(params[:q])
         
       else
         z = current_user.pages(@folder).where(template_page_id: TemplatePage.where(name: "article").pluck(:id).uniq)
-        @bylines = User.where(id: z.pluck(:byline_id).uniq)
+        @bylines = Permission.where(id: z.pluck(:byline_id).uniq)
         @q = z.search(params[:q])
         
       end
