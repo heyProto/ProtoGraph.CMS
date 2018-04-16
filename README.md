@@ -1,3 +1,33 @@
+Account Owner
+Site Owner
+Site Editor
+Site Contributor
+  
+Disconnect Landing Page and Verticals
+Cards - Publish / Draft mode [green and red]
+Add filters to cards and stories
+Stories / TABs
+Pages / TABs
+Tooltip on Workspaces and sections like in slack
+Style dropdown
+
+
+
+
+
+
+16 col - 1 row // dodgy doctors.
+
+
+
+
+
+
+
+
+
+
+
 redis-server /usr/local/etc/redis.conf
 
 - Set a global_slug in each template. Same method to remove spaces from username.
@@ -52,24 +82,3 @@ Search Engine
 TemplateCards -- platforms, sizes
 
 Public Activity
-
-Account Owner
-Site Owner
-Site Editor
-Site Contributor
-  
-Disconnect Landing Page and Verticals
-Cards - Publish / Draft mode [green and red]
-Add filters to cards and stories
-Stories / TABs
-Pages / TABs
-Tooltip on Workspaces and sections like in slack
-
-
-
-
-
-
-
-
-

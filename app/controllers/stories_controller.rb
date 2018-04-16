@@ -22,10 +22,11 @@ class StoriesController < ApplicationController
       end
     else
       if @permission_role.can_see_all_pages
-        @pages = @folder.pages.where(template_page_id: TemplatePage.where(name: "article").pluck(:id).uniq).order(updated_at: :desc).page(params[:page]).per(15)
+        @q = @folder.pages.where(template_page_id: TemplatePage.where(name: "article").pluck(:id).uniq).search(params[:q])
       else
-        @pages = current_user.pages(@folder).where(template_page_id: TemplatePage.where(name: "article").pluck(:id).uniq).order(updated_at: :desc).page(params[:page]).per(15)
+        @q = current_user.pages(@folder).where(template_page_id: TemplatePage.where(name: "article").pluck(:id).uniq).search(params[:q])
       end
+      @pages = @q.result.page(params[:page]).per(15) 
       @page = Page.new
       @ref_intersection = RefCategory.where(site_id: @site.id, genre: "intersection", is_disabled: [false, nil]).order(:name).map {|r| ["#{r.name}", r.id]}
       @ref_sub_intersection = RefCategory.where(site_id: @site.id, genre: "sub intersection", is_disabled: [false, nil]).order(:name).map {|r| ["#{r.name}", r.id]}

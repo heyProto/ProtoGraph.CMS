@@ -36,19 +36,19 @@
                 <table class="table">
                     <thead>
                         <tr>
-                            <th>
+                            <th><%= sort_link(@q, :view_cast_id, '#') %>
                             </th>
-                            <th>Editorial
+                            <th><%= sort_link(@q, :ref_category_sub_intersection_id, [:ref_category_sub_intersection_id, 'ref_category_sub_intersection_id asc'], 'Editorial') %>
                             </th>
                             <th>
                             </th>
                             <th>Headline
                             </th>
-                            <th>Byline
+                            <th><%= sort_link(@q, :byline_id) %>
                             </th>
-                            <th>Published At
+                            <th><%= sort_link(@q, :published_at) %>
                             </th>
-                            <th>Updated by
+                            <th><%= sort_link(@q, :updated_at) %>
                             </th>
                         </tr>
                     </thead>
@@ -93,6 +93,12 @@
         </div>
         <div class="col-sm-3">
             <h3>Search Stories</h3>
+            <%= search_form_for @q, url: account_site_folder_stories_path(@account, @site, @folder) do |f| %>
+                <%= f.label :english_headline_cont %>
+                <%= f.search_field :english_headline_cont %>
+                <br/><br/>
+                <%= f.submit %>
+            <% end %>
         </div>
     </div>
     <%= paginate @pages, theme: 'twitter-bootstrap-4', pagination_class: "pagination-sm" %>

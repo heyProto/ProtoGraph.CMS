@@ -86,6 +86,7 @@ Rails.application.routes.draw do
       get "/sub_intersections", to: "ref_categories#sub_intersections", on: :member
 
       resources :folders do
+        resources :stories, only: [:index]
         resources :view_casts
         resources :uploads, only: [:new, :create, :index]
       end
