@@ -57,11 +57,11 @@
                     <% end %>
                 </td>
                 <td>
-                    <% if @genre == "intersection" %>
-                        <%= ref_category.stories_with_intersection.count%>
-                    <% elsif @genre == "sub intersection" %>
-                        <%= ref_category.stories_with_sub_intersection.count%>
-                    <% end %>
+                  <% if @genre == "intersection" %>
+                      <%= ref_category.stories_with_intersection.count%>
+                  <% elsif @genre == "sub intersection" %>
+                      <%= ref_category.stories_with_sub_intersection.count%>
+                  <% end %>
                 </td>
                 <td class='hint'>
                   <%= truncate(ref_category.description, length: 50, ommission: "..") %>
@@ -78,6 +78,9 @@
                 <!-- <td> -->
                   <%#= link_to "Edit", (ref_category.genre == "series") ? distribute_account_site_page_path(@account, @site, ref_category.vertical_page) :edit_account_site_ref_category_path(@account, @site, ref_category) %>
                 <!-- </td> -->
+                <!-- <td>
+
+                </td> -->
               </tr>
             <% end %>
           </tbody>
