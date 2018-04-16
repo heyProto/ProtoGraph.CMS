@@ -39,7 +39,7 @@
                         <table class="table">
                             <thead>
                                 <tr>
-                                    <th>
+                                    <th><%= sort_link(@q, :id, '#') %>
                                     </th>
                                     <th>
                                     </th>
@@ -47,7 +47,7 @@
                                     </th>
                                     <th>Card Type
                                     </th>
-                                    <th>Updated by
+                                    <th><%= sort_link(@q, :updated_at) %>
                                     </th>
                                 </tr>
                             </thead>
