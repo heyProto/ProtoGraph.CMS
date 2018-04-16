@@ -93,7 +93,7 @@
         </div>
         <div class="col-sm-3">
             <br/>
-            <h3>Search Stories</h3>
+            <h3>Search</h3>
             <br/>
             <%= search_form_for @q, url: account_site_folder_stories_path(@account, @site, @folder) do |f| %>
                 <%= f.label :english_headline_cont %>
@@ -108,7 +108,7 @@
                 <%= f.label :byline_id_eq, "Byline" %>
                 <%= f.select :byline_id_eq, options_from_collection_for_select(@bylines, :id, :name, @q.byline_id_eq), { :include_blank => true }, :class => "form-control" %>
                 <br/>
-                <%= f.submit "Search", :class => "btn btn-sm btn-secondary" %> 
+                <%= f.submit "Search Stories", :class => "btn btn-sm btn-secondary" %> 
                 &nbsp;&nbsp;&nbsp;&nbsp;
                 <%= link_to "Reset", account_site_folder_stories_path(@account, @site, @folder) %>
             <% end %>

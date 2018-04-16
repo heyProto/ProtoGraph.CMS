@@ -78,7 +78,20 @@
             </div>
         </div>
     	<div class="col-sm-3">
-            <h3>Search Cards</h3>
+            <br/>
+            <h3>Search</h3>
+            <br/>
+            <%= search_form_for @q, url: account_site_folder_view_casts_path(@account, @site, @folder) do |f| %>
+                <%= f.label :seo_blockquote_cont, "Content contains" %>
+                <%= f.search_field :seo_blockquote_or_name_cont, :class => "form-control" %>
+                <br/>
+                <%= f.label :template_card_id_eq, "Card Type" %>
+                <%= f.select :template_card_id_eq, options_from_collection_for_select(@card_types, :id, :name, @q.template_card_id_eq), { :include_blank => true }, :class => "form-control" %>
+                <br/>
+                <%= f.submit "Search Cards", :class => "btn btn-sm btn-secondary" %> 
+                &nbsp;&nbsp;&nbsp;&nbsp;
+                <%= link_to "Reset", account_site_folder_view_casts_path(@account, @site, @folder) %>
+            <% end %>
     	</div>
     </div>
 <% end %>

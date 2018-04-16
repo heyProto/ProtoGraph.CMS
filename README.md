@@ -5,12 +5,15 @@ Site Contributor
   
 Disconnect Landing Page and Verticals
 Cards - Publish / Draft mode [green and red]
-Add filters to cards and stories
 Stories / TABs
 Pages / TABs
 Tooltip on Workspaces and sections like in slack
 Style dropdown
+Lock down CMS to only Chrome and Desktop users
 
+
+
+Sir, tomorrow - can I get sometime of yours? Want to walk you through Intercom, new helpdesk and showcase new UI.
 
 
 
@@ -21,6 +24,8 @@ Style dropdown
 
 
 
+We have read up on DFP.
+1. 
 
 
 
