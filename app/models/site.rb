@@ -233,7 +233,7 @@ class Site < ApplicationRecord
         end
         members.sort_by{|b| b[0].to_s}
     end
-
+    
     private
 
 

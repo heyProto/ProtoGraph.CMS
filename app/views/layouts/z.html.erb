@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>ProtoTYPE</title>
+  <title>Proto Platform</title>
   <%= csrf_meta_tags %>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,10 +13,10 @@
 <body data-turbolinks=<%= (controller_name == "view_casts" and ['new', 'edit'].include?(action_name)) ? "false" : "true" %>>
     <div class="container-fluid" style="padding: 0px;">
         <div class="row" style="margin:0px;">
-            <div class="col-xl-3" style="padding: 0px 1px; background: black;">
+            <div class="col-xl-3" style="padding: 0px 1px; background: black; width: 300px;">
                 <%= render partial: "layouts/z" %>
             </div>
-            <div class="col-xl-13" style="padding: 0px 1px;">
+            <div class="col-xl-13" style="padding: 0px 1px; margin-left: 300px;">
                 <div style="padding: 0px 20px; margin-bottom: 60px;"><%= yield %></div>
             </div>
         </div>

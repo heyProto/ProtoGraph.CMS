@@ -24,7 +24,7 @@
                 <h3>There are no stories in the recycle bin.</h3>
             <% else %>
                 <h3>No stories created yet.</h3>
-                <p>Use the [+ Add a story] button on the top right.</p>
+                <p>Use the [+ Add a story] button on the top right or <%= link_to "Reset", account_site_folder_stories_path(@account, @site, @folder) %>.</p>
             <% end %>
         </div>
     </div>
@@ -36,7 +36,7 @@
                 <table class="table">
                     <thead>
                         <tr>
-                            <th>
+                            <th><%= sort_link(@q, :view_cast_id, '#') %>
                             </th>
                             <th>Editorial
                             </th>
@@ -46,9 +46,9 @@
                             </th>
                             <th>Byline
                             </th>
-                            <th>Published At
+                            <th><%= sort_link(@q, :published_at) %>
                             </th>
-                            <th>Updated by
+                            <th><%= sort_link(@q, :updated_at) %>
                             </th>
                         </tr>
                     </thead>
@@ -92,7 +92,26 @@
                 </table>
         </div>
         <div class="col-sm-3">
-            <h3>Search Stories</h3>
+            <br/>
+            <h3>Search</h3>
+            <br/>
+            <%= search_form_for @q, url: account_site_folder_stories_path(@account, @site, @folder) do |f| %>
+                <%= f.label :english_headline_cont %>
+                <%= f.search_field :english_headline_or_headline_cont, :class => "form-control" %>
+                <br/>
+                <%= f.label :ref_category_intersection_id_eq, "Intersection" %>
+                <%= f.select :ref_category_intersection_id_eq, options_from_collection_for_select(@ref_intersections, :id, :name, @q.ref_category_intersection_id_eq), { :include_blank => true }, :class => "form-control" %>
+                <br/>
+                <%= f.label :ref_category_sub_intersection_id_eq, "Sub Intersection" %>
+                <%= f.select :ref_category_sub_intersection_id_eq, options_from_collection_for_select(@ref_sub_intersections, :id, :name, @q.ref_category_sub_intersection_id_eq), { :include_blank => true }, :class => "form-control" %>
+                <br/>
+                <%= f.label :byline_id_eq, "Byline" %>
+                <%= f.select :byline_id_eq, options_from_collection_for_select(@bylines, :id, :name, @q.byline_id_eq), { :include_blank => true }, :class => "form-control" %>
+                <br/>
+                <%= f.submit "Search Stories", :class => "btn btn-sm btn-secondary" %> 
+                &nbsp;&nbsp;&nbsp;&nbsp;
+                <%= link_to "Reset", account_site_folder_stories_path(@account, @site, @folder) %>
+            <% end %>
         </div>
     </div>
     <%= paginate @pages, theme: 'twitter-bootstrap-4', pagination_class: "pagination-sm" %>

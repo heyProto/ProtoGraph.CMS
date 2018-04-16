@@ -27,7 +27,7 @@
                 <% if @accounts.count > 1 %>
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                         <% @accounts.each do |a| %>
-                            <%= link_to "#{a.username}: #{a.site.domain}", account_site_path(a, a.site), class: "dropdown-item", style: "text-align: left;" %>
+                            <%= link_to "#{a.username}: #{a.site.domain}", account_site_path(a, a.site), class: "dropdown-item", style: "text-align: left; font-size: 12px !important; padding: 0px 20px !important; color: black !important;" %>
                         <% end %>
                     </div>
                 <% end %>

@@ -1,3 +1,43 @@
+Permissions
+> Account
+> Site
+> Workspace
+> Article
+> Card
+
+Account Owner
+Site Owner
+Site Editor
+Site Contributor
+
+Super Administrator
+Administrator
+Editor: Almost anything with content, but they can’t change any settings.
+Author: Authors can publish, edit, or delete their own posts, but they can’t access anything created by other users
+Contributor: 
+
+
+
+Contributors can write, edit, and delete their own unpublished posts, but their content must be reviewed and published by an Admin or Editor. It’s important to note that Contributors can’t access the Media Library, so if they want to use specific images, videos, or audio files in the Media Library, they have to ask for assistance from an Admin or Editor. The Contributor role is a popular option for guest authors who don’t submit content on a regular basis.
+
+------------------------------------------------------------------------------------------------------------------------------
+  
+Standarise every SEO action
+Standarise all RSS 
+Pages / TABs
+
+16 col - 1 row // dodgy doctors.
+
+------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
 redis-server /usr/local/etc/redis.conf
 
 - Set a global_slug in each template. Same method to remove spaces from username.
@@ -52,24 +92,3 @@ Search Engine
 TemplateCards -- platforms, sizes
 
 Public Activity
-
-Account Owner
-Site Owner
-Site Editor
-Site Contributor
-  
-Disconnect Landing Page and Verticals
-Cards - Publish / Draft mode [green and red]
-Add filters to cards and stories
-Stories / TABs
-Pages / TABs
-Tooltip on Workspaces and sections like in slack
-
-
-
-
-
-
-
-
-

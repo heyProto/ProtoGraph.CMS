@@ -22,13 +22,18 @@ class StoriesController < ApplicationController
       end
     else
       if @permission_role.can_see_all_pages
-        @pages = @folder.pages.where(template_page_id: TemplatePage.where(name: "article").pluck(:id).uniq).order(updated_at: :desc).page(params[:page]).per(15)
+        z = @folder.pages.where(template_page_id: TemplatePage.where(name: "article").pluck(:id).uniq)
       else
-        @pages = current_user.pages(@folder).where(template_page_id: TemplatePage.where(name: "article").pluck(:id).uniq).order(updated_at: :desc).page(params[:page]).per(15)
+        z = current_user.pages(@folder).where(template_page_id: TemplatePage.where(name: "article").pluck(:id).uniq)
       end
+      @bylines = Permission.where(id: z.pluck(:byline_id).uniq).order(:name)
+      @q = z.search(params[:q])
+      @pages = @q.result.page(params[:page]).per(15)       
       @page = Page.new
       @ref_intersection = RefCategory.where(site_id: @site.id, genre: "intersection", is_disabled: [false, nil]).order(:name).map {|r| ["#{r.name}", r.id]}
+      @ref_intersections = RefCategory.where(site_id: @site.id, genre: "intersection", is_disabled: [false, nil]).order(:name)
       @ref_sub_intersection = RefCategory.where(site_id: @site.id, genre: "sub intersection", is_disabled: [false, nil]).order(:name).map {|r| ["#{r.name}", r.id]}
+      @ref_sub_intersections = RefCategory.where(site_id: @site.id, genre: "sub intersection", is_disabled: [false, nil]).order(:name)
       @article = TemplatePage.where(name: "article").first
       render layout: "z"
     end

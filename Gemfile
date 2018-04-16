@@ -28,6 +28,7 @@ gem 'sidekiq'
 gem 'jquery-ui-rails'
 gem 'country_select'
 gem "intercom-rails"
+gem 'ransack'
 
 #AUTHENTICATION
 gem 'devise'
