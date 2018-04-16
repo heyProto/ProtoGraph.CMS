@@ -1,18 +1,41 @@
+Permissions
+> Account
+> Site
+> Workspace
+> Article
+> Card
+
 Account Owner
 Site Owner
 Site Editor
 Site Contributor
+
+Super Administrator
+Administrator
+Editor: Almost anything with content, but they can’t change any settings.
+Author: Authors can publish, edit, or delete their own posts, but they can’t access anything created by other users
+Contributor: 
+
+
+
+Contributors can write, edit, and delete their own unpublished posts, but their content must be reviewed and published by an Admin or Editor. It’s important to note that Contributors can’t access the Media Library, so if they want to use specific images, videos, or audio files in the Media Library, they have to ask for assistance from an Admin or Editor. The Contributor role is a popular option for guest authors who don’t submit content on a regular basis.
+
+------------------------------------------------------------------------------------------------------------------------------
   
 Disconnect Landing Page and Verticals
-Cards - Publish / Draft mode [green and red]
 Pages / TABs
 Tooltip on Workspaces and sections like in slack
-Style dropdown
-Lock down CMS to only Chrome and Desktop users
+
+Amit
+- Move articles across folders. Delete unpublished articles.
+- Convert published articles into draft.
+- Cards - Publish / Draft mode [green and red]
 
 16 col - 1 row // dodgy doctors.
 
 ------------------------------------------------------------------------------------------------------------------------------
+
+
 
 
 
