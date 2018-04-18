@@ -205,3 +205,16 @@ TemplatePage.create({
   created_by: user_id,
   updated_by: user_id
 })
+
+TemplatePage.create({
+  name: "Ceew: data grid",
+  git_url: "",
+  git_branch: "master",
+  git_repo_name: "",
+  status: "published",
+  is_public: true,
+  description: "",
+  s3_identifier: "4be452da8a449ca1da29",
+  created_by: 2,
+  updated_by: 2
+})
