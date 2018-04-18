@@ -20,20 +20,23 @@ namespace :ceew_districts do
             headline = "#{district}, #{state}"
             puts headline
             puts "==========="
-            page = Page.create({
-                site_id: ceew_site.id,
-                account_id: ceew_account.id,
-                headline: headline,
-                created_by: current_user.id,
-                updated_by: current_user.id,
-                folder_id: district_folder.id,
-                template_page_id: template_page.id,
-                byline_id: current_user.id,
-                english_headline: headline,
-                ref_category_series_id: district_folder.ref_category_vertical_id,
-                published_at: Time.now,
-                meta_keywords: "", meta_description: "", summary: ""
-            })
+            page = Page.where(headline: headline).first
+            if page.blank?
+                page = Page.create({
+                    site_id: ceew_site.id,
+                    account_id: ceew_account.id,
+                    headline: headline,
+                    created_by: current_user.id,
+                    updated_by: current_user.id,
+                    folder_id: district_folder.id,
+                    template_page_id: template_page.id,
+                    byline_id: current_user.id,
+                    english_headline: headline,
+                    ref_category_series_id: district_folder.ref_category_vertical_id,
+                    published_at: Time.now,
+                    meta_keywords: "", meta_description: "", summary: ""
+                })
+            end
 
             hero_stream = page.streams.where(title: "#{page.id}_Story_16c_Hero").first
 
