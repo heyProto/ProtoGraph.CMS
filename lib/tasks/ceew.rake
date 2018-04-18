@@ -202,6 +202,9 @@ namespace :ceew_districts do
             headline = "#{d["District"]}, #{d["State"]}"
             page = Page.where(headline: headline).first
             if page.present?
+                puts "#{headline}"
+                puts "#{page.html_url}"
+                puts "============="
                 page.content = d["Summary"]
                 page.prepare_cards_for_assembling= 'true'
                 page.save
