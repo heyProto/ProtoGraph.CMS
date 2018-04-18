@@ -69,12 +69,14 @@ class StreamEntity < ApplicationRecord
 
     def set_sort_order
         if stream.title.split[1] != "Section"
-            if self.stream.title == "#{self.page_id}_Story_Narrative"
-                last_view_cast = stream.view_cast_ids.order(sort_order: :desc).last
-                self.sort_order = last_view_cast.present? ? last_view_cast.sort_order.to_i + 1 : 1
-            else
-                stream.view_cast_ids.update_all("sort_order = sort_order + 1")
-                self.sort_order = 1
+            if self.sort_order.blank?
+                if self.stream.title == "#{self.page_id}_Story_Narrative"
+                    last_view_cast = stream.view_cast_ids.order(sort_order: :desc).last
+                    self.sort_order = last_view_cast.present? ? last_view_cast.sort_order.to_i + 1 : 1
+                else
+                    stream.view_cast_ids.update_all("sort_order = sort_order + 1")
+                    self.sort_order = 1
+                end
             end
         end
     end
