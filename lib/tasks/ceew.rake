@@ -9,8 +9,6 @@ namespace :ceew_districts do
         district_policy_folder = Rails.env.development? ? Folder.friendly.find('test') : Folder.find(503) # DA and Policy
         # Create all the pages
         all_districts = JSON.parse(File.read("#{Rails.root.to_s}/ref/ceew/districts_profile.json"))
-        byline =
-
         t_profile_card = TemplateCard.where(name: "toProfile").first
         heroflow2_card_id = Rails.env.production? ? 7751  : 4485
 
