@@ -65,7 +65,7 @@ class ViewCastsController < ApplicationController
         if @view_cast.save
             StreamEntity.view_casts.where(entity_value: @view_cast.id.to_s).each do |d|
                 d.destroy
-                StreamPublisher(d.stream_id)
+                StreamPublisher.perform_async(d.stream_id)
             end
             redirect_to account_site_folder_view_casts_path(@account, @site, @folder), notice: "Card was deleted successfully"
         else
