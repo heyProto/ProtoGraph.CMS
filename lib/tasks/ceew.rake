@@ -131,15 +131,12 @@ namespace :ceew_districts do
             narrative_stream.publish_cards
             related_stream.publish_cards
 
-
             # Publish the page
-
             page.status = "published"
             page.save
             puts "publishing page"
             puts "---------------------------"
             page.push_page_object_to_s3
-
         end
 
     end
@@ -194,6 +191,29 @@ namespace :ceew_districts do
             end
 
             sleep 2.seconds
+        end
+    end
+
+    task load: :environment do
+        ceew_account = Rails.env.development? ? Account.friendly.find('pykih') : Account.friendly.find('ceew')
+        ceew_site = ceew_account.site
+        current_user = User.find(2)
+        template_page = TemplatePage.where(name: 'article').first
+        district_folder = Rails.env.development? ? Folder.friendly.find('test') : Folder.find(502) # Pages Folder
+        district_parameters_folder = Rails.env.development? ? Folder.friendly.find('test') : Folder.friendly.find('district-about-and-parameters') # Summary, About and Parameters
+        district_policy_folder = Rails.env.development? ? Folder.friendly.find('test') : Folder.find(503) # DA and Policy
+        # Create all the pages
+        all_districts = JSON.parse(File.read("#{Rails.root.to_s}/ref/ceew/summary.json"))
+
+        all_districts.each do |d|
+            headline = "#{d["District"]}, #{d["State"]}"
+            page = Page.where(headline: headline).first
+            if page.present?
+                puts "#{headline} - Found"
+                puts "========"
+            else
+                ss
+            end
         end
 
     end
