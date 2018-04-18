@@ -25,7 +25,7 @@ namespace :ceew_districsts do
 
         account = Rails.env.development? ? Account.friendly.find('pykih') : Account.friendly.find('ceew')
         site = account.site
-        folder =  Rails.env.development? ? site.folders.where.not(ref_category_vertical_id: nil).first : site.folder.where(name: "da-and-policies").first
+        folder =  Rails.env.development? ? site.folders.where.not(ref_category_vertical_id: nil).first : site.folders.where(slug: "da-and-policies").first
         template_page_id = TemplatePage.find_by(name: "Ceew: data grid").id
 
         policies.each do |p|
@@ -56,8 +56,8 @@ namespace :ceew_districsts do
                 puts ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"
             end
 
+            sleep 2.seconds
         end
 
-        sleep 2.seconds
     end
 end
