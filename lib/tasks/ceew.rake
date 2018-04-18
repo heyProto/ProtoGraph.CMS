@@ -239,8 +239,8 @@ namespace :ceew_districts do
                     puts "==========="
                     datacast_params = { "data": {
                             "title": param,
-                            "display": d[value[0]],
-                            "percentile": d[value[1]],
+                            "display": "#{d[value[0]]}",
+                            "percentile": "#{d[value[1]]}",
                             "district": d["District"]
                         }
                     }
