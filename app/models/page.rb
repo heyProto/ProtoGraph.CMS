@@ -323,8 +323,8 @@ class Page < ApplicationRecord
     self.update_column(:page_object_url, "#{self.site.cdn_endpoint}/#{key}")
     response = Api::ProtoGraph::Page.create_or_update_page(self.datacast_identifier, self.template_page.s3_identifier, self.site.cdn_bucket, ENV['AWS_S3_ENDPOINT'])
     Api::ProtoGraph::CloudFront.invalidate(self.site, ["/#{key}", "/#{self.html_key}.html"], 2)
-    # site.publish_sitemap
-    # site.publish_robot_txt
+    site.publish_sitemap
+    site.publish_robot_txt
     if self.template_page.name != 'Homepage: Vertical' and self.saved_changes.transform_values(&:first).keys.include?('published_at')
       self.series.vertical_page.push_page_object_to_s3
     end

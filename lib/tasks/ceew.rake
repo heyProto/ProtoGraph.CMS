@@ -524,9 +524,9 @@ namespace :ceew_districts do
                 })
 
                 policy_map.each do |da, mapping|
-                    puts da
-                    puts "++++++++++++++"
                     unless d[da].blank?
+                        puts da
+                        puts "++++++++++++++"
                         #Create Drilldown card
                         is_recommended_text = "Recommended"
                         title = "#{headline} - #{da}"
