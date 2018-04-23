@@ -77,7 +77,7 @@ namespace :ceew_districts do
                     "value": "#{d["No. of cultivators using electric pumps"]}"
                   },
                   {
-                    "key": "Parameters",
+                    "key": "Parameters (Value, Percentile)",
                     "value": ""
                   }
                 ],
@@ -591,5 +591,25 @@ namespace :ceew_districts do
                 page.push_page_object_to_s3
             end
         end
+    end
+
+
+    task fix_profile_card: :environment do
+        ceew_site = ceew_account.site
+        t_profile_card = TemplateCard.where(name: "toProfile").first
+
+        t_profile_card.view_casts.where(site_id: ceew_site.id).each do |view_cast|
+            puts view_cast.name
+            puts "=============="
+            cards_json = JSON.parse(RestClient.get(view_cast.data_url).body)
+            cards_json['data']['details'].last['key'] =  "Parameters (Value, Percentile)"
+
+            encoded_file = Base64.encode64(cards_json.to_json)
+            content_type = "application/json"
+            resp = Api::ProtoGraph::Utility.upload_to_cdn(encoded_file, "/#{view_cast.datacast_identifier}/data.json", content_type, ceew_site.cdn_bucket)
+        end
+
+        Api::ProtoGraph::CloudFront.invalidate(self.site, ["*"], 1)
+
     end
 end
