@@ -595,6 +595,7 @@ namespace :ceew_districts do
 
 
     task fix_profile_card: :environment do
+        ceew_account = Rails.env.development? ? Account.friendly.find('pykih') : Account.friendly.find('ceew')
         ceew_site = ceew_account.site
         t_profile_card = TemplateCard.where(name: "toProfile").first
 
