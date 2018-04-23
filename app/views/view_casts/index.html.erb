@@ -6,13 +6,9 @@
     <div class="col-sm-16">
         <div class="page-center-div">
             <div class="btn-group" role="group" aria-label="Basic example">
-              <button type="button" class="btn btn-small btn-secondary active">
-                <%= link_to "Cards", account_site_folder_view_casts_path(@account, @site, @folder) %>
-              </button>
+              <%= link_to "Cards", account_site_folder_view_casts_path(@account, @site, @folder), class: "btn btn-small btn-secondary active" %>
               <% if @folder.is_for_stories %>
-                  <button type="button" class="btn btn-small btn-secondary">
-                    <%= link_to "Stories", account_site_stories_path(@account, @site,folder_id: @folder.id) %>
-                  </button>
+                <%= link_to "Stories", account_site_stories_path(@account, @site,folder_id: @folder.id), class: "btn btn-small btn-secondary" %>
               <% end %>
             </div>
         </div>
@@ -88,7 +84,7 @@
                 <%= f.label :template_card_id_eq, "Card Type" %>
                 <%= f.select :template_card_id_eq, options_from_collection_for_select(@card_types, :id, :name, @q.template_card_id_eq), { :include_blank => true }, :class => "form-control" %>
                 <br/>
-                <%= f.submit "Search Cards", :class => "btn btn-sm btn-secondary" %> 
+                <%= f.submit "Search Cards", :class => "btn btn-sm btn-secondary" %>
                 &nbsp;&nbsp;&nbsp;&nbsp;
                 <%= link_to "Reset", account_site_folder_view_casts_path(@account, @site, @folder) %>
             <% end %>
