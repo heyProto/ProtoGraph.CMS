@@ -14,7 +14,7 @@
 #  created_by        :integer
 #  updated_by        :integer
 #  count             :integer          default(0)
-#  name_html         :string(255)
+#  name_html         :text(65535)
 #  slug              :string(255)
 #  english_name      :string(255)
 #  vertical_page_url :text(65535)
