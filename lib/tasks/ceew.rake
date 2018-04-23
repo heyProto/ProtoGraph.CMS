@@ -607,10 +607,10 @@ namespace :ceew_districts do
 
             encoded_file = Base64.encode64(cards_json.to_json)
             content_type = "application/json"
-            resp = Api::ProtoGraph::Utility.upload_to_cdn(encoded_file, "/#{view_cast.datacast_identifier}/data.json", content_type, ceew_site.cdn_bucket)
+            resp = Api::ProtoGraph::Utility.upload_to_cdn(encoded_file, "#{view_cast.datacast_identifier}/data.json", content_type, ceew_site.cdn_bucket)
         end
 
-        Api::ProtoGraph::CloudFront.invalidate(self.site, ["*"], 1)
+        Api::ProtoGraph::CloudFront.invalidate(ceew_site, ["*"], 1)
 
     end
 end
