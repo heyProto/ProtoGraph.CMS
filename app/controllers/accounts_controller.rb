@@ -27,7 +27,8 @@ class AccountsController < ApplicationController
         name: "Test drive here",
         created_by: current_user.id,
         updated_by: current_user.id,
-        site_id: @account.site.id
+        site_id: @account.site.id,
+        is_for_stories: false
       })
       folder = Folder.create({
         account_id: @account.id,

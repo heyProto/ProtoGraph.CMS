@@ -8,7 +8,9 @@
                 <%= f.input :ref_category_vertical_id, collection: @verticals, label: "Vertical", disabled: true %>
                 <%= f.input :name, required: true %>
                 <%= f.input :site_id, as: :hidden, input_html: {value: @site.id} %>
-                <%= f.input :is_for_stories, as: :boolean, label: "&nbsp; Use this workspace to file stories?".html_safe, hint: "Implication: You wont be able to create data cards in this workspace."%>
+                <% if @folder.vertical.present? %>
+                    <%= f.input :is_for_stories, as: :boolean, label: "&nbsp; Use this workspace to file stories?".html_safe, hint: "Implication: You wont be able to create data cards in this workspace."%>
+                <% end %>
                 <%= f.input :is_archived, as: :boolean, label: "&nbsp; Is Archived?".html_safe, hint: "Archive workspace whose stories you have published. Archived workspaces are not visible in site any more. You can find them and unarchive them if you need." %>
                 <% if @site.users.count > 0 %>
                     <%=  f.input :collaborator_lists,  collection: @site.users.pluck(:name, :id), input_html: { class: 'ui search fluid dropdown', multiple: true}, label: "Add Collaborators" %>
