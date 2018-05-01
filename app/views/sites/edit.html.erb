@@ -16,6 +16,7 @@
           <%= f.input :updated_by, as: :hidden, input_html: {value: current_user.id} %>
           <br/><hr/>
           <h3>Labs</h3>
+          <%= f.input :enable_ads, as: :boolean, label: "&nbsp; Enable Ads in stories".html_safe %>
           <%= f.input :is_lazy_loading_activated, as: :boolean, hint: "Lazy loading helps in improving page performance by loading content on demand.", label: "&nbsp; Activate lazy loading".html_safe %>
           <%= f.input :is_smart_crop_enabled, as: :boolean, label: "&nbsp; Activate smart image cropping".html_safe %>
           <%= f.input :story_card_flip, as: :boolean, collection: [["Yes", true], ["No", false]], label: "&nbsp; Show summary of story by flipping the card".html_safe, include_blank: false %>
