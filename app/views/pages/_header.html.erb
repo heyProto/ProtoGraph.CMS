@@ -10,6 +10,11 @@
       <li class="nav-item">
         <%= link_to "Assemble", (action_name == "edit" ?  "#" : edit_account_site_page_path(@account, @site, v, folder_id: v.folder_id)), class: (action_name == "edit" ? "nav-link active" : "nav-link"), "data-turbolinks" => "false" %>
       </li>
+      <% if @site.enable_ads %>
+        <li class="nav-item">
+          <%= link_to "Ads", (action_name == "ads" ? "#" :  ads_account_site_page_path(@account, @site, v, folder_id: v.folder_id)), class: (action_name == "ads" ? "nav-link active" : "nav-link"),"data-turbolinks" => "false" %>
+        </li>
+      <% end %>
       <li class="nav-item">
         <%= link_to "Package", (action_name == "distribute" ? "#" :  distribute_account_site_page_path(@account, @site, v, folder_id: v.folder_id)), class: (action_name == "distribute" ? "nav-link active" : "nav-link"),"data-turbolinks" => "false" %>
       </li>

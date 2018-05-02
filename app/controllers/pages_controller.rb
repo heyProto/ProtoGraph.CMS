@@ -1,16 +1,21 @@
 class PagesController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_page, only: [:edit, :update, :destroy, :remove_cover_image, :distribute]
-  before_action :sudo_can_see_all_pages, only: [:edit, :update, :remove_cover_image, :create, :distribute]
+  before_action :set_page, only: [:edit, :update, :destroy, :remove_cover_image, :distribute, :ads]
+  before_action :sudo_can_see_all_pages, only: [:edit, :update, :remove_cover_image, :create, :distribute, :ads]
 
   def distribute
-
     @cover_image_alignment = ['vertical', 'horizontal'].map {|r| ["#{r.titlecase}", r]}
     @page.publish = @page.status == 'published'
     @image = @page.cover_image
     if @image.blank?
       @page.build_cover_image
     end
+  end
+
+  def ads
+    @ad_integrations = @page.ad_integrations
+    @page_streams = @page.page_streams
+    @ad_integration = AdIntegration.new
   end
 
   def edit

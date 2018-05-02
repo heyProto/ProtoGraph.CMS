@@ -82,6 +82,7 @@ class Page < ApplicationRecord
   has_many :streams, through: :page_streams
   has_many :permissions, ->{where(status: "Active", permissible_type: 'Page')}, foreign_key: "permissible_id", dependent: :destroy
   has_many :users, through: :permissions
+  has_many :ad_integrations
 
   #ACCESSORS
   attr_accessor :collaborator_lists, :publish, :from_api, :prepare_cards_for_assembling, :from_page
@@ -239,10 +240,11 @@ class Page < ApplicationRecord
       h['datacast_identifier'] = k['datacast_identifier']
       h['url'] = "#{self.site.cdn_endpoint}/#{k['datacast_identifier']}/index.json"
       h['name_of_stream'] = e.name_of_stream
+      h['ads'] = e.ad_integrations
       h
     end
 
-    page = self.as_json(methods: [:html_key,:cover_image_url,:cover_image_url_7_column])
+    page = self.as_json(methods: [:html_key,:cover_image_url,:cover_image_url_7_column], include: [:ad_integrations])
     page['layout'] = self.template_page.as_json
     navigation_json = self.get_navigation_json if self.template_page.is_article_page?
 

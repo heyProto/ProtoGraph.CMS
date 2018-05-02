@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180430201919) do
+ActiveRecord::Schema.define(version: 20180501202354) do
 
   create_table "accounts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
     t.string "username", limit: 191, collation: "utf8mb4_unicode_ci"
@@ -49,7 +49,6 @@ ActiveRecord::Schema.define(version: 20180430201919) do
     t.integer "stream_id"
     t.integer "page_id"
     t.integer "sort_order"
-    t.string "ad_id"
     t.string "div_id"
     t.integer "height"
     t.integer "width"
@@ -58,6 +57,7 @@ ActiveRecord::Schema.define(version: 20180430201919) do
     t.integer "updated_by"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "page_stream_id"
   end
 
   create_table "authentications", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|

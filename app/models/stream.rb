@@ -57,6 +57,7 @@ class Stream < ApplicationRecord
     has_many :page_streams
     has_many :pages, through: :page_streams
     has_many :stream_entities
+    has_many :ad_integrations
 
     #ACCESSORS
     attr_accessor :folder_list

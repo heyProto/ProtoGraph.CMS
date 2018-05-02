@@ -51,7 +51,6 @@ gem 'whenever'
 
 gem 'rmagick'
 gem 'carrierwave'
-gem 'ransack'
 gem 'ntc', bitbucket: "pykih_/name-that-colour", require: false
 
 #Encryption
