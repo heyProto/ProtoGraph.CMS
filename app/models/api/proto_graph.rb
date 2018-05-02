@@ -28,8 +28,6 @@ class Api::ProtoGraph
         class << self
             def upload_to_cdn(binary_file, key, content_type, bucket_name)
                 url = "#{AWS_API_DATACAST_URL}/utility/upload-to-cdn"
-                puts binary_file, key
-                puts "========"
                 response = RestClient.post(url , {binary_file: binary_file, key: key, content_type: content_type, bucket_name: bucket_name}.to_json,{content_type: :json, accept: :json, "x-api-key": ENV['AWS_API_KEY']})
                 return JSON.parse(response.body)
             end

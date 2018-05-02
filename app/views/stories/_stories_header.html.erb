@@ -15,6 +15,10 @@
             <div class="btn-group" role="group" aria-label="Basic example">
               <%= link_to "File", (action_name == "edit_write" ? "#" : edit_write_account_site_story_path(@account, @site, @page, folder_id: @page.folder_id)), "data-turbolinks" => "false", class: (action_name == 'edit_write' ? "btn btn-small btn-secondary active" : "btn btn-small btn-secondary") %>
               <%= link_to "Assemble", (action_name == "edit_assemble" ?  "#" : edit_assemble_account_site_story_path(@account, @site, @page, folder_id: @page.folder_id)), "data-turbolinks" => "false", class: (action_name == 'edit_assemble' ? "btn btn-small btn-secondary active" : "btn btn-small btn-secondary") %>
+              <% if @site.enable_ads %>
+                  <%= link_to "Ads", (action_name == "edit_ads" ? "#" :  edit_ads_account_site_story_path(@account, @site, @page, folder_id: @page.folder_id)), class: (action_name == "edit_ads" ? "btn btn-small btn-secondary active" : "btn btn-small btn-secondary"),"data-turbolinks" => "false" %>
+              <% end %>
+
               <%= link_to "Package", (action_name == 'edit_distribute' ? "#" :  edit_distribute_account_site_story_path(@account, @site, @page, folder_id: @page.folder_id)),"data-turbolinks" => "false", class: (action_name == "edit_distribute" ? "btn btn-small btn-secondary active" : "btn btn-small btn-secondary") %>
 
             </div>

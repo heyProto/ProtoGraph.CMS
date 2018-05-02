@@ -100,6 +100,7 @@ Rails.application.routes.draw do
         get "edit/write", to: "stories#edit_write", on: :member
         get "edit/assemble", to: "stories#edit_assemble", on: :member
         get "edit/distribute", to: "stories#edit_distribute", on: :member
+        get "edit/ads", to: "stories#edit_ads", on: :member
         resources :page_todos do
           get "complete", on: :member
         end

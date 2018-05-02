@@ -1,7 +1,7 @@
 class StoriesController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_page, only: [:edit_write, :edit_assemble, :edit_distribute]
-  before_action :sudo_can_see_all_pages, only: [:edit_write, :edit_write, :edit_assemble, :edit_distribute]
+  before_action :set_page, only: [:edit_write, :edit_assemble, :edit_distribute, :edit_ads]
+  before_action :sudo_can_see_all_pages, only: [:edit_write, :edit_write, :edit_assemble, :edit_distribute, :edit_ads]
 
   def index
     if params[:page].present? and params[:page].class != String
@@ -99,6 +99,13 @@ class StoriesController < ApplicationController
 
     render layout: "application-pages"
   end
+
+  def edit_ads
+    @ad_integrations = @page.ad_integrations
+    @page_streams = @page.page_streams
+    @ad_integration = AdIntegration.new
+  end
+
 
   private
 

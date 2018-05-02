@@ -34,6 +34,14 @@ class PageStream < ApplicationRecord
   #CALLBACKS
   #SCOPE
   #OTHER
+
+  def ad_integration_json
+    obj = {}
+    self.ad_integrations.order(:sort_order).each do |d|
+      obj[d.sort_order] = d
+    end
+    obj
+  end
   #PRIVATE
   private
 
