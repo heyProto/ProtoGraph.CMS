@@ -93,11 +93,14 @@ Rails.application.routes.draw do
       resources :pages do
         put "remove_cover_image", on: :member
         get "distribute", on: :member
+        get "ads", on: :member
+        resources :ad_integrations, only: [:create, :destroy]
       end
       resources :stories, only: [:index] do
         get "edit/write", to: "stories#edit_write", on: :member
         get "edit/assemble", to: "stories#edit_assemble", on: :member
         get "edit/distribute", to: "stories#edit_distribute", on: :member
+        get "edit/ads", to: "stories#edit_ads", on: :member
         resources :page_todos do
           get "complete", on: :member
         end

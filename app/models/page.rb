@@ -82,6 +82,7 @@ class Page < ApplicationRecord
   has_many :streams, through: :page_streams
   has_many :permissions, ->{where(status: "Active", permissible_type: 'Page')}, foreign_key: "permissible_id", dependent: :destroy
   has_many :users, through: :permissions
+  has_many :ad_integrations
 
   #ACCESSORS
   attr_accessor :collaborator_lists, :publish, :from_api, :prepare_cards_for_assembling, :from_page
@@ -239,10 +240,11 @@ class Page < ApplicationRecord
       h['datacast_identifier'] = k['datacast_identifier']
       h['url'] = "#{self.site.cdn_endpoint}/#{k['datacast_identifier']}/index.json"
       h['name_of_stream'] = e.name_of_stream
+      h['ads'] = e.ad_integration_json
       h
     end
 
-    page = self.as_json(methods: [:html_key,:cover_image_url,:cover_image_url_7_column])
+    page = self.as_json(methods: [:html_key,:cover_image_url,:cover_image_url_7_column], include: [:ad_integrations])
     page['layout'] = self.template_page.as_json
     navigation_json = self.get_navigation_json if self.template_page.is_article_page?
 
@@ -265,7 +267,8 @@ class Page < ApplicationRecord
         "seo_name": site.seo_name,
         "is_lazy_loading_activated": site.is_lazy_loading_activated,
         "comscore_code": site.comscore_code,
-        "gtm_id": site.gtm_id
+        "gtm_id": site.gtm_id,
+        "is_ad_enabled": site.enable_ads
       },
       "streams": streams,
       "page": page,
@@ -323,8 +326,10 @@ class Page < ApplicationRecord
     self.update_column(:page_object_url, "#{self.site.cdn_endpoint}/#{key}")
     response = Api::ProtoGraph::Page.create_or_update_page(self.datacast_identifier, self.template_page.s3_identifier, self.site.cdn_bucket, ENV['AWS_S3_ENDPOINT'])
     Api::ProtoGraph::CloudFront.invalidate(self.site, ["/#{key}", "/#{self.html_key}.html"], 2)
-    site.publish_sitemap
-    site.publish_robot_txt
+    if Rails.env.production?
+      site.publish_sitemap
+      site.publish_robot_txt
+    end
     if self.template_page.name != 'Homepage: Vertical' and self.saved_changes.transform_values(&:first).keys.include?('published_at')
       self.series.vertical_page.push_page_object_to_s3
     end

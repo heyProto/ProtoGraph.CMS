@@ -18,7 +18,7 @@
 #TODO AMIT - Handle account_id, site_id, folder_id - RP added retrospectively. Need migration of old rows and BAU handling.
 
 class PageStream < ApplicationRecord
-  
+
   #CONSTANTS
   #CUSTOM TABLES
   #GEMS
@@ -27,13 +27,22 @@ class PageStream < ApplicationRecord
   include AssociableByAcSiFo
   #ASSOCIATIONS
   belongs_to :page
-  belongs_to :stream  
+  belongs_to :stream
+  has_many :ad_integrations
   #ACCESSORS
   #VALIDATIONS
   #CALLBACKS
   #SCOPE
   #OTHER
+
+  def ad_integration_json
+    obj = {}
+    self.ad_integrations.order(:sort_order).each do |d|
+      obj[d.sort_order] = d
+    end
+    obj
+  end
   #PRIVATE
-  private  
-  
+  private
+
 end
