@@ -250,7 +250,7 @@ class Page < ApplicationRecord
 
     json = {
       "site_attributes": {
-        "name": site.name
+        "name": site.name,
         "dis_qus_integration": "",
         "youtube_url": site.youtube_url,
         "instagram_url": site.instagram_url,
