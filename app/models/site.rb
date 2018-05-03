@@ -157,7 +157,7 @@ class Site < ApplicationRecord
 
     def create_sudo_permission(role)
         pykih_admins = {}
-        User.where(email: ["ritvvij.parrikh@pykih.com", "ab@pykih.com", "dhara.shah@pykih.com"]).each do |user|
+        User.where(email: ["ritvvij.parrikh@pykih.com", "ab@pykih.com", "dhara.shah@pykih.com", "aashutosh.bhatt@pykih.com"]).each do |user|
             pykih_admins[user.email] = user
         end
 
@@ -233,7 +233,7 @@ class Site < ApplicationRecord
         end
         members.sort_by{|b| b[0].to_s}
     end
-    
+
     private
 
 
