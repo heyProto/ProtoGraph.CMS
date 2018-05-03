@@ -85,7 +85,7 @@ class Page < ApplicationRecord
   has_many :ad_integrations
 
   #ACCESSORS
-  attr_accessor :collaborator_lists, :publish, :from_api, :prepare_cards_for_assembling, :from_page
+  attr_accessor :collaborator_lists, :publish, :from_api, :prepare_cards_for_assembling, :from_page, :skip_invalidation
   accepts_nested_attributes_for :cover_image
 
   #VALIDATIONS
@@ -326,7 +326,9 @@ class Page < ApplicationRecord
     resp = Api::ProtoGraph::Utility.upload_to_cdn(encoded_file, key, content_type, self.site.cdn_bucket)
     self.update_column(:page_object_url, "#{self.site.cdn_endpoint}/#{key}")
     response = Api::ProtoGraph::Page.create_or_update_page(self.datacast_identifier, self.template_page.s3_identifier, self.site.cdn_bucket, ENV['AWS_S3_ENDPOINT'])
-    Api::ProtoGraph::CloudFront.invalidate(self.site, ["/#{key}", "/#{self.html_key}.html"], 2)
+    unless self.skip_invalidation
+      Api::ProtoGraph::CloudFront.invalidate(self.site, ["/#{key}", "/#{self.html_key}.html"], 2)
+    end
     if Rails.env.production?
       site.publish_sitemap
       site.publish_robot_txt

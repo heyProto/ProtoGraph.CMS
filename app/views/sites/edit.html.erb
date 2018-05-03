@@ -20,6 +20,9 @@
           <%= f.input :is_lazy_loading_activated, as: :boolean, hint: "Lazy loading helps in improving page performance by loading content on demand.", label: "&nbsp; Activate lazy loading".html_safe %>
           <%= f.input :is_smart_crop_enabled, as: :boolean, label: "&nbsp; Activate smart image cropping".html_safe %>
           <%= f.input :story_card_flip, as: :boolean, collection: [["Yes", true], ["No", false]], label: "&nbsp; Show summary of story by flipping the card".html_safe, include_blank: false %>
+          <% if current_user.is_admin_from_pykih %>
+            <%= f.input :show_proto_logo, as: :boolean, label: "&nbsp; Show proto logo in site header".html_safe %>
+          <% end %>
           <br/><hr/>
           <h3>Customize how it looks</h3>
           <p>Favicon</p>
@@ -60,7 +63,7 @@
               <% end %>
           <% end %>
           <%= f.input :header_background_color, input_html: {type: :color, style: "height: 40px;"}, required: true, label: "Background Color" %>
-          <%= f.input :header_positioning, collection: [["Left", "left"], ["Center", "center"], ["Right", "right"]], label: "Position", include_blank: false %>
+          <%= f.input :header_positioning, collection: [["Left", "left"], ["Center", "center"]], label: "Position", include_blank: false %>
           <%= f.input :header_url, as: :string, label: "Jump to this URL on click of logo in header" %>
           <%= f.input :facebook_url, input_html: {rows: 1} %>
           <%= f.input :twitter_url, input_html: {rows: 1} %>

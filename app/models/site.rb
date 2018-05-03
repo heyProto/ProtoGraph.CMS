@@ -50,6 +50,7 @@
 #  gtm_id                    :string(255)
 #  is_smart_crop_enabled     :boolean          default(FALSE)
 #  enable_ads                :boolean          default(FALSE)
+#  show_proto_logo           :boolean          default(TRUE)
 #
 
 #TODO AMIT - Handle created_by, updated_by - RP added retrospectively. Need migration of old rows and BAU handling.
@@ -82,7 +83,7 @@ class Site < ApplicationRecord
 
     #ACCESSORS
     accepts_nested_attributes_for :logo_image, :favicon
-    attr_accessor :from_page
+    attr_accessor :from_page, :skip_invalidation
 
     #VALIDATIONS
     validates :name, presence: true, uniqueness: {scope: :account}
@@ -302,28 +303,30 @@ class Site < ApplicationRecord
     end
 
     def after_save_set
-        Thread.new do
-            header_json = {
-                "header_logo_url": "#{self.logo_image_id.present? ? self.logo_image.original_image.image_url : ''}",
-                "header_background_color": "#{self.header_background_color}",
-                "header_jump_to_link": "#{self.header_url}",
-                "header_logo_position": "#{self.header_positioning}",
-                "house_colour": "#{self.house_colour}",
-                "reverse_house_colour": "#{self.reverse_house_colour}",
-                "font_colour": "#{self.font_colour}",
-                "reverse_font_colour": "#{self.reverse_font_colour}",
-                "primary_language": "#{self.primary_language}",
-                "story_card_style": "#{self.story_card_style}",
-                "story_card_flip": self.story_card_flip,
-                "favicon_url": "#{favicon.present? ? favicon.image_url : ""}"
-            }
-            key = "#{self.header_json_key}"
-            encoded_file = Base64.encode64(header_json.to_json)
-            content_type = "application/json"
-            resp = Api::ProtoGraph::Utility.upload_to_cdn(encoded_file, key, content_type, self.cdn_bucket)
-            Api::ProtoGraph::CloudFront.invalidate(self, ["/#{key}"], 1)
-            ActiveRecord::Base.connection.close
-        end
+        PublishSiteJson.perform_async(self.id)
+        # Thread.new do
+        #     header_json = {
+        #         "header_logo_url": "#{self.logo_image_id.present? ? self.logo_image.original_image.image_url : ''}",
+        #         "header_background_color": "#{self.header_background_color}",
+        #         "header_jump_to_link": "#{self.header_url}",
+        #         "header_logo_position": "#{self.header_positioning}",
+        #         "house_colour": "#{self.house_colour}",
+        #         "reverse_house_colour": "#{self.reverse_house_colour}",
+        #         "font_colour": "#{self.font_colour}",
+        #         "reverse_font_colour": "#{self.reverse_font_colour}",
+        #         "primary_language": "#{self.primary_language}",
+        #         "story_card_style": "#{self.story_card_style}",
+        #         "story_card_flip": self.story_card_flip,
+        #         "favicon_url": "#{favicon.present? ? favicon.image_url : ""}",
+        #         "show_proto_logo": show_proto_logo
+        #     }
+        #     key = "#{self.header_json_key}"
+        #     encoded_file = Base64.encode64(header_json.to_json)
+        #     content_type = "application/json"
+        #     resp = Api::ProtoGraph::Utility.upload_to_cdn(encoded_file, key, content_type, self.cdn_bucket)
+        #     Api::ProtoGraph::CloudFront.invalidate(self, ["/#{key}"], 1)
+        #     ActiveRecord::Base.connection.close
+        # end
     end
 
     def after_update_publish_site_pages
