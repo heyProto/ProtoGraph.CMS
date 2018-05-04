@@ -98,7 +98,7 @@ class RefCategory < ApplicationRecord
             verticals_json = []
             self.site.verticals.each do |ver|
                 next unless ver.vertical_page.present? and ver.vertical_page.is_published
-                verticals_json << {"name": "#{ver.name}","url": "#{ver.vertical_page_url}","new_window": true, "name_html": "#{ver.name_html}", "show_by_publisher_in_header": "#{ver.show_by_publisher_in_header}"}
+                verticals_json << {"name": "#{ver.name}","url": "#{ver.vertical_page_url}","new_window": true, "name_html": "#{ver.name_html}", "show_by_publisher_in_header": ver.show_by_publisher_in_header }
             end
             key = "#{self.site.homepage_header_key}"
             encoded_file = Base64.encode64(verticals_json.to_json)
