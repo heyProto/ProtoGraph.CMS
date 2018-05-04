@@ -252,10 +252,6 @@ class Page < ApplicationRecord
       "site_attributes": {
         "name": site.name,
         "dis_qus_integration": "",
-        "youtube_url": site.youtube_url,
-        "instagram_url": site.instagram_url,
-        "twitter_url": site.twitter_url,
-        "facebook_url": site.facebook_url,
         "house_colour": site.house_colour,
         "reverse_house_colour": site.reverse_house_colour,
         "font_colour": site.font_colour,
