@@ -67,11 +67,6 @@
           <%= f.input :header_url, as: :string, label: "Jump to this URL on click of logo in header" %>
           <%= f.input :tooltip_on_logo_in_masthead, as: :string, label: "On hover of logo in mast head, show this tooltip", hint: "Typically used for set expectation that on clicking the logo you head back to our parent site."%>
           <br/>
-          <h3>Other links</h3>
-          <%= f.input :facebook_url, input_html: {rows: 1} %>
-          <%= f.input :twitter_url, input_html: {rows: 1} %>
-          <%= f.input :instagram_url, input_html: {rows: 1} %>
-          <%= f.input :youtube_url, input_html: {rows: 1} %>
           <%= f.button :submit, "Save", class: "btn btn-sm btn-primary" %>
         <% end %>
         <br/><br/>
