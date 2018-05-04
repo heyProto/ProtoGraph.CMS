@@ -103,7 +103,7 @@ class RefCategoriesController < ApplicationController
 
     def entity_params
       if params[:ref_category].present?
-        params.require(:ref_category).permit(:site_id, :genre, :name, :english_name,:name_html, :is_disabled, :created_by, :updated_by, :vertical_page_url, :description, :keywords)
+        params.require(:ref_category).permit(:site_id, :genre, :name, :english_name,:name_html, :show_by_publisher_in_header, :is_disabled, :created_by, :updated_by, :vertical_page_url, :description, :keywords)
       end
     end
 end

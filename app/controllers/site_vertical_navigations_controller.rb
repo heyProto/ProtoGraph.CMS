@@ -59,6 +59,6 @@ class SiteVerticalNavigationsController < ApplicationController
     end
 
     def site_vertical_navigation_params
-      params.require(:site_vertical_navigation).permit(:site_id, :ref_category_vertical_id, :name, :url, :launch_in_new_window, :created_by, :updated_by, :sort_order)
+      params.require(:site_vertical_navigation).permit(:site_id, :ref_category_vertical_id, :name, :url, :launch_in_new_window, :created_by, :updated_by, :sort_order, :menu)
     end
 end

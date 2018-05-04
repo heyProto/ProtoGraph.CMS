@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180503072402) do
+ActiveRecord::Schema.define(version: 20180504113745) do
 
   create_table "accounts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
     t.string "username", limit: 191, collation: "utf8mb4_unicode_ci"
@@ -43,7 +43,7 @@ ActiveRecord::Schema.define(version: 20180503072402) do
     t.integer "updated_by"
   end
 
-  create_table "ad_integrations", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
+  create_table "ad_integrations", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer "account_id"
     t.integer "site_id"
     t.integer "stream_id"
@@ -53,11 +53,11 @@ ActiveRecord::Schema.define(version: 20180503072402) do
     t.integer "height"
     t.integer "width"
     t.text "slot_text"
+    t.integer "page_stream_id"
     t.integer "created_by"
     t.integer "updated_by"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "page_stream_id"
   end
 
   create_table "authentications", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
@@ -196,8 +196,8 @@ ActiveRecord::Schema.define(version: 20180503072402) do
     t.integer "site_id"
     t.integer "folder_id"
     t.string "headline", collation: "utf8_general_ci"
-    t.string "meta_keywords"
-    t.text "meta_description"
+    t.string "meta_keywords", collation: "utf8_general_ci"
+    t.text "meta_description", collation: "utf8_general_ci"
     t.text "summary", collation: "utf8_general_ci"
     t.text "cover_image_url_facebook", collation: "utf8_general_ci"
     t.text "cover_image_url_square", collation: "utf8_general_ci"
@@ -326,6 +326,7 @@ ActiveRecord::Schema.define(version: 20180503072402) do
     t.integer "account_id"
     t.text "description"
     t.text "keywords"
+    t.boolean "show_by_publisher_in_header", default: true
   end
 
   create_table "ref_link_sources", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
@@ -338,12 +339,9 @@ ActiveRecord::Schema.define(version: 20180503072402) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "sessions", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
-    t.text "session_id", null: false
+  create_table "sessions", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string "session_id", null: false
     t.text "data"
-    t.string "ip"
-    t.string "location_city"
-    t.string "location_state"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -360,6 +358,8 @@ ActiveRecord::Schema.define(version: 20180503072402) do
     t.datetime "updated_at", null: false
     t.integer "sort_order"
     t.integer "account_id"
+    t.string "placement"
+    t.string "menu"
   end
 
   create_table "sites", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
@@ -411,6 +411,7 @@ ActiveRecord::Schema.define(version: 20180503072402) do
     t.boolean "is_smart_crop_enabled", default: false
     t.boolean "enable_ads", default: false
     t.boolean "show_proto_logo", default: true
+    t.string "tooltip_on_logo_in_masthead"
   end
 
   create_table "stream_entities", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
@@ -582,7 +583,7 @@ ActiveRecord::Schema.define(version: 20180503072402) do
     t.index ["user_id"], name: "index_user_emails_on_user_id"
   end
 
-  create_table "user_sessions", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
+  create_table "user_sessions", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "session_id"
     t.integer "user_id"
     t.string "ip"

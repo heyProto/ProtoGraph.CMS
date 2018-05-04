@@ -2,25 +2,26 @@
 #
 # Table name: ref_categories
 #
-#  id                :integer          not null, primary key
-#  site_id           :integer
-#  genre             :string(255)
-#  name              :string(255)
-#  stream_url        :text(65535)
-#  created_at        :datetime         not null
-#  updated_at        :datetime         not null
-#  stream_id         :integer
-#  is_disabled       :boolean
-#  created_by        :integer
-#  updated_by        :integer
-#  count             :integer          default(0)
-#  name_html         :text(65535)
-#  slug              :string(255)
-#  english_name      :string(255)
-#  vertical_page_url :text(65535)
-#  account_id        :integer
-#  description       :text(65535)
-#  keywords          :text(65535)
+#  id                          :integer          not null, primary key
+#  site_id                     :integer
+#  genre                       :string(255)
+#  name                        :string(255)
+#  stream_url                  :text(65535)
+#  created_at                  :datetime         not null
+#  updated_at                  :datetime         not null
+#  stream_id                   :integer
+#  is_disabled                 :boolean
+#  created_by                  :integer
+#  updated_by                  :integer
+#  count                       :integer          default(0)
+#  name_html                   :text(65535)
+#  slug                        :string(255)
+#  english_name                :string(255)
+#  vertical_page_url           :text(65535)
+#  account_id                  :integer
+#  description                 :text(65535)
+#  keywords                    :text(65535)
+#  show_by_publisher_in_header :boolean          default(TRUE)
 #
 
 #TODO AMIT - Handle account_id - RP added retrospectively. Need migration of old rows and BAU handling.
@@ -97,7 +98,7 @@ class RefCategory < ApplicationRecord
             verticals_json = []
             self.site.verticals.each do |ver|
                 next unless ver.vertical_page.present? and ver.vertical_page.is_published
-                verticals_json << {"name": "#{ver.name}","url": "#{ver.vertical_page_url}","new_window": true, "name_html": "#{ver.name_html}"}
+                verticals_json << {"name": "#{ver.name}","url": "#{ver.vertical_page_url}","new_window": true, "name_html": "#{ver.name_html}", "show_by_publisher_in_header": "#{ver.show_by_publisher_in_header}"}
             end
             key = "#{self.site.homepage_header_key}"
             encoded_file = Base64.encode64(verticals_json.to_json)

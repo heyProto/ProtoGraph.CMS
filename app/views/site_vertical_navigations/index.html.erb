@@ -60,6 +60,8 @@
 		<%= image_tag "help.png", style: "float: right; right: 0; top: 0; position: relative;" %>
         <h2>Navigation</h2>
         <p><b>Editors</b> can control which URLs are visible on a vertical's navigation bar.</p>
+        <p>You can check
+        <%= link_to "RSS Feed", "#{@site.cdn_endpoint}/#{@site.stream.cdn_rss_key}", target: "blank"  %> for the whole site here.</p>
 		
 	</div>
 </div>

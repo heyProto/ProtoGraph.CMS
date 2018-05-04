@@ -1,41 +1,12 @@
-Permissions
-> Account
-> Site
-> Workspace
-> Article
-> Card
-
-Account Owner
-Site Owner
-Site Editor
-Site Contributor
-
-Super Administrator
-Administrator
-Editor: Almost anything with content, but they can’t change any settings.
-Author: Authors can publish, edit, or delete their own posts, but they can’t access anything created by other users
-Contributor: 
-
-
-
-Contributors can write, edit, and delete their own unpublished posts, but their content must be reviewed and published by an Admin or Editor. It’s important to note that Contributors can’t access the Media Library, so if they want to use specific images, videos, or audio files in the Media Library, they have to ask for assistance from an Admin or Editor. The Contributor role is a popular option for guest authors who don’t submit content on a regular basis.
-
-------------------------------------------------------------------------------------------------------------------------------
-  
-Standarise every SEO action
-Standarise all RSS 
 Pages / TABs
 
-16 col - 1 row // dodgy doctors.
+- Pending CMS functionality: Rename Verticals into Sections. Disconnect Landing Page and Verticals. Ability to move articles across folders. Delete articles. Unpublish a published article. Add Draft / Published status to cards. Improve how we do invalidations. Integrate with custom S3 and CloudFront.
+
+Talk to CA about Proto offer
+
+- Interconnect product documentation and Intercom triggers
 
 ------------------------------------------------------------------------------------------------------------------------------
-
-
-
-
-
-
-
 
 
 redis-server /usr/local/etc/redis.conf
