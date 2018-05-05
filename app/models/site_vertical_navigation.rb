@@ -14,6 +14,8 @@
 #  updated_at               :datetime         not null
 #  sort_order               :integer
 #  account_id               :integer
+#  placement                :string(255)
+#  menu                     :string(255)
 #
 
 #TODO AMIT - Handle account_id - RP added retrospectively. Need migration of old rows and BAU handling.

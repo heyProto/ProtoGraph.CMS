@@ -9,6 +9,7 @@ class PublishSiteJson
         "header_logo_url": "#{site.logo_image_id.present? ? site.logo_image.original_image.image_url : ''}",
         "header_background_color": "#{site.header_background_color}",
         "header_jump_to_link": "#{site.header_url}",
+        "header_tooltip": site.tooltip_on_logo_in_masthead,
         "header_logo_position": "#{site.header_positioning}",
         "house_colour": "#{site.house_colour}",
         "reverse_house_colour": "#{site.reverse_house_colour}",

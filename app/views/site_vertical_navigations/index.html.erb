@@ -17,6 +17,9 @@
                               <% end %>
                           </div>
                       </td>
+                      <td>
+                          <p><%= site_vertical_navigation.menu %></p>
+                      </td>
                       <td><%= link_to 'Remove', account_site_ref_category_site_vertical_navigation_path(@account, @site, @ref_category, site_vertical_navigation), method: :delete, data: { confirm: 'Are you sure?' } %></td>
                     </tr>
                   <% end %>
@@ -47,8 +50,9 @@
           <div class="form-inputs">
             <%= f.input :site_id, as: :hidden, input_html: {value: @site.id} %>
             <%= f.input :ref_category_vertical_id, as: :hidden, input_html: {value: @ref_category.id} %>
+            <%= f.input :menu, as: :select, collection: [["Header", "Vertical Header"], ["Footer", "Vertical Footer"]], include_blank: false%>
             <%= f.input :name, required: true, minlength: 3 , maxlength: 15 %>
-            <%= f.input :url, required: true, minlength: 4 %>
+            <%= f.input :url, required: true, minlength: 4, label: "URL" %>
             <%= f.input :launch_in_new_window, label: "&nbsp; Launch in new window".html_safe %>
           </div>
 
@@ -60,6 +64,8 @@
 		<%= image_tag "help.png", style: "float: right; right: 0; top: 0; position: relative;" %>
         <h2>Navigation</h2>
         <p><b>Editors</b> can control which URLs are visible on a vertical's navigation bar.</p>
+        <p>You can check
+        <%= link_to "RSS Feed", "#{@site.cdn_endpoint}/#{@site.stream.cdn_rss_key}", target: "blank"  %> for the whole site here.</p>
 		
 	</div>
 </div>
