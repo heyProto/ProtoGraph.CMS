@@ -47,7 +47,7 @@ class RefCategory < ApplicationRecord
 
     #ACCESSORS
     #VALIDATIONS
-    validates :name, presence: true, uniqueness: {scope: :site}, length: { in: 3..15 }
+    validates :name, presence: true, uniqueness: {scope: [:site, :genre]}, length: { in: 3..15 }
     validates :genre, inclusion: {in: ["intersection", "sub intersection", "series"]}
 
     #CALLBACKS
