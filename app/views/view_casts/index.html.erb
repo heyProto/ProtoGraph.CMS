@@ -2,12 +2,7 @@
 
     <div class="row">
         <div class="col-sm-4" style="padding-left: 0px;">
-            <div class="protograph-filters-header">
-                FILTERS
-                <span style="float: right; font-size: 13px; ">
-                    <%= link_to "Reset", account_site_folder_view_casts_path(@account, @site, @folder), style: "color: white;" %>
-                </span>
-            </div>
+
             
             
             <ul class="nav nav-tabs protograph-filters-tabs-container" id="myTab" role="tablist">
@@ -40,6 +35,9 @@
                       <%= f.select :template_card_id_eq, options_from_collection_for_select(@card_types, :id, :name, @q.template_card_id_eq), { :include_blank => true }, :class => "form-control" %>
                       <br/>
                       <%= f.submit "Search", :class => "btn btn-sm btn-secondary" %>
+                      &nbsp;&nbsp;&nbsp;&nbsp;
+                      |&nbsp;&nbsp;&nbsp;&nbsp;
+                      <%= link_to "Reset", account_site_folder_view_casts_path(@account, @site, @folder) %>
                   <% end %>
               </div>
             </div>
