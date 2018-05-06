@@ -36,7 +36,7 @@
                             </td>
                         </tr>
                     <% end %>
-                    <%= paginate @permissions %>
+                    <%= paginate @permissions, theme: 'twitter-bootstrap-4', pagination_class: "pagination-sm" %>
                 </tbody>
             </table>
             <% if @pending_invites_count != 0 %>
