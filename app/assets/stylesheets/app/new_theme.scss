@@ -83,6 +83,26 @@ ul.list-group > li.list-group-item.active, ul.list-group > li.list-group-item:ho
         position: absolute;
         top: 130px;
     }
+    .card-tags-series-name{
+        font-size: 10px;
+        text-transform: uppercase;
+        color: black;
+        background: white;
+        float: left;
+        height: 18px;
+        display: inline-block;
+        padding: 1px 6px 0px 3px;
+        box-sizing: border-box;
+        padding-left: 5px;
+        border-radius: 4px;
+        font-family: cabin;
+        margin-top: 2px;
+        position: absolute;
+        top: 120px;
+        a{
+            color: black;
+        }
+    }
 }
 
 .proto-app-navbar-proto-container{
