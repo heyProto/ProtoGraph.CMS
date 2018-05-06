@@ -51,8 +51,9 @@ ul.nav.nav-tabs.protograph-filters-tabs-container{
     padding: 15px;
 }
 
+ul.list-group > li.list-group-item > a{color: black !important; }
 ul.list-group > li.list-group-item.active > a{color: black !important; font-weight: bold; }
-ul.list-group > li.list-group-item.active, ul.list-group > li.list-group-item:hover{background: #f9f9f9;}
+ul.list-group > li.list-group-item.active, ul.list-group > li.list-group-item:hover{background: #ffc107; color: black;}
 
 .nav > a.nav-link{font-weight: 400 !important; color: lightgray;} 
 .nav > a.nav-link.active{font-weight: 800 !important; color: white;} 
