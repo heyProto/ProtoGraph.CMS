@@ -26,10 +26,6 @@
 #  client_secret               :string(255)
 #  favicon_id                  :integer
 #  logo_image_id               :integer
-#  facebook_url                :text(65535)
-#  twitter_url                 :text(65535)
-#  instagram_url               :text(65535)
-#  youtube_url                 :text(65535)
 #  g_a_tracking_id             :string(255)
 #  sign_up_mode                :string(255)
 #  default_role                :string(255)
