@@ -1,7 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Proto Platform</title>
+  <% if @site.present? %>
+      <title><%= @site.name %> | Proto Platform</title>
+  <% else %>
+      <title>Proto Platform</title>
+  <% end %>
   <%= csrf_meta_tags %>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
