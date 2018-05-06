@@ -4,9 +4,9 @@
             Stories
             <span style="font-size: 12px; font-weight: 400;">in workspace <u><%= folder_name_(@folder)%></u></span>
         </h1>
-        <nav class="nav" style="position: relative; float: right; margin-left: auto;">
+        <nav class="nav" style="position: absolute; top: 10px;right: 30px; float: right; margin-left: auto;">
             <% if !@folder.is_trash %>
-                <form class="form-inline my-2 my-lg-0" style="margin-top: -16px !important;"><li style="list-style-type: none;"><%= render partial: "stories/new" %></li></form>
+                <form class="form-inline my-2 my-lg-0"><li style="list-style-type: none;"><%= render partial: "stories/new" %></li></form>
             <% end %>
         </nav>
     </div>

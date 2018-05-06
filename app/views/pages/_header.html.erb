@@ -8,7 +8,7 @@
         <h1>    
             <%= v.series.name %>
         </h1>
-        <nav class="nav" style="position: relative; float: right; margin-left: auto;">
+        <nav class="nav" style="position: absolute; top: 10px;right: 30px; float: right; margin-left: auto;">
           <%= link_to "Assemble", (action_name == "edit" ?  "#" : edit_account_site_page_path(@account, @site, v, folder_id: v.folder_id)), class: (action_name == "edit" ? "nav-link active" : "nav-link"), "data-turbolinks" => "false" %>
           <% if @site.enable_ads %>
               <%= link_to "Ads", (action_name == "ads" ? "#" :  ads_account_site_page_path(@account, @site, v, folder_id: v.folder_id)), class: (action_name == "ads" ? "nav-link active" : "nav-link"),"data-turbolinks" => "false" %>
