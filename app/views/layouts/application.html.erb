@@ -52,6 +52,12 @@
                             <div id="proto_app_header">
                                 <div class="proto-app-navbar">
                                     <div class="proto-app-navbar-logo-holder">
+                                        <div class="proto-app-navbar-logo" style="display: inline-block;">
+                                            <a href="<%= @site.present? ? account_site_path(@account, @site) : root_url %>">
+                                                <img src="https://cdn.protograph.pykih.com/Assets/proto-app/img/proto-color-logo.png" class="colored-logo">
+                                                <img src="https://cdn.protograph.pykih.com/Assets/proto-app/img/proto-grey-logo.png" class="grey-logo">
+                                            </a>
+                                        </div>
                                         <h1 class="proto-app-navbar-project-name" id="homepage_nav">
                                             <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><%= truncate @site.domain, length: 40, ommission: ".." %></a>
                                             <% if @accounts.count > 1 %>
