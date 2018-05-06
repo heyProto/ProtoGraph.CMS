@@ -17,7 +17,7 @@
 </head>
 <body data-turbolinks=<%= (controller_name == "view_casts" and ['new', 'edit'].include?(action_name)) ? "false" : "true" %>>
         <div class="container-fluid" style="padding: 0px;">
-            <div class="row" style="margin:0px;">
+            <div class="row" style="margin:0px; z-index: 999; position: relative;">
                 <div class="proto-app-navbar-masthead">
                     <h1>
                         <% if @site.present? %>
@@ -120,7 +120,7 @@
                     </div>
                 <% end %>
             </div>
-            <div class="container" style="margin:0px; margin-left; 30px; width: 1260px; margin-left: auto; margin-right: auto; position: relative;">
+            <div class="container" style="width: 1260px; margin-left: auto; margin-right: auto; position: relative;">
                 <%= yield %>
             </div>
         </div>
