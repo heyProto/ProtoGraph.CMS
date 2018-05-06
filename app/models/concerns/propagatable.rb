@@ -22,7 +22,7 @@ module Propagatable
           self.account.update_attributes(updated_at: Time.now)              if self.account.present?
         elsif ["RefCategory", "Folder"].index(self.class.to_s).present?
           self.site.update_attributes(updated_at: Time.now)                 if self.site.present?
-        elsif ["PageStream", "PageTodo"].index(self.class.to_s).present?
+        elsif ["PageStream"].index(self.class.to_s).present?
           self.page.update_attributes(updated_at: Time.now)                 if self.page.present?
         elsif ["Site"].index(self.class.to_s).present?
           self.account.update_attributes(updated_at: Time.now)              if self.account.present?
