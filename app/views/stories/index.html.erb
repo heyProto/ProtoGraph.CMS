@@ -2,7 +2,7 @@
     <div class="row">
         <h1>    
             Stories
-            <span style="font-size: 12px; font-weight: 400;">in workspace <%= folder_name_(@folder)%></span>
+            <span style="font-size: 12px; font-weight: 400;">in workspace <u><%= folder_name_(@folder)%></u></span>
         </h1>
         <nav class="nav" style="position: relative; float: right; margin-left: auto;">
             <% if !@folder.is_trash %>

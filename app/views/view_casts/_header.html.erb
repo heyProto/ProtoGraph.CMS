@@ -1,0 +1,15 @@
+<div class="jumbotroz">
+    <div class="row">
+        <h1>    
+            Cards
+            <span style="font-size: 12px; font-weight: 400;">in workspace <u><%= folder_name_(@folder)%></u></span>
+        </h1>
+        <nav class="nav" style="position: relative; float: right; margin-left: auto;">
+            <% if !@folder.is_trash %>
+                <%= link_to '+ Add a card', new_account_site_folder_view_cast_path(@account, @site, @folder), data: {turbolinks: false}, class: "btn btn-dark btn-sm", style: "padding-bottom: 5px; height: 30px;" %>
+            <% end %>
+        </nav>
+    </div>
+</div>
+<br/>
+<br/>

@@ -1,8 +1,4 @@
-<%= content_for :page_title do %>
-    <li class="breadcrumb-item active" aria-current="page"><%= link_to truncate(@view_cast.name, length: 80, ommission: ".."), account_site_folder_view_cast_path(@account, @site, @folder, @view_cast), "data-turbolinks"=> false %></li>
-
-<% end %>
-
+<%= render partial: "view_casts/header" %>
 <%= stylesheet_link_tag "ProtoGraph.Container.toCardForm" %>
 <link rel="stylesheet" type="text/css" href="<%= @view_cast.template_card.css %>">
 <%= stylesheet_link_tag "image_bank.css" %>
