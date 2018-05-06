@@ -20,6 +20,14 @@
                 <div class="proto-app-navbar-navigation-bar">
                     <div class="proto-app-navbar-page-navigation">                    
                         <div class="proto-app-navbar-navigation-scroll">
+                            <% if @folder.present? and @folder.id.present? %>
+                                <div class="proto-app-navbar-page-links">
+                                    <%= link_to "Cards", account_site_folder_view_casts_path(@account, @site, @folder), "data-turbolinks" => "false" %>
+                                </div>
+                                <div class="proto-app-navbar-page-links">
+                                    <%= link_to "Stories", account_site_stories_path(@account, @site,folder_id: @folder.id), "data-turbolinks" => "false" %>
+                                </div>
+                            <% end %>
                             <div class="proto-app-navbar-page-links">
                                 <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Landings</a>
                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuLink" style="z-index: 10000000 !important;">

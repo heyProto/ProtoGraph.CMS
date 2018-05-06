@@ -1,16 +1,19 @@
-<%= render partial: "folders/header" %>
-<% if @pages.first.blank? %>
-    <div class="col-sm-16">
-        <div class="blankslate blankslate-spacious">
-            <% if @folder.is_trash %>
-                <h3>There are no stories in the recycle bin.</h3>
-            <% else %>
-                <h3>No stories created yet.</h3>
-                <p>Use the [+ Add a story] button on the top right or <%= link_to "Reset", account_site_folder_stories_path(@account, @site, @folder) %>.</p>
+<div class="jumbotroz">
+    <div class="row">
+        <h1>    
+            Stories
+            <span style="font-size: 12px; font-weight: 400;">in workspace <%= folder_name_(@folder)%></span>
+        </h1>
+        <nav class="nav" style="position: relative; float: right; margin-left: auto;">
+            <% if !@folder.is_trash %>
+                <form class="form-inline my-2 my-lg-0" style="margin-top: -16px !important;"><li style="list-style-type: none;"><%= render partial: "stories/new" %></li></form>
             <% end %>
-        </div>
+        </nav>
     </div>
-<% else %>
+</div>
+<br/>
+<br/>
+
     <div class="row">
         <div class="col-sm-3">
             <ul class="nav nav-tabs" id="myTab" role="tablist">
@@ -56,65 +59,78 @@
             </div>
         </div>
         <div class="col-sm-12" style="margin-left: 6.25%;">
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th><%= sort_link(@q, :view_cast_id, '#') %>
-                            </th>
-                            <th>Editorial
-                            </th>
-                            <th>
-                            </th>
-                            <th>Headline
-                            </th>
-                            <th>Byline
-                            </th>
-                            <th><%= sort_link(@q, :published_at) %>
-                            </th>
-                            <th><%= sort_link(@q, :updated_at) %>
-                            </th>
-                        </tr>
-                    </thead>
-
-                    <% @pages.each do |d| %>
-                        <tbody>
-
-                                <tr>
-                                    <td class="hint">
-                                        <% if d.view_cast.present? %>
-                                            #<%= d.view_cast.id.to_s %>
-                                        <% end %>
-                                    </td>
-                                    <td class="hint">
-                                		<% if d.intersection.present? %>
-                                            <%= d.intersection.name %>
-                                        <% end %>
-                                        <% if d.sub_intersection.present? %>
-                                                /
-                                                <%= d.sub_intersection.name %>
-                                        <% end %>
-                                    </td>
-                                    <td><div class="status-signal <%= d.status == 'draft' ? "status-red" : "status-green" %>"></div>
-                                    </td>
-                                    <td>
-                                        <%= link_to truncate(d.headline, length: 45, ommission: ".."), edit_write_account_site_story_path(@account, @site, d, folder_id: d.folder_id), "data-turbolinks"=> false %>
-                                    </td>
-                                    <td>
-                                        <% if d.byline.present? %>
-                                            <%= d.byline.name %>
-                                        <% end %>
-                                    </td>
-                                    <td class="hint"><%= time_ago_in_words(d.published_at) %>
-                                    </td>
-                                    <td class="hint"><%= image_tag avatar_url(d.updator.email), width: "16px", height: "16px" %> <%= time_ago_in_words(d.updated_at) %>
-                                    </td>
-                                </tr>
+                <% if @pages.first.blank? %>
+                    <div class="col-sm-16">
+                        <div class="blankslate blankslate-spacious">
+                            <% if @folder.is_trash %>
+                                <h3>There are no stories in the recycle bin.</h3>
+                            <% else %>
+                                <h3>No stories created yet.</h3>
+                                <p>Use the [+ Add a story] button on the top right or <%= link_to "Reset", account_site_folder_stories_path(@account, @site, @folder) %>.</p>
                             <% end %>
-                        </tbody>
+                        </div>
+                    </div>
+                <% else %>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th><%= sort_link(@q, :view_cast_id, '#') %>
+                                </th>
+                                <th>Editorial
+                                </th>
+                                <th>
+                                </th>
+                                <th>Headline
+                                </th>
+                                <th>Byline
+                                </th>
+                                <th><%= sort_link(@q, :published_at) %>
+                                </th>
+                                <th><%= sort_link(@q, :updated_at) %>
+                                </th>
+                            </tr>
+                        </thead>
 
-                </table>
+                        <% @pages.each do |d| %>
+                            <tbody>
+
+                                    <tr>
+                                        <td class="hint">
+                                            <% if d.view_cast.present? %>
+                                                #<%= d.view_cast.id.to_s %>
+                                            <% end %>
+                                        </td>
+                                        <td class="hint">
+                                    		<% if d.intersection.present? %>
+                                                <%= d.intersection.name %>
+                                            <% end %>
+                                            <% if d.sub_intersection.present? %>
+                                                    /
+                                                    <%= d.sub_intersection.name %>
+                                            <% end %>
+                                        </td>
+                                        <td><div class="status-signal <%= d.status == 'draft' ? "status-red" : "status-green" %>"></div>
+                                        </td>
+                                        <td>
+                                            <%= link_to truncate(d.headline, length: 45, ommission: ".."), edit_write_account_site_story_path(@account, @site, d, folder_id: d.folder_id), "data-turbolinks"=> false %>
+                                        </td>
+                                        <td>
+                                            <% if d.byline.present? %>
+                                                <%= d.byline.name %>
+                                            <% end %>
+                                        </td>
+                                        <td class="hint"><%= time_ago_in_words(d.published_at) %>
+                                        </td>
+                                        <td class="hint"><%= image_tag avatar_url(d.updator.email), width: "16px", height: "16px" %> <%= time_ago_in_words(d.updated_at) %>
+                                        </td>
+                                    </tr>
+                                <% end %>
+                            </tbody>
+
+                    </table>
+                    <%= paginate @pages, theme: 'twitter-bootstrap-4', pagination_class: "pagination-sm" %>
+                <% end %>
         </div>
         
     </div>
-    <%= paginate @pages, theme: 'twitter-bootstrap-4', pagination_class: "pagination-sm" %>
-<% end %>
+    
