@@ -7,6 +7,8 @@ Rails.application.routes.draw do
   devise_for :users, controllers: {
                registrations: 'user/registrations',
                sessions: 'user/sessions',
+               passwords: 'user/passwords',
+               confirmations: 'user/confirmations',
                omniauth_callbacks: "user/omniauth_callbacks"
              } do
     get 'sign_out', to: 'devise/sessions#destroy'

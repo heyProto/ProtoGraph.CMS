@@ -1,73 +1,106 @@
 <%= render partial: "pages/header" %>
 <div class="row">
-    <div class="col-sm-13">
-        <div style="margin-left: auto; margin-right: auto; width: 500px;">
-            <% if @site_vertical_navigations.first.blank? %>
-                <div class="hint">No navigation links yet</div>
-            <% else %>
-              <table class="table table-sm table-responsive">
-                <tbody>
-                  <% @site_vertical_navigations.each do |site_vertical_navigation| %>
-                    <tr>
-                      <td><%= site_vertical_navigation.name %>
-                          <div class="hint">
-                              <%= site_vertical_navigation.url %>
-                              <% if site_vertical_navigation.launch_in_new_window %>
-                                  [/]
-                              <% end %>
-                          </div>
-                      </td>
-                      <td>
-                          <p><%= site_vertical_navigation.menu %></p>
-                      </td>
-                      <td><%= link_to 'Remove', account_site_ref_category_site_vertical_navigation_path(@account, @site, @ref_category, site_vertical_navigation), method: :delete, data: { confirm: 'Are you sure?' } %></td>
-                    </tr>
+    <div class="col-sm-10" style="margin-left: auto; margin-right: auto; width: 540px;">
+        
+            <nav>
+              <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Header</a>
+                <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Footer</a>
+                <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-contact" role="tab" aria-controls="nav-contact" aria-selected="false">Root URL</a>
+                <a class="nav-item nav-link" id="nav-contact2-tab" data-toggle="tab" href="#nav-contact2" role="tab" aria-controls="nav-contact" aria-selected="false">Add a navigation link</a>
+              </div>
+            </nav>
+            <div class="tab-content" id="nav-tabContent">
+              <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+                  <br/><br/>
+                  <% if @site_vertical_navigations_header.first.blank? %>
+                      <div class="hint">No navigation links yet</div>
+                  <% else %>
+                    <table class="table table-sm table-responsive">
+                      <tbody>
+                        <% @site_vertical_navigations_header.each do |site_vertical_navigation| %>
+                          <tr>
+                            <td style="border: 0px;"><%= site_vertical_navigation.name %>
+                                <div class="hint">
+                                    <%= site_vertical_navigation.url %>
+                                    <% if site_vertical_navigation.launch_in_new_window %>
+                                        [/]
+                                    <% end %>
+                                </div>
+                            </td>
+                            <td style="border: 0px;">
+                                <p><%= site_vertical_navigation.menu %></p>
+                            </td>
+                            <td style="border: 0px;"><%= link_to 'Remove', account_site_ref_category_site_vertical_navigation_path(@account, @site, @ref_category, site_vertical_navigation), method: :delete, data: { confirm: 'Are you sure?' } %></td>
+                          </tr>
+                        <% end %>
+                      </tbody>
+                    </table>
                   <% end %>
-                </tbody>
-              </table>
-            <% end %>
-            <hr/>
-            <br/>
-            <br/>
-            <h3>What happens when you click on the site header?</h3>
-            <%= simple_form_for([@account, @site, @ref_category]) do |f| %>
-              <%= f.error_notification %>
-                <div class="form-inputs">
-                  <%= f.input :vertical_page_url, required: true%>
-                </div>
-                <div class="form-actions">
-                  <%= f.button :submit, "Save", class: "btn btn-sm btn-secondary" %>
-                </div>
-            <% end %>
-            
-            
-        </div>
+              </div>
+              <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+                  <br/><br/>
+                  <% if @site_vertical_navigations_footer.first.blank? %>
+                      <div class="hint">No navigation links yet</div>
+                  <% else %>
+                    <table class="table table-sm table-responsive">
+                      <tbody>
+                        <% @site_vertical_navigations_footer.each do |site_vertical_navigation| %>
+                          <tr>
+                            <td style="border: 0px;"><%= site_vertical_navigation.name %>
+                                <div class="hint">
+                                    <%= site_vertical_navigation.url %>
+                                    <% if site_vertical_navigation.launch_in_new_window %>
+                                        [/]
+                                    <% end %>
+                                </div>
+                            </td>
+                            <td style="border: 0px;">
+                                <p><%= site_vertical_navigation.menu %></p>
+                            </td>
+                            <td style="border: 0px;"><%= link_to 'Remove', account_site_ref_category_site_vertical_navigation_path(@account, @site, @ref_category, site_vertical_navigation), method: :delete, data: { confirm: 'Are you sure?' } %></td>
+                          </tr>
+                        <% end %>
+                      </tbody>
+                    </table>
+                  <% end %>
+              </div>
+              <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">
+                  <br/><br/>
+                  <h3>What happens when you click on the site header?</h3>
+                  <%= simple_form_for([@account, @site, @ref_category]) do |f| %>
+                    <%= f.error_notification %>
+                      <div class="form-inputs">
+                        <%= f.input :vertical_page_url, required: true%>
+                      </div>
+                      <div class="form-actions">
+                        <%= f.button :submit, "Save", class: "btn btn-sm btn-secondary" %>
+                      </div>
+                  <% end %>
+              </div>
+              <div class="tab-pane fade" id="nav-contact2" role="tabpanel" aria-labelledby="nav-contact-tab">
+                  <br/><br/>
+                  <%= simple_form_for(@site_vertical_navigation, url: account_site_ref_category_site_vertical_navigations_path(@account, @site, @ref_category), method: :post) do |f| %>
+                    <%= f.error_notification %>
+
+                    <div class="form-inputs">
+                      <%= f.input :site_id, as: :hidden, input_html: {value: @site.id} %>
+                      <%= f.input :ref_category_vertical_id, as: :hidden, input_html: {value: @ref_category.id} %>
+                      <%= f.input :menu, as: :select, collection: [["Header", "Vertical Header"], ["Footer", "Vertical Footer"]], include_blank: false%>
+                      <%= f.input :name, required: true, minlength: 3 , maxlength: 15 %>
+                      <%= f.input :url, required: true, minlength: 4, label: "URL" %>
+                      <%= f.input :launch_in_new_window, label: "&nbsp; Launch in new window".html_safe %>
+                    </div>
+
+                    <div class="form-actions">
+                      <%= f.button :submit, "Add a navigation link", class: "btn btn-sm btn-secondary" %>
+                    </div>
+                  <% end %>
+                  <br/>
+                  <p style="font-size: 10px;">FYI: <%= link_to "RSS Feed", "#{@site.cdn_endpoint}/#{@site.stream.cdn_rss_key}", target: "blank"  %> for the whole site here.</p></p>
+              </div>
+            </div>
     </div>
-	<div class="col-sm-3 help-text">
-        <%= simple_form_for(@site_vertical_navigation, url: account_site_ref_category_site_vertical_navigations_path(@account, @site, @ref_category), method: :post) do |f| %>
-          <%= f.error_notification %>
-
-          <div class="form-inputs">
-            <%= f.input :site_id, as: :hidden, input_html: {value: @site.id} %>
-            <%= f.input :ref_category_vertical_id, as: :hidden, input_html: {value: @ref_category.id} %>
-            <%= f.input :menu, as: :select, collection: [["Header", "Vertical Header"], ["Footer", "Vertical Footer"]], include_blank: false%>
-            <%= f.input :name, required: true, minlength: 3 , maxlength: 15 %>
-            <%= f.input :url, required: true, minlength: 4, label: "URL" %>
-            <%= f.input :launch_in_new_window, label: "&nbsp; Launch in new window".html_safe %>
-          </div>
-
-          <div class="form-actions">
-            <%= f.button :submit, "Add", class: "btn btn-sm btn-secondary" %>
-          </div>
-        <% end %>
-        <hr/>
-		<%= image_tag "help.png", style: "float: right; right: 0; top: 0; position: relative;" %>
-        <h2>Navigation</h2>
-        <p><b>Editors</b> can control which URLs are visible on a vertical's navigation bar.</p>
-        <p>You can check
-        <%= link_to "RSS Feed", "#{@site.cdn_endpoint}/#{@site.stream.cdn_rss_key}", target: "blank"  %> for the whole site here.</p>
-		
-	</div>
 </div>
 
 

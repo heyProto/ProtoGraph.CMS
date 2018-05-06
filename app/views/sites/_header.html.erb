@@ -1,0 +1,15 @@
+<div class="jumbotroz">
+    <div class="row">
+        <h1>    
+            Adminland
+        </h1>
+        <nav class="nav" style="position: relative; float: right; margin-left: auto;">
+          <%= link_to "Site settings", edit_account_site_path(@account, @site), class: ((action_name == "edit" and controller_name == "sites") ? "nav-link active" : "nav-link"), "data-turbolinks" => "false" %>
+          <%= link_to "Integrations", integrations_account_site_path(@account, @site), class: ((action_name == "integrations" and controller_name == "sites") ? "nav-link active" : "nav-link"),"data-turbolinks" => "false" %>
+          <%= link_to "Manage team", account_site_permission_invites_path(@account, @site), class: ((controller_name == "admins" or controller_name == "permission_invites") ? "nav-link active" : "nav-link"),"data-turbolinks" => "false" %>
+          <%= link_to "Editorial planning", intersections_account_site_path(@account, @site), class: (controller_name == "ref_categories" ? "nav-link active" : "nav-link"),"data-turbolinks" => "false" %>
+        </nav>
+    </div>
+</div>
+<br/>
+<br/>

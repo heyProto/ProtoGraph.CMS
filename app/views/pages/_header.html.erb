@@ -1,26 +1,25 @@
-<% if @page.blank? %>
-    <% v = @ref_category.vertical_page %>
-<% else %>
-    <% v = @page %>
-<% end %>
-<%= content_for :page_title do %>
-  <li class="breadcrumb-item active" aria-current="page"><%= v.series.name %></li>
-<% end %>
-<%= content_for :page_navigation do %>
-      <li class="nav-item">
-        <%= link_to "Assemble", (action_name == "edit" ?  "#" : edit_account_site_page_path(@account, @site, v, folder_id: v.folder_id)), class: (action_name == "edit" ? "nav-link active" : "nav-link"), "data-turbolinks" => "false" %>
-      </li>
-      <% if @site.enable_ads %>
-        <li class="nav-item">
-          <%= link_to "Ads", (action_name == "ads" ? "#" :  ads_account_site_page_path(@account, @site, v, folder_id: v.folder_id)), class: (action_name == "ads" ? "nav-link active" : "nav-link"),"data-turbolinks" => "false" %>
-        </li>
-      <% end %>
-      <li class="nav-item">
-        <%= link_to "Package", (action_name == "distribute" ? "#" :  distribute_account_site_page_path(@account, @site, v, folder_id: v.folder_id)), class: (action_name == "distribute" ? "nav-link active" : "nav-link"),"data-turbolinks" => "false" %>
-      </li>
-      <li class="nav-item">
+<div class="jumbotroz">
+    <div class="row">
+        <% if @page.blank? %>
+            <% v = @ref_category.vertical_page %>
+        <% else %>
+            <% v = @page %>
+        <% end %>
+        <h1>    
+            <%= v.series.name %>
+        </h1>
+        <nav class="nav" style="position: relative; float: right; margin-left: auto;">
+          <%= link_to "Assemble", (action_name == "edit" ?  "#" : edit_account_site_page_path(@account, @site, v, folder_id: v.folder_id)), class: (action_name == "edit" ? "nav-link active" : "nav-link"), "data-turbolinks" => "false" %>
+          <% if @site.enable_ads %>
+              <%= link_to "Ads", (action_name == "ads" ? "#" :  ads_account_site_page_path(@account, @site, v, folder_id: v.folder_id)), class: (action_name == "ads" ? "nav-link active" : "nav-link"),"data-turbolinks" => "false" %>
+          <% end %>
+          <%= link_to "Package", (action_name == "distribute" ? "#" :  distribute_account_site_page_path(@account, @site, v, folder_id: v.folder_id)), class: (action_name == "distribute" ? "nav-link active" : "nav-link"),"data-turbolinks" => "false" %>
           <%= link_to "Navigation", account_site_ref_category_site_vertical_navigations_path(@account, @site, v.series, folder_id: @folder.present? ? @folder.id : nil), class: (controller_name == "site_vertical_navigations" ? "nav-link active" : "nav-link"),"data-turbolinks" => "false" %>
-      </li>
-<% end %>
+          <% if controller_name != "site_vertical_navigations" and @page.status != 'draft' %>
+            <%= link_to "Go to page", @page.html_url, target: "_blank", class: "nav-link" %>
+          <% end %>
+        </nav>
+    </div>
+</div>
 <br/>
 <br/>

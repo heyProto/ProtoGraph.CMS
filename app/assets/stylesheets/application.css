@@ -14,6 +14,7 @@
  *= require app/slack.scss
  *= require vendors/select2.min.css
  *= require app/select2-tag.css
+ *= require app/new_theme.scss
  *= require app/theme.css
  *= require app/style.css
  *= require app/sign-up-area.css

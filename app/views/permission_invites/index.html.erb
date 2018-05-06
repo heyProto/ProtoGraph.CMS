@@ -1,13 +1,9 @@
+<%= render partial: "sites/header" %>
 <div class="row">
     <div class="col-sm-13">
-        <div style="width: 90%;">
-            <br/>
-            <br/>
-            <h2>Manage members</h2>
-            <br/>
+        <div style="width: 100%;">
             <ul class="nav nav-tabs" style="font-size: 12px;">
               <li class="nav-item"><%= link_to "Site Team", account_site_permission_invites_path(@account, @site), class: (controller_name == "permission_invites" and action_name == "index") ? "nav-link active" : "nav-link" %>
-              <li class="nav-item"><%= link_to "Account Owners", account_owners_account_admins_path(@account), class: (controller_name == "admins" and action_name == "account_owners") ? "nav-link active" : "nav-link" %>
               <li class="nav-item"><%= link_to "Security Settings", access_security_account_site_admins_path(@account, @site), class: (controller_name == "admins" and action_name == "access_security") ? "nav-link active" : "nav-link" %>
             </ul>
             <br/>
@@ -38,13 +34,14 @@
                                 <td style="border: 0px; width: 70px;">
                                     <%= link_to "Edit", edit_account_permission_path(@account, permission) %>
                                 </td>
+                                <!--
                                 <td style="border: 0px; width: 100px;">
-                                    <%= simple_form_for(permission, url: change_role_account_site_permission_path(@account, @site, permission), class: "permission_forms", method: :put) do |f| %>
+                                    <% simple_form_for(permission, url: change_role_account_site_permission_path(@account, @site, permission), class: "permission_forms", method: :put) do |f| %>
                                         <%= f.hidden_field :updated_by, value: current_user.id %>
                                         <%= f.hidden_field :redirect_url, value: account_site_permission_invites_path(@account, @site) %>
                                         <%= f.input :ref_role_slug, collection: @permission_roles, include_blank: false, label: false, input_html: {class: "permission_select"} %>
                                     <% end %>
-                                </td>
+                                </td>-->
                                 <td style="border: 0px;">
                                     <% if current_user.id != permission.user_id and permission.status != "Deactivated" %>
                                         <%= link_to "x", account_permission_path(@account,   permission, redirect_url: account_site_permission_invites_path(@account, @site)), method: :delete, data: { confirm: 'Are you sure?' } %>
@@ -83,7 +80,7 @@
             <% end %>
         </div>
     </div>
-	<div class="col-sm-3 help-text">
+	<div class="col-sm-3">
         <%= simple_form_for [@account, @permission_invite] do |f| %>
             <% if @permission_invite.errors.any? %>
                 <div id="error_explanation" class="ui error message">
@@ -104,17 +101,12 @@
             <%= f.input :name, required: true, autofocus: true %>
             <%= f.input :email, as: :email, id: :permission_invite_email, required: true, hint: "Ensure this email really belongs to the author. If you use someone else's email ID, and that person is on ProtoTYPE then they will get access to the account." %>
             <%= f.hidden_field :redirect_url, value: account_site_permission_invites_path(@account, @site) %>
-            <%= f.input :ref_role_slug, collection: @permission_roles, include_blank: false, label: "Role" %>
+            <%= f.hidden_field :ref_role_slug, value: "Editor" %>
+            <!-- #collection: @permission_roles, include_blank: false, label: "Role"-->
             <%= f.input :create_user, as: :boolean, label: "&nbsp; Go ahead and create user?".html_safe, hint: "We will assign a random secure password." %>
             <%= f.input :do_not_email_user, as: :boolean, label: "&nbsp; Do not email this user".html_safe, hint: "Use this if writer will send you the article over email and you will file it." %>
             <%= f.submit "Invite", class: "btn btn-sm btn-secondary" %>
         <% end %>
-        <hr/>
-        <%= image_tag "help.png", style: "float: right; right: 0; top: 0; position: relative;" %>
-		<h2>Site Roles</h2>
-		<p><b>Editors</b> are allowed to everything within this site. They are restricted from changing account settings or adding new sites.</p>
-        <p><b>Writers</b> cannot do what Editors cannot do. Additionally, they cannot change site settings, add site team and can see only those workspaces, cards, streams and pages they create.</p>
-        <p><b>Contributors</b> cannot do what Writers cannot do.</p>
 	</div>
 </div>
 

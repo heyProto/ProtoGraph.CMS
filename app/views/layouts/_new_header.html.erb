@@ -1,0 +1,51 @@
+<div class="proto-app-navbar-proto-container">
+    <div class="proto-app-navbar">
+        <div id="proto_app_header">
+            <div class="proto-app-navbar">
+                <div class="proto-app-navbar-logo-holder">
+                    <h1 class="proto-app-navbar-project-name" id="homepage_nav">
+                        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><%= truncate @site.domain, length: 40, ommission: ".." %></a>
+                        <% if @accounts.count > 1 %>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                <% @accounts.each do |a| %>
+                                    <%= link_to "#{a.username}: #{a.site.domain}", account_site_path(a, a.site), class: "dropdown-item", style: "text-align: left; font-size: 12px !important; padding: 0px 20px !important; color: black !important;" %>
+                                <% end %>
+                            </div>
+                        <% end %>
+                    </h1>
+                    <div class="proto-app-navbar-project-by" style="display: inline-block;">
+                        <%= link_to "Adminland", edit_account_site_path(@account, @site)%>
+                    </div>
+                </div>
+                <div class="proto-app-navbar-navigation-bar">
+                    <div class="proto-app-navbar-page-navigation">                    
+                        <div class="proto-app-navbar-navigation-scroll">
+                            <div class="proto-app-navbar-page-links">
+                                <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Landings</a>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink" style="z-index: 10000000 !important;">
+                                    <% @all_verticals.each do |ref_category| %>            
+                                        <% d = ref_category.vertical_page %>
+                                        <li>
+                                            <% if d.present? %>
+                                                <%= link_to "# " + ref_category.name, edit_account_site_page_path(@account, @site, d, folder_id: @folder.present? ? @folder.id : nil), "data-turbolinks"=> false, class: "dropdown-item" %>
+                                            <% else %>
+                                                <%= "# " + ref_category.name %>
+                                            <% end %>
+                                        </li>
+                                    <% end %>
+                                    <li><%= link_to "Add Section", sections_account_site_path(@account, @site), "data-turbolinks"=> false, class: "dropdown-item" %></li>
+                                </div>
+                            </div>
+                            <div class="proto-app-navbar-page-links">
+                                <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Assets</a>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink" style="z-index: 10000000 !important;">
+                                    <li><%= link_to "Images", account_images_path(@account), "data-turbolinks"=> false, class: "dropdown-item" %></li>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,18 +1,24 @@
+<div class="jumbotroz">
+    <div class="row">
+        <h1>    
+            Images
+        </h1>
+        <nav class="nav" style="position: relative; float: right; margin-left: auto;">
+          <%= link_to '+ Upload an image', "#",id: "upload_image_button", "data-toggle" => "modal", "data-target" => "#fileUploadModal", class: "nav-item" %>
+        </nav>
+    </div>
+</div>
+<br/>
+<br/>
 <%= stylesheet_link_tag "image_bank.css" %>
 <div class="row">
     <div class="col-sm-16">
-        <div style="margin-left: auto; margin-right: auto; width: 90%;">
-            <br/>
-            <br/>
-            <%= link_to '+ Upload an image', "#",id: "upload_image_button", "data-toggle" => "modal", "data-target" => "#fileUploadModal", style:"float: right;" %>
+        <div>
             <script type="text/javascript">
                 $(document).on('turbolinks:load', function(){
                     $('#fileUploadModal').appendTo("body");
                 })
             </script>
-            <br/>
-            <br/>
-            <br/>
             <%= paginate @images, theme: 'twitter-bootstrap-4', pagination_class: "pagination-sm" %>
             <% if (params[:q].present? and @images.blank?) %>
               <div class="blankslate blankslate-spacious">
@@ -44,7 +50,7 @@
 		<p>You can configure your Freshdesk account to use a support email in your own domain, like <a href="">support@mycompany.com</a> by forwarding emails from this address to <a href="">protoprototype@heyproto.freshdesk.com</a>. To create a new support email box, click “Edit” under global email settings.</p>-->
 
 </div>
-
+<br/><br/>
 
 
 <%= javascript_include_tag "justified.js" %>

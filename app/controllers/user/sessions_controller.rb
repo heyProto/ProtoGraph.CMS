@@ -1,5 +1,6 @@
 class User::SessionsController < Devise::SessionsController
     
+    layout "new"
 
     def new
         @to_explain = TemplateCard.where(name: "toExplain", is_current_version: true).first

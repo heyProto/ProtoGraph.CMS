@@ -35,7 +35,7 @@ class StoriesController < ApplicationController
       @ref_sub_intersection = RefCategory.where(site_id: @site.id, genre: "sub intersection", is_disabled: [false, nil]).order(:name).map {|r| ["#{r.name}", r.id]}
       @ref_sub_intersections = RefCategory.where(site_id: @site.id, genre: "sub intersection", is_disabled: [false, nil]).order(:name)
       @article = TemplatePage.where(name: "article").first
-      render layout: "z"
+      
     end
   end
 
@@ -61,7 +61,7 @@ class StoriesController < ApplicationController
     @page_stream_16 = @page.streams.where(title: title).first
     @page_streamH16 = @page.page_streams.where(name_of_stream: "Hero").first
     @stream_entity = StreamEntity.new
-    render layout: "application-pages"
+    
   end
 
   def edit_write
@@ -72,7 +72,7 @@ class StoriesController < ApplicationController
     @template_cards = @account.template_cards.where(is_current_version: true)
     @page_todo = PageTodo.new
     @page_todos = @page.page_todos.order(:sort_order)
-    render layout: "application-pages"
+    
   end
 
   def edit_distribute
@@ -97,7 +97,7 @@ class StoriesController < ApplicationController
     #  cover_image_id_2_column
     #  cover_image_credit
 
-    render layout: "application-pages"
+    
   end
 
   def edit_ads

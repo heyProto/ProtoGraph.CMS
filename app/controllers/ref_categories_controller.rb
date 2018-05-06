@@ -12,7 +12,7 @@ class RefCategoriesController < ApplicationController
     @genre = "series"
     @data = @site.ref_categories.where(genre: "series").order(:name)
     @instance = RefCategory.new
-    render :index, layout: "z"
+    render :index
   end
 
   def intersections
@@ -21,7 +21,7 @@ class RefCategoriesController < ApplicationController
     @data = @site.ref_categories.where(genre: "intersection").order(:name)
     @instance = RefCategory.new
     @is_admin = true
-    render :index, layout: "z"
+    render :index
   end
 
   def sub_intersections
@@ -30,7 +30,7 @@ class RefCategoriesController < ApplicationController
     @data = @site.ref_categories.where(genre: "sub intersection").order(:name)
     @instance = RefCategory.new
     @is_admin = true
-    render :index, layout: "z"
+    render :index
   end
 
   def create

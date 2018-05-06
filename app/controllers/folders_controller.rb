@@ -4,14 +4,14 @@ class FoldersController < ApplicationController
   
   def index
     @folders = @permission_role.can_see_all_folders ? @site.folders : current_user.folders(@site)
-    render layout: "z"
+    
   end
 
   def new
     @folder = @account.folders.new
     @folder.is_for_stories = true
     @verticals = @site.ref_categories.where(genre: 'series').pluck(:name, :id)
-    render layout: "z"
+    
   end
   
   def show
@@ -28,7 +28,7 @@ class FoldersController < ApplicationController
     end
     @folder.collaborator_lists = @folder.users.pluck(:id)
     @verticals = @site.ref_categories.where(genre: 'series').pluck(:name, :id)
-    render layout: "z"
+    
   end
 
   def update

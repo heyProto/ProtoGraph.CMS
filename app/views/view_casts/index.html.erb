@@ -1,21 +1,4 @@
-<br/>
-<% if !@folder.is_trash %>
-<%= link_to '+ Add a card', new_account_site_folder_view_cast_path(@account, @site, @folder), data: {turbolinks: false}, style: "float: right;" %>
-<% end %>
-<div class="row">
-    <div class="col-sm-16">
-        <div class="page-center-div">
-            <div class="btn-group" role="group" aria-label="Basic example">
-              <%= link_to "Cards", account_site_folder_view_casts_path(@account, @site, @folder), class: "btn btn-small btn-secondary active" %>
-              <% if @folder.is_for_stories %>
-                <%= link_to "Stories", account_site_stories_path(@account, @site,folder_id: @folder.id), class: "btn btn-small btn-secondary" %>
-              <% end %>
-            </div>
-        </div>
-        <br/>
-        <br/>
-    </div>
-</div>
+<%= render partial: "folders/header" %>
 <% if @view_casts.first.blank? %>
     <br/>
     <br/>
@@ -29,65 +12,84 @@
     </div>
 <% else %>
     <div class="row">
-        <div class="col-sm-13">
-            <div style="margin-left: auto; margin-right: auto;">
-                    <div class="row" style="margin: 0px; padding: 0px;">
-                        <table class="table">
-                            <thead>
-                                <tr>
-                                    <th><%= sort_link(@q, :id, '#') %>
-                                    </th>
-                                    <th>
-                                    </th>
-                                    <th>Title
-                                    </th>
-                                    <th>Card Type
-                                    </th>
-                                    <th><%= sort_link(@q, :updated_at) %>
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <% @view_casts.each do |d| %>
-                                    <tr>
-                                        <td class="hint">
-                                            #<%= d.id.to_s %>
-                                        </td>
-                                        <td><div class="status-signal status-green"></div>
-                                        </td>
-                                        <td>
-                                            <%= link_to truncate(d.name, length: 45, ommission: ".."), [@account, @site,  @folder,d], "data-turbolinks"=> false %>
-                                        </td>
-                                        <td class="hint">
-                                            <%= d.template_card.name %>
-                                        </td>
-                                        <td class="hint"><%= image_tag avatar_url(d.updator.email), width: "16px", height: "16px" %> <%= time_ago_in_words(d.updated_at) %>
-                                        </td>
-                                    </tr>
-                                <% end %>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div style="padding-left: 18px;">
-                        <%= paginate @view_casts, theme: 'twitter-bootstrap-4', pagination_class: "pagination-sm" %>
-                    </div>
+        <div class="col-sm-3">
+            <ul class="nav nav-tabs" id="myTab" role="tablist">
+              <li class="nav-item">
+                <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Workspaces</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Search</a>
+              </li>
+            </ul>
+            <div class="tab-content" id="myTabContent">
+              <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                  <br/>
+                  <ul class="list-group">
+                    <% @all_workspaces.each do |folder| %>            
+                        <li class="<%= (@folder.present? and @folder.id.present? and @folder.id == folder.id) ? "list-group-item active" : "list-group-item" %>" style="border: 0px; padding-left: 6px;">
+                            <%= link_to folder_name_(folder).html_safe, account_site_folder_path(@account, @site, folder) %>
+                            <span class="spanadd">(<%= folder.view_casts.count + folder.pages.count %>)</span>
+                        </li>
+                    <% end %>
+                  </ul>
+              </div>
+              <div class="tab-pane show" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                  <br/><br/>
+                  <%= search_form_for @q, url: account_site_folder_view_casts_path(@account, @site, @folder) do |f| %>
+                      <%= f.label :seo_blockquote_cont, "Content contains" %>
+                      <%= f.search_field :seo_blockquote_or_name_cont, :class => "form-control" %>
+                      <br/>
+                      <%= f.label :template_card_id_eq, "Card Type" %>
+                      <%= f.select :template_card_id_eq, options_from_collection_for_select(@card_types, :id, :name, @q.template_card_id_eq), { :include_blank => true }, :class => "form-control" %>
+                      <br/>
+                      <%= f.submit "Search", :class => "btn btn-sm btn-secondary" %>
+                      &nbsp;&nbsp;&nbsp;&nbsp;
+                      <%= link_to "Reset", account_site_folder_view_casts_path(@account, @site, @folder) %>
+                  <% end %>
+              </div>
             </div>
         </div>
-    	<div class="col-sm-3">
-            <br/>
-            <h3>Search</h3>
-            <br/>
-            <%= search_form_for @q, url: account_site_folder_view_casts_path(@account, @site, @folder) do |f| %>
-                <%= f.label :seo_blockquote_cont, "Content contains" %>
-                <%= f.search_field :seo_blockquote_or_name_cont, :class => "form-control" %>
-                <br/>
-                <%= f.label :template_card_id_eq, "Card Type" %>
-                <%= f.select :template_card_id_eq, options_from_collection_for_select(@card_types, :id, :name, @q.template_card_id_eq), { :include_blank => true }, :class => "form-control" %>
-                <br/>
-                <%= f.submit "Search Cards", :class => "btn btn-sm btn-secondary" %>
-                &nbsp;&nbsp;&nbsp;&nbsp;
-                <%= link_to "Reset", account_site_folder_view_casts_path(@account, @site, @folder) %>
-            <% end %>
-    	</div>
+        <div class="col-sm-12" style="margin-left: 6.25%;">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th><%= sort_link(@q, :id, '#') %>
+                        </th>
+                        <th>
+                        </th>
+                        <th>Title
+                        </th>
+                        <th>Card Type
+                        </th>
+                        <th><%= sort_link(@q, :updated_at) %>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% @view_casts.each do |d| %>
+                        <tr>
+                            <td class="hint">
+                                #<%= d.id.to_s %>
+                            </td>
+                            <td><div class="status-signal status-green"></div>
+                            </td>
+                            <td>
+                                <%= link_to truncate(d.name, length: 45, ommission: ".."), [@account, @site,  @folder,d], "data-turbolinks"=> false %>
+                            </td>
+                            <td class="hint">
+                                <%= d.template_card.name %>
+                            </td>
+                            <td class="hint"><%= image_tag avatar_url(d.updator.email), width: "16px", height: "16px" %> <%= time_ago_in_words(d.updated_at) %>
+                            </td>
+                        </tr>
+                    <% end %>
+                </tbody>
+            </table> 
+            <div style="padding-left: 18px;">
+                <%= paginate @view_casts, theme: 'twitter-bootstrap-4', pagination_class: "pagination-sm" %>
+            </div>
+        </div>
     </div>
 <% end %>
+<br/>
+<br/>

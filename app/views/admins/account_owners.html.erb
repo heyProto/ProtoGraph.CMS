@@ -1,10 +1,7 @@
+<%= render partial: "sites/header" %>
 <div class="row">
     <div class="col-sm-13">
         <div style="margin-left: auto; margin-right: auto; width: 500px;">
-            <br/>
-            <br/>            
-            <h2>Manage members</h2>
-            <br/>
             <ul class="nav nav-tabs" style="font-size: 12px;">
               <li class="nav-item"><%= link_to "Site Team", account_site_permission_invites_path(@account, @site), class: (controller_name == "permission_invites" and action_name == "index") ? "nav-link active" : "nav-link" %>
               <li class="nav-item"><%= link_to "Account Owners", account_owners_account_admins_path(@account), class: (controller_name == "admins" and action_name == "account_owners") ? "nav-link active" : "nav-link" %>

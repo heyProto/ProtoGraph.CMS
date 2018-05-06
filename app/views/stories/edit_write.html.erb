@@ -1,8 +1,7 @@
 <%= render partial: "stories/stories_header" %>
 <div class="row">
-    <div class="col-sm-13">
-        <br/><br/><br/><br/>
-        <div style="margin-left: auto; margin-right: auto; width: 540px;">
+    <div class="col-sm-16">
+        <div class="col-sm-10" style="margin-left: auto; margin-right: auto; width: 540px;">
             <%= simple_form_for(@page, url: account_site_page_path(@account, @site), method: :put) do |f| %>
                 <%= f.error_notification %>
                 <div class="form-inputs">
@@ -11,26 +10,20 @@
                 </div>
               <div class="form-actions">
                 <%= f.hidden_field :prepare_cards_for_assembling, value: true %>
-                <%= f.button :submit, "'Save as Cards' --> and go to ASSEMBLE", class: "btn btn-lg btn-success" %>
+                <%= f.button :submit, "Save as Cards", class: "btn btn-lg btn-success" %>
                 &nbsp
                 <span id='autosave_text' class="hint-text"></span>
 
               </div>
             <% end %>
+            <br/><br/><br/><hr/>
+            <h3>Help</h3>
+            <p>You can only write text on this page. Select text to change formatting, add headers, or create links.</p>
+            <%= image_tag "formatting.gif", class: "img-fluid", style: "margin: 0px 0px 10px 30px; width: 70%;" %>
+            <p>ProtoTYPE is constantly auto-saving. When ready to publish, press 'Save as Cards' button. ProtoTYPE then creates cards of all text between H2 headers.</p>
+            <p>To add images, videos or any other cards to your story, head over to the <b>Assemble tab</b>.</p>
+            <p>To add headline, cover image, SEO tags, social share messages, etc. head over to the <b>Package tab</b>.</p>
             <br/><br/><br/>
-        </div>
-    </div>
-    <div class="col-sm-3 help-text" style="font-family: 'Lato', sans-serif;">
-        <br/><br/><br/><br/>
-		<%= image_tag "help.png", style: "float: right; right: 0; top: 0; position: relative;" %><h2>How to write?</h2>
-        <p>You can only write text on this page. Select text to change formatting, add headers, or create links.</p>
-        <%= image_tag "formatting.gif", class: "img-fluid", style: "margin: 0px 0px 10px 30px; width: 70%;" %>
-        <p>ProtoTYPE is constantly auto-saving. When ready to publish, press 'Save as Cards' button. ProtoTYPE then creates cards of all text between H2 headers.</p>
-        <p>To add images, videos or any other cards to your story, head over to the <b>Assemble tab</b>.</p>
-        <p>To add headline, cover image, SEO tags, social share messages, etc. head over to the <b>Package tab</b>.</p>
-        <hr/>
-        <div class="story-plan">
-            <%= render partial: "stories/edit_plan" %>
         </div>
     </div>
 </div>

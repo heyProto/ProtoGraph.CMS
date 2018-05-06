@@ -1,0 +1,23 @@
+<div class="jumbotroz">
+    <div class="row">
+        <h1>
+            <%= folder_name_(@folder).html_safe %>
+        </h1>
+        <nav class="nav" style="position: relative; float: right; margin-left: auto;">
+           <%= link_to "Cards", account_site_folder_view_casts_path(@account, @site, @folder), "data-turbolinks" => "false", class: (controller_name == 'view_casts' ? "nav-link active" : "nav-link") %>
+           <%= link_to "Stories", account_site_stories_path(@account, @site,folder_id: @folder.id), "data-turbolinks" => "false", class: (controller_name == 'stories' ? "nav-link active" : "nav-link") %>
+           <% if !@folder.is_trash %>
+               <% if controller_name == 'view_casts' %>
+                   <%= link_to '+ Add a card', new_account_site_folder_view_cast_path(@account, @site, @folder), data: {turbolinks: false}, class: "nav-link" %>
+               <% elsif controller_name == "stories" %>
+                   <form class="form-inline my-2 my-lg-0" style="margin-top: -16px !important;"><li style="list-style-type: none;"><%= render partial: "stories/new" %></li></form>
+               <% end %>
+           <% end %>
+        </nav>
+    </div>
+</div>
+<br/>
+<br/>
+
+
+            

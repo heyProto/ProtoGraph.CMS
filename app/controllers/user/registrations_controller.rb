@@ -1,6 +1,6 @@
 class User::RegistrationsController < Devise::RegistrationsController
 
-  layout "z", only: [:edit]
+  layout "new"
   
 
   def edit

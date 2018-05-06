@@ -6,32 +6,54 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="turbolinks-visit-control" content="reload">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Bitter:400,700|Cabin:400,400i,500,700" rel="stylesheet">
   <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
   <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
-  <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
-
 </head>
 <body data-turbolinks=<%= (controller_name == "view_casts" and ['new', 'edit'].include?(action_name)) ? "false" : "true" %>>
-  <div class="container-fluid" style="padding: 0px;">
-      <div class="row" style="margin:0px;">
-          <% if !user_signed_in? %>
-              <div class="col-sm-16">
-                  <br/><br/>
-                  <%= yield %>
-              </div>
-          <% else %>
-              <div class="col-xl-16" style="padding: 0px 1px;">
-                  <div class="steps-navigation-bar fixed-top">
-                      <%= render partial: "layouts/application_middle" %>
-                  </div>
-                  <br/><br/><br/><br/>
-                  <div style="padding: 0px 20px; margin-bottom: 60px;"><%= yield %></div>
-                  <%= yield(:filters_sidebar) %>
-              </div>
-          <% end %>
-      </div>
-  </div>
+        <div class="container-fluid" style="padding: 0px;">
+            <div class="row" style="margin:0px;">
+                <div class="proto-app-navbar-masthead">
+                    <h1>
+                        <% if @site.present? %>
+                            <%= link_to image_tag("proto-dark.png", style: "height: 24px;"), account_site_path(@account, @site) %>
+                        <% else %>
+                            <%= link_to image_tag("proto-dark.png", style: "height: 24px;"), root_url %>
+                        <% end %>
+                        <span class="badge badge-warning" style="font-size: 10px">Platform</span>
+                        <% if @site.present? %>
+                            <span style="float: right; position: relative;">
+                                <div class="dropdown">
+                                  <a class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"  style="color: gray !important; font-size: 11px;">
+                                    <%= image_tag avatar_url(current_user.email), class: "rounded", style: "width: 24px;" %>
+                                  </a>
+                                  <div class="dropdown-menu">
+                                    <%= link_to 'Profile', edit_user_path(current_user), class: "dropdown-item" %>
+                                    <%= link_to 'Settings', edit_user_registration_path, class: "dropdown-item" %>
+                                    <%= link_to "Sign out", destroy_user_session_path, class: "dropdown-item" %>
+                                    <% if current_user.is_admin_from_pykih %>
+                                        <%= link_to 'Ref: Link Sources', ref_link_sources_path, class: "dropdown-item", style: "font-size: 10px;" %>
+                                        <%= link_to "Admin: User Sessions", admin_user_sessions_path, class: "dropdown-item", style: "font-size: 10px;" %>
+                                    <% end %>
+                                  </div>
+                                </div>
+                            </span>
+                        <% end %>
+                    </h1>
+                </div>
+                <% if @site.present? %>
+                    <%= render partial: "layouts/new_header" %>
+                <% end %>
+            </div>
+            <div class="container" style="margin:0px; margin-left; 30px; width: 1260px; margin-left: auto; margin-right: auto; position: relative;">
+                <%= yield %>
+            </div>
+        </div>
+    
+    
 
+    
   <% config = {} %>
   <% if notice.present? %>
     <% config = {text: notice, notify: "success"} %>
@@ -46,19 +68,3 @@
   </script>
 </body>
 </html>
-<!--
-
-        <% if 1 == 2 %>
-            <%= link_to "Audio Bank", account_audios_path(@account), "data-turbolinks"=> false, class: "dropdown-item"  %>
-            <% if @site.present? %>
-                  <% if controller_name == "folders" and @folder.id.present? and current_user.is_admin_from_pykih %>
-                    <%= link_to "Add multiple cards", account_site_folder_uploads_path(@account, @site, @folder), "data-turbolinks"=> false, class: "dropdown-item", style: "color: gold;" %>
-                    <%= link_to "Edit Folder", edit_account_site_folder_path(@account, @site, @folder),class: "dropdown-item", style: "color: gold;" %>
-                  <% end %>
-            <% end %>
-            <% if current_user.is_admin_from_pykih %>
-                <%= link_to 'Online users', admin_online_users_path, class: "dropdown-item", class: "dropdown-item", style: "color: gold;" %>
-                <%= link_to "Ref: Publishers", ref_link_sources_path, class: "dropdown-item", class: "dropdown-item", style: "color: gold;" %>
-            <% end %>
-        <% end %>
--->
