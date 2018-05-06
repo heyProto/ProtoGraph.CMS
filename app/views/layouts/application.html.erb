@@ -20,9 +20,6 @@
             <div class="row" style="margin:0px;">
                 <div class="proto-app-navbar-masthead">
                     <h1>
-                        <span style="float: left; position: relative;">
-                            <span class="badge badge-warning" style="font-size: 10px">Platform</span>
-                        </span>
                         <% if @site.present? %>
                             <%= link_to image_tag("proto-dark.png", style: "height: 24px;"), account_site_path(@account, @site) %>
                         <% else %>
@@ -32,6 +29,9 @@
                             <span style="float: right; position: relative;">
                                 
                                 <div class="dropdown">
+                                    <span style="float: left; position: relative; margin-right: 15px;">
+                                        <span class="badge badge-warning" style="font-size: 10px">Write</span>
+                                    </span>
                                     
                                   <a class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"  style="color: gray !important; font-size: 11px;">
                                     <%= image_tag avatar_url(current_user.email), class: "rounded", style: "width: 24px;" %>
