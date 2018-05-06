@@ -62,6 +62,8 @@ ul.list-group > li.list-group-item.active, ul.list-group > li.list-group-item:ho
     background: #f9f9f9; 
     height: 120px; 
     padding: 40px 40px 0px 40px;
+    position: relative !important;
+    z-index: -1;
     h1{ 
         font-weight: 800; 
         font-size: 20px;
