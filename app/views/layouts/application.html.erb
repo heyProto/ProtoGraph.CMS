@@ -83,9 +83,11 @@
                                                     <div class="proto-app-navbar-page-links">
                                                         <%= link_to "Cards", account_site_folder_view_casts_path(@account, @site, @folder), "data-turbolinks" => "false", style: controller_name == 'view_casts' ? 'font-weight: bold;' : '' %>
                                                     </div>
-                                                    <div class="proto-app-navbar-page-links">
-                                                        <%= link_to "Stories", account_site_stories_path(@account, @site,folder_id: @folder.id), "data-turbolinks" => "false", style: controller_name == 'stories' ? 'font-weight: bold;' : '' %>
-                                                    </div>
+                                                    <% if !@folder.is_for_stories %>
+                                                        <div class="proto-app-navbar-page-links">
+                                                            <%= link_to "Stories", account_site_stories_path(@account, @site,folder_id: @folder.id), "data-turbolinks" => "false", style: controller_name == 'stories' ? 'font-weight: bold;' : '' %>
+                                                        </div>
+                                                    <% end %>
                                                 <% end %>
                                                 <div class="proto-app-navbar-page-links">
                                                     <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Landings</a>
