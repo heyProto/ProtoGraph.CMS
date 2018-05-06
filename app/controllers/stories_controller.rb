@@ -18,7 +18,8 @@ class StoriesController < ApplicationController
       if @page.save
         redirect_to account_site_stories_path(@account, @site, folder_id: @page.folder_id), notice: 'Page was successfully created.'
       else
-        render :back, alert: @page.errors.full_messages
+        flash.now.alert = @page.errors.full_messages
+        redirect_to account_site_stories_path(@account, @site, folder_id: @page.folder_id)
       end
     else
       if @permission_role.can_see_all_pages
