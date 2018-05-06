@@ -15,15 +15,25 @@
 <br/>
 
     <div class="row">
-        <div class="col-sm-3">
-            <ul class="nav nav-tabs" id="myTab" role="tablist">
+        <div class="col-sm-4" style="padding-left: 0px;">
+            
+            <div class="protograph-filters-header">
+                FILTERS
+                <span style="float: right; font-size: 13px; ">
+                    <%= link_to "Reset", account_site_folder_stories_path(@account, @site, @folder), style: "color: white;" %>
+                </span>
+            </div>
+            
+            
+            <ul class="nav nav-tabs protograph-filters-tabs-container" id="myTab" role="tablist">
               <li class="nav-item">
                 <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Workspaces</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Search</a>
+                <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Search Stories</a>
               </li>
             </ul>
+            
             <div class="tab-content" id="myTabContent">
               <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
                   <br/>
@@ -52,13 +62,11 @@
                       <%= f.select :byline_id_eq, options_from_collection_for_select(@bylines, :id, :name, @q.byline_id_eq), { :include_blank => true }, :class => "form-control" %>
                       <br/>
                       <%= f.submit "Search", :class => "btn btn-sm btn-secondary" %>
-                      &nbsp;&nbsp;&nbsp;&nbsp;
-                      <%= link_to "Reset", account_site_folder_stories_path(@account, @site, @folder) %>
                   <% end %>
               </div>
             </div>
         </div>
-        <div class="col-sm-12" style="margin-left: 6.25%;">
+        <div class="col-sm-11" style="margin-left: 6.25%;">
                 <% if @pages.first.blank? %>
                     <div class="col-sm-16">
                         <div class="blankslate blankslate-spacious">
