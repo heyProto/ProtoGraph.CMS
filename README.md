@@ -1,23 +1,3 @@
-Add section
-Edit Section
-Edit Ref CAtegory
-
-
-
-
-
-
-Pages / TABs
-
-- Pending CMS functionality: Rename Verticals into Sections. Disconnect Landing Page and Verticals. Ability to move articles across folders. Delete articles. Unpublish a published article. Add Draft / Published status to cards. Improve how we do invalidations. Integrate with custom S3 and CloudFront.
-
-Talk to CA about Proto offer
-
-- Interconnect product documentation and Intercom triggers
-
-------------------------------------------------------------------------------------------------------------------------------
-
-
 redis-server /usr/local/etc/redis.conf
 
 - Set a global_slug in each template. Same method to remove spaces from username.
