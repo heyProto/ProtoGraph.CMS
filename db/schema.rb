@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180506153400) do
+ActiveRecord::Schema.define(version: 20180507144314) do
 
   create_table "accounts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
     t.string "username", limit: 191, collation: "utf8mb4_unicode_ci"
@@ -226,6 +226,7 @@ ActiveRecord::Schema.define(version: 20180506153400) do
     t.string "reported_from_state"
     t.string "reported_from_district"
     t.string "reported_from_city"
+    t.boolean "hide_byline", default: false
   end
 
   create_table "permission_invites", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
