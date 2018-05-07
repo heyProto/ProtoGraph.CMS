@@ -1,8 +1,5 @@
 class User::RegistrationsController < Devise::RegistrationsController
 
-  layout "z", only: [:edit]
-  
-
   def edit
     @user_email = UserEmail.new
     @user_emails = current_user.user_emails

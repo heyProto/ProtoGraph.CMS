@@ -1,4 +1,4 @@
-<br/>
+<%= render partial: "view_casts/header" %>
 <div style="float: right">
     <% unless @view_cast.is_disabled_for_edit %>
       <%= link_to "Edit the Card", edit_account_site_folder_view_cast_path(@account, @site, @folder, @view_cast),"data-turbolinks"=> false %>
@@ -9,20 +9,7 @@
 </div>
 <br/>
 <div class="row">
-    <div class="col-sm-16">
-        
-      <div class="page-center-div">
-        <div class="btn-group" role="group" aria-label="Basic example">
-          <button type="button" class="btn btn-small btn-secondary active">
-            <%= link_to "Cards", account_site_folder_view_casts_path(@account, @site, @folder) %>
-          </button>
-          <button type="button" class="btn btn-small btn-secondary">
-            <%= link_to "Stories", account_site_stories_path(@account, @site,folder_id: @folder.id) %>
-          </button>
-        </div>
-        <br><br>
-      </div>
-      <br/>
+    <div class="col-sm-16">        
       <% if @view_cast.is_invalidating %>
         <div class="alert alert-warning" role="alert">
           The data is getting updated. It generally takes between 5 seconds to 5 minutes. If it doesn't update, please contact us at team@pykih.com
@@ -41,7 +28,7 @@
         <%= sanitize @view_cast.seo_blockquote.to_s, tags: %w(p blockquote ul li h1 h2 h3 h4 h5 h6) %>
       </div>
       <script src="https://cdn.protograph.pykih.com/lib/protoGraph.min.js" async></script>
-        <div style="margin-left: auto; margin-right: auto; width: 500px;">
+        <div style="margin-left: auto; margin-right: auto; width: 540px;">
             <div class="proto-graph-code-area">
               <ul class="nav nav-tabs mb-3" id="pills-tab" role="tablist">
                 <li class="nav-item">

@@ -7,6 +7,8 @@ Rails.application.routes.draw do
   devise_for :users, controllers: {
                registrations: 'user/registrations',
                sessions: 'user/sessions',
+               passwords: 'user/passwords',
+               confirmations: 'user/confirmations',
                omniauth_callbacks: "user/omniauth_callbacks"
              } do
     get 'sign_out', to: 'devise/sessions#destroy'
@@ -101,9 +103,6 @@ Rails.application.routes.draw do
         get "edit/assemble", to: "stories#edit_assemble", on: :member
         get "edit/distribute", to: "stories#edit_distribute", on: :member
         get "edit/ads", to: "stories#edit_ads", on: :member
-        resources :page_todos do
-          get "complete", on: :member
-        end
       end
       resources :streams do
         post :publish, on: :member

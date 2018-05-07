@@ -1,20 +1,29 @@
+<div class="jumbotroz">
+    <div class="row">
+        <div class="card-tags-series-name">
+            Manage Assets
+        </div>
+        <h1>    
+            <%= link_to "< Back to images", account_images_path(@account), "data-turbolinks"=> false %>
+        </h1>
+        <nav class="nav" style="position: absolute; top: 10px;right: 30px; float: right; margin-left: auto;">
+          <%= link_to '+ Upload an image', "#",id: "upload_image_button", "data-toggle" => "modal", "data-target" => "#fileUploadModal", class: "nav-item" %>
+        </nav>
+    </div>
+</div>
+<br/>
 <% w = @image.image_width %>
 <% h = @image.image_height %>
 
 <div class="row">
     <div class="col-sm-16">
-        <div style="margin-left: auto; margin-right: auto; width: 90%">
-            <br/>
-            <br/>
+        <div>
             <p>
-                <%= link_to "< Back to Image Bank", account_images_path(@account), "data-turbolinks"=> false %>
                 <span style="float: right;">
-                    <%= link_to '+ Upload an image', "#",id: "upload_image_button", "data-toggle" => "modal", "data-target" => "#fileUploadModal", style:"float: right;" %>
-                    <br/>
-                    <br/>
                     <a id="openFileUpload" class='btn btn-sm btn-secondary' href='#' data-toggle='modal' data-target='#imageCropperModal'>Crop original image to create variation</a>
                 </span>
             </p>
+            <br/><br/>
             <script type="text/javascript">
                 $(document).on('turbolinks:load', function(){
                     $('#fileUploadModal').appendTo("body");

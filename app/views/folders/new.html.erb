@@ -1,22 +1,21 @@
+<%= render partial: "sites/header" %>
 <div class="row">
     <div class="col-sm-13">
-        <div style="margin-left: auto; margin-right: auto; width: 300px;">
-            <br/><br/>
-            <h2>Create new Workspace</h2>
-            <br/>
+        <div style="margin-left: auto; margin-right: auto; width: 540px;">
             <%= simple_form_for [@account, @site, @folder] do |f| %>
                 <%= f.input :name, required: true %>
                 <%= f.input :site_id, as: :hidden, input_html: {value: @site.id} %>
                 <%= f.input :ref_category_vertical_id, collection: @verticals, label: "Vertical" %>
                 <%= f.input :is_for_stories, as: :boolean, label: "&nbsp; Use this workspace to file stories?".html_safe, hint: "Implication: You wont be able to create data cards in this workspace."%>
                 <%= f.button :submit, "Add a new workspace", class: "btn btn-sm btn-secondary" %>
+                &nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;
+                <%= link_to "Never mind", account_site_folders_path(@account, @site)%>
             <% end %>
         </div>
     </div>
-	<div class="col-sm-3 help-text">
-        <%= image_tag "help.png", style: "float: right; right: 0; top: 0; position: relative;" %>
-        <h2>Why do you need a workspace?</h2>
-        <h2>1. Write stories for a vertical</h2>
+	<div class="col-sm-3">
+        <p>Why do you need a workspace?</p>
+        <p>1. Write stories for a vertical</p>
 		<p>
             Then, when creating workspace:
             <br/>
@@ -24,7 +23,7 @@
             <br/>
             * Tick the checkbox 'Use this workspace to file stories?'
         </p>
-        <h2>2. Create data cards for a vertical</h2>
+        <p>2. Create data cards for a vertical</p>
 		<p>
             Then, when creating workspace:
             <br/>
@@ -32,7 +31,7 @@
             <br/>
             * Do not tick the checkbox 'Use this workspace to file stories?'
         </p>
-        <h2>3. Create cards, but your site is not hosted using ProtoTYPE</h2>
+        <p>3. Create cards, but your site is not hosted using ProtoTYPE</p>
 		<p>
             Then, when creating workspace:
             <br/>

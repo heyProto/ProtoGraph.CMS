@@ -1,37 +1,133 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Proto Platform</title>
+  <% if @site.present? %>
+      <title><%= @site.name %> | Proto Platform</title>
+  <% else %>
+      <title>Proto Platform</title>
+  <% end %>
   <%= csrf_meta_tags %>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="turbolinks-visit-control" content="reload">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Bitter:400,700|Cabin:400,400i,500,700" rel="stylesheet">
   <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
   <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
-  <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
-
 </head>
 <body data-turbolinks=<%= (controller_name == "view_casts" and ['new', 'edit'].include?(action_name)) ? "false" : "true" %>>
-  <div class="container-fluid" style="padding: 0px;">
-      <div class="row" style="margin:0px;">
-          <% if !user_signed_in? %>
-              <div class="col-sm-16">
-                  <br/><br/>
-                  <%= yield %>
-              </div>
-          <% else %>
-              <div class="col-xl-16" style="padding: 0px 1px;">
-                  <div class="steps-navigation-bar fixed-top">
-                      <%= render partial: "layouts/application_middle" %>
-                  </div>
-                  <br/><br/><br/><br/>
-                  <div style="padding: 0px 20px; margin-bottom: 60px;"><%= yield %></div>
-                  <%= yield(:filters_sidebar) %>
-              </div>
-          <% end %>
-      </div>
-  </div>
+        <div class="container-fluid" style="padding: 0px;">
+            <div class="row" style="margin:0px; z-index: 999; position: relative;">
+                <div class="proto-app-navbar-masthead">
+                    <h1>
+                        <% if @site.present? %>
+                            <%= link_to image_tag("proto-dark.png", style: "height: 24px;"), account_site_path(@account, @site) %>
+                        <% else %>
+                            <%= link_to image_tag("proto-dark.png", style: "height: 24px;"), root_url %>
+                        <% end %>
+                        <% if user_signed_in? %>
+                            <span style="float: right; position: relative;">
+                                
+                                <div class="dropdown">
+                                    <span style="float: left; position: relative; margin-right: 15px;">
+                                        <span class="badge badge-warning" style="font-size: 10px">Write</span>
+                                    </span>
+                                    
+                                  <a class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"  style="color: gray !important; font-size: 11px;">
+                                    <%= image_tag avatar_url(current_user.email), class: "rounded", style: "width: 24px;" %>
+                                  </a>
+                                  <div class="dropdown-menu">
+                                    <%= link_to 'Profile', edit_user_path(current_user), class: "dropdown-item" %>
+                                    <%= link_to 'Settings', edit_user_registration_path, class: "dropdown-item" %>
+                                    <%= link_to "Sign out", destroy_user_session_path, class: "dropdown-item" %>
+                                    <% if current_user.is_admin_from_pykih %>
+                                        <%= link_to 'Ref: Link Sources', ref_link_sources_path, class: "dropdown-item", style: "font-size: 10px;" %>
+                                        <%= link_to "Admin: User Sessions", admin_user_sessions_path, class: "dropdown-item", style: "font-size: 10px;" %>
+                                    <% end %>
+                                  </div>
+                                </div>
+                            </span>
+                        <% end %>
+                    </h1>
+                </div>
+                <% if @site.present? %>
+                    <div class="proto-app-navbar-proto-container">
+                        <div class="proto-app-navbar">
+                            <div id="proto_app_header">
+                                <div class="proto-app-navbar">
+                                    <div class="proto-app-navbar-logo-holder">
+                                        <div class="proto-app-navbar-logo" style="display: inline-block;">
+                                            <a href="<%= @site.present? ? account_site_path(@account, @site) : root_url %>">
+                                                <img src="https://cdn.protograph.pykih.com/Assets/proto-app/img/proto-color-logo.png" class="colored-logo">
+                                                <img src="https://cdn.protograph.pykih.com/Assets/proto-app/img/proto-grey-logo.png" class="grey-logo">
+                                            </a>
+                                        </div>
+                                        <h1 class="proto-app-navbar-project-name" id="homepage_nav">
+                                            <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><%= truncate @site.domain, length: 40, ommission: ".." %></a>
+                                            <% if @accounts.count > 1 %>
+                                                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                                    <% @accounts.each do |a| %>
+                                                        <%= link_to "#{a.username}: #{a.site.domain}", account_site_path(a, a.site), class: "dropdown-item", style: "text-align: left; font-size: 12px !important; padding: 0px 20px !important; color: black !important;" %>
+                                                    <% end %>
+                                                </div>
+                                            <% end %>
+                                        </h1>
+                                        <div class="proto-app-navbar-project-by" style="display: inline-block;">
+                                            <%= link_to "Adminland", edit_account_site_path(@account, @site)%>
+                                        </div>
+                                    </div>
+                                    <div class="proto-app-navbar-navigation-bar">
+                                        <div class="proto-app-navbar-page-navigation">                    
+                                            <div class="proto-app-navbar-navigation-scroll">
+                                                <% if @folder.present? and @folder.id.present? %>
+                                                    <div class="proto-app-navbar-page-links">
+                                                        <%= link_to "Cards", account_site_folder_view_casts_path(@account, @site, @folder), "data-turbolinks" => "false", style: controller_name == 'view_casts' ? 'font-weight: bold;' : '' %>
+                                                    </div>
+                                                    <% if @folder.is_for_stories %>
+                                                        <div class="proto-app-navbar-page-links">
+                                                            <%= link_to "Stories", account_site_stories_path(@account, @site,folder_id: @folder.id), "data-turbolinks" => "false", style: controller_name == 'stories' ? 'font-weight: bold;' : '' %>
+                                                        </div>
+                                                    <% end %>
+                                                <% end %>
+                                                <div class="proto-app-navbar-page-links">
+                                                    <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Landings</a>
+                                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink" style="z-index: 10000000 !important;">
+                                                        <% @all_verticals.each do |ref_category| %>            
+                                                            <% d = ref_category.vertical_page %>
+                                                            <li>
+                                                                <% if d.present? %>
+                                                                    <%= link_to "# " + ref_category.name, edit_account_site_page_path(@account, @site, d, folder_id: @folder.present? ? @folder.id : nil), "data-turbolinks"=> false, class: "dropdown-item" %>
+                                                                <% else %>
+                                                                    <%= "# " + ref_category.name %>
+                                                                <% end %>
+                                                            </li>
+                                                        <% end %>
+                                                        <li><%= link_to "Add Section", sections_account_site_path(@account, @site), "data-turbolinks"=> false, class: "dropdown-item" %></li>
+                                                    </div>
+                                                </div>
+                                                <div class="proto-app-navbar-page-links">
+                                                    <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Assets</a>
+                                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink" style="z-index: 10000000 !important;">
+                                                        <li><%= link_to "Images", account_images_path(@account), "data-turbolinks"=> false, class: "dropdown-item" %></li>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                <% end %>
+            </div>
+            <div class="container" style="width: 1260px; margin-left: auto; margin-right: auto; position: relative;">
+                <%= yield %>
+            </div>
+        </div>
+    
+    
 
+    
   <% config = {} %>
   <% if notice.present? %>
     <% config = {text: notice, notify: "success"} %>
@@ -46,19 +142,3 @@
   </script>
 </body>
 </html>
-<!--
-
-        <% if 1 == 2 %>
-            <%= link_to "Audio Bank", account_audios_path(@account), "data-turbolinks"=> false, class: "dropdown-item"  %>
-            <% if @site.present? %>
-                  <% if controller_name == "folders" and @folder.id.present? and current_user.is_admin_from_pykih %>
-                    <%= link_to "Add multiple cards", account_site_folder_uploads_path(@account, @site, @folder), "data-turbolinks"=> false, class: "dropdown-item", style: "color: gold;" %>
-                    <%= link_to "Edit Folder", edit_account_site_folder_path(@account, @site, @folder),class: "dropdown-item", style: "color: gold;" %>
-                  <% end %>
-            <% end %>
-            <% if current_user.is_admin_from_pykih %>
-                <%= link_to 'Online users', admin_online_users_path, class: "dropdown-item", class: "dropdown-item", style: "color: gold;" %>
-                <%= link_to "Ref: Publishers", ref_link_sources_path, class: "dropdown-item", class: "dropdown-item", style: "color: gold;" %>
-            <% end %>
-        <% end %>
--->

@@ -1,27 +1,26 @@
-<%= content_for :page_title do %>
-    <li class="breadcrumb-item"><%= link_to "Stories", account_site_stories_path(@account, @site, folder_id: @folder.id), "data-turbolinks"=> false %></li>
-    <li class="breadcrumb-item active" aria-current="page"><%= truncate(@page.one_line_concept, length: 100, ommission: "..") %></li>
-<% end %>
-
-
 <%= stylesheet_link_tag "stories" %>
 <%= javascript_include_tag "stories",'data-turbolinks-track': 'reload' %>
 
-<br/><br/><br/><br/>
-
-<div class="row">
-    <div class="col-sm-16">
-        <div class="page-center-div">
-            <div class="btn-group" role="group" aria-label="Basic example">
-              <%= link_to "File", (action_name == "edit_write" ? "#" : edit_write_account_site_story_path(@account, @site, @page, folder_id: @page.folder_id)), "data-turbolinks" => "false", class: (action_name == 'edit_write' ? "btn btn-small btn-secondary active" : "btn btn-small btn-secondary") %>
-              <%= link_to "Assemble", (action_name == "edit_assemble" ?  "#" : edit_assemble_account_site_story_path(@account, @site, @page, folder_id: @page.folder_id)), "data-turbolinks" => "false", class: (action_name == 'edit_assemble' ? "btn btn-small btn-secondary active" : "btn btn-small btn-secondary") %>
-              <% if @site.enable_ads %>
-                  <%= link_to "Ads", (action_name == "edit_ads" ? "#" :  edit_ads_account_site_story_path(@account, @site, @page, folder_id: @page.folder_id)), class: (action_name == "edit_ads" ? "btn btn-small btn-secondary active" : "btn btn-small btn-secondary"),"data-turbolinks" => "false" %>
-              <% end %>
-
-              <%= link_to "Package", (action_name == 'edit_distribute' ? "#" :  edit_distribute_account_site_story_path(@account, @site, @page, folder_id: @page.folder_id)),"data-turbolinks" => "false", class: (action_name == "edit_distribute" ? "btn btn-small btn-secondary active" : "btn btn-small btn-secondary") %>
-
-            </div>
+<div class="jumbotroz">
+    <div class="row">
+        <div class="card-tags-series-name">
+            <%= link_to folder_name_(@folder), account_site_stories_path(@account, @site, folder_id: @folder.id), "data-turbolinks"=> false %>
         </div>
+        <h1>    
+            <%= truncate(@page.one_line_concept, length: 100, ommission: "..") %>
+        </h1>
+        <nav class="nav" style="position: absolute; top: 10px;right: 30px; float: right; margin-left: auto;">
+           <%= link_to "Write", (action_name == "edit_write" ? "#" : edit_write_account_site_story_path(@account, @site, @page, folder_id: @page.folder_id)), "data-turbolinks" => "false", class: (action_name == 'edit_write' ? "nav-link active" : "nav-link") %>
+           <%= link_to "Assemble", (action_name == "edit_assemble" ?  "#" : edit_assemble_account_site_story_path(@account, @site, @page, folder_id: @page.folder_id)), "data-turbolinks" => "false", class: (action_name == 'edit_assemble' ? "nav-link active" : "nav-link") %>
+          <% if @site.enable_ads %>
+              <%= link_to "Ads", (action_name == "edit_ads" ? "#" :  edit_ads_account_site_story_path(@account, @site, @page, folder_id: @page.folder_id)), class: (action_name == "edit_ads" ? "nav-link active" : "nav-link"),"data-turbolinks" => "false" %>
+          <% end %>
+           <%= link_to "Package", (action_name == 'edit_distribute' ? "#" :  edit_distribute_account_site_story_path(@account, @site, @page, folder_id: @page.folder_id)),"data-turbolinks" => "false", class: (action_name == "edit_distribute" ? "nav-link active" : "nav-link") %>
+           <% if @page.status != 'draft' %>
+             <%= link_to "Go to story", @page.html_url, target: "_blank", class: "nav-link" %>
+           <% end %>
+        </nav>
     </div>
 </div>
+<br/>
+<br/>

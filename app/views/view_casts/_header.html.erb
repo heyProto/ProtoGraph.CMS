@@ -1,0 +1,17 @@
+<div class="jumbotroz">
+    <div class="row">
+        <div class="card-tags-series-name">
+            <%= folder_name_(@folder)%>
+        </div>
+        <h1>    
+            Cards
+        </h1>
+        <nav class="nav" style="position: absolute; top: 10px;right: 30px; float: right; margin-left: auto;">
+            <% if !@folder.is_trash %>
+                <%= link_to '+ Add a card', new_account_site_folder_view_cast_path(@account, @site, @folder), data: {turbolinks: false}, class: "btn btn-dark btn-sm", style: "padding-bottom: 5px; height: 30px;" %>
+            <% end %>
+        </nav>
+    </div>
+</div>
+<br/>
+<br/>

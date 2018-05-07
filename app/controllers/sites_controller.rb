@@ -27,12 +27,12 @@ class SitesController < ApplicationController
       @site.build_logo_image
     end
     @is_admin = true
-    render layout: "z"
+    
   end
 
   def integrations
     @is_admin = true
-    render layout: "z"
+    
   end
 
   def update
@@ -55,11 +55,11 @@ class SitesController < ApplicationController
     else
       @permission_role = PermissionRole.where.not(slug: 'owner').pluck(:name, :slug)
       if from == "product_integrations"
-        render :integrations, layout: "z"
+        render :integrations
       elsif from == "access_security"
-        render "admins/access_security", layout: "z"
+        render "admins/access_security"
       else
-        render :edit, layout: "z"
+        render :edit
       end
     end
   end

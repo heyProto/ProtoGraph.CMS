@@ -18,7 +18,8 @@ class StoriesController < ApplicationController
       if @page.save
         redirect_to account_site_stories_path(@account, @site, folder_id: @page.folder_id), notice: 'Page was successfully created.'
       else
-        render :back, alert: @page.errors.full_messages
+        flash.now.alert = @page.errors.full_messages
+        redirect_to account_site_stories_path(@account, @site, folder_id: @page.folder_id)
       end
     else
       if @permission_role.can_see_all_pages
@@ -35,7 +36,7 @@ class StoriesController < ApplicationController
       @ref_sub_intersection = RefCategory.where(site_id: @site.id, genre: "sub intersection", is_disabled: [false, nil]).order(:name).map {|r| ["#{r.name}", r.id]}
       @ref_sub_intersections = RefCategory.where(site_id: @site.id, genre: "sub intersection", is_disabled: [false, nil]).order(:name)
       @article = TemplatePage.where(name: "article").first
-      render layout: "z"
+      
     end
   end
 
@@ -61,7 +62,7 @@ class StoriesController < ApplicationController
     @page_stream_16 = @page.streams.where(title: title).first
     @page_streamH16 = @page.page_streams.where(name_of_stream: "Hero").first
     @stream_entity = StreamEntity.new
-    render layout: "application-pages"
+    
   end
 
   def edit_write
@@ -70,9 +71,7 @@ class StoriesController < ApplicationController
     #@ref_intersection = RefCategory.where(site_id: @site.id, genre: "intersection", is_disabled: [false, nil]).order(:name).map {|r| ["#{r.name}", r.id]}
     #@ref_sub_intersection = RefCategory.where(site_id: @site.id, genre: "sub intersection", is_disabled: [false, nil]).order(:name).map {|r| ["#{r.name}", r.id]}
     @template_cards = @account.template_cards.where(is_current_version: true)
-    @page_todo = PageTodo.new
-    @page_todos = @page.page_todos.order(:sort_order)
-    render layout: "application-pages"
+    
   end
 
   def edit_distribute
@@ -97,7 +96,7 @@ class StoriesController < ApplicationController
     #  cover_image_id_2_column
     #  cover_image_credit
 
-    render layout: "application-pages"
+    
   end
 
   def edit_ads

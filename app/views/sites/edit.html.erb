@@ -1,10 +1,7 @@
+<%= render partial: "sites/header" %>
 <div class="row">
     <div class="col-sm-16">
-        <div style="margin-left: auto; margin-right: auto; width: 300px; font-size: 12px;">
-        <br/>
-        <br/>
-        <h2>Site Settings</h2>
-        <br/>
+        <div style="margin-left: auto; margin-right: auto; width: 540px; font-size: 12px;">
         <%= simple_form_for [@account, @site] do |f| %>
           <%= f.error_notification %>
           <h3>Set up the basics</h3>

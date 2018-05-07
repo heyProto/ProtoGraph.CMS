@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180504151159) do
+ActiveRecord::Schema.define(version: 20180506153400) do
 
   create_table "accounts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
     t.string "username", limit: 191, collation: "utf8mb4_unicode_ci"
@@ -170,22 +170,6 @@ ActiveRecord::Schema.define(version: 20180504151159) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "name_of_stream", collation: "utf8_general_ci"
-    t.integer "account_id"
-    t.integer "site_id"
-    t.integer "folder_id"
-  end
-
-  create_table "page_todos", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
-    t.integer "page_id"
-    t.integer "user_id"
-    t.integer "template_card_id"
-    t.text "task"
-    t.boolean "is_completed"
-    t.integer "sort_order"
-    t.integer "created_by"
-    t.integer "updated_by"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
     t.integer "account_id"
     t.integer "site_id"
     t.integer "folder_id"

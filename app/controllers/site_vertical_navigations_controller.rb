@@ -4,7 +4,8 @@ class SiteVerticalNavigationsController < ApplicationController
   before_action :set_site_vertical_navigation, only: [:show, :edit, :update, :destroy, :move_up, :move_down]
 
   def index
-    @site_vertical_navigations = @ref_category.navigations
+    @site_vertical_navigations_header = @ref_category.navigations.where(menu: "Vertical Header")
+    @site_vertical_navigations_footer = @ref_category.navigations.where(menu: "Vertical Footer")
     @site_vertical_navigation = SiteVerticalNavigation.new
     
   end
@@ -16,8 +17,8 @@ class SiteVerticalNavigationsController < ApplicationController
     if @site_vertical_navigation.save
       redirect_to account_site_ref_category_site_vertical_navigations_path(@account, @site, @ref_category), notice: t('cs')
     else
-      
-      @site_vertical_navigations = @ref_category.navigations
+      @site_vertical_navigations_header = @ref_category.navigations.where(menu: "Vertical Header")
+      @site_vertical_navigations_footer = @ref_category.navigations.where(menu: "Vertical Footer")
       render :index
     end
   end
@@ -37,8 +38,8 @@ class SiteVerticalNavigationsController < ApplicationController
     if @site_vertical_navigation.update(site_vertical_navigation_params)
       redirect_to account_site_ref_category_site_vertical_navigations_path(@account, @site, @ref_category), notice: t('us')
     else
-      @site_vertical_navigations = @ref_category.navigations
-      
+      @site_vertical_navigations_header = @ref_category.navigations.where(menu: "Vertical Header")
+      @site_vertical_navigations_footer = @ref_category.navigations.where(menu: "Vertical Footer")
       render :index
     end
   end

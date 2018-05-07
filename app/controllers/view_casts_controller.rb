@@ -19,7 +19,7 @@ class ViewCastsController < ApplicationController
       @q = z.search(params[:q])
       @view_casts = @q.result.page(params[:page]).per(15)
       @is_viewcasts_present = @view_casts.count != 0
-      render layout: "z"
+      
     end
 
     def show
@@ -31,7 +31,7 @@ class ViewCastsController < ApplicationController
         @view_casts_count = @folder.view_casts.count
         @streams_count = @folder.streams.count
         @view_cast.collaborator_lists = @view_cast.users.pluck(:id)
-        render layout: "z"
+        
     end
 
     def edit
