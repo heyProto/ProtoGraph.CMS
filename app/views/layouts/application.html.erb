@@ -25,7 +25,7 @@
                         <% else %>
                             <%= link_to image_tag("proto-dark.png", style: "height: 24px;"), root_url %>
                         <% end %>
-                        <% if @site.present? %>
+                        <% if user_signed_in? %>
                             <span style="float: right; position: relative;">
                                 
                                 <div class="dropdown">
