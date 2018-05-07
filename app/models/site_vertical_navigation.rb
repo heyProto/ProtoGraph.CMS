@@ -47,7 +47,7 @@ class SiteVerticalNavigation < ApplicationRecord
       navigation_json = []
       if self.ref_category.navigations.count > 0
         self.ref_category.navigations.each do |nav|
-          navigation_json << {"name": nav.name, "url": nav.url, "new_window": nav.launch_in_new_window}
+          navigation_json << {"name": nav.name, "url": nav.url, "new_window": nav.launch_in_new_window, "menu": nav.menu}
         end
       end
       key = self.ref_category.vertical_header_key

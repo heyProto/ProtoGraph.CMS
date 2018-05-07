@@ -43,7 +43,7 @@ ActiveRecord::Schema.define(version: 20180506153400) do
     t.integer "updated_by"
   end
 
-  create_table "ad_integrations", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
+  create_table "ad_integrations", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer "account_id"
     t.integer "site_id"
     t.integer "stream_id"
@@ -53,11 +53,11 @@ ActiveRecord::Schema.define(version: 20180506153400) do
     t.integer "height"
     t.integer "width"
     t.text "slot_text"
+    t.integer "page_stream_id"
     t.integer "created_by"
     t.integer "updated_by"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "page_stream_id"
   end
 
   create_table "authentications", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|

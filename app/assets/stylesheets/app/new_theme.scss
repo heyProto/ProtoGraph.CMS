@@ -23,24 +23,25 @@
     }
 }
 
-ul.nav.nav-tabs.protograph-filters-tabs-container{
-    border: 0px;
+.protograph-filters-tabs-container{
+    ul.nav.nav-tabs{
+        border: 0px;
     
-    .nav-link{
-        border: 0px !important;
-    }
+        .nav-link{
+            border: 0px !important;
+        }
     
-    .nav-item{
-        width: 130px;
-        text-align: center;
-    }
+        .nav-item{
+            width: 130px;
+            text-align: center;
+        }
     
-    .nav-item .active{
-        border: 0px !important;
-        border-bottom: 2px solid #ffc107 !important;
+        .nav-item .active{
+            border: 0px !important;
+            border-bottom: 2px solid #ffc107 !important;
+        }
     }
 }
-
 
 .protograph-filters-header{
     height: 48px;
@@ -55,8 +56,6 @@ ul.list-group > li.list-group-item > a{color: black !important; }
 ul.list-group > li.list-group-item.active > a{color: black !important; font-weight: bold; }
 ul.list-group > li.list-group-item.active, ul.list-group > li.list-group-item:hover{background: #ffc107; color: black;}
 
-.nav > a.nav-link{font-weight: 400 !important; color: lightgray;} 
-.nav > a.nav-link.active{font-weight: 800 !important; color: white;} 
 .jumbotroz{
     border-radius: 0rem; 
     margin: 0px -10px; 
@@ -104,6 +103,8 @@ ul.list-group > li.list-group-item.active, ul.list-group > li.list-group-item:ho
             color: black;
         }
     }
+    .nav > a.nav-link{font-weight: 400 !important; color: lightgray;} 
+    .nav > a.nav-link.active{font-weight: 800 !important; color: white;} 
 }
 
 .proto-app-navbar-proto-container{
