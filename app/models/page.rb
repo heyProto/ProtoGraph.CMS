@@ -326,8 +326,8 @@ class Page < ApplicationRecord
       Api::ProtoGraph::CloudFront.invalidate(self.site, ["/#{key}", "/#{self.html_key}.html"], 2)
     end
     if Rails.env.production?
-      # site.publish_sitemap
-      # site.publish_robot_txt
+      site.publish_sitemap
+      site.publish_robot_txt
     end
     if self.template_page.name != 'Homepage: Vertical' and self.saved_changes.transform_values(&:first).keys.include?('published_at')
       self.series.vertical_page.push_page_object_to_s3
