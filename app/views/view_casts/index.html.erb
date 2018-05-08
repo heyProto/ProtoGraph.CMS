@@ -3,7 +3,7 @@
     <div class="row">
         <div class="col-sm-4" style="padding-left: 0px;">
 
-            
+
             <div class="protograph-filters-tabs-container">
                 <ul class="nav nav-tabs" id="myTab" role="tablist">
                   <li class="nav-item">
@@ -18,7 +18,7 @@
               <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
                   <br/>
                   <ul class="list-group">
-                    <% @all_workspaces.each do |folder| %>            
+                    <% @all_workspaces.each do |folder| %>
                         <li class="<%= (@folder.present? and @folder.id.present? and @folder.id == folder.id) ? "list-group-item active" : "list-group-item" %>" style="border: 0px; padding-left: 6px;">
                             <%= link_to folder_name_(folder).html_safe, account_site_folder_path(@account, @site, folder) %>
                             <span class="spanadd">(<%= folder.view_casts.count + folder.pages.count %>)</span>
@@ -26,7 +26,7 @@
                     <% end %>
                   </ul>
               </div>
-              <div class="tab-pane show" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+              <div class="tab-pane" id="profile" role="tabpanel" aria-labelledby="profile-tab">
                   <br/><br/>
                   <%= search_form_for @q, url: account_site_folder_view_casts_path(@account, @site, @folder) do |f| %>
                       <%= f.label :seo_blockquote_cont, "Content contains" %>
@@ -88,7 +88,7 @@
                         </tr>
                     <% end %>
                 </tbody>
-            </table> 
+            </table>
             <div style="padding-left: 18px;">
                 <%= paginate @view_casts, theme: 'twitter-bootstrap-4', pagination_class: "pagination-sm" %>
             </div>
