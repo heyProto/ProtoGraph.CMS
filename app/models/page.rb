@@ -219,7 +219,7 @@ class Page < ApplicationRecord
   def push_page_object_to_s3
     create_story_card
     site = self.site
-    hero_stream = self.streams.where(title: ["#{self.id}_Story_16c_Hero", "#{self.id}_Data_16c_Hero"]).first
+    hero_stream = self.streams.where(title: ["#{self.id}_Section_16c_Hero", "#{self.id}_Story_16c_Hero", "#{self.id}_Data_16c_Hero"]).first
     if hero_stream.present? and hero_stream.cards.count == 0
       StreamEntity.create({
         "entity_value": "#{self.view_cast_id}",
@@ -495,6 +495,7 @@ class Page < ApplicationRecord
     data["data"]["headline"] = self.headline.to_s if self.headline.present?
     data["data"]["byline"] = (self.byline.present? and self.byline.username.present?) ? self.byline.username : "   "
     data["data"]["publishedat"] = self.published_at.strftime("%Y-%m-%dT%H:%M") if self.published_at.present?
+    data["data"]["hide_byline"] = self.hide_byline || false
     data["data"]["series"] = self.series.name.to_s if self.series.present? and self.series.name.present?
     data["data"]["genre"] = self.intersection.name.to_s if self.intersection.present? and self.intersection.name.present?
     data["data"]["subgenre"] = self.sub_intersection.name.to_s if self.sub_intersection.present? and self.sub_intersection.name.present?
