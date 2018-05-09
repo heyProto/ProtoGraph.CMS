@@ -1,17 +1,17 @@
 <%= render partial: "pages/header" %>
 <div class="row">
-    <div class="col-sm-10">
+    <div class="col-sm-12">
         <% if @feed_links.first.blank? %>
             <p class="hint">No links yet</p>
         <% else %>
             <table class="table">
                 <thead>
                     <tr>
-                        <td>Title
-                        </td>
-                        <td>Published at
-                        </td>
-                        <td>Create toCluster card and add to Feeds stream</td>                    
+                        <th>Title
+                        </th>
+                        <th>Published at
+                        </th>
+                        <th>Create toCluster card and<br/>add to Feeds stream</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -33,15 +33,20 @@
             <%= paginate @feed_links, theme: 'twitter-bootstrap-4', pagination_class: "pagination-sm" %>
         <% end %>
     </div>
-    <div class="col-sm-2">
+    <div class="col-sm-4">
             <h3>Subscribe to RSS</h3>
             <% @feeds.each do |feed| %>
-                <%= link_to feed.rss, feed.rss, target: "_blank" %>
+                <%= link_to truncate(feed.rss, length: 50, ommission: "..."), feed.rss, target: "_blank" %>
                 <div class="hint">
-                    <%= feed.last_refreshed_at %>
-                    &nbsp;&nbsp; | &nbsp;&nbsp;
+                    Last refreshed at
+                    <%= time_ago_in_words(feed.last_refreshed_at) %>
+                    <br/>
+                    Next refresh scheduled
+                    <%= time_ago_in_words(feed.next_refreshed_scheduled_for) %>
+                    <br/>
                     <%= link_to 'Destroy', [@account, @site, @ref_category, feed], method: :delete, data: { confirm: 'Are you sure?' } %>
                 </div>
+                <br/>
             <% end %>
             <%= simple_form_for [@account, @site, @ref_category, @feed] do |f| %>
                 <tr>
