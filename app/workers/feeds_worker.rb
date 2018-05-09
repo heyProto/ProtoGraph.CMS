@@ -1,7 +1,7 @@
 class FeedsWorker
     include Sidekiq::Worker
     sidekiq_options :backtrace => true
-    
+
     require 'rss'
     require 'open-uri'
 
@@ -9,8 +9,8 @@ class FeedsWorker
       ref_category = RefCategory.find(ref_category_id)
       feed = Feed.find(feed_id)
       rss = open(feed.rss)
-      rss_xml = RSS::Parser.parse(rss)  
-      rss_xml.items.each do |item|        
+      rss_xml = RSS::Parser.parse(rss)
+      rss_xml.items.each do |item|
         f = FeedLink.where(ref_category_id: ref_category_id, link: item.link).first
         if f.blank?
           FeedLink.create(ref_category_id: ref_category_id, feed_id: feed_id, link: item.link, headline: item.title, published_at: item.pubDate, description: item.description)
