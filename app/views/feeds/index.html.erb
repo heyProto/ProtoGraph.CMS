@@ -189,10 +189,10 @@
             <div class="hint">
                 Last refreshed at
                 <%= time_ago_in_words(feed.last_refreshed_at) %>
-                <br/>
+                <br>
                 Next refresh scheduled
                 <%= time_ago_in_words(feed.next_refreshed_scheduled_for) %>
-                <br/>
+                <br>
                 <%= link_to 'Destroy', [@account, @site, @ref_category, feed], method: :delete, data: { confirm: 'Are you sure?' } %>
             </div>
             <br/>
