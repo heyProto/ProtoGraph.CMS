@@ -1,24 +1,47 @@
 <%= render partial: "pages/header" %>
 <div class="row">
-    <div style="margin-left: auto; margin-right: auto; width: 540px;">
-        <table class="table">
-          <thead>
-            <tr>
-              <th>RSS</th>
-              <th>Last updated</th>
-              <th></th>
-            </tr>
-          </thead>
-
-          <tbody>
+    <div class="col-sm-10">
+        <% if @feed_links.first.blank? %>
+            <p class="hint">No links yet</p>
+        <% else %>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <td>Title
+                        </td>
+                        <td>Published at
+                        </td>
+                        <td>Create toCluster card and add to Feeds stream</td>                    
+                    </tr>
+                </thead>
+                <tbody>
+                    <% @feed_links.each do |link| %>
+                        <tr>
+                            <td>
+                                <%= link_to link.headline, link.link, target: "_blank"%>
+                            </td>
+                            <td>
+                                <%= time_ago_in_words link.published_at %>
+                            </td>
+                            <td>
+                                <%= link_to "Add", nil %>
+                            </td>
+                        </tr>
+                    <% end %>
+                </tbody>
+            </table>
+            <%= paginate @feed_links, theme: 'twitter-bootstrap-4', pagination_class: "pagination-sm" %>
+        <% end %>
+    </div>
+    <div class="col-sm-2">
+            <h3>Subscribe to RSS</h3>
             <% @feeds.each do |feed| %>
-              <tr>
-                <td><%= link_to feed.rss, feed.rss, target: "_blank" %></td>
-                <td class="hint">
+                <%= link_to feed.rss, feed.rss, target: "_blank" %>
+                <div class="hint">
                     <%= feed.last_refreshed_at %>
-                </td>
-                <td><%= link_to 'Destroy', [@account, @site, @ref_category, feed], method: :delete, data: { confirm: 'Are you sure?' } %></td>
-              </tr>
+                    &nbsp;&nbsp; | &nbsp;&nbsp;
+                    <%= link_to 'Destroy', [@account, @site, @ref_category, feed], method: :delete, data: { confirm: 'Are you sure?' } %>
+                </div>
             <% end %>
             <%= simple_form_for [@account, @site, @ref_category, @feed] do |f| %>
                 <tr>

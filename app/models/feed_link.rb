@@ -31,8 +31,6 @@ class FeedLink < ApplicationRecord
   validates :link, presence: true, format: {:with => /[a-zA-Z0-9][a-zA-Z0-9-]{1,61}[a-zA-Z0-9]\.[a-zA-Z]{2,}/ }
   validates :ref_category_id, presence: true
   validates :feed_id, presence: true
-  validates :headline, presence: true
-  validates :pulished_at, presence: true
   
   #CALLBACKS
   #SCOPE

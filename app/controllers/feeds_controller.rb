@@ -4,7 +4,7 @@ class FeedsController < ApplicationController
 
   def index
     @feeds = @ref_category.feeds
-    @feed_links = FeedLink.where("view_cast_id IS NULL").where(feed_id: @feeds.pluck(:id).uniq).order("published_at DESC")
+    @feed_links = FeedLink.where("view_cast_id IS NULL").where(feed_id: @feeds.pluck(:id).uniq).order("published_at DESC").page params[:page]
     @feed = Feed.new
   end
 
@@ -13,7 +13,7 @@ class FeedsController < ApplicationController
     @feed.created_by = current_user.id
     @feed.updated_by = current_user.id
     if @feed.save
-      FeedsWorker.perform(@feed.ref_category_id, @feed.id)
+      FeedsWorker.perform_async(@feed.ref_category_id, @feed.id)
       redirect_to account_site_ref_category_feeds_path(@account, @site, @ref_category), notice: 'Ref category feed was successfully created.'
     else
       @feeds = @ref_category.feeds
