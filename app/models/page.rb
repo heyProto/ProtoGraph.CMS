@@ -53,6 +53,7 @@
 #  reported_from_state              :string(255)
 #  reported_from_district           :string(255)
 #  reported_from_city               :string(255)
+#  hide_byline                      :boolean          default(FALSE)
 #
 
 class Page < ApplicationRecord

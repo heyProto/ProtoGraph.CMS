@@ -78,6 +78,10 @@ Rails.application.routes.draw do
       end
       resources :permission_invites
       resources :ref_categories do
+        resources :feeds
+        resources :feed_links do
+          post "create_view_cast", on: :member
+        end
         resources :site_vertical_navigations do
           put "move_up", "move_down", on: :member
         end

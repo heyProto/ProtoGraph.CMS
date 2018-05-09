@@ -1,0 +1,40 @@
+<%= render partial: "pages/header" %>
+<div class="row">
+    <div style="margin-left: auto; margin-right: auto; width: 540px;">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>RSS</th>
+              <th>Last updated</th>
+              <th></th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <% @feeds.each do |feed| %>
+              <tr>
+                <td><%= link_to feed.rss, feed.rss, target: "_blank" %></td>
+                <td class="hint">
+                    <%= feed.last_refreshed_at %>
+                </td>
+                <td><%= link_to 'Destroy', [@account, @site, @ref_category, feed], method: :delete, data: { confirm: 'Are you sure?' } %></td>
+              </tr>
+            <% end %>
+            <%= simple_form_for [@account, @site, @ref_category, @feed] do |f| %>
+                <tr>
+                  <td>
+                      <%= f.error_notification %>
+                      <div class="form-inputs">
+                          <%= f.hidden_field :ref_category_id, value: @ref_category.id %>
+                          <%= f.input :rss, input_html: {rows: 1}, placeholder: "RSS URL", label: false %>
+                      </div>
+                  </td>
+                  <td></td>
+                  <td><%= f.button :submit, "Add" %></td>
+                </tr>
+            <% end %>
+          </tbody>
+        </table>
+    </div>
+</div>
+
