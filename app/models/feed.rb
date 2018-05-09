@@ -2,14 +2,15 @@
 #
 # Table name: feeds
 #
-#  id                :integer          not null, primary key
-#  ref_category_id   :integer
-#  rss               :text(65535)
-#  created_at        :datetime         not null
-#  updated_at        :datetime         not null
-#  created_by        :integer
-#  updated_by        :integer
-#  last_refreshed_at :datetime
+#  id                           :integer          not null, primary key
+#  ref_category_id              :integer
+#  rss                          :text(65535)
+#  created_at                   :datetime         not null
+#  updated_at                   :datetime         not null
+#  created_by                   :integer
+#  updated_by                   :integer
+#  last_refreshed_at            :datetime
+#  next_refreshed_scheduled_for :datetime
 #
 
 class Feed < ApplicationRecord
