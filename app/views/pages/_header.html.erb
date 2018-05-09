@@ -18,7 +18,7 @@
           <% end %>
           <%= link_to "Package", (action_name == "distribute" ? "#" :  distribute_account_site_page_path(@account, @site, v)), class: (action_name == "distribute" ? "nav-link active" : "nav-link"),"data-turbolinks" => "false" %>
           <%= link_to "Navigation", account_site_ref_category_site_vertical_navigations_path(@account, @site, v.series), class: (controller_name == "site_vertical_navigations" ? "nav-link active" : "nav-link"),"data-turbolinks" => "false" %>
-          <%= link_to "Feeds", account_site_ref_category_feeds_path(@account, @site, v.series), class: (controller_name == "feeds" ? "nav-link active" : "nav-link"),"data-turbolinks" => "false" %>
+          <%= link_to "Feeds <span class='badge badge-warning'>Pro</span>".html_safe, account_site_ref_category_feeds_path(@account, @site, v.series), class: (controller_name == "feeds" ? "nav-link active" : "nav-link"),"data-turbolinks" => "false" %>
           <% if (controller_name != "site_vertical_navigations" and controller_name != "feeds") and @page.status != 'draft' %>
             <%= link_to "Go to page", @page.html_url, target: "_blank", class: "nav-link" %>
           <% end %>

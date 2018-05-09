@@ -4,7 +4,7 @@
         <div style="width: 100%;">
             <ul class="nav nav-tabs" style="font-size: 12px;">
               <li class="nav-item"><%= link_to "Site Team", account_site_permission_invites_path(@account, @site), class: (controller_name == "permission_invites" and action_name == "index") ? "nav-link active" : "nav-link" %>
-              <li class="nav-item"><%= link_to "Security Settings", access_security_account_site_admins_path(@account, @site), class: (controller_name == "admins" and action_name == "access_security") ? "nav-link active" : "nav-link" %>
+              <li class="nav-item"><%= link_to "Security Settings <span class='badge badge-warning'>Pro</span>".html_safe, access_security_account_site_admins_path(@account, @site), class: (controller_name == "admins" and action_name == "access_security") ? "nav-link active" : "nav-link" %>
             </ul>
             <br/>
             <br/>
