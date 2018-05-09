@@ -33,6 +33,7 @@ class FeedLink < ApplicationRecord
   validates :feed_id, presence: true
   validates :headline, presence: true
   validates :pulished_at, presence: true
+  #AB2TODO Check for uniquess of URL within ref_category_id before adding it THEN update it only if view_cast_id is null
   
   #CALLBACKS
   #SCOPE
