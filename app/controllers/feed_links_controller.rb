@@ -1,5 +1,6 @@
 class FeedLinksController < ApplicationController
 
+  before_action :authenticate_user!
   before_action :set_ref_category, :set_feed_link
 
   #Create view_cast

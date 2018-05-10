@@ -1,5 +1,6 @@
 class FeedsController < ApplicationController
 
+  before_action :authenticate_user!
   before_action :set_ref_category
 
   def index
