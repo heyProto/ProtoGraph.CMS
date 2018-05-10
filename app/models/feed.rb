@@ -5,12 +5,13 @@
 #  id                           :integer          not null, primary key
 #  ref_category_id              :integer
 #  rss                          :text(65535)
-#  created_at                   :datetime         not null
-#  updated_at                   :datetime         not null
+#  last_refreshed_at            :datetime
 #  created_by                   :integer
 #  updated_by                   :integer
-#  last_refreshed_at            :datetime
+#  created_at                   :datetime         not null
+#  updated_at                   :datetime         not null
 #  next_refreshed_scheduled_for :datetime
+#  custom_errors                :text(65535)
 #
 
 class Feed < ApplicationRecord

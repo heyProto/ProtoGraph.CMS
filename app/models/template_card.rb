@@ -190,7 +190,7 @@ class TemplateCard < ApplicationRecord
                 links_html += "<li><a href='#{e["link"]}' target='_blank' rel='nofollow'>#{e['publication_name']}</a></li>"
             end
             links_html += "</ul>";
-            blockquote_string = "<blockquote><h1>#{data["title"]}</h1><p>#{data["by_line"]}</p><p>#{data["published_date"]}</p>#{links_html}</blockquote>"
+            blockquote_string = "<blockquote><h1>#{data["title"]}</h1><p>#{data["published_date"]}</p>#{links_html}</blockquote>"
         end
     end
 

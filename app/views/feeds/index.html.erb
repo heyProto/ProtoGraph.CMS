@@ -187,12 +187,21 @@
         <% @feeds.each do |feed| %>
             <%= link_to truncate(feed.rss, length: 35, ommission: "..."), feed.rss, target: "_blank" %>
             <div class="hint">
-                Last refreshed at
-                <%= time_ago_in_words(feed.last_refreshed_at) %>
-                <br>
-                Next refresh scheduled
-                <%= time_ago_in_words(feed.next_refreshed_scheduled_for) %>
-                <br>
+                <% if feed.last_refreshed_at.present? %>
+                  Last refreshed at
+                  <%= time_ago_in_words(feed.last_refreshed_at) %>
+                  <br>
+                <% end %>
+                <% if feed.next_refreshed_scheduled_for.present? %>
+                  Next refresh scheduled
+                  <%= time_ago_in_words(feed.next_refreshed_scheduled_for) %>
+                  <br>
+                <% end %>
+                <% if feed.custom_errors.present? %>
+                  <p class="text-danger">
+                    <%= feed.custom_errors %>
+                  </p>
+                <% end %>
                 <%= link_to 'Destroy', [@account, @site, @ref_category, feed], method: :delete, data: { confirm: 'Are you sure?' } %>
             </div>
             <br/>
@@ -224,29 +233,19 @@
                 <div class="modal-dialog">
                   <div class="modal-content">
 
-                    <!-- Modal Header -->
                     <div class="modal-header">
                       <h4 class="modal-title">Edit Feed</h4>
                       <button type="button" class="close" data-dismiss="modal">&times;</button>
                     </div>
 
-                    <!-- Modal body -->
                     <div class="modal-body">
                       <%= simple_form_for(link, url: create_view_cast_account_site_ref_category_feed_link_path(@account, @site, @ref_category, link), method: "post") do |f| %>
                         <%= f.input :link, readonly: true %>
                         <%= f.input :temp_headline, required: true, label: "Headline", minlength: 50, maxlength: 140, input_html: {value: link.headline} %>
                         <%= f.input :published_at, as: :datetime, label: "Published at", required: true, readonly: true %>
-                        <%#= f.input :description %>
-                        <%#= f.input :author %>
                         <%= f.button :submit, "Add", class: "btn btn-sm btn-secondary" %>
                       <% end %>
                     </div>
-
-                    <!-- Modal footer -->
-                    <!-- <div class="modal-footer">
-                      <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-                    </div> -->
-
                   </div>
                 </div>
               </div>

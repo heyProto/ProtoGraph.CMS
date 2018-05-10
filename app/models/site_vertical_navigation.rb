@@ -14,7 +14,6 @@
 #  updated_at               :datetime         not null
 #  sort_order               :integer
 #  account_id               :integer
-#  placement                :string(255)
 #  menu                     :string(255)
 #
 
