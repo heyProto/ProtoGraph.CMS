@@ -51,7 +51,7 @@
 
 ul.pagination.pagination-sm > li.page-item.active > a.page-link{
             background: #007bff !important;
-            color: black !important;
+            color: white !important;
             border: 1px solid #007bff;
 }
 

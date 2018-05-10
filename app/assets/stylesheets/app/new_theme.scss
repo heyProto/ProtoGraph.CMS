@@ -51,7 +51,14 @@
     padding: 15px;
 }
 
-ul.list-group > a > li.list-group-item{color: black !important; border: 0px; border-left: 1px solid lightgray; padding-left: 10px; padding-top: 6px; padding-bottom: 6px; border-radius: 0px;}
+ul.list-group > a > li.list-group-item{
+    color: black !important; 
+    border: 0px; border-left: 1px solid #efefef; 
+    padding-left: 10px; 
+    padding-top: 10px; 
+    padding-bottom: 10px; 
+    border-radius: 0px;
+}
 ul.list-group > a > li.list-group-item.active{font-weight: bold; }
 ul.list-group > a > li.list-group-item.active, ul.list-group > a > li.list-group-item:hover{
     z-index: 2;
@@ -60,6 +67,7 @@ ul.list-group > a > li.list-group-item.active, ul.list-group > a > li.list-group
     background: white;
     cursor: pointer;
     border-radius: 0px;
+    font-family: "cabin";
 }
 
 .protograph-page-tabs{
