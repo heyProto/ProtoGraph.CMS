@@ -16,23 +16,6 @@
                 Workspaces
             <% end %>
         </h1>
-        <nav class="nav" style="position: absolute; top: 10px;right: 30px; float: right; margin-left: auto;">
-            <% if !(action_name == "edit" and controller_name == "sites") %>
-                <%= link_to "Site settings", edit_account_site_path(@account, @site), class: "nav-link","data-turbolinks" => "false" %>
-            <% end %>
-            <% if !(action_name == "integrations" and controller_name == "sites") %>
-                <%= link_to "Integrations", integrations_account_site_path(@account, @site), class: "nav-link","data-turbolinks" => "false" %>
-            <% end %>
-            <% if !(controller_name == "admins" or controller_name == "permission_invites") %>
-                <%= link_to "Manage team", account_site_permission_invites_path(@account, @site), class: "nav-link","data-turbolinks" => "false" %>
-            <% end %>
-            <% if controller_name != "ref_categories" %>
-                <%= link_to "Editorial planning", intersections_account_site_path(@account, @site), class: "nav-link","data-turbolinks" => "false" %>
-            <% end %>
-            <% if controller_name != "folders" %>
-                <%= link_to "Workspaces", account_site_folders_path(@account, @site), class: "nav-link","data-turbolinks" => "false" %>
-            <% end %>
-        </nav>
     </div>
 </div>
 <br/>

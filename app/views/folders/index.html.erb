@@ -1,6 +1,8 @@
 <%= render partial: "sites/header" %>
 <div class="row">
     <div class="col-sm-16">
+        <%= render partial: "admins/header" %>
+        
         <%= link_to "Add a new workspace", new_account_site_folder_path(@account, @site), data: {turbolinks: false}, style: "float: right;" %>
         <br/><br/>
         <% if @folders.first.present? %>

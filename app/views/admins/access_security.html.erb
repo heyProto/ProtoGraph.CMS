@@ -1,5 +1,10 @@
 <%= render partial: "sites/header" %>
 <div class="row">
+    <div class="col-sm-16">
+        <%= render partial: "admins/header" %>
+    </div>
+</div>
+<div class="row">
     <div style="margin-left: auto; margin-right: auto; width: 540px;">
         <ul class="nav nav-tabs" style="font-size: 12px;">
           <li class="nav-item"><%= link_to "Site Team", account_site_permission_invites_path(@account, @site), class: (controller_name == "permission_invites" and action_name == "index") ? "nav-link active" : "nav-link" %>
