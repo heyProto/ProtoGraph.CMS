@@ -9,18 +9,28 @@
         <h1>    
             <%= truncate(@page.one_line_concept, length: 100, ommission: "..") %>
         </h1>
-        <nav class="nav" style="position: absolute; top: 10px;right: 30px; float: right; margin-left: auto;">
-           <%= link_to "Write", (action_name == "edit_write" ? "#" : edit_write_account_site_story_path(@account, @site, @page, folder_id: @page.folder_id)), "data-turbolinks" => "false", class: (action_name == 'edit_write' ? "nav-link active" : "nav-link") %>
-           <%= link_to "Assemble", (action_name == "edit_assemble" ?  "#" : edit_assemble_account_site_story_path(@account, @site, @page, folder_id: @page.folder_id)), "data-turbolinks" => "false", class: (action_name == 'edit_assemble' ? "nav-link active" : "nav-link") %>
-          <% if @site.enable_ads %>
-              <%= link_to "Ads", (action_name == "edit_ads" ? "#" :  edit_ads_account_site_story_path(@account, @site, @page, folder_id: @page.folder_id)), class: (action_name == "edit_ads" ? "nav-link active" : "nav-link"),"data-turbolinks" => "false" %>
-          <% end %>
-           <%= link_to "Package", (action_name == 'edit_distribute' ? "#" :  edit_distribute_account_site_story_path(@account, @site, @page, folder_id: @page.folder_id)),"data-turbolinks" => "false", class: (action_name == "edit_distribute" ? "nav-link active" : "nav-link") %>
-           <% if @page.status != 'draft' %>
-             <%= link_to "Go to story", @page.html_url, target: "_blank", class: "nav-link" %>
-           <% end %>
-        </nav>
     </div>
 </div>
 <br/>
 <br/>
+<div class="protograph-page-tabs">
+    <div class="<%= action_name != 'edit_write' ? "single-tab" : "single-tab active-tab" %>">
+        <%= link_to "Write", edit_write_account_site_story_path(@account, @site, @page, folder_id: @page.folder_id), "data-turbolinks" => "false" %>
+    </div>
+    <div class="<%= action_name != 'edit_assemble' ? "single-tab" : "single-tab active-tab" %>">
+        <%= link_to "Assemble", edit_assemble_account_site_story_path(@account, @site, @page, folder_id: @page.folder_id), "data-turbolinks" => "false" %>
+    </div>
+    <% if @site.enable_ads %>
+        <div class="<%= action_name != 'ads' ? "single-tab" : "single-tab active-tab" %>">
+            <%= link_to "Ads", edit_ads_account_site_story_path(@account, @site, @page, folder_id: @page.folder_id),"data-turbolinks" => "false" %>
+        </div>
+    <% end %>
+    <div class="<%= action_name != 'edit_distribute' ? "single-tab" : "single-tab active-tab" %>">
+        <%= link_to "Package", edit_distribute_account_site_story_path(@account, @site, @page, folder_id: @page.folder_id), "data-turbolinks" => "false" %>
+    </div>
+    <% if @page.status != 'draft' %>
+        <div class="single-tab">
+          <%= link_to "Go to page", @page.html_url, target: "_blank" %>
+         </div>
+    <% end %>
+</div>
