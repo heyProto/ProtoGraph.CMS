@@ -29,10 +29,6 @@
                             <span style="float: right; position: relative;">
                                 
                                 <div class="dropdown">
-                                    <span style="float: left; position: relative; margin-right: 15px;">
-                                        <span class="badge badge-warning" style="font-size: 10px">Write</span>
-                                    </span>
-                                    
                                   <a class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"  style="color: gray !important; font-size: 11px;">
                                     <%= image_tag avatar_url(current_user.email), class: "rounded", style: "width: 24px;" %>
                                   </a>
@@ -79,16 +75,6 @@
                                     <div class="proto-app-navbar-navigation-bar">
                                         <div class="proto-app-navbar-page-navigation">                    
                                             <div class="proto-app-navbar-navigation-scroll">
-                                                <% if @folder.present? and @folder.id.present? %>
-                                                    <div class="proto-app-navbar-page-links">
-                                                        <%= link_to "Cards", account_site_folder_view_casts_path(@account, @site, @folder), "data-turbolinks" => "false", style: controller_name == 'view_casts' ? 'font-weight: bold;' : '' %>
-                                                    </div>
-                                                    <% if @folder.is_for_stories %>
-                                                        <div class="proto-app-navbar-page-links">
-                                                            <%= link_to "Stories", account_site_stories_path(@account, @site,folder_id: @folder.id), "data-turbolinks" => "false", style: controller_name == 'stories' ? 'font-weight: bold;' : '' %>
-                                                        </div>
-                                                    <% end %>
-                                                <% end %>
                                                 <div class="proto-app-navbar-page-links">
                                                     <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Landings</a>
                                                     <div class="dropdown-menu" aria-labelledby="dropdownMenuLink" style="z-index: 10000000 !important;">

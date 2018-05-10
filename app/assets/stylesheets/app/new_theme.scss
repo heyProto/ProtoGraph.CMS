@@ -32,29 +32,54 @@
         }
     
         .nav-item{
-            width: 130px;
             text-align: center;
         }
     
         .nav-item .active{
             border: 0px !important;
-            border-bottom: 2px solid #ffc107 !important;
+            border-bottom: 2px solid #007bff !important;
         }
     }
 }
 
 .protograph-filters-header{
     height: 48px;
-    background: #ffc107;
-    color: black;
+    background: #007bff;
+    color: white;
     font-family: "cabin"!important;
     font-size: 16px !important;
     padding: 15px;
 }
 
-ul.list-group > li.list-group-item > a{color: black !important; }
-ul.list-group > li.list-group-item.active > a{color: black !important; font-weight: bold; }
-ul.list-group > li.list-group-item.active, ul.list-group > li.list-group-item:hover{background: #ffc107; color: black;}
+ul.list-group > a > li.list-group-item{color: black !important; border: 0px; border-left: 1px solid lightgray; padding-left: 10px; padding-top: 6px; padding-bottom: 6px; border-radius: 0px;}
+ul.list-group > a > li.list-group-item.active{font-weight: bold; }
+ul.list-group > a > li.list-group-item.active, ul.list-group > a > li.list-group-item:hover{
+    z-index: 2;
+    color: black;
+    border-left: 2px solid #007bff !important;
+    background: white;
+    cursor: pointer;
+    border-radius: 0px;
+}
+
+.protograph-page-tabs{
+    border-bottom: 1px solid #efefef;
+    margin-bottom: 30px;
+    
+    .single-tab{
+        font-size: 16px!important;
+        font-family: "cabin"!important;
+        border-bottom: 3px solid white;
+        display: inline-block;
+        padding: 12px 25px 12px;
+        cursor: pointer;
+        text-transform: uppercase;
+    }
+    .single-tab.active-tab{
+        color: #2780e8;
+        border-color: #2780e8;
+    }
+}
 
 .jumbotroz{
     border-radius: 0rem; 

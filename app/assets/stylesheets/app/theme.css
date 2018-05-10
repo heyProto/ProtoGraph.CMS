@@ -50,9 +50,9 @@
 }
 
 ul.pagination.pagination-sm > li.page-item.active > a.page-link{
-            background: #ffc107 !important;
+            background: #007bff !important;
             color: black !important;
-            border: 1px solid #ffc107;
+            border: 1px solid #007bff;
 }
 
 
@@ -81,12 +81,4 @@ ul.pagination.pagination-sm > li.page-item.active > a.page-link{
 .nav-item.item.disabled {
     pointer-events: none;
     cursor: not-allowed;
-}
-
-.list-group-item:not(.disabled):hover{
-    z-index: 2;
-    color: black;
-    background-color: #ffc107;
-    border-color: #ffc107;
-    cursor: pointer;
 }
