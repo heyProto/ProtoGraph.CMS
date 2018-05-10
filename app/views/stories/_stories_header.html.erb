@@ -7,7 +7,7 @@
             <%= link_to folder_name_(@folder), account_site_stories_path(@account, @site, folder_id: @folder.id), "data-turbolinks"=> false %>
         </div>
         <h1>    
-            <%= truncate(@page.one_line_concept, length: 100, ommission: "..") %>
+            <%= truncate(@page.headline, length: 70, ommission: "..") %>
         </h1>
     </div>
 </div>
