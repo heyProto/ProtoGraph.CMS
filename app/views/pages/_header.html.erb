@@ -1,5 +1,10 @@
 <div class="jumbotroz">
     <div class="row">
+        <% if controller_name == "feeds" %>
+            <% if @feeds.first.present? %>
+                <%= link_to "Force fetch feeds", force_fetch_feeds_account_site_ref_category_feed_path(@account, @site, @ref_category, @feeds.first), class: "btn btn-sm btn-dark right", style: "position: absolute; top: 10px;right: 30px; float: right; margin-left: auto;", method: :post %>
+            <% end %>
+        <% end %>
         <% if @page.blank? %>
             <% v = @ref_category.vertical_page %>
         <% else %>
@@ -8,7 +13,7 @@
         <div class="card-tags-series-name">
             Landings
         </div>
-        <h1>    
+        <h1>
             <%= v.series.name %>
         </h1>
     </div>

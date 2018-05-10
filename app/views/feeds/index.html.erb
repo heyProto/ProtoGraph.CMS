@@ -256,7 +256,7 @@
         <% end %>
     </div>
     <div class="col-sm-4">
-            <% if @feeds.first.blank? %>
+          <% if @feeds.first.blank? %>
             <h3>Subscribe to RSS</h3>
             <%= simple_form_for [@account, @site, @ref_category, @feed] do |f| %>
                 <tr>

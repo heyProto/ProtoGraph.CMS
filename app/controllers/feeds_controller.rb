@@ -1,5 +1,5 @@
 class FeedsController < ApplicationController
-  
+
   before_action :set_ref_category
 
   def index
@@ -25,6 +25,13 @@ class FeedsController < ApplicationController
     @feed = Feed.find(params[:id])
     @feed.destroy
     redirect_to account_site_ref_category_feeds_path(@account, @site, @ref_category), notice: 'Ref category feed was successfully destroyed.'
+  end
+
+  def force_fetch_feeds
+    @feed = Feed.find(params[:id])
+    @feed.update_column(:updated_by, current_user.id)
+    FeedsWorker.perform_async(@feed.ref_category_id, @feed.id, true)
+    redirect_to account_site_ref_category_feeds_path(@account, @site, @ref_category), notice: 'Ref category feed will be updated shortly.'
   end
 
   private

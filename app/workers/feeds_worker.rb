@@ -5,7 +5,7 @@ class FeedsWorker
     require 'rss'
     require 'open-uri'
 
-    def perform(ref_category_id, feed_id)
+    def perform(ref_category_id, feed_id, skip_scheduling=false)
       begin
         ref_category = RefCategory.find(ref_category_id)
         feed = Feed.find(feed_id)
@@ -20,16 +20,28 @@ class FeedsWorker
             f.update_attributes(headline: item.title, published_at: item.pubDate, description: item.description)
           end
         end
-        feed.update_attributes(last_refreshed_at: Time.now, next_refreshed_scheduled_for: (Time.now + (5*60*60)))
-        FeedsWorker.perform_in(5.hours, ref_category_id, feed_id)
+
+        unless skip_scheduling
+          feed.update_attributes(last_refreshed_at: Time.now, next_refreshed_scheduled_for: (Time.now + (5*60*60)))
+          FeedsWorker.perform_in(5.hours, ref_category_id, feed_id)
+        else
+          feed.update_attributes(last_refreshed_at: Time.now)
+        end
       rescue Exception => e
         feed = Feed.find(feed_id)
-        feed.update_attributes(
-          last_refreshed_at: Time.now,
-          next_refreshed_scheduled_for: (Time.now + (5*60*60)),
-          custom_errors: "Error fetching and parsing feeds from the given URL."
-        )
-        FeedsWorker.perform_in(5.hours, ref_category_id, feed_id)
+        unless skip_scheduling
+          feed.update_attributes(
+            last_refreshed_at: Time.now,
+            next_refreshed_scheduled_for: (Time.now + (5*60*60)),
+            custom_errors: "Error fetching and parsing feeds from the given URL."
+          )
+          FeedsWorker.perform_in(5.hours, ref_category_id, feed_id)
+        else
+          feed.update_attributes(
+            last_refreshed_at: Time.now,
+            custom_errors: "Error fetching and parsing feeds from the given URL."
+          )
+        end
       end
     end
 end

@@ -78,7 +78,9 @@ Rails.application.routes.draw do
       end
       resources :permission_invites
       resources :ref_categories do
-        resources :feeds
+        resources :feeds do
+          post "force_fetch_feeds", on: :member
+        end
         resources :feed_links do
           post "create_view_cast", on: :member
         end
