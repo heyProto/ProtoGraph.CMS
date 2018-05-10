@@ -3,10 +3,6 @@ class FeedLinksController < ApplicationController
   before_action :authenticate_user!
   before_action :set_ref_category, :set_feed_link
 
-  #Create view_cast
-  #Enter the view_cast in feed_links table
-  #Add this view_cast to FEEDS stream
-  #Return back to http://localhost:3000/accounts/moiz/sites/moiz/ref_categories/abcd/feeds
   def create_view_cast
     @feed_link.temp_headline = feeds_params[:temp_headline]
     unless @feed_link.view_cast_id.present?

@@ -227,7 +227,7 @@
                   </a>
                 </div>
               </div>
-              <button type="button" class="btn btn-light btn-sm add-feed-button-hidden" data-toggle="modal" data-target="#link_<%=link.id %>">Add to feeds</button>
+              <button type="button" class="btn btn-light btn-sm add-feed-button-hidden" data-toggle="modal" data-target="#link_<%=link.id %>" data-backdrop="static" data-keyboard="false">Add to feeds</button>
 
               <div class="modal" id="link_<%=link.id %>">
                 <div class="modal-dialog">
@@ -277,3 +277,15 @@
     </div>
 </div>
 
+<script>
+  $(document).ready(function(events) {
+    $('.modal form').each(function(index, element) {
+      $(element).submit(function(event){
+        var close_button = $(element).parent().parent().find('.modal-header button');
+        close_button.css({
+          "pointer-events": "none"
+        });
+      });
+    });
+  });
+</script>
