@@ -11,19 +11,33 @@
         <h1>    
             <%= v.series.name %>
         </h1>
-        <nav class="nav" style="position: absolute; top: 10px;right: 30px; float: right; margin-left: auto;">
-          <%= link_to "Assemble", (action_name == "edit" ?  "#" : edit_account_site_page_path(@account, @site, v)), class: (action_name == "edit" ? "nav-link active" : "nav-link"), "data-turbolinks" => "false" %>
-          <% if @site.enable_ads %>
-              <%= link_to "Ads", (action_name == "ads" ? "#" :  ads_account_site_page_path(@account, @site, v)), class: (action_name == "ads" ? "nav-link active" : "nav-link"),"data-turbolinks" => "false" %>
-          <% end %>
-          <%= link_to "Package", (action_name == "distribute" ? "#" :  distribute_account_site_page_path(@account, @site, v)), class: (action_name == "distribute" ? "nav-link active" : "nav-link"),"data-turbolinks" => "false" %>
-          <%= link_to "Navigation", account_site_ref_category_site_vertical_navigations_path(@account, @site, v.series), class: (controller_name == "site_vertical_navigations" ? "nav-link active" : "nav-link"),"data-turbolinks" => "false" %>
-          <%= link_to "Signals <span class='badge badge-warning'>Pro</span>".html_safe, account_site_ref_category_feeds_path(@account, @site, v.series), class: (controller_name == "feeds" ? "nav-link active" : "nav-link"),"data-turbolinks" => "false" %>
-          <% if (controller_name != "site_vertical_navigations" and controller_name != "feeds") and @page.status != 'draft' %>
-            <%= link_to "Go to page", @page.html_url, target: "_blank", class: "nav-link" %>
-          <% end %>
-        </nav>
     </div>
 </div>
 <br/>
 <br/>
+<div class="protograph-page-tabs">
+    <div class="<%= action_name != 'edit' ? "single-tab" : "single-tab active-tab" %>">
+        <%= link_to "Assemble", edit_account_site_page_path(@account, @site, v), "data-turbolinks" => "false" %>
+    </div>
+    <% if @site.enable_ads %>
+        <div class="<%= action_name != 'ads' ? "single-tab" : "single-tab active-tab" %>">
+            <%= link_to "Ads", ads_account_site_page_path(@account, @site, v),"data-turbolinks" => "false" %>
+        </div>
+    <% end %>
+    <div class="<%= action_name != 'distribute' ? "single-tab" : "single-tab active-tab" %>">
+        <%= link_to "Package", distribute_account_site_page_path(@account, @site, v), "data-turbolinks" => "false" %>
+    </div>
+    <div class="<%= controller_name != 'site_vertical_navigations' ? "single-tab" : "single-tab active-tab" %>">
+        <%= link_to "Navigation", account_site_ref_category_site_vertical_navigations_path(@account, @site, v.series),"data-turbolinks" => "false" %>
+    </div>
+    <div class="<%= controller_name != 'feeds' ? "single-tab" : "single-tab active-tab" %>">
+        <%= link_to "Signals <span class='badge badge-warning'>Pro</span>".html_safe, account_site_ref_category_feeds_path(@account, @site, v.series),"data-turbolinks" => "false" %>
+    </div>
+
+    <% if (controller_name != "site_vertical_navigations" and controller_name != "feeds") and @page.status != 'draft' %>
+        <div class="single-tab">
+          <%= link_to "Go to page", @page.html_url, target: "_blank" %>
+         </div>
+    <% end %>
+
+</div>
