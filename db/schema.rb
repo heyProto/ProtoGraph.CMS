@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180510083800) do
+ActiveRecord::Schema.define(version: 20180515111923) do
 
   create_table "accounts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
     t.string "username", limit: 191, collation: "utf8mb4_unicode_ci"
@@ -253,6 +253,7 @@ ActiveRecord::Schema.define(version: 20180510083800) do
     t.string "reported_from_district"
     t.string "reported_from_city"
     t.boolean "hide_byline", default: false
+    t.integer "landing_card_id"
   end
 
   create_table "permission_invites", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
@@ -516,6 +517,7 @@ ActiveRecord::Schema.define(version: 20180510083800) do
     t.boolean "has_grouping", default: false
     t.text "allowed_views", collation: "utf8_general_ci"
     t.integer "sort_order"
+    t.boolean "is_editable", default: true
     t.index ["slug"], name: "index_template_cards_on_slug", unique: true
   end
 

@@ -78,6 +78,7 @@ Rails.application.routes.draw do
       end
       resources :permission_invites
       resources :ref_categories do
+        get 'landing_card', on: :member
         resources :feeds do
           post "force_fetch_feeds", on: :member
         end

@@ -32,6 +32,7 @@
 #  has_grouping         :boolean          default(FALSE)
 #  allowed_views        :text(65535)
 #  sort_order           :integer
+#  is_editable          :boolean          default(TRUE)
 #
 
 class TemplateCard < ApplicationRecord
