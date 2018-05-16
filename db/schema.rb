@@ -43,7 +43,7 @@ ActiveRecord::Schema.define(version: 20180515111923) do
     t.integer "updated_by"
   end
 
-  create_table "ad_integrations", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+  create_table "ad_integrations", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
     t.integer "account_id"
     t.integer "site_id"
     t.integer "stream_id"
@@ -53,11 +53,11 @@ ActiveRecord::Schema.define(version: 20180515111923) do
     t.integer "height"
     t.integer "width"
     t.text "slot_text"
-    t.integer "page_stream_id"
     t.integer "created_by"
     t.integer "updated_by"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "page_stream_id"
   end
 
   create_table "authentications", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
@@ -91,7 +91,7 @@ ActiveRecord::Schema.define(version: 20180515111923) do
     t.string "name", collation: "utf8_general_ci"
   end
 
-  create_table "feed_links", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+  create_table "feed_links", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
     t.integer "ref_category_id"
     t.integer "feed_id"
     t.integer "view_cast_id"
@@ -105,7 +105,7 @@ ActiveRecord::Schema.define(version: 20180515111923) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "feeds", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+  create_table "feeds", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
     t.integer "ref_category_id"
     t.text "rss"
     t.datetime "last_refreshed_at"
