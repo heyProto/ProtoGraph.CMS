@@ -551,8 +551,8 @@ class Page < ApplicationRecord
         view_cast = ViewCast.create({
           name: self.headline,
           site_id: site.id,
-          template_card_id: TemplateCard.where(name: 'toLanding').first.id,
-          template_datum_id: TemplateDatum.where(name: 'toLanding').first.id,
+          template_card_id: TemplateCard.where(name: 'toCrossPub').first.id,
+          template_datum_id: TemplateDatum.where(name: 'toCrossPub').first.id,
           seo_blockquote: TemplateCard.to_cross_pub_SEO(payload_json["data"]),
           folder_id: self.folder_id,
           default_view: "title_text",
