@@ -220,10 +220,10 @@ class Page < ApplicationRecord
   end
 
   def push_page_object_to_s3
-    create_story_card
+    create_story_card unless self.template_page.name == "Homepage: Vertical"
     create_landing_card if self.template_page.name == "Homepage: Vertical"
     site = self.site
-    hero_stream = self.streams.where(title: ["#{self.id}_Section_16c_Hero", "#{self.id}_Story_16c_Hero", "#{self.id}_Data_16c_Hero"]).first
+    hero_stream = self.streams.where(title: ["#{self.id}_Story_16c_Hero", "#{self.id}_Data_16c_Hero"]).first # "#{self.id}_Section_16c_Hero",
     if hero_stream.present? and hero_stream.cards.count == 0
       StreamEntity.create({
         "entity_value": "#{self.view_cast_id}",
@@ -525,21 +525,19 @@ class Page < ApplicationRecord
   def create_landing_card
     if self.status != 'draft'
       site = self.site
-      payload_json = {
-        data: {
-          site_name: site.name,
-          home_page_url: self.html_url,
-          ref_category_html: self.series.name_html,
-          show_by_publisher_in_header: self.series.show_by_publisher_in_header,
-          summary: self.summary,
-          streams: self.streams.map {|s| { url: "#{site.cdn_endpoint}/#{s.cdn_key}" }}
-        }
-      }
+      payload_json = {"data" => {}}
+      payload_json["data"]["site_name"] = site.name
+      payload_json["data"]["home_page_url"] = self.html_url
+      payload_json["data"]["ref_category_html"] = self.series.name_html
+      payload_json["data"]["show_by_publisher_in_header"] =  self.series.show_by_publisher_in_header
+      payload_json["data"]["summary"] = self.summary
+      payload_json["data"]["streams"] = self.streams.map {|s| { url: "#{site.cdn_endpoint}/#{s.cdn_key}" }}
+
       if self.landing_card.present?
         view_cast = self.landing_card
         view_cast.update({
           name: self.headline,
-          seo_blockquote: "<blockquote></blockquote>", #TemplateCard.to_story_render_SEO(payload_json["data"]),
+          seo_blockquote: TemplateCard.to_cross_pub_SEO(payload_json["data"]),
           folder_id: self.folder_id,
           by_line: (self.byline.present? and self.byline.username.present?) ? self.byline.username : "",
           ref_category_intersection_id: self.ref_category_intersection_id,
@@ -555,7 +553,7 @@ class Page < ApplicationRecord
           site_id: site.id,
           template_card_id: TemplateCard.where(name: 'toLanding').first.id,
           template_datum_id: TemplateDatum.where(name: 'toLanding').first.id,
-          seo_blockquote: "<blockquote></blockquote>", #TemplateCard.to_story_render_SEO(payload_json["data"]),
+          seo_blockquote: TemplateCard.to_cross_pub_SEO(payload_json["data"]),
           folder_id: self.folder_id,
           default_view: "title_text",
           account_id: self.account_id,
