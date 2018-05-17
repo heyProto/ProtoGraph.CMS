@@ -94,7 +94,7 @@ t_ceew_hero1 = TemplateDatum.create({name: "toCeewHeroFlow1", version: "0.0.1", 
 t_ceew_hero2 = TemplateDatum.create({name: "toCeewHeroFlow2", version: "0.0.1", s3_identifier: "cee3693de88fca23fedf"})
 t_ceew_parameter = TemplateDatum.create({name: "toCeewParameter", version: "0.0.1", s3_identifier: "89b85cf4efbd1e1368a3"})
 t_ceew_policydrilldown = TemplateDatum.create({name: "toCeewPolicyDrillDown", version: "0.0.1", s3_identifier: "52e4b99aaeb0bfb80c3d"})
-t_landing = TemplateDatum.create({name: "toLanding", version: "0.0.1", s3_identifier: "04c8efb64912bd8c58f2"})
+t_landing = TemplateDatum.create({name: "toCrossPub", version: "0.0.1", s3_identifier: "04c8efb64912bd8c58f2"})
 
 
 puts "----> Creating Template Cards"
