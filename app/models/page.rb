@@ -705,7 +705,7 @@ class Page < ApplicationRecord
   end
 
   def after_save_set
-      if self.template_page.name == 'Homepage: Vertical'
+      if self.template_page.name == 'Homepage: Vertical' and self.series.present?
         self.series.update_site_verticals
         self.series.update_columns(description: self.meta_description, keywords: self.meta_keywords)
       end
