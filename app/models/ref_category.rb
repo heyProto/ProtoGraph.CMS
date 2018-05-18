@@ -162,25 +162,27 @@ class RefCategory < ApplicationRecord
         self.update_columns(stream_url: "#{s.site.cdn_endpoint}/#{s.cdn_key}", stream_id: s.id)
 
         # Create a new page object
-        page = Page.create({account_id: self.site.account_id,
-            site_id: self.site_id,
-            headline: "#{self.name + " "*(50 - (self.name.length)) }",
-            template_page_id: TemplatePage.where(name: 'Homepage: Vertical').first.id,
-            ref_category_series_id: self.id,
-            created_by: self.created_by,
-            updated_by: self.updated_by,
-            datacast_identifier: "",
-            url: "#{vertical_page_url}",
-            meta_description: "#{description}",
-            meta_keywords: "#{keywords}"
-        })
-        page.push_json_to_s3
-        #Update the site vertical json
-        update_site_verticals
-        key = self.vertical_header_key
-        encoded_file = Base64.encode64([].to_json)
-        content_type = "application/json"
-        resp = Api::ProtoGraph::Utility.upload_to_cdn(encoded_file, key, content_type, self.site.cdn_bucket)
+        if self.genre == "series"
+            page = Page.create({account_id: self.site.account_id,
+                site_id: self.site_id,
+                headline: "#{self.name + " "*(50 - (self.name.length)) }",
+                template_page_id: TemplatePage.where(name: 'Homepage: Vertical').first.id,
+                ref_category_series_id: self.id,
+                created_by: self.created_by,
+                updated_by: self.updated_by,
+                datacast_identifier: "",
+                url: "#{vertical_page_url}",
+                meta_description: "#{description}",
+                meta_keywords: "#{keywords}"
+            })
+            page.push_json_to_s3
+            #Update the site vertical json
+            update_site_verticals
+            key = self.vertical_header_key
+            encoded_file = Base64.encode64([].to_json)
+            content_type = "application/json"
+            resp = Api::ProtoGraph::Utility.upload_to_cdn(encoded_file, key, content_type, self.site.cdn_bucket)
+        end
     end
 
 end
