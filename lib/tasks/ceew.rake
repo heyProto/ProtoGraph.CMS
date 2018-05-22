@@ -75,10 +75,6 @@ namespace :ceew_districts do
                   {
                     "key": "No. of cultivators using electric pumps",
                     "value": "#{d["No. of cultivators using electric pumps"]}"
-                  },
-                  {
-                    "key": "Parameters (Value, Percentile)",
-                    "value": ""
                   }
                 ],
                 "section": headline
@@ -220,10 +216,10 @@ namespace :ceew_districts do
             "Score on water scarcity index" => ["scarcity_index_score_value", "scarcity_index_score_score"],
             "Monthly per capita expenditure of rural agricultural households (INR)" => ["monthly_per_capita_expenditure_value", "monthly_per_capita_expenditure_score"],
             "Crop revenue per holding (INR)" => ["crop_revenue_value", "crop_revenue_score"],
-            "No of rural and semi-urban bank branches per 10,000 cultivators" => ["bank_branches_value", "bank_branches_score"],
-            "Medium and long term institutional credit disbursed in a year (in INR Crore)" => ["institutional_credit_disbursed_value", "institutional_credit_disbursed_score"],
-            "No. of calls made to Kisan Call centre (between 1/1/2011 - 31/12/2015)" => ["calls_made_to_kcc_value", "calls_made_to_kcc_score"],
-            "Level of farm mechanisation (tractors,harvesters, threshers per ha)" => ["farm_mechanisation_level_value", "farm_mechanisation_level_score"]
+            "No. of rural and semi-urban bank branches per 10,000 farmers" => ["bank_branches_value", "bank_branches_score"],
+            "Medium and long-term institutional credit disbursed in a year (in INR Crore)" => ["institutional_credit_disbursed_value", "institutional_credit_disbursed_score"],
+            "No. of calls made to Kisan Call Centre (between 1.1.2011 - 31.12.2015)" => ["calls_made_to_kcc_value", "calls_made_to_kcc_score"],
+            "Level of farm mechanisation (tractors, harvesters, threshers per ha)" => ["farm_mechanisation_level_value", "farm_mechanisation_level_score"]
         }
         all_districts.each do |d|
             headline = "#{d["District"]}, #{d["State"]}"
