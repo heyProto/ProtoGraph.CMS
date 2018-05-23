@@ -188,13 +188,14 @@ namespace :ceew_districts do
         all_districts = JSON.parse(File.read("#{Rails.root.to_s}/ref/ceew/summary.json"))
 
         all_districts.each do |d|
-            headline = "#{d["District"]}, #{d["State"]}"
+            headline = "#{d["district"]}, #{d["state"]}"
             page = Page.where(headline: headline).first
+
             if page.present?
                 puts "#{headline}"
                 puts "#{page.html_url}"
                 puts "============="
-                page.content = d["Summary"]
+                page.content = d["summary"]
                 page.prepare_cards_for_assembling= 'true'
                 page.save
                 page.push_page_object_to_s3
@@ -297,7 +298,7 @@ namespace :ceew_districts do
         district_policy_folder = Rails.env.development? ? Folder.friendly.find('test') : Folder.find(503) # DA and Policy
 
         da_map = {
-            "Private Ownership of pump" => {
+            "Private ownership of pumps" => {
                 "No. of cultivators reporting use of diesel pumps" => [
                     "cultivators_reporting_use_of_diesel_pumps_value",
                     "cultivators_reporting_use_of_diesel_pumps_percentile"
@@ -310,8 +311,7 @@ namespace :ceew_districts do
                 "Medium and long term institutional credit disbursed in a year (in INR Crore)": [
                     "institutional_credit_disbursed_value",
                     "institutional_credit_disbursed_percentile"
-                ],
-                "recommended_text" => "Availability of groundwater within safe limit, comparatively high concentration of diesel pump users, relatively higher crop revenue per revenue and institutional credit disbursed in the district make it a suitable candidate for promotion of solar-based irrigation through private ownership of solar pumps. Ownership of pump, being less subject to external fluctuation, would provide better control over irrigation for farmers."
+                ]
             },
             "Solarization of feeders" => {
                 "Power purchase rate for DISCOM" => [
@@ -322,13 +322,12 @@ namespace :ceew_districts do
                     "feeder_segregation_extent_value",
                     "feeder_segregation_extent_percentile"
                 ],
-                "Proportion of cultivators reporting electric pumps" => [
+                "Proportion of cultivators reporting use of electric pumps" => [
                     "electric_pumps_proportion_value",
                     "electric_pumps_proportion_percentile"
-                ],
-                "recommended_text" => "Given the relatively high power purchase rate for the respective DISCOM, comparatively high extent of feeder segregation, and high penetration of electric pumps, solarization of feeder would be the way to promote solar-powered irrigation in the district. It would ensure rapid and cost effective solarization of irrigation power at large scale."
+                ]
             },
-            "Water-as-a-service" => {
+            "Water as a service" => {
                 "Score on water scarcity index" => [
                     "scarcity_index_score_value",
                     "scarcity_index_score_score"
@@ -337,13 +336,12 @@ namespace :ceew_districts do
                     "cultivators_proportion_value",
                     "cultivators_proportion_percentile"
                 ],
-                "Un-irrigated net sown area as share of total net sown area" => [
+                "Unirrigated net sown area as share of total net sown area" => [
                     "unirrigated_net_sown_area_as_share_value",
                     "unirrigated_net_sown_area_as_share_percentile"
-                ],
-                "recommended_text" => "Availability of groundwater within safe limit, relatively high proportion of unirrigated area and rather high concentration of small and marginal farmers in the district make water-as-a-service, a potential way to promote solar-based irrigation. The model could help in improving irrigation equity, without requiring a farmer to bear an upfront cost to purchase a pump."
+                ]
             },
-            "Promote 1 HP and sub-HP pump" => {
+            "Promote 1 HP and sub-HP pumps" => {
                 "Area under horticulture crops as a share of gross cropped area (%)" => [
                     "area_under_horticulture_crops_value",
                     "area_under_horticulture_crops_percentile"
@@ -356,23 +354,22 @@ namespace :ceew_districts do
                     "marginal_cultivators_proportion_value",
                     "marginal_cultivators_proportion_percentile"
                 ],
-                "Medium and long term institutional credit disbursed in a year to marginal cultivators (in INR Crore)" => [
+                "Medium and long-term institutional credit disbursed in a year to small and marginal cultivators (in INR Crore)" => [
                     "institutional_credit_disbursed_to_marginal_value",
                     "institutional_credit_disbursed_to_marginal_percentile"
-                ],
-                "recommended_text" => "For small farms, 1 HP and sub-HP pumps could help a marginal farmer meet his needs. Relatively high proportion of horticulture crops under gross cropped area, rather high concentration of marginal farmers, comparatively high disbursement of institutional credit to marginal farmers, and availability of groundwater within safe limit would drive the success of such small size pumps in the district."
+                ]
             }
         }
 
         policy_map = {
             "Har Khet ko Pani" => {
-                "Un-irrigated net sown area as share of total net sown area" => [
+                "Unirrigated net sown area as share of total net sown area" => [
                     "unirrigated_net_sown_area_as_share_value",
                     "unirrigated_net_sown_area_as_share_percentile"
                 ]
             },
             "Per Drop More Crop" => {
-                "Area under crops suitable for drip irrigation as a share of gross sown area (%)" => [
+                "Area under crops suitable for drip and sprinkler irrigation as a share of gross sown area (%)" => [
                     "area_for_drip_irrigation_value",
                     "area_for_drip_irrigation_percentile"
                 ]
@@ -382,13 +379,13 @@ namespace :ceew_districts do
                     "cultivators_proportion_value",
                     "cultivators_proportion_percentile"
                 ],
-                "Medium and long term institutional credit disbursed in a year to small and marginal cultivators (in INR Crore)" => [
+                "Medium and long-term institutional credit disbursed in a year to small and marginal cultivators (in INR Crore)" => [
                     "institutional_credit_disbursed_to_small_and_marginal_value",
                     "institutional_credit_disbursed_to_small_and_marginal_percentile"
                 ]
             },
             "Doubling Farmers' Income - Crop Intensity" => {
-                "Un-irrigated net sown area as share of total net sown area" => [
+                "Unirrigated net sown area as share of total net sown area" => [
                     "unirrigated_net_sown_area_as_share_value",
                     "unirrigated_net_sown_area_as_share_percentile"
                 ]
@@ -400,13 +397,13 @@ namespace :ceew_districts do
                 ]
             },
             "National Mission on Oilseeds and Oil Palm (NMOOP)" => {
-                "Area under oilseeds crops as a share of gross cropped area (%)" => [
+                "Area under oilseeds as a share of gross cropped area (%)" => [
                     "oilseeds_crops_area_display",
                     "oilseeds_crops_area_score"
                 ]
             },
             "Sub-Mission on Agricultural Mechanisation - Farm Power Availability" => {
-                "Level of farm mechanisation (tractors,harvesters, threshers per ha)" => [
+                "Level of farm mechanisation (tractors, harvesters, threshers per ha)" => [
                     "farm_mechanisation_level_value",
                     "farm_mechanisation_level_percentile"
                 ]
@@ -416,7 +413,7 @@ namespace :ceew_districts do
                     "cultivators_proportion_value",
                     "cultivators_proportion_percentile"
                 ],
-                "Climate change vulnerability index By CRIDA" => [
+                "Score on Climate Change Vulnerability Index" => [
                     "climate_resilient_score_value",
                     "climate_resilient_score_percentile"
                 ]
@@ -426,7 +423,6 @@ namespace :ceew_districts do
         all_districts.each do |d|
             headline = "#{d["district"]}, #{d["state"]}"
             page = Page.where(headline: headline).first
-
             if page.present?
                 puts "#{headline}"
                 puts "#{page.html_url}"
@@ -447,12 +443,13 @@ namespace :ceew_districts do
                 })
 
                 da_map.each do |da, mapping|
-                    puts da
+                    # puts da
                     puts "++++++++++++++"
-                    start_sort_order += 1
+                    # start_sort_order += 1
                     #Create Drilldowncard
-                    is_recommended_text = d[da] == mapping['recommended_text'] ? "Recommended" : "Not Recommended"
-                    mapping.delete("recommended_text")
+                    is_recommended_text = d["Suitability - #{da}"]
+                    puts is_recommended_text
+                end
                     title = "#{headline} - #{da}"
                     datacast_params = {data: {
                         "title": "#{da}",
@@ -469,8 +466,6 @@ namespace :ceew_districts do
                         obj["percentile"] = "#{d[v[1]]}"
                         datacast_params[:data][:parameters] << obj
                     end
-
-
 
                     payload = {}
                     payload["payload"] = datacast_params.to_json
@@ -524,7 +519,7 @@ namespace :ceew_districts do
                         puts da
                         puts "++++++++++++++"
                         #Create Drilldown card
-                        is_recommended_text = "Recommended"
+                        is_recommended_text = ""
                         title = "#{headline} - #{da}"
                         datacast_params = {data: {
                             "title": "#{da}",
@@ -584,7 +579,7 @@ namespace :ceew_districts do
                 end
 
                 narrative_stream.publish_cards
-                page.push_page_object_to_s3
+                # page.push_page_object_to_s3
             end
         end
     end
