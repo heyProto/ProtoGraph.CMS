@@ -285,7 +285,7 @@ class Stream < ApplicationRecord
                                     end
                                     if data.has_key?('imageurl') and data['imageurl'].present?
                                         xml.image {
-                                            xml.url data['image_url']
+                                            xml.url data['imageurl']
                                         }
                                     end
                                 rescue => e
