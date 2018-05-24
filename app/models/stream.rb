@@ -283,7 +283,7 @@ class Stream < ApplicationRecord
                                     if data['publishedat'].present?
                                         xml.pubDate Date.parse(data['publishedat']).strftime("%a, %e %b %Y %H:%M:%S %z")
                                     end
-                                    if data.has_key?('image') and data['image_url'].present?
+                                    if data.has_key?('image_url') and data['image_url'].present?
                                         xml.image {
                                             xml.url data['image_url']
                                         }

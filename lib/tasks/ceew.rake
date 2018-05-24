@@ -313,7 +313,7 @@ namespace :ceew_districts do
                     "institutional_credit_disbursed_percentile"
                 ]
             },
-            "Solarization of feeders" => {
+            "Solarisation of feeders" => {
                 "Power purchase rate for DISCOM" => [
                     "power_purchase_rate_value",
                     "power_purchase_rate_percentile"
@@ -443,13 +443,10 @@ namespace :ceew_districts do
                 })
 
                 da_map.each do |da, mapping|
-                    # puts da
                     puts "++++++++++++++"
-                    # start_sort_order += 1
+                    start_sort_order += 1
                     #Create Drilldowncard
                     is_recommended_text = d["Suitability - #{da}"]
-                    puts is_recommended_text
-                end
                     title = "#{headline} - #{da}"
                     datacast_params = {data: {
                         "title": "#{da}",
