@@ -7,6 +7,7 @@ namespace :indiaspend do
         all_crimes = JSON.parse(File.read("#{Rails.root.to_s}/ref/indiaspend/hatecrime.json"))
         folder = Rails.env.development? ? Folder.friendly.find('indiaspend') : Folder.friendly.find('cards')
         all_crimes.each do |d|
+            name = "#{d['date']} - #{d['district']}, #{d['state']}"
             payload = {}
             payload["payload"] = d.to_json
             payload["source"]  = "form"

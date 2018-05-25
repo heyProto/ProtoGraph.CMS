@@ -225,3 +225,16 @@ TemplatePage.create({
   created_by: 2,
   updated_by: 2
 })
+
+TemplatePage.create({
+  name: "IndiaSpend: data grid",
+  git_url: "",
+  git_branch: "master",
+  git_repo_name: "",
+  status: "published",
+  is_public: true,
+  description: "",
+  s3_identifier: "2236cd589b5eba74af89",
+  created_by: 2,
+  updated_by: 2
+})
