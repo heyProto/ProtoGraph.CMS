@@ -214,7 +214,7 @@ namespace :ceew_districts do
         parameters_map = {
             "Unirrigated net sown area (Ha)" => ["unirrigated_net_sown_area_ha_value", "unirrigated_net_sown_area_ha_score"],
             "Area under horticulture crops as a share of gross cropped area (%)" => ["area_under_horticulture_crops_value", "area_under_horticulture_crops_score"],
-            "Score on water scarcity index" => ["scarcity_index_score_value", "scarcity_index_score_score"],
+            "Water Availability Index" => ["scarcity_index_score_value", "scarcity_index_score_score"],
             "Monthly per capita expenditure of rural agricultural households (INR)" => ["monthly_per_capita_expenditure_value", "monthly_per_capita_expenditure_score"],
             "Crop revenue per holding (INR)" => ["crop_revenue_value", "crop_revenue_score"],
             "No. of rural and semi-urban bank branches per 10,000 farmers" => ["bank_branches_value", "bank_branches_score"],
