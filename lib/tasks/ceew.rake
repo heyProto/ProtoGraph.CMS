@@ -298,12 +298,12 @@ namespace :ceew_districts do
         district_policy_folder = Rails.env.development? ? Folder.friendly.find('test') : Folder.find(503) # DA and Policy
 
         da_map = {
-            "Private ownership of pumps" => {
+            "Individually owned off-grid solar pumps" => {
                 "No. of cultivators reporting use of diesel pumps" => [
                     "cultivators_reporting_use_of_diesel_pumps_value",
                     "cultivators_reporting_use_of_diesel_pumps_percentile"
                 ],
-                "Score on water scarcity index" => [
+                "Water Availability Index" => [
                     "scarcity_index_score_value",
                     "scarcity_index_score_score"
                 ],
@@ -327,8 +327,8 @@ namespace :ceew_districts do
                     "electric_pumps_proportion_percentile"
                 ]
             },
-            "Water as a service" => {
-                "Score on water scarcity index" => [
+            "Solar based water as a service" => {
+                "Water Availability Index" => [
                     "scarcity_index_score_value",
                     "scarcity_index_score_score"
                 ],
@@ -346,7 +346,7 @@ namespace :ceew_districts do
                     "area_under_horticulture_crops_value",
                     "area_under_horticulture_crops_percentile"
                 ],
-                "Score on water scarcity index" => [
+                "Water Availability Index" => [
                     "scarcity_index_score_value",
                     "scarcity_index_score_score"
                 ],
@@ -482,7 +482,6 @@ namespace :ceew_districts do
                     payload["api_slug"] = profile_card.datacast_identifier
                     payload["schema_url"] = profile_card.template_datum.schema_json
                     payload["bucket_name"] = ceew_site.cdn_bucket
-
                     r = Api::ProtoGraph::Datacast.create(payload)
                     if r.has_key?("errorMessage")
                         profile_card.destroy
