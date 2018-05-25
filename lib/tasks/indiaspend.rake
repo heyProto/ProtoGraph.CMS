@@ -8,8 +8,10 @@ namespace :indiaspend do
         folder = Rails.env.development? ? Folder.friendly.find('indiaspend') : Folder.friendly.find('cards')
         all_crimes.each do |d|
             name = "#{d['date']} - #{d['district']}, #{d['state']}"
+            data = {}
+            data["data"] = d
             payload = {}
-            payload["payload"] = d.to_json
+            payload["payload"] = data.to_json
             payload["source"]  = "form"
             card = ViewCast.create({
                 site_id: indiaspend_site.id,
