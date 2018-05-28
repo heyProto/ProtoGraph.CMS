@@ -46,6 +46,7 @@ class Api::ProtoGraph
         class << self
 
             def invalidate(site=nil, items, quantity)
+                return [] if Rails.env.development?
                 url = "#{AWS_API_DATACAST_URL}/cloudfront/invalidate"
                 if site.present?
                     params = {}
