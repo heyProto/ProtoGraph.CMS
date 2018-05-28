@@ -127,7 +127,6 @@ namespace :ceew_districts do
             puts "---------------------------"
             page.push_page_object_to_s3
         end
-
     end
 
     task create_data_pages: :environment do
@@ -208,22 +207,22 @@ namespace :ceew_districts do
         ceew_account = Rails.env.development? ? Account.friendly.find('pykih') : Account.friendly.find('ceew')
         ceew_site = ceew_account.site
         current_user = User.find(2)
-        all_districts = JSON.parse(File.read("#{Rails.root.to_s}/ref/ceew/parameters.json"))
+        # all_districts = JSON.parse(File.read("#{Rails.root.to_s}/ref/ceew/parameters.json"))
         district_parameters_folder = Rails.env.development? ? Folder.friendly.find('test') : Folder.friendly.find('district-about-and-parameters') # Summary, About and Parameters
         t_parameter_card = TemplateCard.where(name: 'Ceew: Parameter').first
         parameters_map = {
-            "Unirrigated net sown area (Ha)" => ["unirrigated_net_sown_area_ha_value", "unirrigated_net_sown_area_ha_score"],
-            "Area under horticulture crops as a share of gross cropped area (%)" => ["area_under_horticulture_crops_value", "area_under_horticulture_crops_score"],
-            "Water Availability Index" => ["scarcity_index_score_value", "scarcity_index_score_score"],
-            "Monthly per capita expenditure of rural agricultural households (INR)" => ["monthly_per_capita_expenditure_value", "monthly_per_capita_expenditure_score"],
-            "Crop revenue per holding (INR)" => ["crop_revenue_value", "crop_revenue_score"],
-            "No. of rural and semi-urban bank branches per 10,000 farmers" => ["bank_branches_value", "bank_branches_score"],
-            "Medium and long-term institutional credit disbursed in a year (in INR Crore)" => ["institutional_credit_disbursed_value", "institutional_credit_disbursed_score"],
-            "No. of calls made to Kisan Call Centre (between 1.1.2011 - 31.12.2015)" => ["calls_made_to_kcc_value", "calls_made_to_kcc_score"],
-            "Level of farm mechanisation (tractors, harvesters, threshers per ha)" => ["farm_mechanisation_level_value", "farm_mechanisation_level_score"]
+            "Unirrigated net sown area ('000 ha)" => ["unirr_value", "unirr_percentile"],
+            "Area under horticulture crops as a share of gross cropped area" => ["horti_value", "horti_percentile"],
+            "Water Availability Index" => ["water_value", "water_percentile_1"],
+            "Monthly per capita expenditure of rural agricultural households (INR)" => ["mpce_value", "mpce_percentile"],
+            "Crop revenue per holding (INR)" => ["rev_value", "rev_percentile"],
+            "No. of rural and semi-urban bank branches per 10,000 farmers" => ["bank_value", "bank_percentile"],
+            "Medium and long-term institutional credit disbursed in a year (in INR Crore)" => ["credit_value", "credit_percentile"],
+            "No. of calls made at Kisan Call Centre (between 1.1.2011 - 31.12.2015)" => ["kcc_value", "kcc_percentile"],
+            "Level of farm mechanisation (tractors, harvesters, threshers per ha)" => ["fmech_value", "fmech_percentile"]
         }
         all_districts.each do |d|
-            headline = "#{d["District"]}, #{d["State"]}"
+            headline = "#{d["district".to_sym]}, #{d["state".to_sym]}"
             page = Page.where(headline: headline).first
             if page.present?
                 puts "#{headline}"
@@ -236,9 +235,9 @@ namespace :ceew_districts do
                     puts "==========="
                     datacast_params = { "data": {
                             "title": param,
-                            "display": "#{d[value[0]]}",
-                            "percentile": "#{d[value[1]]}",
-                            "district": d["District"]
+                            "display": "#{d[value[0].to_sym]}",
+                            "percentile": "#{d[value[1].to_sym]}",
+                            "district": d["district".to_sym]
                         }
                     }
 
@@ -282,12 +281,14 @@ namespace :ceew_districts do
                     start_sort_order += 1
                 end
                 related_stream.publish_cards
-                page.push_page_object_to_s3
+                response = Api::ProtoGraph::Page.create_or_update_page(page.datacast_identifier, page.template_page.s3_identifier, ceew_site.cdn_bucket, ENV['AWS_S3_ENDPOINT'])
+                # page.push_page_object_to_s3
             end
         end
     end
 
 
+    #Add that extra filter before you start.
     task load_da_and_policies: :environment do
         puts "Adding DA and Policies to all pages"
         ceew_account = Rails.env.development? ? Account.friendly.find('pykih') : Account.friendly.find('ceew')
@@ -308,13 +309,13 @@ namespace :ceew_districts do
                     "scarcity_index_score_score"
                 ],
                 "Crop revenue per holding (INR)" => ["crop_revenue_value", "crop_revenue_score"],
-                "Medium and long term institutional credit disbursed in a year (in INR Crore)": [
+                "Medium and long-term institutional credit disbursed in a year (in INR Crore)": [
                     "institutional_credit_disbursed_value",
                     "institutional_credit_disbursed_percentile"
                 ]
             },
             "Solarisation of feeders" => {
-                "Power purchase rate for DISCOM" => [
+                "Power purchase rate for DISCOM (INR/kWh)" => [
                     "power_purchase_rate_value",
                     "power_purchase_rate_percentile"
                 ],
@@ -336,13 +337,13 @@ namespace :ceew_districts do
                     "cultivators_proportion_value",
                     "cultivators_proportion_percentile"
                 ],
-                "Unirrigated net sown area as share of total net sown area" => [
+                "Unirrigated net sown area as a share of total net sown area" => [
                     "unirrigated_net_sown_area_as_share_value",
                     "unirrigated_net_sown_area_as_share_percentile"
                 ]
             },
             "Promote 1 HP and sub-HP pumps" => {
-                "Area under horticulture crops as a share of gross cropped area (%)" => [
+                "Area under horticulture crops as a share of gross cropped area" => [
                     "area_under_horticulture_crops_value",
                     "area_under_horticulture_crops_percentile"
                 ],
@@ -363,13 +364,13 @@ namespace :ceew_districts do
 
         policy_map = {
             "Har Khet ko Pani" => {
-                "Unirrigated net sown area as share of total net sown area" => [
+                "Unirrigated net sown area as a share of total net sown area" => [
                     "unirrigated_net_sown_area_as_share_value",
                     "unirrigated_net_sown_area_as_share_percentile"
                 ]
             },
             "Per Drop More Crop" => {
-                "Area under crops suitable for drip and sprinkler irrigation as a share of gross sown area (%)" => [
+                "Area under crops suitable for drip and sprinkler irrigation as a share of total cropped area" => [
                     "area_for_drip_irrigation_value",
                     "area_for_drip_irrigation_percentile"
                 ]
@@ -385,19 +386,19 @@ namespace :ceew_districts do
                 ]
             },
             "Doubling Farmers' Income - Crop Intensity" => {
-                "Unirrigated net sown area as share of total net sown area" => [
+                "Unirrigated net sown area as a share of total net sown area" => [
                     "unirrigated_net_sown_area_as_share_value",
                     "unirrigated_net_sown_area_as_share_percentile"
                 ]
             },
             "Doubling Farmers' Income - Crop Diversification" => {
-                "Area under horticulture crops as a share of gross cropped area (%)" => [
+                "Area under horticulture crops as a share of gross cropped area" => [
                     "area_under_horticulture_crops_value",
                     "area_under_horticulture_crops_percentile"
                 ]
             },
             "National Mission on Oilseeds and Oil Palm (NMOOP)" => {
-                "Area under oilseeds as a share of gross cropped area (%)" => [
+                "Area under oilseeds as a share of total cropped area" => [
                     "oilseeds_crops_area_display",
                     "oilseeds_crops_area_score"
                 ]
@@ -406,6 +407,10 @@ namespace :ceew_districts do
                 "Level of farm mechanisation (tractors, harvesters, threshers per ha)" => [
                     "farm_mechanisation_level_value",
                     "farm_mechanisation_level_percentile"
+                ],
+                "Proportion of cultivators reporting use of electric pumps" => [
+                    "electric_pumps_proportion_value",
+                    "electric_pumps_proportion_percentile"
                 ]
             },
             "Climate Resilient Farming for Small Farms" => {
@@ -575,7 +580,7 @@ namespace :ceew_districts do
                 end
 
                 narrative_stream.publish_cards
-                # page.push_page_object_to_s3
+                response = Api::ProtoGraph::Page.create_or_update_page(page.datacast_identifier, page.template_page.s3_identifier, ceew_site.cdn_bucket, ENV['AWS_S3_ENDPOINT'])
             end
         end
     end

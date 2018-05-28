@@ -498,7 +498,7 @@ class Page < ApplicationRecord
     data["data"]["url"] = self.html_url.to_s if self.html_url.present?
     data["data"]["headline"] = self.headline.to_s if self.headline.present?
     data["data"]["byline"] = (self.byline.present? and self.byline.username.present?) ? self.byline.username : "   "
-    data["data"]["publishedat"] = self.published_at.strftime("%Y-%m-%dT%H:%M") if self.published_at.present?
+    data["data"]["publishedat"] = self.published_at.strftime("%Y-%m-%dT%H:%M:%S") if self.published_at.present?
     data["data"]["hide_byline"] = self.hide_byline || false
     data["data"]["series"] = self.series.name.to_s if self.series.present? and self.series.name.present?
     data["data"]["genre"] = self.intersection.name.to_s if self.intersection.present? and self.intersection.name.present?
