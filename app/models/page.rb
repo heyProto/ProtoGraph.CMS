@@ -547,6 +547,7 @@ class Page < ApplicationRecord
           byline_id: self.byline_id,
           published_at: self.published_at
         })
+        is_updating = true
       else
         view_cast = ViewCast.create({
           name: self.headline,
@@ -567,6 +568,7 @@ class Page < ApplicationRecord
           ref_category_vertical_id: self.ref_category_series_id,
           published_at: self.published_at
         })
+        is_updating = false
       end
       payload = {}
       payload["payload"] = payload_json.to_json
@@ -574,7 +576,7 @@ class Page < ApplicationRecord
       payload["schema_url"] = view_cast.template_datum.schema_json
       payload["source"] = "form"
       payload["bucket_name"] = site.cdn_bucket
-      if self.landing_card.present?
+      if is_updating
         r = Api::ProtoGraph::Datacast.update(payload)
       else
         r = Api::ProtoGraph::Datacast.create(payload)
