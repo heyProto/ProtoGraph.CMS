@@ -94,7 +94,10 @@ t_ceew_hero1 = TemplateDatum.create({name: "toCeewHeroFlow1", version: "0.0.1", 
 t_ceew_hero2 = TemplateDatum.create({name: "toCeewHeroFlow2", version: "0.0.1", s3_identifier: "cee3693de88fca23fedf"})
 t_ceew_parameter = TemplateDatum.create({name: "toCeewParameter", version: "0.0.1", s3_identifier: "89b85cf4efbd1e1368a3"})
 t_ceew_policydrilldown = TemplateDatum.create({name: "toCeewPolicyDrillDown", version: "0.0.1", s3_identifier: "52e4b99aaeb0bfb80c3d"})
-
+t_landing = TemplateDatum.create({name: "toCrossPub", version: "0.0.1", s3_identifier: "04c8efb64912bd8c58f2"})
+t_credits = TemplateDatum.create({name: "ProtoGraph.Card.toCreditPartners", version: "0.0.1", s3_identifier: "acaadcfcba66f5948744"})
+t_c4a = TemplateDatum.create({name: "ProtoGraph.Card.toCreditPartners", version: "0.0.1", s3_identifier: "ab2f46cc3cb242930f73"})
+t_ispend = TemplateDatum.create({name: "ProtoGraph.Card.toIndiaSpendCard", version: "0.0.1", s3_identifier: "5dd680e900df7bb62102"})
 
 puts "----> Creating Template Cards"
 
@@ -139,6 +142,10 @@ TemplateCard.create({git_url: "git@bitbucket.org:pykih_/protograph.card.toceewhe
 TemplateCard.create({git_url: "git@bitbucket.org:pykih_/protograph.card.toceewheroflow2.git", name: "Ceew: HeroFlow2", git_branch: "master", git_repo_name: "ProtoGraph.Card.toCEEWHeroFlow2", status: "published", is_public: false, account_id: pykih_account.id, created_by: user_id, updated_by: user_id, template_datum_id: t_ceew_hero2.id, elevator_pitch: "", description: "", s3_identifier: "6a1be87e840877cd7119",has_multiple_uploads: false, allowed_views: ["col16", "col4"]})
 TemplateCard.create({git_url: "git@bitbucket.org:pykih_/protograph.card.toceewparameter.git", name: "Ceew: Parameter", git_branch: "master", git_repo_name: "ProtoGraph.Card.toCEEWParameter", status: "published", is_public: false, account_id: pykih_account.id, created_by: user_id, updated_by: user_id, template_datum_id: t_ceew_parameter.id, elevator_pitch: "", description: "", s3_identifier: "04870ca59109bb3dfdea",has_multiple_uploads: false, allowed_views: ["col7", "col4", "col3"]})
 TemplateCard.create({git_url: "git@bitbucket.org:pykih_/protograph.card.toceewpolicydrilldown.git", name: "Ceew: PolicyDrillDown", git_branch: "master", git_repo_name: "ProtoGraph.Card.toCEEWPolicyDrillDown", status: "published", is_public: false, account_id: pykih_account.id, created_by: user_id, updated_by: user_id, template_datum_id: t_ceew_policydrilldown.id, elevator_pitch: "", description: "", s3_identifier: "470b7c34f8f68c1b429c",has_multiple_uploads: false, allowed_views: ["col7", "col4"]})
+TemplateCard.create({git_url: "git@bitbucket.org:pykih_/protograph.card.tolanding.git", name: "toCrossPub", git_branch: "master", git_repo_name: "ProtoGraph.Card.toLanding", status: "published", is_public: true, account_id: pykih_account.id, created_by: user_id, updated_by: user_id, template_datum_id: t_landing.id, elevator_pitch: "", description: "", s3_identifier: "6f4657adaa3c900aa1a0",has_multiple_uploads: false, is_editable: false, allowed_views: ["col16", "col4"]})
+TemplateCard.create({git_url: "git@bitbucket.org:pykih_/protograph.card.tocredits.git", name: "toCreditPartners", git_branch: "master", git_repo_name: "ProtoGraph.Card.toCreditPartners", status: "published", is_public: true, account_id: pykih_account.id, created_by: user_id, updated_by: user_id, template_datum_id: t_credits.id, elevator_pitch: "", description: "", s3_identifier: "d583b2ea191031c6f0fc",has_multiple_uploads: false, is_editable: true, allowed_views: ["col16", "col7", "col4"]})
+TemplateCard.create({git_url: "git@bitbucket.org:pykih_/protograph.card.proc4ahealthtools.git", name: "C4A Healthtools", git_branch: "master", git_repo_name: "ProtoGraph.Card.proC4Ahealthtools", status: "published", is_public: false, account_id: pykih_account.id, created_by: user_id, updated_by: user_id, template_datum_id: t_c4a.id, elevator_pitch: "", description: "", s3_identifier: "b011d28f52396081faa8",has_multiple_uploads: false, is_editable: true, allowed_views: ["col16", "col4"]})
+TemplateCard.create({git_url: "git@bitbucket.org:pykih_/protograph.card.toindiaspendhatecrime.git", name: "toIndiaSpendCard", git_branch: "master", git_repo_name: "ProtoGraph.Card.toIndiaSpendCard", status: "published", is_public: false, account_id: pykih_account.id, created_by: user_id, updated_by: user_id, template_datum_id: t_ispend.id, elevator_pitch: "", description: "", s3_identifier: "79c10f895565f79dca4b",has_multiple_uploads: true, is_editable: true, allowed_views: ["col7", "col4"]})
 
 TemplatePage.create({
   name: "Homepage: Vertical",
@@ -215,6 +222,19 @@ TemplatePage.create({
   is_public: true,
   description: "",
   s3_identifier: "4be452da8a449ca1da29",
+  created_by: 2,
+  updated_by: 2
+})
+
+TemplatePage.create({
+  name: "IndiaSpend: data grid",
+  git_url: "",
+  git_branch: "master",
+  git_repo_name: "",
+  status: "published",
+  is_public: true,
+  description: "",
+  s3_identifier: "2236cd589b5eba74af89",
   created_by: 2,
   updated_by: 2
 })

@@ -280,12 +280,17 @@ class Stream < ApplicationRecord
                                     xml.link data["url"]
                                     xml.title data['headline']
                                     xml.description data['summary']
+                                    if data.has_key?("byline") and data["byline"]
+                                        xml.author {
+                                            xml.name data["byline"]
+                                        }
+                                    end
                                     if data['publishedat'].present?
                                         xml.pubDate Date.parse(data['publishedat']).strftime("%a, %e %b %Y %H:%M:%S %z")
                                     end
-                                    if data.has_key?('image') and data['image_url'].present?
+                                    if data.has_key?('imageurl') and data['imageurl'].present?
                                         xml.image {
-                                            xml.url data['image_url']
+                                            xml.url data['imageurl']
                                         }
                                     end
                                 rescue => e

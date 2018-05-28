@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180510083800) do
+ActiveRecord::Schema.define(version: 20180515111923) do
 
   create_table "accounts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
     t.string "username", limit: 191, collation: "utf8mb4_unicode_ci"
@@ -43,7 +43,7 @@ ActiveRecord::Schema.define(version: 20180510083800) do
     t.integer "updated_by"
   end
 
-  create_table "ad_integrations", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+  create_table "ad_integrations", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
     t.integer "account_id"
     t.integer "site_id"
     t.integer "stream_id"
@@ -53,11 +53,11 @@ ActiveRecord::Schema.define(version: 20180510083800) do
     t.integer "height"
     t.integer "width"
     t.text "slot_text"
-    t.integer "page_stream_id"
     t.integer "created_by"
     t.integer "updated_by"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "page_stream_id"
   end
 
   create_table "authentications", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
@@ -91,7 +91,7 @@ ActiveRecord::Schema.define(version: 20180510083800) do
     t.string "name", collation: "utf8_general_ci"
   end
 
-  create_table "feed_links", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+  create_table "feed_links", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
     t.integer "ref_category_id"
     t.text "link"
     t.text "headline"
@@ -105,7 +105,7 @@ ActiveRecord::Schema.define(version: 20180510083800) do
     t.integer "view_cast_id"
   end
 
-  create_table "feeds", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+  create_table "feeds", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
     t.integer "ref_category_id"
     t.text "rss"
     t.datetime "created_at", null: false
@@ -253,6 +253,7 @@ ActiveRecord::Schema.define(version: 20180510083800) do
     t.string "reported_from_district"
     t.string "reported_from_city"
     t.boolean "hide_byline", default: false
+    t.integer "landing_card_id"
   end
 
   create_table "permission_invites", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
@@ -514,6 +515,7 @@ ActiveRecord::Schema.define(version: 20180510083800) do
     t.boolean "has_grouping", default: false
     t.text "allowed_views", collation: "utf8_general_ci"
     t.integer "sort_order"
+    t.boolean "is_editable", default: true
     t.index ["slug"], name: "index_template_cards_on_slug", unique: true
   end
 

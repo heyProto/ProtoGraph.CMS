@@ -45,4 +45,10 @@
          </div>
     <% end %>
 
+    <% if v.template_page.name == "Homepage: Vertical" and v.landing_card.present? %>
+        <div class="<%= controller_name != 'ref_category' ? "single-tab" : "single-tab active-tab" %>">
+            <%= link_to "Landings Card".html_safe, landing_card_account_site_ref_category_path(@account, @site, v.series), "data-turbolinks" => "false" %>
+        </div>
+    <% end %>
+
 </div>

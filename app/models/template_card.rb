@@ -32,6 +32,7 @@
 #  has_grouping         :boolean          default(FALSE)
 #  allowed_views        :text(65535)
 #  sort_order           :integer
+#  is_editable          :boolean          default(TRUE)
 #
 
 class TemplateCard < ApplicationRecord
@@ -191,6 +192,11 @@ class TemplateCard < ApplicationRecord
             end
             links_html += "</ul>";
             blockquote_string = "<blockquote><h1>#{data["title"]}</h1><p>#{data["published_date"]}</p>#{links_html}</blockquote>"
+        end
+
+        def to_cross_pub_SEO(data)
+            blockquote_string = "<blockquote><h1>#{data["site_name"]}</h1><p>#{data["home_page_url"]}</p><p>#{data["summary"]}</p><p>#{data["ref_category_html"]}</p></blockquote>"
+            blockquote_string
         end
     end
 

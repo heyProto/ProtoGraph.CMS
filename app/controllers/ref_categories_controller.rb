@@ -3,9 +3,9 @@ class RefCategoriesController < ApplicationController
   before_action :authenticate_user!
   before_action :sudo_role_can_add_site_categories, only: [:create]
   before_action :sudo_role_can_disable_site_categories, only: [:update]
-  before_action :set_entity, only: [:edit, :update, :destroy, :disable]
+  before_action :set_entity, only: [:edit, :update, :destroy, :disable, :landing_card]
 
-  def edit  
+  def edit
   end
 
   def sections
@@ -93,6 +93,15 @@ class RefCategoriesController < ApplicationController
     when 'sub intersection'
       redirect_to sub_intersections_account_site_path(@account, @site), notice: @notice
     end
+  end
+
+  def landing_card
+    @page = @ref_category.vertical_page
+    @view_cast = @page.landing_card
+    if (Time.now - @view_cast.updated_at) > 5.minute and (@view_cast.is_invalidating)
+        @view_cast.update_column(:is_invalidating, false)
+    end
+    @view_cast_seo_blockquote = @view_cast.seo_blockquote.to_s.split('`').join('\`')
   end
 
   private
