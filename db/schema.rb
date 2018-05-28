@@ -93,26 +93,26 @@ ActiveRecord::Schema.define(version: 20180510083800) do
 
   create_table "feed_links", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer "ref_category_id"
-    t.integer "feed_id"
-    t.integer "view_cast_id"
     t.text "link"
     t.text "headline"
     t.datetime "published_at"
     t.text "description"
     t.text "cover_image"
     t.string "author"
+    t.integer "feed_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "view_cast_id"
   end
 
   create_table "feeds", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer "ref_category_id"
     t.text "rss"
-    t.datetime "last_refreshed_at"
-    t.integer "created_by"
-    t.integer "updated_by"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "created_by"
+    t.integer "updated_by"
+    t.datetime "last_refreshed_at"
     t.datetime "next_refreshed_scheduled_for"
     t.text "custom_errors"
   end
@@ -206,8 +206,8 @@ ActiveRecord::Schema.define(version: 20180510083800) do
     t.integer "site_id"
     t.integer "folder_id"
     t.string "headline", collation: "utf8_general_ci"
-    t.string "meta_keywords"
-    t.text "meta_description"
+    t.string "meta_keywords", collation: "utf8_general_ci"
+    t.text "meta_description", collation: "utf8_general_ci"
     t.text "summary", collation: "utf8_general_ci"
     t.text "cover_image_url_facebook", collation: "utf8_general_ci"
     t.text "cover_image_url_square", collation: "utf8_general_ci"
@@ -350,12 +350,9 @@ ActiveRecord::Schema.define(version: 20180510083800) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "sessions", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
-    t.text "session_id", null: false
+  create_table "sessions", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string "session_id", null: false
     t.text "data"
-    t.string "ip"
-    t.string "location_city"
-    t.string "location_state"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -372,6 +369,7 @@ ActiveRecord::Schema.define(version: 20180510083800) do
     t.datetime "updated_at", null: false
     t.integer "sort_order"
     t.integer "account_id"
+    t.string "placement"
     t.string "menu"
   end
 
@@ -592,7 +590,7 @@ ActiveRecord::Schema.define(version: 20180510083800) do
     t.index ["user_id"], name: "index_user_emails_on_user_id"
   end
 
-  create_table "user_sessions", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
+  create_table "user_sessions", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "session_id"
     t.integer "user_id"
     t.string "ip"
