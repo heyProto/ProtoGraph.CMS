@@ -229,9 +229,9 @@ class Stream < ApplicationRecord
         #Sorting the data
         if self.include_data and self.order_by_key.present?
             if self.order_by_value == "desc"
-                cards_json = cards_json.sort_by{|d| d[order_by_key].present? ? (order_by_type == 'date' ? Date.parse(d[order_by_key]) : d[order_by_key].to_s ) : nil }.reverse!
+                cards_json = cards_json.sort_by{|d| d[order_by_key].present? ? (order_by_type == 'date' ? Date.parse(d[order_by_key]) : d[order_by_key].to_s ) : '' }.reverse!
             else
-                cards_json = cards_json.sort_by{|d| d[order_by_key].present? ? (order_by_type == 'date' ? Date.parse(d[order_by_key]) : d[order_by_key].to_s ) : nil }
+                cards_json = cards_json.sort_by{|d| d[order_by_key].present? ? (order_by_type == 'date' ? Date.parse(d[order_by_key]) : d[order_by_key].to_s ) : '' }
             end
         end
 
