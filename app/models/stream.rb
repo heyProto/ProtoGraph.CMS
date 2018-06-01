@@ -293,6 +293,12 @@ class Stream < ApplicationRecord
                                             xml.url data['imageurl']
                                         }
                                     end
+                                    if data.has_key?("genre") and data['genre'].present?
+                                        xml.intersection data['genre']
+                                    end
+                                    if data.has_key?("subgenre") and data['subgenre'].present?
+                                        xml.subintersection data['subgenre']
+                                    end
                                 rescue => e
                                     d.destroy
                                 end
