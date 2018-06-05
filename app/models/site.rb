@@ -8,19 +8,19 @@
 #  domain                      :string(255)
 #  created_at                  :datetime         not null
 #  updated_at                  :datetime         not null
-#  description                 :text(65535)
+#  description                 :text
 #  primary_language            :string(255)
-#  default_seo_keywords        :text(65535)
+#  default_seo_keywords        :text
 #  house_colour                :string(255)
 #  reverse_house_colour        :string(255)
 #  font_colour                 :string(255)
 #  reverse_font_colour         :string(255)
-#  stream_url                  :text(65535)
+#  stream_url                  :text
 #  stream_id                   :integer
 #  cdn_provider                :string(255)
 #  cdn_id                      :string(255)
-#  host                        :text(65535)
-#  cdn_endpoint                :text(65535)
+#  host                        :text
+#  cdn_endpoint                :text
 #  client_token                :string(255)
 #  access_token                :string(255)
 #  client_secret               :string(255)
@@ -32,7 +32,7 @@
 #  story_card_style            :string(255)
 #  email_domain                :string(255)
 #  header_background_color     :string(255)
-#  header_url                  :text(65535)
+#  header_url                  :text
 #  header_positioning          :string(255)
 #  slug                        :string(255)
 #  is_english                  :boolean          default(TRUE)
@@ -42,7 +42,7 @@
 #  updated_by                  :integer
 #  seo_name                    :string(255)
 #  is_lazy_loading_activated   :boolean          default(TRUE)
-#  comscore_code               :text(65535)
+#  comscore_code               :text
 #  gtm_id                      :string(255)
 #  is_smart_crop_enabled       :boolean          default(FALSE)
 #  enable_ads                  :boolean          default(FALSE)

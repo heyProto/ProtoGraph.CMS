@@ -4,11 +4,11 @@
 #
 #  id               :integer          not null, primary key
 #  image_id         :integer
-#  image_key        :text(65535)
+#  image_key        :text
 #  image_width      :integer
 #  image_height     :integer
-#  thumbnail_url    :text(65535)
-#  thumbnail_key    :text(65535)
+#  thumbnail_url    :text
+#  thumbnail_key    :text
 #  thumbnail_width  :integer
 #  thumbnail_height :integer
 #  is_original      :boolean
