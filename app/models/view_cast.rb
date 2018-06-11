@@ -107,7 +107,7 @@ class ViewCast < ApplicationRecord
     private
 
     def before_create_set
-        self.optionalConfigJSON = {} if self.optionalConfigJSON.blank?
+        self.optionalconfigjson = {} if self.optionalconfigjson.blank?
         self.default_view = self.template_card.allowed_views.first if self.default_view.blank?
     end
 
@@ -116,9 +116,9 @@ class ViewCast < ApplicationRecord
         if self.folder.present? and self.series.blank? and self.folder.vertical.present?
             self.series = self.folder.vertical
         end
-        if self.optionalConfigJSON_changed? and self.optionalConfigJSON.present?
+        if self.optionalconfigjson_changed? and self.optionalconfigjson.present?
             key = "#{self.datacast_identifier}/view_cast.json"
-            encoded_file = Base64.encode64(self.optionalConfigJSON)
+            encoded_file = Base64.encode64(self.optionalconfigjson)
             content_type = "application/json"
             resp = Api::ProtoGraph::Utility.upload_to_cdn(encoded_file, key, content_type, self.site.cdn_bucket)
         end
