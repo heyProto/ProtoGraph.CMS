@@ -5,10 +5,10 @@
 #  id               :integer          not null, primary key
 #  account_id       :integer
 #  name             :string(255)
-#  description      :text(65535)
+#  description      :text
 #  s3_identifier    :string(255)
-#  thumbnail_url    :text(65535)
-#  thumbnail_key    :text(65535)
+#  thumbnail_url    :text
+#  thumbnail_key    :text
 #  thumbnail_width  :integer
 #  thumbnail_height :integer
 #  image_width      :integer
@@ -22,7 +22,7 @@
 #  is_favicon       :boolean          default(FALSE)
 #  is_cover         :boolean
 #  credits          :string(255)
-#  credit_link      :text(65535)
+#  credit_link      :text
 #
 
 class Image < ApplicationRecord

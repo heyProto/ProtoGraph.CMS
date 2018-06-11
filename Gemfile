@@ -9,7 +9,7 @@ ruby "2.3.3"
 
 #RAILS
 gem 'rails', '~> 5.1.1'
-gem 'mysql2'
+gem 'pg'
 gem 'puma', '~> 3.7'
 
 #CORE INFRASTRUCTURE

@@ -10,8 +10,8 @@
 #  updated_at    :datetime         not null
 #  cdn_provider  :string(255)
 #  cdn_id        :string(255)
-#  host          :text(65535)
-#  cdn_endpoint  :text(65535)
+#  host          :text
+#  cdn_endpoint  :text
 #  client_token  :string(255)
 #  access_token  :string(255)
 #  client_secret :string(255)

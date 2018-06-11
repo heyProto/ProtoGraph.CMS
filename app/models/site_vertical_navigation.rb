@@ -6,7 +6,7 @@
 #  site_id                  :integer
 #  ref_category_vertical_id :integer
 #  name                     :string(255)
-#  url                      :text(65535)
+#  url                      :text
 #  launch_in_new_window     :boolean
 #  created_by               :integer
 #  updated_by               :integer

@@ -4,16 +4,16 @@
 #
 #  id              :integer          not null, primary key
 #  ref_category_id :integer
-#  link            :text(65535)
-#  headline        :text(65535)
-#  published_at    :datetime
-#  description     :text(65535)
-#  cover_image     :text(65535)
-#  author          :string(255)
 #  feed_id         :integer
+#  view_cast_id    :integer
+#  link            :text
+#  headline        :text
+#  published_at    :datetime
+#  description     :text
+#  cover_image     :text
+#  author          :string(255)
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
-#  view_cast_id    :integer
 #
 
 class FeedLink < ApplicationRecord

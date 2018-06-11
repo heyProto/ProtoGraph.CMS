@@ -11,7 +11,7 @@
 #  div_id         :string(255)
 #  height         :integer
 #  width          :integer
-#  slot_text      :text(65535)
+#  slot_text      :text
 #  created_by     :integer
 #  updated_by     :integer
 #  created_at     :datetime         not null
