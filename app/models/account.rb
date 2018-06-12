@@ -10,8 +10,8 @@
 #  updated_at    :datetime         not null
 #  cdn_provider  :string(255)
 #  cdn_id        :string(255)
-#  host          :text(65535)
-#  cdn_endpoint  :text(65535)
+#  host          :text
+#  cdn_endpoint  :text
 #  client_token  :string(255)
 #  access_token  :string(255)
 #  client_secret :string(255)
@@ -41,8 +41,8 @@ class Account < ApplicationRecord
     #ACCESSORS
     attr_accessor :coming_from_new, :site_name, :domain
     #VALIDATIONS
-    validates :username, presence: true, uniqueness: { case_sensitive: false }, length: { in: 3..24 }, format: { with: /\A[a-z0-9A-Z]{4,16}\z/ }
-    validates :site_name, presence: true, length: { in: 3..24 }, format: { with: /\A[a-z0-9A-Z]{4,16}\z/ }, on: :create
+    validates :username, presence: true, uniqueness: { case_sensitive: false }, length: { in: 3..20 }, format: { with: /\A[a-z0-9A-Z]{4,20}\z/ }
+    validates :site_name, presence: true, length: { in: 3..24 }, on: :create
     validates :cdn_endpoint, format: URI::regexp(%w(http https)), allow_nil: true
     validates :domain, format: {:with => /[a-zA-Z0-9][a-zA-Z0-9-]{1,61}[a-zA-Z0-9]\.[a-zA-Z]{2,}/ }, allow_blank: true, allow_nil: true, length: { in: 3..240 }, exclusion: { in: %w(gmail.com outlook.com yahoo.com mail.com),message: "%{value} is reserved."}
     #CALLBACKS

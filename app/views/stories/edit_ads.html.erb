@@ -1,6 +1,6 @@
 <%= render partial: "stories/stories_header" %>
 <div class="row">
-    <div class="col-sm-13">
+    <div style="margin-left: auto; margin-right: auto; width: 540px;">
         <div style="margin-left: auto; margin-right: auto; width: 540px;">
             <h3>Manage all the ads for each stream here:</h3>
             <% if @ad_integrations.count > 0 %>
@@ -22,8 +22,6 @@
                 <h4>There is no ad added on this story.</h4>
             <% end %>
         </div>
-    </div>
-    <div class="col-sm-3 help-text">
         <%= simple_form_for([@account, @site, @page, @ad_integration]) do |f|%>
             <%= f.input :account_id,as: :hidden,  input_html: {value: @account.id} %>
             <%= f.input :slot_text, as: :string, label: "Slot text", required: true %>
@@ -36,28 +34,5 @@
             <%= f.input :height, required: true, input_html: { min: '0'} %>
             <%= f.button :submit, "Add" %>
         <% end %>
-        <br/>
-        <br/>
-        <div class="hint">
-            <table class="table table-sm hint">
-              <% if @page.published_at.present? %>
-                <tr>
-                  <td>Publish at</td>
-                  <td>:</td>
-                  <td><%= @page.published_at.strftime("%Y-%m-%d") %></td>
-              </tr>
-              <% end %>
-              <tr>
-                <td>Updated by</td>
-                <td>:</td>
-                <td><%= @page.updator.name %></td>
-              </tr>
-              <tr>
-                <td>On</td>
-                <td>:</td>
-                <td><%= @page.updated_at.strftime("%e %b %Y") %></td>
-              </tr>
-            </table>
-        </div>
     </div>
 </div>

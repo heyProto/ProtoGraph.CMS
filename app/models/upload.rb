@@ -4,15 +4,15 @@
 #
 #  id               :integer          not null, primary key
 #  attachment       :string(255)
-#  template_card_id :integer
+#  template_card_id :decimal(, )
 #  created_at       :datetime         not null
 #  updated_at       :datetime         not null
-#  account_id       :integer
-#  folder_id        :integer
+#  account_id       :decimal(, )
+#  folder_id        :decimal(, )
 #  created_by       :integer
 #  updated_by       :integer
-#  upload_errors    :text(65535)
-#  filtering_errors :text(65535)
+#  upload_errors    :text
+#  filtering_errors :text
 #  upload_status    :string(255)      default("waiting")
 #  total_rows       :integer
 #  rows_uploaded    :integer

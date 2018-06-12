@@ -8,10 +8,10 @@
 #  folder_id                        :integer
 #  headline                         :string(255)
 #  meta_keywords                    :string(255)
-#  meta_description                 :text(65535)
-#  summary                          :text(65535)
-#  cover_image_url_facebook         :text(65535)
-#  cover_image_url_square           :text(65535)
+#  meta_description                 :text
+#  summary                          :text
+#  cover_image_url_facebook         :text
+#  cover_image_url_square           :text
 #  cover_image_alignment            :string(255)
 #  is_sponsored                     :boolean
 #  is_interactive                   :boolean
@@ -20,12 +20,12 @@
 #  has_audio                        :boolean
 #  has_video                        :boolean
 #  published_at                     :datetime
-#  url                              :text(65535)
+#  url                              :text
 #  ref_category_series_id           :integer
 #  ref_category_intersection_id     :integer
 #  ref_category_sub_intersection_id :integer
 #  view_cast_id                     :integer
-#  page_object_url                  :text(65535)
+#  page_object_url                  :text
 #  created_by                       :integer
 #  updated_by                       :integer
 #  created_at                       :datetime         not null
@@ -39,15 +39,15 @@
 #  cover_image_id                   :integer
 #  cover_image_id_7_column          :integer
 #  due                              :date
-#  description                      :text(65535)
+#  description                      :text
 #  cover_image_id_4_column          :integer
 #  cover_image_id_3_column          :integer
 #  cover_image_id_2_column          :integer
 #  cover_image_credit               :string(255)
-#  share_text_facebook              :text(65535)
-#  share_text_twitter               :text(65535)
+#  share_text_facebook              :text
+#  share_text_twitter               :text
 #  one_line_concept                 :string(255)
-#  content                          :text(65535)
+#  content                          :text
 #  byline_id                        :integer
 #  reported_from_country            :string(255)
 #  reported_from_state              :string(255)
@@ -498,7 +498,7 @@ class Page < ApplicationRecord
     data["data"]["url"] = self.html_url.to_s if self.html_url.present?
     data["data"]["headline"] = self.headline.to_s if self.headline.present?
     data["data"]["byline"] = (self.byline.present? and self.byline.username.present?) ? self.byline.username : "   "
-    data["data"]["publishedat"] = self.published_at.strftime("%Y-%m-%dT%H:%M") if self.published_at.present?
+    data["data"]["publishedat"] = self.published_at.strftime("%Y-%m-%dT%H:%M:%S") if self.published_at.present?
     data["data"]["hide_byline"] = self.hide_byline || false
     data["data"]["series"] = self.series.name.to_s if self.series.present? and self.series.name.present?
     data["data"]["genre"] = self.intersection.name.to_s if self.intersection.present? and self.intersection.name.present?
@@ -547,6 +547,7 @@ class Page < ApplicationRecord
           byline_id: self.byline_id,
           published_at: self.published_at
         })
+        is_updating = true
       else
         view_cast = ViewCast.create({
           name: self.headline,
@@ -567,6 +568,7 @@ class Page < ApplicationRecord
           ref_category_vertical_id: self.ref_category_series_id,
           published_at: self.published_at
         })
+        is_updating = false
       end
       payload = {}
       payload["payload"] = payload_json.to_json
@@ -574,7 +576,7 @@ class Page < ApplicationRecord
       payload["schema_url"] = view_cast.template_datum.schema_json
       payload["source"] = "form"
       payload["bucket_name"] = site.cdn_bucket
-      if self.landing_card.present?
+      if is_updating
         r = Api::ProtoGraph::Datacast.update(payload)
       else
         r = Api::ProtoGraph::Datacast.create(payload)
@@ -676,7 +678,7 @@ class Page < ApplicationRecord
     when 'article'
       streams = [["Story_16c_Hero", "Hero"], ["Story_Narrative", "Narrative"], ["Story_Related", "Related"]]
     when 'data grid'
-      streams = [["Data_16c_Hero", "Hero"], ["Data_Grid", "#{self.id}_Section_data"]]
+      streams = [["Data_16c_Hero", "Hero"], ["Data_Grid", "#{self.id}_Section_data"], ["Data_credits", "Credits"]]
     else
       streams = [["Data_16c_Hero", "Hero"], ["Data_Grid", "#{self.id}_Section_data"]]
     end

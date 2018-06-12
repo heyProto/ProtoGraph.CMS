@@ -4,8 +4,8 @@
 #
 #  id          :integer          not null, primary key
 #  name        :string(255)
-#  url         :text(65535)
-#  favicon_url :text(65535)
+#  url         :text
+#  favicon_url :text
 #  created_by  :integer
 #  updated_by  :integer
 #  created_at  :datetime         not null

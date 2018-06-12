@@ -1,3 +1,37 @@
+# == Schema Information
+#
+# Table name: streams
+#
+#  id                     :integer          not null, primary key
+#  title                  :string(255)
+#  slug                   :string(255)
+#  description            :text
+#  folder_id              :integer
+#  account_id             :integer
+#  datacast_identifier    :string(255)
+#  created_by             :integer
+#  updated_by             :integer
+#  created_at             :datetime         not null
+#  updated_at             :datetime         not null
+#  card_count             :integer
+#  last_published_at      :datetime
+#  order_by_key           :string(255)
+#  order_by_value         :string(255)
+#  limit                  :integer
+#  offset                 :integer
+#  is_grouped_data_stream :boolean          default(FALSE)
+#  data_group_key         :string(255)
+#  filter_query           :text
+#  data_group_value       :string(255)
+#  site_id                :integer
+#  include_data           :boolean          default(FALSE)
+#  is_automated_stream    :boolean          default(FALSE)
+#  col_name               :string(255)
+#  col_id                 :integer
+#  order_by_type          :string(255)
+#  is_open                :boolean
+#
+
 # == Schema rnformation
 #
 # Table name: streams
@@ -106,9 +140,9 @@ class Stream < ApplicationRecord
             vc_ids = self.view_cast_ids.order(:sort_order).pluck(:entity_value)
             view_cast_or = vc_ids.present? ? account.view_casts.where(id: vc_ids).where.not(folder_id: account.folders.where(is_trash: true).first.id) : ViewCast.none
             if self.title.split("_")[1] == "Section"
-                view_cast_or = view_cast_or.order("UNIX_TIMESTAMP(published_at) DESC")
+                view_cast_or = view_cast_or.order("published_at::date DESC")
             elsif vc_ids.present?
-                view_cast_or = view_cast_or.order("field(id, #{vc_ids.join(",")})")
+                view_cast_or = view_cast_or.order("array_position(Array[#{vc_ids.join(",")}], id::integer)")
             end
             if view_cast.present? and view_cast_or.present?
                 return view_cast + view_cast_or
@@ -229,9 +263,9 @@ class Stream < ApplicationRecord
         #Sorting the data
         if self.include_data and self.order_by_key.present?
             if self.order_by_value == "desc"
-                cards_json = cards_json.sort_by{|d| d[order_by_key].present? ? (order_by_type == 'date' ? Date.parse(d[order_by_key]) : d[order_by_key] ) : nil }.reverse!
+                cards_json = cards_json.sort_by{|d| d[order_by_key].present? ? (order_by_type == 'date' ? Date.parse(d[order_by_key]) : d[order_by_key].to_s ) : '' }.reverse!
             else
-                cards_json = cards_json.sort_by{|d| d[order_by_key].present? ? (order_by_type == 'date' ? Date.parse(d[order_by_key]) : d[order_by_key] ) : nil }
+                cards_json = cards_json.sort_by{|d| d[order_by_key].present? ? (order_by_type == 'date' ? Date.parse(d[order_by_key]) : d[order_by_key].to_s ) : '' }
             end
         end
 
@@ -292,6 +326,12 @@ class Stream < ApplicationRecord
                                         xml.image {
                                             xml.url data['imageurl']
                                         }
+                                    end
+                                    if data.has_key?("genre") and data['genre'].present?
+                                        xml.intersection data['genre']
+                                    end
+                                    if data.has_key?("subgenre") and data['subgenre'].present?
+                                        xml.subintersection data['subgenre']
                                     end
                                 rescue => e
                                     d.destroy

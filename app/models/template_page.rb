@@ -4,15 +4,15 @@
 #
 #  id                  :integer          not null, primary key
 #  name                :string(255)
-#  description         :text(65535)
-#  global_slug         :text(65535)
+#  description         :text
+#  global_slug         :text
 #  is_current_version  :boolean
 #  slug                :string(255)
 #  version_series      :string(255)
 #  previous_version_id :integer
 #  version_genre       :string(255)
 #  version             :string(255)
-#  change_log          :text(65535)
+#  change_log          :text
 #  status              :string(255)
 #  publish_count       :integer
 #  is_public           :boolean
