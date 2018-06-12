@@ -79,7 +79,7 @@ class Api::V1::DatacastsController < ApiController
     end
 
     def view_cast_params
-        params.require(:view_cast).permit(:datacast_identifier, :template_datum_id, :name, :template_card_id, :optionalConfigJSON, :account_id, :updated_by, :seo_blockquote, :folder_id, :updated_by, :is_invalidating)
+        params.require(:view_cast).permit(:datacast_identifier, :template_datum_id, :name, :template_card_id, :optionalconfigjson, :account_id, :updated_by, :seo_blockquote, :folder_id, :updated_by, :is_invalidating)
     end
 
 end
