@@ -427,7 +427,7 @@ class Page < ApplicationRecord
 
   def push_json_to_s3
     transformed_keys = self.saved_changes.transform_values(&:first)
-    if self.status != "draft" and transformed_keys.present? and  (["url","is_open","due","description","one_line_concept","content"] & self.saved_changes.transform_values(&:first).keys).length == 0
+    if self.status != "draft" and transformed_keys.present? and  (["url","is_open","due","description","one_line_concept","content"] & transformed_keys.keys).length == 0
       if self.from_api
         push_page_object_to_s3
       else

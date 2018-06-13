@@ -8,6 +8,8 @@ namespace :lcw do
         folder = Rails.env.development? ? Folder.friendly.find('lcw') : Folder.friendly.find('conflicts')
         all_crimes.each do |d|
             name = "#{d['name_of_conflict']}"
+            puts name
+            puts "=========================="
             data = {}
             d['no_of_household_affected'] = d['no_of_household_affected'].to_s
             d["investment"] = d["investment"].to_s
@@ -29,7 +31,8 @@ namespace :lcw do
                 template_datum_id:  template_card.template_datum_id,
                 created_by: current_user.id,
                 updated_by: current_user.id,
-                optionalConfigJSON: {}
+                optionalconfigjson: {},
+                data_json: data
             })
 
             payload["api_slug"] = card.datacast_identifier
