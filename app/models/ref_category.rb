@@ -6,7 +6,7 @@
 #  site_id                     :integer
 #  genre                       :string(255)
 #  name                        :string(255)
-#  stream_url                  :text(65535)
+#  stream_url                  :text
 #  created_at                  :datetime         not null
 #  updated_at                  :datetime         not null
 #  stream_id                   :integer
@@ -14,13 +14,13 @@
 #  created_by                  :integer
 #  updated_by                  :integer
 #  count                       :integer          default(0)
-#  name_html                   :text(65535)
+#  name_html                   :text
 #  slug                        :string(255)
 #  english_name                :string(255)
-#  vertical_page_url           :text(65535)
+#  vertical_page_url           :text
 #  account_id                  :integer
-#  description                 :text(65535)
-#  keywords                    :text(65535)
+#  description                 :text
+#  keywords                    :text
 #  show_by_publisher_in_header :boolean          default(TRUE)
 #
 

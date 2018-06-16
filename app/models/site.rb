@@ -8,19 +8,19 @@
 #  domain                      :string(255)
 #  created_at                  :datetime         not null
 #  updated_at                  :datetime         not null
-#  description                 :text(65535)
+#  description                 :text
 #  primary_language            :string(255)
-#  default_seo_keywords        :text(65535)
+#  default_seo_keywords        :text
 #  house_colour                :string(255)
 #  reverse_house_colour        :string(255)
 #  font_colour                 :string(255)
 #  reverse_font_colour         :string(255)
-#  stream_url                  :text(65535)
+#  stream_url                  :text
 #  stream_id                   :integer
 #  cdn_provider                :string(255)
 #  cdn_id                      :string(255)
-#  host                        :text(65535)
-#  cdn_endpoint                :text(65535)
+#  host                        :text
+#  cdn_endpoint                :text
 #  client_token                :string(255)
 #  access_token                :string(255)
 #  client_secret               :string(255)
@@ -32,7 +32,7 @@
 #  story_card_style            :string(255)
 #  email_domain                :string(255)
 #  header_background_color     :string(255)
-#  header_url                  :text(65535)
+#  header_url                  :text
 #  header_positioning          :string(255)
 #  slug                        :string(255)
 #  is_english                  :boolean          default(TRUE)
@@ -42,7 +42,7 @@
 #  updated_by                  :integer
 #  seo_name                    :string(255)
 #  is_lazy_loading_activated   :boolean          default(TRUE)
-#  comscore_code               :text(65535)
+#  comscore_code               :text
 #  gtm_id                      :string(255)
 #  is_smart_crop_enabled       :boolean          default(FALSE)
 #  enable_ads                  :boolean          default(FALSE)
@@ -296,30 +296,11 @@ class Site < ApplicationRecord
     end
 
     def after_save_set
-        PublishSiteJson.perform_async(self.id)
-        # Thread.new do
-        #     header_json = {
-        #         "header_logo_url": "#{self.logo_image_id.present? ? self.logo_image.original_image.image_url : ''}",
-        #         "header_background_color": "#{self.header_background_color}",
-        #         "header_jump_to_link": "#{self.header_url}",
-        #         "header_logo_position": "#{self.header_positioning}",
-        #         "house_colour": "#{self.house_colour}",
-        #         "reverse_house_colour": "#{self.reverse_house_colour}",
-        #         "font_colour": "#{self.font_colour}",
-        #         "reverse_font_colour": "#{self.reverse_font_colour}",
-        #         "primary_language": "#{self.primary_language}",
-        #         "story_card_style": "#{self.story_card_style}",
-        #         "story_card_flip": self.story_card_flip,
-        #         "favicon_url": "#{favicon.present? ? favicon.image_url : ""}",
-        #         "show_proto_logo": show_proto_logo
-        #     }
-        #     key = "#{self.header_json_key}"
-        #     encoded_file = Base64.encode64(header_json.to_json)
-        #     content_type = "application/json"
-        #     resp = Api::ProtoGraph::Utility.upload_to_cdn(encoded_file, key, content_type, self.cdn_bucket)
-        #     Api::ProtoGraph::CloudFront.invalidate(self, ["/#{key}"], 1)
-        #     ActiveRecord::Base.connection.close
-        # end
+        transformed_keys = self.saved_changes.transform_values(&:first)
+        if (["header_logo_url", "header_background_color", "header_jump_to_link", "header_tooltip", "header_logo_position", "house_colour", "reverse_house_colour", "font_colour", "reverse_font_colour", "primary_language", "story_card_style", "story_card_flip", "favicon_url", "show_proto_logo"] & transformed_keys.keys).length > 0
+            puts "SHOULDN'T COME HERE"
+            PublishSiteJson.perform_async(self.id) if Rails.env.production?
+        end
     end
 
     def after_update_publish_site_pages
