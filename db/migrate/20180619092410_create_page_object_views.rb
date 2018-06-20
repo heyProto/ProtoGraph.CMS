@@ -2,7 +2,7 @@ class CreatePageObjectViews < ActiveRecord::Migration[5.1]
   def change
     execute("CREATE OR REPLACE VIEW page_objects AS
         select  vcs.*, ps.name_of_stream, ps.page_id from (select vc_streams.*, s.title from (select
-            vc.datacast_identifier, vc.id as view_cast_id, vc.data_json, vc.template_card_id, se.stream_id, se.sort_order
+            vc.datacast_identifier, vc.id as view_cast_id, vc.data_json, vc.template_card_id, vc.seo_blockquote, se.stream_id, se.sort_order
         from
             view_casts vc inner join stream_entities se
         on
