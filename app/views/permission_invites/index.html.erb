@@ -8,8 +8,8 @@
     <div class="col-sm-13">
         <div style="width: 100%;">
             <ul class="nav nav-tabs" style="font-size: 12px;">
-              <li class="nav-item"><%= link_to "Site Team", account_site_permission_invites_path(@account, @site), class: (controller_name == "permission_invites" and action_name == "index") ? "nav-link active" : "nav-link" %>
-              <li class="nav-item"><%= link_to "Security Settings <span class='badge badge-warning'>Pro</span>".html_safe, access_security_account_site_admins_path(@account, @site), class: (controller_name == "admins" and action_name == "access_security") ? "nav-link active" : "nav-link" %>
+              <li class="nav-item"><%= link_to "Site Team", site_permission_invites_path(@site), class: (controller_name == "permission_invites" and action_name == "index") ? "nav-link active" : "nav-link" %>
+              <li class="nav-item"><%= link_to "Security Settings <span class='badge badge-warning'>Pro</span>".html_safe, access_security_site_admins_path(@site), class: (controller_name == "admins" and action_name == "access_security") ? "nav-link active" : "nav-link" %>
             </ul>
             <br/>
             <br/>
@@ -37,19 +37,19 @@
                                     <%= permission.bio %>
                                 </td>
                                 <td style="border: 0px; width: 70px;">
-                                    <%= link_to "Edit", edit_account_permission_path(@account, permission) %>
+                                    <%= link_to "Edit", edit_site_permission_path(@site, permission) %>
                                 </td>
                                 <!--
                                 <td style="border: 0px; width: 100px;">
-                                    <% simple_form_for(permission, url: change_role_account_site_permission_path(@account, @site, permission), class: "permission_forms", method: :put) do |f| %>
+                                    <% simple_form_for(permission, url: change_role_site_permission_path(@site, permission), class: "permission_forms", method: :put) do |f| %>
                                         <%= f.hidden_field :updated_by, value: current_user.id %>
-                                        <%= f.hidden_field :redirect_url, value: account_site_permission_invites_path(@account, @site) %>
+                                        <%= f.hidden_field :redirect_url, value: site_permission_invites_path(@site) %>
                                         <%= f.input :ref_role_slug, collection: @permission_roles, include_blank: false, label: false, input_html: {class: "permission_select"} %>
                                     <% end %>
                                 </td>-->
                                 <td style="border: 0px;">
                                     <% if current_user.id != permission.user_id and permission.status != "Deactivated" %>
-                                        <%= link_to "x", account_permission_path(@account,   permission, redirect_url: account_site_permission_invites_path(@account, @site)), method: :delete, data: { confirm: 'Are you sure?' } %>
+                                        <%= link_to "x", site_permission_path(@site,   permission, redirect_url: site_permission_invites_path(@site)), method: :delete, data: { confirm: 'Are you sure?' } %>
                                     <% end %>
                                 </td>
                             </tr>
@@ -76,7 +76,7 @@
                                         </div>
                                 </td>
                                 <td style="border: 0px;">
-                                    <%= link_to "x", account_permission_invite_path(@account, permission_invite,redirect_url: account_site_permission_invites_path(@account, @site)), method: :delete, data: { confirm: 'Are you sure?' } %>
+                                    <%= link_to "x", site_permission_invite_path(@site, permission_invite,redirect_url: site_permission_invites_path(@site)), method: :delete, data: { confirm: 'Are you sure?' } %>
                                 </td>
                             </tr>
                         <% end %>
@@ -86,7 +86,7 @@
         </div>
     </div>
 	<div class="col-sm-3">
-        <%= simple_form_for [@account, @permission_invite] do |f| %>
+        <%= simple_form_for [@site, @permission_invite] do |f| %>
             <% if @permission_invite.errors.any? %>
                 <div id="error_explanation" class="ui error message">
                     <div class="header">
@@ -105,7 +105,7 @@
             <%= f.hidden_field :updated_by, value: current_user.id %>
             <%= f.input :name, required: true, autofocus: true %>
             <%= f.input :email, as: :email, id: :permission_invite_email, required: true, hint: "Ensure this email really belongs to the author. If you use someone else's email ID, and that person is on ProtoTYPE then they will get access to the account." %>
-            <%= f.hidden_field :redirect_url, value: account_site_permission_invites_path(@account, @site) %>
+            <%= f.hidden_field :redirect_url, value: site_permission_invites_path(@site) %>
             <%= f.hidden_field :ref_role_slug, value: "editor" %>
             <!-- #collection: @permission_roles, include_blank: false, label: "Role"-->
             <%= f.input :create_user, as: :boolean, label: "&nbsp; Go ahead and create user?".html_safe, hint: "We will assign a random secure password." %>

@@ -3,7 +3,7 @@
     <div class="col-sm-16">
         <%= render partial: "admins/header" %>
         <div style="margin-left: auto; margin-right: auto; width: 540px; font-size: 12px;">
-        <%= simple_form_for [@account, @site] do |f| %>
+        <%= simple_form_for [@site] do |f| %>
           <%= f.error_notification %>
           <h3>Set up the basics</h3>
           <%= f.input :seo_name, label: "Name", hint: "We will be using this name for seo purpose only", disabled: true %>
@@ -27,14 +27,13 @@
           <% if @site.favicon_id.present? and @site.favicon.present? %>
             <%= image_tag(@site.favicon.original_image.image_url, class: "rounded", style: "max-width: 30px; margin-top: 0px;", alt: "Uploading image") %>
             <br/>
-            <%= link_to "Remove", remove_favicon_account_site_path(@account, @site) %>
+            <%= link_to "Remove", remove_favicon_site_path(@site) %>
           <% else %>
             <br/><br/>
               <%= f.fields_for :favicon do |favicon| %>
                 <%= favicon.input :image, label: false %>
                 <%= favicon.input :created_by, as: :hidden, input_html: {value: current_user.id} %>
                 <%= favicon.input :updated_by, as: :hidden, input_html: {value: current_user.id} %>
-                <%= favicon.input :account_id, as: :hidden, input_html: {value: @account.id}  %>
                 <%= favicon.input :is_favicon, as: :hidden, input_html: {value: true } %>
               <% end %>
           <% end %>
@@ -50,13 +49,12 @@
           <% if @site.logo_image_id.present? %>
             <%= image_tag(@site.logo_image.original_image.image_url, class: "rounded", style: "width: 100px;", alt: "Uploading image") %>
             <br/>
-            <%= link_to "Remove", remove_logo_account_site_path(@account, @site) %>
+            <%= link_to "Remove", remove_logo_site_path(@site) %>
           <% else %>
               <%= f.fields_for :logo_image do |logo_image| %>
                 <%= logo_image.input :image, label: false %>
                 <%= logo_image.input :created_by, as: :hidden, input_html: {value: current_user.id} %>
                 <%= logo_image.input :updated_by, as: :hidden, input_html: {value: current_user.id} %>
-                <%= logo_image.input :account_id, as: :hidden, input_html: {value: @account.id}  %>
                 <%= logo_image.input :is_logo, as: :hidden, input_html: {value: true } %>
               <% end %>
           <% end %>

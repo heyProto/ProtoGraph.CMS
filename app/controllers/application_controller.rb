@@ -14,55 +14,51 @@ class ApplicationController < ActionController::Base
     redirect_to root_url, notice: "Permission denied." unless current_user.is_admin_from_pykih and return
   end
 
-  def sudo_role_can_account_settings
-    redirect_to account_site_path(@account, @site), notice: "Permission denied" unless @permission_role.can_change_account_settings and return
-  end
-
   def sudo_role_can_site_settings
-    redirect_to account_site_path(@account, @site), notice: "Permission denied" unless @permission_role.can_change_site_settings and return
+    redirect_to site_path(@site), notice: "Permission denied" unless @permission_role.can_change_site_settings and return
   end
 
   def sudo_role_can_add_site_people
-    redirect_to account_site_path(@account, @site), notice: "Permission denied" unless @permission_role.can_add_site_people and return
+    redirect_to site_path(@site), notice: "Permission denied" unless @permission_role.can_add_site_people and return
   end
 
   def sudo_role_can_add_site_categories
-    redirect_to account_site_path(@account, @site), notice: "Permission denied" unless @permission_role.can_add_site_categories and return
+    redirect_to site_path(@site), notice: "Permission denied" unless @permission_role.can_add_site_categories and return
   end
 
   def sudo_role_can_disable_site_categories
-    redirect_to account_site_path(@account, @site), notice: "Permission denied" unless @permission_role.can_disable_site_categories and return
+    redirect_to site_path(@site), notice: "Permission denied" unless @permission_role.can_disable_site_categories and return
   end
 
   def sudo_role_can_folder_settings
-    redirect_to account_site_path(@account, @site), notice: "Permission denied" unless @permission_role.can_add_folder_people and return
+    redirect_to site_path(@site), notice: "Permission denied" unless @permission_role.can_add_folder_people and return
   end
 
   def sudo_role_can_add_site_tags
-    redirect_to account_site_path(@account, @site), notice: "Permission denied" unless @permission_role.can_add_site_tags and return
+    redirect_to site_path(@site), notice: "Permission denied" unless @permission_role.can_add_site_tags and return
   end
 
   def sudo_can_see_all_folders
     if !@permission_role.can_see_all_folders and @folder.users.pluck(:user_id).uniq.exclude?(current_user.id)
-      redirect_to account_site_path(@account, @site), notice: "Permission denied" and return
+      redirect_to site_path(@site), notice: "Permission denied" and return
     end
   end
 
   def sudo_can_see_all_view_casts
     if !@permission_role.can_see_all_view_casts and @view_cast.users.pluck(:user_id).uniq.exclude?(current_user.id)
-      redirect_to account_site_path(@account, @site), notice: "Permission denied" and return
+      redirect_to site_path(@site), notice: "Permission denied" and return
     end
   end
 
   def sudo_can_see_all_pages
     if !@permission_role.can_see_all_pages and @page.users.pluck(:user_id).uniq.exclude?(current_user.id)
-      redirect_to account_site_path(@account, @site), notice: "Permission denied" and return
+      redirect_to site_path(@site), notice: "Permission denied" and return
     end
   end
 
   def sudo_can_see_all_streams
     if !@permission_role.can_see_all_streams and @stream.users.pluck(:user_id).uniq.include?(current_user.id)
-      redirect_to account_site_path(@account, @site), notice: "Permission denied" and return
+      redirect_to site_path(@site), notice: "Permission denied" and return
     end
   end
 
@@ -87,27 +83,26 @@ class ApplicationController < ActionController::Base
   private
 
   def sudo
-    if params[:account_id].present?
-      @account = Account.friendly.find(params[:account_id])
-      @site = @account.site
+    puts "params #{params}"
+    if params[:site_id].present?
+      @site = Site.friendly.find(params[:site_id])
       if params[:folder_id].present?
-        @folder = @account.folders.friendly.find(params[:folder_id])
+        @folder = @site.folders.friendly.find(params[:folder_id])
       elsif controller_name == "folders" and params[:id].present?
-        @folder = @account.folders.friendly.find(params[:id])
+        @folder = @site.folders.friendly.find(params[:id])
       end
-    elsif controller_name == "accounts" and params[:id].present?
-      @account = Account.friendly.find(params[:id])
-      @site = @account.site
+    elsif (controller_name == "sites" or controller_name == 'ref_categories') and params[:id].present?
+      @site = Site.friendly.find(params[:id])
     end
-
-  	if user_signed_in?
-      @accounts = current_user.accounts
-      if @accounts.count == 0 and !(controller_name == 'accounts' and ['new', 'create'].include?(action_name)) and !devise_controller?
-        redirect_to new_account_path, notice: t("ac.mandatory") and return
+    puts "application_controller:site=#{@site}"
+    if user_signed_in?
+      @sites = current_user.sites
+      if @sites.count == 0 and !(controller_name == 'sites' and ['new', 'create'].include?(action_name)) and !devise_controller?
+        redirect_to new_site_path, notice: t("ac.mandatory") and return
       end
-  		@on_an_account_page = (@account.present? and @account.id.present?)
-      if @on_an_account_page
-        @permission = current_user.owner_role(@account.id) || current_user.permission_object(@site.id)
+      @on_site_page = (@site.present? and @site.id.present?)
+      if @on_site_page
+        @permission = current_user.owner_role(@site.id) || current_user.permission_object(@site.id)
         if @permission.blank?
           redirect_to root_url, notice: "Permission denied." and return
         else
@@ -120,10 +115,7 @@ class ApplicationController < ActionController::Base
           @all_vertical_count = @all_verticals.count
         end
       end
-  	end
-    
-      
-    
+    end
   end
 
   protected

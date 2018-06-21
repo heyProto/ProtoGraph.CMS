@@ -10,8 +10,8 @@
 #  updated_at    :datetime         not null
 #  cdn_provider  :string(255)
 #  cdn_id        :string(255)
-#  host          :text
-#  cdn_endpoint  :text
+#  host          :text(65535)
+#  cdn_endpoint  :text(65535)
 #  client_token  :string(255)
 #  access_token  :string(255)
 #  client_secret :string(255)
@@ -59,21 +59,20 @@ class Account < ApplicationRecord
         end
     end
 
-    def template_cards
-        if self.username == 'pykih'
-            TemplateCard.all
-        else
-            TemplateCard.where("account_id = ? OR is_public = true", self.id)
-        end
-    end
+    # def template_cards
+    #     if self.username == 'pykih'
+    #         TemplateCard.all
+    #     else
+    #         TemplateCard.where("account_id = ? OR is_public = true", self.id)
+    #     end
+    # end
 
-    def template_data
-        TemplateDatum.where("account_id = ? OR is_public = true", self.id)
-    end
+    # def template_data
+    #     TemplateDatum.where("account_id = ? OR is_public = true", self.id)
+    # end
 
     #DEPENDENT DESTROY
     # Account.where(id: a).delete_all
-    # Folder.where(account_id: a).delete_all
     # Permission.where(account_id: a).delete_all
     # PermissionInvite.where(account_id: a).delete_all
     # Image.where(account_id: a).delete_all

@@ -3,7 +3,7 @@
     <div class="col-sm-16">
         <%= render partial: "admins/header" %>
         
-        <%= link_to "Add a new workspace", new_account_site_folder_path(@account, @site), data: {turbolinks: false}, style: "float: right;" %>
+        <%= link_to "Add a new workspace", new_site_folder_path(@site), data: {turbolinks: false}, style: "float: right;" %>
         <br/><br/>
         <% if @folders.first.present? %>
             <table class="table table-bordered table-hover">
@@ -30,7 +30,7 @@
                 <tbody>
                     <% @folders.each do |folder| %>
                         <tr>
-                            <td><%= link_to folder_name_(folder).html_safe, account_site_folder_view_casts_path(@account, @site, folder) %>
+                            <td><%= link_to folder_name_(folder).html_safe, site_folder_view_casts_path(@site, folder) %>
                             </td>
                             <td class="hint"><%= folder.view_casts.count %>
                             </td>
@@ -46,7 +46,7 @@
                             </td>
                             <td>
                                 <% if !folder.is_trash %>
-                                <%= link_to "Edit", edit_account_site_folder_path(@account, @site, folder) %>
+                                <%= link_to "Edit", edit_site_folder_path(@site, folder) %>
                                 <% end %>
                             </td>
                         </tr>

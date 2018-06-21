@@ -6,14 +6,13 @@
 #  site_id                  :integer
 #  ref_category_vertical_id :integer
 #  name                     :string(255)
-#  url                      :text
+#  url                      :text(65535)
 #  launch_in_new_window     :boolean
 #  created_by               :integer
 #  updated_by               :integer
 #  created_at               :datetime         not null
 #  updated_at               :datetime         not null
 #  sort_order               :integer
-#  account_id               :integer
 #  menu                     :string(255)
 #
 
@@ -26,7 +25,7 @@ class SiteVerticalNavigation < ApplicationRecord
   #GEMS
   #CONCERNS
   include Propagatable
-  include AssociableByAcSi
+  include AssociableBySi
   #ASSOCIATIONS
   belongs_to :ref_category, class_name: "RefCategory", foreign_key: "ref_category_vertical_id"
   #ACCESSORS

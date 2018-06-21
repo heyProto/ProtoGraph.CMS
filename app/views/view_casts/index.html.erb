@@ -22,7 +22,7 @@
                       <br/>
                       <ul class="list-group">
                         <% @all_workspaces.each do |folder| %>
-                            <a href="<%= account_site_folder_path(@account, @site, folder) %>">
+                            <a href="<%= site_folder_path(@site, folder) %>">
                                 <li class="<%= (@folder.present? and @folder.id.present? and @folder.id == folder.id) ? "list-group-item active" : "list-group-item" %>">
                                     <%= folder_name_(folder).html_safe  %>
                                     <span class="spanadd">(<%= folder.view_casts.count + folder.pages.count %>)</span>
@@ -33,7 +33,7 @@
                   </div>
                   <div class="tab-pane" id="profile" role="tabpanel" aria-labelledby="profile-tab">
                       <br/><br/>
-                      <%= search_form_for @q, url: account_site_folder_view_casts_path(@account, @site, @folder) do |f| %>
+                      <%= search_form_for @q, url: site_folder_view_casts_path(@site, @folder) do |f| %>
                           <%= f.label :seo_blockquote_cont, "Content contains" %>
                           <%= f.search_field :seo_blockquote_or_name_cont, :class => "form-control" %>
                           <br/>
@@ -43,7 +43,7 @@
                           <%= f.submit "Search", :class => "btn btn-sm btn-secondary" %>
                           &nbsp;&nbsp;&nbsp;&nbsp;
                           |&nbsp;&nbsp;&nbsp;&nbsp;
-                          <%= link_to "Reset", account_site_folder_view_casts_path(@account, @site, @folder) %>
+                          <%= link_to "Reset", site_folder_view_casts_path(@site, @folder) %>
                       <% end %>
                   </div>
                 </div>
@@ -52,11 +52,11 @@
         <div class="col-sm-12">
             <div class="protograph-page-tabs">
                 <div class="single-tab active-tab">
-                    <%= link_to "Cards", account_site_folder_view_casts_path(@account, @site, @folder), "data-turbolinks" => "false" %>
+                    <%= link_to "Cards", site_folder_view_casts_path(@site, @folder), "data-turbolinks" => "false" %>
                 </div>
                 <% if @folder.is_for_stories %>
                     <div class="single-tab">
-                        <%= link_to "Stories", account_site_stories_path(@account, @site,folder_id: @folder.id), "data-turbolinks" => "false" %>
+                        <%= link_to "Stories", site_stories_path(@site,folder_id: @folder.id), "data-turbolinks" => "false" %>
                     </div>
                 <% end %>
             </div>
@@ -66,7 +66,7 @@
                         <h3>There are no cards in the recycle bin.</h3>
                     <% else %>
                         <h3>No cards created yet.</h3>
-                        <p>Use the [+ Add a card] button on the top right or <%= link_to "Reset", account_site_folder_view_casts_path(@account, @site, @folder) %></p>
+                        <p>Use the [+ Add a card] button on the top right or <%= link_to "Reset", site_folder_view_casts_path(@site, @folder) %></p>
                     <% end %>
                 </div>
             <% else %>
@@ -94,7 +94,7 @@
                             <td><div class="status-signal status-green"></div>
                             </td>
                             <td>
-                                <%= link_to truncate(d.name, length: 45, ommission: ".."), [@account, @site,  @folder,d], "data-turbolinks"=> false %>
+                                <%= link_to truncate(d.name, length: 45, ommission: ".."), [@site,  @folder,d], "data-turbolinks"=> false %>
                             </td>
                             <td class="hint">
                                 <%= d.template_card.name %>

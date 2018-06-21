@@ -3,12 +3,10 @@ class Api::V1::DatacastsController < ApiController
     def create
         payload = {}
         view_cast = @folder.view_casts.new(view_cast_params)
-        view_cast.account_id = @account.id
         view_cast.site_id = @site.id
         view_cast.created_by = @user.id
         view_cast.updated_by = @user.id
         view_cast.collaborator_lists = ["#{current_user.id}"] if ["contributor", "writer"].include?(@permission_role.slug)
-        view_cast.data_json = datacast_params
         if view_cast.template_card.name == 'toStory'
             view_cast.by_line = datacast_params['data']["by_line"]
             view_cast.intersection = @site.ref_categories.where(genre: "intersection").where(name: datacast_params['data']["genre"]).first
@@ -27,11 +25,12 @@ class Api::V1::DatacastsController < ApiController
             payload["schema_url"] = view_cast.template_datum.schema_json
             payload["bucket_name"] = @site.cdn_bucket
             r = Api::ProtoGraph::Datacast.create(payload)
+            puts "response=#{r}"
             if r.has_key?("errorMessage")
                 view_cast.destroy
                 render json: {error_message: r['errorMessage']}, status: 422
             else
-                render json: {view_cast: view_cast.as_json(methods: [:remote_urls]), redirect_path: account_site_folder_view_cast_url(@account, @site, @folder, view_cast) }, status: 200
+                render json: {view_cast: view_cast.as_json(methods: [:remote_urls]), redirect_path: site_folder_view_cast_url(@site, @folder, view_cast) }, status: 200
             end
 
         else
@@ -64,11 +63,10 @@ class Api::V1::DatacastsController < ApiController
             updating_params = view_cast_params
             updating_params[:updated_by] = @user.id
             updating_params[:is_invalidating] = true
-            view_cast.data_json = datacast_params
             view_cast.update_attributes(updating_params)
             track_activity(view_cast)
             Api::ProtoGraph::CloudFront.invalidate(@site, ["/#{view_cast.datacast_identifier}/*"], 1)
-            render json: {view_cast: view_cast.as_json(methods: [:remote_urls]), redirect_path: account_site_folder_view_cast_url(@account, @site, @folder, view_cast) }, status: 200
+            render json: {view_cast: view_cast.as_json(methods: [:remote_urls]), redirect_path: site_folder_view_cast_url(@site, @folder, view_cast) }, status: 200
         end
     end
 
@@ -79,7 +77,7 @@ class Api::V1::DatacastsController < ApiController
     end
 
     def view_cast_params
-        params.require(:view_cast).permit(:datacast_identifier, :template_datum_id, :name, :template_card_id, :optionalconfigjson, :account_id, :updated_by, :seo_blockquote, :folder_id, :updated_by, :is_invalidating)
+        params.require(:view_cast).permit(:datacast_identifier, :template_datum_id, :name, :template_card_id, :optionalConfigJSON, :site_id, :updated_by, :seo_blockquote, :folder_id, :updated_by, :is_invalidating)
     end
 
 end

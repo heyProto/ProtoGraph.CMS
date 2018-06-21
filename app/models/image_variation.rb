@@ -4,11 +4,11 @@
 #
 #  id               :integer          not null, primary key
 #  image_id         :integer
-#  image_key        :text
+#  image_key        :text(65535)
 #  image_width      :integer
 #  image_height     :integer
-#  thumbnail_url    :text
-#  thumbnail_key    :text
+#  thumbnail_url    :text(65535)
+#  thumbnail_key    :text(65535)
 #  thumbnail_width  :integer
 #  thumbnail_height :integer
 #  is_original      :boolean
@@ -19,7 +19,6 @@
 #  mode             :string(255)
 #  is_social_image  :boolean
 #  is_smart_cropped :boolean          default(FALSE)
-#  account_id       :integer
 #
 
 #TODO AMIT - Handle account_id - RP added retrospectively. Need migration of old rows and BAU handling.
@@ -30,10 +29,11 @@ class ImageVariation < ApplicationRecord
   #GEMS
   #CONCERNS
   include Propagatable
-  include AssociableByAc
+  include AssociableBySi
   #ASSOCIATIONS
   belongs_to :image
-  delegate :account, to: :image
+  # delegate :account, to: :image
+  delegate :site, to: :image
 
   #ACCESSORS
   attr_accessor :crop_x, :crop_y, :crop_w, :crop_h, :resize, :autocreate, :image_w, :image_h, :instant_output
@@ -48,7 +48,7 @@ class ImageVariation < ApplicationRecord
   #PRIVATE
 
   def image_url
-    "#{account.cdn_endpoint}/#{image_key}"
+    "#{site.cdn_endpoint}/#{image_key}"
   end
 
   def as_json
@@ -74,7 +74,7 @@ class ImageVariation < ApplicationRecord
       img_path = CGI.unescape "#{Rails.root.to_s}/public#{og_image_url}"
       image_blob = Base64.encode64(File.open(img_path, "rb").read())
     else
-      img_path = "#{self.account.cdn_endpoint}/#{self.image.original_image.image_key}"
+      img_path = "#{self.site.cdn_endpoint}/#{self.image.original_image.image_key}"
       res = RestClient.get(img_path)
       image_blob = Base64.encode64(res.to_s)
     end
@@ -85,11 +85,11 @@ class ImageVariation < ApplicationRecord
         image_type: image.image.content_type.split("/").last,
         content_type: image.image.content_type,
         compression_type: "Lossless",
-        account_slug: account.slug,
+        site_slug: site.slug,
         s3_identifier: image.s3_identifier,
         image_id: id
       },
-      bucket_name: account.cdn_bucket
+      bucket_name: site.cdn_bucket
     }
 
     if image_w > 0 and image_h > 0
@@ -106,7 +106,7 @@ class ImageVariation < ApplicationRecord
       }
     end
 
-    url = "#{AWS_API_DATACAST_URL}/v2-images"
+    url = "#{AWS_API_DATACAST_URL}/v3-images"
     response = RestClient.post(url, data.to_json, {
       content_type: :json,
       accept: :json,
@@ -119,7 +119,6 @@ class ImageVariation < ApplicationRecord
       og_image = data.select { |i| i["mode"] === "og" }[0]
       thumbnail = data.select { |i| i["mode"] === "thumb" }[0]
       other_modes = data.select { |i| not ["og", "thumb"].index(i["mode"]).present? }
-
       if self.is_original
         image.update_attributes({
           thumbnail_url: thumbnail["data"]["Location"],

@@ -4,7 +4,7 @@
 <div class="jumbotroz">
     <div class="row">
         <div class="card-tags-series-name">
-            <%= link_to folder_name_(@folder), account_site_stories_path(@account, @site, folder_id: @folder.id), "data-turbolinks"=> false %>
+            <%= link_to folder_name_(@folder), site_stories_path(@site, folder_id: @folder.id), "data-turbolinks"=> false %>
         </div>
         <h1>    
             <%= truncate(@page.headline, length: 70, ommission: "..") %>
@@ -15,18 +15,18 @@
 <br/>
 <div class="protograph-page-tabs">
     <div class="<%= action_name != 'edit_write' ? "single-tab" : "single-tab active-tab" %>">
-        <%= link_to "Write", edit_write_account_site_story_path(@account, @site, @page, folder_id: @page.folder_id), "data-turbolinks" => "false" %>
+        <%= link_to "Write", edit_write_site_story_path(@site, @page, folder_id: @page.folder_id), "data-turbolinks" => "false" %>
     </div>
     <div class="<%= action_name != 'edit_assemble' ? "single-tab" : "single-tab active-tab" %>">
-        <%= link_to "Assemble", edit_assemble_account_site_story_path(@account, @site, @page, folder_id: @page.folder_id), "data-turbolinks" => "false" %>
+        <%= link_to "Assemble", edit_assemble_site_story_path(@site, @page, folder_id: @page.folder_id), "data-turbolinks" => "false" %>
     </div>
     <% if @site.enable_ads %>
         <div class="<%= action_name != 'ads' ? "single-tab" : "single-tab active-tab" %>">
-            <%= link_to "Ads", edit_ads_account_site_story_path(@account, @site, @page, folder_id: @page.folder_id),"data-turbolinks" => "false" %>
+            <%= link_to "Ads", edit_ads_site_story_path(@site, @page, folder_id: @page.folder_id),"data-turbolinks" => "false" %>
         </div>
     <% end %>
     <div class="<%= action_name != 'edit_distribute' ? "single-tab" : "single-tab active-tab" %>">
-        <%= link_to "Package", edit_distribute_account_site_story_path(@account, @site, @page, folder_id: @page.folder_id), "data-turbolinks" => "false" %>
+        <%= link_to "Package", edit_distribute_site_story_path(@site, @page, folder_id: @page.folder_id), "data-turbolinks" => "false" %>
     </div>
     <% if @page.status != 'draft' %>
         <div class="single-tab">

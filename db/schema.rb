@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180605075151) do
+ActiveRecord::Schema.define(version: 20180619082422) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -166,6 +166,8 @@ ActiveRecord::Schema.define(version: 20180605075151) do
     t.boolean "is_social_image"
     t.boolean "is_smart_cropped", default: false
     t.bigint "account_id"
+    t.bigint "site_id"
+    t.index ["site_id"], name: "index_image_variations_on_site_id"
   end
 
   create_table "images", force: :cascade do |t|
@@ -189,6 +191,8 @@ ActiveRecord::Schema.define(version: 20180605075151) do
     t.boolean "is_cover"
     t.string "credits", limit: 255
     t.text "credit_link"
+    t.bigint "site_id"
+    t.index ["site_id"], name: "index_images_on_site_id"
   end
 
   create_table "page_streams", force: :cascade do |t|
@@ -521,6 +525,8 @@ ActiveRecord::Schema.define(version: 20180605075151) do
     t.text "allowed_views"
     t.bigint "sort_order"
     t.boolean "is_editable", default: true
+    t.bigint "site_id"
+    t.index ["site_id"], name: "index_template_cards_on_site_id"
     t.index ["slug"], name: "idx_72739_index_template_cards_on_slug", unique: true
   end
 
@@ -675,4 +681,7 @@ ActiveRecord::Schema.define(version: 20180605075151) do
     t.index ["slug"], name: "idx_72813_index_view_casts_on_slug", unique: true
   end
 
+  add_foreign_key "image_variations", "sites"
+  add_foreign_key "images", "sites"
+  add_foreign_key "template_cards", "sites"
 end

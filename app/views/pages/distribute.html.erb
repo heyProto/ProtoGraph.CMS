@@ -2,7 +2,7 @@
 <div class="row">
     <div style="margin-left: auto; margin-right: auto; width: 540px;">
 
-            <%= simple_form_for(@page, url: account_site_page_path(@account, @site), method: :put) do |f| %>
+            <%= simple_form_for(@page, url: site_page_path(@site), method: :put) do |f| %>
                 <%= f.error_notification %>
                 <div class="form-inputs">
                     <br/>
@@ -22,7 +22,7 @@
                     <% if @page.cover_image_id.blank? %>
                         <%= f.fields_for :cover_image do |cover_image| %>
                             <%= cover_image.input :image, label: false, placeholder: "Upload cover image", input_html: {style: "width: 100%; background: lightgray; min-height: 200px; cursor: pointer; padding: 100px 0px;", onchange: "readURL(this);"}%>
-                            <%= cover_image.hidden_field :account_id, value: @account.id %>
+                            <%= cover_image.hidden_field :site_id, value: @site.id %>
                             <%= cover_image.hidden_field :is_cover, value: true %>
                             <%= cover_image.hidden_field :created_by, value: current_user.id %>
                             <%= cover_image.hidden_field :updated_by, value: current_user.id %>
@@ -30,7 +30,7 @@
                     <% else %>
                         <%= image_tag(@page.cover_image_url,style: 'width: 100%', class: "img-fluid") %>
                         <br/>
-                        <%= link_to "Remove", remove_cover_image_account_site_page_path(@account, @site, @page), method: :put%>
+                        <%= link_to "Remove", remove_cover_image_site_page_path(@site, @page), method: :put%>
                         <br/>
                     <% end %>
                     <%= f.input :cover_image_alignment, collection: @cover_image_alignment, selected: "horizontal", required: true %>

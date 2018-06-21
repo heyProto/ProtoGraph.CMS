@@ -16,10 +16,10 @@ class StoriesController < ApplicationController
       @page.updated_by = current_user.id
       @page.collaborator_lists = ["#{current_user.id}"] if ["contributor", "writer"].include?(@permission_role.slug)
       if @page.save
-        redirect_to account_site_stories_path(@account, @site, folder_id: @page.folder_id), notice: 'Page was successfully created.'
+        redirect_to site_stories_path(@site, folder_id: @page.folder_id), notice: 'Page was successfully created.'
       else
         flash.now.alert = @page.errors.full_messages
-        redirect_to account_site_stories_path(@account, @site, folder_id: @page.folder_id)
+        redirect_to site_stories_path(@site, folder_id: @page.folder_id)
       end
     else
       if @permission_role.can_see_all_pages
@@ -70,7 +70,7 @@ class StoriesController < ApplicationController
     #- Rao's app / Medium / Google Doc
     #@ref_intersection = RefCategory.where(site_id: @site.id, genre: "intersection", is_disabled: [false, nil]).order(:name).map {|r| ["#{r.name}", r.id]}
     #@ref_sub_intersection = RefCategory.where(site_id: @site.id, genre: "sub intersection", is_disabled: [false, nil]).order(:name).map {|r| ["#{r.name}", r.id]}
-    @template_cards = @account.template_cards.where(is_current_version: true)
+    @template_cards = @site.template_cards.where(is_current_version: true)
     
   end
 
@@ -113,12 +113,12 @@ class StoriesController < ApplicationController
     end
 
     def page_params
-      params.require(:page).permit(:id, :account_id, :site_id, :folder_id, :headline, :meta_keywords, :meta_description, :summary, :template_page_id, :byline_id, :one_line_concept,
+      params.require(:page).permit(:id, :site_id, :folder_id, :headline, :meta_keywords, :meta_description, :summary, :template_page_id, :byline_id, :one_line_concept,
                                    :cover_image_url, :cover_image_url_7_column, :cover_image_url_facebook, :cover_image_url_square, :cover_image_alignment, :content,
                                    :is_sponsored, :is_interactive, :has_data, :has_image_other_than_cover, :has_audio, :has_video, :status, :published_at, :url,
                                    :ref_category_series_id, :ref_category_intersection_id, :ref_category_sub_intersection_id, :view_cast_id, :page_object_url, :created_by,
                                    :updated_by, :english_headline, :due, :description, :cover_image_id_4_column, :cover_image_id_3_column, :cover_image_id_2_column, :cover_image_credit, :share_text_facebook,
-                                     :share_text_twitter, :publish, :prepare_cards_for_assembling,collaborator_lists: [], cover_image_attributes: [:image, :account_id, :is_cover, :created_by,
+                                     :share_text_twitter, :publish, :prepare_cards_for_assembling,collaborator_lists: [], cover_image_attributes: [:image, :site_id,:is_cover, :created_by,
                                      :updated_by])
     end
 end

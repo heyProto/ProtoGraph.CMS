@@ -39,7 +39,6 @@ class PermissionInvite < ApplicationRecord
     #CALLBACKS
     before_create :before_create_set
     #SCOPE
-    scope :account_permissions, -> { where(permissible_type: "Account") }
     scope :site_permissions, -> { where(permissible_type: "Site") }
     #OTHER
     #PRIVATE

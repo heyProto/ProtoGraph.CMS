@@ -21,7 +21,7 @@
                 <div class="proto-app-navbar-masthead">
                     <h1>
                         <% if @site.present? %>
-                            <%= link_to image_tag("proto-dark.png", style: "height: 24px;"), account_site_path(@account, @site) %>
+                            <%= link_to image_tag("proto-dark.png", style: "height: 24px;"), site_path(@site) %>
                         <% else %>
                             <%= link_to image_tag("proto-dark.png", style: "height: 24px;"), root_url %>
                         <% end %>
@@ -53,23 +53,23 @@
                                 <div class="proto-app-navbar">
                                     <div class="proto-app-navbar-logo-holder">
                                         <div class="proto-app-navbar-logo" style="display: inline-block;">
-                                            <a href="<%= @site.present? ? account_site_path(@account, @site) : root_url %>">
+                                            <a href="<%= @site.present? ? site_path(@site) : root_url %>">
                                                 <img src="https://cdn.protograph.pykih.com/Assets/proto-app/img/proto-color-logo.png" class="colored-logo">
                                                 <img src="https://cdn.protograph.pykih.com/Assets/proto-app/img/proto-grey-logo.png" class="grey-logo">
                                             </a>
                                         </div>
                                         <h1 class="proto-app-navbar-project-name" id="homepage_nav">
                                             <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><%= truncate @site.domain, length: 40, ommission: ".." %></a>
-                                            <% if @accounts.count > 1 %>
+                                            <% if @sites.count > 1 %>
                                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                                    <% @accounts.each do |a| %>
-                                                        <%= link_to "#{a.username}: #{a.site.domain}", account_site_path(a, a.site), class: "dropdown-item", style: "text-align: left; font-size: 12px !important; padding: 0px 20px !important; color: black !important;" %>
+                                                    <% @sites.each do |s| %>
+                                                        <%= link_to "#{s.domain}", site_path(s), class: "dropdown-item", style: "text-align: left; font-size: 12px !important; padding: 0px 20px !important; color: black !important;" %>
                                                     <% end %>
                                                 </div>
                                             <% end %>
                                         </h1>
                                         <div class="proto-app-navbar-project-by" style="display: inline-block;">
-                                            <%= link_to "Adminland", edit_account_site_path(@account, @site)%>
+                                            <%= link_to "Adminland", edit_site_path(@site)%>
                                         </div>
                                     </div>
                                     <div class="proto-app-navbar-navigation-bar">
@@ -82,19 +82,19 @@
                                                             <% d = ref_category.vertical_page %>
                                                             <li>
                                                                 <% if d.present? %>
-                                                                    <%= link_to "# " + ref_category.name, edit_account_site_page_path(@account, @site, d, folder_id: @folder.present? ? @folder.id : nil), "data-turbolinks"=> false, class: "dropdown-item" %>
+                                                                    <%= link_to "# " + ref_category.name, edit_site_page_path(@site, d, folder_id: @folder.present? ? @folder.id : nil), "data-turbolinks"=> false, class: "dropdown-item" %>
                                                                 <% else %>
                                                                     <%= "# " + ref_category.name %>
                                                                 <% end %>
                                                             </li>
                                                         <% end %>
-                                                        <li><%= link_to "Add Section", sections_account_site_path(@account, @site), "data-turbolinks"=> false, class: "dropdown-item" %></li>
+                                                        <li><%= link_to "Add Section", sections_site_path(@site), "data-turbolinks"=> false, class: "dropdown-item" %></li>
                                                     </div>
                                                 </div>
                                                 <div class="proto-app-navbar-page-links">
                                                     <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Assets</a>
                                                     <div class="dropdown-menu" aria-labelledby="dropdownMenuLink" style="z-index: 10000000 !important;">
-                                                        <li><%= link_to "Images", account_images_path(@account), "data-turbolinks"=> false, class: "dropdown-item" %></li>
+                                                        <li><%= link_to "Images", site_images_path(@site), "data-turbolinks"=> false, class: "dropdown-item" %></li>
                                                     </div>
                                                 </div>
                                             </div>

@@ -7,9 +7,8 @@ class PermissionInvitesController < ApplicationController
     @permissions = @site.permissions.not_hidden.includes(:user).page params[:page]
     @permission_invite = PermissionInvite.new
     @permission_invites = @site.permission_invites
-    @people_count = @site.permissions.not_hidden.count
     @pending_invites_count = @site.permission_invites.count
-    @permission_invites = @site.permission_invites
+    @people_count = @site.permissions.not_hidden.count
     @permission_roles = PermissionRole.where.not(slug: "owner").pluck(:name, :slug)
     @is_admin = true
     
@@ -50,7 +49,7 @@ class PermissionInvitesController < ApplicationController
           @permission_invite.destroy
         end
         unless @permission_invite.do_not_email_user
-          PermissionInvites.invite(current_user, @account, @permission_invite.email).deliver
+          PermissionInvites.invite(current_user, @site, @permission_invite.email).deliver
         else
           if @permission_invite.create_user
             notice = t("permission_invite.noinvite")
@@ -60,11 +59,11 @@ class PermissionInvitesController < ApplicationController
         end
         redirect_to permission_invite_params[:redirect_url], notice: notice
       else
-        @permissions = @account.permissions.includes(:user).page params[:page]
-        @permission_invites = @account.permission_invites
-        @people_count = @account.users.count
-        @pending_invites_count = @account.permission_invites.count
-        @permission_invites = @account.permission_invites
+        @permissions = @site.permissions.includes(:user).page params[:page]
+        @permission_invites = @site.permission_invites
+        @people_count = @site.users.count
+        @pending_invites_count = @site.permission_invites.count
+        @permission_invites = @site.permission_invites
         @show_modal = true
         render "permission_invites/index"
       end

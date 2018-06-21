@@ -6,7 +6,7 @@
 #  site_id                     :integer
 #  genre                       :string(255)
 #  name                        :string(255)
-#  stream_url                  :text
+#  stream_url                  :text(65535)
 #  created_at                  :datetime         not null
 #  updated_at                  :datetime         not null
 #  stream_id                   :integer
@@ -14,13 +14,12 @@
 #  created_by                  :integer
 #  updated_by                  :integer
 #  count                       :integer          default(0)
-#  name_html                   :text
+#  name_html                   :text(65535)
 #  slug                        :string(255)
 #  english_name                :string(255)
-#  vertical_page_url           :text
-#  account_id                  :integer
-#  description                 :text
-#  keywords                    :text
+#  vertical_page_url           :text(65535)
+#  description                 :text(65535)
+#  keywords                    :text(65535)
 #  show_by_publisher_in_header :boolean          default(TRUE)
 #
 
@@ -35,7 +34,7 @@ class RefCategory < ApplicationRecord
     friendly_id :english_name, use: :slugged
     #CONCERNS
     include Propagatable
-    include AssociableByAcSi
+    include AssociableBySi
     #ASSOCIATIONS
     has_one :stream, foreign_key: 'id', primary_key: 'stream_id'
     has_many :navigations, class_name: "SiteVerticalNavigation", foreign_key: "ref_category_vertical_id", dependent: :destroy
@@ -122,10 +121,10 @@ class RefCategory < ApplicationRecord
 
     class << self
 
-        def find_or_create(genre, site_id, name, created_by, updated_by, account_id)
+        def find_or_create(genre, site_id, name, created_by, updated_by)
             rc = where(genre: genre, name: name).first
             if rc.blank?
-                rc = create({genre: genre, name: name, site_id: site_id, created_by: created_by, updated_by: updated_by, account_id: account_id, english_name: name})
+                rc = create({genre: genre, name: name, site_id: site_id, created_by: created_by, updated_by: updated_by, english_name: name})
             end
             rc
         end
@@ -152,7 +151,6 @@ class RefCategory < ApplicationRecord
             is_automated_stream: true,
             col_name: "RefCategory",
             col_id: self.id,
-            account_id: self.site.account_id,
             title: self.name,
             description: "#{self.name} stream",
             site_id: self.site_id,
@@ -163,7 +161,7 @@ class RefCategory < ApplicationRecord
 
         # Create a new page object
         if self.genre == "series"
-            page = Page.create({account_id: self.site.account_id,
+            page = Page.create({
                 site_id: self.site_id,
                 headline: "#{self.name + " "*(50 - (self.name.length)) }",
                 template_page_id: TemplatePage.where(name: 'Homepage: Vertical').first.id,

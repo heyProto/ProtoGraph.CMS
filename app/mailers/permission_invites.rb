@@ -3,10 +3,10 @@ class PermissionInvites < ApplicationMailer
   default from: FROM_EMAIL
   layout 'mailer'
 
-  def invite(user, account, email)
-  	@account = account
+  def invite(user, site, email)
+  	@site = site
   	@user = user
-  	mail(to: email, subject: "Invitation to collaborate on account: #{@account.slug}", tag: "organisation-invite-email")
+  	mail(to: email, subject: "Invitation to collaborate on site: #{@site.slug}", tag: "organisation-invite-email")
   end
 
 end

@@ -1,17 +1,23 @@
 development:
   adapter: postgresql
-  database: pykih_publishing_dev2
+  database: pykih_publishing_dev_rem_acc
   username: developer
   password: developer
   host: localhost
   port: 5432
-  pool: 25
+
+staging:
+  adapter: mysql2
+  database: <%= ENV['STAGING_DB_NAME'] %>
+  username: <%= ENV['STAGING_DB_USER'] %>
+  password: <%= ENV['STAGING_DB_PASSWORD'] %>
+  host: <%= ENV['STAGING_DB_HOST'] %>
+  port: 3306
 
 production:
-  adapter: postgresql
+  adapter: mysql2
   database: <%= ENV['PRODUCTION_DB_NAME'] %>
   username: <%= ENV['PRODUCTION_DB_USER'] %>
   password: <%= ENV['PRODUCTION_DB_PASSWORD'] %>
   host: <%= ENV['PRODUCTION_DB_HOST'] %>
-  port: 5432
-  pool: 25
+  port: 3306

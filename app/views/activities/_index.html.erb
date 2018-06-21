@@ -17,25 +17,25 @@
                 <%= a.action.sub(/e?$/, "ed")  %>
                 <% if a.trackable.class.to_s == "Folder" %>
                   a workspace
-                  <%= link_to a.trackable.name.titleize, [a.trackable.account, a.trackable.site, a.trackable] %>
+                  <%= link_to a.trackable.name.titleize, [a.trackable.site, a.trackable] %>
                 <% elsif a.trackable.class.to_s == "ViewCast" %>
                   a card
-                  <%= link_to a.trackable.name.titleize, [a.trackable.account, a.trackable.site, a.trackable.folder, a.trackable],"data-turbolinks" => "false" if a.trackable.present? and a.trackable.folder.present? %>
+                  <%= link_to a.trackable.name.titleize, [a.trackable.site, a.trackable.folder, a.trackable],"data-turbolinks" => "false" if a.trackable.present? and a.trackable.folder.present? %>
                 <% elsif a.trackable.class.to_s == "Stream" %>
                   a stream
-                  <%= link_to a.trackable.title.titleize, [a.trackable.account, a.trackable.site, a.trackable.folder, a.trackable] %>
+                  <%= link_to a.trackable.title.titleize, [a.trackable.site, a.trackable.folder, a.trackable] %>
                 <% elsif a.trackable.class.to_s == "Image" %>
                   an image
-                  <%= link_to a.trackable.name, [a.trackable.account, a.trackable], "data-turbolinks" => "false" %>
+                  <%= link_to a.trackable.name, [a.trackable.site, a.trackable], "data-turbolinks" => "false" %>
                 <% elsif a.trackable.class.to_s == "ImageVariation" %>
                   a <%= link_to "variation", a.trackable.image_url %> from image
-                  <%= link_to a.trackable.image.name.titleize, [a.trackable.account, a.trackable], "data-turbolinks" => "false" %>
+                  <%= link_to a.trackable.image.name.titleize, [a.trackable.site, a.trackable], "data-turbolinks" => "false" %>
                 <% elsif a.trackable.class.to_s == "Audio" %>
                   an audio
-                  <%= link_to a.trackable.name, [a.trackable.account, a.trackable], "data-turbolinks" => "false" %>
+                  <%= link_to a.trackable.name, [a.trackable.site, a.trackable], "data-turbolinks" => "false" %>
                 <% elsif a.trackable.class.to_s == "AudioVariation" %>
                   a <%= link_to "variation", a.trackable.audio_url, "target": "_blank" %> from audio
-                  <%= link_to a.trackable.audio.name.titleize, [a.trackable.account, a.trackable.audio], "data-turbolinks" => "false" %>
+                  <%= link_to a.trackable.audio.name.titleize, [a.trackable.site, a.trackable.audio], "data-turbolinks" => "false" %>
                 <% end %>
               </td>
           </tr>

@@ -13,7 +13,7 @@
                                 <p class='hint'><%= ad.page_stream.name_of_stream %> - <%= ad.sort_order %></p>
                             </td>
                             <td>
-                                <%= link_to "x", [@account, @site, @page, ad], method: :delete, data: { confirm: 'Are you sure?' } %>
+                                <%= link_to "x", [@site, @page, ad], method: :delete, data: { confirm: 'Are you sure?' } %>
                             </td>
                         </tr>
                     <% end %>
@@ -22,8 +22,7 @@
                 <h4>There is no ad added on this story.</h4>
             <% end %>
         </div>
-        <%= simple_form_for([@account, @site, @page, @ad_integration]) do |f|%>
-            <%= f.input :account_id,as: :hidden,  input_html: {value: @account.id} %>
+        <%= simple_form_for([@site, @page, @ad_integration]) do |f|%>
             <%= f.input :slot_text, as: :string, label: "Slot text", required: true %>
             <%= f.input :page_stream_id, collection: @page_streams.map{|p| [p.name_of_stream, p.id]}, include_blank: false %>
             <%= f.input :site_id, as: :hidden, input_html: {value: @site.id} %>

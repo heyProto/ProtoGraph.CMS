@@ -19,13 +19,11 @@ module Propagatable
         elsif self.class.to_s == "SiteVerticalNavigation"
           self.ref_category.update_attributes(updated_at: Time.now)         if self.ref_category.present?
         elsif ["Image"].index(self.class.to_s).present?
-          self.account.update_attributes(updated_at: Time.now)              if self.account.present?
+          self.site.update_attributes(updated_at: Time.now)              if self.site.present?
         elsif ["RefCategory", "Folder"].index(self.class.to_s).present?
           self.site.update_attributes(updated_at: Time.now)                 if self.site.present?
         elsif ["PageStream"].index(self.class.to_s).present?
           self.page.update_attributes(updated_at: Time.now)                 if self.page.present?
-        elsif ["Site"].index(self.class.to_s).present?
-          self.account.update_attributes(updated_at: Time.now)              if self.account.present?
         elsif ["UserEmail"].index(self.class.to_s).present?
           self.user.update_attributes(updated_at: Time.now)                 if self.user.present?
         elsif ["ImageVariation"].index(self.class.to_s).present?

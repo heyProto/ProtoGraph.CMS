@@ -8,23 +8,23 @@ class PermissionsController < ApplicationController
 
   def update
     if @permission.update(permission_params)
-        redirect_to edit_account_permission_path(@account, @permission), notice: t('us')
+        redirect_to edit_site_permission_path(@site, @permission), notice: t('us')
     else
       render :edit, alert: @permission.errors.full_messages
     end
   end
 
   def change_owner_role
-    @permissions = @account.permissions.not_hidden.where(ref_role_slug: "owner").includes(:user).page params[:page]
+    @permissions = @site.permissions.not_hidden.where(ref_role_slug: "owner").includes(:user).page params[:page]
     @permission_invite = PermissionInvite.new
-    @permission_invites = @account.permission_invites.where(ref_role_slug: "owner")
-    @people_count = @account.permissions.not_hidden.where(ref_role_slug: "owner").count
-    @pending_invites_count = @account.permission_invites.where(ref_role_slug: "owner").count
-    @permission_invites = @account.permission_invites.where(ref_role_slug: "owner")
-    @people_count = @account.permissions.not_hidden.where(ref_role_slug: "owner").count
-    @pending_invites_count = @account.permission_invites.where(ref_role_slug: "owner").count
+    @permission_invites = @site.permission_invites.where(ref_role_slug: "owner")
+    @people_count = @site.permissions.not_hidden.where(ref_role_slug: "owner").count
+    @pending_invites_count = @site.permission_invites.where(ref_role_slug: "owner").count
+    @permission_invites = @site.permission_invites.where(ref_role_slug: "owner")
+    @people_count = @site.permissions.not_hidden.where(ref_role_slug: "owner").count
+    @pending_invites_count = @site.permission_invites.where(ref_role_slug: "owner").count
     @permission_roles = PermissionRole.where.not(slug: 'owner').pluck(:name, :slug)
-    @sites = [[@site.name, @site.id]] #@account.sites.pluck(:name, :id)
+    @sites = [[@site.name, @site.id]]
   end
 
   def change_role
@@ -44,6 +44,6 @@ class PermissionsController < ApplicationController
     end
 
     def permission_params
-      params.require(:permission).permit(:user_id, :account_id, :ref_role_slug, :status, :name, :bio, :meta_description, :created_by, :updated_by, :redirect_url, :site_ref_role_slug, sites: [])
+      params.require(:permission).permit(:user_id, :site_id, :ref_role_slug, :status, :name, :bio, :meta_description, :created_by, :updated_by, :redirect_url, :site_ref_role_slug, sites: [])
     end
 end

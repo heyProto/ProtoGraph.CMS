@@ -23,7 +23,7 @@ class AdIntegrationsController < ApplicationController
     private
 
     def ad_integration_params
-        params.require(:ad_integration).permit(:account_id, :site_id, :stream_id, :page_id, :sort_order, :div_id, :width, :height, :slot_text, :page_stream_id)
+        params.require(:ad_integration).permit(:site_id, :stream_id, :page_id, :sort_order, :div_id, :width, :height, :slot_text, :page_stream_id)
     end
 
     def set_page

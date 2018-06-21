@@ -10,7 +10,6 @@
 #  created_at     :datetime         not null
 #  updated_at     :datetime         not null
 #  name_of_stream :string(255)
-#  account_id     :integer
 #  site_id        :integer
 #  folder_id      :integer
 #
@@ -24,7 +23,7 @@ class PageStream < ApplicationRecord
   #GEMS
   #CONCERNS
   include Propagatable
-  include AssociableByAcSiFo
+  include AssociableBySiFo
   #ASSOCIATIONS
   belongs_to :page
   belongs_to :stream

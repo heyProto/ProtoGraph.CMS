@@ -3,10 +3,9 @@
 # Table name: template_cards
 #
 #  id                   :integer          not null, primary key
-#  account_id           :integer
 #  name                 :string(255)
 #  elevator_pitch       :string(255)
-#  description          :text
+#  description          :text(65535)
 #  global_slug          :string(255)
 #  is_current_version   :boolean
 #  slug                 :string(255)
@@ -14,11 +13,11 @@
 #  previous_version_id  :integer
 #  version_genre        :string(255)
 #  version              :string(255)
-#  change_log           :text
+#  change_log           :text(65535)
 #  status               :string(255)
 #  publish_count        :integer
 #  is_public            :boolean
-#  git_url              :text
+#  git_url              :text(65535)
 #  git_branch           :string(255)      default("master")
 #  created_by           :integer
 #  updated_by           :integer
@@ -30,7 +29,7 @@
 #  s3_identifier        :string(255)
 #  has_multiple_uploads :boolean          default(FALSE)
 #  has_grouping         :boolean          default(FALSE)
-#  allowed_views        :text
+#  allowed_views        :text(65535)
 #  sort_order           :integer
 #  is_editable          :boolean          default(TRUE)
 #
@@ -49,9 +48,9 @@ class TemplateCard < ApplicationRecord
     #CUSTOM TABLES
     #GEMS
     extend FriendlyId
-    friendly_id :slug_candidates, use: :scoped, scope: [:account_id]
+    friendly_id :slug_candidates, use: :scoped, scope: [:site_id]
     #CONCERNS
-    include AssociableByAc
+    include AssociableBySi
     include Versionable
     #ASSOCIATIONS
     belongs_to :template_datum
@@ -62,7 +61,6 @@ class TemplateCard < ApplicationRecord
     attr_accessor :previous_version_id
 
     #VALIDATIONS
-    validates :account_id, presence: true
     validates :template_datum_id, presence: true
     validates :name, presence: true #AMIT TODO - name has to be unique within an account
     validates :created_by, presence: true
@@ -92,7 +90,6 @@ class TemplateCard < ApplicationRecord
         elsif self.version_genre == "bug"
             self.version            = v.bump!.to_s
         end
-        self.account_id             = p.account_id
         self.name                   = p.name
         self.global_slug            = p.global_slug
         self.is_current_version     = false
