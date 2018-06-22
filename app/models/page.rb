@@ -200,12 +200,11 @@ class Page < ApplicationRecord
     when 'article'
       major_streams = ["#{self.id}_Story_16c_Hero", "#{self.id}_Story_Narrative", "#{self.id}_Story_Related"]
     else
-      major_streams = []
+      major_streams = ["#{self.id}_Data_credits"]
     end
 
     self.streams.each do |stream|
       if (major_streams & [stream.title]).length > 0
-        major_stream_blockquotes[stream.title] = {}
         major_stream_blockquotes[stream.title] = []
         stream.cards.each do |card|
           seo_blockquote = card.seo_blockquote
@@ -686,7 +685,7 @@ class Page < ApplicationRecord
     when 'data grid'
       streams = [["Data_16c_Hero", "Hero"], ["Data_Grid", "#{self.id}_Section_data"], ["Data_credits", "Credits"]]
     else
-      streams = [["Data_16c_Hero", "Hero"], ["Data_Grid", "#{self.id}_Section_data"]]
+      streams = [["Data_16c_Hero", "Hero"], ["Data_Grid", "#{self.id}_Section_data"], ["Data_credits", "Credits"]]
     end
     streams.each do |s|
       stream = Stream.create!({
