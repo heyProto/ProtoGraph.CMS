@@ -312,7 +312,7 @@ class Site < ApplicationRecord
     end
 
     def after_save_set
-        PublishSiteJson.perform_async(self.id)
+        # PublishSiteJson.perform_async(self.id)
         # Thread.new do
         #     header_json = {
         #         "header_logo_url": "#{self.logo_image_id.present? ? self.logo_image.original_image.image_url : ''}",

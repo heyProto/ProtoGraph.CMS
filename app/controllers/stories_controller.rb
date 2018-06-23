@@ -62,7 +62,6 @@ class StoriesController < ApplicationController
     @page_stream_16 = @page.streams.where(title: title).first
     @page_streamH16 = @page.page_streams.where(name_of_stream: "Hero").first
     @stream_entity = StreamEntity.new
-    
   end
 
   def edit_write

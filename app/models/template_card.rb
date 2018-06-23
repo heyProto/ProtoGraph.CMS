@@ -110,9 +110,9 @@ class TemplateCard < ApplicationRecord
         return false
     end
 
-    def account_slug
-        puts self.account.inspect
-        self.account.slug
+    def site_slug
+        puts self.site.inspect
+        self.site.slug
     end
 
     def icon_url
@@ -122,7 +122,7 @@ class TemplateCard < ApplicationRecord
     def versions
         #self.siblings.where.not(id:  self.id).as_json(only: [:account_id, :id, :slug, :global_slug,:name, :elevator_pitch], methods: [:account_slug, :icon_url])
         #uncomment after testing
-        self.siblings.as_json(only: [:account_id, :id, :slug, :global_slug,:name, :elevator_pitch], methods: [:account_slug, :icon_url])
+        self.siblings.as_json(only: [:site_id, :id, :slug, :global_slug,:name, :elevator_pitch], methods: [:site_slug, :icon_url])
     end
 
     def base_url

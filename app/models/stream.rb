@@ -107,7 +107,8 @@ class Stream < ApplicationRecord
             if self.title.split("_")[1] == "Section"
                 view_cast_or = view_cast_or.order("published_at DESC")
             elsif vc_ids.present?
-                view_cast_or = view_cast_or.order("field(id, #{vc_ids.join(",")})")
+                # view_cast_or = view_cast_or.order("field(id, #{vc_ids.join(",")})")
+                ViewCast.where(:id => vc_ids).order_by_ids(vc_ids).map(&:id)
             end
             if view_cast.present? and view_cast_or.present?
                 return view_cast + view_cast_or

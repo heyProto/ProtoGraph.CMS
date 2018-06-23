@@ -67,11 +67,11 @@ class ApplicationController < ActionController::Base
   end
 
   def track_activity(trackable, action = params[:action])
-    if @account.present?
+    if @site.present?
       if @folder.present?
-          current_user.activities.create!(action: action, trackable: trackable, account_id: @account.id, folder_id: @folder.id, site_id: @site.id)
+          current_user.activities.create!(action: action, trackable: trackable, folder_id: @folder.id, site_id: @site.id)
       else
-          current_user.activities.create!(action: action, trackable: trackable, account_id: @account.id, site_id: @site.id)
+          current_user.activities.create!(action: action, trackable: trackable, site_id: @site.id)
       end
     end
   end

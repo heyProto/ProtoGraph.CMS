@@ -20,7 +20,9 @@ class PagesController < ApplicationController
   end
 
   def edit
+    puts 'pages# edit'
     if @page.template_page.name == "article"
+      puts 'pages# redirect to edite write site story'
       redirect_to edit_write_site_story_path(@site, @page, folder_id: @page.folder_id)
     else
 
@@ -30,6 +32,7 @@ class PagesController < ApplicationController
         @page.build_cover_image
       end
       if @page.template_page.name == "Homepage: Vertical"
+        puts 'pages# homepage:vertical'
         @page_stream_16 = @page.streams.where(title: "#{@page.id}_Section_16c_Hero").first
         @page_stream_07 = @page.streams.where(title: "#{@page.id}_Section_7c").first
         @page_stream_04 = @page.streams.where(title: "#{@page.id}_Section_4c").first
@@ -68,6 +71,7 @@ class PagesController < ApplicationController
         format.json { respond_with_bip(@page) }
         format.html {
           if @page.template_page.name == "article" and from_page == "edit_write"
+            puts 'pages# redirect to edit assemble'
             redirect_to edit_assemble_site_story_path(@site, @page, folder_id: @page.folder_id)
           else
             if @page.template_page.name == "article"

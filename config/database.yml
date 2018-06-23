@@ -1,6 +1,6 @@
 development:
   adapter: postgresql
-  database: pykih_publishing_dev_rem_acc
+  database: prod_pykih_publishing_dev_rem_acc
   username: developer
   password: developer
   host: localhost
