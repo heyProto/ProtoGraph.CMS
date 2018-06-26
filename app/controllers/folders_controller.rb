@@ -46,24 +46,28 @@ class FoldersController < ApplicationController
   end
 
   def create
-    @folder = @site.folders.new(folder_params)
-    @folder.created_by = current_user.id
-    @folder.updated_by = current_user.id
-    @folder.collaborator_lists = ["#{current_user.id}"] if ["contributor", "writer"].include?(@permission_role.slug)
-    if @folder.save
-      track_activity(@folder)
-      redirect_to site_folder_view_casts_path(@site, @folder), notice: t("cs")
+    if params["folder"]["ref_category_vertical_id"].blank? and params["folder"]["is_for_stories"]
+      redirect_to new_site_folder_path(@site), notice: "You must associate a vertical to add stories in workspace"
     else
-      @is_admin = true
-      @verticals = @site.ref_categories.where(genre: 'series').pluck(:name, :id)
-      render "new", layout: "z"
+      @folder = @site.folders.new(folder_params)
+      @folder.created_by = current_user.id
+      @folder.updated_by = current_user.id
+      @folder.collaborator_lists = ["#{current_user.id}"] if ["contributor", "writer"].include?(@permission_role.slug)
+      if @folder.save
+        track_activity(@folder)
+        redirect_to site_folder_view_casts_path(@site, @folder), notice: t("cs")
+      else
+        @is_admin = true
+        @verticals = @site.ref_categories.where(genre: 'series').pluck(:name, :id)
+        render "new", layout: "z"
+      end
     end
   end
 
   private
 
     def folder_params
-      params.require(:folder).permit(:site_id, :name, :created_by, :updated_by, :site_id, :is_archived, :is_open,
+      params.require(:folder).permit(:site_id, :name, :created_by, :updated_by, :is_archived, :is_open,
                                     :ref_category_vertical_id, :is_for_stories, collaborator_lists: [])
     end
 

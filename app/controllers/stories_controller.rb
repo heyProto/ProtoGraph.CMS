@@ -6,20 +6,24 @@ class StoriesController < ApplicationController
   def index
     if params[:page].present? and params[:page].class != String
       p_params = page_params
-      if p_params.has_key?('cover_image_attributes') and !p_params['cover_image_attributes'].has_key?("image")
-        p_params.delete('cover_image_attributes')
-      end
       @page = Page.new(p_params)
-      @page.headline = @page.one_line_concept
-      @page.english_headline = @page.one_line_concept unless @site.is_english
-      @page.created_by = current_user.id
-      @page.updated_by = current_user.id
-      @page.collaborator_lists = ["#{current_user.id}"] if ["contributor", "writer"].include?(@permission_role.slug)
-      if @page.save
-        redirect_to site_stories_path(@site, folder_id: @page.folder_id), notice: 'Page was successfully created.'
+      if params[:ref_category_intersection_id].blank?
+        redirect_to site_stories_path(@site, folder_id: @page.folder_id), notice: 'You must associate a vertical with workspace'
       else
-        flash.now.alert = @page.errors.full_messages
-        redirect_to site_stories_path(@site, folder_id: @page.folder_id)
+        if p_params.has_key?('cover_image_attributes') and !p_params['cover_image_attributes'].has_key?("image")
+          p_params.delete('cover_image_attributes')
+        end
+        @page.headline = @page.one_line_concept
+        @page.english_headline = @page.one_line_concept unless @site.is_english
+        @page.created_by = current_user.id
+        @page.updated_by = current_user.id
+        @page.collaborator_lists = ["#{current_user.id}"] if ["contributor", "writer"].include?(@permission_role.slug)
+        if @page.save
+          redirect_to site_stories_path(@site, folder_id: @page.folder_id), notice: 'Page was successfully created.'
+        else
+          flash.now.alert = @page.errors.full_messages
+          redirect_to site_stories_path(@site, folder_id: @page.folder_id)
+        end
       end
     else
       if @permission_role.can_see_all_pages
