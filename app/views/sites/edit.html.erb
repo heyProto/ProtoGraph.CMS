@@ -34,6 +34,7 @@
                 <%= favicon.input :image, label: false %>
                 <%= favicon.input :created_by, as: :hidden, input_html: {value: current_user.id} %>
                 <%= favicon.input :updated_by, as: :hidden, input_html: {value: current_user.id} %>
+                <%= favicon.input :site_id, as: :hidden, input_html: {value: @site.id}  %>
                 <%= favicon.input :is_favicon, as: :hidden, input_html: {value: true } %>
               <% end %>
           <% end %>
@@ -55,6 +56,7 @@
                 <%= logo_image.input :image, label: false %>
                 <%= logo_image.input :created_by, as: :hidden, input_html: {value: current_user.id} %>
                 <%= logo_image.input :updated_by, as: :hidden, input_html: {value: current_user.id} %>
+                <%= logo_image.input :site_id, as: :hidden, input_html: {value: @site.id}  %>
                 <%= logo_image.input :is_logo, as: :hidden, input_html: {value: true } %>
               <% end %>
           <% end %>
