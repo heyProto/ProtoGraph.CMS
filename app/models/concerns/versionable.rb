@@ -19,7 +19,7 @@ module Versionable
                 self.update_attributes(is_public: false)
                 return "Successfully done."
             else
-                return "Failed. Some other account is using this card."
+                return "Failed. Some other site is using this card."
             end
         else
             if self.can_make_public?
@@ -45,7 +45,6 @@ module Versionable
 
     def can_make_private?
         true
-        #self.cards.where("account_id != ?", self.account_id).first.present? ? false : true
     end
 
     def can_make_public?
@@ -60,7 +59,7 @@ module Versionable
         new_version = self.version.to_version
         new_version.bump!(mode.to_sym)
         vesion = self.class.create({
-            account_id: self.account_id,
+            site_id: self.site_id,
             name: self.name,
             elevator_pitch: self.elevator_pitch,
             description: self.description,

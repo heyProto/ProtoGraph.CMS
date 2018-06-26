@@ -21,8 +21,6 @@
 #  is_smart_cropped :boolean          default(FALSE)
 #
 
-#TODO AMIT - Handle account_id - RP added retrospectively. Need migration of old rows and BAU handling.
-
 class ImageVariation < ApplicationRecord
   #CONSTANTS
   #CUSTOM TABLES
@@ -32,7 +30,6 @@ class ImageVariation < ApplicationRecord
   include AssociableBySi
   #ASSOCIATIONS
   belongs_to :image
-  # delegate :account, to: :image
   delegate :site, to: :image
 
   #ACCESSORS

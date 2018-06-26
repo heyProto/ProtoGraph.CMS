@@ -62,7 +62,7 @@ class TemplateCard < ApplicationRecord
 
     #VALIDATIONS
     validates :template_datum_id, presence: true
-    validates :name, presence: true #AMIT TODO - name has to be unique within an account
+    validates :name, presence: true
     validates :created_by, presence: true
     validates :updated_by, presence: true
 
@@ -120,8 +120,6 @@ class TemplateCard < ApplicationRecord
     end
 
     def versions
-        #self.siblings.where.not(id:  self.id).as_json(only: [:account_id, :id, :slug, :global_slug,:name, :elevator_pitch], methods: [:account_slug, :icon_url])
-        #uncomment after testing
         self.siblings.as_json(only: [:site_id, :id, :slug, :global_slug,:name, :elevator_pitch], methods: [:site_slug, :icon_url])
     end
 

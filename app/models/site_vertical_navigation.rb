@@ -16,8 +16,6 @@
 #  menu                     :string(255)
 #
 
-#TODO AMIT - Handle account_id - RP added retrospectively. Need migration of old rows and BAU handling.
-
 class SiteVerticalNavigation < ApplicationRecord
 
   #CONSTANTS

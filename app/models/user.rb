@@ -52,7 +52,7 @@ class User < ApplicationRecord
     #VALIDATIONS
     validates :name, presence: true, length: { in: 3..24 }
     validates :email, presence: true, uniqueness: { case_sensitive: false }, format: { with: /\A[^@\s]+@([^@.\s]+\.)+[^@.\s]+\z/ }
-    validate :email_invited, on: [:create]    
+    validate :email_invited, on: [:create]
     validates :website, format: {:with => /[a-zA-Z0-9][a-zA-Z0-9-]{1,61}[a-zA-Z0-9]\.[a-zA-Z]{2,}/ }, allow_blank: true, allow_nil: true, length: { in: 9..240 }
     validates :facebook, format: {:with => /[a-zA-Z0-9][a-zA-Z0-9-]{1,61}[a-zA-Z0-9]\.[a-zA-Z]{2,}/ }, allow_blank: true, allow_nil: true, length: { in: 9..240 }
     validates :twitter, format: {:with => /[a-zA-Z0-9][a-zA-Z0-9-]{1,61}[a-zA-Z0-9]\.[a-zA-Z]{2,}/ }, allow_blank: true, allow_nil: true, length: { in: 9..240 }
@@ -85,7 +85,7 @@ class User < ApplicationRecord
         if p.present?
             p.update_attributes(status: "Active", ref_role_slug: r, updated_by: self.id, is_hidden: is_hidden, name: self.name, bio: self.bio, meta_description: self.bio)
         else
-            p = Permission.create(user_id: self.id, permissible_id: permissible_id, permissible_type: permissible_type, created_by: self.id, 
+            p = Permission.create(user_id: self.id, permissible_id: permissible_id, permissible_type: permissible_type, created_by: self.id,
                                   updated_by: self.id, ref_role_slug: r,is_hidden: is_hidden, name: self.name, bio: self.bio, meta_description: self.bio)
         end
         p
@@ -157,7 +157,7 @@ class User < ApplicationRecord
             if email.present?
                 d = email.split("@").last
                 if d.present?
-                    a = Account.where(domain: d, sign_up_mode: "Any email from your domain").first
+                    a = Site.where(email_domain: d, sign_up_mode: "Any email from your domain").first
                     if a.present?
                        belongs_to_company = true
                     end

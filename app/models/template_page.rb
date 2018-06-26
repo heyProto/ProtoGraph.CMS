@@ -26,8 +26,6 @@
 #  updated_at          :datetime         not null
 #
 
-#TODO AMIT - Handle account_id - RP added retrospectively. Need migration of old rows and BAU handling. SHOULD BE ABLE TO RESTRICT certain pages by certain accounts.
-
 class TemplatePage < ApplicationRecord
 
     #CONSTANTS

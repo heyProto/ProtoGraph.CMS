@@ -23,8 +23,6 @@
 #  show_by_publisher_in_header :boolean          default(TRUE)
 #
 
-#TODO AMIT - Handle account_id - RP added retrospectively. Need migration of old rows and BAU handling.
-
 class RefCategory < ApplicationRecord
     #CONSTANTS
     #CUSTOM TABLES

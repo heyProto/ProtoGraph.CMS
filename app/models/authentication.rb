@@ -20,8 +20,6 @@
 #  updated_by          :integer
 #
 
-#TODO AMIT - Handle created_by, updated_by, account_id - RP added retrospectively. Need migration of old rows and BAU handling.
-
 class Authentication < ApplicationRecord
 
   #CONSTANTS
@@ -29,7 +27,7 @@ class Authentication < ApplicationRecord
   #CONCERNS
   include Propagatable
   include AssociableBySi
-  
+
   #ASSOCIATIONS
   belongs_to :user
   #ACCESSORS
