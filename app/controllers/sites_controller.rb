@@ -55,7 +55,6 @@ class SitesController < ApplicationController
   end
 
   def edit
-    puts "site-edit"
     if @site.favicon_id.nil? or @site.favicon.nil?
       @site.build_favicon
     end
