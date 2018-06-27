@@ -77,9 +77,11 @@
                         <%= link_to "Cards", site_folder_view_casts_path(@site, @folder), "data-turbolinks" => "false" %>
                     </div>
                     <% if @folder.is_for_stories %>
+                      <% if @folder.vertical.present? %>
                         <div class="single-tab active-tab">
                             <%= link_to "Stories", site_stories_path(@site,folder_id: @folder.id), "data-turbolinks" => "false" %>
                         </div>
+                      <% end %>
                     <% end %>
                 </div>
                 

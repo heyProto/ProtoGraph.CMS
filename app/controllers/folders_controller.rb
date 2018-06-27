@@ -47,7 +47,7 @@ class FoldersController < ApplicationController
 
   def create
     if params["folder"]["ref_category_vertical_id"].blank? and params["folder"]["is_for_stories"]
-      redirect_to new_site_folder_path(@site), notice: "You must associate a vertical to add stories in workspace"
+      redirect_to new_site_folder_path(@site), alert: "You must associate a vertical to add stories in workspace"
     else
       @folder = @site.folders.new(folder_params)
       @folder.created_by = current_user.id

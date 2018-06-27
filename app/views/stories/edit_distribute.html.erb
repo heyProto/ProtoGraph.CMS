@@ -25,6 +25,7 @@
                     <% if @page.cover_image_id.blank? %>
                         <%= f.fields_for :cover_image do |cover_image| %>
                             <%= cover_image.input :image, label: false, placeholder: "Upload cover image", input_html: {style: "width: 100%; background: lightgray; min-height: 200px; cursor: pointer; padding: 100px 0px;", onchange: "readURL(this);"}%>
+                            <%= cover_image.hidden_field :site_id, value: @site.id %>
                             <%= cover_image.hidden_field :is_cover, value: true %>
                             <%= cover_image.hidden_field :created_by, value: current_user.id %>
                             <%= cover_image.hidden_field :updated_by, value: current_user.id %>

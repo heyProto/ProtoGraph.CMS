@@ -6,9 +6,10 @@ class StoriesController < ApplicationController
   def index
     if params[:page].present? and params[:page].class != String
       p_params = page_params
+      puts "p_params=#{p_params}"
       @page = Page.new(p_params)
-      if params[:ref_category_intersection_id].blank?
-        redirect_to site_stories_path(@site, folder_id: @page.folder_id), notice: 'You must associate a vertical with workspace'
+      if p_params["ref_category_series_id"].blank?
+        redirect_to site_stories_path(@site, folder_id: @page.folder_id), alert: 'You must associate a vertical with workspace'
       else
         if p_params.has_key?('cover_image_attributes') and !p_params['cover_image_attributes'].has_key?("image")
           p_params.delete('cover_image_attributes')
