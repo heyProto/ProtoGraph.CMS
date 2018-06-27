@@ -20,4 +20,4 @@ production:
   username: <%= ENV['PRODUCTION_DB_USER'] %>
   password: <%= ENV['PRODUCTION_DB_PASSWORD'] %>
   host: <%= ENV['PRODUCTION_DB_HOST'] %>
-  port: 3306
+  port: 5432
