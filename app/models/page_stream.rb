@@ -10,12 +10,9 @@
 #  created_at     :datetime         not null
 #  updated_at     :datetime         not null
 #  name_of_stream :string(255)
-#  account_id     :integer
 #  site_id        :integer
 #  folder_id      :integer
 #
-
-#TODO AMIT - Handle account_id, site_id, folder_id - RP added retrospectively. Need migration of old rows and BAU handling.
 
 class PageStream < ApplicationRecord
 
@@ -24,7 +21,7 @@ class PageStream < ApplicationRecord
   #GEMS
   #CONCERNS
   include Propagatable
-  include AssociableByAcSiFo
+  include AssociableBySiFo
   #ASSOCIATIONS
   belongs_to :page
   belongs_to :stream

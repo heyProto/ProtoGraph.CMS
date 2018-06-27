@@ -1,15 +1,33 @@
 <%= render partial: "sites/header" %>
+<%= javascript_tag do %>
+  $(document).ready(function() {
+    var inputVertical = $("#folder_ref_category_vertical_id");
+    var isForStoriesContainer = $("div.folder_is_for_stories");
+
+    $(isForStoriesContainer).hide();
+
+    $(inputVertical).change(function(){
+      if($(this).val()){
+          $(isForStoriesContainer).show();
+          $(isForStoriesContainer).find("#folder_is_for_stories").prop("checked", true)
+      }else{
+        $(isForStoriesContainer).hide();
+        $(isForStoriesContainer).find("#folder_is_for_stories").prop("checked", false)
+      }
+    });
+  });
+<% end %>
 <div class="row">
     <div class="col-sm-13">
         <div style="margin-left: auto; margin-right: auto; width: 540px;">
-            <%= simple_form_for [@account, @site, @folder] do |f| %>
+            <%= simple_form_for [@site, @folder] do |f| %>
                 <%= f.input :name, required: true %>
                 <%= f.input :site_id, as: :hidden, input_html: {value: @site.id} %>
-                <%= f.input :ref_category_vertical_id, collection: @verticals, label: "Vertical" %>
-                <%= f.input :is_for_stories, as: :boolean, label: "&nbsp; Use this workspace to file stories?".html_safe, hint: "Implication: You wont be able to create data cards in this workspace."%>
+                <%= f.input :ref_category_vertical_id, collection: @verticals, label: "Vertical", id:"input-vertical"%>
+                <%= f.input :is_for_stories, as: :boolean, label: "&nbsp; Use this workspace to file stories?".html_safe, hint: "Implication: You wont be able to create data cards in this workspace.", :input_html => { :checked => false }%>
                 <%= f.button :submit, "Add a new workspace", class: "btn btn-sm btn-secondary" %>
                 &nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;
-                <%= link_to "Never mind", account_site_folders_path(@account, @site)%>
+                <%= link_to "Never mind", site_folders_path(@site)%>
             <% end %>
         </div>
     </div>

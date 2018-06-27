@@ -3,7 +3,6 @@
 # Table name: folders
 #
 #  id                       :integer          not null, primary key
-#  account_id               :integer
 #  name                     :string(255)
 #  slug                     :string(255)
 #  created_by               :integer
@@ -26,7 +25,7 @@ class Folder < ApplicationRecord
     friendly_id :name, use: :slugged
     #CONCERNS
     include Propagatable
-    include AssociableByAcSi
+    include AssociableBySi
 
     #ASSOCIATIONS
     has_many :streams, dependent: :destroy
@@ -42,7 +41,8 @@ class Folder < ApplicationRecord
     attr_accessor :is_system_generated, :collaborator_lists
     #VALIDATIONS
     validates :name, exclusion: {in: ["Trash"], message: "Is a reserved name."}, unless: :is_system_generated
-    validates :name, uniqueness: {scope: [:account, :ref_category_vertical_id], message: "is already used."}
+    validates :name, uniqueness: {scope: [:site, :ref_category_vertical_id], message: "is already used."}
+
     #CALLBACKS
     after_save :after_save_set
     after_validation :move_friendly_id_error_to_name

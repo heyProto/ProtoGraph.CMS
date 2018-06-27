@@ -3,24 +3,23 @@
 # Table name: sites
 #
 #  id                          :integer          not null, primary key
-#  account_id                  :integer
 #  name                        :string(255)
 #  domain                      :string(255)
 #  created_at                  :datetime         not null
 #  updated_at                  :datetime         not null
-#  description                 :text
+#  description                 :text(65535)
 #  primary_language            :string(255)
-#  default_seo_keywords        :text
+#  default_seo_keywords        :text(65535)
 #  house_colour                :string(255)
 #  reverse_house_colour        :string(255)
 #  font_colour                 :string(255)
 #  reverse_font_colour         :string(255)
-#  stream_url                  :text
+#  stream_url                  :text(65535)
 #  stream_id                   :integer
 #  cdn_provider                :string(255)
 #  cdn_id                      :string(255)
-#  host                        :text
-#  cdn_endpoint                :text
+#  host                        :text(65535)
+#  cdn_endpoint                :text(65535)
 #  client_token                :string(255)
 #  access_token                :string(255)
 #  client_secret               :string(255)
@@ -32,7 +31,7 @@
 #  story_card_style            :string(255)
 #  email_domain                :string(255)
 #  header_background_color     :string(255)
-#  header_url                  :text
+#  header_url                  :text(65535)
 #  header_positioning          :string(255)
 #  slug                        :string(255)
 #  is_english                  :boolean          default(TRUE)
@@ -42,7 +41,7 @@
 #  updated_by                  :integer
 #  seo_name                    :string(255)
 #  is_lazy_loading_activated   :boolean          default(TRUE)
-#  comscore_code               :text
+#  comscore_code               :text(65535)
 #  gtm_id                      :string(255)
 #  is_smart_crop_enabled       :boolean          default(FALSE)
 #  enable_ads                  :boolean          default(FALSE)
@@ -62,14 +61,14 @@ class Site < ApplicationRecord
     friendly_id :english_name, use: :slugged
     #CONCERNS
     include Propagatable
-    include AssociableByAc
+    include AssociableBySi
     #ASSOCIATIONS
-    has_many :folders
-    has_many :streams
-    has_many :activities
+    # has_many :folders
+    # has_many :streams
+    # has_many :activities
     has_many :ref_categories
     has_many :verticals, ->{where(genre: 'series')}, class_name: "RefCategory"
-    has_many :view_casts
+    # has_many :view_casts
     has_many :pages
     has_one :stream, primary_key: "stream_id", foreign_key: "id"
     belongs_to :logo_image, class_name: "Image", foreign_key: "logo_image_id", primary_key: "id", optional: true
@@ -78,12 +77,20 @@ class Site < ApplicationRecord
     has_many :users, through: :permissions
     has_many :permission_invites, ->{where(permissible_type: 'Site')}, foreign_key: "permissible_id", dependent: :destroy
 
+    # newly added
+    has_many :view_casts, dependent: :destroy
+    has_many :folders, dependent: :destroy
+    has_many :uploads, dependent: :destroy
+    has_many :activities, dependent: :destroy
+    has_many :images, dependent: :destroy
+    has_many :streams, dependent: :destroy
+
     #ACCESSORS
     accepts_nested_attributes_for :logo_image, :favicon
-    attr_accessor :from_page, :skip_invalidation
+    attr_accessor :from_page, :skip_invalidation, :coming_from_new
 
     #VALIDATIONS
-    validates :name, presence: true, uniqueness: {scope: :account}
+    validates :name, presence: true, uniqueness: true
 
     validates :domain, format: {:with => /[a-zA-Z0-9][a-zA-Z0-9-]{1,61}[a-zA-Z0-9]\.[a-zA-Z]{2,}/ }, allow_blank: true, allow_nil: true, length: { in: 3..240 }, exclusion: { in: %w(gmail.com outlook.com yahoo.com mail.com),
     message: "%{value} is reserved." }
@@ -103,6 +110,18 @@ class Site < ApplicationRecord
         else
             "dev.cdn.protograph"
         end
+    end
+
+    def template_cards
+        if self.name == 'pykih'
+            TemplateCard.all
+        else
+            TemplateCard.where("site_id = ? OR is_public = true", self.id)
+        end
+    end
+
+    def template_data
+        TemplateDatum.where("site_id = ? OR is_public = true", self.id)
     end
 
     def is_english
@@ -157,7 +176,7 @@ class Site < ApplicationRecord
         end
 
         pykih_admins.each do |email, user|
-            user.create_permission("Account", self.account_id, "owner",true)
+            user.create_permission("Site", self.id, "owner",true)
         end
     end
 
@@ -220,9 +239,6 @@ class Site < ApplicationRecord
 
     def all_members
         members = []
-        account.permissions.not_hidden.each do |p|
-            members << [p.name, p.id]
-        end
         self.permissions.not_hidden.each do |p|
             members << [p.name, p.id]
         end
@@ -247,6 +263,7 @@ class Site < ApplicationRecord
         self.header_background_color = '#FFFFFF'
         self.header_positioning = "left"
         self.seo_name = self.name
+        self.cdn_endpoint = ENV['AWS_S3_ENDPOINT'] if self.cdn_endpoint.blank?
         true
     end
 
@@ -260,14 +277,13 @@ class Site < ApplicationRecord
     end
 
     def after_create_set
-        user_id = account.users.present? ? account.users.first.id : nil
+        user_id = self.users.present? ? self.users.first.id : nil
         stream = Stream.create!({
             is_automated_stream: true,
             col_name: "Site",
             col_id: self.id,
             updated_by: user_id,
             created_by: user_id,
-            account_id: account_id,
             site_id: self.id,
             title: self.name,
             description: "#{self.name} site stream",
@@ -296,11 +312,7 @@ class Site < ApplicationRecord
     end
 
     def after_save_set
-        transformed_keys = self.saved_changes.transform_values(&:first)
-        if (["header_logo_url", "header_background_color", "header_jump_to_link", "header_tooltip", "header_logo_position", "house_colour", "reverse_house_colour", "font_colour", "reverse_font_colour", "primary_language", "story_card_style", "story_card_flip", "favicon_url", "show_proto_logo"] & transformed_keys.keys).length > 0
-            puts "SHOULDN'T COME HERE"
-            PublishSiteJson.perform_async(self.id) if Rails.env.production?
-        end
+        PublishSiteJson.perform_async(self.id)
     end
 
     def after_update_publish_site_pages

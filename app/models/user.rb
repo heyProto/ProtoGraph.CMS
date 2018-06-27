@@ -22,12 +22,12 @@
 #  created_at               :datetime         not null
 #  updated_at               :datetime         not null
 #  can_publish_link_sources :boolean          default(FALSE)
-#  bio                      :text
-#  website                  :text
-#  facebook                 :text
-#  twitter                  :text
+#  bio                      :text(65535)
+#  website                  :text(65535)
+#  facebook                 :text(65535)
+#  twitter                  :text(65535)
 #  phone                    :string(255)
-#  linkedin                 :text
+#  linkedin                 :text(65535)
 #
 
 class User < ApplicationRecord
@@ -52,7 +52,7 @@ class User < ApplicationRecord
     #VALIDATIONS
     validates :name, presence: true, length: { in: 3..24 }
     validates :email, presence: true, uniqueness: { case_sensitive: false }, format: { with: /\A[^@\s]+@([^@.\s]+\.)+[^@.\s]+\z/ }
-    validate :email_invited, on: [:create]    
+    validate :email_invited, on: [:create]
     validates :website, format: {:with => /[a-zA-Z0-9][a-zA-Z0-9-]{1,61}[a-zA-Z0-9]\.[a-zA-Z]{2,}/ }, allow_blank: true, allow_nil: true, length: { in: 9..240 }
     validates :facebook, format: {:with => /[a-zA-Z0-9][a-zA-Z0-9-]{1,61}[a-zA-Z0-9]\.[a-zA-Z]{2,}/ }, allow_blank: true, allow_nil: true, length: { in: 9..240 }
     validates :twitter, format: {:with => /[a-zA-Z0-9][a-zA-Z0-9-]{1,61}[a-zA-Z0-9]\.[a-zA-Z]{2,}/ }, allow_blank: true, allow_nil: true, length: { in: 9..240 }
@@ -72,8 +72,8 @@ class User < ApplicationRecord
         Permission.where(user_id: self.id,  permissible_id: site_id, permissible_type: 'Site', status: s).first
     end
 
-    def owner_role(account_id, s="Active")
-        Permission.where(user_id: self.id,  permissible_id: account_id, permissible_type: 'Account', ref_role_slug: "owner", status: s).first
+    def owner_role(site_id, s="Active")
+        Permission.where(user_id: self.id,  permissible_id: site_id, permissible_type: 'Site', ref_role_slug: "owner", status: s).first
     end
 
     def is_admin_from_pykih
@@ -85,7 +85,7 @@ class User < ApplicationRecord
         if p.present?
             p.update_attributes(status: "Active", ref_role_slug: r, updated_by: self.id, is_hidden: is_hidden, name: self.name, bio: self.bio, meta_description: self.bio)
         else
-            p = Permission.create(user_id: self.id, permissible_id: permissible_id, permissible_type: permissible_type, created_by: self.id, 
+            p = Permission.create(user_id: self.id, permissible_id: permissible_id, permissible_type: permissible_type, created_by: self.id,
                                   updated_by: self.id, ref_role_slug: r,is_hidden: is_hidden, name: self.name, bio: self.bio, meta_description: self.bio)
         end
         p
@@ -118,12 +118,9 @@ class User < ApplicationRecord
       )
     end
 
-    def accounts
-        account_ids = self.permissions.where(permissible_type: "Account").pluck(:permissible_id)
-        permissions.where(permissible_type: "Site").each do |s|
-            account_ids << s.permissible.account_id
-        end
-        Account.where(id: account_ids)
+    def sites
+        site_ids = self.permissions.where(permissible_type: "Site").pluck(:permissible_id)
+        Site.where(id: site_ids)
     end
 
     def folders(site)
@@ -160,7 +157,7 @@ class User < ApplicationRecord
             if email.present?
                 d = email.split("@").last
                 if d.present?
-                    a = Account.where(domain: d, sign_up_mode: "Any email from your domain").first
+                    a = Site.where(email_domain: d, sign_up_mode: "Any email from your domain").first
                     if a.present?
                        belongs_to_company = true
                     end

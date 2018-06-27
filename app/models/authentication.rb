@@ -5,7 +5,7 @@
 #  id                  :integer          not null, primary key
 #  provider            :string(255)
 #  uid                 :string(255)
-#  info                :text
+#  info                :text(65535)
 #  name                :string(255)
 #  email               :string(255)
 #  access_token        :string(255)
@@ -18,10 +18,7 @@
 #  site_id             :integer
 #  created_by          :integer
 #  updated_by          :integer
-#  account_id          :integer
 #
-
-#TODO AMIT - Handle created_by, updated_by, account_id - RP added retrospectively. Need migration of old rows and BAU handling.
 
 class Authentication < ApplicationRecord
 
@@ -29,8 +26,8 @@ class Authentication < ApplicationRecord
   #CUSTOM TABLES
   #CONCERNS
   include Propagatable
-  include AssociableByAcSi
-  
+  include AssociableBySi
+
   #ASSOCIATIONS
   belongs_to :user
   #ACCESSORS

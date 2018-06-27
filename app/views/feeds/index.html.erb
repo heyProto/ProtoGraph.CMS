@@ -202,7 +202,7 @@
                     <%= feed.custom_errors %>
                   </p>
                 <% end %>
-                <%= link_to 'Destroy', [@account, @site, @ref_category, feed], method: :delete, data: { confirm: 'Are you sure?' } %>
+                <%= link_to 'Destroy', [@site, @ref_category, feed], method: :delete, data: { confirm: 'Are you sure?' } %>
             </div>
             <br/>
         <% end %>
@@ -239,7 +239,7 @@
                     </div>
 
                     <div class="modal-body">
-                      <%= simple_form_for(link, url: create_view_cast_account_site_ref_category_feed_link_path(@account, @site, @ref_category, link), method: "post") do |f| %>
+                      <%= simple_form_for(link, url: create_view_cast_site_ref_category_feed_link_path(@site, @ref_category, link), method: "post") do |f| %>
                         <%= f.input :link, readonly: true %>
                         <%= f.input :temp_headline, required: true, label: "Headline", input_html: {value: link.headline } %>
                         <%= f.input :published_at, as: :datetime, label: "Published at", required: true, readonly: true %>
@@ -258,7 +258,7 @@
     <div class="col-sm-4">
           <% if @feeds.first.blank? %>
             <h3>Subscribe to RSS</h3>
-            <%= simple_form_for [@account, @site, @ref_category, @feed] do |f| %>
+            <%= simple_form_for [@site, @ref_category, @feed] do |f| %>
                 <tr>
                   <td>
                       <%= f.error_notification %>

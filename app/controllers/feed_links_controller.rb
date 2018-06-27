@@ -8,7 +8,7 @@ class FeedLinksController < ApplicationController
     unless @feed_link.view_cast_id.present?
       @feed_link.create_or_update_view_cast
     end
-    redirect_to account_site_ref_category_feeds_path(@account, @site, @ref_category), notice: "Link will be added tot feed shortly"
+    redirect_to site_ref_category_feeds_path(@site, @ref_category), notice: "Link will be added tot feed shortly"
   end
 
   private

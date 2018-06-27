@@ -3,7 +3,7 @@
     <div class="col-sm-16">
         <%= render partial: "admins/header" %>
         <div style="margin-left: auto; margin-right: auto; width: 540px; font-size: 12px;">
-            <%= simple_form_for [@account, @site] do |f| %>
+            <%= simple_form_for [@site] do |f| %>
               <%= f.error_notification %>
               <%= f.input :g_a_tracking_id, label: "Google Analytics Tracking Code", hint: "The tracking ID is a string like UA-000000-2." %>
               <p class="hint">Here is <%= link_to "an article", "http://blog.analytics-toolkit.com/2016/google-analytics-tracking-code-id-check-setup/", target: "_blank"%> that shows you how to find your Google Analytics tracking id.</p>

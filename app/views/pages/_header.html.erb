@@ -2,7 +2,7 @@
     <div class="row">
         <% if controller_name == "feeds" %>
             <% if @feeds.first.present? %>
-                <%= link_to "Force fetch feeds", force_fetch_feeds_account_site_ref_category_feed_path(@account, @site, @ref_category, @feeds.first), class: "btn btn-sm btn-dark right", style: "position: absolute; top: 10px;right: 30px; float: right; margin-left: auto;", method: :post %>
+                <%= link_to "Force fetch feeds", force_fetch_feeds_site_ref_category_feed_path(@site, @ref_category, @feeds.first), class: "btn btn-sm btn-dark right", style: "position: absolute; top: 10px;right: 30px; float: right; margin-left: auto;", method: :post %>
             <% end %>
         <% end %>
         <% if @page.blank? %>
@@ -22,21 +22,21 @@
 <br/>
 <div class="protograph-page-tabs">
     <div class="<%= action_name != 'edit' ? "single-tab" : "single-tab active-tab" %>">
-        <%= link_to "Assemble", edit_account_site_page_path(@account, @site, v), "data-turbolinks" => "false" %>
+        <%= link_to "Assemble", edit_site_page_path(@site, v), "data-turbolinks" => "false" %>
     </div>
     <% if @site.enable_ads %>
         <div class="<%= action_name != 'ads' ? "single-tab" : "single-tab active-tab" %>">
-            <%= link_to "Ads", ads_account_site_page_path(@account, @site, v),"data-turbolinks" => "false" %>
+            <%= link_to "Ads", ads_site_page_path(@site, v),"data-turbolinks" => "false" %>
         </div>
     <% end %>
     <div class="<%= action_name != 'distribute' ? "single-tab" : "single-tab active-tab" %>">
-        <%= link_to "Package", distribute_account_site_page_path(@account, @site, v), "data-turbolinks" => "false" %>
+        <%= link_to "Package", distribute_site_page_path(@site, v), "data-turbolinks" => "false" %>
     </div>
     <div class="<%= controller_name != 'site_vertical_navigations' ? "single-tab" : "single-tab active-tab" %>">
-        <%= link_to "Navigation", account_site_ref_category_site_vertical_navigations_path(@account, @site, v.series),"data-turbolinks" => "false" %>
+        <%= link_to "Navigation", site_ref_category_site_vertical_navigations_path(@site, v.series),"data-turbolinks" => "false" %>
     </div>
     <div class="<%= controller_name != 'feeds' ? "single-tab" : "single-tab active-tab" %>">
-        <%= link_to "Signals <span class='badge badge-warning'>Pro</span>".html_safe, account_site_ref_category_feeds_path(@account, @site, v.series),"data-turbolinks" => "false" %>
+        <%= link_to "Signals <span class='badge badge-warning'>Pro</span>".html_safe, site_ref_category_feeds_path(@site, v.series),"data-turbolinks" => "false" %>
     </div>
 
     <% if (controller_name != "site_vertical_navigations" and controller_name != "feeds") and @page.status != 'draft' %>
@@ -47,7 +47,7 @@
 
     <% if v.template_page.name == "Homepage: Vertical" and v.landing_card.present? %>
         <div class="<%= controller_name != 'ref_category' ? "single-tab" : "single-tab active-tab" %>">
-            <%= link_to "Landings Card".html_safe, landing_card_account_site_ref_category_path(@account, @site, v.series), "data-turbolinks" => "false" %>
+            <%= link_to "Landings Card".html_safe, landing_card_site_ref_category_path(@site, v.series), "data-turbolinks" => "false" %>
         </div>
     <% end %>
 

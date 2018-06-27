@@ -23,7 +23,7 @@ class ViewCastsController < ApplicationController
     end
 
     def show
-        @folders_dropdown = @account.folders.active
+        @folders_dropdown = @site.folders.active
         if (Time.now - @view_cast.updated_at) > 5.minute and (@view_cast.is_invalidating)
             @view_cast.update_column(:is_invalidating, false)
         end
@@ -36,7 +36,7 @@ class ViewCastsController < ApplicationController
 
     def edit
         if @view_cast.is_disabled_for_edit
-            redirect_to [@account, @site, @folder, @view_cast], alert: "Permission Denied."
+            redirect_to [@site, @folder, @view_cast], alert: "Permission Denied."
         end
         @new_image = Image.new
         @intersections = [""] + @site.ref_categories.where(genre: 'intersection').pluck(:name)
@@ -51,7 +51,7 @@ class ViewCastsController < ApplicationController
             if @view_cast.redirect_url.present?
                 redirect_to @view_cast.redirect_url, notice: t('us')
             else
-                redirect_to account_site_folder_view_cast_path(@account, @site, @view_cast.folder, @view_cast), notice: t('us')
+                redirect_to site_folder_view_cast_path(@site, @view_cast.folder, @view_cast), notice: t('us')
             end
         else
             render :show
@@ -61,20 +61,20 @@ class ViewCastsController < ApplicationController
 
     def destroy
         @view_cast.updator = current_user
-        @view_cast.folder = @account.folders.find_by(name: "Trash")
+        @view_cast.folder = @site.folders.find_by(name: "Trash")
         if @view_cast.save
             StreamEntity.view_casts.where(entity_value: @view_cast.id.to_s).each do |d|
                 d.destroy
                 StreamPublisher.perform_async(d.stream_id)
             end
-            redirect_to account_site_folder_view_casts_path(@account, @site, @folder), notice: "Card was deleted successfully"
+            redirect_to site_folder_view_casts_path(@site, @folder), notice: "Card was deleted successfully"
         else
-            redirect_to account_site_folder_view_cast_path(@account, @site, @folder, @view_cast), alert: "Card could not be deleted"
+            redirect_to site_folder_view_cast_path(@site, @folder, @view_cast), alert: "Card could not be deleted"
         end
     end
 
     def set_view_cast
-        @view_cast = @account.view_casts.friendly.find(params[:id])
+        @view_cast = @site.view_casts.friendly.find(params[:id])
     end
 
     private

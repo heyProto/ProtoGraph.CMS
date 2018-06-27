@@ -77,6 +77,10 @@ Rails.application.configure do
   config.assets.quiet = true
   config.logger = ActiveSupport::TaggedLogging.new(ActiveSupport::Logger.new(STDOUT))
 
+  # Use the lowest log level to ensure availability of diagnostic information
+  # when problems arise.
+  config.log_level = :debug
+
   # Raises error for missing translations
   # config.action_view.raise_on_missing_translations = true
 

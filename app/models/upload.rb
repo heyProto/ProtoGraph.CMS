@@ -4,15 +4,14 @@
 #
 #  id               :integer          not null, primary key
 #  attachment       :string(255)
-#  template_card_id :decimal(, )
+#  template_card_id :integer
 #  created_at       :datetime         not null
 #  updated_at       :datetime         not null
-#  account_id       :decimal(, )
-#  folder_id        :decimal(, )
+#  folder_id        :integer
 #  created_by       :integer
 #  updated_by       :integer
-#  upload_errors    :text
-#  filtering_errors :text
+#  upload_errors    :text(65535)
+#  filtering_errors :text(65535)
 #  upload_status    :string(255)      default("waiting")
 #  total_rows       :integer
 #  rows_uploaded    :integer
@@ -25,7 +24,7 @@ class Upload < ApplicationRecord
   #CUSTOM TABLES
   #GEMS
   #CONCERNS
-  include AssociableByAcSiFo
+  include AssociableBySiFo
   #ASSOCIATIONS
   belongs_to :template_card
 

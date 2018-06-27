@@ -12,14 +12,14 @@
     </script>
 <% end %>
 <script type="text/javascript">
-    window.accessToken = "<%= current_user. access_token %>";
+    window.accessToken = "<%= current_user.access_token %>";
     window.baseURL = "<%= BASE_URL %>/api/v1";
-    window.accountSlug = "<%= @account.slug %>";
+    window.siteSlug  = "<%= @site.slug %>";
     window.folderSlug = "<%= @folder.slug %>";
     window.ref_link_sources_url = "<%= "#{ENV["AWS_S3_ENDPOINT"]}/Assets/ref_link_sources.json?no-cache=#{Time.now.to_s}" %>";
     window.site_config_url = "<%= "#{@site.header_json_url}?no-cache=#{Time.now.to_s}" %>";
     <% if @intersections.present? %>
-        window.intersection_names =  <%= @intersections.to_json.html_safe %>;
+        window.intersection_names = <%= @intersections.to_json.html_safe %>;
     <% end %>
     <% if @subintersections.present? %>
         window.subintersection_names =  <%= @subintersections.to_json.html_safe %>;

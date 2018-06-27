@@ -14,9 +14,9 @@
 #  is_hidden        :boolean          default(FALSE)
 #  permissible_type :string(255)
 #  stream_id        :integer
-#  stream_url       :text
-#  bio              :text
-#  meta_description :text
+#  stream_url       :text(65535)
+#  bio              :text(65535)
+#  meta_description :text(65535)
 #  name             :string(255)
 #
 
@@ -51,7 +51,6 @@ class Permission < ApplicationRecord
     #SCOPE
     scope :not_hidden, -> { where(is_hidden: false) }
     scope :hidden, -> { where(is_hidden: true) }
-    scope :account_permissions, -> { where(permissible_type: "Account") }
     scope :site_permissions, -> { where(permissible_type: "Site") }
     #OTHER
 
@@ -88,7 +87,6 @@ class Permission < ApplicationRecord
                 is_automated_stream: true,
                 col_name: "Permission",
                 col_id: self.id,
-                account_id: self.account_id,
                 site_id: self.permissible_id,
                 title: "#{self.user.name}",
                 description: "#{self.user.name} stream",

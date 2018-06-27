@@ -2,7 +2,7 @@
 <div class="row">
     <div class="col-sm-16">
         <div style="margin-left: auto; margin-right: auto; width: 540px;">
-            <%= simple_form_for(@page, url: account_site_page_path(@account, @site), method: :put, html: {id: "proto_app_package_form"}) do |f| %>
+            <%= simple_form_for(@page, url: site_page_path(@site), method: :put, html: {id: "proto_app_package_form"}) do |f| %>
                 <%= f.error_notification %>
                 <div class="form-inputs">
                     <br/>
@@ -25,7 +25,7 @@
                     <% if @page.cover_image_id.blank? %>
                         <%= f.fields_for :cover_image do |cover_image| %>
                             <%= cover_image.input :image, label: false, placeholder: "Upload cover image", input_html: {style: "width: 100%; background: lightgray; min-height: 200px; cursor: pointer; padding: 100px 0px;", onchange: "readURL(this);"}%>
-                            <%= cover_image.hidden_field :account_id, value: @account.id %>
+                            <%= cover_image.hidden_field :site_id, value: @site.id %>
                             <%= cover_image.hidden_field :is_cover, value: true %>
                             <%= cover_image.hidden_field :created_by, value: current_user.id %>
                             <%= cover_image.hidden_field :updated_by, value: current_user.id %>
@@ -33,7 +33,7 @@
                     <% else %>
                         <%= image_tag(@page.cover_image_url,style: 'width: 100%', class: "img-fluid") %>
                         <br/>
-                        <%= link_to "Remove", remove_cover_image_account_site_page_path(@account, @site, @page), method: :put%>
+                        <%= link_to "Remove", remove_cover_image_site_page_path(@site, @page), method: :put%>
                         <br/>
                     <% end %>
                     <%= f.input :cover_image_alignment, collection: @cover_image_alignment, required: true %>
@@ -52,21 +52,21 @@
                         <div class="form-check form-check-inline">
                             <%= image_tag "glyphicons-139-picture.png", class: @page.has_image_other_than_cover ? nil : "disabled", class:"glyphicons-img", inner_class:"glyphicons-img", size: "14" %>
 
-                            <%= best_in_place @page, :has_image_other_than_cover, as: :checkbox, collection: {false: "No", true: "Yes"}, url: account_site_page_path(@account, @site, @page), class:"form-check-label", inner_class:"form-check-label" %>
+                            <%= best_in_place @page, :has_image_other_than_cover, as: :checkbox, collection: {false: "No", true: "Yes"}, url: site_page_path(@site, @page), class:"form-check-label", inner_class:"form-check-label" %>
                         </div>
                         <div class="form-check form-check-inline">
                             <%= image_tag "glyphicons-301-microphone.png", class: @page.has_audio ? nil : "disabled", class:"glyphicons-img", inner_class:"glyphicons-img", height: "14" %>
 
-                            <%= best_in_place @page, :has_audio, as: :checkbox, collection: {false: "No", true: "Yes"}, url: account_site_page_path(@account, @site, @page), class:"form-check-label", inner_class:"form-check-label" %>
+                            <%= best_in_place @page, :has_audio, as: :checkbox, collection: {false: "No", true: "Yes"}, url: site_page_path(@site, @page), class:"form-check-label", inner_class:"form-check-label" %>
                         </div>
                         <div class="form-check form-check-inline">
                             <%= image_tag "glyphicons-181-facetime-video.png", class: @page.has_video ? nil : "disabled", class:"glyphicons-img", inner_class:"glyphicons-img", height: "14" %>
 
-                            <%= best_in_place @page, :has_video, as: :checkbox, collection: {false: "No", true: "Yes"}, url: account_site_page_path(@account, @site, @page), class:"form-check-label", inner_class:"form-check-label" %>
+                            <%= best_in_place @page, :has_video, as: :checkbox, collection: {false: "No", true: "Yes"}, url: site_page_path(@site, @page), class:"form-check-label", inner_class:"form-check-label" %>
                         </div>
                         <div class="form-check form-check-inline">
                             <%= image_tag "glyphicons-43-pie-chart.png", class:  @page.has_data ? nil : "disabled", class:"glyphicons-img", inner_class:"glyphicons-img", height: "14"  %>
-                            <%= best_in_place @page, :has_data, as: :checkbox, collection: {false: "No", true: "Yes"}, url: account_site_page_path(@account, @site, @page), class:"form-check-label", inner_class:"form-check-label"  %>
+                            <%= best_in_place @page, :has_data, as: :checkbox, collection: {false: "No", true: "Yes"}, url: site_page_path(@site, @page), class:"form-check-label", inner_class:"form-check-label"  %>
                         </div>
                     </div>
 

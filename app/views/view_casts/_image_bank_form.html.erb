@@ -8,7 +8,7 @@
         </button>
       </div>
       <div class="modal-body">
-        <%= simple_form_for([@account, @new_image],html: {"data-remote" => "true"}) do |f| %>
+        <%= simple_form_for([@site, @new_image],html: {"data-remote" => "true"}) do |f| %>
           <%= f.error_notification %>
           <%= f.input :image, as: :file, required: true, hint: 'Size should less than or equal to 500kB. Supported file types are JPEG, JPG and PNG', input_html: {onChange: "readURL(this)"} %>
           <div id="image_container" class="protograph-new-image">
@@ -41,7 +41,7 @@
             </nav>
             <img class="ui centered image" id="cropbox" src="#"/>
           </div>
-          <%= f.input :account_id, as: :hidden, input_html: {value: @account.id} %>
+          <%= f.input :site_id, as: :hidden, input_html: {value: @site.id} %>
           <%= f.input :name, required: true %>
           <%= f.input :description %>
           <% %w[x y w h].each do |attribute| %>

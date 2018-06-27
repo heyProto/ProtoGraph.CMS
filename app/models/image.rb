@@ -3,12 +3,11 @@
 # Table name: images
 #
 #  id               :integer          not null, primary key
-#  account_id       :integer
 #  name             :string(255)
-#  description      :text
+#  description      :text(65535)
 #  s3_identifier    :string(255)
-#  thumbnail_url    :text
-#  thumbnail_key    :text
+#  thumbnail_url    :text(65535)
+#  thumbnail_key    :text(65535)
 #  thumbnail_width  :integer
 #  thumbnail_height :integer
 #  image_width      :integer
@@ -22,7 +21,7 @@
 #  is_favicon       :boolean          default(FALSE)
 #  is_cover         :boolean
 #  credits          :string(255)
-#  credit_link      :text
+#  credit_link      :text(65535)
 #
 
 class Image < ApplicationRecord
@@ -32,7 +31,7 @@ class Image < ApplicationRecord
   paginates_per 100
   #CONCERNS
   include Propagatable
-  include AssociableByAc
+  include AssociableBySi
 
   #ASSOCIATIONS
   has_many :image_variation, -> {where.not(is_original: true)}, dependent: :destroy
@@ -76,7 +75,7 @@ class Image < ApplicationRecord
   def as_json(options = {})
     {
       id: self.id,
-      redirect_to: Rails.application.routes.url_helpers.account_image_path(self.account, self, folder_id: options[:folder_id]),
+      redirect_to: Rails.application.routes.url_helpers.site_image_path(self.site, self, folder_id: options[:folder_id]),
       thumbnail_url: self.thumbnail_url,
       thumbnail_width: self.thumbnail_width,
       thumbnail_height: self.thumbnail_height,

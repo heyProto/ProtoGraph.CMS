@@ -10,7 +10,6 @@
 #  created_at     :datetime         not null
 #  updated_at     :datetime         not null
 #  folder_id      :integer
-#  account_id     :integer
 #  site_id        :integer
 #  created_by     :integer
 #  updated_by     :integer
@@ -22,7 +21,7 @@ class Activity < ApplicationRecord
   
   #GEMS
   #CONCERNS
-  include AssociableByAcSiFo
+  include AssociableBySiFo
   
   belongs_to :user
   belongs_to :trackable, polymorphic: true

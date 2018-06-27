@@ -8,27 +8,24 @@
 #   Character.create(name: 'Luke', movie: movies.first)
 
 
-puts "----> Creating ICFJ Account"
+puts "----> Creating ICFJ SITE"
 
-icfj_account = Account.create({username: "ICFJ", domain: "icfj.org"})
-pykih_account = Account.create({username: "pykih", domain: "pykih.com"})
+icfj_site = Site.create({name: "ICFJ", domain: "icfj.org"})
+pykih_site = Site.create({name: "pykih", domain: "pykih.com"})
 
 puts "----> Creating Ref Roles"
 
-RefRole.create(name: "Owner", slug: "owner",
-                can_account_settings: true,
-                can_template_design_do: true,
-                can_template_design_publish: true, sort_order: 101)
+PermissionRole.create(name: "Owner", slug: "owner",
+                      can_template_design_do: true,
+                      can_template_design_publish: true, sort_order: 101)
 
-RefRole.create(name: "Editor", slug: "editor",
-                can_account_settings: true,
-                can_template_design_do: false,
-                can_template_design_publish: false, sort_order: 2)
+PermissionRole.create(name: "Editor", slug: "editor",
+                      can_template_design_do: false,
+                      can_template_design_publish: false, sort_order: 2)
 
-RefRole.create(name: "Doer", slug: "doer",
-                can_account_settings: false,
-                can_template_design_do: true,
-                can_template_design_publish: false, sort_order: 100)
+PermissionRole.create(name: "Doer", slug: "doer",
+                      can_template_design_do: true,
+                      can_template_design_publish: false, sort_order: 100)
 
 puts "----> Creating users and permissions"
 users = [["ritvvij.parrikh@pykih.com", "Ritvvij Parrikh" ,"ritvvijparrikh"], ["ab@pykih.com", "Amit Badheka", "amitbadheka"]]
@@ -36,16 +33,16 @@ users.each do |a|
   c = User.new(email: a[0], name: a[1], username: a[2], password: "indianmonsoon1234801" , confirmation_sent_at: Time.now)
   c.skip_confirmation!
   c.save
-  Permission.create({ref_role_slug: "owner", account_id: icfj_account.id, user_id: c.id, created_by: c.id,updated_by: c.id})
+  Permission.create({ref_role_slug: "owner", site_id: icfj_site.id, user_id: c.id, created_by: c.id,updated_by: c.id})
 end
 user_id = User.first.id
 
 folder = Folder.create({
-  account_id: icfj_account.id,
-  name: "Sample Project",
-  created_by: user_id,
-  updated_by: user_id
-})
+                           site_id: icfj_site.id,
+                           name: "Sample Project",
+                           created_by: user_id,
+                           updated_by: user_id
+                       })
 
 puts "----> Creating Template Datum"
 t_explain = TemplateDatum.create({name: "toExplain", version: "0.0.1", s3_identifier: "2e804dc00b362f24"})
@@ -105,145 +102,145 @@ t_lcwhero = TemplateDatum.create({name: "ProtoGraph.Card.toLCWHero", version: "0
 
 puts "----> Creating Template Cards"
 
-TemplateCard.create({git_url: "git@github.com:icfjknightfellows/ProtoGraph.Card.toExplain.git", name: "toExplain", git_branch: "master", git_repo_name: "ProtoGraph.Card.toExplain", status: "published", is_public: true, account_id: icfj_account.id, created_by: user_id, updated_by: user_id, template_datum_id: t_explain.id, elevator_pitch: "Write explainers once. Reuse across stories.", description: "If news content focuses on the ‘Who, What, When, and Where,’ explainers looks to inform the reader of the ‘How and Why.’ It attempts to get behind the news to give the reader background information about a story to ensure that they are able to properly understand events as they unfold. <br/><br/>The toExplain card allows you to write short explainers that you can reuse across articles to provide readers with context.", s3_identifier: "f96a388525160ed7", has_multiple_uploads: true, allowed_views: ["laptop", "mobile"]})
-TemplateCard.create({git_url: "git@github.com:icfjknightfellows/ProtoGraph.Card.toSocial.git", name: "toSocial", git_branch: "master", git_repo_name: "ProtoGraph.Card.toSocial", status: "published", is_public: true, account_id: icfj_account.id, created_by: user_id, updated_by: user_id, template_datum_id: t_share.id, elevator_pitch: "Create branded cover images for distribution.", description: "A huge portion of news distribution happens via social media when readers share your stories on their Facebook, Twitter and Instagram profiles. People encountering your reader’s post on their feed decide within a fraction of seconds whether to click on the article or no. Newsrooms focus a lot of time in writing creative headlines that will make people click.<br/><br/>Another thing that newsrooms could do is to leverage their brand's credibility. The Guardian knows that it’s brand is strong and people to know that this article is from The Guardian as early as possible. Hence, they add a horizontal banner on all social images. <br/><br/><img src='/img/guardian.png' style='width: 200px;'><br/><br/>The toSocial card helps you achieves just that. Upload your cover image and the toSocial card adds branding to it and resizes it into multiple sizes that are optimal for individual platforms. Once these images are created, you can either manually download these images and upload into your CMS’s meta tags or you can integrate with our API. With toSocial, whenever readers post your article on social media, that post acts an advertisement for your brand.", s3_identifier: "1ef5906398cf1149", allowed_views: ["laptop", "mobile"]})
-TemplateCard.create({git_url: "git@github.com:icfjknightfellows/ProtoGraph.Card.toQuiz.git", name: "toQuiz", git_branch: "master", git_repo_name: "ProtoGraph.Card.toQuiz", status: "published", is_public: true, account_id: icfj_account.id, created_by: user_id, updated_by: user_id, template_datum_id: t_quiz.id, elevator_pitch: "Educate and engage readers on relevant issues with quiz.", description: "Just like the ones you know from school, only way more fun. This type of quiz has questions with definitive answers (right or wrong), and can include customized results.", s3_identifier: "7fda46f8c539", allowed_views: ["laptop", "mobile"]})
-TemplateCard.create({git_url: "git@github.com:icfjknightfellows/ProtoGraph.Card.toReportViolence.git", name: "toReportViolence", git_branch: "master", git_repo_name: "ProtoGraph.Card.toReportViolence", status: "published", is_public: true, account_id: icfj_account.id, created_by: user_id, updated_by: user_id, template_datum_id: t_report_violence.id, elevator_pitch: "Structured Journalism: Document incidents of mob lynching.", description: "askdna ldknas ldknas ldknas ldknas dlkans dlkasnd laksnd laksn dalskdn aslkdn aslkd naslkd nasldk nasld knasld kansdl kasndl kasnd lasknd laksnd alskdn alskdnaslkdnal dknasl dknasld knas dlknas dlkansd lkansd laksnd lasknd alksndl aksndals kdnalsk ndalkdn alsknd alsd", s3_identifier: "1cc352b8dae0", has_multiple_uploads: true, allowed_views: ["laptop", "mobile"]})
-TemplateCard.create({git_url: "git@github.com:icfjknightfellows/ProtoGraph.Card.toTimeline.git", name: "toTimeline", git_branch: "master", git_repo_name: "ProtoGraph.Card.toTimeline", status: "published", is_public: true, account_id: icfj_account.id, created_by: user_id, updated_by: user_id, template_datum_id: t_timeline.id, elevator_pitch: "Build visually rich, mobile-first, interactive timelines.", description: "", s3_identifier: "abe2a24d7e5c4b81", allowed_views: ["laptop", "mobile"]})
-TemplateCard.create({git_url: "git@github.com:pykih/ProtoGraph.Card.toLink.git", name: "toLink", git_branch: "master", git_repo_name: "ProtoGraph.Card.toLink", status: "published", is_public: true, account_id: icfj_account.id, created_by: user_id, updated_by: user_id, template_datum_id: t_link.id, elevator_pitch: "", description: "", s3_identifier: "ce908c66e6861eb4", allowed_views: ["laptop", "mobile", "list"]})
-TemplateCard.create({git_url: "git@github.com:pykih/ProtoGraph.Card.toReportJournalistKilling.git", name: "toReportJournalistKilling", git_branch: "master", git_repo_name: "ProtoGraph.Card.toReportJournalistKilling", status: "published", is_public: false, account_id: pykih_account.id, created_by: user_id, updated_by: user_id, template_datum_id: t_report_journalist_killing.id, elevator_pitch: "", description: "", s3_identifier: "ce8d8ad1e0fa2fb1e99c", has_multiple_uploads: true, allowed_views: ["laptop", "mobile"]})
-TemplateCard.create({git_url: "git@github.com:pykih/ProtoGraph.Card.toAudioPhoto.git", name: "toAudioPhoto", git_branch: "master", git_repo_name: "ProtoGraph.Card.toAudioPhoto", status: "published", is_public: false, account_id: pykih_account.id, created_by: user_id, updated_by: user_id, template_datum_id: t_audio_photo.id, elevator_pitch: "", description: "", s3_identifier: "0834977043ff14a7", allowed_views: ["laptop", "mobile"]})
-TemplateCard.create({git_url: "git@github.com:pykih/ProtoGraph.Card.toDistrictProfile.git", name: "toDistrictProfile", git_branch: "master", git_repo_name: "ProtoGraph.Card.toDistrictProfile", status: "published", is_public: false, account_id: pykih_account.id, created_by: user_id, updated_by: user_id, template_datum_id: t_district_profile.id, elevator_pitch: "", description: "", s3_identifier: "64c43aaad1d5c4848e2b", has_multiple_uploads: true, allowed_views: ["laptop", "mobile"]})
-TemplateCard.create({git_url: "git@github.com:pykih/ProtoGraph.Card.toRainfall.git", name: "toRainfall", git_branch: "master", git_repo_name: "ProtoGraph.Card.toRainfall", status: "published", is_public: false, account_id: pykih_account.id, created_by: user_id, updated_by: user_id, template_datum_id: t_rainfall.id, elevator_pitch: "", description: "", s3_identifier: "3c1017ae4c1bad611142", has_multiple_uploads: true, allowed_views: ["laptop", "mobile"]})
-TemplateCard.create({git_url: "git@github.com:pykih/ProtoGraph.Card.toPoliticalLeadership.git", name: "toPoliticalLeadership", git_branch: "master", git_repo_name: "ProtoGraph.Card.toPoliticalLeadership", status: "published", is_public: false, account_id: pykih_account.id, created_by: user_id, updated_by: user_id, template_datum_id: t_political_leadership.id, elevator_pitch: "", description: "", s3_identifier: "73c2e4114665d37c1532", has_multiple_uploads: true, allowed_views: ["laptop", "mobile"]})
-TemplateCard.create({git_url: "git@github.com:pykih/ProtoGraph.Card.toLandUse.git", name: "toLandUse", git_branch: "master", git_repo_name: "ProtoGraph.Card.toLandUse", status: "published", is_public: false, account_id: pykih_account.id, created_by: user_id, updated_by: user_id, template_datum_id: t_land_use.id, elevator_pitch: "", description: "", s3_identifier: "d884e08a38f267a689d1", has_multiple_uploads: true, allowed_views: ["laptop", "mobile"]})
-TemplateCard.create({git_url: "git@github.com:pykih/ProtoGraph.Card.toWaterExploitation.git", name: "toWaterExploitation", git_branch: "master", git_repo_name: "ProtoGraph.Card.toWaterExploitation", status: "published", is_public: false, account_id: pykih_account.id, created_by: user_id, updated_by: user_id, template_datum_id: t_water_exploitation.id, elevator_pitch: "", description: "", s3_identifier: "ab7f37b31fb91496a7d7", has_multiple_uploads: true, allowed_views: ["laptop", "mobile"]})
-TemplateCard.create({git_url: "git@github.com:pykih/ProtoGraph.Card.toArticle.git", name: "toArticle", git_branch: "master", git_repo_name: "ProtoGraph.Card.toArticle", status: "published", is_public: false, account_id: pykih_account.id, created_by: user_id, updated_by: user_id, template_datum_id: t_article.id, elevator_pitch: "", description: "", s3_identifier: "171fda4fca046ddf4490", allowed_views: ["big_image_text", "feature_image", "thumbnail", "title_text", "small_image_text"]})
-TemplateCard.create({git_url: "git@github.com:pykih/ProtoGraph.Card.toMoveToANewCity.git", name: "toMoveToANewCity", git_branch: "master", git_repo_name: "ProtoGraph.Card.toMoveToANewCity", status: "published", is_public: false, account_id: pykih_account.id, created_by: user_id, updated_by: user_id, template_datum_id: t_move_to_a_new_city.id, elevator_pitch: "", description: "", s3_identifier: "21931558341c201c8a44",has_multiple_uploads: true, allowed_views: ["laptop", "mobile"]})
-TemplateCard.create({git_url: "git@bitbucket.org:pykih_/protograph.card.tocluster.git", name: "toCluster", git_branch: "master", git_repo_name: "ProtoGraph.Card.toCluster", status: "published", is_public: true, account_id: pykih_account.id, created_by: user_id, updated_by: user_id, template_datum_id: t_cluster.id, elevator_pitch: "", description: "", s3_identifier: "58b1b2874072b834cdd5",has_multiple_uploads: false, allowed_views: ["col7", "col4", "col3"]})
-TemplateCard.create({git_url: "git@bitbucket.org:pykih_/protograph.card.tostory.git", name: "toStory", git_branch: "master", git_repo_name: "ProtoGraph.Card.toStory", status: "published", is_public: true, account_id: pykih_account.id, created_by: user_id, updated_by: user_id, template_datum_id: t_story.id, elevator_pitch: "", description: "", s3_identifier: "3a22007055b900325586",has_multiple_uploads: false, allowed_views: ["col16","col7", "col4", "col3", "col2"]})
-TemplateCard.create({git_url: "git@bitbucket.org:pykih_/protograph.card.towaterexploitationv2.git", name: "WaterExploitation", git_branch: "master", git_repo_name: "ProtoGraph.Card.WaterExploitation", status: "published", is_public: false, account_id: pykih_account.id, created_by: user_id, updated_by: user_id, template_datum_id: t_water.id, elevator_pitch: "", description: "", s3_identifier: "c2dd73c6a699f10a3f3e",has_multiple_uploads: true, allowed_views: ["col7", "col4"]})
-TemplateCard.create({git_url: "git@bitbucket.org:pykih_/protograph.card.tocompanyprofile.git", name: "toCompanyProfile", git_branch: "master", git_repo_name: "ProtoGraph.Card.toCompanyProfile", status: "published", is_public: false, account_id: pykih_account.id, created_by: user_id, updated_by: user_id, template_datum_id: t_company_profile.id, elevator_pitch: "", description: "", s3_identifier: "49e1db2feaeab4734f51",has_multiple_uploads: false, allowed_views: ["col7", "col4", "col3"]})
-TemplateCard.create({git_url: "git@bitbucket.org:pykih_/protograph.card.toquestion.git", name: "toQuestion", git_branch: "master", git_repo_name: "ProtoGraph.Card.toQuestion", status: "published", is_public: false, account_id: pykih_account.id, created_by: user_id, updated_by: user_id, template_datum_id: t_question.id, elevator_pitch: "", description: "", s3_identifier: "22c19a0c9a5f5c05bf66",has_multiple_uploads: false, allowed_views: ["col7", "col4", "col3"]})
-TemplateCard.create({git_url: "git@bitbucket.org:pykih_/protograph.card.tomedia.git", name: "toMedia", git_branch: "master", git_repo_name: "ProtoGraph.Card.toMedia", status: "published", is_public: false, account_id: pykih_account.id, created_by: user_id, updated_by: user_id, template_datum_id: t_media.id, elevator_pitch: "", description: "", s3_identifier: "346cad2b4c1598679cfe",has_multiple_uploads: false, allowed_views: ["col7", "col4", "col3"]})
-TemplateCard.create({git_url: "git@bitbucket.org:pykih_/protograph.card.toSurveyScores.git", name: "toSurveyScores", git_branch: "master", git_repo_name: "ProtoGraph.Card.toSurveyScores", status: "published", is_public: false, account_id: pykih_account.id, created_by: user_id, updated_by: user_id, template_datum_id: t_survey_scores.id, elevator_pitch: "", description: "", s3_identifier: "25d44080867a4cd6b430",has_multiple_uploads: false, allowed_views: ["col7", "col4", "col3"]})
-TemplateCard.create({git_url: "git@bitbucket.org:pykih_/protograph.card.tomanualscavengercovervizcard.git", name: "toManualScavengerCoverVizCard", git_branch: "master", git_repo_name: "ProtoGraph.Card.toManualScavengerCoverVizCard", status: "published", is_public: false, account_id: pykih_account.id, created_by: user_id, updated_by: user_id, template_datum_id: t_stink_cover.id, elevator_pitch: "", description: "", s3_identifier: "3dcab1e230b429d5a921",has_multiple_uploads: false, allowed_views: ["col16", "col4"]})
-TemplateCard.create({git_url: "git@bitbucket.org:pykih_/protograph.card.composecard.git", name: "toParagraph", git_branch: "master", git_repo_name: "ProtoGraph.Card.ComposeCard", status: "published", is_public: true, account_id: pykih_account.id, created_by: user_id, updated_by: user_id, template_datum_id: t_compose_card.id, elevator_pitch: "", description: "", s3_identifier: "8c7f4a1291ed39c16d26",has_multiple_uploads: false, allowed_views: ["col7", "col4"]})
-TemplateCard.create({git_url: "git@bitbucket.org:pykih_/protograph.card.toimage.git", name: "toImage", git_branch: "master", git_repo_name: "ProtoGraph.Card.toImage", status: "published", is_public: true, account_id: pykih_account.id, created_by: user_id, updated_by: user_id, template_datum_id: t_image_card.id, elevator_pitch: "", description: "", s3_identifier: "5c33be70482e129de6f0",has_multiple_uploads: false, allowed_views: ["col16", "col7", "col4", "col3", "col2"]})
-TemplateCard.create({git_url: "git@bitbucket.org:pykih_/protograph.card.videoyoutube.git", name: "VideoYoutube", git_branch: "master", git_repo_name: "ProtoGraph.Card.VideoYoutube", status: "published", is_public: true, account_id: pykih_account.id, created_by: user_id, updated_by: user_id, template_datum_id: t_video_youtube.id, elevator_pitch: "", description: "", s3_identifier: "c9e5bf64ab18cb01e491",has_multiple_uploads: false, allowed_views: ["col16", "col7", "col4", "col3", "col2"]})
-TemplateCard.create({git_url: "git@bitbucket.org:pykih_/protograph.card.tovideojwplayer.git", name: "toVideo: JWPlayer", git_branch: "master", git_repo_name: "ProtoGraph.Card.toVideoJWPlayer", status: "published", is_public: true, account_id: pykih_account.id, created_by: user_id, updated_by: user_id, template_datum_id: t_video_JWPlayer.id, elevator_pitch: "", description: "", s3_identifier: "f4ab7fb4e0646ca69d5e",has_multiple_uploads: false, allowed_views: ["col16", "col7", "col4", "col3", "col2"], sort_order: 35})
-TemplateCard.create({git_url: "git@bitbucket.org:pykih_/protograph.card.toprofile.git", name: "toProfile", git_branch: "master", git_repo_name: "ProtoGraph.Card.toProfile", status: "published", is_public: true, account_id: pykih_account.id, created_by: user_id, updated_by: user_id, template_datum_id: t_profile.id, elevator_pitch: "", description: "", s3_identifier: "4248b573a96cbadfb321",has_multiple_uploads: false, allowed_views: ["col7", "col4", "col3", "col2"]})
-TemplateCard.create({git_url: "git@bitbucket.org:pykih_/protograph.card.todataratingwithdrilldown.git", name: "toData: Rating with drill down", git_branch: "master", git_repo_name: "ProtoGraph.Card.toDataRatingWithDrillDown", status: "published", is_public: true, account_id: pykih_account.id, created_by: user_id, updated_by: user_id, template_datum_id: t_data_rating_with_drilldown.id, elevator_pitch: "", description: "", s3_identifier: "8839daf4eeffd56d81b2",has_multiple_uploads: false, allowed_views: ["col7", "col4"]})
-TemplateCard.create({git_url: "git@bitbucket.org:pykih_/protograph.card.todatairbfgrid.git", name: "toData: IRBF Grid", git_branch: "master", git_repo_name: "ProtoGraph.Card.toDataIRBFGrid", status: "published", is_public: false, account_id: oxfam_account.id, created_by: user_id, updated_by: user_id, template_datum_id: t_data_irbf_grid.id, elevator_pitch: "", description: "", s3_identifier: "66827b60da0c3211d776",has_multiple_uploads: false, allowed_views: ["grid"]})
-TemplateCard.create({git_url: "git@bitbucket.org:pykih_/protograph.card.todatairbftooltip.git", name: "toData: IRBF Tooltip", git_branch: "master", git_repo_name: "ProtoGraph.Card.toDataIRBFTooltip", status: "published", is_public: false, account_id: oxfam_account.id, created_by: user_id, updated_by: user_id, template_datum_id: t_data_irbf_tooltip.id, elevator_pitch: "", description: "", s3_identifier: "2931317d3b08401c2dd9",has_multiple_uploads: false, allowed_views: ["tooltip"]})
-TemplateCard.create({git_url: "git@bitbucket.org:pykih_/protograph.card.toorganvizcover.git", name: "Organ: CoverViz", git_branch: "master", git_repo_name: "ProtoGraph.Card.toOrganCoverVizCard", status: "published", is_public: true, account_id: pykih_account.id, created_by: user_id, updated_by: user_id, template_datum_id: t_organ_viz.id, elevator_pitch: "", description: "", s3_identifier: "9e058a64d0949988645e",has_multiple_uploads: false, allowed_views: ["col16", "col4"]})
-TemplateCard.create({git_url: "git@bitbucket.org:pykih_/protograph.card.toeducationdistrictmap.git", name: "Education: District Map", git_branch: "master", git_repo_name: "ProtoGraph.Card.toEducationDistrictMap", status: "published", is_public: true, account_id: pykih_account.id, created_by: user_id, updated_by: user_id, template_datum_id: t_education.id, elevator_pitch: "", description: "", s3_identifier: "85e16c8b12fda33055f6",has_multiple_uploads: false, allowed_views: ["col7", "col4", "col2"]})
-TemplateCard.create({git_url: "git@bitbucket.org:pykih_/protograph.card.tohtml.git", name: "DH: HTML", git_branch: "master", git_repo_name: "ProtoGraph.Card.HTMLCard", status: "published", is_public: false, account_id: pykih_account.id, created_by: user_id, updated_by: user_id, template_datum_id: t_html.id, elevator_pitch: "", description: "", s3_identifier: "8346e50f6a0c4858703e",has_multiple_uploads: false, allowed_views: ["col7", "col4"]})
-TemplateCard.create({git_url: "git@bitbucket.org:pykih_/todwchart.git", name: "DH: Datawrapper", git_branch: "master", git_repo_name: "ProtoGraph.Card.toDWChart", status: "published", is_public: false, account_id: dh_account.id, created_by: user_id, updated_by: user_id, template_datum_id: t_datawrapper.id, elevator_pitch: "", description: "", s3_identifier: "79fadf27771f80149d7b",has_multiple_uploads: false, allowed_views: ["col16", "col7", "col4"]})
-TemplateCard.create({git_url: "git@bitbucket.org:pykih_/protograph.card.tobio.git", name: "toBio", git_branch: "master", git_repo_name: "ProtoGraph.Card.toBio", status: "published", is_public: true, account_id: pykih_account.id, created_by: user_id, updated_by: user_id, template_datum_id: t_bio.id, elevator_pitch: "", description: "", s3_identifier: "c80b9f40b64d145de511",has_multiple_uploads: false, allowed_views: ["col7", "col4", "col3", "col2"]})
-TemplateCard.create({git_url: "git@bitbucket.org:pykih_/protograph.card.toceewhero.git", name: "Ceew: Hero", git_branch: "master", git_repo_name: "ProtoGraph.Card.toCEEWHero", status: "published", is_public: false, account_id: pykih_account.id, created_by: user_id, updated_by: user_id, template_datum_id: t_ceew_hero.id, elevator_pitch: "", description: "", s3_identifier: "8ce281e5039dce51e067",has_multiple_uploads: false, allowed_views: ["col16", "col4"]})
-TemplateCard.create({git_url: "git@bitbucket.org:pykih_/protograph.card.toceewheroflow1.git", name: "Ceew: HeroFlow1", git_branch: "master", git_repo_name: "ProtoGraph.Card.toCEEWHeroFlow1", status: "published", is_public: false, account_id: pykih_account.id, created_by: user_id, updated_by: user_id, template_datum_id: t_ceew_hero1.id, elevator_pitch: "", description: "", s3_identifier: "ff0474e2588c0a6d3e08",has_multiple_uploads: false, allowed_views: ["col16", "col4"]})
-TemplateCard.create({git_url: "git@bitbucket.org:pykih_/protograph.card.toceewheroflow2.git", name: "Ceew: HeroFlow2", git_branch: "master", git_repo_name: "ProtoGraph.Card.toCEEWHeroFlow2", status: "published", is_public: false, account_id: pykih_account.id, created_by: user_id, updated_by: user_id, template_datum_id: t_ceew_hero2.id, elevator_pitch: "", description: "", s3_identifier: "6a1be87e840877cd7119",has_multiple_uploads: false, allowed_views: ["col16", "col4"]})
-TemplateCard.create({git_url: "git@bitbucket.org:pykih_/protograph.card.toceewparameter.git", name: "Ceew: Parameter", git_branch: "master", git_repo_name: "ProtoGraph.Card.toCEEWParameter", status: "published", is_public: false, account_id: pykih_account.id, created_by: user_id, updated_by: user_id, template_datum_id: t_ceew_parameter.id, elevator_pitch: "", description: "", s3_identifier: "04870ca59109bb3dfdea",has_multiple_uploads: false, allowed_views: ["col7", "col4", "col3"]})
-TemplateCard.create({git_url: "git@bitbucket.org:pykih_/protograph.card.toceewpolicydrilldown.git", name: "Ceew: PolicyDrillDown", git_branch: "master", git_repo_name: "ProtoGraph.Card.toCEEWPolicyDrillDown", status: "published", is_public: false, account_id: pykih_account.id, created_by: user_id, updated_by: user_id, template_datum_id: t_ceew_policydrilldown.id, elevator_pitch: "", description: "", s3_identifier: "470b7c34f8f68c1b429c",has_multiple_uploads: false, allowed_views: ["col7", "col4"]})
-TemplateCard.create({git_url: "git@bitbucket.org:pykih_/protograph.card.tolanding.git", name: "toCrossPub", git_branch: "master", git_repo_name: "ProtoGraph.Card.toLanding", status: "published", is_public: true, account_id: pykih_account.id, created_by: user_id, updated_by: user_id, template_datum_id: t_landing.id, elevator_pitch: "", description: "", s3_identifier: "6f4657adaa3c900aa1a0",has_multiple_uploads: false, is_editable: false, allowed_views: ["col16", "col4"]})
-TemplateCard.create({git_url: "git@bitbucket.org:pykih_/protograph.card.tocredits.git", name: "toCreditPartners", git_branch: "master", git_repo_name: "ProtoGraph.Card.toCreditPartners", status: "published", is_public: true, account_id: pykih_account.id, created_by: user_id, updated_by: user_id, template_datum_id: t_credits.id, elevator_pitch: "", description: "", s3_identifier: "d583b2ea191031c6f0fc",has_multiple_uploads: false, is_editable: true, allowed_views: ["col16", "col7", "col4"]})
-TemplateCard.create({git_url: "git@bitbucket.org:pykih_/protograph.card.proc4ahealthtools.git", name: "C4A Healthtools", git_branch: "master", git_repo_name: "ProtoGraph.Card.proC4Ahealthtools", status: "published", is_public: false, account_id: pykih_account.id, created_by: user_id, updated_by: user_id, template_datum_id: t_c4a.id, elevator_pitch: "", description: "", s3_identifier: "b011d28f52396081faa8",has_multiple_uploads: false, is_editable: true, allowed_views: ["col16", "col4"]})
-TemplateCard.create({git_url: "git@bitbucket.org:pykih_/protograph.card.toindiaspendhatecrime.git", name: "toIndiaSpendCard", git_branch: "master", git_repo_name: "ProtoGraph.Card.toIndiaSpendCard", status: "published", is_public: false, account_id: pykih_account.id, created_by: user_id, updated_by: user_id, template_datum_id: t_ispend.id, elevator_pitch: "", description: "", s3_identifier: "79c10f895565f79dca4b",has_multiple_uploads: true, is_editable: true, allowed_views: ["col7", "col4"]})
-TemplateCard.create({git_url: "git@bitbucket.org:pykih_/protograph.card.toimagenarrative.git", name: "toImageNarrative", git_branch: "master", git_repo_name: "ProtoGraph.Card.toImageNarrative", status: "published", is_public: true, account_id: pykih_account.id, created_by: user_id, updated_by: user_id, template_datum_id: t_image.id, elevator_pitch: "", description: "", s3_identifier: "9273eab737631412dd01",has_multiple_uploads: true, is_editable: true, allowed_views: ["col7","col4"]})
-TemplateCard.create({git_url: "git@bitbucket.org:pykih_/protograph.card.tocoverimage.git", name: "toCoverImage", git_branch: "master", git_repo_name: "ProtoGraph.Card.toCoverImage", status: "published", is_public: true, account_id: pykih_account.id, created_by: user_id, updated_by: user_id, template_datum_id: t_image.id, elevator_pitch: "", description: "", s3_identifier: "99e448b6fcb668c5a3d4",has_multiple_uploads: true, is_editable: true, allowed_views: ["col16", "col7","col4", 'col3', 'col2']})
-TemplateCard.create({git_url: "git@bitbucket.org:pykih_/protograph.card.torecordlandconflict.git", name: "toRecordLandConflict", git_branch: "master", git_repo_name: "ProtoGraph.Card.toRecordLandConflict", status: "published", is_public: true, account_id: pykih_account.id, created_by: user_id, updated_by: user_id, template_datum_id: t_lcw.id, elevator_pitch: "", description: "", s3_identifier: "089131ca8ef9a3dcaad8",has_multiple_uploads: false, is_editable: true, allowed_views: ["col7","col4"]})
-TemplateCard.create({git_url: "git@bitbucket.org:pykih_/protograph.card.tocoverimage.git", name: "toLCWHero", git_branch: "master", git_repo_name: "ProtoGraph.Card.toLCWHero", status: "published", is_public: true, account_id: pykih_account.id, created_by: user_id, updated_by: user_id, template_datum_id: t_lcwhero.id, elevator_pitch: "", description: "", s3_identifier: "55825b09931bee16055a",has_multiple_uploads: false, is_editable: true, allowed_views: ["col16","col4"]})
+TemplateCard.create({git_url: "git@github.com:icfjknightfellows/ProtoGraph.Card.toExplain.git", name: "toExplain", git_branch: "master", git_repo_name: "ProtoGraph.Card.toExplain", status: "published", is_public: true, site_id: icfj_site.id, created_by: user_id, updated_by: user_id, template_datum_id: t_explain.id, elevator_pitch: "Write explainers once. Reuse across stories.", description: "If news content focuses on the ‘Who, What, When, and Where,’ explainers looks to inform the reader of the ‘How and Why.’ It attempts to get behind the news to give the reader background information about a story to ensure that they are able to properly understand events as they unfold. <br/><br/>The toExplain card allows you to write short explainers that you can reuse across articles to provide readers with context.", s3_identifier: "f96a388525160ed7", has_multiple_uploads: true, allowed_views: ["laptop", "mobile"]})
+TemplateCard.create({git_url: "git@github.com:icfjknightfellows/ProtoGraph.Card.toSocial.git", name: "toSocial", git_branch: "master", git_repo_name: "ProtoGraph.Card.toSocial", status: "published", is_public: true, site_id: icfj_site.id, created_by: user_id, updated_by: user_id, template_datum_id: t_share.id, elevator_pitch: "Create branded cover images for distribution.", description: "A huge portion of news distribution happens via social media when readers share your stories on their Facebook, Twitter and Instagram profiles. People encountering your reader’s post on their feed decide within a fraction of seconds whether to click on the article or no. Newsrooms focus a lot of time in writing creative headlines that will make people click.<br/><br/>Another thing that newsrooms could do is to leverage their brand's credibility. The Guardian knows that it’s brand is strong and people to know that this article is from The Guardian as early as possible. Hence, they add a horizontal banner on all social images. <br/><br/><img src='/img/guardian.png' style='width: 200px;'><br/><br/>The toSocial card helps you achieves just that. Upload your cover image and the toSocial card adds branding to it and resizes it into multiple sizes that are optimal for individual platforms. Once these images are created, you can either manually download these images and upload into your CMS’s meta tags or you can integrate with our API. With toSocial, whenever readers post your article on social media, that post acts an advertisement for your brand.", s3_identifier: "1ef5906398cf1149", allowed_views: ["laptop", "mobile"]})
+TemplateCard.create({git_url: "git@github.com:icfjknightfellows/ProtoGraph.Card.toQuiz.git", name: "toQuiz", git_branch: "master", git_repo_name: "ProtoGraph.Card.toQuiz", status: "published", is_public: true, site_id: icfj_site.id, created_by: user_id, updated_by: user_id, template_datum_id: t_quiz.id, elevator_pitch: "Educate and engage readers on relevant issues with quiz.", description: "Just like the ones you know from school, only way more fun. This type of quiz has questions with definitive answers (right or wrong), and can include customized results.", s3_identifier: "7fda46f8c539", allowed_views: ["laptop", "mobile"]})
+TemplateCard.create({git_url: "git@github.com:icfjknightfellows/ProtoGraph.Card.toReportViolence.git", name: "toReportViolence", git_branch: "master", git_repo_name: "ProtoGraph.Card.toReportViolence", status: "published", is_public: true, site_id: icfj_site.id, created_by: user_id, updated_by: user_id, template_datum_id: t_report_violence.id, elevator_pitch: "Structured Journalism: Document incidents of mob lynching.", description: "askdna ldknas ldknas ldknas ldknas dlkans dlkasnd laksnd laksn dalskdn aslkdn aslkd naslkd nasldk nasld knasld kansdl kasndl kasnd lasknd laksnd alskdn alskdnaslkdnal dknasl dknasld knas dlknas dlkansd lkansd laksnd lasknd alksndl aksndals kdnalsk ndalkdn alsknd alsd", s3_identifier: "1cc352b8dae0", has_multiple_uploads: true, allowed_views: ["laptop", "mobile"]})
+TemplateCard.create({git_url: "git@github.com:icfjknightfellows/ProtoGraph.Card.toTimeline.git", name: "toTimeline", git_branch: "master", git_repo_name: "ProtoGraph.Card.toTimeline", status: "published", is_public: true, site_id: icfj_site.id, created_by: user_id, updated_by: user_id, template_datum_id: t_timeline.id, elevator_pitch: "Build visually rich, mobile-first, interactive timelines.", description: "", s3_identifier: "abe2a24d7e5c4b81", allowed_views: ["laptop", "mobile"]})
+TemplateCard.create({git_url: "git@github.com:pykih/ProtoGraph.Card.toLink.git", name: "toLink", git_branch: "master", git_repo_name: "ProtoGraph.Card.toLink", status: "published", is_public: true, site_id: icfj_site.id, created_by: user_id, updated_by: user_id, template_datum_id: t_link.id, elevator_pitch: "", description: "", s3_identifier: "ce908c66e6861eb4", allowed_views: ["laptop", "mobile", "list"]})
+TemplateCard.create({git_url: "git@github.com:pykih/ProtoGraph.Card.toReportJournalistKilling.git", name: "toReportJournalistKilling", git_branch: "master", git_repo_name: "ProtoGraph.Card.toReportJournalistKilling", status: "published", is_public: false, site_id: pykih_site.id, created_by: user_id, updated_by: user_id, template_datum_id: t_report_journalist_killing.id, elevator_pitch: "", description: "", s3_identifier: "ce8d8ad1e0fa2fb1e99c", has_multiple_uploads: true, allowed_views: ["laptop", "mobile"]})
+TemplateCard.create({git_url: "git@github.com:pykih/ProtoGraph.Card.toAudioPhoto.git", name: "toAudioPhoto", git_branch: "master", git_repo_name: "ProtoGraph.Card.toAudioPhoto", status: "published", is_public: false, site_id: pykih_site.id, created_by: user_id, updated_by: user_id, template_datum_id: t_audio_photo.id, elevator_pitch: "", description: "", s3_identifier: "0834977043ff14a7", allowed_views: ["laptop", "mobile"]})
+TemplateCard.create({git_url: "git@github.com:pykih/ProtoGraph.Card.toDistrictProfile.git", name: "toDistrictProfile", git_branch: "master", git_repo_name: "ProtoGraph.Card.toDistrictProfile", status: "published", is_public: false, site_id: pykih_site.id, created_by: user_id, updated_by: user_id, template_datum_id: t_district_profile.id, elevator_pitch: "", description: "", s3_identifier: "64c43aaad1d5c4848e2b", has_multiple_uploads: true, allowed_views: ["laptop", "mobile"]})
+TemplateCard.create({git_url: "git@github.com:pykih/ProtoGraph.Card.toRainfall.git", name: "toRainfall", git_branch: "master", git_repo_name: "ProtoGraph.Card.toRainfall", status: "published", is_public: false, site_id: pykih_site.id, created_by: user_id, updated_by: user_id, template_datum_id: t_rainfall.id, elevator_pitch: "", description: "", s3_identifier: "3c1017ae4c1bad611142", has_multiple_uploads: true, allowed_views: ["laptop", "mobile"]})
+TemplateCard.create({git_url: "git@github.com:pykih/ProtoGraph.Card.toPoliticalLeadership.git", name: "toPoliticalLeadership", git_branch: "master", git_repo_name: "ProtoGraph.Card.toPoliticalLeadership", status: "published", is_public: false, site_id: pykih_site.id, created_by: user_id, updated_by: user_id, template_datum_id: t_political_leadership.id, elevator_pitch: "", description: "", s3_identifier: "73c2e4114665d37c1532", has_multiple_uploads: true, allowed_views: ["laptop", "mobile"]})
+TemplateCard.create({git_url: "git@github.com:pykih/ProtoGraph.Card.toLandUse.git", name: "toLandUse", git_branch: "master", git_repo_name: "ProtoGraph.Card.toLandUse", status: "published", is_public: false, site_id: pykih_site.id, created_by: user_id, updated_by: user_id, template_datum_id: t_land_use.id, elevator_pitch: "", description: "", s3_identifier: "d884e08a38f267a689d1", has_multiple_uploads: true, allowed_views: ["laptop", "mobile"]})
+TemplateCard.create({git_url: "git@github.com:pykih/ProtoGraph.Card.toWaterExploitation.git", name: "toWaterExploitation", git_branch: "master", git_repo_name: "ProtoGraph.Card.toWaterExploitation", status: "published", is_public: false, site_id: pykih_site.id, created_by: user_id, updated_by: user_id, template_datum_id: t_water_exploitation.id, elevator_pitch: "", description: "", s3_identifier: "ab7f37b31fb91496a7d7", has_multiple_uploads: true, allowed_views: ["laptop", "mobile"]})
+TemplateCard.create({git_url: "git@github.com:pykih/ProtoGraph.Card.toArticle.git", name: "toArticle", git_branch: "master", git_repo_name: "ProtoGraph.Card.toArticle", status: "published", is_public: false, site_id: pykih_site.id, created_by: user_id, updated_by: user_id, template_datum_id: t_article.id, elevator_pitch: "", description: "", s3_identifier: "171fda4fca046ddf4490", allowed_views: ["big_image_text", "feature_image", "thumbnail", "title_text", "small_image_text"]})
+TemplateCard.create({git_url: "git@github.com:pykih/ProtoGraph.Card.toMoveToANewCity.git", name: "toMoveToANewCity", git_branch: "master", git_repo_name: "ProtoGraph.Card.toMoveToANewCity", status: "published", is_public: false, site_id: pykih_site.id, created_by: user_id, updated_by: user_id, template_datum_id: t_move_to_a_new_city.id, elevator_pitch: "", description: "", s3_identifier: "21931558341c201c8a44",has_multiple_uploads: true, allowed_views: ["laptop", "mobile"]})
+TemplateCard.create({git_url: "git@bitbucket.org:pykih_/protograph.card.tocluster.git", name: "toCluster", git_branch: "master", git_repo_name: "ProtoGraph.Card.toCluster", status: "published", is_public: true, site_id: pykih_site.id, created_by: user_id, updated_by: user_id, template_datum_id: t_cluster.id, elevator_pitch: "", description: "", s3_identifier: "58b1b2874072b834cdd5",has_multiple_uploads: false, allowed_views: ["col7", "col4", "col3"]})
+TemplateCard.create({git_url: "git@bitbucket.org:pykih_/protograph.card.tostory.git", name: "toStory", git_branch: "master", git_repo_name: "ProtoGraph.Card.toStory", status: "published", is_public: true, site_id: pykih_site.id, created_by: user_id, updated_by: user_id, template_datum_id: t_story.id, elevator_pitch: "", description: "", s3_identifier: "3a22007055b900325586",has_multiple_uploads: false, allowed_views: ["col16","col7", "col4", "col3", "col2"]})
+TemplateCard.create({git_url: "git@bitbucket.org:pykih_/protograph.card.towaterexploitationv2.git", name: "WaterExploitation", git_branch: "master", git_repo_name: "ProtoGraph.Card.WaterExploitation", status: "published", is_public: false, site_id: pykih_site.id, created_by: user_id, updated_by: user_id, template_datum_id: t_water.id, elevator_pitch: "", description: "", s3_identifier: "c2dd73c6a699f10a3f3e",has_multiple_uploads: true, allowed_views: ["col7", "col4"]})
+TemplateCard.create({git_url: "git@bitbucket.org:pykih_/protograph.card.tocompanyprofile.git", name: "toCompanyProfile", git_branch: "master", git_repo_name: "ProtoGraph.Card.toCompanyProfile", status: "published", is_public: false, site_id: pykih_site.id, created_by: user_id, updated_by: user_id, template_datum_id: t_company_profile.id, elevator_pitch: "", description: "", s3_identifier: "49e1db2feaeab4734f51",has_multiple_uploads: false, allowed_views: ["col7", "col4", "col3"]})
+TemplateCard.create({git_url: "git@bitbucket.org:pykih_/protograph.card.toquestion.git", name: "toQuestion", git_branch: "master", git_repo_name: "ProtoGraph.Card.toQuestion", status: "published", is_public: false, site_id: pykih_site.id, created_by: user_id, updated_by: user_id, template_datum_id: t_question.id, elevator_pitch: "", description: "", s3_identifier: "22c19a0c9a5f5c05bf66",has_multiple_uploads: false, allowed_views: ["col7", "col4", "col3"]})
+TemplateCard.create({git_url: "git@bitbucket.org:pykih_/protograph.card.tomedia.git", name: "toMedia", git_branch: "master", git_repo_name: "ProtoGraph.Card.toMedia", status: "published", is_public: false, site_id: pykih_site.id, created_by: user_id, updated_by: user_id, template_datum_id: t_media.id, elevator_pitch: "", description: "", s3_identifier: "346cad2b4c1598679cfe",has_multiple_uploads: false, allowed_views: ["col7", "col4", "col3"]})
+TemplateCard.create({git_url: "git@bitbucket.org:pykih_/protograph.card.toSurveyScores.git", name: "toSurveyScores", git_branch: "master", git_repo_name: "ProtoGraph.Card.toSurveyScores", status: "published", is_public: false, site_id: pykih_site.id, created_by: user_id, updated_by: user_id, template_datum_id: t_survey_scores.id, elevator_pitch: "", description: "", s3_identifier: "25d44080867a4cd6b430",has_multiple_uploads: false, allowed_views: ["col7", "col4", "col3"]})
+TemplateCard.create({git_url: "git@bitbucket.org:pykih_/protograph.card.tomanualscavengercovervizcard.git", name: "toManualScavengerCoverVizCard", git_branch: "master", git_repo_name: "ProtoGraph.Card.toManualScavengerCoverVizCard", status: "published", is_public: false, site_id: pykih_site.id, created_by: user_id, updated_by: user_id, template_datum_id: t_stink_cover.id, elevator_pitch: "", description: "", s3_identifier: "3dcab1e230b429d5a921",has_multiple_uploads: false, allowed_views: ["col16", "col4"]})
+TemplateCard.create({git_url: "git@bitbucket.org:pykih_/protograph.card.composecard.git", name: "toParagraph", git_branch: "master", git_repo_name: "ProtoGraph.Card.ComposeCard", status: "published", is_public: true, site_id: pykih_site.id, created_by: user_id, updated_by: user_id, template_datum_id: t_compose_card.id, elevator_pitch: "", description: "", s3_identifier: "8c7f4a1291ed39c16d26",has_multiple_uploads: false, allowed_views: ["col7", "col4"]})
+TemplateCard.create({git_url: "git@bitbucket.org:pykih_/protograph.card.toimage.git", name: "toImage", git_branch: "master", git_repo_name: "ProtoGraph.Card.toImage", status: "published", is_public: true, site_id: pykih_site.id, created_by: user_id, updated_by: user_id, template_datum_id: t_image_card.id, elevator_pitch: "", description: "", s3_identifier: "5c33be70482e129de6f0",has_multiple_uploads: false, allowed_views: ["col16", "col7", "col4", "col3", "col2"]})
+TemplateCard.create({git_url: "git@bitbucket.org:pykih_/protograph.card.videoyoutube.git", name: "VideoYoutube", git_branch: "master", git_repo_name: "ProtoGraph.Card.VideoYoutube", status: "published", is_public: true, site_id: pykih_site.id, created_by: user_id, updated_by: user_id, template_datum_id: t_video_youtube.id, elevator_pitch: "", description: "", s3_identifier: "c9e5bf64ab18cb01e491",has_multiple_uploads: false, allowed_views: ["col16", "col7", "col4", "col3", "col2"]})
+TemplateCard.create({git_url: "git@bitbucket.org:pykih_/protograph.card.tovideojwplayer.git", name: "toVideo: JWPlayer", git_branch: "master", git_repo_name: "ProtoGraph.Card.toVideoJWPlayer", status: "published", is_public: true, site_id: pykih_site.id, created_by: user_id, updated_by: user_id, template_datum_id: t_video_JWPlayer.id, elevator_pitch: "", description: "", s3_identifier: "f4ab7fb4e0646ca69d5e",has_multiple_uploads: false, allowed_views: ["col16", "col7", "col4", "col3", "col2"], sort_order: 35})
+TemplateCard.create({git_url: "git@bitbucket.org:pykih_/protograph.card.toprofile.git", name: "toProfile", git_branch: "master", git_repo_name: "ProtoGraph.Card.toProfile", status: "published", is_public: true, site_id: pykih_site.id, created_by: user_id, updated_by: user_id, template_datum_id: t_profile.id, elevator_pitch: "", description: "", s3_identifier: "4248b573a96cbadfb321",has_multiple_uploads: false, allowed_views: ["col7", "col4", "col3", "col2"]})
+TemplateCard.create({git_url: "git@bitbucket.org:pykih_/protograph.card.todataratingwithdrilldown.git", name: "toData: Rating with drill down", git_branch: "master", git_repo_name: "ProtoGraph.Card.toDataRatingWithDrillDown", status: "published", is_public: true, site_id: pykih_site.id, created_by: user_id, updated_by: user_id, template_datum_id: t_data_rating_with_drilldown.id, elevator_pitch: "", description: "", s3_identifier: "8839daf4eeffd56d81b2",has_multiple_uploads: false, allowed_views: ["col7", "col4"]})
+TemplateCard.create({git_url: "git@bitbucket.org:pykih_/protograph.card.todatairbfgrid.git", name: "toData: IRBF Grid", git_branch: "master", git_repo_name: "ProtoGraph.Card.toDataIRBFGrid", status: "published", is_public: false, site_id: pykih_site.id, created_by: user_id, updated_by: user_id, template_datum_id: t_data_irbf_grid.id, elevator_pitch: "", description: "", s3_identifier: "66827b60da0c3211d776",has_multiple_uploads: false, allowed_views: ["grid"]})
+TemplateCard.create({git_url: "git@bitbucket.org:pykih_/protograph.card.todatairbftooltip.git", name: "toData: IRBF Tooltip", git_branch: "master", git_repo_name: "ProtoGraph.Card.toDataIRBFTooltip", status: "published", is_public: false, site_id: pykih_site.id, created_by: user_id, updated_by: user_id, template_datum_id: t_data_irbf_tooltip.id, elevator_pitch: "", description: "", s3_identifier: "2931317d3b08401c2dd9",has_multiple_uploads: false, allowed_views: ["tooltip"]})
+TemplateCard.create({git_url: "git@bitbucket.org:pykih_/protograph.card.toorganvizcover.git", name: "Organ: CoverViz", git_branch: "master", git_repo_name: "ProtoGraph.Card.toOrganCoverVizCard", status: "published", is_public: true, site_id: pykih_site.id, created_by: user_id, updated_by: user_id, template_datum_id: t_organ_viz.id, elevator_pitch: "", description: "", s3_identifier: "9e058a64d0949988645e",has_multiple_uploads: false, allowed_views: ["col16", "col4"]})
+TemplateCard.create({git_url: "git@bitbucket.org:pykih_/protograph.card.toeducationdistrictmap.git", name: "Education: District Map", git_branch: "master", git_repo_name: "ProtoGraph.Card.toEducationDistrictMap", status: "published", is_public: true, site_id: pykih_site.id, created_by: user_id, updated_by: user_id, template_datum_id: t_education.id, elevator_pitch: "", description: "", s3_identifier: "85e16c8b12fda33055f6",has_multiple_uploads: false, allowed_views: ["col7", "col4", "col2"]})
+TemplateCard.create({git_url: "git@bitbucket.org:pykih_/protograph.card.tohtml.git", name: "DH: HTML", git_branch: "master", git_repo_name: "ProtoGraph.Card.HTMLCard", status: "published", is_public: false, site_id: pykih_site.id, created_by: user_id, updated_by: user_id, template_datum_id: t_html.id, elevator_pitch: "", description: "", s3_identifier: "8346e50f6a0c4858703e",has_multiple_uploads: false, allowed_views: ["col7", "col4"]})
+TemplateCard.create({git_url: "git@bitbucket.org:pykih_/todwchart.git", name: "DH: Datawrapper", git_branch: "master", git_repo_name: "ProtoGraph.Card.toDWChart", status: "published", is_public: false, site_id: dh_account.id, created_by: user_id, updated_by: user_id, template_datum_id: t_datawrapper.id, elevator_pitch: "", description: "", s3_identifier: "79fadf27771f80149d7b",has_multiple_uploads: false, allowed_views: ["col16", "col7", "col4"]})
+TemplateCard.create({git_url: "git@bitbucket.org:pykih_/protograph.card.tobio.git", name: "toBio", git_branch: "master", git_repo_name: "ProtoGraph.Card.toBio", status: "published", is_public: true, site_id: pykih_site.id, created_by: user_id, updated_by: user_id, template_datum_id: t_bio.id, elevator_pitch: "", description: "", s3_identifier: "c80b9f40b64d145de511",has_multiple_uploads: false, allowed_views: ["col7", "col4", "col3", "col2"]})
+TemplateCard.create({git_url: "git@bitbucket.org:pykih_/protograph.card.toceewhero.git", name: "Ceew: Hero", git_branch: "master", git_repo_name: "ProtoGraph.Card.toCEEWHero", status: "published", is_public: false, site_id: pykih_site.id, created_by: user_id, updated_by: user_id, template_datum_id: t_ceew_hero.id, elevator_pitch: "", description: "", s3_identifier: "8ce281e5039dce51e067",has_multiple_uploads: false, allowed_views: ["col16", "col4"]})
+TemplateCard.create({git_url: "git@bitbucket.org:pykih_/protograph.card.toceewheroflow1.git", name: "Ceew: HeroFlow1", git_branch: "master", git_repo_name: "ProtoGraph.Card.toCEEWHeroFlow1", status: "published", is_public: false, site_id: pykih_site.id, created_by: user_id, updated_by: user_id, template_datum_id: t_ceew_hero1.id, elevator_pitch: "", description: "", s3_identifier: "ff0474e2588c0a6d3e08",has_multiple_uploads: false, allowed_views: ["col16", "col4"]})
+TemplateCard.create({git_url: "git@bitbucket.org:pykih_/protograph.card.toceewheroflow2.git", name: "Ceew: HeroFlow2", git_branch: "master", git_repo_name: "ProtoGraph.Card.toCEEWHeroFlow2", status: "published", is_public: false, site_id: pykih_site.id, created_by: user_id, updated_by: user_id, template_datum_id: t_ceew_hero2.id, elevator_pitch: "", description: "", s3_identifier: "6a1be87e840877cd7119",has_multiple_uploads: false, allowed_views: ["col16", "col4"]})
+TemplateCard.create({git_url: "git@bitbucket.org:pykih_/protograph.card.toceewparameter.git", name: "Ceew: Parameter", git_branch: "master", git_repo_name: "ProtoGraph.Card.toCEEWParameter", status: "published", is_public: false, site_id: pykih_site.id, created_by: user_id, updated_by: user_id, template_datum_id: t_ceew_parameter.id, elevator_pitch: "", description: "", s3_identifier: "04870ca59109bb3dfdea",has_multiple_uploads: false, allowed_views: ["col7", "col4", "col3"]})
+TemplateCard.create({git_url: "git@bitbucket.org:pykih_/protograph.card.toceewpolicydrilldown.git", name: "Ceew: PolicyDrillDown", git_branch: "master", git_repo_name: "ProtoGraph.Card.toCEEWPolicyDrillDown", status: "published", is_public: false, site_id: pykih_site.id, created_by: user_id, updated_by: user_id, template_datum_id: t_ceew_policydrilldown.id, elevator_pitch: "", description: "", s3_identifier: "470b7c34f8f68c1b429c",has_multiple_uploads: false, allowed_views: ["col7", "col4"]})
+TemplateCard.create({git_url: "git@bitbucket.org:pykih_/protograph.card.tolanding.git", name: "toCrossPub", git_branch: "master", git_repo_name: "ProtoGraph.Card.toLanding", status: "published", is_public: true, site_id: pykih_site.id, created_by: user_id, updated_by: user_id, template_datum_id: t_landing.id, elevator_pitch: "", description: "", s3_identifier: "6f4657adaa3c900aa1a0",has_multiple_uploads: false, is_editable: false, allowed_views: ["col16", "col4"]})
+TemplateCard.create({git_url: "git@bitbucket.org:pykih_/protograph.card.tocredits.git", name: "toCreditPartners", git_branch: "master", git_repo_name: "ProtoGraph.Card.toCreditPartners", status: "published", is_public: true, site_id: pykih_site.id, created_by: user_id, updated_by: user_id, template_datum_id: t_credits.id, elevator_pitch: "", description: "", s3_identifier: "d583b2ea191031c6f0fc",has_multiple_uploads: false, is_editable: true, allowed_views: ["col16", "col7", "col4"]})
+TemplateCard.create({git_url: "git@bitbucket.org:pykih_/protograph.card.proc4ahealthtools.git", name: "C4A Healthtools", git_branch: "master", git_repo_name: "ProtoGraph.Card.proC4Ahealthtools", status: "published", is_public: false, site_id: pykih_site.id, created_by: user_id, updated_by: user_id, template_datum_id: t_c4a.id, elevator_pitch: "", description: "", s3_identifier: "b011d28f52396081faa8",has_multiple_uploads: false, is_editable: true, allowed_views: ["col16", "col4"]})
+TemplateCard.create({git_url: "git@bitbucket.org:pykih_/protograph.card.toindiaspendhatecrime.git", name: "toIndiaSpendCard", git_branch: "master", git_repo_name: "ProtoGraph.Card.toIndiaSpendCard", status: "published", is_public: false, site_id: pykih_site.id, created_by: user_id, updated_by: user_id, template_datum_id: t_ispend.id, elevator_pitch: "", description: "", s3_identifier: "79c10f895565f79dca4b",has_multiple_uploads: true, is_editable: true, allowed_views: ["col7", "col4"]})
+TemplateCard.create({git_url: "git@bitbucket.org:pykih_/protograph.card.toimagenarrative.git", name: "toImageNarrative", git_branch: "master", git_repo_name: "ProtoGraph.Card.toImageNarrative", status: "published", is_public: true, site_id: pykih_site.id, created_by: user_id, updated_by: user_id, template_datum_id: t_image.id, elevator_pitch: "", description: "", s3_identifier: "9273eab737631412dd01",has_multiple_uploads: true, is_editable: true, allowed_views: ["col7","col4"]})
+TemplateCard.create({git_url: "git@bitbucket.org:pykih_/protograph.card.tocoverimage.git", name: "toCoverImage", git_branch: "master", git_repo_name: "ProtoGraph.Card.toCoverImage", status: "published", is_public: true, site_id: pykih_site.id, created_by: user_id, updated_by: user_id, template_datum_id: t_image.id, elevator_pitch: "", description: "", s3_identifier: "99e448b6fcb668c5a3d4",has_multiple_uploads: true, is_editable: true, allowed_views: ["col16", "col7","col4", 'col3', 'col2']})
+TemplateCard.create({git_url: "git@bitbucket.org:pykih_/protograph.card.torecordlandconflict.git", name: "toRecordLandConflict", git_branch: "master", git_repo_name: "ProtoGraph.Card.toRecordLandConflict", status: "published", is_public: true, site_id: pykih_site.id, created_by: user_id, updated_by: user_id, template_datum_id: t_lcw.id, elevator_pitch: "", description: "", s3_identifier: "089131ca8ef9a3dcaad8",has_multiple_uploads: false, is_editable: true, allowed_views: ["col7","col4"]})
+TemplateCard.create({git_url: "git@bitbucket.org:pykih_/protograph.card.tocoverimage.git", name: "toLCWHero", git_branch: "master", git_repo_name: "ProtoGraph.Card.toLCWHero", status: "published", is_public: true, site_id: pykih_site.id, created_by: user_id, updated_by: user_id, template_datum_id: t_lcwhero.id, elevator_pitch: "", description: "", s3_identifier: "55825b09931bee16055a",has_multiple_uploads: false, is_editable: true, allowed_views: ["col16","col4"]})
 
 
 TemplatePage.create({
-  name: "Homepage: Vertical",
-  git_url: "",
-  git_branch: "master",
-  git_repo_name: "",
-  status: "published",
-  is_public: true,
-  description: "",
-  s3_identifier: "014521f868f5c2e01cf7",
-  created_by: user_id,
-  updated_by: user_id
-})
+                        name: "Homepage: Vertical",
+                        git_url: "",
+                        git_branch: "master",
+                        git_repo_name: "",
+                        status: "published",
+                        is_public: true,
+                        description: "",
+                        s3_identifier: "014521f868f5c2e01cf7",
+                        created_by: user_id,
+                        updated_by: user_id
+                    })
 
 TemplatePage.create({
-  name: "article",
-  git_url: "",
-  git_branch: "master",
-  git_repo_name: "",
-  status: "published",
-  is_public: true,
-  description: "",
-  s3_identifier: "0f0626a32cd514568f6f",
-  created_by: user_id,
-  updated_by: user_id
-})
+                        name: "article",
+                        git_url: "",
+                        git_branch: "master",
+                        git_repo_name: "",
+                        status: "published",
+                        is_public: true,
+                        description: "",
+                        s3_identifier: "0f0626a32cd514568f6f",
+                        created_by: user_id,
+                        updated_by: user_id
+                    })
 
 TemplatePage.create({
-  name: "map",
-  git_url: "",
-  git_branch: "master",
-  git_repo_name: "",
-  status: "published",
-  is_public: true,
-  description: "",
-  s3_identifier: "41108c78d5b87f84dc73",
-  created_by: user_id,
-  updated_by: user_id
-})
+                        name: "map",
+                        git_url: "",
+                        git_branch: "master",
+                        git_repo_name: "",
+                        status: "published",
+                        is_public: true,
+                        description: "",
+                        s3_identifier: "41108c78d5b87f84dc73",
+                        created_by: user_id,
+                        updated_by: user_id
+                    })
 
 
 TemplatePage.create({
-  name: "data grid",
-  git_url: "",
-  git_branch: "master",
-  git_repo_name: "",
-  status: "published",
-  is_public: true,
-  description: "",
-  s3_identifier: "0679c03c61fff6ab1a52",
-  created_by: user_id,
-  updated_by: user_id
-})
+                        name: "data grid",
+                        git_url: "",
+                        git_branch: "master",
+                        git_repo_name: "",
+                        status: "published",
+                        is_public: true,
+                        description: "",
+                        s3_identifier: "0679c03c61fff6ab1a52",
+                        created_by: user_id,
+                        updated_by: user_id
+                    })
 
 TemplatePage.create({
-  name: "irbi 2017: data grid",
-  git_url: "",
-  git_branch: "master",
-  git_repo_name: "",
-  status: "published",
-  is_public: true,
-  description: "",
-  s3_identifier: "2790fa05bd740dc82638",
-  created_by: user_id,
-  updated_by: user_id
-})
+                        name: "irbi 2017: data grid",
+                        git_url: "",
+                        git_branch: "master",
+                        git_repo_name: "",
+                        status: "published",
+                        is_public: true,
+                        description: "",
+                        s3_identifier: "2790fa05bd740dc82638",
+                        created_by: user_id,
+                        updated_by: user_id
+                    })
 
 TemplatePage.create({
-  name: "Ceew: data grid",
-  git_url: "",
-  git_branch: "master",
-  git_repo_name: "",
-  status: "published",
-  is_public: true,
-  description: "",
-  s3_identifier: "4be452da8a449ca1da29",
-  created_by: 2,
-  updated_by: 2
-})
+                        name: "Ceew: data grid",
+                        git_url: "",
+                        git_branch: "master",
+                        git_repo_name: "",
+                        status: "published",
+                        is_public: true,
+                        description: "",
+                        s3_identifier: "4be452da8a449ca1da29",
+                        created_by: 2,
+                        updated_by: 2
+                    })
 
 TemplatePage.create({
-  name: "IndiaSpend: data grid",
-  git_url: "",
-  git_branch: "master",
-  git_repo_name: "",
-  status: "published",
-  is_public: true,
-  description: "",
-  s3_identifier: "2236cd589b5eba74af89",
-  created_by: 2,
-  updated_by: 2
-})
+                        name: "IndiaSpend: data grid",
+                        git_url: "",
+                        git_branch: "master",
+                        git_repo_name: "",
+                        status: "published",
+                        is_public: true,
+                        description: "",
+                        s3_identifier: "2236cd589b5eba74af89",
+                        created_by: 2,
+                        updated_by: 2
+                    })

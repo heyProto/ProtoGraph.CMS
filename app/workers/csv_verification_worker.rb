@@ -78,7 +78,6 @@ class CsvVerificationWorker
     payload["source"]  = params[:source] || "form"
     view_cast_params = params[:view_cast]
     view_cast = @upload.folder.view_casts.new(view_cast_params)
-    view_cast.account_id = @upload.account_id
     view_cast.site_id = @upload.site_id
     view_cast.created_by = @upload.creator.id
     view_cast.updated_by = @upload.updator.id
@@ -118,12 +117,12 @@ class CsvVerificationWorker
     {
       datacast: card_data,
       view_cast: {
-        account_id: @upload.account_id,
+        site_id: @upload.site_id,
         template_datum_id: @upload.template_card.template_datum.id,
         name: name,
         template_card_id: @upload.template_card.id,
         seo_blockquote: @upload.template_card.name != "toStory" ? "<blockquote><h3>#{name}</h3><p>#{seo_blockquote_text}</p></blockquote>" : seo_blockquote_text,
-        optionalconfigjson: optional_config_json,
+        optionalConfigJSON: optional_config_json,
       }
     }
   end

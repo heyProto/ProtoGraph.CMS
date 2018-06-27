@@ -4,15 +4,15 @@
 #
 #  id                  :integer          not null, primary key
 #  name                :string(255)
-#  description         :text
-#  global_slug         :text
+#  description         :text(65535)
+#  global_slug         :text(65535)
 #  is_current_version  :boolean
 #  slug                :string(255)
 #  version_series      :string(255)
 #  previous_version_id :integer
 #  version_genre       :string(255)
 #  version             :string(255)
-#  change_log          :text
+#  change_log          :text(65535)
 #  status              :string(255)
 #  publish_count       :integer
 #  is_public           :boolean
@@ -24,10 +24,7 @@
 #  updated_by          :integer
 #  created_at          :datetime         not null
 #  updated_at          :datetime         not null
-#  account_id          :integer
 #
-
-#TODO AMIT - Handle account_id - RP added retrospectively. Need migration of old rows and BAU handling. SHOULD BE ABLE TO RESTRICT certain pages by certain accounts.
 
 class TemplatePage < ApplicationRecord
 
@@ -40,7 +37,7 @@ class TemplatePage < ApplicationRecord
     extend FriendlyId
     friendly_id :slug_candidates, use: :slugged
     #CONCERNS
-    include AssociableByAc
+    include AssociableBySi
     include Versionable
     #ASSOCIATIONS
     has_many :pages

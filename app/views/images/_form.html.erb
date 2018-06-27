@@ -13,7 +13,7 @@
         </button>
       </div>
       <div class="modal-body">
-        <%= simple_form_for([@account, @new_image]) do |f| %>
+        <%= simple_form_for([@site, @new_image]) do |f| %>
           <%= f.error_notification %>
           <%= f.input :image, as: :file, required: true, hint: 'Size should less than or equal to 500kB. Supported file types are JPEG, JPG and PNG', input_html: {id: "proto_image_bank_image_field"} %>
           <div class="proto-invalid-image">Invalid image. Size should less than or equal to 500kB. Supported file types are JPEG, JPG and PNG.</div>
@@ -22,7 +22,7 @@
             Predictively determining most relevant 5:3 area within the image.
           </div>
           <img id="preview_image" src="#" alt="" class="proto-image-preview" />
-          <%= f.input :account_id, as: :hidden, input_html: {value: @account.id} %>
+          <%= f.input :site_id, as: :hidden, input_html: {value: @site.id} %>
           <%= f.input :name, required: true %>
           <% %w[x y w h].each do |attribute| %>
             <%= f.input "crop_#{attribute}", as: :hidden %>

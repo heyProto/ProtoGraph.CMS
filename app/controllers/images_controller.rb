@@ -3,11 +3,11 @@ class ImagesController < ApplicationController
   before_action :set_image, only: [:show]
 
   def index
-    @q = @account.images.ransack(params[:q])
+    @q = @site.images.ransack(params[:q])
     if params[:q].present?
       @images = @q.result(distinct: true).where.not(thumbnail_width: nil, thumbnail_height: nil, image_width: nil, image_height: nil).order("created_at desc").page params[:page]
     else
-      @images = @account.images.where.not(thumbnail_width: nil, thumbnail_height: nil, image_width: nil, image_height: nil).order("created_at desc").page params[:page]
+      @images = @site.images.where.not(thumbnail_width: nil, thumbnail_height: nil, image_width: nil, image_height: nil).order("created_at desc").page params[:page]
     end
     @new_image = Image.new
     
@@ -19,13 +19,15 @@ class ImagesController < ApplicationController
     @image = Image.new(options)
 
     respond_to do |format|
-      if @image.save
+      if @image.save!
+        'image saved'
         track_activity(@image)
         format.json { render json: {success: true, data: @image}, status: 200 }
-        format.html { redirect_to account_images_path(@account), notice: 'Image will be added shortly.' }
+        format.html { redirect_to site_images_path(@site), notice: 'Image will be added shortly.' }
       else
+        puts 'image not saved'
         format.json { render json: {success: false, errors: @image.errors.full_messages }, status: 400 }
-        format.html { redirect_to account_images_path(@account), alert: @image.errors.full_messages }
+        format.html { redirect_to site_images_path(@site), alert: @image.errors.full_messages }
       end
     end
   end
@@ -40,10 +42,10 @@ class ImagesController < ApplicationController
   private
 
   def set_image
-    @image = @account.images.find(params[:id])
+    @image = @site.images.find(params[:id])
   end
 
   def image_params
-    params.require(:image).permit(:account_id, :image, :name, :description, :crop_x, :crop_y, :crop_w, :crop_h, :dominant_colour, :colour_palette, :image_w, :image_h, :credits, :credit_link, :instant_output)
+    params.require(:image).permit(:site_id, :image, :name, :description, :crop_x, :crop_y, :crop_w, :crop_h, :dominant_colour, :colour_palette, :image_w, :image_h, :credits, :credit_link, :instant_output)
   end
 end

@@ -7,7 +7,6 @@
 #  slug                   :string(255)
 #  description            :text(65535)
 #  folder_id              :integer
-#  account_id             :integer
 #  datacast_identifier    :string(255)
 #  created_by             :integer
 #  updated_by             :integer
@@ -46,7 +45,7 @@ class Stream < ApplicationRecord
     friendly_id :title, use: :slugged
     #CONCERNS
     include Propagatable
-    include AssociableByAcSiFo
+    include AssociableBySiFo
     #ASSOCIATIONS
     has_many :folder_ids, ->{folders}, class_name: "StreamEntity", foreign_key: "stream_id"
     has_many :template_card_ids, ->{template_cards}, class_name: "StreamEntity", foreign_key: "stream_id"
@@ -80,14 +79,14 @@ class Stream < ApplicationRecord
     def cards(apply_limit=true)
         if is_automated_stream
             if col_name == "Site"
-                site = Site.find(col_id)
-                view_casts = site.view_casts.where.not(folder_id: account.folders.where(is_trash: true).pluck(:id)).where(template_card_id: TemplateCard.where(name: "toStory").pluck(:id)).limit(self.limit).offset(self.offset).order("published_at::date DESC")
+                new_site = Site.find(col_id)
+                view_casts = new_site.view_casts.where.not(folder_id: site.folders.where(is_trash: true).pluck(:id)).where(template_card_id: TemplateCard.where(name: "toStory").pluck(:id)).limit(self.limit).offset(self.offset).order("published_at DESC")
             elsif col_name == "RefCategory"
                 ref_cat = RefCategory.find(col_id)
-                view_casts = ref_cat.view_casts.where.not(folder_id: account.folders.where(is_trash: true).pluck(:id)).limit(self.limit).offset(self.offset).order("published_at::date DESC")
+                view_casts = ref_cat.view_casts.where.not(folder_id: site.folders.where(is_trash: true).pluck(:id)).limit(self.limit).offset(self.offset).order("published_at DESC")
             elsif col_name == 'Permission'
                 permission = Permission.find(col_id)
-                view_casts = permission.view_casts.where.not(folder_id: account.folders.where(is_trash: true).pluck(:id)).limit(self.limit).offset(self.offset).order("published_at::date DESC")
+                view_casts = permission.view_casts.where.not(folder_id: site.folders.where(is_trash: true).pluck(:id)).limit(self.limit).offset(self.offset).order("published_at DESC")
             else
                 view_casts = ViewCast.none
             end
@@ -97,19 +96,18 @@ class Stream < ApplicationRecord
             query[:folder_id] = self.folder_ids.pluck(:entity_value) if self.folder_ids.count > 0
             query[:template_card_id] = self.template_card_ids.pluck(:entity_value) if self.template_card_ids.count > 0
             unless query.blank?
-                view_cast = account.view_casts.order(created_at: :desc).where(query).where.not(folder_id: account.folders.where(is_trash: true).first.id)
+                view_cast = site.view_casts.order(created_at: :desc).where(query).where.not(folder_id: site.folders.where(is_trash: true).first.id)
                 view_cast = view_cast.where.not(id: self.excluded_view_cast_ids.pluck(:entity_value)) if self.excluded_view_cast_ids.count > 0
                 view_cast = view_cast.limit(self.limit).offset(self.offset) if apply_limit
             else
                 view_cast = ViewCast.none
             end
             vc_ids = self.view_cast_ids.order(:sort_order).pluck(:entity_value)
-            view_cast_or = vc_ids.present? ? account.view_casts.where(id: vc_ids).where.not(folder_id: account.folders.where(is_trash: true).first.id) : ViewCast.none
+            view_cast_or = vc_ids.present? ? site.view_casts.where(id: vc_ids).where.not(folder_id: site.folders.where(is_trash: true).first.id) : ViewCast.none
             if self.title.split("_")[1] == "Section"
-                view_cast_or = view_cast_or.order("published_at::date DESC")
+                view_cast_or = view_cast_or.order("published_at DESC")
             elsif vc_ids.present?
                 view_cast_or = view_cast_or.order("array_position(Array[#{vc_ids.join(",")}], id::integer)")
-                puts "Assigning it to a variable"
             end
             if view_cast.present? and view_cast_or.present?
                 return view_cast + view_cast_or

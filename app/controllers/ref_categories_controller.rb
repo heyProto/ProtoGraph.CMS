@@ -9,6 +9,7 @@ class RefCategoriesController < ApplicationController
   end
 
   def sections
+    puts "site=#{@site}"
     @genre = "series"
     @data = @site.ref_categories.where(genre: "series").order(:name)
     @instance = RefCategory.new
@@ -43,11 +44,11 @@ class RefCategoriesController < ApplicationController
       else
         case @ref_category.genre
         when 'series'
-          redirect_to sections_account_site_path(@account, @site), alert: @ref_category.errors.full_messages
+          redirect_to sections_site_path(@site), alert: @ref_category.errors.full_messages
         when 'intersection'
-          redirect_to intersections_account_site_path(@account, @site), alert: @ref_category.errors.full_messages
+          redirect_to intersections_site_path(@site), alert: @ref_category.errors.full_messages
         when 'sub intersection'
-          redirect_to sub_intersections_account_site_path(@account, @site), alert: @ref_category.errors.full_messages
+          redirect_to sub_intersections_site_path(@site), alert: @ref_category.errors.full_messages
         end
       end
   end
@@ -77,21 +78,23 @@ class RefCategoriesController < ApplicationController
     respond_to do |format|
         case @genre
         when 'series'
-          format.html { redirect_to sections_account_site_path(@account, @site), notice: "Destroyed"}
+          format.html { redirect_to sections_site_path(@site), notice: "Destroyed"}
         when 'intersection'
-          format.html { redirect_to intersections_account_site_path(@account, @site), notice: "Destroyed"}
+          format.html { redirect_to intersections_site_path(@site), notice: "Destroyed"}
         when 'sub intersection'
-          format.html { redirect_to sub_intersections_account_site_path(@account, @site), notice: "Destroyed"}
+          format.html { redirect_to sub_intersections_site_path(@site), notice: "Destroyed"}
         end
     end
   end
 
   def custom_redirect_to
     case @ref_category.genre
+    when 'series'
+      redirect_to sections_site_path(@site)
     when 'intersection'
-      redirect_to intersections_account_site_path(@account, @site), notice: @notice
+      redirect_to intersections_site_path(@site), notice: @notice
     when 'sub intersection'
-      redirect_to sub_intersections_account_site_path(@account, @site), notice: @notice
+      redirect_to sub_intersections_site_path(@site), notice: @notice
     end
   end
 

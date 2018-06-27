@@ -3,7 +3,7 @@
         <div style="margin-left: auto; margin-right: auto; width: 540px;">
             <h3>Site Member: <%= @permission.user.email %></h3>
             <hr/>
-            <%= simple_form_for(@permission, url: [@account, @permission], html: { method: :put }) do |f| %>
+            <%= simple_form_for(@permission, url: [@site, @permission], html: { method: :put }) do |f| %>
               <%= f.error_notification %>
               <%= f.input :name %>
               <%= f.input :bio, input_html: {maxlength: 160}, hint: "Maximum 160 characters" %>

@@ -1,7 +1,7 @@
 class AccountsController < ApplicationController
 
   before_action :authenticate_user!
-  before_action :sudo_role_can_account_settings, only: [:update]
+  before_action :sudo_role_can_site_settings, only: [:update]
 
   def new
     @account = Account.new
@@ -39,7 +39,7 @@ class AccountsController < ApplicationController
         is_system_generated: true,
         site_id: @account.site.id
       })
-      redirect_to account_site_path(@account, @account.site), notice: t("cs")
+      redirect_to site_path(@site), notice: t("cs")
     else
       if @account.coming_from_new
         render "accounts/new"

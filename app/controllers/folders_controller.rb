@@ -8,7 +8,8 @@ class FoldersController < ApplicationController
   end
 
   def new
-    @folder = @account.folders.new
+    # TODO: Do not allow to create workspace if vertical is empty
+    @folder = @site.folders.new
     @folder.is_for_stories = true
     @verticals = @site.ref_categories.where(genre: 'series').pluck(:name, :id)
     
@@ -16,15 +17,15 @@ class FoldersController < ApplicationController
   
   def show
     if @folder.is_for_stories
-      redirect_to account_site_stories_path(@account, @site,folder_id: @folder.id)
+      redirect_to site_stories_path(@site,folder_id: @folder.id)
     else
-      redirect_to account_site_folder_view_casts_path(@account, @site, @folder)
+      redirect_to site_folder_view_casts_path(@site, @folder)
     end
   end
 
   def edit
     if @folder.is_trash
-      redirect_back(fallback_location: [@account], alert: t("pd.folder"))
+      redirect_back(fallback_location: [@site], alert: t("pd.folder"))
     end
     @folder.collaborator_lists = @folder.users.pluck(:id)
     @verticals = @site.ref_categories.where(genre: 'series').pluck(:name, :id)
@@ -35,7 +36,7 @@ class FoldersController < ApplicationController
     folder_params[:updated_by] = current_user.id
     if @folder.update(folder_params)
       track_activity(@folder)
-      redirect_to account_site_folder_view_casts_path(@account, @site, @folder), notice: t("us")
+      redirect_to site_folder_view_casts_path(@site, @folder), notice: t("us")
     else
       @verticals = @site.ref_categories.where(genre: 'series').pluck(:name, :id)
       @folder.collaborator_lists = @folder.users.pluck(:id)
@@ -45,24 +46,28 @@ class FoldersController < ApplicationController
   end
 
   def create
-    @folder = @account.folders.new(folder_params)
-    @folder.created_by = current_user.id
-    @folder.updated_by = current_user.id
-    @folder.collaborator_lists = ["#{current_user.id}"] if ["contributor", "writer"].include?(@permission_role.slug)
-    if @folder.save
-      track_activity(@folder)
-      redirect_to account_site_folder_view_casts_path(@account, @site, @folder), notice: t("cs")
+    if params["folder"]["ref_category_vertical_id"].blank? and params["folder"]["is_for_stories"]
+      redirect_to new_site_folder_path(@site), alert: "You must associate a vertical to add stories in workspace"
     else
-      @is_admin = true
-      @verticals = @site.ref_categories.where(genre: 'series').pluck(:name, :id)
-      render "new", layout: "z"
+      @folder = @site.folders.new(folder_params)
+      @folder.created_by = current_user.id
+      @folder.updated_by = current_user.id
+      @folder.collaborator_lists = ["#{current_user.id}"] if ["contributor", "writer"].include?(@permission_role.slug)
+      if @folder.save
+        track_activity(@folder)
+        redirect_to site_folder_view_casts_path(@site, @folder), notice: t("cs")
+      else
+        @is_admin = true
+        @verticals = @site.ref_categories.where(genre: 'series').pluck(:name, :id)
+        render "new", layout: "z"
+      end
     end
   end
 
   private
 
     def folder_params
-      params.require(:folder).permit(:account_id, :name, :created_by, :updated_by, :site_id, :is_archived, :is_open,
+      params.require(:folder).permit(:site_id, :name, :created_by, :updated_by, :is_archived, :is_open,
                                     :ref_category_vertical_id, :is_for_stories, collaborator_lists: [])
     end
 

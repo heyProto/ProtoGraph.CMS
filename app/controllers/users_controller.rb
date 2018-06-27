@@ -3,20 +3,20 @@ class UsersController < ApplicationController
 
     def edit
       @user = current_user
-      @accounts_owned = Account.where(id: current_user.permissions.where(ref_role_slug: "owner", permissible_type: "Account").pluck(:permissible_id).uniq)
-      @accounts_member = Account.where(id: Site.where(id: current_user.permissions.where(permissible_type: "Site").where.not(ref_role_slug: "owner").pluck(:permissible_id).uniq).pluck(:account_id).uniq)
-      @account = Account.new
-      
+      @sites_owned = Site.where(id: current_user.permissions.where(ref_role_slug: "owner", permissible_type: "Site").pluck(:permissible_id).uniq)
+      @sites_member = Site.where(id: current_user.permissions.where(permissible_type: "Site").where.not(ref_role_slug: "owner"))
+      @new_site = Site.new
+
     end
 
     def update
       @user = User.find(params[:id])
+      @new_site = Site.new
       if @user.update(user_params)
           redirect_to edit_user_path, notice: t('cs')
       else
-        @accounts_owned = Account.where(id: current_user.permissions.where(ref_role_slug: "owner", permissible_type: "Account").pluck(:permissible_id).uniq)
-        @accounts_member = Account.where(id: Site.where(id: current_user.permissions.where(permissible_type: "Site").where.not(ref_role_slug: "owner").pluck(:permissible_id).uniq).pluck(:account_id).uniq)
-        @account = Account.new
+        @sites_owned = Site.where(id: current_user.permissions.where(ref_role_slug: "owner", permissible_type: "Site").pluck(:permissible_id).uniq)
+        @sites_member = Site.where(id: current_user.permissions.where(permissible_type: "Site").where.not(ref_role_slug: "owner"))
         render :edit, alert: @user.errors.full_messages
       end
 

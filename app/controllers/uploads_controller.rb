@@ -5,24 +5,24 @@ class UploadsController < ApplicationController
 
   def index
     @upload = Upload.new
-    @folders_dropdown = @account.folders.active
-    @template_cards = @account.template_cards.with_multiple_uploads
+    @folders_dropdown = @site.folders.active
+    @template_cards = @site.template_cards.with_multiple_uploads
     @uploads = @folder.uploads.order("created_at DESC")
   end
 
   def create
     @upload = Upload.new(upload_params)
     if !@upload.validate_headers
-      redirect_to account_site_folder_uploads_path(@account, @site, @folder), alert: "Make sure headers are the same as in the CSV headers file and you have selected the right card type" and return
+      redirect_to site_folder_uploads_path(@site, @folder), alert: "Make sure headers are the same as in the CSV headers file and you have selected the right card type" and return
     end
     @upload.folder = Folder.find(upload_params[:folder_id])
     @upload.creator = current_user
     @upload.updator = current_user
-    @upload.account = @account
+    @upload.site = @site
     if @upload.save
-      redirect_to account_site_folder_uploads_path(@account, @site, @folder), notice: "File was uploaded successfully"
+      redirect_to site_folder_uploads_path(@site, @folder), notice: "File was uploaded successfully"
     else
-      redirect_to account_site_folder_uploads_path(@account, @site,@folder), alert: @upload.errors.full_messages
+      redirect_to site_folder_uploads_path(@site,@folder), alert: @upload.errors.full_messages
     end
   end
 
@@ -30,7 +30,7 @@ class UploadsController < ApplicationController
   def upload_params
     params.require(:upload).permit(:attachment,
                                    :template_card_id,
-                                   :account_id,
+                                   :site_id,
                                    :folder_id,:site_id, :upload_status)
   end
 

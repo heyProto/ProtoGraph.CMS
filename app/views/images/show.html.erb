@@ -4,7 +4,7 @@
             Manage Assets
         </div>
         <h1>    
-            <%= link_to "< Back to images", account_images_path(@account), "data-turbolinks"=> false %>
+            <%= link_to "< Back to images", site_images_path(@site), "data-turbolinks"=> false %>
         </h1>
         <nav class="nav" style="position: absolute; top: 10px;right: 30px; float: right; margin-left: auto;">
           <%= link_to '+ Upload an image', "#",id: "upload_image_button", "data-toggle" => "modal", "data-target" => "#fileUploadModal", class: "nav-item" %>

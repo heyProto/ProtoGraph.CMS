@@ -17,15 +17,15 @@ class ImageVariationsController < ApplicationController
       if params[:redirect_url].present?
         redirect_to params[:redirect_url], notice: t("social.integrated", {param: @image_variation.mode.to_s.titleize})
       else
-        redirect_to account_image_path(@account, options[:image_id]), notice: "Image Variation added successfully"
+        redirect_to site_image_path(@site, options[:image_id]), notice: "Image Variation added successfully"
       end
     else
-      redirect_to account_image_path(@account, options[:image_id]), alert: "Failed to create image variation"
+      redirect_to site_image_path(@site, options[:image_id]), alert: "Failed to create image variation"
     end
   end
 
   def show
-      redirect_to account_image_path(@account, @image_variation.image)
+      redirect_to site_image_path(@site, @image_variation.image)
     #   @image = @image_variation.image
     # @image_variations = ImageVariation.where(image_id: @image_variation.image_id, is_original: false).where.not(id: @image_variation.id)
   end

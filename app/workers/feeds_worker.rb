@@ -19,7 +19,7 @@ class FeedsWorker
         end
       elsif rss_xml.feed_type == 'atom'
         rss_xml.items.each do |item|
-          create_or_update_feed_link(ref_category_id, feed_id, item.title.content, item.link.href, item.published.content, item.content.content)
+          create_or_update_feed_link(ref_category_id, feed_id, item.title.content.gsub(/(<[a-zA-Z]{1,}>|<\/[a-zA-Z]{1,}>)/, ''), item.link.href, item.published.content, item.content.content)
         end
       end
 

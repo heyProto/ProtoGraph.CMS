@@ -72,6 +72,7 @@ class ImageUploader < CarrierWave::Uploader::Base
   def capture_size_before_cache(new_file)
     if model.image_width.nil? || model.image_height.nil?
       model.image_width, model.image_height = `identify -format "%wx %h" #{new_file.path}`.split(/x/).map { |dim| dim.to_i }
+      puts "dim=#{model.image_width}, #{model.image_height}"
     end
   end
 

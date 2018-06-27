@@ -27,6 +27,9 @@
 .env
 *.env
 
+# Ignore RubyMine IDE files
+.idea
+.idea/* 
 
 # Emacs temporary files.
 \#*\#

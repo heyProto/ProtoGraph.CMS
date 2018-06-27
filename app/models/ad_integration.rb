@@ -3,7 +3,6 @@
 # Table name: ad_integrations
 #
 #  id             :integer          not null, primary key
-#  account_id     :integer
 #  site_id        :integer
 #  stream_id      :integer
 #  page_id        :integer
@@ -11,7 +10,7 @@
 #  div_id         :string(255)
 #  height         :integer
 #  width          :integer
-#  slot_text      :text
+#  slot_text      :text(65535)
 #  created_by     :integer
 #  updated_by     :integer
 #  created_at     :datetime         not null
@@ -26,7 +25,6 @@ class AdIntegration < ApplicationRecord
   #CONCERNS
   include AssociableBy
   #ASSOCIATIONS
-  belongs_to :account
   belongs_to :site
   belongs_to :stream, optional: true
   belongs_to :page_stream

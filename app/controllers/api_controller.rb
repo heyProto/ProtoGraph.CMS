@@ -8,20 +8,20 @@ class ApiController < ApplicationController
     end
 
     def track_activity(trackable, action = params[:action])
-    if @account.present?
+    if @site.present?
       if @folder.present?
-          @user.activities.create!(action: action, trackable: trackable, account_id: @account.id, folder_id: @folder.id, site_id: @site.id)
+          @user.activities.create!(action: action, trackable: trackable, folder_id: @folder.id, site_id: @site.id)
       else
-          @user.activities.create!(action: action, trackable: trackable, account_id: @account.id, site_id: @site.id)
+          @user.activities.create!(action: action, trackable: trackable, site_id: @site.id)
       end
     end
   end
 
     def set_global_objects
         if @user.present?
-            @on_an_account_page = (@account.present? and @account.id.present?)
-            if @on_an_account_page
-                @permission = @user.owner_role(@account.id) || @user.permission_object(@site.id)
+            @on_site_page = (@site.present? and @site.id.present?)
+            if @on_site_page
+                @permission = @user.owner_role(@site.id) || @user.permission_object(@site.id)
                 if @permission.blank?
                     render_permission_not_found
                 else

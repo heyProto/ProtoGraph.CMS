@@ -4,7 +4,7 @@ class Api::V1::StreamsController < ApiController
   def create
     @stream = Stream.new(stream_params)
     @stream.folder = @folder
-    @stream.account = @account
+    @stream.site = @site
     @stream.updator = @user
     @stream.creator = @user
     if @stream.save
@@ -12,7 +12,7 @@ class Api::V1::StreamsController < ApiController
       unless @stream.cards.count == 0
         StreamPublisher.perform_async(@stream.id)
       end
-      render json: {stream: @stream.as_json, redirect_path: account_site_stream_path(@account, @site, @stream, folder_id: @folder.id), message: "Stream created successfully"}, status: 200
+      render json: {stream: @stream.as_json, redirect_path: site_stream_path(@site, @stream, folder_id: @folder.id), message: "Stream created successfully"}, status: 200
     else
       render json: {errors: @stream.errors.as_json}, status: 422
     end
@@ -25,7 +25,7 @@ class Api::V1::StreamsController < ApiController
         StreamPublisher.perform_async(@stream.id)
       end
       track_activity(@stream)
-      render json: {stream: @stream.as_json, redirect_path: account_site_stream_path(@account, @site, @stream, folder_id: @folder.id), message: "Stream updated successfully"}, status: 200
+      render json: {stream: @stream.as_json, redirect_path: site_stream_path(@site, @stream, folder_id: @folder.id), message: "Stream updated successfully"}, status: 200
     else
       render json: {errors: @stream.errors.as_json}, status: 422
     end
@@ -43,7 +43,7 @@ class Api::V1::StreamsController < ApiController
   private
 
   def set_stream
-    @folder = @account.folders.friendly.find(@folder.slug)
+    @folder = @site.folders.friendly.find(@folder.slug)
     if @folder.present?
       @stream =  @folder.streams.friendly.find(params[:id])
     else
