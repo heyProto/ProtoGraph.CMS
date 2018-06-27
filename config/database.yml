@@ -15,7 +15,7 @@ staging:
   port: 3306
 
 production:
-  adapter: mysql2
+  adapter: postgresql
   database: <%= ENV['PRODUCTION_DB_NAME'] %>
   username: <%= ENV['PRODUCTION_DB_USER'] %>
   password: <%= ENV['PRODUCTION_DB_PASSWORD'] %>
