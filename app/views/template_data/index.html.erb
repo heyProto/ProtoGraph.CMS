@@ -1,0 +1,5 @@
+<% @template_datums.each do |template_data| %>
+  <div>
+    <%= link_to template_data.name, template_datum_path(template_data) %>
+  </div>
+<% end %>

@@ -1,0 +1,22 @@
+<div class="col-sm-3">
+  <%= simple_form_for([@template_datum, @template_field]) do |f| %>
+    <%= f.hidden_field :template_datum_id, value: @template_datum.id %>
+    <%= f.input :name, required: true  %>
+    <%= f.input :data_type, collection: @data_types, required: true %>
+    <%= f.input :title, required: true  %>
+    <%= f.input :is_req, as: :boolean %>
+    <%= f.input :default %>
+    <%= f.input :enum %>
+    <%= f.input :enum_names %>
+    <%= f.input :min %>
+    <%= f.input :max %>
+    <%= f.input :multiple_of %>
+    <%= f.input :ex_min %>
+    <%= f.input :ex_max %>
+    <%= f.input :format, collection: @formats %>
+    <%= f.input :pattern %>
+    <%= f.input :min_length %>
+    <%= f.input :max_length %>
+    <%= f.button :submit, value: "Update", class: "btn btn-sm btn-secondary" %>
+  <% end %>
+</div>

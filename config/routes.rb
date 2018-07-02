@@ -128,6 +128,9 @@ Rails.application.routes.draw do
       post :download, on: :member
     end
   end
+  resources :template_data, only: [:index, :show] do
+    resources :template_fields
+  end
 
   get '/auth/:provider/callback', to: 'authentications#create'
   root 'static_pages#index'

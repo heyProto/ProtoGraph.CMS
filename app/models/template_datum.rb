@@ -33,11 +33,11 @@ class TemplateDatum < ApplicationRecord
     include Versionable
     #ASSOCIATIONS
     has_many :template_cards
+    has_many :template_fields
 
     #ACCESSORS
     #VALIDATIONS
     validates :name, presence: true
-
     #CALLBACKS
     before_create :before_create_set
     before_destroy :before_destroy_set

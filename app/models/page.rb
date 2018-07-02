@@ -323,6 +323,7 @@ class Page < ApplicationRecord
     resp = Api::ProtoGraph::Utility.upload_to_cdn(encoded_file, key, content_type, self.site.cdn_bucket)
     self.update_column(:page_object_url, "#{self.site.cdn_endpoint}/#{key}")
     response = Api::ProtoGraph::Page.create_or_update_page(self.datacast_identifier, self.template_page.s3_identifier, self.site.cdn_bucket, ENV['AWS_S3_ENDPOINT'])
+    puts "-----response=#{response}"
     unless self.skip_invalidation
       Api::ProtoGraph::CloudFront.invalidate(self.site, ["/#{key}", "/#{self.html_key}.html"], 2)
     end
@@ -518,9 +519,6 @@ class Page < ApplicationRecord
     data["data"]["faviconurl"] = site.favicon.present? ? "#{site.cdn_endpoint}/#{site.favicon.thumbnail_key}" : "" if self.site.favicon.present?
     data["data"]["publishername"] = Addressable::URI.parse(self.url.to_s).origin if self.url.present?
     data["data"]["col7imageurl"] = self.cover_image_url_7_column.to_s if self.cover_image_url_7_column.present?
-    if self.summary.present?
-      data['data']['summary'] = self.summary
-    end
     data
   end
 
