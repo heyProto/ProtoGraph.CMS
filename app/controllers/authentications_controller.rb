@@ -4,16 +4,15 @@ class AuthenticationsController < ApplicationController
 
   def create
     omniauth_params = request.env['omniauth.params']
-    account_id = omniauth_params['account_id'].to_i
     current_user_id = omniauth_params['current_user_id'].to_i
-    authentication = Authentication.from_omniauth(request.env["omniauth.auth"], account_id, current_user_id)
-    redirect_to site_owners_site_admins_path(id: account_id), notice: "Successfully authenticated."
+    authentication = Authentication.from_omniauth(request.env["omniauth.auth"], account_id, current_user_id) #DEEP AND AMIT TO REMOVE ACCOUNT_ID
+    redirect_to site_owners_site_admins_path(id: account_id), notice: "Successfully authenticated." #DEEP AND AMIT TO REMOVE ACCOUNT_ID
   end
 
   def failure
     omniauth_params = request.env['omniauth.params']
-    account_id = omniauth_params['account_id'].to_i
-    redirect_to site_owners_site_admins_path(id: account_id), alert: "Authentication Error: #{params['error_description']}"
+    account_id = omniauth_params['account_id'].to_i  #DEEP AND AMIT TO REMOVE ACCOUNT_ID
+    redirect_to site_owners_site_admins_path(id: account_id), alert: "Authentication Error: #{params['error_description']}"  #DEEP AND AMIT TO REMOVE ACCOUNT_ID
   end
 
   def destroy
