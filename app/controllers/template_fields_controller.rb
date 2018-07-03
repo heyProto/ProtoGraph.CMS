@@ -24,6 +24,7 @@ class TemplateFieldsController < ApplicationController
     end
 
     def update
+        puts "params #{params}, #{template_field_params}"
         @template_field = TemplateField.friendly.find(params[:id])
         if @template_field.update(template_field_params)
             redirect_to template_datum_path(@template_field.template_datum), notice: "Field Updated Successfully"
@@ -43,7 +44,8 @@ class TemplateFieldsController < ApplicationController
     end
 
     private
+
     def template_field_params
-        params.require(:template_field).permit(:template_datum_id, :name, :title, :data_type, :is_req, :default, :enum, :enum_names, :min, :max, :multiple_of, :ex_min, :ex_max, :format, :pattern, :min_length, :max_length)
+        params.require(:template_field).permit(:template_datum_id, :name, :title, :data_type, :is_req, :default, :enum_names, :min, :max, :multiple_of, :ex_min, :ex_max, :format, :pattern, :min_length, :max_length, enum: [], enum_names: [])
     end
 end

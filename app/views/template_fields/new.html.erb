@@ -1,4 +1,5 @@
-<div class="col-sm-3">
+<%= render partial: "template_data/header" %>
+<div style="margin-left: auto; margin-right: auto; width: 540px; font-size: 12px;">
   <%= simple_form_for([@template_datum, @template_field]) do |f| %>
     <%= f.hidden_field :template_datum_id, value: @template_datum.id %>
     <%= f.input :name, required: true  %>
@@ -6,17 +7,64 @@
     <%= f.input :title, required: true  %>
     <%= f.input :is_req, as: :boolean %>
     <%= f.input :default %>
-    <%= f.input :enum %>
-    <%= f.input :enum_names %>
-    <%= f.input :min %>
-    <%= f.input :max %>
-    <%= f.input :multiple_of %>
-    <%= f.input :ex_min %>
-    <%= f.input :ex_max %>
-    <%= f.input :format, collection: @formats %>
-    <%= f.input :pattern %>
-    <%= f.input :min_length %>
-    <%= f.input :max_length %>
-    <%= f.button :submit, value: "Update", class: "btn btn-sm btn-secondary" %>
+    <%= f.input :enum, as: :array %>
+    <button type="button" id="new-enum-field" class="btn btn-xs">+</button>
+    <%= f.input :enum_names, as: :array%>
+    <button type="button" id="new-enum-names-field" class="btn btn-xs">+</button>
+    <div class="inputs-num">
+      <%= f.input :min %>
+      <%= f.input :max %>
+      <%= f.input :multiple_of %>
+      <%= f.input :ex_min %>
+      <%= f.input :ex_max %>
+    </div>
+    <div class="inputs-str">
+      <%= f.input :format, collection: @formats %>
+      <%= f.input :pattern %>
+      <%= f.input :min_length %>
+      <%= f.input :max_length %>
+    </div>
+      <%= f.button :submit, value: "Create", class: "btn btn-sm btn-secondary" %>
   <% end %>
 </div>
+
+<script>
+    $(document).ready(function(){
+
+        function update_template_field_form(data_type){
+            if(["integer", "number"].includes(data_type)){
+                $(".inputs-num").show();
+                $(".inputs-str").hide();
+            } else if(data_type == "string"){
+                $(".inputs-str").show();
+                $(".inputs-num").hide();
+            } else if(["array", "boolean"].includes(data_type)){
+                $(".inputs-str").hide();
+                $(".inputs-num").hide();
+            } else{
+                $(".inputs-str").hide();
+                $(".inputs-num").hide();
+            }
+        }
+
+
+        update_template_field_form($(".template_field_data_type > select").val());
+
+        // show and hide required fields of form based on data_type
+        $(".template_field_data_type > select").change(function(){
+            var data_type = $(this).val();
+            update_template_field_form(data_type);
+        });
+
+        // add new enum field
+        var enum_field = '<input class="text optional form-control" name="template_field[enum][]" id="template_field_" type="text">';
+        $("#new-enum-field").click(function () {
+            $("input[name='template_field[enum][]']:last").after(enum_field);
+        })
+
+        var enum_names_field = '<input class="text optional form-control" name="template_field[enum_names][]" id="template_field_" type="text">';
+          $("#new-enum-names-field").click(function () {
+            $("input[name='template_field[enum_names][]']:last").after(enum_names_field);
+        })
+    });
+</script>

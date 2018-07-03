@@ -1,0 +1,21 @@
+<div class="jumbotroz">
+  <div class="row">
+    <h1>
+      <% if controller_name == "template_data" %>
+        Template Data
+      <% elsif controller_name == "template_fields" %>
+        Template Field
+      <% end %>
+    </h1>
+    <% if controller_name == "template_data" and action_name == "show" %>
+      <div class="card-tags-series-name">
+        <%= @template_datum.name %>
+      </div>
+      <nav class="nav" style="position: absolute; top: 10px;right: 30px; float: right; margin-left: auto;">
+        <%= link_to '+ Add a field',  new_template_datum_template_field_path(@template_datum), data: {turbolinks: false}, class: "btn btn-dark btn-sm", style: "padding-bottom: 5px; height: 30px;" %>
+      </nav>
+    <% end %>
+  </div>
+</div>
+<br/>
+<br/>
