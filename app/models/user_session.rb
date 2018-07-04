@@ -2,9 +2,9 @@
 #
 # Table name: user_sessions
 #
-#  id               :integer          not null, primary key
+#  id               :bigint(8)        not null, primary key
 #  session_id       :string(255)
-#  user_id          :integer
+#  user_id          :bigint(8)
 #  ip               :string(255)
 #  user_agent       :string(255)
 #  location_city    :string(255)

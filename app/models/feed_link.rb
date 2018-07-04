@@ -2,10 +2,10 @@
 #
 # Table name: feed_links
 #
-#  id              :integer          not null, primary key
-#  ref_category_id :integer
-#  feed_id         :integer
-#  view_cast_id    :integer
+#  id              :bigint(8)        not null, primary key
+#  ref_category_id :bigint(8)
+#  feed_id         :bigint(8)
+#  view_cast_id    :bigint(8)
 #  link            :text
 #  headline        :text
 #  published_at    :datetime

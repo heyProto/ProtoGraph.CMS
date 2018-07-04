@@ -2,20 +2,20 @@
 #
 # Table name: ad_integrations
 #
-#  id             :integer          not null, primary key
-#  site_id        :integer
-#  stream_id      :integer
-#  page_id        :integer
-#  sort_order     :integer
+#  id             :bigint(8)        not null, primary key
+#  site_id        :bigint(8)
+#  stream_id      :bigint(8)
+#  page_id        :bigint(8)
+#  sort_order     :bigint(8)
 #  div_id         :string(255)
-#  height         :integer
-#  width          :integer
+#  height         :bigint(8)
+#  width          :bigint(8)
 #  slot_text      :text
-#  created_by     :integer
-#  updated_by     :integer
+#  page_stream_id :bigint(8)
+#  created_by     :bigint(8)
+#  updated_by     :bigint(8)
 #  created_at     :datetime         not null
 #  updated_at     :datetime         not null
-#  page_stream_id :integer
 #
 
 class AdIntegration < ApplicationRecord

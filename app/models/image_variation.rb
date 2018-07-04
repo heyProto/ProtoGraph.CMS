@@ -2,24 +2,24 @@
 #
 # Table name: image_variations
 #
-#  id               :integer          not null, primary key
-#  image_id         :integer
+#  id               :bigint(8)        not null, primary key
+#  image_id         :bigint(8)
 #  image_key        :text
-#  image_width      :integer
-#  image_height     :integer
+#  image_width      :bigint(8)
+#  image_height     :bigint(8)
 #  thumbnail_url    :text
 #  thumbnail_key    :text
-#  thumbnail_width  :integer
-#  thumbnail_height :integer
+#  thumbnail_width  :bigint(8)
+#  thumbnail_height :bigint(8)
 #  is_original      :boolean
-#  created_by       :integer
-#  updated_by       :integer
+#  created_by       :bigint(8)
+#  updated_by       :bigint(8)
 #  created_at       :datetime         not null
 #  updated_at       :datetime         not null
 #  mode             :string(255)
 #  is_social_image  :boolean
 #  is_smart_cropped :boolean          default(FALSE)
-#  site_id          :integer
+#  site_id          :bigint(8)
 #
 
 class ImageVariation < ApplicationRecord

@@ -2,7 +2,7 @@
 #
 # Table name: user_emails
 #
-#  id                   :integer          not null, primary key
+#  id                   :bigint(8)        not null, primary key
 #  user_id              :decimal(, )
 #  email                :string(255)
 #  confirmation_token   :string(255)

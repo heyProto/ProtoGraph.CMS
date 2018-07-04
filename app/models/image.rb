@@ -2,19 +2,19 @@
 #
 # Table name: images
 #
-#  id               :integer          not null, primary key
+#  id               :bigint(8)        not null, primary key
 #  name             :string(255)
 #  description      :text
 #  s3_identifier    :string(255)
 #  thumbnail_url    :text
 #  thumbnail_key    :text
-#  thumbnail_width  :integer
-#  thumbnail_height :integer
-#  image_width      :integer
-#  image_height     :integer
+#  thumbnail_width  :bigint(8)
+#  thumbnail_height :bigint(8)
+#  image_width      :bigint(8)
+#  image_height     :bigint(8)
 #  image            :string(255)
-#  created_by       :integer
-#  updated_by       :integer
+#  created_by       :bigint(8)
+#  updated_by       :bigint(8)
 #  created_at       :datetime         not null
 #  updated_at       :datetime         not null
 #  is_logo          :boolean          default(FALSE)
@@ -22,7 +22,7 @@
 #  is_cover         :boolean
 #  credits          :string(255)
 #  credit_link      :text
-#  site_id          :integer
+#  site_id          :bigint(8)
 #
 
 class Image < ApplicationRecord

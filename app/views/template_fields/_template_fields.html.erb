@@ -2,19 +2,19 @@
   <table class="table table-striped table-responsive">
     <thead>
       <tr>
+        <th>Key Name</th>
         <th>Name</th>
-        <th>Title</th>
         <th>Type</th>
         <th>Required</th>
-        <th>Enum</th>
-        <th>Enum Names</th>
+        <th>Inclusion List</th>
+        <th>Inclusion List Names</th>
         <th>Minimum</th>
         <th>Maximum</th>
         <th>Multiple Of</th>
         <th>Exclusive Minimum</th>
         <th>Exclusive Maximum</th>
         <th>Format</th>
-        <th>Pattern</th>
+        <th>Format Regex</th>
         <th>Minimum Length</th>
         <th>Maximum Length</th>
         <th>Edit</th>
@@ -24,22 +24,22 @@
     <tbody>
     <% @template_fields.each do |template_field| %>
       <tr>
+        <td><%= template_field.key_name %></td>
         <td><%= template_field.name %></td>
-        <td><%= template_field.title %></td>
-        <td><%= template_field.data_type %></td>
-        <td><%= template_field.is_req ? 'Yes' : 'No' %></td>
-        <td><%= template_field.enum.present? ? template_field.enum.join(",") : "" %></td>
-        <td><%= template_field.enum_names.join(",") if template_field.enum_names.present? %></td>
-        <td><%= %w(integer boolean).include?(template_field.data_type) ? template_field.min : "NA" %></td>
-        <td><%= %w(integer boolean).include?(template_field.data_type) ? template_field.max : "NA" %></td>
-        <td><%= %w(integer boolean).include?(template_field.data_type) ? template_field.multiple_of : "NA" %></td>
-        <td><%= %w(integer boolean).include?(template_field.data_type) ? (template_field.ex_min ? "Yes" : "No") : "NA" %></td>
-        <td><%= %w(integer boolean).include?(template_field.data_type) ? (template_field.ex_max ? "Yes" : "No") : "NA" %></td>
+        <td><%= %w(short_text long_text).include?(template_field.data_type) ? (template_field.data_type == "short_text" ? "Short Text" : "Long Text") : template_field.data_type.capitalize %></td>
+        <td><%= template_field.is_required ? 'Yes' : 'No' %></td>
+        <td><%= template_field.inclusion_list.present? ? template_field.inclusion_list.join(",") : "" %></td>
+        <td><%= template_field.inclusion_list_names.join(",") if template_field.inclusion_list_names.present? %></td>
+        <td><%= %w(integer decimal).include?(template_field.data_type) ? template_field.min : "NA" %></td>
+        <td><%= %w(integer decimal).include?(template_field.data_type) ? template_field.max : "NA" %></td>
+        <td><%= %w(integer decimal).include?(template_field.data_type) ? template_field.multiple_of : "NA" %></td>
+        <td><%= %w(integer decimal).include?(template_field.data_type) ? (template_field.ex_min ? "Yes" : "No") : "NA" %></td>
+        <td><%= %w(integer decimal).include?(template_field.data_type) ? (template_field.ex_max ? "Yes" : "No") : "NA" %></td>
 
-        <td><%= template_field.data_type == "string" ? template_field.format : "NA" %></td>
-        <td><%= template_field.data_type == "string" ? template_field.pattern : "NA" %></td>
-        <td><%= template_field.data_type == "string" ? template_field.min_length : "NA" %></td>
-        <td><%= template_field.data_type == "string" ? template_field.max_length : "NA" %></td>
+        <td><%= %w(short_text temporal).include?(template_field.data_type) ? template_field.format : "NA" %></td>
+        <td><%= %w(short_text long_text temporal).include?(template_field.data_type) ? template_field.format_regex : "NA" %></td>
+        <td><%= %w(short_text long_text temporal).include?(template_field.data_type) ? template_field.length_minimum : "NA" %></td>
+        <td><%= %w(short_text long_text temporal).include?(template_field.data_type) ? template_field.length_maximum : "NA" %></td>
 
         <td><%= link_to "Edit", edit_template_datum_template_field_path(@template_datum, template_field) %></td>
         <td><%= link_to "X", [@template_datum, template_field], method: :delete %></td>

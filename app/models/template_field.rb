@@ -2,79 +2,84 @@
 #
 # Table name: template_fields
 #
-#  id                :integer          not null, primary key
-#  site_id           :integer
-#  template_datum_id :integer
-#  name              :string
-#  title             :string
-#  data_type         :string
-#  is_req            :boolean          default(FALSE)
-#  default           :string
-#  enum              :text             is an Array
-#  enum_names        :text             is an Array
-#  min               :decimal(, )
-#  max               :decimal(, )
-#  multiple_of       :decimal(, )
-#  ex_min            :boolean
-#  ex_max            :boolean
-#  format            :string
-#  pattern           :string
-#  min_length        :integer
-#  max_length        :integer
-#  slug              :string
-#  created_at        :datetime         not null
-#  updated_at        :datetime         not null
+#  id                   :bigint(8)        not null, primary key
+#  site_id              :bigint(8)
+#  template_datum_id    :bigint(8)
+#  key_name             :string
+#  name                 :string
+#  data_type            :string
+#  description          :text
+#  help                 :text
+#  is_entry_title       :boolean
+#  genre_html           :string
+#  is_required          :boolean          default(FALSE)
+#  default_value        :string
+#  inclusion_list       :text             is an Array
+#  inclusion_list_names :text             is an Array
+#  min                  :decimal(, )
+#  max                  :decimal(, )
+#  multiple_of          :decimal(, )
+#  ex_min               :boolean
+#  ex_max               :boolean
+#  format               :text
+#  format_regex         :string
+#  length_minimum       :integer
+#  length_maximum       :integer
+#  slug                 :string
+#  created_by           :integer
+#  updated_by           :integer
+#  created_at           :datetime         not null
+#  updated_at           :datetime         not null
 #
 
 class TemplateField < ApplicationRecord
-  
-  #CONSTANTS
-  #CUSTOM TABLES
-  #GEMS
-  extend FriendlyId
-  friendly_id :name, use: :slugged
-  
-  #CONCERNS
-  #ASSOCIATIONS
-  belongs_to :template_datum
-  
-  #ACCESSORS
-  #VALIDATIONS
-  #CALLBACKS
-  before_save :before_save_set
-  
-  #SCOPE
-  #OTHER
+    #CONSTANTS
+    #CUSTOM TABLES
+    #GEMS
+    extend FriendlyId
+    friendly_id :name, use: :slugged
 
-  private
-  
-  def before_save_set
-      if self.enum.present? and self.enum_names.present?
-        self.enum.reject!(&:blank?)
-        self.enum_names.reject!(&:blank?)
-        if %w(number integer).include?(self.data_type)
+    #CONCERNS
+    #ASSOCIATIONS
+    belongs_to :template_datum
+
+    #ACCESSORS
+    #VALIDATIONS
+    #CALLBACKS
+    before_save :before_save_set
+
+    #SCOPE
+    #OTHER
+
+    def before_save_set
+        self.inclusion_list.reject!(&:blank?) if self.inclusion_list.present?
+        self.inclusion_list_names.reject!(&:blank?) if self.inclusion_list_names.present?
+        if %w(integer decimal).include?(self.data_type)
             self.format = nil
-            self.pattern = nil
-            self.min_length = nil
-            self.max_length = nil
-        elsif data_type == "string"
+            self.format_regex = nil
+            self.length_minimum = nil
+            self.length_maximum = nil
+        elsif %w(short_text long_text temporal).include?(self.data_type)
             self.min = nil
             self.max = nil
             self.multiple_of = nil
             self.ex_min = nil
             self.ex_max = nil
-        elsif %w(array boolean)
-            self.format = nil
-            self.pattern = nil
-            self.min_length = nil
-            self.max_length = nil
+            if self.data_type == "long_text"
+                self.format = nil
+            end
+        elsif %w(array object boolean).include?(self.data_type)
+            if data_type != "boolean"
+                self.format = nil
+            end
+            self.format_regex = nil
+            self.length_minimum = nil
+            self.length_maximum = nil
             self.min = nil
             self.max = nil
             self.multiple_of = nil
             self.ex_min = nil
             self.ex_max = nil
         end
-      end
-  end
-    
+    end
 end

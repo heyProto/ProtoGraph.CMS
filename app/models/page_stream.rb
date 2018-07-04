@@ -2,16 +2,16 @@
 #
 # Table name: page_streams
 #
-#  id             :integer          not null, primary key
-#  page_id        :integer
-#  stream_id      :integer
-#  created_by     :integer
-#  updated_by     :integer
+#  id             :bigint(8)        not null, primary key
+#  page_id        :bigint(8)
+#  stream_id      :bigint(8)
+#  created_by     :bigint(8)
+#  updated_by     :bigint(8)
 #  created_at     :datetime         not null
 #  updated_at     :datetime         not null
 #  name_of_stream :string(255)
-#  site_id        :integer
-#  folder_id      :integer
+#  site_id        :bigint(8)
+#  folder_id      :bigint(8)
 #
 
 class PageStream < ApplicationRecord

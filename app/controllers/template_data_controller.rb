@@ -23,59 +23,59 @@ class TemplateDataController < ApplicationController
         properties = {}
         reqs = []
         fields.each do |field|
+            field_key = field.key_name
             field_name = field.name
-            field_title = field.title
-            field_type = field.data_type
+            field_type = %w(short_text long_text).include?(field.data_type) ? "string" : field.data_type
 
-            properties[field_name] = {
-                "title": field_title,
+            properties[field_key] = {
+                "title": field_name,
                 "type": field_type
             }
 
-            if field.is_req.present? and field.is_req == true
-                reqs << field_name
+            if field.is_required.present? and field.is_required == true
+                reqs << field_key
             end
 
-            if field.default.present?
-                properties[field_name]["default"] = field.default
+            if field.default_value.present?
+                properties[field_key]["default"] = field.default_value
             end
 
-            if field.enum.present?
-                properties[field_name]["enum"] = field.enum
+            if field.inclusion_list.present?
+                properties[field_key]["enum"] = field.inclusion_list
             end
 
-            if field.enum_names.present?
-                properties[field_name]["enum_names"] = field.enum_names
+            if field.inclusion_list_names.present?
+                properties[field_key]["enum_names"] = field.inclusion_list_names
             end
 
-            if ["number", "integer"].include?(field_type)
+            if ["decimal", "integer"].include?(field_type)
                 if field.min.present?
-                    properties[field_name][:minimum] = field.min
+                    properties[field_key][:minimum] = field.min
                 end
                 if field.max.present?
-                    properties[field_name][:maximum] = field.max
+                    properties[field_key][:maximum] = field.max
                 end
                 if field.multiple_of.present?
-                    properties[field_name][:multipleOf] = field.multiple_of
+                    properties[field_key][:multipleOf] = field.multiple_of
                 end
                 if field.ex_min.present?
-                    properties[field_name][:exclusiveMinimum] = field.ex_min
+                    properties[field_key][:exclusiveMinimum] = field.ex_min
                 end
                 if field.ex_max.present?
-                    properties[field_name][:exclusiveMaximum] = field.ex_max
+                    properties[field_key][:exclusiveMaximum] = field.ex_max
                 end
-            elsif field_type == "string"
+            elsif %w(short_text long_text).include?(field_type)
                 if field.format.present?
-                    properties[field_name][:format] = field.format
+                    properties[field_key][:format] = field.format
                 end
                 if field.pattern.present?
-                    properties[field_name][:pattern] = field.pattern
+                    properties[field_key][:pattern] = field.format_regex
                 end
                 if field.min_length
-                    properties[field_name][:minLength] = field.min_length
+                    properties[field_key][:minLength] = field.length_minimum
                 end
                 if field.max_length
-                    properties[field_name][:maxLength] = field.max_length
+                    properties[field_key][:maxLength] = field.length_maximum
                 end
             end
         end

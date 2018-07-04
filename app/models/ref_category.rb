@@ -2,18 +2,18 @@
 #
 # Table name: ref_categories
 #
-#  id                          :integer          not null, primary key
-#  site_id                     :integer
+#  id                          :bigint(8)        not null, primary key
+#  site_id                     :bigint(8)
 #  genre                       :string(255)
 #  name                        :string(255)
 #  stream_url                  :text
 #  created_at                  :datetime         not null
 #  updated_at                  :datetime         not null
-#  stream_id                   :integer
+#  stream_id                   :bigint(8)
 #  is_disabled                 :boolean
-#  created_by                  :integer
-#  updated_by                  :integer
-#  count                       :integer          default(0)
+#  created_by                  :bigint(8)
+#  updated_by                  :bigint(8)
+#  count                       :bigint(8)        default(0)
 #  name_html                   :text
 #  slug                        :string(255)
 #  english_name                :string(255)

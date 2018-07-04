@@ -1,10 +1,13 @@
 class TemplateFieldsController < ApplicationController
 
+    @@data_types = [["Short text (Maximum 255 characters)", "short_text"], ["Long text (Maximum 50k characters)", "long_text"], ["Integer", "integer"], ["Decimal", "decimal"], ["Yes/No", "boolean"], ["Temporal(Date, Time)", "temporal"]]
+    @@formats = [["URL", "url"], ["Colour", "color"],["Username", "username"], ["Email", "email"], ["Password", "password"], ["IP Address Version 4", "ipv4"], ["IP Address Version 6", "ipv6"], ["Universal Unique Identifier(UUID)", "uuid"], ["Yes/No", "yes/no"], ["Y/N", "y/n"], ["True/False", "true/false"], ["1/0", "1/0"]]
+
     def new
         @template_datum = TemplateDatum.friendly.find(params[:template_datum_id])
         @template_field = TemplateField.new
-        @data_types = %w(boolean integer number string)
-        @formats = %w( date time date-time uri url email ipv4 ipv6 uuid)
+        @data_types = @@data_types
+        @formats = @@formats
     end
 
     def create
@@ -19,8 +22,8 @@ class TemplateFieldsController < ApplicationController
     def edit
         @template_field = TemplateField.friendly.find(params[:id])
         @template_datum = @template_field.template_datum
-        @data_types = %w(boolean integer number string)
-        @formats = %w(date time date-time uri url email ipv4 ipv6 uuid)
+        @data_types = @@data_types
+        @formats = @@formats
     end
 
     def update
@@ -46,6 +49,6 @@ class TemplateFieldsController < ApplicationController
     private
 
     def template_field_params
-        params.require(:template_field).permit(:template_datum_id, :name, :title, :data_type, :is_req, :default, :enum_names, :min, :max, :multiple_of, :ex_min, :ex_max, :format, :pattern, :min_length, :max_length, enum: [], enum_names: [])
+        params.require(:template_field).permit(:template_datum_id, :key_name, :name, :data_type, :description, :help, :is_entry_title, :genre_html, :is_required, :default_value, :min, :max, :multiple_of, :ex_min, :ex_max, :format, :format_regex, :length_minimum, :length_maximum, :created_by, :updated_by, inclusion_list: [], inclusion_list_names: [])
     end
 end

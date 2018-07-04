@@ -2,7 +2,7 @@
 #
 # Table name: authentications
 #
-#  id                  :integer          not null, primary key
+#  id                  :bigint(8)        not null, primary key
 #  provider            :string(255)
 #  uid                 :string(255)
 #  info                :text
@@ -14,10 +14,10 @@
 #  token_expires_at    :datetime
 #  created_at          :datetime         not null
 #  updated_at          :datetime         not null
-#  user_id             :integer
-#  site_id             :integer
-#  created_by          :integer
-#  updated_by          :integer
+#  user_id             :bigint(8)
+#  site_id             :bigint(8)
+#  created_by          :bigint(8)
+#  updated_by          :bigint(8)
 #
 
 class Authentication < ApplicationRecord

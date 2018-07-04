@@ -19,32 +19,39 @@ namespace :json_schema do
         fields.each do |key, val|
           @template_field = TemplateField.new
           @template_field.template_datum_id = td.id
-          field_name = key
-          @template_field.name = field_name
+          field_key = key
+          @template_field.key_name = field_key
 
           if val.key?("title")
-            field_title = val["title"]
-            @template_field.title = field_title
+            field_name = val["title"]
+            @template_field.name = field_name
           end
 
           if val.key?("type")
             field_type = val["type"]
-            @template_field.data_type = field_type
+            if field_type == "string"
+              @template_field.data_type = "long_text"
+            elsif field_type == "number"
+              @template_field.data_type = "decimal"
+            else
+              @template_field.data_type = field_type
+            end
+
             if fields_req
               field_req = fields_req.include?(key)
-              @template_field.is_req = field_req
+              @template_field.is_required = field_req
             end
             if val.key?("default")
               field_def = val["default"]
-              @template_field.default = field_def
+              @template_field.default_value = field_def
             end
             if val.key?("enum")
               field_enum = val["enum"]
-              @template_field.enum = field_enum
+              @template_field.inclusion_list = field_enum
             end
             if val.key?("enumNames")
               field_enum_names = val["enumNames"]
-              @template_field.enum_names = field_enum_names
+              @template_field.inclusion_list_names = field_enum_names
             end
 
             # print "#{field_name}|#{field_title}|#{field_type}|#{field_req}|#{field_def}|#{field_enum}|#{field_enum_names}"
@@ -76,11 +83,11 @@ namespace :json_schema do
             elsif field_type == "string"
               if val.key?("minLength")
                 field_min_len = val["minLength"]
-                @template_field.min_length = field_min_len
+                @template_field.length_minimum = field_min_len
               end
               if val.key?("maxLength")
                 field_max_len = val["maxLength"]
-                @template_field.max_length = field_max_len
+                @template_field.length_maximum = field_max_len
               end
               if val.key?("format")
                 field_format = val["format"]
@@ -88,7 +95,7 @@ namespace :json_schema do
               end
               if val.key?("pattern")
                 field_pattern = val["pattern"]
-                  @template_field.pattern = field_pattern
+                  @template_field.format_regex = field_pattern
               end
               # puts "#{field_min_len}|#{field_max_len}|#{field_format}|#{field_pattern}"
               # @template_field.assign_attributes(format: field_format, pattern: field_pattern, min_length: field_min_len, max_length: field_max_len)

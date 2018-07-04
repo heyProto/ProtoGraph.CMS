@@ -1,16 +1,20 @@
 <%= render partial: "template_data/header" %>
 <div style="margin-left: auto; margin-right: auto; width: 540px; font-size: 12px;">
   <%= simple_form_for([@template_datum, @template_field]) do |f| %>
-    <%= f.hidden_field :template_datum_id, value: @template_field.template_datum_id%>
+    <%= f.hidden_field :created_by, value: current_user.id %>
+    <%= f.hidden_field :template_datum_id, value: @template_datum.id %>
+    <%= f.input :key_name, required: true  %>
+    <%= f.input :data_type, collection: @data_types, required: true %>
     <%= f.input :name, required: true  %>
-    <%= f.input :data_type, collection: @data_types, required: true, include_hidden: false %>
-    <%= f.input :title, required: true  %>
-    <%= f.input :is_req, as: :boolean %>
-    <%= f.input :default %>
-    <%= f.input :enum, as: :array %>
-    <button type="button" id="new-enum-field" class="btn btn-xs">+</button>
-    <%= f.input :enum_names, as: :array %>
-    <button type="button" id="new-enum-names-field" class="btn btn-xs">+</button>
+    <%= f.input :description %>
+    <%= f.input :help %>
+    <%= f.input :is_entry_title, as: :boolean %>
+    <%= f.input :is_required, as: :boolean %>
+    <%= f.input :default_value %>
+    <%= f.input :inclusion_list, as: :array %>
+    <button type="button" id="new-inc-list-field" class="btn btn-xs">+</button>
+    <%= f.input :inclusion_list_names, as: :array%>
+    <button type="button" id="new-inc-list-names-field" class="btn btn-xs">+</button>
     <div class="inputs-num">
       <%= f.input :min %>
       <%= f.input :max %>
@@ -18,51 +22,102 @@
       <%= f.input :ex_min %>
       <%= f.input :ex_max %>
     </div>
-    <div class="inputs-str">
+    <div class="input-format">
       <%= f.input :format, collection: @formats %>
-      <%= f.input :pattern %>
-      <%= f.input :min_length %>
-      <%= f.input :max_length %>
+    </div>
+    <div class="input-format-regex">
+      <%= f.input :format_regex %>
+    </div>
+    <div class="inputs-str-len">
+      <%= f.input :length_minimum %>
+      <%= f.input :length_maximum %>
     </div>
     <%= f.button :submit, value: "Update", class: "btn btn-sm btn-secondary" %>
   <% end %>
 </div>
 
 <script>
-  $(document).ready(function(){
+    $(document).ready(function(){
 
-    function update_template_field_form(data_type){
-        if(["integer", "number"].includes(data_type)){
-            $(".inputs-num").show();
-            $(".inputs-str").hide();
-        } else if(data_type == "string"){
-            $(".inputs-str").show();
-            $(".inputs-num").hide();
-        } else if(["array", "boolean"].includes(data_type)){
-            $(".inputs-str").hide();
-            $(".inputs-num").hide();
-        } else{
-            $(".inputs-str").hide();
-            $(".inputs-num").hide();
+        var formats = {
+            "short_text": {
+                "url": "URL",
+                "colour": "Color",
+                "username": "Username",
+                "email": "Email",
+                "password": "Password",
+                "ipv4": "IP Address Version 4",
+                "ipv6": "IP Address Version 6",
+                "uuid": "Universal Unique Identifier(UUID)"
+            },
+            "boolean": {
+                "yes/no": "Yes/No",
+                "y/n": "Y/N",
+                "true/false": "True/False",
+                "1/0": "1/0"
+            },
+            "temporal": {
+                "dd-mm-yyyy": "DD-MM-YYYY",
+                "yyyy-mm-dd": "YY-MM-DD"
+            }
+        };
+
+        function update_template_field_form(data_type){
+            if(["integer", "decimal"].includes(data_type)){
+                $(".inputs-num").show();
+                $(".input-format, .input-format-regex, .inputs-str-len").hide();
+            } else if(["short_text", "long_text", "temporal"].includes(data_type)){
+                $(".input-format, .input-format-regex, .inputs-str-len").show();
+                $(".inputs-num").hide();
+                if(["short_text", "temporal"].includes(data_type)){
+                    $(".input-format, .input-format-regex").show();
+                }else if(data_type == "long_text"){
+                    $(".input-format").hide();
+                    $(".input-format-regex").show();
+                }
+            } else if(["array"].includes(data_type)){
+                $(".inputs-num, .input-format, .input-format-regex, .inputs-str-len").hide();
+            } else if(data_type == "boolean"){
+                $(".inputs-num, .input-format-regex, .inputs-str-len").hide();
+                $(".input-format").show();
+            }else{
+                $(".inputs-num, .input-format, .input-format-regex, .inputs-str-len").hide();
+            }
         }
-    }
 
-    update_template_field_form($(".template_field_data_type > select").val());
+        function update_dropdown_format(data_type){
+            var format = formats[data_type];
+            $("#template_field_format").empty();
+            var tf_format = "<%= @template_field.format %>";
+            console.log("tf_format", tf_format);
+            for(var key in format){
+                if(tf_format == key){
+                  $("#template_field_format").append(`<option value=${key} selected="selected">${format[key]}</option>`);
+                }else{
+                  $("#template_field_format").append(`<option value=${key}>${format[key]}</option>`);
+                }
+              }
+        }
 
-    $(".template_field_data_type > select").change(function(){
-      var data_type = $(this).val();
-      update_template_field_form(data_type);
+        update_template_field_form($(".template_field_data_type > select").val());
+        update_dropdown_format($(".template_field_data_type > select").val());
+
+        // show and hide required fields of form based on data_type
+        $(".template_field_data_type > select").change(function(){
+            var data_type = $(this).val();
+            update_template_field_form(data_type);
+            update_dropdown_format(data_type);
+        });
+
+        // add new enum field
+        var inc_list_field = '<input class="text optional form-control" name="template_field[enum][]" id="template_field_" type="text">';
+        $("#new-inc-list-field").click(function () {
+            $("input[name='template_field[inclusion_list][]']:last").after(inc_list_field);
+        })
+
+        var inc_list_names_field = '<input class="text optional form-control" name="template_field[enum_names][]" id="template_field_" type="text">';
+        $("#new-inc-list-names-field").click(function () {
+            $("input[name='template_field[inclusion_list_names][]']:last").after(inc_list_names_field);
+        })
     });
-
-      // add new enum field
-      var enum_field = '<input class="text optional form-control" name="template_field[enum][]" id="template_field_" type="text">';
-      $("#new-enum-field").click(function () {
-          $("input[name='template_field[enum][]']:last").after(enum_field);
-      })
-
-      var enum_names_field = '<input class="text optional form-control" name="template_field[enum_names][]" id="template_field_" type="text">';
-      $("#new-enum-names-field").click(function () {
-          $("input[name='template_field[enum_names][]']:last").after(enum_names_field);
-      })
-  });
 </script>

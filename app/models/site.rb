@@ -2,7 +2,7 @@
 #
 # Table name: sites
 #
-#  id                          :integer          not null, primary key
+#  id                          :bigint(8)        not null, primary key
 #  name                        :string(255)
 #  domain                      :string(255)
 #  created_at                  :datetime         not null
@@ -15,7 +15,7 @@
 #  font_colour                 :string(255)
 #  reverse_font_colour         :string(255)
 #  stream_url                  :text
-#  stream_id                   :integer
+#  stream_id                   :bigint(8)
 #  cdn_provider                :string(255)
 #  cdn_id                      :string(255)
 #  host                        :text
@@ -23,9 +23,9 @@
 #  client_token                :string(255)
 #  access_token                :string(255)
 #  client_secret               :string(255)
-#  favicon_id                  :integer
-#  logo_image_id               :integer
 #  g_a_tracking_id             :string(255)
+#  favicon_id                  :bigint(8)
+#  logo_image_id               :bigint(8)
 #  sign_up_mode                :string(255)
 #  default_role                :string(255)
 #  story_card_style            :string(255)
@@ -37,8 +37,8 @@
 #  is_english                  :boolean          default(TRUE)
 #  english_name                :string(255)
 #  story_card_flip             :boolean          default(FALSE)
-#  created_by                  :integer
-#  updated_by                  :integer
+#  created_by                  :bigint(8)
+#  updated_by                  :bigint(8)
 #  seo_name                    :string(255)
 #  is_lazy_loading_activated   :boolean          default(TRUE)
 #  comscore_code               :text
