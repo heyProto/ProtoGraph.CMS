@@ -14,9 +14,9 @@
 #  is_hidden        :boolean          default(FALSE)
 #  permissible_type :string(255)
 #  stream_id        :integer
-#  stream_url       :text(65535)
-#  bio              :text(65535)
-#  meta_description :text(65535)
+#  stream_url       :text
+#  bio              :text
+#  meta_description :text
 #  name             :string(255)
 #
 

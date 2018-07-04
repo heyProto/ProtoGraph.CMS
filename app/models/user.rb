@@ -22,12 +22,12 @@
 #  created_at               :datetime         not null
 #  updated_at               :datetime         not null
 #  can_publish_link_sources :boolean          default(FALSE)
-#  bio                      :text(65535)
-#  website                  :text(65535)
-#  facebook                 :text(65535)
-#  twitter                  :text(65535)
+#  bio                      :text
+#  website                  :text
+#  facebook                 :text
+#  twitter                  :text
 #  phone                    :string(255)
-#  linkedin                 :text(65535)
+#  linkedin                 :text
 #
 
 class User < ApplicationRecord

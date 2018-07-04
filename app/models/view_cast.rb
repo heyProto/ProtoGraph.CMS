@@ -7,14 +7,14 @@
 #  template_card_id                 :integer
 #  template_datum_id                :integer
 #  name                             :string(255)
-#  optionalConfigJSON               :text(65535)
+#  optionalconfigjson               :text
 #  slug                             :string(255)
 #  created_by                       :integer
 #  updated_by                       :integer
 #  created_at                       :datetime         not null
 #  updated_at                       :datetime         not null
-#  seo_blockquote                   :text(65535)
-#  status                           :text(65535)
+#  seo_blockquote                   :text
+#  status                           :text
 #  folder_id                        :integer
 #  is_invalidating                  :boolean
 #  default_view                     :string(255)
@@ -28,6 +28,7 @@
 #  ref_category_sub_intersection_id :integer
 #  ref_category_vertical_id         :integer
 #  published_at                     :datetime
+#  data_json                        :json
 #
 
 class ViewCast < ApplicationRecord

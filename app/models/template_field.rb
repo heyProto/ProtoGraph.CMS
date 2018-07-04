@@ -1,14 +1,55 @@
+# == Schema Information
+#
+# Table name: template_fields
+#
+#  id                :integer          not null, primary key
+#  site_id           :integer
+#  template_datum_id :integer
+#  name              :string
+#  title             :string
+#  data_type         :string
+#  is_req            :boolean          default(FALSE)
+#  default           :string
+#  enum              :text             is an Array
+#  enum_names        :text             is an Array
+#  min               :decimal(, )
+#  max               :decimal(, )
+#  multiple_of       :decimal(, )
+#  ex_min            :boolean
+#  ex_max            :boolean
+#  format            :string
+#  pattern           :string
+#  min_length        :integer
+#  max_length        :integer
+#  slug              :string
+#  created_at        :datetime         not null
+#  updated_at        :datetime         not null
+#
+
 class TemplateField < ApplicationRecord
-    extend FriendlyId
-    friendly_id :name, use: :slugged
+  
+  #CONSTANTS
+  #CUSTOM TABLES
+  #GEMS
+  extend FriendlyId
+  friendly_id :name, use: :slugged
+  
+  #CONCERNS
+  #ASSOCIATIONS
+  belongs_to :template_datum
+  
+  #ACCESSORS
+  #VALIDATIONS
+  #CALLBACKS
+  before_save :before_save_set
+  
+  #SCOPE
+  #OTHER
 
-    #ASSOCIATIONS
-    belongs_to :template_datum
-
-    #CALLBACKS
-    before_save :before_save_set
-
-    def before_save_set
+  private
+  
+  def before_save_set
+      if self.enum.present? and self.enum_names.present?
         self.enum.reject!(&:blank?)
         self.enum_names.reject!(&:blank?)
         if %w(number integer).include?(self.data_type)
@@ -33,5 +74,7 @@ class TemplateField < ApplicationRecord
             self.ex_min = nil
             self.ex_max = nil
         end
-    end
+      end
+  end
+    
 end
