@@ -3,9 +3,9 @@
   <%= simple_form_for([@template_datum, @template_field]) do |f| %>
     <%= f.hidden_field :created_by, value: current_user.id %>
     <%= f.hidden_field :template_datum_id, value: @template_datum.id %>
-    <%= f.input :key_name, required: true  %>
+    <%= f.input :key_name, required: true %>
     <%= f.input :data_type, collection: @data_types, required: true %>
-    <%= f.input :name, required: true  %>
+    <%= f.input :name, required: true %>
     <%= f.input :description %>
     <%= f.input :help %>
     <%= f.input :is_entry_title, as: :boolean %>
@@ -13,7 +13,7 @@
     <%= f.input :default_value %>
     <%= f.input :inclusion_list, as: :array %>
     <button type="button" id="new-inc-list-field" class="btn btn-xs">+</button>
-    <%= f.input :inclusion_list_names, as: :array%>
+    <%= f.input :inclusion_list_names, as: :array %>
     <button type="button" id="new-inc-list-names-field" class="btn btn-xs">+</button>
     <div class="inputs-num">
       <%= f.input :min %>
@@ -32,92 +32,103 @@
       <%= f.input :length_minimum %>
       <%= f.input :length_maximum %>
     </div>
-      <%= f.button :submit, value: "Create", class: "btn btn-sm btn-secondary" %>
+    <%= f.button :submit, value: "Create", class: "btn btn-sm btn-secondary" %>
   <% end %>
 </div>
-
 <script>
-    $(document).ready(function(){
+  $(document).ready(function () {
+    var formats = {
+      "short_text": {
+        "": "",
+        "url": "URL",
+        "colour": "Color",
+        "username": "Username",
+        "email": "Email",
+        "password": "Password",
+        "ipv4": "IP Address Version 4",
+        "ipv6": "IP Address Version 6",
+        "uuid": "Universal Unique Identifier(UUID)"
+      },
+      "boolean": {
+        "": "",
+        "yes/no": "Yes/No",
+        "y/n": "Y/N",
+        "true/false": "True/False",
+        "1/0": "1/0"
+      },
+      "temporal": {
+        "": "",
+        "dd-mm-yyyy": "DD-MM-YYYY",
+        "dd-mmm-yyyy": "DD-MMM-YYYY",
+        "yyyy-mm-dd": "YYYY-MM-DD",
+        "mm-dd-yyyy": "MM-DD-YYYY",
 
-        var formats = {
-            "short_text": {
-                "url": "URL",
-                "colour": "Color",
-                "username": "Username",
-                "email": "Email",
-                "password": "Password",
-                "ipv4": "IP Address Version 4",
-                "ipv6": "IP Address Version 6",
-                "uuid": "Universal Unique Identifier(UUID)"
-            },
-            "boolean": {
-                "yes/no": "Yes/No",
-                "y/n": "Y/N",
-                "true/false": "True/False",
-                "1/0": "1/0"
-            },
-            "temporal": {
-                "dd-mm-yyyy": "DD-MM-YYYY",
-                "yyyy-mm-dd": "YY-MM-DD"
-            }
-        };
+        "dd/mm/yyyy": "DD/MM/YYYY",
+        "dd/mmm/yyyy": "DD/MMM/YYYY",
+        "yyyy/mm/dd": "YYYY/MM/DD",
+        "mm/dd/yyyy": "MM/DD/YYYY",
 
-        function update_template_field_form(data_type){
-            if(["integer", "decimal"].includes(data_type)){
-                $(".inputs-num").show();
-                $(".input-format, .input-format-regex, .inputs-str-len").hide();
-            } else if(["short_text", "long_text", "temporal"].includes(data_type)){
-                $(".input-format, .input-format-regex, .inputs-str-len").show();
-                $(".inputs-num").hide();
-                if(["short_text", "temporal"].includes(data_type)){
-                    $(".input-format, .input-format-regex").show();
-                }else if(data_type == "long_text"){
-                    $(".input-format").hide();
-                    $(".input-format-regex").show();
-                }
-            } else if(["array"].includes(data_type)){
-                $(".inputs-num, .input-format, .input-format-regex, .inputs-str-len").hide();
-            } else if(data_type == "boolean"){
-                $(".inputs-num, .input-format-regex, .inputs-str-len").hide();
-                $(".input-format").show();
-            }else{
-                $(".inputs-num, .input-format, .input-format-regex, .inputs-str-len").hide();
-            }
+        "hh:mm:ss": "hh:mm:ss",
+        "hh:mm": "hh:mm"
+      }
+    };
+
+    function update_template_field_form(data_type) {
+      if (["integer", "decimal"].includes(data_type)) {
+        $(".inputs-num").show();
+        $(".input-format, .input-format-regex, .inputs-str-len").hide();
+      } else if (["short_text", "long_text", "temporal"].includes(data_type)) {
+        $(".input-format, .input-format-regex, .inputs-str-len").show();
+        $(".inputs-num").hide();
+        if (["short_text", "temporal"].includes(data_type)) {
+          $(".input-format, .input-format-regex").show();
+        } else if (data_type == "long_text") {
+          $(".input-format").hide();
+          $(".input-format-regex").show();
         }
+      } else if (["array"].includes(data_type)) {
+        $(".inputs-num, .input-format, .input-format-regex, .inputs-str-len").hide();
+      } else if (data_type == "boolean") {
+        $(".inputs-num, .input-format-regex, .inputs-str-len").hide();
+        $(".input-format").show();
+      } else {
+        $(".inputs-num, .input-format, .input-format-regex, .inputs-str-len").hide();
+      }
+    }
 
-        function update_dropdown_format(data_type){
-            var format = formats[data_type];
-            $("#template_field_format").empty();
-            var tf_format = "<%= @template_field.format %>";
-            console.log("tf_format", tf_format);
-            for(var key in format){
-                if(tf_format == key){
-                    $("#template_field_format").append(`<option value=${key} selected="selected">${format[key]}</option>`);
-                }else{
-                    $("#template_field_format").append(`<option value=${key}>${format[key]}</option>`);
-                }
-            }
+    function update_dropdown_format(data_type) {
+      var format = formats[data_type];
+      $("#template_field_format").empty();
+      var tf_format = "<%= @template_field.format %>";
+      console.log("tf_format", tf_format);
+      for (var key in format) {
+        if (tf_format == key) {
+          $("#template_field_format").append(`<option value=${key} selected="selected">${format[key]}</option>`);
+        } else {
+          $("#template_field_format").append(`<option value=${key}>${format[key]}</option>`);
         }
+      }
+    }
 
-        update_template_field_form($(".template_field_data_type > select").val());
-        update_dropdown_format($(".template_field_data_type > select").val());
+    update_template_field_form($(".template_field_data_type > select").val());
+    update_dropdown_format($(".template_field_data_type > select").val());
 
-        // show and hide required fields of form based on data_type
-        $(".template_field_data_type > select").change(function(){
-            var data_type = $(this).val();
-            update_template_field_form(data_type);
-            update_dropdown_format(data_type);
-        });
-
-        // add new enum field
-        var inc_list_field = '<input class="text optional form-control" name="template_field[enum][]" id="template_field_" type="text">';
-        $("#new-inc-list-field").click(function () {
-            $("input[name='template_field[inclusion_list][]']:last").after(inc_list_field);
-        })
-
-        var inc_list_names_field = '<input class="text optional form-control" name="template_field[enum_names][]" id="template_field_" type="text">';
-        $("#new-inc-list-names-field").click(function () {
-            $("input[name='template_field[inclusion_list_names][]']:last").after(inc_list_names_field);
-        })
+    // show and hide required fields of form based on data_type
+    $(".template_field_data_type > select").change(function () {
+      var data_type = $(this).val();
+      update_template_field_form(data_type);
+      update_dropdown_format(data_type);
     });
+
+    // add new enum field
+    var inc_list_field = '<input class="text optional form-control" name="template_field[enum][]" id="template_field_" type="text">';
+    $("#new-inc-list-field").click(function () {
+      $("input[name='template_field[inclusion_list][]']:last").after(inc_list_field);
+    })
+
+    var inc_list_names_field = '<input class="text optional form-control" name="template_field[enum_names][]" id="template_field_" type="text">';
+    $("#new-inc-list-names-field").click(function () {
+      $("input[name='template_field[inclusion_list_names][]']:last").after(inc_list_names_field);
+    })
+  });
 </script>

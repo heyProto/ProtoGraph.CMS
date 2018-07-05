@@ -33,53 +33,53 @@
 #
 
 class TemplateField < ApplicationRecord
-    #CONSTANTS
-    #CUSTOM TABLES
-    #GEMS
-    extend FriendlyId
-    friendly_id :name, use: :slugged
+  #CONSTANTS
+  #CUSTOM TABLES
+  #GEMS
+  extend FriendlyId
+  friendly_id :name, use: :slugged
 
-    #CONCERNS
-    #ASSOCIATIONS
-    belongs_to :template_datum
+  #CONCERNS
+  #ASSOCIATIONS
+  belongs_to :template_datum
 
-    #ACCESSORS
-    #VALIDATIONS
-    #CALLBACKS
-    before_save :before_save_set
+  #ACCESSORS
+  #VALIDATIONS
+  #CALLBACKS
+  before_save :before_save_set
 
-    #SCOPE
-    #OTHER
+  #SCOPE
+  #OTHER
 
-    def before_save_set
-        self.inclusion_list.reject!(&:blank?) if self.inclusion_list.present?
-        self.inclusion_list_names.reject!(&:blank?) if self.inclusion_list_names.present?
-        if %w(integer decimal).include?(self.data_type)
-            self.format = nil
-            self.format_regex = nil
-            self.length_minimum = nil
-            self.length_maximum = nil
-        elsif %w(short_text long_text temporal).include?(self.data_type)
-            self.min = nil
-            self.max = nil
-            self.multiple_of = nil
-            self.ex_min = nil
-            self.ex_max = nil
-            if self.data_type == "long_text"
-                self.format = nil
-            end
-        elsif %w(array object boolean).include?(self.data_type)
-            if data_type != "boolean"
-                self.format = nil
-            end
-            self.format_regex = nil
-            self.length_minimum = nil
-            self.length_maximum = nil
-            self.min = nil
-            self.max = nil
-            self.multiple_of = nil
-            self.ex_min = nil
-            self.ex_max = nil
-        end
+  def before_save_set
+    self.inclusion_list.reject!(&:blank?) if self.inclusion_list.present?
+    self.inclusion_list_names.reject!(&:blank?) if self.inclusion_list_names.present?
+    if %w(integer decimal).include?(self.data_type)
+      self.format = nil
+      self.format_regex = nil
+      self.length_minimum = nil
+      self.length_maximum = nil
+    elsif %w(short_text long_text temporal).include?(self.data_type)
+      self.min = nil
+      self.max = nil
+      self.multiple_of = nil
+      self.ex_min = nil
+      self.ex_max = nil
+      if self.data_type == "long_text"
+        self.format = nil
+      end
+    elsif %w(array object boolean).include?(self.data_type)
+      if data_type != "boolean"
+        self.format = nil
+      end
+      self.format_regex = nil
+      self.length_minimum = nil
+      self.length_maximum = nil
+      self.min = nil
+      self.max = nil
+      self.multiple_of = nil
+      self.ex_min = nil
+      self.ex_max = nil
     end
+  end
 end
