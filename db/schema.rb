@@ -10,27 +10,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180619092410) do
+ActiveRecord::Schema.define(version: 20180705045820) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
-
-  create_table "accounts", force: :cascade do |t|
-    t.string "username", limit: 255
-    t.string "slug", limit: 255
-    t.string "status", limit: 255
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.string "cdn_provider", limit: 255
-    t.string "cdn_id", limit: 255
-    t.text "host"
-    t.text "cdn_endpoint"
-    t.string "client_token", limit: 255
-    t.string "access_token", limit: 255
-    t.string "client_secret", limit: 255
-    t.index ["slug"], name: "idx_80693_index_accounts_on_slug", unique: true
-    t.index ["username"], name: "idx_80693_index_accounts_on_username", unique: true
-  end
 
   create_table "activities", force: :cascade do |t|
     t.bigint "user_id"
@@ -40,14 +23,12 @@ ActiveRecord::Schema.define(version: 20180619092410) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "folder_id"
-    t.bigint "account_id"
     t.bigint "site_id"
     t.bigint "created_by"
     t.bigint "updated_by"
   end
 
   create_table "ad_integrations", force: :cascade do |t|
-    t.bigint "account_id"
     t.bigint "site_id"
     t.bigint "stream_id"
     t.bigint "page_id"
@@ -79,7 +60,6 @@ ActiveRecord::Schema.define(version: 20180619092410) do
     t.bigint "site_id"
     t.bigint "created_by"
     t.bigint "updated_by"
-    t.bigint "account_id"
     t.index ["user_id"], name: "idx_80727_index_authentications_on_user_id"
   end
 
@@ -121,7 +101,6 @@ ActiveRecord::Schema.define(version: 20180619092410) do
   end
 
   create_table "folders", force: :cascade do |t|
-    t.bigint "account_id"
     t.string "name", limit: 255
     t.string "slug", limit: 255
     t.bigint "created_by"
@@ -165,13 +144,11 @@ ActiveRecord::Schema.define(version: 20180619092410) do
     t.string "mode", limit: 255
     t.boolean "is_social_image"
     t.boolean "is_smart_cropped", default: false
-    t.bigint "account_id"
     t.bigint "site_id"
     t.index ["site_id"], name: "index_image_variations_on_site_id"
   end
 
   create_table "images", force: :cascade do |t|
-    t.bigint "account_id"
     t.string "name", limit: 255
     t.text "description"
     t.string "s3_identifier", limit: 255
@@ -203,13 +180,11 @@ ActiveRecord::Schema.define(version: 20180619092410) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "name_of_stream", limit: 255
-    t.bigint "account_id"
     t.bigint "site_id"
     t.bigint "folder_id"
   end
 
   create_table "pages", force: :cascade do |t|
-    t.bigint "account_id"
     t.bigint "site_id"
     t.bigint "folder_id"
     t.string "headline", limit: 255
@@ -342,7 +317,6 @@ ActiveRecord::Schema.define(version: 20180619092410) do
     t.string "slug", limit: 255
     t.string "english_name", limit: 255
     t.text "vertical_page_url"
-    t.bigint "account_id"
     t.text "description"
     t.text "keywords"
     t.boolean "show_by_publisher_in_header", default: true
@@ -376,12 +350,10 @@ ActiveRecord::Schema.define(version: 20180619092410) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "sort_order"
-    t.bigint "account_id"
     t.string "menu", limit: 255
   end
 
   create_table "sites", force: :cascade do |t|
-    t.bigint "account_id"
     t.string "name", limit: 255
     t.string "domain", limit: 255
     t.datetime "created_at", null: false
@@ -445,7 +417,6 @@ ActiveRecord::Schema.define(version: 20180619092410) do
     t.string "slug", limit: 255
     t.text "description"
     t.bigint "folder_id"
-    t.bigint "account_id"
     t.string "datacast_identifier", limit: 255
     t.bigint "created_by"
     t.bigint "updated_by"
@@ -490,7 +461,6 @@ ActiveRecord::Schema.define(version: 20180619092410) do
   end
 
   create_table "template_cards", force: :cascade do |t|
-    t.bigint "account_id"
     t.string "name", limit: 255
     t.string "elevator_pitch", limit: 255
     t.text "description"
@@ -563,7 +533,6 @@ ActiveRecord::Schema.define(version: 20180619092410) do
     t.bigint "updated_by"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "account_id"
   end
 
   create_table "uploads", force: :cascade do |t|
@@ -571,7 +540,6 @@ ActiveRecord::Schema.define(version: 20180619092410) do
     t.decimal "template_card_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.decimal "account_id"
     t.decimal "folder_id"
     t.bigint "created_by"
     t.bigint "updated_by"
@@ -581,7 +549,6 @@ ActiveRecord::Schema.define(version: 20180619092410) do
     t.bigint "total_rows"
     t.bigint "rows_uploaded"
     t.bigint "site_id"
-    t.index ["account_id"], name: "idx_80963_index_uploads_on_account_id"
     t.index ["folder_id"], name: "idx_80963_index_uploads_on_folder_id"
     t.index ["template_card_id"], name: "idx_80963_index_uploads_on_template_card_id"
   end
@@ -646,7 +613,6 @@ ActiveRecord::Schema.define(version: 20180619092410) do
   end
 
   create_table "view_casts", force: :cascade do |t|
-    t.bigint "account_id"
     t.string "datacast_identifier", limit: 255
     t.bigint "template_card_id"
     t.bigint "template_datum_id"
