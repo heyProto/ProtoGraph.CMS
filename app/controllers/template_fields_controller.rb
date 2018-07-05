@@ -1,13 +1,11 @@
 class TemplateFieldsController < ApplicationController
 
   @@data_types = [["Short text (Maximum 255 characters)", "short_text"], ["Long text (Maximum 50k characters)", "long_text"], ["Integer", "integer"], ["Decimal", "decimal"], ["Yes/No", "boolean"], ["Temporal(Date, Time)", "temporal"]]
-  @@formats = [["URL", "url"], ["Colour", "color"], ["Username", "username"], ["Email", "email"], ["Password", "password"], ["IP Address Version 4", "ipv4"], ["IP Address Version 6", "ipv6"], ["Universal Unique Identifier(UUID)", "uuid"], ["Yes/No", "yes/no"], ["Y/N", "y/n"], ["True/False", "true/false"], ["1/0", "1/0"]]
 
   def new
     @template_datum = TemplateDatum.friendly.find(params[:template_datum_id])
     @template_field = TemplateField.new
     @data_types = @@data_types
-    @formats = @@formats
   end
 
   def create
@@ -23,7 +21,6 @@ class TemplateFieldsController < ApplicationController
     @template_field = TemplateField.friendly.find(params[:id])
     @template_datum = @template_field.template_datum
     @data_types = @@data_types
-    @formats = @@formats
   end
 
   def update

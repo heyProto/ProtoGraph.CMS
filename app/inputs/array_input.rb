@@ -1,5 +1,5 @@
 class ArrayInput < SimpleForm::Inputs::StringInput
-    def input
+    def input(wrapper_options)
         input_html_options[:type] ||= input_type
         input_html_options[:class] = "form-control"
         existing_values = Array(object.public_send(attribute_name)).map do |array_el|
