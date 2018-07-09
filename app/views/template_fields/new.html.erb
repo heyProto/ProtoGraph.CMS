@@ -1,6 +1,5 @@
-<%= render partial: "template_data/header" %>
 <div style="margin-left: auto; margin-right: auto; width: 540px; font-size: 12px;">
-  <%= simple_form_for([@template_datum, @template_field]) do |f| %>
+  <%= simple_form_for([@site, @template_datum, @template_field]) do |f| %>
     <%= f.hidden_field :created_by, value: current_user.id %>
     <%= f.hidden_field :template_datum_id, value: @template_datum.id %>
     <%= f.input :key_name, required: true %>

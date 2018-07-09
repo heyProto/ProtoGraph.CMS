@@ -30,7 +30,9 @@
 #  updated_by           :integer
 #  created_at           :datetime         not null
 #  updated_at           :datetime         not null
-#
+
+require 'json'
+require 'open-uri'
 
 class TemplateField < ApplicationRecord
   #CONSTANTS
@@ -47,6 +49,7 @@ class TemplateField < ApplicationRecord
   #VALIDATIONS
   #CALLBACKS
   before_save :before_save_set
+  after_save :after_save_set
 
   #SCOPE
   #OTHER
@@ -81,5 +84,11 @@ class TemplateField < ApplicationRecord
       self.ex_min = nil
       self.ex_max = nil
     end
+  end
+
+  def after_save_set
+    template_datum = self.template_datum
+    template_datum.upload_to_s3
+    puts "after_save_set end"
   end
 end
