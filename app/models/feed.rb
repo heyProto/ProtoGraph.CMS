@@ -2,12 +2,12 @@
 #
 # Table name: feeds
 #
-#  id                           :bigint(8)        not null, primary key
-#  ref_category_id              :bigint(8)
+#  id                           :integer          not null, primary key
+#  ref_category_id              :integer
 #  rss                          :text
 #  last_refreshed_at            :datetime
-#  created_by                   :bigint(8)
-#  updated_by                   :bigint(8)
+#  created_by                   :integer
+#  updated_by                   :integer
 #  created_at                   :datetime         not null
 #  updated_at                   :datetime         not null
 #  next_refreshed_scheduled_for :datetime

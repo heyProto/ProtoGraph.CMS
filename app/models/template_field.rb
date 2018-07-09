@@ -2,9 +2,9 @@
 #
 # Table name: template_fields
 #
-#  id                   :bigint(8)        not null, primary key
-#  site_id              :bigint(8)
-#  template_datum_id    :bigint(8)
+#  id                   :integer          not null, primary key
+#  site_id              :integer
+#  template_datum_id    :integer
 #  key_name             :string
 #  name                 :string
 #  data_type            :string

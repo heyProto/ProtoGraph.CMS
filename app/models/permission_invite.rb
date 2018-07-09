@@ -2,12 +2,12 @@
 #
 # Table name: permission_invites
 #
-#  id                :bigint(8)        not null, primary key
-#  permissible_id    :bigint(8)
+#  id                :integer          not null, primary key
+#  permissible_id    :integer
 #  email             :string(255)
 #  ref_role_slug     :string(255)
-#  created_by        :bigint(8)
-#  updated_by        :bigint(8)
+#  created_by        :integer
+#  updated_by        :integer
 #  created_at        :datetime         not null
 #  updated_at        :datetime         not null
 #  permissible_type  :string(255)

@@ -2,9 +2,9 @@
 #
 # Table name: pages
 #
-#  id                               :bigint(8)        not null, primary key
-#  site_id                          :bigint(8)
-#  folder_id                        :bigint(8)
+#  id                               :integer          not null, primary key
+#  site_id                          :integer
+#  folder_id                        :integer
 #  headline                         :string(255)
 #  meta_keywords                    :string(255)
 #  meta_description                 :text
@@ -20,40 +20,40 @@
 #  has_video                        :boolean
 #  published_at                     :datetime
 #  url                              :text
-#  ref_category_series_id           :bigint(8)
-#  ref_category_intersection_id     :bigint(8)
-#  ref_category_sub_intersection_id :bigint(8)
-#  view_cast_id                     :bigint(8)
+#  ref_category_series_id           :integer
+#  ref_category_intersection_id     :integer
+#  ref_category_sub_intersection_id :integer
+#  view_cast_id                     :integer
 #  page_object_url                  :text
-#  created_by                       :bigint(8)
-#  updated_by                       :bigint(8)
+#  created_by                       :integer
+#  updated_by                       :integer
 #  created_at                       :datetime         not null
 #  updated_at                       :datetime         not null
 #  datacast_identifier              :string(255)
 #  is_open                          :boolean
-#  template_page_id                 :bigint(8)
+#  template_page_id                 :integer
 #  slug                             :string(255)
 #  english_headline                 :string(255)
 #  status                           :string(255)
-#  cover_image_id                   :bigint(8)
-#  cover_image_id_7_column          :bigint(8)
+#  cover_image_id                   :integer
+#  cover_image_id_7_column          :integer
 #  due                              :date
 #  description                      :text
-#  cover_image_id_4_column          :bigint(8)
-#  cover_image_id_3_column          :bigint(8)
-#  cover_image_id_2_column          :bigint(8)
+#  cover_image_id_4_column          :integer
+#  cover_image_id_3_column          :integer
+#  cover_image_id_2_column          :integer
 #  cover_image_credit               :string(255)
 #  share_text_facebook              :text
 #  share_text_twitter               :text
 #  one_line_concept                 :string(255)
 #  content                          :text
-#  byline_id                        :bigint(8)
+#  byline_id                        :integer
 #  reported_from_country            :string(255)
 #  reported_from_state              :string(255)
 #  reported_from_district           :string(255)
 #  reported_from_city               :string(255)
 #  hide_byline                      :boolean          default(FALSE)
-#  landing_card_id                  :bigint(8)
+#  landing_card_id                  :integer
 #
 
 class Page < ApplicationRecord

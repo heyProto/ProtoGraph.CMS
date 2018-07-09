@@ -2,19 +2,19 @@
 #
 # Table name: template_data
 #
-#  id            :bigint(8)        not null, primary key
+#  id            :integer          not null, primary key
 #  name          :string(255)
 #  global_slug   :string(255)
 #  slug          :string(255)
 #  version       :string(255)
 #  change_log    :text
-#  publish_count :bigint(8)
+#  publish_count :integer
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
-#  status        :string(255)
 #  s3_identifier :string(255)
-#  created_by    :bigint(8)
-#  updated_by    :bigint(8)
+#  status        :string(255)
+#  created_by    :integer
+#  updated_by    :integer
 #
 
 #TODO AMIT - Handle created_by, updated_by - RP added retrospectively. Need migration of old rows and BAU handling.
