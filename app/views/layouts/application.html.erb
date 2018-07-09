@@ -39,9 +39,10 @@
           <ul class="navbar-nav">
             <% if user_signed_in? %>
                 <% if @site.present? %>
+                    <li class="nav-item"><%= link_to "Plan", intersections_site_path(@site),"data-turbolinks" => "false", class: "nav-link" %></li>
                     <li class="nav-item dropdown">
                       <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Landings
+                        Layout
                       </a>
                       <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <% @all_verticals.each do |ref_category| %>            
@@ -63,6 +64,9 @@
                         <%= link_to "Images", site_images_path(@site), "data-turbolinks"=> false, class: "dropdown-item" %> 
                       </div>
                     </li>
+                    <% if current_user.is_admin_from_pykih %>
+                        <li class="nav-item"><%=link_to "App Store", site_template_data_path(@site), "data-turbolinks" => "false", class: "nav-link" %></li>
+                    <% end %>
                     <li class="nav-item"><%= link_to "Adminland", edit_site_path(@site), class: "nav-link"%></li>
                 <% end %>
                 <li class="nav-item dropdown">
