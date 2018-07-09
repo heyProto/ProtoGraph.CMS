@@ -77,11 +77,7 @@ Rails.application.routes.draw do
     get "remove_favicon", "remove_logo", "integrations", on: :member
     resources :admins, only: [] do
       get "access_security", on: :collection
-    end
-    resources :permissions do
-      put "change_role", on: :member
-    end
-    resources :permission_invites
+    end  
     resources :ref_categories do
       get 'landing_card', on: :member
       resources :feeds do
