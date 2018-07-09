@@ -34,8 +34,6 @@ class ImagesController < ApplicationController
   def show
     @new_image = Image.new
     @image_variation = ImageVariation.new
-    @activities = @image.activities.order("updated_at DESC").limit(30)
-    
   end
 
   private

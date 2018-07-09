@@ -36,15 +36,12 @@ class User < ApplicationRecord
     #CUSTOM TABLES
     #GEMS
     devise :database_authenticatable, :registerable, :confirmable,
-         :recoverable, :rememberable, :trackable, :validatable,
-         :omniauthable, omniauth_providers: [:twitter]
+         :recoverable, :rememberable, :trackable, :validatable
     #CONCERNS
     #ASSOCIATIONS
     has_many :permissions, ->{where(status: "Active")}
-    
     has_many :uploads
     has_many :user_emails
-    has_many :authentications
 
     #ACCESSORS
     attr_accessor :username, :domain
@@ -89,17 +86,6 @@ class User < ApplicationRecord
                                   updated_by: self.id, ref_role_slug: r,is_hidden: is_hidden, name: self.name, bio: self.bio, meta_description: self.bio)
         end
         p
-    end
-
-    def apply_omniauth(auth)
-      self.authentications.build(provider: auth['provider'], uid: auth['uid'],
-                                 access_token: auth['credentials'].token,
-                                 access_token_secret: auth['credentials'].secret,
-                                 email: auth.info.email)
-    end
-
-    def password_required?
-      authentications.empty? && super
     end
 
     def online?

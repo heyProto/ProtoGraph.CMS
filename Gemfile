@@ -32,10 +32,6 @@ gem 'ransack'
 
 #AUTHENTICATION
 gem 'devise'
-gem 'omniauth'
-gem 'omniauth-instagram'
-gem 'omniauth-facebook'
-gem 'omniauth-twitter'
 gem 'activerecord-session_store'
 
 

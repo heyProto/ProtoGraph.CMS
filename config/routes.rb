@@ -7,8 +7,7 @@ Rails.application.routes.draw do
                registrations: 'user/registrations',
                sessions: 'user/sessions',
                passwords: 'user/passwords',
-               confirmations: 'user/confirmations',
-               omniauth_callbacks: "user/omniauth_callbacks"
+               confirmations: 'user/confirmations'
              } do
     get 'sign_out', to: 'devise/sessions#destroy'
   end
@@ -25,10 +24,6 @@ Rails.application.routes.draw do
   resources :ref_link_sources do
     post "publish", on: :collection
   end
-
-  get "/auth/:provider", to: lambda{ |env| [404, {}, ["Not Found"]] }, as: :oauth
-  get '/auth/:provider/callback', to: 'authentications#create'
-  get '/auth/failure', to: 'authentications#failure'
 
   namespace :api do
     namespace :v1 do
@@ -114,14 +109,11 @@ Rails.application.routes.draw do
       end
     end
     resources :page_streams, only: [:update]
-    resources :authentications
-
     resources :images, only: [:index, :create, :show]
     resources :image_variations, only: [:create, :show] do
       post :download, on: :member
     end
   end
-
-  get '/auth/:provider/callback', to: 'authentications#create'
+  
   root 'static_pages#index'
 end

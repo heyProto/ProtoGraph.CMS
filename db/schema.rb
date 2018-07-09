@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180709191356) do
+ActiveRecord::Schema.define(version: 20180709192141) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -29,25 +29,6 @@ ActiveRecord::Schema.define(version: 20180709191356) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "page_stream_id"
-  end
-
-  create_table "authentications", force: :cascade do |t|
-    t.string "provider", limit: 255
-    t.string "uid", limit: 255
-    t.text "info"
-    t.string "name", limit: 255
-    t.string "email", limit: 255
-    t.string "access_token", limit: 255
-    t.string "access_token_secret", limit: 255
-    t.string "refresh_token", limit: 255
-    t.datetime "token_expires_at"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.bigint "user_id"
-    t.bigint "site_id"
-    t.bigint "created_by"
-    t.bigint "updated_by"
-    t.index ["user_id"], name: "idx_72534_index_authentications_on_user_id"
   end
 
   create_table "colour_swatches", force: :cascade do |t|
