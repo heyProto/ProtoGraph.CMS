@@ -22,15 +22,6 @@ class User::RegistrationsController < Devise::RegistrationsController
       		p.destroy
       	end
       end
-      if resource.email.present?
-        d = resource.email.split("@").last
-        if d.present?
-            sites = Site.where(email_domain: d, sign_up_mode: "Any email from your domain")
-            sites.each do |a|
-              per = Permission.create(user_id: resource.id, permissible_type: "Site", permissible_id: a.id, created_by: resource.id, updated_by: resource.id, ref_role_slug: a.default_role || 'writer')
-            end
-        end
-      end
     end
   end
 

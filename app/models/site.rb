@@ -53,7 +53,6 @@
 
 class Site < ApplicationRecord
     #CONSTANTS
-    SIGN_UP_MODES = ["Any email from your domain", "Invitation only"]
     #CUSTOM TABLES
     #GEMS
     before_validation :set_english_name
@@ -258,7 +257,6 @@ class Site < ApplicationRecord
         self.client_token = ENV['AWS_ACCESS_KEY_ID']
         self.client_secret = ENV['AWS_SECRET_ACCESS_KEY']
         self.story_card_style = 'Clear: Color'
-        self.default_role = 'writer'
         self.primary_language = "English" if self.primary_language.nil?
         self.header_background_color = '#FFFFFF'
         self.header_positioning = "left"

@@ -7,12 +7,6 @@
 <div class="row">
     <div class="col-sm-13">
         <div style="width: 100%;">
-            <ul class="nav nav-tabs" style="font-size: 12px;">
-              <li class="nav-item"><%= link_to "Site Team", site_permission_invites_path(@site), class: (controller_name == "permission_invites" and action_name == "index") ? "nav-link active" : "nav-link" %>
-              <li class="nav-item"><%= link_to "Security Settings <span class='badge badge-warning'>Pro</span>".html_safe, access_security_site_admins_path(@site), class: (controller_name == "admins" and action_name == "access_security") ? "nav-link active" : "nav-link" %>
-            </ul>
-            <br/>
-            <br/>
             <% if @permissions.first.blank? %>
                 <p class="hint">No team members invited yet.</p>
             <% else %>

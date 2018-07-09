@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180709142630) do
+ActiveRecord::Schema.define(version: 20180709184735) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -380,10 +380,7 @@ ActiveRecord::Schema.define(version: 20180709142630) do
     t.bigint "favicon_id"
     t.bigint "logo_image_id"
     t.string "g_a_tracking_id", limit: 255
-    t.string "sign_up_mode", limit: 255
-    t.string "default_role", limit: 255
     t.string "story_card_style", limit: 255
-    t.string "email_domain", limit: 255
     t.string "header_background_color", limit: 255
     t.text "header_url"
     t.string "header_positioning", limit: 255

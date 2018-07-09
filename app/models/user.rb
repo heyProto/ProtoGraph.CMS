@@ -144,8 +144,7 @@ class User < ApplicationRecord
 
     def email_invited
         d = self.email.split("@").last
-        sites = Site.where(email_domain: d, sign_up_mode: "Any email from your domain")
-        if sites.count == 0 and PermissionInvite.where(email: self.email).count == 0
+        if PermissionInvite.where(email: self.email).count == 0
             errors.add(:email, "Not invited.")
         end
     end
@@ -154,16 +153,7 @@ class User < ApplicationRecord
     class << self
         def check_for_access(email)
             is_present = PermissionInvite.where(email: email).first.present?
-            if email.present?
-                d = email.split("@").last
-                if d.present?
-                    a = Site.where(email_domain: d, sign_up_mode: "Any email from your domain").first
-                    if a.present?
-                       belongs_to_company = true
-                    end
-                end
-            end
-            return (is_present or belongs_to_company)
+            return is_present
         end
     end
     #PRIVATE
