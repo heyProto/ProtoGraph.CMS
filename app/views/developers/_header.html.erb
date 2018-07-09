@@ -16,5 +16,11 @@
     <div class="<%= (controller_name == 'template_data' or controller_name == 'template_fields') ? "single-tab active-tab" : "single-tab" %>">
         <%= link_to "Content Model", site_template_data_path(@site),"data-turbolinks" => "false" %>
     </div>
+    <div class="<%= (controller_name == 'template_cards') ? "single-tab active-tab" : "single-tab" %>">
+        <%= link_to "Card Apps", site_template_cards_path(@site),"data-turbolinks" => "false" %>
+    </div>
+    <div class="<%= (controller_name == 'template_pages') ? "single-tab active-tab" : "single-tab" %>">
+        <%= link_to "Page Apps", site_template_pages_path(@site),"data-turbolinks" => "false" %>
+    </div>
 </div>
 <br/>

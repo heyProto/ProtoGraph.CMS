@@ -66,6 +66,8 @@ Rails.application.routes.draw do
     resources :template_data, only: [:index, :show] do
       resources :template_fields
     end
+    resources :template_cards
+    resources :template_pages
     resources :permissions do
       get "change_owner_role", on: :member
       put "change_role", on: :member

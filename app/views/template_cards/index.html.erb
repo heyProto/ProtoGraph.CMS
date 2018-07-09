@@ -1,0 +1,23 @@
+<%= render partial: "developers/header" %>
+<div class="container">
+    <table class="table">
+        <thead>
+            <th>Name</th>
+            <th>Updated</th>
+            <th>By</th>
+            <th>Content Cards</th>
+            <th>Associated Content Type</th>
+        </thead>
+        <tbody>
+            <% @template_cards.each do |template_card| %>
+              <tr>
+                  <td><%= link_to template_card.name, site_template_card_path(@site, template_card) %></td>
+                  <td><%= time_ago_in_words template_card.updated_at %></td>
+                  <td><%= template_card.updator.name if template_card.updator.present? %></td>
+                  <td><%= template_card.view_casts.count %></td>
+                  <td><%= link_to template_card.template_datum.name, site_template_datum_path(@site, template_card.template_datum)%></td>
+              </tr>
+            <% end %>
+        </tbody>
+    </table>
+</div>

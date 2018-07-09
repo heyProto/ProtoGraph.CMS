@@ -1,0 +1,21 @@
+<%= render partial: "developers/header" %>
+<div class="container">
+    <table class="table">
+        <thead>
+            <th>Name</th>
+            <th>Updated</th>
+            <th>By</th>
+            <th>Content Pages</th>
+        </thead>
+        <tbody>
+            <% @template_pages.each do |template_page| %>
+              <tr>
+                  <td><%= link_to template_page.name, site_template_page_path(@site, template_page) %></td>
+                  <td><%= time_ago_in_words template_page.updated_at %></td>
+                  <td><%= template_page.updator.name if template_page.updator.present? %></td>
+                  <td><%= template_page.pages.count %></td>
+              </tr>
+            <% end %>
+        </tbody>
+    </table>
+</div>
