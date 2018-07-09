@@ -2,18 +2,27 @@
 <h1><%= @template_datum.name %></h1>
 <br/>
 <table class="table ">
-<thead>
-  <tr>
-    <th>Name</th>
-    <th>Type</th>
-    <th></th>
-  </tr>
-</thead>
 <tbody>
 <% @template_fields.each do |template_field| %>
   <tr>
 
     <td>
+        <% if template_field.data_type == "short_text" %>  
+            <%= image_tag "svg/short_text.svg", width: "24px" %>
+        <% elsif template_field.data_type == "long_text" %>
+            <%= image_tag "svg/long_text.svg", width: "24px" %>
+        <% elsif template_field.data_type == "integer" %>
+            <%= image_tag "svg/number.svg", width: "24px" %>
+        <% elsif template_field.data_type == "decimal" %>
+            <%= image_tag "svg/number.svg", width: "24px" %>
+        <% elsif template_field.data_type == "boolean" %>
+            <%= image_tag "svg/boolean.svg", width: "24px" %>
+        <% elsif template_field.data_type == "temporal" %>
+            <%= image_tag "svg/datetime.svg", width: "24px" %>
+        <% else %>
+            <%= image_tag "object.svg", width: "24px" %>
+        <% end %>
+        &nbsp;&nbsp;&nbsp;&nbsp;
         <%= link_to edit_site_template_datum_template_field_path(@site, @template_datum, template_field) do %>
             <% if template_field.is_required %>
                 *
