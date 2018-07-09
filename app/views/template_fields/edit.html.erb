@@ -116,10 +116,10 @@
       }
     }
 
-    update_template_field_form($(".template_field_data_type > select").val());
-    update_dropdown_format($(".template_field_data_type > select").val());
+    update_dropdown_format("<%= @template_field.data_type %>");
+    update_template_field_form("<%= @template_field.data_type %>");
 
-    // show and hide required fields of form based on data_type
+    // update dropdown format
     $(".template_field_data_type > select").change(function () {
       var data_type = $(this).val();
       update_template_field_form(data_type);
@@ -130,12 +130,12 @@
     var inc_list_field = '<input class="text optional form-control" name="template_field[enum][]" id="template_field_" type="text">';
     $("#new-inc-list-field").click(function () {
       $("input[name='template_field[inclusion_list][]']:last").after(inc_list_field);
-    })
+    });
 
     var inc_list_names_field = '<input class="text optional form-control" name="template_field[enum_names][]" id="template_field_" type="text">';
     $("#new-inc-list-names-field").click(function () {
       $("input[name='template_field[inclusion_list_names][]']:last").after(inc_list_names_field);
-    })
+    });
   });
 </script>
 

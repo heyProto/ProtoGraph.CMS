@@ -21,6 +21,7 @@
 </div>
 <script>
   $(document).ready(function () {
+
     var formats = {
       "short_text": {
         "": "",
@@ -82,6 +83,7 @@
 
     function update_dropdown_format(data_type) {
       var format = formats[data_type];
+      console.log("format", format);
       $("#template_field_format").empty();
       var tf_format = "<%= @template_field.format %>";
       console.log("tf_format", tf_format);
@@ -93,16 +95,14 @@
         }
       }
     }
-
     update_template_field_form($(".template_field_data_type > select").val());
     update_dropdown_format($(".template_field_data_type > select").val());
 
-    // show and hide required fields of form based on data_type
+    // update dropdown format
     $(".template_field_data_type > select").change(function () {
       var data_type = $(this).val();
       update_template_field_form(data_type);
       update_dropdown_format(data_type);
     });
-
   });
 </script>
