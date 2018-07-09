@@ -23,17 +23,20 @@ class TemplateDatum < ApplicationRecord
 
     #CONSTANTS
     CDN_BASE_URL = "#{ENV['AWS_S3_ENDPOINT']}"
+    
     #CUSTOM TABLES
     #GEMS
     require 'version'
     extend FriendlyId
     friendly_id :slug_candidates, use: :slugged
+    
     #CONCERNS
     include AssociableBy
     include Versionable
     #ASSOCIATIONS
     has_many :template_cards
     has_many :template_fields
+    has_many :view_casts, through: :template_cards
 
     #ACCESSORS
     #VALIDATIONS

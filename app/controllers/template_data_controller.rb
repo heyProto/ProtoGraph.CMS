@@ -2,7 +2,7 @@ require 'json'
 
 class TemplateDataController < ApplicationController
   def index
-    @template_datums = TemplateDatum.all
+    @template_datums = TemplateDatum.all.order("updated_at desc")
   end
 
   def show

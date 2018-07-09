@@ -1,5 +1,48 @@
-<%= render partial: "template_data/header" %>
-<%= render "template_fields/template_fields" %>
+<%= render partial: "developers/header" %>
+<h1><%= @template_datum.name %></h1>
+<br/>
+<table class="table ">
+<thead>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th></th>
+  </tr>
+</thead>
+<tbody>
+<% @template_fields.each do |template_field| %>
+  <tr>
+
+    <td>
+        <%= link_to edit_site_template_datum_template_field_path(@site, @template_datum, template_field) do %>
+            <% if template_field.is_required %>
+                *
+            <% end %>
+            <%= template_field.name %>
+        <% end %>
+        <span class="gray small">(<%= template_field.key_name %>)</span>
+    </td>
+    <td><%= %w(short_text long_text).include?(template_field.data_type) ? (template_field.data_type == "short_text" ? "Short Text" : "Long Text") : template_field.data_type.capitalize %></td>
+    
+    <!--<td><%= template_field.inclusion_list.present? ? template_field.inclusion_list.join(",") : "" %></td>
+    <td><%= template_field.inclusion_list_names.join(",") if template_field.inclusion_list_names.present? %></td>
+    <td><%= %w(integer decimal).include?(template_field.data_type) ? template_field.min : "NA" %></td>
+    <td><%= %w(integer decimal).include?(template_field.data_type) ? template_field.max : "NA" %></td>
+    <td><%= %w(integer decimal).include?(template_field.data_type) ? template_field.multiple_of : "NA" %></td>
+    <td><%= %w(integer decimal).include?(template_field.data_type) ? (template_field.ex_min ? "Yes" : "No") : "NA" %></td>
+    <td><%= %w(integer decimal).include?(template_field.data_type) ? (template_field.ex_max ? "Yes" : "No") : "NA" %></td>
+
+    <td><%= %w(short_text temporal).include?(template_field.data_type) ? template_field.format : "NA" %></td>
+    <td><%= %w(short_text long_text temporal).include?(template_field.data_type) ? template_field.format_regex : "NA" %></td>
+    <td><%= %w(short_text long_text temporal).include?(template_field.data_type) ? template_field.length_minimum : "NA" %></td>
+    <td><%= %w(short_text long_text temporal).include?(template_field.data_type) ? template_field.length_maximum : "NA" %></td>-->
+
+    <td><%= link_to "X", site_template_datum_template_field_path(@site, @template_datum, template_field), method: :delete %></td>
+  </tr>
+ <% end %>
+</tbody>
+</table>
+
 <div style="margin-left: auto; margin-right: auto; width: 540px; font-size: 12px;" class="json-schema-container">
   <%= image_tag("glyphicons-511-duplicate.png", class: "copy-to-clipboard") %>
   <pre id="json-schema"><%= @json_schema %></pre>

@@ -1,6 +1,20 @@
+<div class="jumbotroz">
+  <div class="row">
+    <h1>
+      App Store
+    </h1>
+    <% if controller_name == "template_data" and action_name == "show" %>
+      <nav class="nav" style="position: absolute; top: 10px;right: 30px; float: right; margin-left: auto;">
+        <%= link_to '+ Add a field',  new_site_template_datum_template_field_path(@site, @template_datum), data: {turbolinks: false}, class: "btn btn-dark btn-sm", style: "padding-bottom: 5px; height: 30px;" %>
+      </nav>
+    <% end %>
+  </div>
+</div>
+<br/>
+<br/>
 <div class="protograph-page-tabs">
-    <div class="<%= !(action_name == 'edit' and controller_name == 'sites') ? "single-tab" : "single-tab active-tab" %>">
-        <%= link_to "Content Model", nil,"data-turbolinks" => "false" %>
+    <div class="<%= (controller_name == 'template_data' or controller_name == 'template_fields') ? "single-tab active-tab" : "single-tab" %>">
+        <%= link_to "Content Model", site_template_data_path(@site),"data-turbolinks" => "false" %>
     </div>
 </div>
 <br/>
