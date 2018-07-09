@@ -63,6 +63,11 @@ Rails.application.routes.draw do
     end
   end
   resources :sites do
+    resources :developers do
+      resources :template_data, only: [:index, :show] do
+        resources :template_fields
+      end
+    end
     resources :permissions do
       get "change_owner_role", on: :member
       put "change_role", on: :member
@@ -127,9 +132,6 @@ Rails.application.routes.draw do
     resources :image_variations, only: [:create, :show] do
       post :download, on: :member
     end
-  end
-  resources :template_data, only: [:index, :show] do
-    resources :template_fields
   end
 
   get '/auth/:provider/callback', to: 'authentications#create'
