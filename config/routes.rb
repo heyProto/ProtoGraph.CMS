@@ -30,7 +30,6 @@ Rails.application.routes.draw do
   get "/auth/:provider", to: lambda{ |env| [404, {}, ["Not Found"]] }, as: :oauth
   get '/auth/:provider/callback', to: 'authentications#create'
   get '/auth/failure', to: 'authentications#failure'
-  get "/planned-homepage", to: "static_pages#index2"
 
   namespace :api do
     namespace :v1 do
@@ -73,9 +72,6 @@ Rails.application.routes.draw do
       put "change_role", on: :member
     end
     resources :permission_invites
-    resources :admins, only: [] do
-      get "site_owners", on: :collection
-    end
     get "remove_favicon", "remove_logo", "integrations", on: :member
     resources :ref_categories do
       get 'landing_card', on: :member
