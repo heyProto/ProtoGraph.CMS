@@ -82,6 +82,7 @@ class Site < ApplicationRecord
     has_many :uploads, dependent: :destroy
     has_many :images, dependent: :destroy
     has_many :streams, dependent: :destroy
+    has_many :template_data
 
     #ACCESSORS
     accepts_nested_attributes_for :logo_image, :favicon
@@ -116,10 +117,6 @@ class Site < ApplicationRecord
         else
             TemplateCard.where("site_id = ? OR is_public = true", self.id)
         end
-    end
-
-    def template_data
-        TemplateDatum.where("site_id = ? OR is_public = true", self.id)
     end
 
     def is_english
