@@ -10,23 +10,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180709184735) do
+ActiveRecord::Schema.define(version: 20180709191356) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
-
-  create_table "activities", force: :cascade do |t|
-    t.bigint "user_id"
-    t.string "action", limit: 255
-    t.bigint "trackable_id"
-    t.string "trackable_type", limit: 255
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.bigint "folder_id"
-    t.bigint "site_id"
-    t.bigint "created_by"
-    t.bigint "updated_by"
-  end
 
   create_table "ad_integrations", force: :cascade do |t|
     t.bigint "site_id"

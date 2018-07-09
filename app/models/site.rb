@@ -64,7 +64,7 @@ class Site < ApplicationRecord
     #ASSOCIATIONS
     # has_many :folders
     # has_many :streams
-    # has_many :activities
+    # 
     has_many :ref_categories
     has_many :verticals, ->{where(genre: 'series')}, class_name: "RefCategory"
     # has_many :view_casts
@@ -80,7 +80,6 @@ class Site < ApplicationRecord
     has_many :view_casts, dependent: :destroy
     has_many :folders, dependent: :destroy
     has_many :uploads, dependent: :destroy
-    has_many :activities, dependent: :destroy
     has_many :images, dependent: :destroy
     has_many :streams, dependent: :destroy
 

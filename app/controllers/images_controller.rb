@@ -21,7 +21,6 @@ class ImagesController < ApplicationController
     respond_to do |format|
       if @image.save!
         'image saved'
-        track_activity(@image)
         format.json { render json: {success: true, data: @image}, status: 200 }
         format.html { redirect_to site_images_path(@site), notice: 'Image will be added shortly.' }
       else

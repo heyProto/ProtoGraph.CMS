@@ -20,7 +20,6 @@ class Api::V1::DatacastsController < ApiController
         payload["payload"] = datacast_params.to_json
         payload["source"]  = params[:source] || "form"
         if view_cast.save
-            track_activity(view_cast)
             payload["api_slug"] = view_cast.datacast_identifier
             payload["schema_url"] = view_cast.template_datum.schema_json
             payload["bucket_name"] = @site.cdn_bucket
@@ -64,7 +63,6 @@ class Api::V1::DatacastsController < ApiController
             updating_params[:updated_by] = @user.id
             updating_params[:is_invalidating] = true
             view_cast.update_attributes(updating_params)
-            track_activity(view_cast)
             Api::ProtoGraph::CloudFront.invalidate(@site, ["/#{view_cast.datacast_identifier}/*"], 1)
             render json: {view_cast: view_cast.as_json(methods: [:remote_urls]), redirect_path: site_folder_view_cast_url(@site, @folder, view_cast) }, status: 200
         end

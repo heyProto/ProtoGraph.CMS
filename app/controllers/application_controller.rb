@@ -66,16 +66,6 @@ class ApplicationController < ActionController::Base
     redirect_to root_url, notice: "Permission denied" and return
   end
 
-  def track_activity(trackable, action = params[:action])
-    if @site.present?
-      if @folder.present?
-          current_user.activities.create!(action: action, trackable: trackable, folder_id: @folder.id, site_id: @site.id)
-      else
-          current_user.activities.create!(action: action, trackable: trackable, site_id: @site.id)
-      end
-    end
-  end
-
   def user_activity
     current_user.try :touch
   end

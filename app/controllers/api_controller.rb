@@ -7,16 +7,6 @@ class ApiController < ApplicationController
         render_user_not_found if @user.nil?
     end
 
-    def track_activity(trackable, action = params[:action])
-    if @site.present?
-      if @folder.present?
-          @user.activities.create!(action: action, trackable: trackable, folder_id: @folder.id, site_id: @site.id)
-      else
-          @user.activities.create!(action: action, trackable: trackable, site_id: @site.id)
-      end
-    end
-  end
-
     def set_global_objects
         if @user.present?
             @on_site_page = (@site.present? and @site.id.present?)

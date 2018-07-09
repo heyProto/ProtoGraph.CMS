@@ -35,7 +35,6 @@ class FoldersController < ApplicationController
   def update
     folder_params[:updated_by] = current_user.id
     if @folder.update(folder_params)
-      track_activity(@folder)
       redirect_to site_folder_view_casts_path(@site, @folder), notice: t("us")
     else
       @verticals = @site.ref_categories.where(genre: 'series').pluck(:name, :id)
@@ -54,7 +53,6 @@ class FoldersController < ApplicationController
       @folder.updated_by = current_user.id
       @folder.collaborator_lists = ["#{current_user.id}"] if ["contributor", "writer"].include?(@permission_role.slug)
       if @folder.save
-        track_activity(@folder)
         redirect_to site_folder_view_casts_path(@site, @folder), notice: t("cs")
       else
         @is_admin = true

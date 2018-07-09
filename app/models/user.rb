@@ -41,7 +41,7 @@ class User < ApplicationRecord
     #CONCERNS
     #ASSOCIATIONS
     has_many :permissions, ->{where(status: "Active")}
-    has_many :activities
+    
     has_many :uploads
     has_many :user_emails
     has_many :authentications

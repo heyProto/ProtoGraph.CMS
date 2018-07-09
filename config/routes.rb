@@ -3,7 +3,6 @@ Rails.application.routes.draw do
   require 'sidekiq/web'
   mount Sidekiq::Web => '/sidekiq'
 
-  resources :activities
   devise_for :users, controllers: {
                registrations: 'user/registrations',
                sessions: 'user/sessions',
