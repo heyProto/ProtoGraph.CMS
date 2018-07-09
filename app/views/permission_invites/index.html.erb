@@ -1,114 +1,106 @@
 <h1>Adminland</h1>
-<div class="row">
-    <div class="col-sm-16">
-        <%= render partial: "admins/header" %>
-    </div>
-</div>
-<div class="row">
-    <div class="col-sm-13">
-        <div style="width: 100%;">
-            <% if @permissions.first.blank? %>
-                <p class="hint">No team members invited yet.</p>
-            <% else %>
-                <table class="table table-hover">
-                    <tbody>
-                        <% @permissions.each do |permission| %>
-                            <tr>
-                                <td style="width: 25px; border: 0px;"><img class="rounded" src=<%=avatar_url(permission.user.email)%>>
-                                </td>
-                                <td style="border: 0px;">
-                                    <%= permission.name %>
-                                    <% if permission.status == "Deactivated" %>
-                                        <i style="font-weight: 200; color: gray;">(Deactivated)</i>
-                                    <% end %>
-                                    <br/>
-                                    <div class="hint"><%= permission.user.email %></div>
-                                    <% if permission.user.current_sign_in_at.present? %>
-                                        <div class="hint">Last seen <%= time_ago_in_words(permission.user.current_sign_in_at) %> ago.</div>
-                                    <% end %>
-                                </td>
-                                <td style="border: 0px;" class="hint">
-                                    <%= permission.bio %>
-                                </td>
-                                <td style="border: 0px; width: 70px;">
-                                    <%= link_to "Edit", edit_site_permission_path(@site, permission) %>
-                                </td>
-                                <!--
-                                <td style="border: 0px; width: 100px;">
-                                    <% simple_form_for(permission, url: change_role_site_permission_path(@site, permission), class: "permission_forms", method: :put) do |f| %>
-                                        <%= f.hidden_field :updated_by, value: current_user.id %>
-                                        <%= f.hidden_field :redirect_url, value: site_permission_invites_path(@site) %>
-                                        <%= f.input :ref_role_slug, collection: @permission_roles, include_blank: false, label: false, input_html: {class: "permission_select"} %>
-                                    <% end %>
-                                </td>-->
-                                <td style="border: 0px;">
-                                    <% if current_user.id != permission.user_id and permission.status != "Deactivated" %>
-                                        <%= link_to "x", site_permission_path(@site,   permission, redirect_url: site_permission_invites_path(@site)), method: :delete, data: { confirm: 'Are you sure?' } %>
-                                    <% end %>
-                                </td>
-                            </tr>
-                        <% end %>
-                        <%= paginate @permissions, theme: 'twitter-bootstrap-4', pagination_class: "pagination-sm" %>
-                    </tbody>
-                </table>
-            <% end %>
-            <% if @pending_invites_count != 0 %>
-                <br/>
-                <h3>Pending Invites</h3>
-                <hr/>
-                <table class="table">
-                    <tbody>
-                        <% @permission_invites.each do |permission_invite| %>
-                            <tr>
-                                <td style="width: 25px; border: 0px;"><img class="rounded" src=<%=avatar_url(permission_invite.email)%>>
-                                </td>
-                                <td style="border: 0px;">
-                                    <%= permission_invite.email %>
-                                        <div class="hint">Invited by
-                                            <%= permission_invite.creator.name %>
-                                                <%= time_ago_in_words (permission_invite.created_at) %>.
-                                        </div>
-                                </td>
-                                <td style="border: 0px;">
-                                    <%= link_to "x", site_permission_invite_path(@site, permission_invite,redirect_url: site_permission_invites_path(@site)), method: :delete, data: { confirm: 'Are you sure?' } %>
-                                </td>
-                            </tr>
-                        <% end %>
-                    </tbody>
-                </table>
-            <% end %>
-        </div>
-    </div>
-	<div class="col-sm-3">
-        <%= simple_form_for [@site, @permission_invite] do |f| %>
-            <% if @permission_invite.errors.any? %>
-                <div id="error_explanation" class="ui error message">
-                    <div class="header">
-                        <%= pluralize(@permission_invite.errors.count, "error") %> prohibited this permission_invite from being saved:
-                    </div>
-                    <% @permission_invite.errors.full_messages.each do |message| %>
-                        <p>
-                            <%= message %>
-                        </p>
-                    <% end %>
+<%= render partial: "admins/header" %>
+<div style="margin-left: auto; margin-right: auto; width: 540px;">
+    <%= simple_form_for [@site, @permission_invite] do |f| %>
+        <% if @permission_invite.errors.any? %>
+            <div id="error_explanation" class="ui error message">
+                <div class="header">
+                    <%= pluralize(@permission_invite.errors.count, "error") %> prohibited this permission_invite from being saved:
                 </div>
-            <% end %>
-            <%= f.hidden_field :permissible_type, value: "Site" %>
-            <%= f.hidden_field :permissible_id, value: @site.id %>
-            <%= f.hidden_field :created_by, value: current_user.id %>
-            <%= f.hidden_field :updated_by, value: current_user.id %>
-            <%= f.input :name, required: true, autofocus: true %>
-            <%= f.input :email, as: :email, id: :permission_invite_email, required: true, hint: "Ensure this email really belongs to the author. If you use someone else's email ID, and that person is on ProtoTYPE then they will get access to the account." %>
-            <%= f.hidden_field :redirect_url, value: site_permission_invites_path(@site) %>
-            <%= f.hidden_field :ref_role_slug, value: "editor" %>
-            <!-- #collection: @permission_roles, include_blank: false, label: "Role"-->
-            <%= f.input :create_user, as: :boolean, label: "&nbsp; Go ahead and create user?".html_safe, hint: "We will assign a random secure password." %>
-            <%= f.input :do_not_email_user, as: :boolean, label: "&nbsp; Do not email this user".html_safe, hint: "Use this if writer will send you the article over email and you will file it." %>
-            <%= f.submit "Invite", class: "btn btn-sm btn-secondary" %>
+                <% @permission_invite.errors.full_messages.each do |message| %>
+                    <p>
+                        <%= message %>
+                    </p>
+                <% end %>
+            </div>
         <% end %>
-	</div>
+        <%= f.hidden_field :permissible_type, value: "Site" %>
+        <%= f.hidden_field :permissible_id, value: @site.id %>
+        <%= f.hidden_field :created_by, value: current_user.id %>
+        <%= f.hidden_field :updated_by, value: current_user.id %>
+        <%= f.input :name, required: true, autofocus: true %>
+        <%= f.input :email, as: :email, id: :permission_invite_email, required: true, hint: "Ensure this email really belongs to the author. If you use someone else's email ID, and that person is on ProtoTYPE then they will get access to the account." %>
+        <%= f.hidden_field :redirect_url, value: site_permission_invites_path(@site) %>
+        <%= f.hidden_field :ref_role_slug, value: "editor" %>
+        <!-- #collection: @permission_roles, include_blank: false, label: "Role"-->
+        <%= f.input :create_user, as: :boolean, label: "&nbsp; Go ahead and create user?".html_safe, hint: "We will assign a random secure password." %>
+        <%= f.input :do_not_email_user, as: :boolean, label: "&nbsp; Do not email this user".html_safe, hint: "Use this if writer will send you the article over email and you will file it." %>
+        <%= f.submit "Invite" %>
+    <% end %>
+    <br/><br/>
+    <h2>Team</h2>
+    <br/>
+    <% if @permissions.first.blank? %>
+        <p class="hint">No team members invited yet.</p>
+    <% else %>
+        <table class="table table-hover">
+            <tbody>
+                <% @permissions.each do |permission| %>
+                    <tr>
+                        <td style="width: 25px; border: 0px;"><img class="rounded" src=<%=avatar_url(permission.user.email)%>>
+                        </td>
+                        <td style="border: 0px;">
+                            <%= permission.name %>
+                            <% if permission.status == "Deactivated" %>
+                                <i style="font-weight: 200; color: gray;">(Deactivated)</i>
+                            <% end %>
+                            <br/>
+                            <div class="hint"><%= permission.user.email %></div>
+                            <% if permission.user.current_sign_in_at.present? %>
+                                <div class="hint">Last seen <%= time_ago_in_words(permission.user.current_sign_in_at) %> ago.</div>
+                            <% end %>
+                        </td>
+                        <td style="border: 0px;" class="hint">
+                            <%= permission.bio %>
+                        </td>
+                        <td style="border: 0px; width: 70px;">
+                            <%= link_to "Edit", edit_site_permission_path(@site, permission) %>
+                        </td>
+                        <!--
+                        <td style="border: 0px; width: 100px;">
+                            <% simple_form_for(permission, url: change_role_site_permission_path(@site, permission), class: "permission_forms", method: :put) do |f| %>
+                                <%= f.hidden_field :updated_by, value: current_user.id %>
+                                <%= f.hidden_field :redirect_url, value: site_permission_invites_path(@site) %>
+                                <%= f.input :ref_role_slug, collection: @permission_roles, include_blank: false, label: false, input_html: {class: "permission_select"} %>
+                            <% end %>
+                        </td>-->
+                        <td style="border: 0px;">
+                            <% if current_user.id != permission.user_id and permission.status != "Deactivated" %>
+                                <%= link_to "x", site_permission_path(@site,   permission, redirect_url: site_permission_invites_path(@site)), method: :delete, data: { confirm: 'Are you sure?' } %>
+                            <% end %>
+                        </td>
+                    </tr>
+                <% end %>
+                <%= paginate @permissions, theme: 'twitter-bootstrap-4', pagination_class: "pagination-sm" %>
+            </tbody>
+        </table>
+    <% end %>
+    <% if @pending_invites_count != 0 %>
+        <br/><br/>
+        <h2>Pending Invites</h2>
+        <br/>
+        <table class="table">
+            <tbody>
+                <% @permission_invites.each do |permission_invite| %>
+                    <tr>
+                        <td style="width: 25px; border: 0px;"><img class="rounded" src=<%=avatar_url(permission_invite.email)%>>
+                        </td>
+                        <td style="border: 0px;">
+                            <%= permission_invite.email %>
+                                <div class="hint">Invited by
+                                    <%= permission_invite.creator.name %>
+                                        <%= time_ago_in_words (permission_invite.created_at) %>.
+                                </div>
+                        </td>
+                        <td style="border: 0px;">
+                            <%= link_to "x", site_permission_invite_path(@site, permission_invite,redirect_url: site_permission_invites_path(@site)), method: :delete, data: { confirm: 'Are you sure?' } %>
+                        </td>
+                    </tr>
+                <% end %>
+            </tbody>
+        </table>
+    <% end %>
 </div>
-
 
 <script type="text/javascript">
     $(document).on("turbolinks:load", function(){
