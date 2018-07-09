@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180702055213) do
+ActiveRecord::Schema.define(version: 20180709142630) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -513,6 +513,7 @@ ActiveRecord::Schema.define(version: 20180702055213) do
     t.string "status", limit: 255
     t.bigint "created_by"
     t.bigint "updated_by"
+    t.integer "site_id"
     t.index ["slug"], name: "idx_72753_index_template_data_on_slug", unique: true
   end
 

@@ -15,6 +15,7 @@
 #  status        :string(255)
 #  created_by    :integer
 #  updated_by    :integer
+#  site_id       :integer
 #
 
 #TODO AMIT - Handle created_by, updated_by - RP added retrospectively. Need migration of old rows and BAU handling.
