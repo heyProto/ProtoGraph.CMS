@@ -12,7 +12,7 @@
     white-space: nowrap;
     vertical-align: top
 }
-
+.thin{font-weight: 200;}
 .proto-container{
 	width: 1100px;
 	margin-left: auto;

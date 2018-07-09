@@ -617,7 +617,7 @@ ActiveRecord::Schema.define(version: 20180709192141) do
 
   create_table "view_casts", force: :cascade do |t|
     t.string "datacast_identifier", limit: 255
-    t.bigint "template_card_id"
+    t.bigint "template_card_id" 
     t.bigint "template_datum_id"
     t.string "name", limit: 255
     t.text "optionalconfigjson"
