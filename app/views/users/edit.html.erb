@@ -1,55 +1,50 @@
-<div class="row">
-    <div class="col-sm-16">
-        <div style="margin-left: auto; margin-right: auto; width: 540px;">
-            <br/>
-            <br/>
-            <h2>Tell your colleagues who are you?</h2>
-            <br/>
-            <div style="margin-left: 0px;">
-                <%= image_tag avatar_url(current_user.email, 200), class: "rounded" %>
-                <br/>
-                <p class="hint">To change the profile image, register with <a href="http://gravatar.com/" target="_blank">gravatar.com</a> with email ID <%= current_user.email %> and upload a square image there (Twitter DP).</p>
-                <%= simple_form_for(@user, html: { method: :put }) do |f| %>
-                  <%= f.error_notification %>
-                  <%= f.input :name %>
-                  <%= f.input :email, label: "Primary Email ID" %>
-                  <%= f.input :bio, input_html: {maxlength: 160}, hint: "Maximum 160 characters" %>
-                  <%= f.input :website, as: :url, input_html: {rows: 1}, label: "Website URL" %>
-                  <%= f.input :facebook, as: :url, input_html: {rows: 1}, label: "Facebook Profile URL" %>
-                  <%= f.input :twitter, as: :url, input_html: {rows: 1}, label: "Twitter Profile URL" %>
-                  <%= f.input :linkedin, as: :url, input_html: {rows: 1}, label: "LinkedIn Profile URL" %>
-                  <%= f.input :phone %>
-                  <%= f.button :submit, value: "Save", class: "btn btn-light" %>
-                <% end %>
-                <br/>
-            </div>
-            <% if @sites_member.first.present? %>
-                <h3>Sites that you are part of</h3>
-                <hr/>
-                <div style="margin-left: 0px;">
-                    <% @sites_member.each do |site| %>
-                        <%= site.name %>
-                        <br/>
-                    <% end %>
-                </div>
+<div style="margin-left: auto; margin-right: auto; width: 540px;">
+    <h1>Profile</h1>
+    <br/>
+    <h2>Tell your colleagues who are you?</h2>
+    <div style="margin-left: 0px;">
+        <%= image_tag avatar_url(current_user.email, 100), class: "rounded" %>
+        <br/>
+        <p class="hint">To change the profile image, register with <a href="http://gravatar.com/" target="_blank">gravatar.com</a> with email ID <%= current_user.email %> and upload a square image there (Twitter DP).</p>
+        <%= simple_form_for(@user, html: { method: :put }) do |f| %>
+          <%= f.error_notification %>
+          <%= f.input :name %>
+          <%= f.input :email, label: "Primary Email ID" %>
+          <%= f.input :bio, input_html: {maxlength: 160}, hint: "Maximum 160 characters" %>
+          <%= f.input :website, as: :url, input_html: {rows: 1}, label: "Website URL" %>
+          <%= f.input :facebook, as: :url, input_html: {rows: 1}, label: "Facebook Profile URL" %>
+          <%= f.input :twitter, as: :url, input_html: {rows: 1}, label: "Twitter Profile URL" %>
+          <%= f.input :linkedin, as: :url, input_html: {rows: 1}, label: "LinkedIn Profile URL" %>
+          <%= f.input :phone %>
+          <%= f.button :submit, value: "Save", class: "btn btn-light" %>
+        <% end %>
+        <br/>
+    </div>
+    <% if @sites_member.first.present? %>
+        <h2>Sites that you are part of</h2>
+        <hr/>
+        <div style="margin-left: 0px;">
+            <% @sites_member.each do |site| %>
+                <%= site.name %>
                 <br/>
             <% end %>
-            <h3>Sites you own</h3>
-            <hr/>
-            <div style="margin-left: 0px;">
-                <% @sites_owned.each do |site| %>
-                    <%= link_to site.name, site_owners_site_admins_path(site) %>
-                    <p class="hint">Click to configure</p>
-                <% end %>
-                <% if current_user.is_admin_from_pykih %>
-                  <%= simple_form_for @new_site do |f| %>
-                    <h4>Add a new Site</h4>
-                    <%= f.input :name, id: :account_username, hint:     "<span style='color: red'>Choose wisely. You cannot change it later.</span>".html_safe %>
-                    <%= f.input :domain, required: true %>
-                    <%= f.submit "Add", class: "btn btn-light" %>
-                  <% end %>
-                <% end %>
-            </div>
         </div>
+        <br/>
+    <% end %>
+    <br/>
+    <h2>Sites you own</h2>
+    <div style="margin-left: 0px;">
+        <% @sites_owned.each do |site| %>
+            <%= link_to site.name, site_owners_site_admins_path(site) %>
+            <p class="hint">Click to configure</p>
+        <% end %>
+        <% if current_user.is_admin_from_pykih %>
+          <%= simple_form_for @new_site do |f| %>
+            <h4>Add a new Site</h4>
+            <%= f.input :name, id: :account_username, hint:     "<span style='color: red'>Choose wisely. You cannot change it later.</span>".html_safe %>
+            <%= f.input :domain, required: true %>
+            <%= f.submit "Add" %>
+          <% end %>
+        <% end %>
     </div>
 </div>

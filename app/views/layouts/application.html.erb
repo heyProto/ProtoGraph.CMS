@@ -22,7 +22,7 @@
               <% if @site.present? %>
                   <%= link_to image_tag("https://cdn.protograph.pykih.com/Assets/proto-app/img/proto-color-logo.png", style: "height: 24px;"), site_path(@site) %>
                   &nbsp;
-                  |
+                  <span style="color: lightgray">|</span>
                   &nbsp;
                   <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><%= truncate @site.domain, length: 40, ommission: ".." %></a>
                   <% if @sites.count > 1 %>
@@ -89,6 +89,7 @@
         </div>
     </nav>
     <div class="container" style="width: 1260px; margin-left: auto; margin-right: auto; position: relative; padding-top: 0px">
+        <br/>
         <%= yield %>
         <br/><br/><br/>
     </div>

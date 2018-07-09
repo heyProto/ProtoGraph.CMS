@@ -1,9 +1,17 @@
 body{font-size: 13px; font-family: 'cabin, Open Sans', sans-serif;}
 a{color: #0366d6;}
-h1{font-size: 2em; line-height: 40px; font-weight: 800;}
+h1{font-size: 3em; line-height: 40px; font-weight: 800;}
 h2{font-size: 1.7em; line-height: 30px; font-weight: 600;}
 h3{font-size: 1.2em; line-height: 20px; font-weight: 800; font-weight: bold !important;}
 h4{font-size: 1em; line-height: 20px; font-weight: 600;}
+input[type="submit"], input[type="submit"]:hover{
+    background: rgb(0, 123, 255);
+    color: white;
+    height: 40px;
+    border: none;
+    font-size: 14px;
+    border-radius: 0.3em;
+}
 
 .active > .nav-link{color: black; font-weight: 600 !important;}
 .help_text_in_sidebar{margin: 0 0 14px 0; color: #919191; font-size: 12px; line-height: 1rem;}
