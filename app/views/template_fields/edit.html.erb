@@ -1,5 +1,5 @@
 <%= render partial: "developers/header" %>
-<div style="margin-left: auto; margin-right: auto; width: 540px; font-size: 12px;">
+<div style="margin-left: auto; margin-right: auto; width: 540px;">
     <p><%= link_to "< All content types", site_template_data_path(@site)%>
     <h1><%= link_to @template_datum.name, site_template_datum_path(@site, @template_datum) %> / <%= @template_field.name %></h1>
     <br/>
