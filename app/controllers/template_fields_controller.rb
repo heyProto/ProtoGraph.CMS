@@ -1,6 +1,6 @@
 class TemplateFieldsController < ApplicationController
 
-  @@data_types = [["Short text (Maximum 255 characters)", "short_text"], ["Long text (Maximum 50k characters)", "long_text"], ["Integer", "integer"], ["Decimal", "decimal"], ["Yes/No", "boolean"], ["Temporal(Date, Time)", "temporal"]]
+  @@data_types = [["Short text (Max 255 chars): Use for titles, names, tags, URLs, e-mail addresses", "short_text"], ["Long text (Max 50k chars): Use for descriptions, text paragraphs, articles", "long_text"], ["Integer: ID, order number, rating, quantity", "integer"], ["Decimal (34.9)", "decimal"], ["Boolean: Yes or no, 1 or 0, true or false", "boolean"], ["Temporal: Event date, opening hours", "temporal"]]
 
   def new
     @template_datum = TemplateDatum.friendly.find(params[:template_datum_id])
@@ -11,9 +11,9 @@ class TemplateFieldsController < ApplicationController
   def create
     @template_field = TemplateField.new(template_field_params)
     if @template_field.save
-      redirect_to template_datum_path(@template_field.template_datum), notice: "Field was created successfully"
+      redirect_to site_template_datum_path(@site, @template_field.template_datum), notice: "Field was created successfully"
     else
-      redirect_to new_template_datum_template_field_path(@template_field.template_datum), alert: "Error creating field"
+      redirect_to new_site_template_datum_template_field_path(@site, @template_field.template_datum), alert: "Error creating field"
     end
   end
 
@@ -27,9 +27,9 @@ class TemplateFieldsController < ApplicationController
     puts "params #{params}, #{template_field_params}"
     @template_field = TemplateField.friendly.find(params[:id])
     if @template_field.update(template_field_params)
-      redirect_to template_datum_path(@template_field.template_datum), notice: "Field Updated Successfully"
+      redirect_to site_template_datum_path(@site, @template_field.template_datum), notice: "Field Updated Successfully"
     else
-      redirect_to edit_template_datum_template_field_path(@template_field.template_datum, @template_field), alert: "Error updating the field"
+      redirect_to edit_site_template_datum_template_field_path(@site, @template_field.template_datum, @template_field), alert: "Error updating the field"
     end
   end
 
@@ -37,9 +37,9 @@ class TemplateFieldsController < ApplicationController
     @template_datum = TemplateDatum.friendly.find(params[:template_datum_id])
     @template_field = TemplateField.friendly.find(params[:id])
     if @template_field.destroy
-      redirect_to template_datum_path(@template_datum), notice: "Field was destroyed successfully"
+      redirect_to site_template_datum_path(@site, @template_datum), notice: "Field was destroyed successfully"
     else
-      redirect_to template_datum_path(@template_datum), alert: "Error deleting field"
+      redirect_to site_template_datum_path(@site, @template_datum), alert: "Error deleting field"
     end
   end
 

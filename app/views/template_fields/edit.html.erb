@@ -1,40 +1,43 @@
 <%= render partial: "developers/header" %>
 <div style="margin-left: auto; margin-right: auto; width: 540px; font-size: 12px;">
+    <p><%= link_to "< All content types", site_template_data_path(@site)%>
     <h1><%= link_to @template_datum.name, site_template_datum_path(@site, @template_datum) %> / <%= @template_field.name %></h1>
     <br/>
-  <%= simple_form_for([@site, @template_datum, @template_field]) do |f| %>
-    <%= f.hidden_field :created_by, value: current_user.id %>
-    <%= f.hidden_field :template_datum_id, value: @template_datum.id %>
-    <%= f.input :key_name, required: true %>
-    <%= f.input :data_type, collection: @data_types, required: true %>
-    <%= f.input :name, required: true %>
-    <%= f.input :description %>
-    <%= f.input :help %>
-    <%= f.input :is_entry_title, as: :boolean %>
-    <%= f.input :is_required, as: :boolean %>
-    <%= f.input :default_value %>
-    <%= f.input :inclusion_list, as: :array %>
-    <button type="button" id="new-inc-list-field" class="btn btn-xs">+</button>
-    <%= f.input :inclusion_list_names, as: :array %>
-    <button type="button" id="new-inc-list-names-field" class="btn btn-xs">+</button>
-    <div class="inputs-num">
-      <%= f.input :min %>
-      <%= f.input :max %>
-      <%= f.input :multiple_of %>
-      <%= f.input :ex_min %>
-      <%= f.input :ex_max %>
-    </div>
-    <div class="input-format">
-      <%= f.input :format, collection: [] %>
-    </div>
-    <div class="input-format-regex">
-      <%= f.input :format_regex %>
-    </div>
-    <div class="inputs-str-len">
-      <%= f.input :length_minimum %>
-      <%= f.input :length_maximum %>
-    </div>
-    <%= f.button :submit, value: "Update", class: "btn btn-sm btn-secondary" %>
+    <%= simple_form_for([@site, @template_datum, @template_field]) do |f| %>
+        <h2>What is this field about?</h2>
+        <p>Data Type is <b><%= @template_field.data_type %></b> and Key Name is <b><%= @template_field.key_name %></b></p>
+        <%= f.input :name, required: true %>
+        <%= f.input :description %>
+        <%= f.input :is_entry_title, as: :boolean, label: "&nbsp; This field represents the Record title".html_safe %>
+        <%= f.input :default_value %>
+        <h2>Appearance</h2>
+        <div class="input-format">
+          <%= f.input :format, collection: [] %>
+        </div>
+        <%= f.input :help %>
+        <h2>Validations</h2>
+        <%= f.input :is_required, as: :boolean, label: "&nbsp; Required field".html_safe, hint: "You won't be able to publish an entry if this field is empty" %>
+        <%= f.input :inclusion_list, as: :array %>
+        <button type="button" id="new-inc-list-field" class="btn btn-xs">+</button>
+        <%= f.input :inclusion_list_names, as: :array %>
+        <button type="button" id="new-inc-list-names-field" class="btn btn-xs">+</button>
+        <div class="inputs-num">
+          <%= f.input :min %>
+          <%= f.input :max %>
+          <%= f.input :multiple_of %>
+          <%= f.input :ex_min %>
+          <%= f.input :ex_max %>
+        </div>
+    
+        <div class="input-format-regex">
+          <%= f.input :format_regex %>
+        </div>
+        <div class="inputs-str-len">
+          <%= f.input :length_minimum %>
+          <%= f.input :length_maximum %>
+        </div>
+        <br/><br/><br/>
+        <%= f.button :submit, value: "Update", class: "btn btn-sm btn-secondary" %>
   <% end %>
 </div>
 <script>
