@@ -93,16 +93,23 @@ class TemplateDatum < ApplicationRecord
       "$schema": "http://json-schema.org/draft-04/schema#",
       "properties": {
         "data": {
-          "id": "/properties/data"
+          "id": "/properties/data",
+          "title": "Card Data",
+          "type": "object"
         }
-      }
+      },
+      "type": "object"
     }
     properties = {}
     reqs = []
     fields.each do |field|
       field_key = field.key_name
       field_name = field.name
-      field_type = %w(short_text long_text).include?(field.data_type) ? "string" : field.data_type
+      field_type = if %w(short_text long_text temporal).include?(field.data_type) then
+                     "string"
+                   else
+                     field.data_type == "decimal" ? "number" : field.data_type
+                   end
 
       properties[field_key] = {
         "id": "/properties/data/properties/#{field_key}",
@@ -185,27 +192,42 @@ class TemplateDatum < ApplicationRecord
       "properties": {
         "data": {
           "id": "/properties/data",
-          "properties": {
-
-          }
+          "title": "Card Data",
+          "type": "object"
         }
-      }
+      },
+      "type": "object"
     }
     old_fields = old_schema["properties"]["data"]["properties"]
+    old_reqs = old_schema["properties"]["data"]["required"]
+
     new_fields = new_schema[:properties][:data][:properties]
+    new_reqs = new_schema[:properties][:data][:required]
+
     properties = {}
+    reqs = []
     new_fields.each do |key, val|
       if old_fields.key?(key)
         if ["array", "object"].include?(val["type"])
           properties[key] = old_fields[key]
+          if old_reqs.present? and old_reqs.include?(key)
+            reqs << key
+          end
         else
           properties[key] = val
+          if new_reqs.present? and new_reqs.include?(key)
+            reqs << key
+          end
         end
       else
         properties[key] = val
+        if new_reqs.present? and new_reqs.include?(key)
+          reqs << key
+        end
       end
     end
     json_schema[:properties][:data][:properties] = properties
+    json_schema[:properties][:data][:required] = reqs
     return json_schema
   end
 
