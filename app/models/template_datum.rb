@@ -130,7 +130,7 @@ class TemplateDatum < ApplicationRecord
       end
 
       if field.inclusion_list_names.present?
-        properties[field_key]["enum_names"] = field.inclusion_list_names
+        properties[field_key]["enumNames"] = field.inclusion_list_names
       end
 
       if ["decimal", "integer"].include?(field_type)
