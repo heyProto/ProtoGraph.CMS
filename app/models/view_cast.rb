@@ -158,6 +158,8 @@ class ViewCast < ApplicationRecord
     end
 
     def before_destroy_set
+        puts "view_cast=#{self.inspect}"
+        puts "destroying view cast #{site.cdn_bucket} #{self.datacast_identifier}"
         payload = {}
         payload['folder_name'] = self.datacast_identifier
         payload["bucket_name"] = site.cdn_bucket
