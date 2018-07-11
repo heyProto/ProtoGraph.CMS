@@ -1,0 +1,95 @@
+<br/>
+<h3>Package the story before publishing it</h3>
+<br/>
+<%= f.input :headline, required: true, minlength: 10 , maxlength: 90, hint: "Minimum length: 50 chars. Maximum length: 90 chars.", placeholder: "Title", label: "Headline", autofocus: true %>
+<% if !@site.is_english %>
+    <%= f.input :english_headline, required: true, minlength: 10 , maxlength: 90, hint: "This is used for url management.", label: "Write the headline in English" %>
+<% end %>
+<%= f.input :summary, minlength: 50 , maxlength: 220, hint: "Minimum length: 50 chars. Maximum length: 200 chars." %>
+<%= f.input :published_at, as: :datetime %>
+<%= f.input :hide_byline, as: :boolean, label: "&nbsp; Remove byline from the cover".html_safe %>
+<br/>
+<hr/>
+<h3>Cover Image</h3>
+<br/>
+<% if @page.cover_image_id.blank? %>
+    <%= f.fields_for :cover_image do |cover_image| %>
+        <%= cover_image.input :image, label: false, placeholder: "Upload cover image", input_html: {style: "width: 100%; background: lightgray; min-height: 200px; cursor: pointer; padding: 100px 0px;", onchange: "readURL(this);"}%>
+        <%= cover_image.hidden_field :site_id, value: @site.id %>
+        <%= cover_image.hidden_field :is_cover, value: true %>
+        <%= cover_image.hidden_field :created_by, value: current_user.id %>
+        <%= cover_image.hidden_field :updated_by, value: current_user.id %>
+    <% end %>
+<% else %>
+    <%= image_tag(@page.cover_image_url,style: 'width: 100%', class: "img-fluid") %>
+    <br/>
+    <%= link_to "Remove", remove_cover_image_site_page_path(@site, @page), method: :put%>
+    <br/>
+<% end %>
+<%= f.input :cover_image_alignment, collection: @cover_image_alignment, selected: "horizontal", required: true %>
+<br/>
+<hr/>
+<h3>Prepare for Distribution</h3>
+<br/>
+<%= f.input :share_text_facebook, label: "Share text for Facebook",input_html: {id: "proto_app_page_fb_text", is_edited: (@page.summary == @page.share_text_facebook) ? false : true, og_value: @page.share_text_facebook } %>
+<%= f.input :share_text_twitter, label: "Share text for Twitter",input_html: {id: "proto_app_page_tw_text", is_edited: (@page.summary == @page.share_text_twitter) ? false : true, og_value: @page.share_text_twitter } %>
+<%= f.input :meta_keywords, label: "Meta keywords for SEO", maxlength: 255 %>
+<%= f.input :meta_description, input_html: {id: "proto_app_page_meta_desc", is_edited: (@page.summary == @page.meta_description) ? false : true, og_value: @page.meta_description }, label: "Meta Description for SEO" %>
+
+
+<script>
+    $(document).on("turbolinks:load", function(){
+        var form = $("#proto_app_package_form"),
+            summary = $("#proto_app_page_summary"),
+            meta_description = $("#proto_app_page_meta_desc"),
+            fb_text = $("#proto_app_page_fb_text"),
+            tw_text = $("#proto_app_page_tw_text"),
+            is_text_edited = [meta_description.attr("is_edited"), fb_text.attr("is_edited"), tw_text.attr("is_edited")];
+
+        if (!meta_description.val().length && (is_text_edited[0] === "false")) {
+            meta_description.val(summary.val());
+        }
+
+        if (!fb_text.val().length  && (is_text_edited[1] === "false")) {
+            fb_text.val(summary.val());
+        }
+
+        if (!tw_text.val().length  && (is_text_edited[2] === "false")) {
+            tw_text.val(summary.val());
+        }
+
+        summary.on('blur', function () {
+            var is_edited = [meta_description.attr("is_edited"), fb_text.attr("is_edited"), tw_text.attr("is_edited")];
+            if (is_edited[0] === "false") {
+                meta_description.val(summary.val());
+            }
+
+            if (is_edited[1] === "false") {
+                fb_text.val(summary.val());
+            }
+
+            if (is_edited[2] === "false") {
+                tw_text.val(summary.val());
+            }
+        });
+
+        function onKeyUpHandler(event) {
+            var $this = $(this),
+                is_edited = $this.attr("is_edited"),
+                val = $this.val(),
+                og_value = $this.attr("og_value");
+
+            if (is_edited === "false") {
+                $this.attr("is_edited", true);
+            }
+
+            if (val === og_value) {
+                $this.attr("is_edited", false);
+            }
+        }
+
+        meta_description.on('keyup', onKeyUpHandler);
+        fb_text.on('keyup', onKeyUpHandler);
+        tw_text.on('keyup', onKeyUpHandler);
+    });
+</script>

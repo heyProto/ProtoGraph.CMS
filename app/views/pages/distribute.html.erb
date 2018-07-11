@@ -1,47 +1,10 @@
 <%= render partial: "pages/header" %>
 <div class="row">
     <div style="margin-left: auto; margin-right: auto; width: 540px;">
-
-            <%= simple_form_for(@page, url: site_page_path(@site), method: :put) do |f| %>
+            <%= simple_form_for(@page, url: site_page_path(@site), method: :put, html: {id: "proto_app_package_form"}) do |f| %>
                 <%= f.error_notification %>
                 <div class="form-inputs">
-                    <br/>
-                    <h3>Package the story before publishing it</h3>
-                    <br/>
-                    <%= f.input :headline, required: true, minlength: 10 , maxlength: 90, hint: "Minimum length: 50 chars. Maximum length: 90 chars.", placeholder: "Title", label: "Headline", autofocus: true %>
-                    <% if !@site.is_english or 1 == 1 %>
-                        <%= f.input :english_headline, required: true, minlength: 10 , maxlength: 90, hint: "This is used for url management.", label: "Write the headline in English" %>
-                    <% end %>
-                    <%= f.input :summary, minlength: 50 , maxlength: 220, hint: "Minimum length: 50 chars. Maximum length: 200 chars." %>
-                    <%= f.input :published_at, as: :datetime %>
-                    <%= f.input :hide_byline, as: :boolean, label: "&nbsp; Remove byline from the cover".html_safe %>
-                    <br/>
-                    <hr/>
-                    <h3>Cover Image</h3>
-                    <br/>
-                    <% if @page.cover_image_id.blank? %>
-                        <%= f.fields_for :cover_image do |cover_image| %>
-                            <%= cover_image.input :image, label: false, placeholder: "Upload cover image", input_html: {style: "width: 100%; background: lightgray; min-height: 200px; cursor: pointer; padding: 100px 0px;", onchange: "readURL(this);"}%>
-                            <%= cover_image.hidden_field :site_id, value: @site.id %>
-                            <%= cover_image.hidden_field :is_cover, value: true %>
-                            <%= cover_image.hidden_field :created_by, value: current_user.id %>
-                            <%= cover_image.hidden_field :updated_by, value: current_user.id %>
-                        <% end %>
-                    <% else %>
-                        <%= image_tag(@page.cover_image_url,style: 'width: 100%', class: "img-fluid") %>
-                        <br/>
-                        <%= link_to "Remove", remove_cover_image_site_page_path(@site, @page), method: :put%>
-                        <br/>
-                    <% end %>
-                    <%= f.input :cover_image_alignment, collection: @cover_image_alignment, selected: "horizontal", required: true %>
-                    <br/>
-                    <hr/>
-                    <h3>Prepare for Distribution</h3>
-                    <br/>
-                    <%= f.input :share_text_facebook %>
-                    <%= f.input :share_text_twitter %>
-                    <%= f.input :meta_keywords, maxlength: 255 %>
-                    <%= f.input :meta_description %>
+                    <%= render partial: "pages/distribute", locals: {f: f} %>
                 </div>
                 <div class="form-actions">
                   <% if @page.status == 'draft' %>
@@ -49,6 +12,8 @@
                   <% end %>
                   <%= f.button :submit, "Publish" %>
                   <% if @page.status != 'draft' %>
+                    &nbsp;&nbsp;|&nbsp;&nbsp;
+                    <%= link_to "Preview", @page.html_url, target: "_blank" %>
                     &nbsp;&nbsp;|&nbsp;&nbsp;
                     #<span class='card-id'><%= @page.view_cast_id %></span>
                   <% end %>
