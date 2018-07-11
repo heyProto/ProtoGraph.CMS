@@ -1,7 +1,7 @@
 <br/>   
 <div style="margin-left: auto; margin-right: auto; width: 540px;">
     <h1>
-        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><%= truncate @site.domain, length: 40, ommission: ".." %></a>
+        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color: black !important;"><%= truncate @site.domain, length: 40, ommission: ".." %></a>
         <span class="small thin" style="float: right;">
             <%= link_to "New subsite", sections_site_path(@site),"data-turbolinks" => "false" %>
         </span>

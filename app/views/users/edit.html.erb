@@ -1,8 +1,6 @@
 <div style="margin-left: auto; margin-right: auto; width: 540px;">
-    <h1>Profile</h1>
-    <br/>
-    <h2>Tell your colleagues who are you?</h2>
-    <div style="margin-left: 0px;">
+    <h1>Tell your colleagues who are you?</h1>
+    <div style="margin-top: 20px;">
         <%= image_tag avatar_url(current_user.email, 100), class: "rounded" %>
         <br/>
         <p class="hint">To change the profile image, register with <a href="http://gravatar.com/" target="_blank">gravatar.com</a> with email ID <%= current_user.email %> and upload a square image there (Twitter DP).</p>
@@ -20,31 +18,12 @@
         <% end %>
         <br/>
     </div>
-    <% if @sites_member.first.present? %>
-        <h2>Sites that you are part of</h2>
-        <hr/>
-        <div style="margin-left: 0px;">
-            <% @sites_member.each do |site| %>
-                <%= site.name %>
-                <br/>
-            <% end %>
-        </div>
-        <br/>
+    <% if current_user.is_admin_from_pykih %>
+        <br/><br/>
+      <%= simple_form_for @new_site do |f| %>
+        <%= f.input :name, id: :account_username, hint:     "<span style='color: red'>Choose wisely. You cannot change it later.</span>".html_safe %>
+        <%= f.input :domain, required: true %>
+        <%= f.submit "Add a new Site" %>
+      <% end %>
     <% end %>
-    <br/>
-    <h2>Sites you own</h2>
-    <div style="margin-left: 0px;">
-        <% @sites_owned.each do |site| %>
-            <%= link_to site.name, site_owners_site_admins_path(site) %>
-            <p class="hint">Click to configure</p>
-        <% end %>
-        <% if current_user.is_admin_from_pykih %>
-          <%= simple_form_for @new_site do |f| %>
-            <h4>Add a new Site</h4>
-            <%= f.input :name, id: :account_username, hint:     "<span style='color: red'>Choose wisely. You cannot change it later.</span>".html_safe %>
-            <%= f.input :domain, required: true %>
-            <%= f.submit "Add" %>
-          <% end %>
-        <% end %>
-    </div>
 </div>

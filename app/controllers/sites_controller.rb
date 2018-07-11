@@ -49,8 +49,6 @@ class SitesController < ApplicationController
       else
         @new_site = Site.new
         @user = current_user
-        @sites_owned = Site.where(id: current_user.permissions.where(ref_role_slug: "owner", permissible_type: "Site").pluck(:permissible_id).uniq)
-        @sites_member = Site.where(id: current_user.permissions.where(permissible_type: "Site").where.not(ref_role_slug: "owner"))
         render "users/edit"
       end
     end
