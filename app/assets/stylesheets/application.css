@@ -11,16 +11,11 @@
  * It is generally better to create a new file per style scope.
  *
  *= require vendors/bootstrap.min.css
- *= require app/slack.scss
  *= require vendors/select2.min.css
  *= require app/select2-tag.css
- *= require app/new_theme.scss
  *= require app/theme.css
  *= require app/style.css
- *= require app/sign-up-area.css
- *= require app/folders_sidebar.scss
  *= require app/card_as_a_todo.scss
- *= require app/stories_edit_plan.scss
  *= require jquery-ui
  *= require_self
  */

@@ -3,7 +3,7 @@ Rails.application.routes.draw do
   require 'sidekiq/web'
   mount Sidekiq::Web => '/sidekiq'
 
-  devise_for :users, controllers: {confirmations: 'user/confirmations'} do
+  devise_for :users, controllers: {registrations: 'user/registrations'} do
     get 'sign_out', to: 'devise/sessions#destroy'
   end
 
