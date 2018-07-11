@@ -2,9 +2,9 @@
 #
 # Table name: permission_roles
 #
-#  id                          :bigint(8)        not null, primary key
-#  created_by                  :bigint(8)
-#  updated_by                  :bigint(8)
+#  id                          :integer          not null, primary key
+#  created_by                  :integer
+#  updated_by                  :integer
 #  name                        :string(255)
 #  slug                        :string(255)
 #  can_change_account_settings :boolean

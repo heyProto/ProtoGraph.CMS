@@ -2,26 +2,26 @@
 #
 # Table name: template_pages
 #
-#  id                  :bigint(8)        not null, primary key
+#  id                  :integer          not null, primary key
 #  name                :string(255)
 #  description         :text
 #  global_slug         :text
 #  is_current_version  :boolean
 #  slug                :string(255)
 #  version_series      :string(255)
-#  previous_version_id :bigint(8)
+#  previous_version_id :integer
 #  version_genre       :string(255)
 #  version             :string(255)
 #  change_log          :text
 #  status              :string(255)
-#  publish_count       :bigint(8)
+#  publish_count       :integer
 #  is_public           :boolean
 #  git_url             :string(255)
 #  git_branch          :string(255)
 #  git_repo_name       :string(255)
 #  s3_identifier       :string(255)
-#  created_by          :bigint(8)
-#  updated_by          :bigint(8)
+#  created_by          :integer
+#  updated_by          :integer
 #  created_at          :datetime         not null
 #  updated_at          :datetime         not null
 #

@@ -2,9 +2,9 @@
 #
 # Table name: template_fields
 #
-#  id                   :bigint(8)        not null, primary key
-#  site_id              :bigint(8)
-#  template_datum_id    :bigint(8)
+#  id                   :integer          not null, primary key
+#  site_id              :integer
+#  template_datum_id    :integer
 #  key_name             :string
 #  name                 :string
 #  data_type            :string
@@ -30,9 +30,7 @@
 #  updated_by           :integer
 #  created_at           :datetime         not null
 #  updated_at           :datetime         not null
-
-require 'json'
-require 'open-uri'
+#
 
 class TemplateField < ApplicationRecord
   #CONSTANTS
@@ -50,6 +48,7 @@ class TemplateField < ApplicationRecord
   #CALLBACKS
   before_save :before_save_set
   after_save :after_save_set
+  after_commit :fix_sort_order
 
   #SCOPE
   #OTHER
@@ -84,11 +83,49 @@ class TemplateField < ApplicationRecord
       self.ex_min = nil
       self.ex_max = nil
     end
+    true
   end
 
   def after_save_set
     template_datum = self.template_datum
     template_datum.upload_to_s3
     puts "after_save_set end"
+    true
+  end
+
+  def fix_sort_order
+    puts "-----------------fix sort order---------------------"
+    if saved_change_to_sort_order?
+      template_fields_to_fix = TemplateField.where(template_datum_id: self.template_datum_id).where("sort_order >= ?", self.sort_order).where.not(id: self.id).order("sort_order").to_a
+      # if template_fields_to_fix.count > 0
+      #   template_fields_to_fix.each do |tf|
+      #     sort_order = sort_order + 1
+      #     tf.update_column(:sort_order, sort_order)
+      #   end
+      # end
+      n = template_fields_to_fix.length
+      if n > 0
+        tf = template_fields_to_fix[0]
+        puts "index=self, sort_order=#{self.sort_order}|index=0, sort_order=#{tf.sort_order}"
+        if self.sort_order == tf.sort_order
+          tf.update_column(:sort_order, tf.sort_order+1)
+          # tf.sort_order = tf.sort_order + 1
+          template_fields_to_fix[0] = tf
+        end
+        i = 0
+        while i < n-1
+          tf = template_fields_to_fix[i]
+          next_tf = template_fields_to_fix[i+1]
+          puts "index=#{i}, sort_order=#{tf.sort_order}|index=#{i+1}, sort_order=#{next_tf.sort_order}"
+          if tf.sort_order == next_tf.sort_order
+            next_tf.update_column(:sort_order, next_tf.sort_order+1)
+            # next_tf.sort_order = next_tf.sort_order+1
+            template_fields_to_fix[i+1] = next_tf
+          end
+          i=i+1
+        end
+      end
+    end
+    true
   end
 end

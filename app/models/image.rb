@@ -2,19 +2,19 @@
 #
 # Table name: images
 #
-#  id               :bigint(8)        not null, primary key
+#  id               :integer          not null, primary key
 #  name             :string(255)
 #  description      :text
 #  s3_identifier    :string(255)
 #  thumbnail_url    :text
 #  thumbnail_key    :text
-#  thumbnail_width  :bigint(8)
-#  thumbnail_height :bigint(8)
-#  image_width      :bigint(8)
-#  image_height     :bigint(8)
+#  thumbnail_width  :integer
+#  thumbnail_height :integer
+#  image_width      :integer
+#  image_height     :integer
 #  image            :string(255)
-#  created_by       :bigint(8)
-#  updated_by       :bigint(8)
+#  created_by       :integer
+#  updated_by       :integer
 #  created_at       :datetime         not null
 #  updated_at       :datetime         not null
 #  is_logo          :boolean          default(FALSE)
@@ -22,7 +22,7 @@
 #  is_cover         :boolean
 #  credits          :string(255)
 #  credit_link      :text
-#  site_id          :bigint(8)
+#  site_id          :integer
 #
 
 class Image < ApplicationRecord
@@ -43,7 +43,7 @@ class Image < ApplicationRecord
   has_one :image_3c, -> {where(mode: "3c")}, class_name: "ImageVariation", foreign_key: "image_id"
   has_one :image_2c, -> {where(mode: "2c")}, class_name: "ImageVariation", foreign_key: "image_id"
 
-  has_many :activities
+  
   has_many :colour_swatches, dependent: :destroy
   #ACCESSORS
   attr_accessor :crop_x, :crop_y, :crop_w, :crop_h, :image_w, :image_h, :instant_output

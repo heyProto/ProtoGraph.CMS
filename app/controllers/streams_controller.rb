@@ -5,11 +5,10 @@ class StreamsController < ApplicationController
 
     def publish
         StreamPublisher.perform_async(@stream.id)
-        track_activity(@stream)
         if @stream.pages.first.present?
-            redirect_back(fallback_location: account_site_pages_path(@site, folder_id: (@folder.present? ? @folder.id : nil)), notice:t("published.stream"))
+            redirect_back(fallback_location: site_pages_path(@site, folder_id: (@folder.present? ? @folder.id : nil)), notice:t("published.stream"))
         else
-          redirect_to account_site_stream_path(@site, @stream, folder_id: @folder.blank? ? nil : @folder.id), notice: t("published.stream")
+          redirect_to site_stream_path(@site, @stream, folder_id: @folder.blank? ? nil : @folder.id), notice: t("published.stream")
         end
     end
 

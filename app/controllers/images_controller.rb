@@ -21,7 +21,6 @@ class ImagesController < ApplicationController
     respond_to do |format|
       if @image.save!
         'image saved'
-        track_activity(@image)
         format.json { render json: {success: true, data: @image}, status: 200 }
         format.html { redirect_to site_images_path(@site), notice: 'Image will be added shortly.' }
       else
@@ -35,8 +34,6 @@ class ImagesController < ApplicationController
   def show
     @new_image = Image.new
     @image_variation = ImageVariation.new
-    @activities = @image.activities.order("updated_at DESC").limit(30)
-    
   end
 
   private

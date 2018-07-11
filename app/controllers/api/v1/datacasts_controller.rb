@@ -11,6 +11,8 @@ class Api::V1::DatacastsController < ApiController
             view_cast.by_line = datacast_params['data']["by_line"]
             view_cast.intersection = @site.ref_categories.where(genre: "intersection").where(name: datacast_params['data']["genre"]).first
             view_cast.sub_intersection = @site.ref_categories.where(genre: "sub intersection").where(name: datacast_params['data']["subgenre"]).first
+            view_cast.format = datacast_params['data']["format"] if datacast_params['data']["format"].present?
+            view_cast.importance = datacast_params['data']["importance"] if datacast_params['data']["importance"].present?
         end
         if ['toStory', 'toCluster'].include?(view_cast.template_card.name)
             view_cast.series = @folder.vertical
@@ -20,7 +22,6 @@ class Api::V1::DatacastsController < ApiController
         payload["payload"] = datacast_params.to_json
         payload["source"]  = params[:source] || "form"
         if view_cast.save
-            track_activity(view_cast)
             payload["api_slug"] = view_cast.datacast_identifier
             payload["schema_url"] = view_cast.template_datum.schema_json
             payload["bucket_name"] = @site.cdn_bucket
@@ -50,6 +51,8 @@ class Api::V1::DatacastsController < ApiController
             view_cast.intersection = @site.ref_categories.where(genre: "intersection").where(name: datacast_params['data']["genre"]).first
             view_cast.sub_intersection = @site.ref_categories.where(genre: "sub intersection").where(name: datacast_params['data']["subgenre"]).first
             datacast_params['data']['series'] = @folder.vertical.name
+            view_cast.format = datacast_params['data']["format"] if datacast_params['data']["format"].present?
+            view_cast.importance = datacast_params['data']["importance"] if datacast_params['data']["importance"].present?
         end
         if ['toStory', 'toCluster'].include?(view_cast.template_card.name)
             view_cast.series = @folder.vertical
@@ -64,7 +67,6 @@ class Api::V1::DatacastsController < ApiController
             updating_params[:updated_by] = @user.id
             updating_params[:is_invalidating] = true
             view_cast.update_attributes(updating_params)
-            track_activity(view_cast)
             Api::ProtoGraph::CloudFront.invalidate(@site, ["/#{view_cast.datacast_identifier}/*"], 1)
             render json: {view_cast: view_cast.as_json(methods: [:remote_urls]), redirect_path: site_folder_view_cast_url(@site, @folder, view_cast) }, status: 200
         end

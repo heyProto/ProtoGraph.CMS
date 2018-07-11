@@ -1,19 +1,19 @@
-<%= render partial: "sites/header" %>
+<h1>Adminland</h1>
 <div class="row">
     <div class="col-sm-16">
         <%= render partial: "admins/header" %>
-        <div style="margin-left: auto; margin-right: auto; width: 540px; font-size: 12px;">
+        <div style="margin-left: auto; margin-right: auto; width: 540px;">
         <%= simple_form_for [@site] do |f| %>
           <%= f.error_notification %>
-          <h3>Set up the basics</h3>
+          <h2>Set up the basics</h2>
           <%= f.input :seo_name, label: "Name", hint: "We will be using this name for seo purpose only", disabled: true %>
           <%= f.input :primary_language, as: :select, collection: [["English", "English"], ["Hindi", "Hindi"]], include_blank: false, label: "Language" %>
           <%= f.input :domain, hint: "We recommend using p.mysite.com", label: "Custom domain", disabled: true %>
           <%= f.input :description, hint: "This will be used in footers, search results, and other places." %>
           <%= f.input :default_seo_keywords, hint: "These default keywords will be used on homepage.", label: "Default SEO Keywords" %>
           <%= f.input :updated_by, as: :hidden, input_html: {value: current_user.id} %>
-          <br/><hr/>
-          <h3>Labs</h3>
+          <br/><br/>
+          <h2>Labs</h2>
           <%= f.input :enable_ads, as: :boolean, label: "&nbsp; Enable Ads in stories".html_safe %>
           <%= f.input :is_lazy_loading_activated, as: :boolean, hint: "Lazy loading helps in improving page performance by loading content on demand.", label: "&nbsp; Activate lazy loading".html_safe %>
           <%= f.input :is_smart_crop_enabled, as: :boolean, label: "&nbsp; Activate smart image cropping".html_safe %>
@@ -21,8 +21,8 @@
           <% if current_user.is_admin_from_pykih %>
             <%= f.input :show_proto_logo, as: :boolean, label: "&nbsp; Show proto logo in site header".html_safe %>
           <% end %>
-          <br/><hr/>
-          <h3>Customize how it looks</h3>
+          <br/><br/>
+          <h2>Customize how it looks</h2>
           <p>Favicon</p>
           <% if @site.favicon_id.present? and @site.favicon.present? %>
             <%= image_tag(@site.favicon.original_image.image_url, class: "rounded", style: "max-width: 30px; margin-top: 0px;", alt: "Uploading image") %>
@@ -44,9 +44,9 @@
           <%= f.input :reverse_house_colour, input_html: {type: :color, style: "height: 40px;"}, label: "Reverse House Color", required: true, hint: "Choose a color that is diagonally opposite from your House Color on the color wheel." %>
           <%= f.input :reverse_font_colour, input_html: {type: :color, style: "height: 40px;"}, label: "Font Color on Reverse House Color", required: true %>
           <%= f.input :story_card_style, as: :select, collection: [["Clear: Color", "Clear: Color"], ["Clear: Black & White", "Clear: Black & White"], ["Blur: Color", "Blur: Color"]], label: "Style", include_blank: false %>
-          <br/><br/><hr/>
+          <br/><br/><br/>
 
-          <h3>Mast Head</h3>
+          <h2>Mast Head</h2>
           <% if @site.logo_image_id.present? %>
             <%= image_tag(@site.logo_image.original_image.image_url, class: "rounded", style: "width: 100px;", alt: "Uploading image") %>
             <br/>

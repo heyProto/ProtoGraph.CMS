@@ -2,17 +2,17 @@
 #
 # Table name: site_vertical_navigations
 #
-#  id                       :bigint(8)        not null, primary key
-#  site_id                  :bigint(8)
-#  ref_category_vertical_id :bigint(8)
+#  id                       :integer          not null, primary key
+#  site_id                  :integer
+#  ref_category_vertical_id :integer
 #  name                     :string(255)
 #  url                      :text
 #  launch_in_new_window     :boolean
-#  created_by               :bigint(8)
-#  updated_by               :bigint(8)
+#  created_by               :integer
+#  updated_by               :integer
 #  created_at               :datetime         not null
 #  updated_at               :datetime         not null
-#  sort_order               :bigint(8)
+#  sort_order               :integer
 #  menu                     :string(255)
 #
 

@@ -1,5 +1,6 @@
 <%= render partial: "developers/header" %>
-<div style="margin-left: auto; margin-right: auto; width: 540px; font-size: 12px;">
+<div style="margin-left: auto; margin-right: auto; width: 540px;">
+  <p><%= link_to "< All content types", site_template_data_path(@site)%>
   <h1><%= @template_datum.name %></h1>
   <br/>
   <nav>
@@ -42,6 +43,9 @@
               <% end %>
               <span class="gray small">(<%= template_field.key_name %>)</span>
             </td>
+            <td>
+              <b><%= template_field.is_entry_title ? "Record title" : "" %></b>
+            </td>
 
 
             <!--<td><%= template_field.inclusion_list.present? ? template_field.inclusion_list.join(",") : "" %></td>
@@ -56,7 +60,8 @@
               <td><%= %w(short_text long_text temporal).include?(template_field.data_type) ? template_field.format_regex : "NA" %></td>
               <td><%= %w(short_text long_text temporal).include?(template_field.data_type) ? template_field.length_minimum : "NA" %></td>
               <td><%= %w(short_text long_text temporal).include?(template_field.data_type) ? template_field.length_maximum : "NA" %></td>-->
-
+            <td><%= link_to "Move Up", move_up_site_template_datum_template_field_path(@site, @template_datum, template_field) %></td>
+            <td><%= link_to "Move Down", move_down_site_template_datum_template_field_path(@site, @template_datum, template_field) %></td>
             <td><%= link_to "X", site_template_datum_template_field_path(@site, @template_datum, template_field), method: :delete %></td>
           </tr>
         <% end %>

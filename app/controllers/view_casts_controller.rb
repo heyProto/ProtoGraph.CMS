@@ -47,7 +47,6 @@ class ViewCastsController < ApplicationController
         v_c_params = view_cast_params
         v_c_params["stop_callback"] = true
         if @view_cast.update(v_c_params)
-            track_activity(@view_cast)
             if @view_cast.redirect_url.present?
                 redirect_to @view_cast.redirect_url, notice: t('us')
             else

@@ -2,18 +2,18 @@
 #
 # Table name: permissions
 #
-#  id               :bigint(8)        not null, primary key
-#  user_id          :bigint(8)
-#  permissible_id   :bigint(8)
+#  id               :integer          not null, primary key
+#  user_id          :integer
+#  permissible_id   :integer
 #  ref_role_slug    :string(255)
 #  status           :string(255)
-#  created_by       :bigint(8)
-#  updated_by       :bigint(8)
+#  created_by       :integer
+#  updated_by       :integer
 #  created_at       :datetime         not null
 #  updated_at       :datetime         not null
 #  is_hidden        :boolean          default(FALSE)
 #  permissible_type :string(255)
-#  stream_id        :bigint(8)
+#  stream_id        :integer
 #  stream_url       :text
 #  bio              :text
 #  meta_description :text
@@ -22,7 +22,6 @@
 
 class Permission < ApplicationRecord
     #CONSTANTS
-    REF_DEFAULT_ROLES = [['Writer', 'writer'], ["Editor", "editor"]]
     REF_ROLES = [["Editor", "editor"], ['Writer', 'writer'], ['Contributor', 'contributor']]
     #CUSTOM TABLES
     #GEMS

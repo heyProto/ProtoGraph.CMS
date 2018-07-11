@@ -1,41 +1,28 @@
-<div style="margin-left: auto; margin-right: auto; width: 540px; font-size: 12px;">
+<%= render partial: "developers/header" %>
+<div style="margin-left: auto; margin-right: auto; width: 540px;">
+    <p><%= link_to "< All content types", site_template_data_path(@site)%>
+    <h1><%= link_to @template_datum.name, site_template_datum_path(@site, @template_datum) %> / New field</h1>
+    <br/>
   <%= simple_form_for([@site, @template_datum, @template_field]) do |f| %>
     <%= f.hidden_field :created_by, value: current_user.id %>
     <%= f.hidden_field :template_datum_id, value: @template_datum.id %>
-    <%= f.input :key_name, required: true %>
     <%= f.input :data_type, collection: @data_types, required: true %>
-    <%= f.input :name, required: true %>
-    <%= f.input :description %>
-    <%= f.input :help %>
-    <%= f.input :is_entry_title, as: :boolean %>
-    <%= f.input :is_required, as: :boolean %>
-    <%= f.input :default_value %>
-    <%= f.input :inclusion_list, as: :array %>
-    <button type="button" id="new-inc-list-field" class="btn btn-xs">+</button>
-    <%= f.input :inclusion_list_names, as: :array %>
-    <button type="button" id="new-inc-list-names-field" class="btn btn-xs">+</button>
-    <div class="inputs-num">
-      <%= f.input :min %>
-      <%= f.input :max %>
-      <%= f.input :multiple_of %>
-      <%= f.input :ex_min %>
-      <%= f.input :ex_max %>
-    </div>
     <div class="input-format">
       <%= f.input :format, collection: [] %>
     </div>
-    <div class="input-format-regex">
-      <%= f.input :format_regex %>
-    </div>
-    <div class="inputs-str-len">
-      <%= f.input :length_minimum %>
-      <%= f.input :length_maximum %>
-    </div>
+    <%= f.input :name, required: true, hint: "It will appear in the card editor" %>
+    <%= f.input :key_name, required: true, hint: "It will appear in the API responses" %>
+    <%= f.input :sort_order %>
     <%= f.button :submit, value: "Create", class: "btn btn-sm btn-secondary" %>
+    &nbsp;
+    | 
+    &nbsp;
+    <%= link_to "Nevermind", site_template_datum_path(@site, @template_datum) %>
   <% end %>
 </div>
 <script>
   $(document).ready(function () {
+
     var formats = {
       "short_text": {
         "": "",
@@ -97,6 +84,7 @@
 
     function update_dropdown_format(data_type) {
       var format = formats[data_type];
+      console.log("format", format);
       $("#template_field_format").empty();
       var tf_format = "<%= @template_field.format %>";
       console.log("tf_format", tf_format);
@@ -108,26 +96,14 @@
         }
       }
     }
-
     update_template_field_form($(".template_field_data_type > select").val());
     update_dropdown_format($(".template_field_data_type > select").val());
 
-    // show and hide required fields of form based on data_type
+    // update dropdown format
     $(".template_field_data_type > select").change(function () {
       var data_type = $(this).val();
       update_template_field_form(data_type);
       update_dropdown_format(data_type);
     });
-
-    // add new enum field
-    var inc_list_field = '<input class="text optional form-control" name="template_field[enum][]" id="template_field_" type="text">';
-    $("#new-inc-list-field").click(function () {
-      $("input[name='template_field[inclusion_list][]']:last").after(inc_list_field);
-    })
-
-    var inc_list_names_field = '<input class="text optional form-control" name="template_field[enum_names][]" id="template_field_" type="text">';
-    $("#new-inc-list-names-field").click(function () {
-      $("input[name='template_field[inclusion_list_names][]']:last").after(inc_list_names_field);
-    })
   });
 </script>

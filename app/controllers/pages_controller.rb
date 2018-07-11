@@ -149,7 +149,7 @@ class PagesController < ApplicationController
                                    :is_sponsored, :is_interactive, :has_data, :has_image_other_than_cover, :has_audio, :has_video, :status, :published_at, :url,
                                    :ref_category_series_id, :ref_category_intersection_id, :ref_category_sub_intersection_id, :view_cast_id, :page_object_url, :created_by,
                                    :updated_by, :english_headline, :due, :description, :cover_image_id_4_column, :cover_image_id_3_column, :cover_image_id_2_column, :cover_image_credit, :share_text_facebook,
-                                     :share_text_twitter, :publish, :prepare_cards_for_assembling,collaborator_lists: [], cover_image_attributes: [:image, :site_id, :is_cover, :created_by,
+                                     :share_text_twitter, :publish, :prepare_cards_for_assembling, :format, :importance, collaborator_lists: [], cover_image_attributes: [:image, :site_id, :is_cover, :created_by,
                                      :updated_by])
     end
 end

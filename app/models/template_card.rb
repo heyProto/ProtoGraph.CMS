@@ -2,7 +2,7 @@
 #
 # Table name: template_cards
 #
-#  id                   :bigint(8)        not null, primary key
+#  id                   :integer          not null, primary key
 #  name                 :string(255)
 #  elevator_pitch       :string(255)
 #  description          :text
@@ -10,18 +10,18 @@
 #  is_current_version   :boolean
 #  slug                 :string(255)
 #  version_series       :string(255)
-#  previous_version_id  :bigint(8)
+#  previous_version_id  :integer
 #  version_genre        :string(255)
 #  version              :string(255)
 #  change_log           :text
 #  status               :string(255)
-#  publish_count        :bigint(8)
+#  publish_count        :integer
 #  is_public            :boolean
 #  git_url              :text
-#  git_branch           :string(255)
-#  created_by           :bigint(8)
-#  updated_by           :bigint(8)
-#  template_datum_id    :bigint(8)
+#  git_branch           :string(255)      default("master")
+#  created_by           :integer
+#  updated_by           :integer
+#  template_datum_id    :integer
 #  created_at           :datetime         not null
 #  updated_at           :datetime         not null
 #  has_static_image     :boolean          default(FALSE)
@@ -30,9 +30,9 @@
 #  has_multiple_uploads :boolean          default(FALSE)
 #  has_grouping         :boolean          default(FALSE)
 #  allowed_views        :text
-#  sort_order           :bigint(8)
+#  sort_order           :integer
 #  is_editable          :boolean          default(TRUE)
-#  site_id              :bigint(8)
+#  site_id              :integer
 #
 
 class TemplateCard < ApplicationRecord

@@ -2,9 +2,9 @@
 <html lang="en">
 <head>
   <% if @site.present? %>
-    <title><%= @site.name %> | Proto Platform</title>
+      <title><%= @site.name %> | Proto Platform</title>
   <% else %>
-    <title>Proto Platform</title>
+      <title>Proto Platform</title>
   <% end %>
   <%= csrf_meta_tags %>
   <meta charset="UTF-8">
@@ -16,16 +16,16 @@
   <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
 </head>
 <body data-turbolinks=<%= (controller_name == "view_casts" and ['new', 'edit'].include?(action_name)) ? "false" : "true" %>>
-<nav class="navbar navbar-expand-lg navbar-light bg-light" style="background-color: white !important;">
-  <div class="container">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light" style="background-color: white !important;">
+        <div class="container">
           <span class="navbar-brand">
               <% if @site.present? %>
                   <%= link_to image_tag("https://cdn.protograph.pykih.com/Assets/proto-app/img/proto-color-logo.png", style: "height: 24px;"), site_path(@site) %>
-              &nbsp;
-                  |
+                  &nbsp;
+                  <span style="color: lightgray">|</span>
                   &nbsp;
                   <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><%= truncate @site.domain, length: 40, ommission: ".." %></a>
-              <% if @sites.count > 1 %>
+                  <% if @sites.count > 1 %>
                       <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                           <% @sites.each do |s| %>
                               <%= link_to "#{s.domain}", site_path(s), class: "dropdown-item"%>
@@ -36,73 +36,74 @@
                   <%= link_to image_tag("proto-dark.png", style: "height: 24px;"), root_url %>
               <% end %>
           </span>
-    <ul class="navbar-nav">
-      <% if user_signed_in? %>
-        <% if @site.present? %>
-          <li class="nav-item"><%= link_to "Plan", intersections_site_path(@site),"data-turbolinks" => "false", class: "nav-link" %></li>
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              Layout
-            </a>
-            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <% @all_verticals.each do |ref_category| %>
-                <% d = ref_category.vertical_page %>
+          <ul class="navbar-nav">
+            <% if user_signed_in? %>
+                <% if @site.present? %>
+                    <li class="nav-item"><%= link_to "Plan", intersections_site_path(@site),"data-turbolinks" => "false", class: "nav-link" %></li>
+                    <li class="nav-item dropdown">
+                      <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Layout
+                      </a>
+                      <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <% @all_verticals.each do |ref_category| %>            
+                            <% d = ref_category.vertical_page %>
 
-                <% if d.present? %>
-                  <%= link_to "# " + ref_category.name, edit_site_page_path(@site, d, folder_id: @folder.present? ? @folder.id : nil), "data-turbolinks"=> false, class: "dropdown-item" %>
+                                <% if d.present? %>
+                                    <%= link_to "# " + ref_category.name, edit_site_page_path(@site, d, folder_id: @folder.present? ? @folder.id : nil), "data-turbolinks"=> false, class: "dropdown-item" %>
+                                <% end %>
+
+                        <% end %>
+                        <%= link_to "Add Section", sections_site_path(@site), "data-turbolinks"=> false, class: "dropdown-item" %>
+                      </div>
+                    </li>
+                    <li class="nav-item dropdown">
+                      <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Assets
+                      </a>
+                      <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <%= link_to "Images", site_images_path(@site), "data-turbolinks"=> false, class: "dropdown-item" %> 
+                      </div>
+                    </li>
+                    <% if current_user.is_admin_from_pykih %>
+                        <li class="nav-item"><%=link_to "App Store", site_template_data_path(@site), "data-turbolinks" => "false", class: "nav-link" %></li>
+                    <% end %>
+                    <li class="nav-item"><%= link_to "Adminland", edit_site_path(@site), class: "nav-link"%></li>
                 <% end %>
-
-              <% end %>
-              <%= link_to "Add Section", sections_site_path(@site), "data-turbolinks"=> false, class: "dropdown-item" %>
-            </div>
-          </li>
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              Assets
-            </a>
-            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <%= link_to "Images", site_images_path(@site), "data-turbolinks"=> false, class: "dropdown-item" %>
-            </div>
-          </li>
-          <% if current_user.is_admin_from_pykih %>
-            <li class="nav-item"><%=link_to "App Store", site_template_data_path(@site), "data-turbolinks" => "false", class: "nav-link" %></li>
-          <% end %>
-          <li class="nav-item"><%= link_to "Adminland", edit_site_path(@site), class: "nav-link"%></li>
-        <% end %>
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <%= image_tag avatar_url(current_user.email), class: "rounded", style: "width: 24px;" %>
-          </a>
-          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <%= link_to 'Profile', edit_user_path(current_user), class: "dropdown-item" %>
-            <%= link_to 'Settings', edit_user_registration_path, class: "dropdown-item" %>
-            <%= link_to "Sign out", destroy_user_session_path, class: "dropdown-item" %>
-            <% if current_user.is_admin_from_pykih %>
-              <div class="dropdown-divider"></div>
-              <%= link_to 'Ref: Link Sources', ref_link_sources_path, class: "dropdown-item", style: "font-size: 10px;" %>
-              <%= link_to "Admin: User Sessions", admin_user_sessions_path, class: "dropdown-item", style: "font-size: 10px;" %>
+                <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <%= image_tag avatar_url(current_user.email), class: "rounded", style: "width: 24px;" %>
+                  </a>
+                  <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <%= link_to 'Profile', edit_user_path(current_user), class: "dropdown-item" %>
+                    <%= link_to 'Settings', edit_user_registration_path, class: "dropdown-item" %>
+                    <%= link_to "Sign out", destroy_user_session_path, class: "dropdown-item" %>
+                    <% if current_user.is_admin_from_pykih %>
+                        <div class="dropdown-divider"></div>
+                        <%= link_to 'Ref: Link Sources', ref_link_sources_path, class: "dropdown-item", style: "font-size: 10px;" %>
+                        <%= link_to "Admin: User Sessions", admin_user_sessions_path, class: "dropdown-item", style: "font-size: 10px;" %>
+                    <% end %>
+                  </div>
+                </li>
             <% end %>
-          </div>
-        </li>
-      <% end %>
-    </ul>
-  </div>
-</nav>
-<div class="container" style="width: 1260px; margin-left: auto; margin-right: auto; position: relative; padding-top: 0px">
-  <%= yield %>
-  <br/><br/><br/>
-</div>
-<% config = {} %>
-<% if notice.present? %>
-  <% config = {text: notice, notify: "success"} %>
-<% end %>
-<% if alert.present? %>
-  <% config = {text: alert, notify: "error"} %>
-<% end %>
+          </ul>
+        </div>
+    </nav>
+    <div class="container" style="width: 1260px; margin-left: auto; margin-right: auto; position: relative; padding-top: 0px">
+        <br/>
+        <%= yield %>
+        <br/><br/><br/>
+    </div>
+  <% config = {} %>
+  <% if notice.present? %>
+    <% config = {text: notice, notify: "success"} %>
+  <% end %>
+  <% if alert.present? %>
+    <% config = {text: alert, notify: "error"} %>
+  <% end %>
 
-<script type="text/javascript">
-  var notice = <%= config.to_json.html_safe %>;
-  if (notice.notify) generate_notify(notice);
-</script>
+  <script type="text/javascript">
+    var notice = <%= config.to_json.html_safe %>;
+    if (notice.notify) generate_notify(notice);
+  </script>
 </body>
 </html>

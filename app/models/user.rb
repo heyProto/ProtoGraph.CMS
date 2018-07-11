@@ -2,15 +2,15 @@
 #
 # Table name: users
 #
-#  id                       :bigint(8)        not null, primary key
-#  name                     :string(255)
-#  email                    :string(255)
+#  id                       :integer          not null, primary key
+#  name                     :string(255)      default(""), not null
+#  email                    :string(255)      default(""), not null
 #  access_token             :string(255)
-#  encrypted_password       :string(255)
+#  encrypted_password       :string(255)      default(""), not null
 #  reset_password_token     :string(255)
 #  reset_password_sent_at   :datetime
 #  remember_created_at      :datetime
-#  sign_in_count            :bigint(8)        default(0), not null
+#  sign_in_count            :integer          default(0), not null
 #  current_sign_in_at       :datetime
 #  last_sign_in_at          :datetime
 #  current_sign_in_ip       :string(255)
@@ -36,15 +36,12 @@ class User < ApplicationRecord
     #CUSTOM TABLES
     #GEMS
     devise :database_authenticatable, :registerable, :confirmable,
-         :recoverable, :rememberable, :trackable, :validatable,
-         :omniauthable, omniauth_providers: [:twitter]
+         :recoverable, :rememberable, :trackable, :validatable
     #CONCERNS
     #ASSOCIATIONS
     has_many :permissions, ->{where(status: "Active")}
-    has_many :activities
     has_many :uploads
     has_many :user_emails
-    has_many :authentications
 
     #ACCESSORS
     attr_accessor :username, :domain
@@ -91,17 +88,6 @@ class User < ApplicationRecord
         p
     end
 
-    def apply_omniauth(auth)
-      self.authentications.build(provider: auth['provider'], uid: auth['uid'],
-                                 access_token: auth['credentials'].token,
-                                 access_token_secret: auth['credentials'].secret,
-                                 email: auth.info.email)
-    end
-
-    def password_required?
-      authentications.empty? && super
-    end
-
     def online?
       updated_at > 10.minutes.ago
     end
@@ -144,8 +130,7 @@ class User < ApplicationRecord
 
     def email_invited
         d = self.email.split("@").last
-        sites = Site.where(email_domain: d, sign_up_mode: "Any email from your domain")
-        if sites.count == 0 and PermissionInvite.where(email: self.email).count == 0
+        if PermissionInvite.where(email: self.email).count == 0
             errors.add(:email, "Not invited.")
         end
     end
@@ -154,16 +139,7 @@ class User < ApplicationRecord
     class << self
         def check_for_access(email)
             is_present = PermissionInvite.where(email: email).first.present?
-            if email.present?
-                d = email.split("@").last
-                if d.present?
-                    a = Site.where(email_domain: d, sign_up_mode: "Any email from your domain").first
-                    if a.present?
-                       belongs_to_company = true
-                    end
-                end
-            end
-            return (is_present or belongs_to_company)
+            return is_present
         end
     end
     #PRIVATE

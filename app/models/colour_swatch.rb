@@ -2,11 +2,11 @@
 #
 # Table name: colour_swatches
 #
-#  id          :bigint(8)        not null, primary key
-#  red         :bigint(8)
-#  green       :bigint(8)
-#  blue        :bigint(8)
-#  image_id    :bigint(8)
+#  id          :integer          not null, primary key
+#  red         :integer
+#  green       :integer
+#  blue        :integer
+#  image_id    :integer
 #  is_dominant :boolean          default(FALSE)
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null

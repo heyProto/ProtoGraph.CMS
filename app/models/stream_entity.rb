@@ -2,16 +2,16 @@
 #
 # Table name: stream_entities
 #
-#  id           :bigint(8)        not null, primary key
-#  stream_id    :bigint(8)
+#  id           :integer          not null, primary key
+#  stream_id    :integer
 #  entity_type  :string(255)
 #  entity_value :string(255)
 #  is_excluded  :boolean
-#  created_by   :bigint(8)
-#  updated_by   :bigint(8)
+#  created_by   :integer
+#  updated_by   :integer
 #  created_at   :datetime         not null
 #  updated_at   :datetime         not null
-#  sort_order   :bigint(8)
+#  sort_order   :integer
 #
 
 class StreamEntity < ApplicationRecord

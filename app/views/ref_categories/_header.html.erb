@@ -1,9 +1,14 @@
-<div class="protograph-page-tabs">
-    <div class="<%= controller_name != 'ref_categories' ? "single-tab" : "single-tab active-tab" %>">
-        <%= link_to "Editorial planning", intersections_site_path(@site),"data-turbolinks" => "false" %>
+<% if action_name != "sections" %>
+    <h1>Plan</h1>
+    <div class="protograph-page-tabs">
+        <div class="<%= controller_name != 'ref_categories' ? "single-tab" : "single-tab active-tab" %>">
+            <%= link_to "Editorial planning", intersections_site_path(@site),"data-turbolinks" => "false" %>
+        </div>
+        <div class="<%= controller_name != 'folders' ? "single-tab" : "single-tab active-tab" %>">
+            <%= link_to "Workspaces", site_folders_path(@site),"data-turbolinks" => "false" %>
+        </div>
     </div>
-    <div class="<%= controller_name != 'folders' ? "single-tab" : "single-tab active-tab" %>">
-        <%= link_to "Workspaces", site_folders_path(@site),"data-turbolinks" => "false" %>
-    </div>
-</div>
+<% else %>
+    <h1>Sub Sites</h1>
+<% end %>
 <br/>

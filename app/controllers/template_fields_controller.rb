@@ -1,6 +1,6 @@
 class TemplateFieldsController < ApplicationController
 
-  @@data_types = [["Short text (Maximum 255 characters)", "short_text"], ["Long text (Maximum 50k characters)", "long_text"], ["Integer", "integer"], ["Decimal", "decimal"], ["Yes/No", "boolean"], ["Temporal(Date, Time)", "temporal"]]
+  @@data_types = [["Short text (Max 255 chars): Use for titles, names, tags, URLs, e-mail addresses", "short_text"], ["Long text (Max 50k chars): Use for descriptions, text paragraphs, articles", "long_text"], ["Integer: ID, order number, rating, quantity", "integer"], ["Decimal (34.9)", "decimal"], ["Boolean: Yes or no, 1 or 0, true or false", "boolean"], ["Temporal: Event date, opening hours", "temporal"]]
 
   def new
     @template_datum = TemplateDatum.friendly.find(params[:template_datum_id])
@@ -29,7 +29,7 @@ class TemplateFieldsController < ApplicationController
     if @template_field.update(template_field_params)
       redirect_to site_template_datum_path(@site, @template_field.template_datum), notice: "Field Updated Successfully"
     else
-      redirect_to site_edit_template_datum_template_field_path(@site, @template_field.template_datum, @template_field), alert: "Error updating the field"
+      redirect_to edit_site_template_datum_template_field_path(@site, @template_field.template_datum, @template_field), alert: "Error updating the field"
     end
   end
 
@@ -43,9 +43,25 @@ class TemplateFieldsController < ApplicationController
     end
   end
 
+  def move_up
+    @template_datum = TemplateDatum.friendly.find(params[:template_datum_id])
+    @template_field = TemplateField.friendly.find(params[:id])
+    @template_field.decrement(:sort_order)
+    @template_field.save
+    redirect_to site_template_datum_path(@site, @template_datum)
+  end
+
+  def move_down
+    @template_datum = TemplateDatum.friendly.find(params[:template_datum_id])
+    @template_field = TemplateField.friendly.find(params[:id])
+    @template_field.increment(:sort_order)
+    @template_field.save
+    redirect_to site_template_datum_path(@site, @template_datum)
+  end
+
   private
 
   def template_field_params
-    params.require(:template_field).permit(:template_datum_id, :key_name, :name, :data_type, :description, :help, :is_entry_title, :genre_html, :is_required, :default_value, :min, :max, :multiple_of, :ex_min, :ex_max, :format, :format_regex, :length_minimum, :length_maximum, :created_by, :updated_by, inclusion_list: [], inclusion_list_names: [])
+    params.require(:template_field).permit(:template_datum_id, :key_name, :name, :data_type, :sort_order, :description, :help, :is_entry_title, :genre_html, :is_required, :default_value, :min, :max, :multiple_of, :ex_min, :ex_max, :format, :format_regex, :length_minimum, :length_maximum, :created_by, :updated_by, inclusion_list: [], inclusion_list_names: [])
   end
 end

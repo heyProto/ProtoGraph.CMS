@@ -2,19 +2,20 @@
 #
 # Table name: template_data
 #
-#  id            :bigint(8)        not null, primary key
+#  id            :integer          not null, primary key
 #  name          :string(255)
 #  global_slug   :string(255)
 #  slug          :string(255)
 #  version       :string(255)
 #  change_log    :text
-#  publish_count :bigint(8)
+#  publish_count :integer
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
-#  status        :string(255)
 #  s3_identifier :string(255)
-#  created_by    :bigint(8)
-#  updated_by    :bigint(8)
+#  status        :string(255)
+#  created_by    :integer
+#  updated_by    :integer
+#  site_id       :integer
 #
 
 #TODO AMIT - Handle created_by, updated_by - RP added retrospectively. Need migration of old rows and BAU handling.
@@ -69,7 +70,7 @@ class TemplateDatum < ApplicationRecord
   end
 
   def invalidate
-    Api::ProtoGraph::CloudFront.invalidate(nil,["/#{self.s3_identifier}/*"], 1)
+    Api::ProtoGraph::CloudFront.invalidate(nil, ["/#{self.s3_identifier}/*"], 1)
   end
 
 
@@ -88,7 +89,7 @@ class TemplateDatum < ApplicationRecord
   end
 
   def get_schema_json
-    fields = self.template_fields
+    fields = self.template_fields.order("sort_order")
     json_schema = {
       "$schema": "http://json-schema.org/draft-04/schema#",
       "properties": {
@@ -171,8 +172,8 @@ class TemplateDatum < ApplicationRecord
 
   def upload_to_s3
     puts "upload to s3"
-    new_schema_json = self.get_schema_json
     begin
+      new_schema_json = self.get_schema_json
       url = self.schema_json
       old_schema_json = JSON.parse(open(url).read)
       merged_schema = self.merge_schema(old_schema_json, new_schema_json)
@@ -180,9 +181,10 @@ class TemplateDatum < ApplicationRecord
       encoded_file = Base64.encode64(merged_schema.to_json)
       content_type = "application/json"
       resp = Api::ProtoGraph::Utility.upload_to_cdn(encoded_file, key, content_type, self.cdn_bucket)
+      puts "resp=#{resp}"
       self.invalidate
-    rescue e
-      puts "#{e}:Could not fetch original schema"
+    rescue
+      puts "Could not upload schema.json"
     end
   end
 
@@ -231,8 +233,8 @@ class TemplateDatum < ApplicationRecord
     return json_schema
   end
 
-
   #PRIVATE
+
   private
 
   def should_generate_new_friendly_id?

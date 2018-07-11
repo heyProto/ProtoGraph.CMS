@@ -2,20 +2,20 @@
 #
 # Table name: uploads
 #
-#  id               :bigint(8)        not null, primary key
+#  id               :integer          not null, primary key
 #  attachment       :string(255)
 #  template_card_id :decimal(, )
 #  created_at       :datetime         not null
 #  updated_at       :datetime         not null
 #  folder_id        :decimal(, )
-#  created_by       :bigint(8)
-#  updated_by       :bigint(8)
+#  created_by       :integer
+#  updated_by       :integer
 #  upload_errors    :text
 #  filtering_errors :text
-#  upload_status    :string(255)
-#  total_rows       :bigint(8)
-#  rows_uploaded    :bigint(8)
-#  site_id          :bigint(8)
+#  upload_status    :string(255)      default("waiting")
+#  total_rows       :integer
+#  rows_uploaded    :integer
+#  site_id          :integer
 #
 
 class Upload < ApplicationRecord
