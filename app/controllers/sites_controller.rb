@@ -9,6 +9,7 @@ class SitesController < ApplicationController
   end
 
   def show
+    @sites = current_user.sites
     @uncategorized_folders = @site.folders.where("ref_category_vertical_id IS NULL").active.order(:name)
     @archived_folders = @site.folders.inactive.order(:name)
     @all_verticals = @site.ref_categories.where(genre: "series").includes(:folders).order(:name)

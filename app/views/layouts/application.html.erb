@@ -20,22 +20,15 @@
         <div class="container">
           <span class="navbar-brand">
               <% if @site.present? %>
-                  <%= link_to image_tag("https://cdn.protograph.pykih.com/Assets/proto-app/img/proto-color-logo.png", style: "height: 24px;"), site_path(@site) %>
-                  &nbsp;
-                  <span style="color: lightgray">|</span>
-                  &nbsp;
-                  <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><%= truncate @site.domain, length: 40, ommission: ".." %></a>
-                  <% if @sites.count > 1 %>
-                      <div class="dropdown">
-                          <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                              <% @sites.each do |s| %>
-                                  <%= link_to "#{s.domain}", site_path(s), class: "dropdown-item"%>
-                              <% end %>
-                          </div>
-                      </div >
-                  <% end %>
+                  <%= link_to image_tag("proto-dark.png", style: "height: 20px;"), site_path(@site) %>
+                  <span style="color: lightgray; font-size: 1rem !important;">
+                      &nbsp;
+                      |
+                      &nbsp; 
+                      <%= link_to @site.domain, site_path(@site), style: "color: lightgray; font-size: 1rem !important;" %>
+                  </span>
               <% else %>
-                  <%= link_to image_tag("proto-dark.png", style: "height: 24px;"), root_url %>
+                  <%= link_to image_tag("proto-dark.png", style: "height: 20px;"), root_url %>
               <% end %>           
           </span>
           <ul class="navbar-nav">
