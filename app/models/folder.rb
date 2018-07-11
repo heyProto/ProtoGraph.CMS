@@ -53,6 +53,7 @@ class Folder < ApplicationRecord
     
     #SCOPE
     scope :active, -> { where("is_archived IS NULL OR is_archived = false")}
+    scope :inactive, -> { where("is_archived = true")}
     
     #OTHER
     def should_generate_new_friendly_id?

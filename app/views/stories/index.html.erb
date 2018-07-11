@@ -1,6 +1,9 @@
 <h1>
     <%= folder_name_(@folder)%>
     <% if !@folder.is_trash %>
+        <small style="font-size: 14px;"><%= link_to "Edit this workspace", edit_site_folder_path(@site, @folder) %></small>
+    <% end %>
+    <% if !@folder.is_trash %>
         <span style="float: right;">
             <form class="form-inline my-2 my-lg-0"><li style="list-style-type: none;"><%= render partial: "stories/new" %></li></form>
         </span>
