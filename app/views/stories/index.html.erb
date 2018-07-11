@@ -13,28 +13,32 @@
 <div class="row">
     <div class="col-sm-4" style="padding-left: 0px;">
         <div style="width: 300px;">            
-            <div class="protograph-filters-header" style="margin-bottom: 10px;">
-                FILTERS
-            </div>
-            <br/>
-                  <%= search_form_for @q, url: site_folder_stories_path(@site, @folder) do |f| %>
-                      <%= f.label :english_headline_cont %>
-                      <%= f.search_field :english_headline_or_headline_cont, :class => "form-control" %>
-                      <br/>
-                      <%= f.label :ref_category_intersection_id_eq, "Intersection" %>
-                      <%= f.select :ref_category_intersection_id_eq, options_from_collection_for_select(@ref_intersections, :id, :name, @q.ref_category_intersection_id_eq), { :include_blank => true }, :class => "form-control" %>
-                      <br/>
-                      <%= f.label :ref_category_sub_intersection_id_eq, "Trend" %>
-                      <%= f.select :ref_category_sub_intersection_id_eq, options_from_collection_for_select(@ref_sub_intersections, :id, :name, @q.ref_category_sub_intersection_id_eq), { :include_blank => true }, :class => "form-control" %>
-                      <br/>
-                      <%= f.label :byline_id_eq, "Byline" %>
-                      <%= f.select :byline_id_eq, options_from_collection_for_select(@bylines, :id, :name, @q.byline_id_eq), { :include_blank => true }, :class => "form-control" %>
-                      <br/>
-                      <%= f.submit "Search", class: "btn btn-sm btn-dark" %>
-                      &nbsp;&nbsp;&nbsp;&nbsp;
-                      |&nbsp;&nbsp;&nbsp;&nbsp;
-                      <%= link_to "Reset", site_folder_stories_path(@site, @folder) %>
-                  <% end %>
+            <% if @pages.present? %>
+                <div class="protograph-filters-header" style="margin-bottom: 10px;">
+                    FILTERS
+                </div>
+                <br/>
+                      <%= search_form_for @q, url: site_folder_stories_path(@site, @folder) do |f| %>
+                          <%= f.label :english_headline_cont %>
+                          <%= f.search_field :english_headline_or_headline_cont, :class => "form-control" %>
+                          <br/>
+                          <%= f.label :ref_category_intersection_id_eq, "Intersection" %>
+                          <%= f.select :ref_category_intersection_id_eq, options_from_collection_for_select(@ref_intersections, :id, :name, @q.ref_category_intersection_id_eq), { :include_blank => true }, :class => "form-control" %>
+                          <% if @ref_sub_intersections.present? %>
+                              <br/>
+                              <%= f.label :ref_category_sub_intersection_id_eq, "Trend" %>
+                              <%= f.select :ref_category_sub_intersection_id_eq, options_from_collection_for_select(@ref_sub_intersections, :id, :name, @q.ref_category_sub_intersection_id_eq), { :include_blank => true }, :class => "form-control" %>
+                          <% end %>
+                          <br/>
+                          <%= f.label :byline_id_eq, "Byline" %>
+                          <%= f.select :byline_id_eq, options_from_collection_for_select(@bylines, :id, :name, @q.byline_id_eq), { :include_blank => true }, :class => "form-control" %>
+                          <br/>
+                          <%= f.submit "Search", class: "btn btn-sm btn-dark" %>
+                          &nbsp;&nbsp;&nbsp;&nbsp;
+                          |&nbsp;&nbsp;&nbsp;&nbsp;
+                          <%= link_to "Reset", site_folder_stories_path(@site, @folder) %>
+                      <% end %>
+            <% end %>
         </div>
     </div>
     <div class="col-sm-12">
