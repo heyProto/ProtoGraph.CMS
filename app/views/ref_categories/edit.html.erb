@@ -17,14 +17,14 @@
   <%# if action_name != "verticals" %>
       <%# unless ref_category.is_disabled %>
         <%# if ref_category.count > 0 %>
-          <%#= link_to 'Disable', disable_account_site_ref_category_path(@account, @site, ref_category), method: :put, data: { confirm: 'Are you sure?' } %>
+          <%#= link_to 'Disable', disable_site_ref_category_path(@site, ref_category), method: :put, data: { confirm: 'Are you sure?' } %>
         <%# else %>
-          <%#= link_to 'x', account_site_ref_category_path(@account, @site, ref_category), method: :delete, data: { confirm: 'Are you sure?' } %>
+          <%#= link_to 'x', site_ref_category_path(@site, ref_category), method: :delete, data: { confirm: 'Are you sure?' } %>
         <%# end %>
       <%# end %>
   <%# else %>
       <%# if ref_category.pages.count < 1 %>
-        <%#= link_to 'x', account_site_ref_category_path(@account, @site, ref_category), method: :delete, data: { confirm: 'Are you sure?' }, input_html: {"disabled": true} %>
+        <%#= link_to 'x', site_ref_category_path(@site, ref_category), method: :delete, data: { confirm: 'Are you sure?' }, input_html: {"disabled": true} %>
       <%# else %>
         <%#= link_to 'x', "#", style: "color: #d3d3d3;","data-title" => "You cannot delete this vertical as it has associated pages", "data-toggle" => "tooltip", "data-placement" => "bottom" %>
       <%# end %>

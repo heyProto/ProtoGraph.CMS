@@ -15,7 +15,7 @@ class SiteVerticalNavigationsController < ApplicationController
     @site_vertical_navigation.created_by = current_user.id
     @site_vertical_navigation.updated_by = current_user.id
     if @site_vertical_navigation.save
-      redirect_to account_site_ref_category_site_vertical_navigations_path(@site, @ref_category), notice: t('cs')
+      redirect_to site_ref_category_site_vertical_navigations_path(@site, @ref_category), notice: t('cs')
     else
       @site_vertical_navigations_header = @ref_category.navigations.where(menu: "Vertical Header")
       @site_vertical_navigations_footer = @ref_category.navigations.where(menu: "Vertical Footer")
@@ -25,18 +25,18 @@ class SiteVerticalNavigationsController < ApplicationController
 
   def move_up
     @site_vertical_navigation.update_attributes(updated_by: current_user.id, sort_order: @site_vertical_navigation.sort_order - 1)
-    redirect_to account_site_ref_category_site_vertical_navigations_path(@site, @ref_category), notice: t('us')
+    redirect_to site_ref_category_site_vertical_navigations_path(@site, @ref_category), notice: t('us')
   end
 
   def move_down
     @site_vertical_navigation.update_attributes(updated_by: current_user.id, sort_order: @site_vertical_navigation.sort_order + 1)
-    redirect_to account_site_ref_category_site_vertical_navigations_path(@site, @ref_category), notice: t('us')
+    redirect_to site_ref_category_site_vertical_navigations_path(@site, @ref_category), notice: t('us')
   end
 
   def update
     @site_vertical_navigation.updated_by = current_user.id
     if @site_vertical_navigation.update(site_vertical_navigation_params)
-      redirect_to account_site_ref_category_site_vertical_navigations_path(@site, @ref_category), notice: t('us')
+      redirect_to site_ref_category_site_vertical_navigations_path(@site, @ref_category), notice: t('us')
     else
       @site_vertical_navigations_header = @ref_category.navigations.where(menu: "Vertical Header")
       @site_vertical_navigations_footer = @ref_category.navigations.where(menu: "Vertical Footer")
@@ -46,7 +46,7 @@ class SiteVerticalNavigationsController < ApplicationController
 
   def destroy
     @site_vertical_navigation.destroy
-    redirect_to account_site_ref_category_site_vertical_navigations_path(@site, @ref_category), notice: t('ds')
+    redirect_to site_ref_category_site_vertical_navigations_path(@site, @ref_category), notice: t('ds')
   end
 
   private
