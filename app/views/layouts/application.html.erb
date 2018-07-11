@@ -65,8 +65,8 @@
                     <%= link_to "Sign out", destroy_user_session_path, class: "dropdown-item" %>
                     <% if current_user.is_admin_from_pykih %>
                         <div class="dropdown-divider"></div>
-                        <%= link_to 'Ref: Link Sources', ref_link_sources_path, class: "dropdown-item", style: "font-size: 10px;" %>
-                        <%= link_to "Admin: User Sessions", admin_user_sessions_path, class: "dropdown-item", style: "font-size: 10px;" %>
+                        <%= link_to 'Ref: Link Sources', ref_link_sources_path, class: "dropdown-item" %>
+                        <%= link_to "Admin: User Sessions", admin_user_sessions_path, class: "dropdown-item" %>
                     <% end %>
                   </div>
                 </li>

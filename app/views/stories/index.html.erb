@@ -1,7 +1,7 @@
 <h1>
     <%= folder_name_(@folder)%>
     <% if !@folder.is_trash %>
-        <small style="font-size: 14px;"><%= link_to "Edit this workspace", edit_site_folder_path(@site, @folder) %></small>
+        <p class="small thin"><%= link_to "Edit this workspace", edit_site_folder_path(@site, @folder) %></p>
     <% end %>
     <% if !@folder.is_trash %>
         <span style="float: right;">

@@ -1,18 +1,20 @@
-<br/>
-<br/>
 <br/>   
 <div style="margin-left: auto; margin-right: auto; width: 540px;">
+    <div class="small thin" style="float: right;">
+        <%= link_to "New workspace", new_site_folder_path(@site), data: {turbolinks: false} %>
+        
+    </div>
+    <br/>
+    <hr class="hr-text" data-content="Workspaces for sub sites">
+    <br/>
     <% @all_verticals.each do |v| %>
         <h2 style="padding-top: 0px; margin-top: 0px;">
             <% if v.vertical_page.present? %>
-                <%= link_to v.name, edit_site_page_path(@site, v, folder_id: nil), "data-turbolinks"=> false, style: "color: black !important;" %>
+                <%= link_to v.name, edit_site_page_path(@site, v, folder_id: nil), "data-turbolinks"=> false, style: "color: black !important; border-bottom: 1px dotted gray;" %>
             <% else %>
                 <spans style: "color: black;"><%= v.name %></span>
             <% end %>
-            <span class="small thin">
-                <%= link_to "Subsite", edit_site_page_path(@site, v, folder_id: nil), "data-turbolinks"=> false, style: "font-size: 12px;" %>
-            </span>
-            <span class="small thin" style="float: right; font-size: 15px;">
+            <span class="small thin" style="float: right;">
                 <%= link_to "New workspace", new_site_folder_path(@site), data: {turbolinks: false} %>
             </span>
         </h2>
@@ -37,7 +39,14 @@
         </table>
         <br/>
     <% end %>
-    <h2>Uncategorized</h2>
+    <hr class="hr-text" data-content="Other workspaces">
+    <br/>
+    <h2>
+        Uncategorized
+        <span class="small thin" style="float: right;">
+            <%= link_to "New workspace", new_site_folder_path(@site), data: {turbolinks: false} %>
+        </span>
+    </h2>
     <table class="table table-borderless table-hover table-sm">
         <tbody>
             <% @uncategorized_folders.each do |f| %>
