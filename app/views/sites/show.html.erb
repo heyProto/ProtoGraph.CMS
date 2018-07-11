@@ -1,6 +1,10 @@
+<br/>
+<br/>
+<br/>   
 <div style="margin-left: auto; margin-right: auto; width: 540px;">
     <% @all_verticals.each do |v| %>
-        <h1>
+        <p class="hint" style="margin-bottom: 0px; padding-bottom: 0px;">Subsite</p>
+        <h2 style="padding-top: 0px; margin-top: 0px;">
             <% if v.vertical_page.present? %>
                 <u><%= link_to v.name, edit_site_page_path(@site, v, folder_id: nil), "data-turbolinks"=> false %></u>
             <% else %>
@@ -9,7 +13,7 @@
             <span class="small thin" style="float: right; font-size: 15px;">
                 <%= link_to "New workspace", new_site_folder_path(@site), data: {turbolinks: false} %>
             </span>
-        </h1>
+        </h2>
         <table class="table table-borderless table-hover table-sm">
             <tbody>
                 <% v.folders.order(:name).each do |f| %>
@@ -29,9 +33,9 @@
                 <% end %>   
             </tbody>
         </table>
+        <br/>
     <% end %>
-    <br/>
-    <h1><u>Uncategorized</u></h1>
+    <h2><u>Uncategorized</u></h2>
     <table class="table table-borderless table-hover table-sm">
         <tbody>
             <% @uncategorized_folders.each do |f| %>
@@ -54,7 +58,7 @@
     </table>
     <% if @archived_folders.first.present? %>
         <br/>
-        <h1><u>Archived</u></h1>
+        <h2><u>Archived</u></h2>
         <table class="table table-borderless table-hover table-sm">
             <tbody>
                 <% @archived_folders.each do |f| %>
