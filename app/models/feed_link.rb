@@ -96,14 +96,8 @@ class FeedLink < ApplicationRecord
 
     parsed_link = URI.parse(self.link)
     link = "#{parsed_link.scheme}://#{parsed_link.host}"
-    ref_link_source = RefLinkSource.where(url: link).first
-    if ref_link_source.present?
-      data["data"]["links"][0]["favicon_url"] = ref_link_source.favicon_url
-      data["data"]["links"][0]["publication_name"] = ref_link_source.favicon_url
-    else
-      data["data"]["links"][0]["favicon_url"] = "https://cdn.protograph.pykih.com/lib/toCluster_default_favicon.png"
-      data["data"]["links"][0]["publication_name"] = parsed_link.host
-    end
+    data["data"]["links"][0]["favicon_url"] = "https://cdn.protograph.pykih.com/lib/toCluster_default_favicon.png"
+    data["data"]["links"][0]["publication_name"] = parsed_link.host
     data
   end
 
