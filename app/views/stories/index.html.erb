@@ -24,7 +24,7 @@
                       <%= f.label :ref_category_intersection_id_eq, "Intersection" %>
                       <%= f.select :ref_category_intersection_id_eq, options_from_collection_for_select(@ref_intersections, :id, :name, @q.ref_category_intersection_id_eq), { :include_blank => true }, :class => "form-control" %>
                       <br/>
-                      <%= f.label :ref_category_sub_intersection_id_eq, "Sub Intersection" %>
+                      <%= f.label :ref_category_sub_intersection_id_eq, "Trend" %>
                       <%= f.select :ref_category_sub_intersection_id_eq, options_from_collection_for_select(@ref_sub_intersections, :id, :name, @q.ref_category_sub_intersection_id_eq), { :include_blank => true }, :class => "form-control" %>
                       <br/>
                       <%= f.label :byline_id_eq, "Byline" %>
