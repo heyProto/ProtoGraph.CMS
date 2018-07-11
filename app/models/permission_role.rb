@@ -7,6 +7,7 @@
 #  updated_by                  :integer
 #  name                        :string(255)
 #  slug                        :string(255)
+#  can_change_account_settings :boolean
 #  can_add_image_bank          :boolean
 #  can_see_all_image_bank      :boolean
 #  can_add_site                :boolean

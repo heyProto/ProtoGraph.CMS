@@ -3,10 +3,10 @@
 # Table name: users
 #
 #  id                       :integer          not null, primary key
-#  name                     :string(255)      default(""), not null
-#  email                    :string(255)      default(""), not null
+#  name                     :string(255)
+#  email                    :string(255)
 #  access_token             :string(255)
-#  encrypted_password       :string(255)      default(""), not null
+#  encrypted_password       :string(255)
 #  reset_password_token     :string(255)
 #  reset_password_sent_at   :datetime
 #  remember_created_at      :datetime
@@ -22,12 +22,12 @@
 #  created_at               :datetime         not null
 #  updated_at               :datetime         not null
 #  can_publish_link_sources :boolean          default(FALSE)
-#  bio                      :text(65535)
-#  website                  :text(65535)
-#  facebook                 :text(65535)
-#  twitter                  :text(65535)
+#  bio                      :text
+#  website                  :text
+#  facebook                 :text
+#  twitter                  :text
 #  phone                    :string(255)
-#  linkedin                 :text(65535)
+#  linkedin                 :text
 #
 
 class User < ApplicationRecord

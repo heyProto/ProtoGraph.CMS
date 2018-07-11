@@ -10,12 +10,12 @@
 #  div_id         :string(255)
 #  height         :integer
 #  width          :integer
-#  slot_text      :text(65535)
+#  slot_text      :text
+#  page_stream_id :integer
 #  created_by     :integer
 #  updated_by     :integer
 #  created_at     :datetime         not null
 #  updated_at     :datetime         not null
-#  page_stream_id :integer
 #
 
 class AdIntegration < ApplicationRecord

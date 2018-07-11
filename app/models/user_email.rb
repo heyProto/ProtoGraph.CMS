@@ -3,7 +3,7 @@
 # Table name: user_emails
 #
 #  id                   :integer          not null, primary key
-#  user_id              :integer
+#  user_id              :decimal(, )
 #  email                :string(255)
 #  confirmation_token   :string(255)
 #  confirmation_sent_at :datetime

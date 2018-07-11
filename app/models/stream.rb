@@ -1,3 +1,34 @@
+# == Schema Information
+#
+# Table name: streams
+#
+#  id                     :integer          not null, primary key
+#  title                  :string(255)
+#  slug                   :string(255)
+#  description            :text
+#  folder_id              :integer
+#  datacast_identifier    :string(255)
+#  created_by             :integer
+#  updated_by             :integer
+#  created_at             :datetime         not null
+#  updated_at             :datetime         not null
+#  card_count             :integer
+#  last_published_at      :datetime
+#  order_by_key           :string(255)
+#  order_by_value         :string(255)
+#  limit                  :integer
+#  offset                 :integer
+#  is_grouped_data_stream :boolean          default(FALSE)
+#  data_group_key         :string(255)
+#  include_data           :boolean          default(FALSE)
+#  order_by_type          :string(255)
+#  site_id                :integer
+#  is_automated_stream    :boolean          default(FALSE)
+#  col_name               :string(255)
+#  col_id                 :integer
+#  is_open                :boolean
+#
+
 # == Schema rnformation
 #
 # Table name: streams

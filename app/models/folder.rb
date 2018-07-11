@@ -10,10 +10,10 @@
 #  created_at               :datetime         not null
 #  updated_at               :datetime         not null
 #  is_trash                 :boolean          default(FALSE)
-#  is_archived              :boolean          default(FALSE)
 #  site_id                  :integer
 #  is_open                  :boolean
 #  ref_category_vertical_id :integer
+#  is_archived              :boolean
 #  is_for_stories           :boolean
 #
 

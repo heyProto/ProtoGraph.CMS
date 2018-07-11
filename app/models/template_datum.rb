@@ -7,12 +7,12 @@
 #  global_slug   :string(255)
 #  slug          :string(255)
 #  version       :string(255)
-#  change_log    :text(65535)
+#  change_log    :text
 #  publish_count :integer
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
-#  s3_identifier :string(255)
 #  status        :string(255)
+#  s3_identifier :string(255)
 #  created_by    :integer
 #  updated_by    :integer
 #

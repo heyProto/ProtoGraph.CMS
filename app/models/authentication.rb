@@ -5,7 +5,7 @@
 #  id                  :integer          not null, primary key
 #  provider            :string(255)
 #  uid                 :string(255)
-#  info                :text(65535)
+#  info                :text
 #  name                :string(255)
 #  email               :string(255)
 #  access_token        :string(255)

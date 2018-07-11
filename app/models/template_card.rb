@@ -5,7 +5,7 @@
 #  id                   :integer          not null, primary key
 #  name                 :string(255)
 #  elevator_pitch       :string(255)
-#  description          :text(65535)
+#  description          :text
 #  global_slug          :string(255)
 #  is_current_version   :boolean
 #  slug                 :string(255)
@@ -13,12 +13,12 @@
 #  previous_version_id  :integer
 #  version_genre        :string(255)
 #  version              :string(255)
-#  change_log           :text(65535)
+#  change_log           :text
 #  status               :string(255)
 #  publish_count        :integer
 #  is_public            :boolean
-#  git_url              :text(65535)
-#  git_branch           :string(255)      default("master")
+#  git_url              :text
+#  git_branch           :string(255)
 #  created_by           :integer
 #  updated_by           :integer
 #  template_datum_id    :integer
@@ -29,9 +29,10 @@
 #  s3_identifier        :string(255)
 #  has_multiple_uploads :boolean          default(FALSE)
 #  has_grouping         :boolean          default(FALSE)
-#  allowed_views        :text(65535)
+#  allowed_views        :text
 #  sort_order           :integer
 #  is_editable          :boolean          default(TRUE)
+#  site_id              :integer
 #
 
 class TemplateCard < ApplicationRecord
