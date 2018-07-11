@@ -1,11 +1,11 @@
 <br/>   
 <div style="margin-left: auto; margin-right: auto; width: 540px;">
     <div class="small thin" style="float: right;">
-        <%= link_to "New workspace", new_site_folder_path(@site), data: {turbolinks: false} %>
+        <%= link_to "New subsite", sections_site_path(@site),"data-turbolinks" => "false" %>
         
     </div>
     <br/>
-    <hr class="hr-text" data-content="Workspaces for sub sites">
+    <hr class="hr-text" data-content="Workspaces for subsites">
     <br/>
     <% @all_verticals.each do |v| %>
         <h2 style="padding-top: 0px; margin-top: 0px;">
