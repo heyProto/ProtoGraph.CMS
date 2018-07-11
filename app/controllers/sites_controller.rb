@@ -9,8 +9,10 @@ class SitesController < ApplicationController
   end
 
   def show
-    folder = @permission_role.can_see_all_folders ? @site.folders.active.where(is_trash: false).first : current_user.folders(@site).active.where(is_trash: false).first
-    redirect_to site_folder_view_casts_path(@site, folder)
+    #folder = @permission_role.can_see_all_folders ? @site.folders.active.where(is_trash: false).first : current_user.folders(@site).active.where(is_trash: false).first
+    @uncategorized_folders = @site.folders.where("ref_category_vertical_id IS NULL")
+    @all_verticals = @site.ref_categories.where(genre: "series").includes(:folders).order(:name)
+    #redirect_to site_folder_view_casts_path(@site, folder)
   end
 
   def remove_logo

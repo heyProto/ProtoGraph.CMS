@@ -37,6 +37,7 @@ class RefCategory < ApplicationRecord
     has_one :stream, foreign_key: 'id', primary_key: 'stream_id'
     has_many :navigations, class_name: "SiteVerticalNavigation", foreign_key: "ref_category_vertical_id", dependent: :destroy
     has_one :folder, foreign_key: 'ref_category_vertical_id'
+    has_many :folders, foreign_key: 'ref_category_vertical_id'
     has_many :pages, foreign_key: 'ref_category_series_id'
     has_many :feeds, dependent: :destroy
 

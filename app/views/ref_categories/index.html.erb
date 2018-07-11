@@ -6,6 +6,7 @@
           <ul class="nav nav-tabs" style="font-size: 12px;">
             <li class="nav-item"><%= link_to "Intersections", intersections_site_path(@site), class: (action_name == "intersections") ? "nav-link active" : "nav-link" %>
             <li class="nav-item"><%= link_to "Sub Intersections", sub_intersections_site_path(@site), class: (action_name == "sub_intersections") ? "nav-link active" : "nav-link" %>
+            <li class="nav-item"><%= link_to "Add Section", sections_site_path(@site), "data-turbolinks"=> false, class: "nav-link" %></li>
           </ul>
       <% end %>
       <br/>

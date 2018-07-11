@@ -1,0 +1,32 @@
+<div style="margin-left: auto; margin-right: auto; width: 540px;">
+    <% @all_verticals.each do |v| %>
+        <h2>
+            <%= v.name %> 
+            <% if v.vertical_page.present? %>
+                <span class="small thin" style="float: right;">
+                    <%= link_to "Layout this subsite", edit_site_page_path(@site, v, folder_id: nil), "data-turbolinks"=> false %>
+                </span>
+            <% end %>
+        </h2>
+        <table class="table">
+            <tbody>
+                <% v.folders.each do |f| %>
+                    <tr>
+                        <td><%= link_to f.name, site_folder_view_casts_path(@site, f) %></td>
+                    </tr>
+                <% end %>
+            </tbody>
+        </table>
+    <% end %>
+    <br/>
+    <h2>Uncategorized</h2>
+    <table class="table">
+        <tbody>
+            <% @uncategorized_folders.each do |f| %>
+                <tr>
+                    <td><%= link_to f.name, site_folder_view_casts_path(@site, f) %></td>
+                </tr>
+            <% end %>
+        </tbody>
+    </table>
+</div>
