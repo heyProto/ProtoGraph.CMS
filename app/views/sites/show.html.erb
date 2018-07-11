@@ -12,7 +12,10 @@
             <tbody>
                 <% v.folders.each do |f| %>
                     <tr>
-                        <td><%= link_to f.name, site_folder_view_casts_path(@site, f) %></td>
+                        <td>
+                            <%= link_to folder_name_(f).html_safe, site_folder_view_casts_path(@site, f) %>
+                            <span class="spanadd">(<%= f.view_casts.count + f.pages.count %>)</span>
+                        </td>
                     </tr>
                 <% end %>
             </tbody>
@@ -24,7 +27,10 @@
         <tbody>
             <% @uncategorized_folders.each do |f| %>
                 <tr>
-                    <td><%= link_to f.name, site_folder_view_casts_path(@site, f) %></td>
+                    <td>
+                        <%= link_to folder_name_(f).html_safe, site_folder_view_casts_path(@site, f) %>
+                        <span class="spanadd">(<%= f.view_casts.count + f.pages.count %>)</span>
+                    </td>
                 </tr>
             <% end %>
         </tbody>
