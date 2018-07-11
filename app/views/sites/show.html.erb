@@ -13,8 +13,15 @@
                 <% v.folders.each do |f| %>
                     <tr>
                         <td>
-                            <%= link_to folder_name_(f).html_safe, site_folder_view_casts_path(@site, f) %>
+                            <%= link_to f.name, site_folder_view_casts_path(@site, f) %>
                             <span class="spanadd">(<%= f.view_casts.count + f.pages.count %>)</span>
+                        </td>
+                        <td>
+                            <% if f.is_for_stories %>
+                                <span style="color: lightgray;">
+                                    (This workspace is used to file stories.)
+                                </span>
+                            <% end %>
                         </td>
                     </tr>
                 <% end %>
@@ -28,7 +35,7 @@
             <% @uncategorized_folders.each do |f| %>
                 <tr>
                     <td>
-                        <%= link_to folder_name_(f).html_safe, site_folder_view_casts_path(@site, f) %>
+                        <%= link_to f.name, site_folder_view_casts_path(@site, f) %>
                         <span class="spanadd">(<%= f.view_casts.count + f.pages.count %>)</span>
                     </td>
                 </tr>
