@@ -13,7 +13,7 @@
 </h1>
 <div class="protograph-page-tabs">
     <div class="<%= action_name != 'edit' ? "single-tab" : "single-tab active-tab" %>">
-        <%= link_to "Assemble", edit_site_page_path(@site, v), "data-turbolinks" => "false" %>
+        <%= link_to "Layout", edit_site_page_path(@site, v), "data-turbolinks" => "false" %>
     </div>
     <% if @site.enable_ads %>
         <div class="<%= action_name != 'ads' ? "single-tab" : "single-tab active-tab" %>">
