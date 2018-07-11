@@ -13,9 +13,7 @@
  *= require vendors/bootstrap.min.css
  *= require vendors/select2.min.css
  *= require app/select2-tag.css
- *= require app/theme.css
  *= require app/style.css
- *= require app/card_as_a_todo.scss
  *= require jquery-ui
  *= require_self
  */
