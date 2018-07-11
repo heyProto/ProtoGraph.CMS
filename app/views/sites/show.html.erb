@@ -1,10 +1,7 @@
-<br/>   
 <div style="margin-left: auto; margin-right: auto; width: 540px;">
+    <hr class="hr-text" data-content="Sites">
     <h1>
         <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color: black !important;"><%= truncate @site.domain, length: 40, ommission: ".." %></a>
-        <span class="small thin" style="float: right;">
-            <%= link_to "New subsite", sections_site_path(@site),"data-turbolinks" => "false" %>
-        </span>
         <% if @sites.count > 1 %>
             <div class="dropdown">
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
@@ -16,19 +13,28 @@
         <% end %>
     </h1>
     <br/>
-    <hr class="hr-text" data-content="Workspaces for subsites">
-    <br/>
+    <hr class="hr-text" data-content="Subsites">
+    <div class="small thin" style="text-align: right;">
+        <%= link_to "New subsite", sections_site_path(@site),"data-turbolinks" => "false" %>
+    </div>
     <% @all_verticals.each do |v| %>
-        <h2 style="padding-top: 0px; margin-top: 0px;">
+        <p style="padding-top: 0px; margin-top: 0px;">
             <% if v.vertical_page.present? %>
-                <%= link_to v.name, edit_site_page_path(@site, v, folder_id: nil), "data-turbolinks"=> false, style: "color: black !important; border-bottom: 1px dotted gray;" %>
+                <%= link_to v.name, edit_site_page_path(@site, v, folder_id: nil), "data-turbolinks"=> false %>
             <% else %>
                 <spans style: "color: black;"><%= v.name %></span>
             <% end %>
+        </p>
+    <% end %>
+    <hr class="hr-text" data-content="Workspaces">
+    <br/>
+    <% @all_verticals.each do |v| %>
+        <h3>
+            <%= v.name %>
             <span class="small thin" style="float: right;">
                 <%= link_to "New workspace", new_site_folder_path(@site), data: {turbolinks: false} %>
             </span>
-        </h2>
+        </h3>
         <table class="table table-borderless table-hover table-sm">
             <tbody>
                 <% v.folders.order(:name).each do |f| %>
@@ -50,14 +56,18 @@
         </table>
         <br/>
     <% end %>
-    <hr class="hr-text" data-content="Other workspaces">
-    <br/>
-    <h2>
+    
+    
+    
+    
+    
+    
+    <h3>
         Uncategorized
         <span class="small thin" style="float: right;">
             <%= link_to "New workspace", new_site_folder_path(@site), data: {turbolinks: false} %>
         </span>
-    </h2>
+    </h3>
     <table class="table table-borderless table-hover table-sm">
         <tbody>
             <% @uncategorized_folders.each do |f| %>
