@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180711165726) do
+ActiveRecord::Schema.define(version: 20180712012658) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -394,25 +394,6 @@ ActiveRecord::Schema.define(version: 20180711165726) do
     t.boolean "is_open"
     t.index "to_tsvector('simple'::regconfig, (title)::text)", name: "idx_80902_index_streams_on_title", using: :gin
     t.index "to_tsvector('simple'::regconfig, description)", name: "idx_80902_index_streams_on_description", using: :gin
-  end
-
-  create_table "taggings", force: :cascade do |t|
-    t.bigint "tag_id"
-    t.string "taggable_type", limit: 255
-    t.bigint "taggable_id"
-    t.string "tagger_type", limit: 255
-    t.bigint "tagger_id"
-    t.string "context", limit: 128
-    t.datetime "created_at"
-    t.index ["context"], name: "idx_80923_index_taggings_on_context"
-    t.index ["tag_id", "taggable_id", "taggable_type", "context", "tagger_id", "tagger_type"], name: "idx_80923_taggings_idx", unique: true
-    t.index ["tag_id"], name: "idx_80923_index_taggings_on_tag_id"
-    t.index ["taggable_id", "taggable_type", "context"], name: "idx_80923_index_taggings_on_taggable_id_and_taggable_type_and_c"
-    t.index ["taggable_id", "taggable_type", "tagger_id", "context"], name: "idx_80923_taggings_idy"
-    t.index ["taggable_id"], name: "idx_80923_index_taggings_on_taggable_id"
-    t.index ["taggable_type"], name: "idx_80923_index_taggings_on_taggable_type"
-    t.index ["tagger_id", "tagger_type"], name: "idx_80923_index_taggings_on_tagger_id_and_tagger_type"
-    t.index ["tagger_id"], name: "idx_80923_index_taggings_on_tagger_id"
   end
 
   create_table "template_cards", force: :cascade do |t|

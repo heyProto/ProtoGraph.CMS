@@ -51,8 +51,6 @@ gem 'ntc', bitbucket: "pykih_/name-that-colour", require: false
 
 #Encryption
 #gem "attr_encrypted", "~> 3.0.0"
-
-gem 'acts-as-taggable-on'
 gem 'aws-sdk'
 gem 'sitemap_generator'
 gem 'geocoder'

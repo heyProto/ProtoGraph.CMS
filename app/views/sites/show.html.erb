@@ -17,16 +17,22 @@
     <div class="small thin" style="text-align: right;">
         <%= link_to "New subsite", sections_site_path(@site),"data-turbolinks" => "false" %>
     </div>
-    <% @all_verticals.each do |v| %>
-        <p style="padding-top: 0px; margin-top: 0px;">
-            <% if v.vertical_page.present? %>
-                <%= link_to v.name, edit_site_page_path(@site, v, folder_id: nil), "data-turbolinks"=> false %>
-            <% else %>
-                <spans style: "color: black;"><%= v.name %></span>
-            <% end %>
-        </p>
-    <% end %>
-    <hr class="hr-text" data-content="Workspaces">
+    <table class="table table-borderless table-hover table-sm">
+        <tbody>
+            <% @all_verticals.each do |v| %>
+                <tr>
+                    <td style="border: 0px;">
+                        <% if v.vertical_page.present? %>
+                            <%= link_to v.name, edit_site_page_path(@site, v, folder_id: nil), "data-turbolinks"=> false %>
+                        <% else %>
+                            <spans style: "color: black;"><%= v.name %></span>
+                        <% end %>
+                    </td>
+                </tr>
+            <% end %>   
+        </tbody>
+    </table>
+    <hr class="hr-text" data-content="Workspaces (grouped by subsites)">
     <br/>
     <% @all_verticals.each do |v| %>
         <h3>
@@ -56,7 +62,8 @@
         </table>
         <br/>
     <% end %>
-    
+    <hr class="hr-text" data-content="Workspaces (other)">
+    <br/>
     
     
     
