@@ -1,25 +1,10 @@
 <%= render partial: "template_data/header" %>
-<div class="container">
-    <table class="table">
-        <thead>
-            <th>Name</th>
-            <th>Updated</th>
-            <th>By</th>
-            <th>Fields</th>
-            <th>Cards</th>
-            <th>Content Cards</th>
-        </thead>
-        <tbody>
-            <% @template_datums.each do |template_data| %>
-              <tr>
-                  <td><%= link_to template_data.name, site_template_datum_path(@site, template_data) %></td>
-                  <td><%= time_ago_in_words template_data.updated_at %></td>
-                  <td><%= template_data.updator.name if template_data.updator.present? %></td>
-                  <td><%= template_data.template_fields.count %></td>
-                  <td><%= template_data.template_cards.count %></td>
-                  <td><%= template_data.view_casts.count %></td>
-              </tr>
-            <% end %>
-        </tbody>
-    </table>
+<div style="margin-left: auto; margin-right: auto; width: 540px;">
+    <% @template_datums.each do |template_data| %>
+        <h3><%= link_to template_data.name, site_template_datum_path(@site, template_data) %></h3>
+        <p class="hint">
+            This schema has <b><%= template_data.template_fields.count %> fields</b> and is used by <b><%= template_data.template_cards.count %> cards</b>. These cards have been used <b><%= template_data.view_casts.count %> times</b>. It was last updated <%= time_ago_in_words template_data.updated_at %> ago <%= (" by " + template_data.updator.name) if template_data.updator.present? %>.
+        </p>
+        <hr/>
+    <% end %>
 </div>
