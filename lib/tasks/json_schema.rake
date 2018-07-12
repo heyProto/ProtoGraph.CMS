@@ -114,4 +114,22 @@ namespace :json_schema do
       end
     end
   end
+  # to populate site_id in TemplateDatum, TemplateField
+  task pop_site_id: :environment do
+    TemplateDatum.find_each do |template_datum|
+      template_cards = template_datum.template_cards
+      if template_cards.present?
+        site_id = template_cards.first.site_id
+        template_datum.site_id = site_id
+        template_datum.template_fields.update_all(site_id: site_id)
+        if template_datum.save
+          puts "Saved TemplateDatum id=#{template_datum.id}"
+        else
+          puts "Cannot Save TemplateDatum id=#{template_datum.id}"
+        end
+      else
+        puts "#{template_datum.id}-#{template_datum.name} have '0' template cards, So site_id not set"
+      end
+    end
+  end
 end

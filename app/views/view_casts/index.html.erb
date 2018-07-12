@@ -1,54 +1,6 @@
 <%= render partial: "view_casts/header" %>
 
     <div class="row">
-        <div class="col-sm-4" style="padding-left: 0px;">
-            <div style="width: 300px;">
-                <div class="protograph-filters-header" style="margin-bottom: 10px;">
-                    FILTERS
-                </div>
-                <div class="protograph-filters-tabs-container">
-                    <ul class="nav nav-tabs" id="myTab" role="tablist">
-                      <li class="nav-item">
-                        <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Workspaces</a>
-                      </li>
-                      <li class="nav-item">
-                          <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Filter within Workspace</a>
-                        </li>
-                      </li>
-                    </ul>
-                </div>                
-                <div class="tab-content" id="myTabContent">
-                  <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-                      <br/>
-                      <ul class="list-group">
-                        <% @all_workspaces.each do |folder| %>
-                            <a href="<%= site_folder_path(@site, folder) %>">
-                                <li class="<%= (@folder.present? and @folder.id.present? and @folder.id == folder.id) ? "list-group-item active" : "list-group-item" %>">
-                                    <%= folder_name_(folder).html_safe  %>
-                                    <span class="spanadd">(<%= folder.view_casts.count + folder.pages.count %>)</span>
-                                </li>
-                            </a>
-                        <% end %>
-                      </ul>
-                  </div>
-                  <div class="tab-pane" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-                      <br/><br/>
-                      <%= search_form_for @q, url: site_folder_view_casts_path(@site, @folder) do |f| %>
-                          <%= f.label :seo_blockquote_cont, "Content contains" %>
-                          <%= f.search_field :seo_blockquote_or_name_cont, :class => "form-control" %>
-                          <br/>
-                          <%= f.label :template_card_id_eq, "Card Type" %>
-                          <%= f.select :template_card_id_eq, options_from_collection_for_select(@card_types, :id, :name, @q.template_card_id_eq), { :include_blank => true }, :class => "form-control" %>
-                          <br/>
-                          <%= f.submit "Search", :class => "btn btn-sm btn-secondary" %>
-                          &nbsp;&nbsp;&nbsp;&nbsp;
-                          |&nbsp;&nbsp;&nbsp;&nbsp;
-                          <%= link_to "Reset", site_folder_view_casts_path(@site, @folder) %>
-                      <% end %>
-                  </div>
-                </div>
-            </div>
-        </div>
         <div class="col-sm-12">
             <div class="protograph-page-tabs">
                 <div class="single-tab active-tab">
@@ -109,6 +61,24 @@
                 <%= paginate @view_casts, theme: 'twitter-bootstrap-4', pagination_class: "pagination-sm" %>
             </div>
             <% end %>
+        </div>
+        <div class="col-sm-4" style="padding-left: 6.25%; padding-right: 0px; padding-top: 70px;">
+
+                <% if @view_casts.present? %>
+                      <%= search_form_for @q, url: site_folder_view_casts_path(@site, @folder) do |f| %>
+                          <%= f.label :seo_blockquote_cont, "Content contains" %>
+                          <%= f.search_field :seo_blockquote_or_name_cont, :class => "form-control" %>
+                          <br/>
+                          <%= f.label :template_card_id_eq, "Card Type" %>
+                          <%= f.select :template_card_id_eq, options_from_collection_for_select(@card_types, :id, :name, @q.template_card_id_eq), { :include_blank => true }, :class => "form-control" %>
+                          <br/>
+                          <%= f.submit "Search", class: "btn btn-sm btn-primary" %>
+                          &nbsp;&nbsp;&nbsp;&nbsp;
+                          |&nbsp;&nbsp;&nbsp;&nbsp;
+                          <%= link_to "Reset", site_folder_view_casts_path(@site, @folder) %>
+                      <% end %>
+                <% end %>
+
         </div>
     </div>
 

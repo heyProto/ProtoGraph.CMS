@@ -86,8 +86,7 @@ class ApplicationController < ActionController::Base
     end
     puts "application_controller:site=#{@site}"
     if user_signed_in?
-      @sites = current_user.sites
-      if @sites.count == 0 and !(controller_name == 'sites' and ['new', 'create'].include?(action_name)) and !devise_controller?
+      if current_user.sites.count == 0 and !(controller_name == 'sites' and ['new', 'create'].include?(action_name)) and !devise_controller?
         redirect_to new_site_path, notice: t("ac.mandatory") and return
       end
       @on_site_page = (@site.present? and @site.id.present?)

@@ -9,8 +9,10 @@ class SitesController < ApplicationController
   end
 
   def show
-    folder = @permission_role.can_see_all_folders ? @site.folders.active.where(is_trash: false).first : current_user.folders(@site).active.where(is_trash: false).first
-    redirect_to site_folder_view_casts_path(@site, folder)
+    @sites = current_user.sites
+    @uncategorized_folders = @site.folders.where("ref_category_vertical_id IS NULL").active.order(:name)
+    @archived_folders = @site.folders.inactive.order(:name)
+    @all_verticals = @site.ref_categories.where(genre: "series").includes(:folders).order(:name)
   end
 
   def remove_logo
@@ -47,8 +49,6 @@ class SitesController < ApplicationController
       else
         @new_site = Site.new
         @user = current_user
-        @sites_owned = Site.where(id: current_user.permissions.where(ref_role_slug: "owner", permissible_type: "Site").pluck(:permissible_id).uniq)
-        @sites_member = Site.where(id: current_user.permissions.where(permissible_type: "Site").where.not(ref_role_slug: "owner"))
         render "users/edit"
       end
     end

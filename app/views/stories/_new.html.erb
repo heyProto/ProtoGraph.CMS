@@ -3,7 +3,7 @@
       + Quick add a story idea
     </button>
     <div class="dropdown-menu dropdown-menu-card dropdown-menu-right quick-pitch-story-card" style="right: 0; left: auto; width: 600px;">
-        <div style="padding: 20px; font-size: 1rem;">
+        <div style="padding: 20px;">
                 <%= simple_form_for [@site, @page] do |f| %>
                     <%= f.error_notification %>
                     <div class="form-inputs">
@@ -19,7 +19,7 @@
                             </div>
                             <div class="col-xs-8">
                                 <% if @ref_sub_intersection.first.present? %>
-                                    <%= f.input :ref_category_sub_intersection_id, label: "Sub Intersection", collection: @ref_sub_intersection, include_blank: true, input_html: {style: "width: 100%;"} %>
+                                    <%= f.input :ref_category_sub_intersection_id, label: "Trend", collection: @ref_sub_intersection, include_blank: true, input_html: {style: "width: 100%;"} %>
                                 <% end %>
                             </div>
                         </div>

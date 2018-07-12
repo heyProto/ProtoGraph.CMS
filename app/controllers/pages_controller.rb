@@ -32,6 +32,7 @@ class PagesController < ApplicationController
         @page.build_cover_image
       end
       if @page.template_page.name == "Homepage: Vertical"
+        @streams = @page.streams
         puts 'pages# homepage:vertical'
         @page_stream_16 = @page.streams.where(title: "#{@page.id}_Section_16c_Hero").first
         @page_stream_07 = @page.streams.where(title: "#{@page.id}_Section_7c").first

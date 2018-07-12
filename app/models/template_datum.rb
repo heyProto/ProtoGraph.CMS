@@ -21,7 +21,6 @@
 #TODO AMIT - Handle created_by, updated_by - RP added retrospectively. Need migration of old rows and BAU handling.
 
 class TemplateDatum < ApplicationRecord
-
   #CONSTANTS
   CDN_BASE_URL = "#{ENV['AWS_S3_ENDPOINT']}"
 

@@ -1,9 +1,10 @@
 <div class="row">
     <div class="col-sm-16">
+        <h1>
+            <%= folder_name_(@folder)%>
+        </h1>
+        <br/>
         <div style="margin-left: auto; margin-right: auto; width: 540px;">
-            <br/><br/>
-            <h2>Edit Workspace</h2>
-            <br/>
             <%= simple_form_for [@site, @folder] do |f| %>
                 <%= f.input :ref_category_vertical_id, collection: @verticals, label: "Vertical", disabled: true %>
                 <%= f.input :name, required: true %>
@@ -16,7 +17,17 @@
                     <%=  f.input :collaborator_lists,  collection: @site.users.pluck(:name, :id), input_html: { class: 'ui search fluid dropdown', multiple: true}, label: "Add Collaborators" %>
                 <% end %>
                 <%= f.button :submit, "Save", class: "btn btn-sm btn-secondary" %>
+                &nbsp;&nbsp;&nbsp;&nbsp;
+                |
+                &nbsp;&nbsp;&nbsp;&nbsp;
+                <%= link_to "Nevermind", site_folder_view_casts_path(@site, @folder ) %>
             <% end %>
+            <br/>
+            <p style="color: gray;">
+                Created by <%= @folder.creator.name %> about <%= time_ago_in_words @folder.created_at %>
+                <br/>
+                Updated by <%= @folder.updator.name %> about <%= time_ago_in_words @folder.updated_at %>
+            </p>
         </div>
     </div>
 </div>

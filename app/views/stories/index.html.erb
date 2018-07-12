@@ -1,6 +1,9 @@
 <h1>
     <%= folder_name_(@folder)%>
     <% if !@folder.is_trash %>
+        <span class="small thin"><%= link_to "Edit this workspace", edit_site_folder_path(@site, @folder) %></span>
+    <% end %>
+    <% if !@folder.is_trash %>
         <span style="float: right;">
             <form class="form-inline my-2 my-lg-0"><li style="list-style-type: none;"><%= render partial: "stories/new" %></li></form>
         </span>
@@ -8,60 +11,6 @@
 </h1>
 <br/>
 <div class="row">
-    <div class="col-sm-4" style="padding-left: 0px;">
-        <div style="width: 300px;">            
-            <div class="protograph-filters-header" style="margin-bottom: 10px;">
-                FILTERS
-            </div>
-            <div class="protograph-filters-tabs-container">
-                <ul class="nav nav-tabs" id="myTab" role="tablist">
-                  <li class="nav-item">
-                    <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Workspaces</a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Filter within Workspace</a>
-                  </li>
-                </ul>
-            </div>
-        
-            <div class="tab-content" id="myTabContent">
-              <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-                  <br/>
-                  <ul class="list-group">
-                    <% @all_workspaces.each do |folder| %>
-                        <a href="<%= site_folder_path(@site, folder) %>">
-                            <li class="<%= (@folder.present? and @folder.id.present? and @folder.id == folder.id) ? "list-group-item active" : "list-group-item" %>">
-                                <%= folder_name_(folder).html_safe %>
-                                <span class="spanadd">(<%= folder.view_casts.count + folder.pages.count %>)</span>
-                            </li>
-                        </a>
-                    <% end %>
-                  </ul>
-              </div>
-              <div class="tab-pane show" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-                  <br/><br/>
-                  <%= search_form_for @q, url: site_folder_stories_path(@site, @folder) do |f| %>
-                      <%= f.label :english_headline_cont %>
-                      <%= f.search_field :english_headline_or_headline_cont, :class => "form-control" %>
-                      <br/>
-                      <%= f.label :ref_category_intersection_id_eq, "Intersection" %>
-                      <%= f.select :ref_category_intersection_id_eq, options_from_collection_for_select(@ref_intersections, :id, :name, @q.ref_category_intersection_id_eq), { :include_blank => true }, :class => "form-control" %>
-                      <br/>
-                      <%= f.label :ref_category_sub_intersection_id_eq, "Sub Intersection" %>
-                      <%= f.select :ref_category_sub_intersection_id_eq, options_from_collection_for_select(@ref_sub_intersections, :id, :name, @q.ref_category_sub_intersection_id_eq), { :include_blank => true }, :class => "form-control" %>
-                      <br/>
-                      <%= f.label :byline_id_eq, "Byline" %>
-                      <%= f.select :byline_id_eq, options_from_collection_for_select(@bylines, :id, :name, @q.byline_id_eq), { :include_blank => true }, :class => "form-control" %>
-                      <br/>
-                      <%= f.submit "Search", :class => "btn btn-sm btn-secondary" %>
-                      &nbsp;&nbsp;&nbsp;&nbsp;
-                      |&nbsp;&nbsp;&nbsp;&nbsp;
-                      <%= link_to "Reset", site_folder_stories_path(@site, @folder) %>
-                  <% end %>
-              </div>
-            </div>
-        </div>
-    </div>
     <div class="col-sm-12">
             <div class="protograph-page-tabs">
                 <div class="single-tab">
@@ -143,9 +92,33 @@
                                 </tr>
                             <% end %>
                         </tbody>
-
                 </table>
                 <%= paginate @pages, theme: 'twitter-bootstrap-4', pagination_class: "pagination-sm" %>
+            <% end %>
+    </div>
+    <div class="col-sm-4" style="padding-left: 6.25%; padding-right: 0px; padding-top: 70px;">
+
+            <% if @pages.present? %>
+                      <%= search_form_for @q, url: site_folder_stories_path(@site, @folder) do |f| %>
+                          <%= f.label :english_headline_cont %>
+                          <%= f.search_field :english_headline_or_headline_cont, :class => "form-control" %>
+                          <br/>
+                          <%= f.label :ref_category_intersection_id_eq, "Intersection" %>
+                          <%= f.select :ref_category_intersection_id_eq, options_from_collection_for_select(@ref_intersections, :id, :name, @q.ref_category_intersection_id_eq), { :include_blank => true }, :class => "form-control" %>
+                          <% if @ref_sub_intersections.present? %>
+                              <br/>
+                              <%= f.label :ref_category_sub_intersection_id_eq, "Trend" %>
+                              <%= f.select :ref_category_sub_intersection_id_eq, options_from_collection_for_select(@ref_sub_intersections, :id, :name, @q.ref_category_sub_intersection_id_eq), { :include_blank => true }, :class => "form-control" %>
+                          <% end %>
+                          <br/>
+                          <%= f.label :byline_id_eq, "Byline" %>
+                          <%= f.select :byline_id_eq, options_from_collection_for_select(@bylines, :id, :name, @q.byline_id_eq), { :include_blank => true }, :class => "form-control" %>
+                          <br/>
+                          <%= f.submit "Search", class: "btn btn-sm btn-dark" %>
+                          &nbsp;&nbsp;&nbsp;&nbsp;
+                          |&nbsp;&nbsp;&nbsp;&nbsp;
+                          <%= link_to "Reset", site_folder_stories_path(@site, @folder) %>
+                      <% end %>
             <% end %>
     </div>
     

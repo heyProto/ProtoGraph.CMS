@@ -1,14 +1,13 @@
-<% if action_name != "sections" %>
-    <h1>Plan</h1>
-    <div class="protograph-page-tabs">
-        <div class="<%= controller_name != 'ref_categories' ? "single-tab" : "single-tab active-tab" %>">
-            <%= link_to "Editorial planning", intersections_site_path(@site),"data-turbolinks" => "false" %>
-        </div>
-        <div class="<%= controller_name != 'folders' ? "single-tab" : "single-tab active-tab" %>">
-            <%= link_to "Workspaces", site_folders_path(@site),"data-turbolinks" => "false" %>
-        </div>
+<h1>Plan</h1>
+<div class="protograph-page-tabs">
+    <div class="<%= action_name == 'intersections' ? "single-tab active-tab" : "single-tab" %>">
+        <%= link_to "Intersections", intersections_site_path(@site),"data-turbolinks" => "false" %>
     </div>
-<% else %>
-    <h1>Sub Sites</h1>
-<% end %>
+    <div class="<%= action_name == 'sub_intersections' ? "single-tab active-tab" : "single-tab" %>">
+        <%= link_to "Trends", sub_intersections_site_path(@site),"data-turbolinks" => "false" %>
+    </div>
+    <div class="<%= action_name == 'sections' ? "single-tab active-tab" : "single-tab" %>">
+        <%= link_to "Subsites", sections_site_path(@site),"data-turbolinks" => "false" %>
+    </div>
+</div>
 <br/>

@@ -1,25 +1,243 @@
-.story-pitch-intersection {
-    background: #fafafa;
-    display: inline-block;
-    padding: 1px;
-    padding-left: 5px;
-    border-radius: 4px;
-    font-size: 10px;
-    letter-spacing: 0.5px;
-    font-family: arial;
-}
-
-.story-pitch-sub-intersection {
-    background: rgba(51, 51, 51, 0.75);
-    border-radius: 4px;
+body{font-size: 14px; font-family: 'cabin, Open Sans', sans-serif;}
+a{color: #1b6ac9;}
+h1{font-size: 2em; line-height: 40px; font-weight: 800;}
+h2{font-size: 1.5em; line-height: 30px; font-weight: 800;}
+h3{font-size: 1.2em; line-height: 20px; font-weight: 800;}
+h4{font-size: 1em; line-height: 20px; font-weight: 800;}
+input[type="submit"], input[type="submit"]:hover{
+    background: rgb(0, 123, 255);
     color: white;
-    padding: 3px 5px;
-    margin-left: 3px;
-    display: inline-block;
+    height: 40px;
+    border: none;
+    font-size: 14px;
+    border-radius: 0.3em;
 }
 
-.card-as-a-todo:hover {
-    background: #EEEEEE;
+.small.thin{font-size: 15px;}
+
+.active > .nav-link{color: black; font-weight: 600 !important;}
+
+.article-status-draft--planning{
+    background: #d73027;
+    color: white;
+}
+.article-status-draft--ready-to-write{
+    background: #f46d43;
+    color: white;
+}
+.article-status-draft--ready-to-review{
+    background: #fdae61;
+    color: white;
+}
+.article-status-draft--ready-to-assemble{
+    background: #fee08b;
+    color: white;
+}
+.article-status-draft--ready-to-package{
+    background: #d9ef8b;
+    color: white;
+}
+.article-status-draft--ready-to-publish{
+    background: #a6d96a;
+    color: white;
+}
+.article-status-published--unlisted{
+    background: #66bd63;
+    color: white;
+}
+.article-status-published--public{
+    background: #1a9850;
+    color: white;
+}
+
+.best_in_place{border-bottom: 1px dotted gray;}
+
+img.disabled{
+    opacity: 0.2;
+    filter: alpha(opacity=20); /* For IE8 and earlier */
+}
+
+.status-signal {
+    border-radius: 50px;
+    overflow: hidden;
+    height: 10px;
+    width: 10px;
+    display: inline-block;
+    float: right;
+    margin-right: 5px;
+    margin-top: 7px;
+    margin-left: 5px;
+}
+
+.status-red {
+    background: #DE5869;
+}
+.status-green {
+    background: #71CFBA;
+}   
+
+.help-text {
+  font-family: 'Lato', sans-serif;
+  border-left: 1px solid #efefef;
+  margin-top: -40px;
+  padding-top: 20px;
+  height: 95vh;
+  position: fixed;
+  right: 0px;
+  overflow-y: scroll;
+  padding-bottom: 100px;
+  top: 90px;
+  z-index: 900;
+  background: white;
+  h2 {
+    font-weight: 100;
+    font-size: 18px;
+    margin-bottom: 20px;
+    font-family: 'Lato', sans-serif;
+  }
+  p {
+    font-size: 12px;
+    color: black;
+    word-wrap: break-word;
+    font-family: 'Lato', sans-serif;
+  }
+}
+
+.round {
+  -webkit-border-top-left-radius: 1px;
+  -webkit-border-top-right-radius: 2px;
+  -webkit-border-bottom-right-radius: 3px;
+  -webkit-border-bottom-left-radius: 4px;
+
+  -moz-border-radius-topleft: 1px;
+  -moz-border-radius-topright: 2px;
+  -moz-border-radius-bottomright: 3px;
+  -moz-border-radius-bottomleft: 4px;
+
+  border-top-left-radius: 1px;
+  border-top-right-radius: 2px;
+  border-bottom-right-radius: 3px;
+  border-bottom-left-radius: 4px;
+}
+
+ul.list-group > a > li.list-group-item{
+    color: black !important; 
+    border: 0px; border-left: 1px solid #efefef; 
+    padding-left: 10px; 
+    padding-top: 10px; 
+    padding-bottom: 10px; 
+    border-radius: 0px;
+}
+ul.list-group > a > li.list-group-item.active{font-weight: bold; }
+ul.list-group > a > li.list-group-item.active, ul.list-group > a > li.list-group-item:hover{
+    z-index: 2;
+    color: black;
+    border-left: 2px solid #007bff !important;
+    background: white;
+    cursor: pointer;
+    border-radius: 0px;
+    font-family: "cabin";
+}
+
+.protograph-page-tabs{
+    border-bottom: 1px solid #efefef;
+    margin-bottom: 30px;
+    
+    .single-tab{
+        font-size: 16px!important;
+        font-family: "cabin"!important;
+        border-bottom: 3px solid white;
+        display: inline-block;
+        padding: 12px 25px 12px;
+        cursor: pointer;
+        text-transform: uppercase;
+    }
+    .single-tab.active-tab{
+        color: #2780e8;
+        border-color: #2780e8;
+    }
+}
+
+.control-label{font-size: 0.9em; font-weight: 200; margin-bottom: 0px; padding-bottom: 0px;}
+.help-block, .hint{ font-size: 11px; color: gray; padding-top: 2px; line-height: 13px;}
+.dropdown-item{ font-size: 0.81em !important;}
+.dropdown-menu{margin: 0px !important;}
+.has-error > .help-block{color: red;}
+.thin{font-weight: 200;}
+.proto-container{
+	width: 1100px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.dropdown-menu{padding: 0px !important;}
+
+.proto-graph-code-area {
+    margin-top: 0px;
+}
+
+.proto-graph-code-area-title {
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+ul.pagination.pagination-sm > li.page-item.active > a.page-link{
+            background: #007bff !important;
+            color: white !important;
+            border: 1px solid #007bff;
+}
+
+
+.proto-graph-code {
+    width: 100%;
+    height: 100px;
+    font-size: 1em;
+    padding: 10px 15px;
+    color: #999;
+    background: #fafafa;
+    border: 1px solid #efefef;
+    font-family: arial;
+    letter-spacing: 0.5px;
+    word-wrap: nowrap;
+    margin-bottom: 15px;
+}
+.nav-item.item.disabled {
+    pointer-events: none;
+    cursor: not-allowed;
+}
+
+.hr-text {
+  line-height: 1em;
+  position: relative;
+  outline: 0;
+  border: 0;
+  color: black;
+  text-align: center;
+  height: 1.5em;
+  opacity: .5;
+  &:before {
+    content: '';
+    // use the linear-gradient for the fading effect
+    // use a solid background color for a solid bar
+    background: linear-gradient(to right, transparent, #818078, transparent);
+    position: absolute;
+    left: 0;
+    top: 50%;
+    width: 100%;
+    height: 1px;
+  }
+  &:after {
+    content: attr(data-content);
+    position: relative;
+    display: inline-block;
+    color: black;
+
+    padding: 0 .5em;
+    line-height: 1.5em;
+    // this is really the only tricky part, you need to specify the background color of the container element...
+    color: black;
+    background-color: #fcfcfa;
+  }
 }
 
 .card-as-a-todo {
@@ -307,21 +525,6 @@
     }
 }
 
-.status-signal {
-    border-radius: 50px;
-    overflow: hidden;
-    height: 10px;
-    width: 10px;
-    display: inline-block;
-    float: right;
-    margin-right: 5px;
-    margin-top: 7px;
-    margin-left: 5px;
+.card-as-a-todo:hover {
+    background: #EEEEEE;
 }
-
-.status-red {
-    background: #DE5869;
-}
-.status-green {
-    background: #71CFBA;
-}   

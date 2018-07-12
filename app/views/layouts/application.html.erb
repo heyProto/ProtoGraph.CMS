@@ -20,42 +20,21 @@
         <div class="container">
           <span class="navbar-brand">
               <% if @site.present? %>
-                  <%= link_to image_tag("https://cdn.protograph.pykih.com/Assets/proto-app/img/proto-color-logo.png", style: "height: 24px;"), site_path(@site) %>
-                  &nbsp;
-                  <span style="color: lightgray">|</span>
-                  &nbsp;
-                  <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><%= truncate @site.domain, length: 40, ommission: ".." %></a>
-                  <% if @sites.count > 1 %>
-                      <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                          <% @sites.each do |s| %>
-                              <%= link_to "#{s.domain}", site_path(s), class: "dropdown-item"%>
-                          <% end %>
-                      </div>
-                  <% end %>
+                  <%= link_to image_tag("proto-dark.png", style: "height: 20px;"), site_path(@site) %>
+                  <span style="color: lightgray; font-size: 1rem !important;">
+                      &nbsp;
+                      |
+                      &nbsp; 
+                      <%= link_to @site.domain, site_path(@site), style: "color: lightgray; font-size: 1rem !important;" %>
+                  </span>
               <% else %>
-                  <%= link_to image_tag("proto-dark.png", style: "height: 24px;"), root_url %>
-              <% end %>
+                  <%= link_to image_tag("proto-dark.png", style: "height: 20px;"), root_url %>
+              <% end %>           
           </span>
           <ul class="navbar-nav">
             <% if user_signed_in? %>
                 <% if @site.present? %>
                     <li class="nav-item"><%= link_to "Plan", intersections_site_path(@site),"data-turbolinks" => "false", class: "nav-link" %></li>
-                    <li class="nav-item dropdown">
-                      <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Layout
-                      </a>
-                      <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <% @all_verticals.each do |ref_category| %>            
-                            <% d = ref_category.vertical_page %>
-
-                                <% if d.present? %>
-                                    <%= link_to "# " + ref_category.name, edit_site_page_path(@site, d, folder_id: @folder.present? ? @folder.id : nil), "data-turbolinks"=> false, class: "dropdown-item" %>
-                                <% end %>
-
-                        <% end %>
-                        <%= link_to "Add Section", sections_site_path(@site), "data-turbolinks"=> false, class: "dropdown-item" %>
-                      </div>
-                    </li>
                     <li class="nav-item dropdown">
                       <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         Assets
@@ -77,11 +56,6 @@
                     <%= link_to 'Profile', edit_user_path(current_user), class: "dropdown-item" %>
                     <%= link_to 'Settings', edit_user_registration_path, class: "dropdown-item" %>
                     <%= link_to "Sign out", destroy_user_session_path, class: "dropdown-item" %>
-                    <% if current_user.is_admin_from_pykih %>
-                        <div class="dropdown-divider"></div>
-                        <%= link_to 'Ref: Link Sources', ref_link_sources_path, class: "dropdown-item", style: "font-size: 10px;" %>
-                        <%= link_to "Admin: User Sessions", admin_user_sessions_path, class: "dropdown-item", style: "font-size: 10px;" %>
-                    <% end %>
                   </div>
                 </li>
             <% end %>

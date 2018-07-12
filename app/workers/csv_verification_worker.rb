@@ -33,13 +33,7 @@ class CsvVerificationWorker
         if stdout.present?
           if @upload.template_card.name == "toStory"
             o = JSON.parse(stdout)
-            domain = URI.parse(o['data']["url"].strip).host
-            ref_link = RefLinkSource.where("url LIKE ?", "%#{domain}").first
-            if ref_link
-              o['data']["domainurl"] = ref_link.url
-              o['data']["faviconurl"] = ref_link.favicon_url
-              o['data']["publishername"] = ref_link.name
-            end
+            domain = URI.parse(o['data']["url"].strip).hosts
             o['data']['publishedat'] =  Date.parse(o['data']['publishedat']).strftime('%Y-%m-%dT%l:%M:%S') if o['data']['publishedat'].present?
             o['data'] = o['data'].reject{|a,v| v.nil? || v.to_s.strip.empty? }
             stdout = o.to_json

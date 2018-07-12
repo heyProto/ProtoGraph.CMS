@@ -3,23 +3,13 @@ Rails.application.routes.draw do
   require 'sidekiq/web'
   mount Sidekiq::Web => '/sidekiq'
 
-  devise_for :users, controllers: {
-    registrations: 'user/registrations',
-  } do
+  devise_for :users, controllers: {registrations: 'user/registrations'} do
     get 'sign_out', to: 'devise/sessions#destroy'
-  end
-
-  namespace :admin do
-    get "user-sessions", to: "user_sessions#index", as: :user_sessions
   end
 
   resources :users do
       resources :user_emails, only: [:index, :create, :destroy]
       get '/user_emails/confirmation', to: "user_emails#confirmation", as: "email_confirmation"
-  end
-
-  resources :ref_link_sources do
-    post "publish", on: :collection
   end
 
   namespace :api do

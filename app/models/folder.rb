@@ -10,10 +10,6 @@
 #  created_at               :datetime         not null
 #  updated_at               :datetime         not null
 #  is_trash                 :boolean          default(FALSE)
-#  is_archived              :boolean          default(FALSE)
-#  site_id                  :integer
-#  is_open                  :boolean
-#  ref_category_vertical_id :integer
 #  is_for_stories           :boolean
 #
 
@@ -53,6 +49,7 @@ class Folder < ApplicationRecord
     
     #SCOPE
     scope :active, -> { where("is_archived IS NULL OR is_archived = false")}
+    scope :inactive, -> { where("is_archived = true")}
     
     #OTHER
     def should_generate_new_friendly_id?

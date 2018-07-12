@@ -1,54 +1,54 @@
-<%= render partial: "developers/header" %>
+<%= render partial: "template_data/header" %>
 <div style="margin-left: auto; margin-right: auto; width: 540px;">
-  <p><%= link_to "< All content types", site_template_data_path(@site)%>
-  <h1><%= @template_datum.name %></h1>
-  <br/>
-  <nav>
-    <div class="nav nav-tabs" id="nav-tab" role="tablist">
-      <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Fields</a>
-      <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">JSON</a>
-    </div>
-  </nav>
-  <br/><br/>
-  <div class="tab-content" id="nav-tabContent">
-    <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
-      <table class="table ">
-        <tbody>
-        <% @template_fields.each do |template_field| %>
-          <tr>
+    <p><%= link_to "< All content types", site_template_data_path(@site)%>
+    <h1><%= @template_datum.name %></h1>
+    <br/>
+    <nav>
+      <div class="nav nav-tabs" id="nav-tab" role="tablist">
+        <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Fields</a>
+        <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">JSON</a>
+      </div>
+    </nav>
+    <br/><br/>
+    <div class="tab-content" id="nav-tabContent">
+      <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+          <table class="table ">  
+          <tbody>
+          <% @template_fields.each do |template_field| %>
+            <tr>
 
-            <td>
-              <% if template_field.data_type == "short_text" %>
-                <%= image_tag "svg/short_text.svg", width: "24px", title: "Short Text" %>
-              <% elsif template_field.data_type == "long_text" %>
-                <%= image_tag "svg/long_text.svg", width: "24px", title: "Long Text" %>
-              <% elsif template_field.data_type == "integer" %>
-                <%= image_tag "svg/number.svg", width: "24px", title: "Integer" %>
-              <% elsif template_field.data_type == "decimal" %>
-                <%= image_tag "svg/number.svg", width: "24px", title: "Decimal" %>
-              <% elsif template_field.data_type == "boolean" %>
-                <%= image_tag "svg/boolean.svg", width: "24px", title: "Boolean" %>
-              <% elsif template_field.data_type == "temporal" %>
-                <%= image_tag "svg/datetime.svg", width: "24px", title: "Temporal" %>
-              <% else %>
-                <%= image_tag "svg/object.svg", width: "24px", title: "Object" %>
-              <% end %>
-              <!--<% %w(short_text long_text).include?(template_field.data_type) ? (template_field.data_type == "short_text" ? "Short Text" : "Long Text") : template_field.data_type.capitalize %>-->
-              &nbsp;&nbsp;&nbsp;&nbsp;
-              <%= link_to edit_site_template_datum_template_field_path(@site, @template_datum, template_field) do %>
-                <% if template_field.is_required %>
-                  *
-                <% end %>
-                <%= template_field.name %>
-              <% end %>
-              <span class="gray small">(<%= template_field.key_name %>)</span>
-            </td>
-            <td>
-              <b><%= template_field.is_entry_title ? "Record title" : "" %></b>
-            </td>
-
-
-            <!--<td><%= template_field.inclusion_list.present? ? template_field.inclusion_list.join(",") : "" %></td>
+              <td>
+                  <% if template_field.data_type == "short_text" %>  
+                      <%= image_tag "svg/short_text.svg", width: "24px", title: "Short Text" %>
+                  <% elsif template_field.data_type == "long_text" %>
+                      <%= image_tag "svg/long_text.svg", width: "24px", title: "Long Text" %>
+                  <% elsif template_field.data_type == "integer" %>
+                      <%= image_tag "svg/number.svg", width: "24px", title: "Integer" %>
+                  <% elsif template_field.data_type == "decimal" %>
+                      <%= image_tag "svg/number.svg", width: "24px", title: "Decimal" %>
+                  <% elsif template_field.data_type == "boolean" %>
+                      <%= image_tag "svg/boolean.svg", width: "24px", title: "Boolean" %>
+                  <% elsif template_field.data_type == "temporal" %>
+                      <%= image_tag "svg/datetime.svg", width: "24px", title: "Temporal" %>
+                  <% else %>
+                      <%= image_tag "svg/object.svg", width: "24px", title: "Object" %>
+                  <% end %>
+                  <!--<% %w(short_text long_text).include?(template_field.data_type) ? (template_field.data_type == "short_text" ? "Short Text" : "Long Text") : template_field.data_type.capitalize %>-->
+                  &nbsp;&nbsp;&nbsp;&nbsp;
+                  <%= link_to edit_site_template_datum_template_field_path(@site, @template_datum, template_field) do %>
+                      <% if template_field.is_required %>
+                          *
+                      <% end %>
+                      <%= template_field.name %>
+                  <% end %>
+                  <span class="gray small">(<%= template_field.key_name %>)</span>
+              </td>
+              <td>
+                  <b><%= template_field.is_entry_title ? "Record title" : "" %></b>
+              </td>
+    
+    
+              <!--<td><%= template_field.inclusion_list.present? ? template_field.inclusion_list.join(",") : "" %></td>
               <td><%= template_field.inclusion_list_names.join(",") if template_field.inclusion_list_names.present? %></td>
               <td><%= %w(integer decimal).include?(template_field.data_type) ? template_field.min : "NA" %></td>
               <td><%= %w(integer decimal).include?(template_field.data_type) ? template_field.max : "NA" %></td>
