@@ -1,29 +1,14 @@
 <%= render partial: "template_data/header" %>
-<div class="container">
-    <table class="table">
-        <thead>
-            <th>Name</th>
-            <th>Updated</th>
-            <th>By</th>
-            <th>Content Cards</th>
-            <th>Associated Content Type</th>
-        </thead>
-        <tbody>
-            <% @template_cards.each do |template_card| %>
-              <tr>
-                  <td>
-                      <%= template_card.site.name %> / 
-                      <%= link_to template_card.name, site_template_card_path(@site, template_card) %>
-                  </td>
-                  <td><%= time_ago_in_words template_card.updated_at %></td>
-                  <td><%= template_card.updator.name if template_card.updator.present? %></td>
-                  <td><%= template_card.view_casts.count %></td>
-                  <td>
-                      <%= template_card.template_datum.site.name %> / 
-                      <%= link_to template_card.template_datum.name, site_template_datum_path(@site, template_card.template_datum)%>
-                  </td> 
-              </tr>
-            <% end %>
-        </tbody>
-    </table>
+<div style="margin-left: auto; margin-right: auto; width: 540px;">
+    <% @template_cards.each do |template_card| %>
+        <h3><%= template_card.site.name %> / <%= link_to template_card.name, site_template_card_path(@site, template_card) %></h3>
+        <p class="hint">
+            This card has been used <b style="color: black;"><%= template_card.view_casts.count %></b> times. 
+            This card uses the      
+            <%= template_card.template_datum.site.name %> / 
+            <%= link_to template_card.template_datum.name, site_template_datum_path(@site, template_card.template_datum)%>
+            schema. It was updated <%= time_ago_in_words template_card.updated_at %> ago <%= (" by " + template_card.updator.name) if template_card.updator.present? %>
+        </p>
+        <hr/>
+    <% end %>
 </div>
