@@ -1,8 +1,11 @@
 <%= render partial: "template_data/header" %>
 <div style="margin-left: auto; margin-right: auto; width: 540px;">
     <% @template_cards.each do |template_card| %>
-        <h3><%= template_card.site.name %> / <%= link_to template_card.name, site_template_card_path(@site, template_card) %></h3>
-        <p class="hint">
+        <h2><span class="thin" style="font-size: 14px;">
+            <%= template_card.site.name %> /</span> 
+            <%= link_to template_card.name, site_template_card_path(@site, template_card) %>
+        </h2>
+        <p>
             This card has been used <b style="color: black;"><%= template_card.view_casts.count %></b> times. 
             This card uses the      
             <%= template_card.template_datum.site.name %> / 
