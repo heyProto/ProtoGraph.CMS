@@ -1,5 +1,5 @@
 <h1>Adminland</h1>
-<%= render partial: "admins/header" %>
+<%= render partial: "sites/header" %>
 <div style="margin-left: auto; margin-right: auto; width: 540px;">
     <%= simple_form_for [@site, @permission_invite] do |f| %>
         <% if @permission_invite.errors.any? %>
