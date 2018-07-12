@@ -23,13 +23,10 @@
 #  client_token                :string(255)
 #  access_token                :string(255)
 #  client_secret               :string(255)
+#  g_a_tracking_id             :string(255)
 #  favicon_id                  :integer
 #  logo_image_id               :integer
-#  g_a_tracking_id             :string(255)
-#  sign_up_mode                :string(255)
-#  default_role                :string(255)
 #  story_card_style            :string(255)
-#  email_domain                :string(255)
 #  header_background_color     :string(255)
 #  header_url                  :text
 #  header_positioning          :string(255)
