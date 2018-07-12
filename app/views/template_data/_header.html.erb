@@ -1,6 +1,6 @@
 <h1>
     App Store
-    <% if controller_name == "template_data" and action_name == "show" %>
+    <% if controller_name == "template_data" and action_name == "show" and current_user.is_admin_from_pykih %>
         <span style="float: right;">
             <%= link_to '+ Add a field',  new_site_template_datum_template_field_path(@site, @template_datum), data: {turbolinks: false}, class: "btn btn-dark btn-sm" %>
         </span>

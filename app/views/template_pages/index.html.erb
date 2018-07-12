@@ -2,9 +2,11 @@
 <div style="margin-left: auto; margin-right: auto; width: 540px;">
     <% @template_pages.each do |template_page| %>
         <h2><%= link_to template_page.name, site_template_page_path(@site, template_page) %></h2>
-        <p>
-            This page has been used <b style="color: black;"><%= template_page.pages.count %></b> times. 
-            schema. It was updated <%= time_ago_in_words template_page.updated_at %> ago <%= (" by " + template_page.updator.name) if template_page.updator.present? %>
+        <p style="text-align: right; color: gray;">
+           <span class="hint" style="float: left;">
+               Updated <%= time_ago_in_words template_page.updated_at %> ago <%= (" by " + template_page.updator.name) if template_page.updator.present? %>
+           </span>
+           <%= template_page.pages.count %> times 
         </p>
         <hr/>
     <% end %>

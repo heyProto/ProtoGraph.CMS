@@ -43,9 +43,7 @@
                         <%= link_to "Images", site_images_path(@site), "data-turbolinks"=> false, class: "dropdown-item" %> 
                       </div>
                     </li>
-                    <% if current_user.is_admin_from_pykih %>
-                        <li class="nav-item"><%=link_to "App Store", site_template_data_path(@site), "data-turbolinks" => "false", class: "nav-link" %></li>
-                    <% end %>
+                    <li class="nav-item"><%=link_to "App Store", site_template_data_path(@site), "data-turbolinks" => "false", class: "nav-link" %></li>
                     <li class="nav-item"><%= link_to "Adminland", edit_site_path(@site), class: "nav-link"%></li>
                 <% end %>
                 <li class="nav-item dropdown">
