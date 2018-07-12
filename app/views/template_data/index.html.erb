@@ -3,7 +3,7 @@
     <% @template_datums.each do |template_data| %>
         <h3><%= link_to template_data.name, site_template_datum_path(@site, template_data) %></h3>
         <p class="hint">
-            This schema has <b><%= template_data.template_fields.count %> fields</b> and is used by <b><%= template_data.template_cards.count %> cards</b>. These cards have been used <b><%= template_data.view_casts.count %> times</b>. It was last updated <%= time_ago_in_words template_data.updated_at %> ago <%= (" by " + template_data.updator.name) if template_data.updator.present? %>.
+            This schema has <b style="color: black;"><%= template_data.template_fields.count %> fields</b> and is used by <b style="color: black;"><%= template_data.template_cards.count %> cards</b>. These cards have been used <b style="color: black;"><%= template_data.view_casts.count %> times</b>. It was last updated <%= time_ago_in_words template_data.updated_at %> ago <%= (" by " + template_data.updator.name) if template_data.updator.present? %>.
         </p>
         <hr/>
     <% end %>
