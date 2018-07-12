@@ -34,6 +34,7 @@ class TemplateDatum < ApplicationRecord
   include AssociableBy
   include Versionable
   #ASSOCIATIONS
+  belongs_to :site  
   has_many :template_cards
   has_many :template_fields
   has_many :view_casts, through: :template_cards
