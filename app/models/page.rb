@@ -111,7 +111,7 @@ class Page < ApplicationRecord
 
   # Slug
   def before_validation_set
-    self.english_headline = self.headline if (self.site.is_english)
+    self.english_headline = self.headline if (self.site.is_english and self.english_headline.blank?)
   end
 
   def html_key

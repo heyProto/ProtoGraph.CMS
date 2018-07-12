@@ -12,6 +12,7 @@ class FixingPageObjectView < ActiveRecord::Migration[5.1]
     vcs.sort_order,
     vcs.title,
     vcs.data_url,
+    vcs.iframe_url,
     ps.name_of_stream,
     ps.page_id
    FROM ( SELECT vc_streams.datacast_identifier,
@@ -23,6 +24,7 @@ class FixingPageObjectView < ActiveRecord::Migration[5.1]
             vc_streams.stream_id,
             vc_streams.sort_order,
             vc_streams.data_url,
+            vc_streams.iframe_url,
             s.title
            FROM ( SELECT vc.datacast_identifier,
                     vc.id AS view_cast_id,
@@ -32,7 +34,8 @@ class FixingPageObjectView < ActiveRecord::Migration[5.1]
                     vc.seo_blockquote,
                     se.stream_id,
                     se.sort_order,
-                    concat(s.cdn_endpoint,'/',vc.datacast_identifier,'/data.json') as data_url
+                    concat(s.cdn_endpoint,'/',vc.datacast_identifier,'/data.json') as data_url,
+                    concat('https://cdn.protograph.pykih.com', '/', tc.s3_identifier, '/index.html?view_cast_id=', vc.datacast_identifier, '&base_url=', s.cdn_endpoint) as iframe_url
                    FROM view_casts vc
                      LEFT JOIN sites s ON vc.site_id = s.id
                      LEFT JOIN template_cards tc ON vc.template_card_id = tc.id
