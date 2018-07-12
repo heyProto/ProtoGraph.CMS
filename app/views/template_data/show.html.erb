@@ -60,22 +60,23 @@
               <td><%= %w(short_text long_text temporal).include?(template_field.data_type) ? template_field.format_regex : "NA" %></td>
               <td><%= %w(short_text long_text temporal).include?(template_field.data_type) ? template_field.length_minimum : "NA" %></td>
               <td><%= %w(short_text long_text temporal).include?(template_field.data_type) ? template_field.length_maximum : "NA" %></td>-->
+            <td><%= link_to "Move Up", move_up_site_template_datum_template_field_path(@site, @template_datum, template_field) %></td>
+            <td><%= link_to "Move Down", move_down_site_template_datum_template_field_path(@site, @template_datum, template_field) %></td>
+            <td><%= link_to "X", site_template_datum_template_field_path(@site, @template_datum, template_field), method: :delete %></td>
+          </tr>
+        <% end %>
+        </tbody>
+      </table>
+    </div>
+    <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+      <%= image_tag("glyphicons-511-duplicate.png", class: "copy-to-clipboard") %>
+      <pre id="json-schema"><%= @json_schema %></pre>
+    </div>
+  </div>
 
-              <td><%= link_to "X", site_template_datum_template_field_path(@site, @template_datum, template_field), method: :delete %></td>
-            </tr>
-           <% end %>
-          </tbody>
-          </table>
-      </div>
-      <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
-          <%= image_tag("glyphicons-511-duplicate.png", class: "copy-to-clipboard") %>
-          <pre id="json-schema"><%= @json_schema %></pre>
-      </div>
-    </div>
-    
-    
-    <br/><br/>
-    </div>
+
+  <br/><br/>
+</div>
 
 
 <script>

@@ -4,6 +4,7 @@
     <h1><%= link_to @template_datum.name, site_template_datum_path(@site, @template_datum) %> / <%= @template_field.name %></h1>
     <br/>
     <%= simple_form_for([@site, @template_datum, @template_field]) do |f| %>
+        <%= f.input :sort_order %>
         <h2>What is this field about?</h2>
         <p>Data Type is <b><%= @template_field.data_type %></b> and Key Name is <b><%= @template_field.key_name %></b></p>
         <%= f.input :name, required: true %>
@@ -127,12 +128,12 @@
     });
 
     // add new enum field
-    var inc_list_field = '<input class="text optional form-control" name="template_field[enum][]" id="template_field_" type="text">';
+    var inc_list_field = '<input class="text optional form-control" name="template_field[inclusion_list][]" id="template_field_" type="text">';
     $("#new-inc-list-field").click(function () {
       $("input[name='template_field[inclusion_list][]']:last").after(inc_list_field);
     });
 
-    var inc_list_names_field = '<input class="text optional form-control" name="template_field[enum_names][]" id="template_field_" type="text">';
+    var inc_list_names_field = '<input class="text optional form-control" name="template_field[inclusion_list_name][]" id="template_field_" type="text">';
     $("#new-inc-list-names-field").click(function () {
       $("input[name='template_field[inclusion_list_names][]']:last").after(inc_list_names_field);
     });

@@ -204,7 +204,8 @@ ActiveRecord::Schema.define(version: 20180712012658) do
     t.string "reported_from_city", limit: 255
     t.boolean "hide_byline", default: false
     t.bigint "landing_card_id"
-    t.string "external_identifier"
+    t.string "format"
+    t.string "importance", default: "low"
   end
 
   create_table "permission_invites", force: :cascade do |t|
@@ -477,6 +478,7 @@ ActiveRecord::Schema.define(version: 20180712012658) do
     t.integer "updated_by"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "sort_order"
     t.index ["site_id"], name: "index_template_fields_on_site_id"
     t.index ["template_datum_id"], name: "index_template_fields_on_template_datum_id"
   end
@@ -609,7 +611,8 @@ ActiveRecord::Schema.define(version: 20180712012658) do
     t.bigint "ref_category_vertical_id"
     t.datetime "published_at"
     t.json "data_json"
-    t.string "external_identifier"
+    t.string "format"
+    t.string "importance", default: "low"
     t.index ["slug"], name: "idx_81001_index_view_casts_on_slug", unique: true
   end
 

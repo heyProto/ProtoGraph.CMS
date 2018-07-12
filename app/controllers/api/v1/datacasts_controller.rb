@@ -11,6 +11,8 @@ class Api::V1::DatacastsController < ApiController
             view_cast.by_line = datacast_params['data']["by_line"]
             view_cast.intersection = @site.ref_categories.where(genre: "intersection").where(name: datacast_params['data']["genre"]).first
             view_cast.sub_intersection = @site.ref_categories.where(genre: "sub intersection").where(name: datacast_params['data']["subgenre"]).first
+            view_cast.format = datacast_params['data']["format"] if datacast_params['data']["format"].present?
+            view_cast.importance = datacast_params['data']["importance"] if datacast_params['data']["importance"].present?
         end
         if ['toStory', 'toCluster'].include?(view_cast.template_card.name)
             view_cast.series = @folder.vertical
@@ -49,6 +51,8 @@ class Api::V1::DatacastsController < ApiController
             view_cast.intersection = @site.ref_categories.where(genre: "intersection").where(name: datacast_params['data']["genre"]).first
             view_cast.sub_intersection = @site.ref_categories.where(genre: "sub intersection").where(name: datacast_params['data']["subgenre"]).first
             datacast_params['data']['series'] = @folder.vertical.name
+            view_cast.format = datacast_params['data']["format"] if datacast_params['data']["format"].present?
+            view_cast.importance = datacast_params['data']["importance"] if datacast_params['data']["importance"].present?
         end
         if ['toStory', 'toCluster'].include?(view_cast.template_card.name)
             view_cast.series = @folder.vertical

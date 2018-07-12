@@ -43,9 +43,25 @@ class TemplateFieldsController < ApplicationController
     end
   end
 
+  def move_up
+    @template_datum = TemplateDatum.friendly.find(params[:template_datum_id])
+    @template_field = TemplateField.friendly.find(params[:id])
+    @template_field.decrement(:sort_order)
+    @template_field.save
+    redirect_to site_template_datum_path(@site, @template_datum)
+  end
+
+  def move_down
+    @template_datum = TemplateDatum.friendly.find(params[:template_datum_id])
+    @template_field = TemplateField.friendly.find(params[:id])
+    @template_field.increment(:sort_order)
+    @template_field.save
+    redirect_to site_template_datum_path(@site, @template_datum)
+  end
+
   private
 
   def template_field_params
-    params.require(:template_field).permit(:template_datum_id, :key_name, :name, :data_type, :description, :help, :is_entry_title, :genre_html, :is_required, :default_value, :min, :max, :multiple_of, :ex_min, :ex_max, :format, :format_regex, :length_minimum, :length_maximum, :created_by, :updated_by, inclusion_list: [], inclusion_list_names: [])
+    params.require(:template_field).permit(:template_datum_id, :key_name, :name, :data_type, :sort_order, :description, :help, :is_entry_title, :genre_html, :is_required, :default_value, :min, :max, :multiple_of, :ex_min, :ex_max, :format, :format_regex, :length_minimum, :length_maximum, :created_by, :updated_by, inclusion_list: [], inclusion_list_names: [])
   end
 end

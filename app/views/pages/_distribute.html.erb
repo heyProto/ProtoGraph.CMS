@@ -8,6 +8,8 @@
 <%= f.input :summary, minlength: 50 , maxlength: 220, hint: "Minimum length: 50 chars. Maximum length: 200 chars." %>
 <%= f.input :published_at, as: :datetime %>
 <%= f.input :hide_byline, as: :boolean, label: "&nbsp; Remove byline from the cover".html_safe %>
+<%= f.input :format, collection: [["Originals", "originals"], ["Opinion", "opinion"], ["Reportage", "reportage"], ["Digest", "digest"], ["Analysis", "analysis"], ["Feature", "feature"], ["Event", "event"]] %>
+<%= f.input :importance, collection: [["Low", "low"], ["Medium", "medium"], ["High", "high"]] %>
 <br/>
 <hr/>
 <h3>Cover Image</h3>

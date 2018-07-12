@@ -44,7 +44,10 @@ Rails.application.routes.draw do
   end
   resources :sites do
     resources :template_data, only: [:index, :show] do
-      resources :template_fields
+      resources :template_fields do
+        get "move_up", on: :member
+        get "move_down", on: :member
+      end
     end
     resources :template_cards
     resources :template_pages
