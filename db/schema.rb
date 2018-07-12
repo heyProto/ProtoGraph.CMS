@@ -204,6 +204,7 @@ ActiveRecord::Schema.define(version: 20180712012658) do
     t.string "reported_from_city", limit: 255
     t.boolean "hide_byline", default: false
     t.bigint "landing_card_id"
+    t.string "external_identifier"
   end
 
   create_table "permission_invites", force: :cascade do |t|
@@ -608,6 +609,7 @@ ActiveRecord::Schema.define(version: 20180712012658) do
     t.bigint "ref_category_vertical_id"
     t.datetime "published_at"
     t.json "data_json"
+    t.string "external_identifier"
     t.index ["slug"], name: "idx_81001_index_view_casts_on_slug", unique: true
   end
 
