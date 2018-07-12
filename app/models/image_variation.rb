@@ -46,7 +46,6 @@ class ImageVariation < ApplicationRecord
   #PRIVATE
 
   def image_url
-    puts "site=#{self.id}, #{site}"
     "#{site.cdn_endpoint}/#{image_key}"
   end
 

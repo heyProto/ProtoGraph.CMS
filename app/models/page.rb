@@ -324,9 +324,7 @@ class Page < ApplicationRecord
     resp = Api::ProtoGraph::Utility.upload_to_cdn(encoded_file, key, content_type, self.site.cdn_bucket)
     self.update_column(:page_object_url, "#{self.site.cdn_endpoint}/#{key}")
     response = Api::ProtoGraph::Page.create_or_update_page(self.datacast_identifier, self.template_page.s3_identifier, self.site.cdn_bucket, ENV['AWS_S3_ENDPOINT'])
-    unless self.skip_invalidation
-      Api::ProtoGraph::CloudFront.invalidate(self.site, ["/#{key}", "/#{self.html_key}.html"], 2)
-    end
+    Api::ProtoGraph::CloudFront.invalidate(self.site, ["/#{key}", "/#{self.html_key}.html"], 2)
     if Rails.env.production?
       site.publish_sitemap
       site.publish_robot_txt
@@ -343,7 +341,7 @@ class Page < ApplicationRecord
     if narrative_stream.present?
       narrative_stream_cards = narrative_stream.cards
       narrative_stream_cards.each do |card|
-        data = JSON.parse(RestClient.get(card.data_url))
+        data = card.data_json
         json = {
           "section": data["data"]["section"] || "",
           "view_cast_identifier": card.datacast_identifier,

@@ -11,6 +11,7 @@ class FixingPageObjectView < ActiveRecord::Migration[5.1]
     vcs.stream_id,
     vcs.sort_order,
     vcs.title,
+    vcs.data_url,
     ps.name_of_stream,
     ps.page_id
    FROM ( SELECT vc_streams.datacast_identifier,
@@ -21,6 +22,7 @@ class FixingPageObjectView < ActiveRecord::Migration[5.1]
             vc_streams.seo_blockquote,
             vc_streams.stream_id,
             vc_streams.sort_order,
+            vc_streams.data_url,
             s.title
            FROM ( SELECT vc.datacast_identifier,
                     vc.id AS view_cast_id,

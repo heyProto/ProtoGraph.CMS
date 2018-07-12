@@ -1,34 +1,3 @@
-# == Schema Information
-#
-# Table name: streams
-#
-#  id                     :integer          not null, primary key
-#  title                  :string(255)
-#  slug                   :string(255)
-#  description            :text
-#  folder_id              :integer
-#  datacast_identifier    :string(255)
-#  created_by             :integer
-#  updated_by             :integer
-#  created_at             :datetime         not null
-#  updated_at             :datetime         not null
-#  card_count             :integer
-#  last_published_at      :datetime
-#  order_by_key           :string(255)
-#  order_by_value         :string(255)
-#  limit                  :integer
-#  offset                 :integer
-#  is_grouped_data_stream :boolean          default(FALSE)
-#  data_group_key         :string(255)
-#  include_data           :boolean          default(FALSE)
-#  order_by_type          :string(255)
-#  site_id                :integer
-#  is_automated_stream    :boolean          default(FALSE)
-#  col_name               :string(255)
-#  col_id                 :integer
-#  is_open                :boolean
-#
-
 # == Schema rnformation
 #
 # Table name: streams
@@ -155,7 +124,7 @@ class Stream < ApplicationRecord
     if self.is_grouped_data_stream
       district_obj = {}
       self.cards.each do |view_cast|
-        res = JSON.parse(RestClient.get(view_cast.data_url).body)
+        res = view_cast.data_json
         data = res['data']
         group_key = data[self.data_group_key]
         district_obj[group_key] = {} unless district_obj.has_key?(group_key)
@@ -177,7 +146,7 @@ class Stream < ApplicationRecord
         d['schema_id'] = view_cast.template_datum.s3_identifier
         if view_cast.template_card.name == 'toReportViolence'
           begin
-            res = JSON.parse(RestClient.get(view_cast.data_url).body)
+            res = view_cast.data_json
             data = res['data']
             d['date'] = Date.parse(data["when_and_where_it_occur"]['approximate_date_of_incident']).strftime('%F')
             d['state'] = data["when_and_where_it_occur"]['state']
@@ -213,7 +182,7 @@ class Stream < ApplicationRecord
           end
         elsif view_cast.template_card.name == "toReportJournalistKilling"
           begin
-            res = JSON.parse(RestClient.get(view_cast.data_url).body)
+            res = view_cast.data_json
             data = res['data']
             d['date'] = Date.parse(data["when_and_where_it_occur"]['date']).strftime('%F')
             d["name"] = data["details_about_journalist"]["name"]
@@ -243,7 +212,7 @@ class Stream < ApplicationRecord
           end
         elsif (view_cast.template_card.name == 'WaterExploitation' or self.include_data)
           begin
-            res = JSON.parse(RestClient.get(view_cast.data_url).body)
+            res = view_cast.data_json
             data = res['data']
             d.merge!(data)
           rescue => e
@@ -305,36 +274,31 @@ class Stream < ApplicationRecord
           cards.each do |d|
             if d.template_card.name == 'toStory'
               xml.item {
-                begin
-                  data = JSON.parse(RestClient.get(d.data_url).body)["data"]
-                  xml.link data["url"]
-                  xml.title data['headline']
-                  xml.description data['summary']
-                  if data.has_key?("byline") and data["byline"]
-                    xml.author {
-                      xml.name data["byline"]
-                    }
-                  end
-                  if data['publishedat'].present?
-                    xml.pubDate Date.parse(data['publishedat']).strftime("%a, %e %b %Y %H:%M:%S %z")
-                  end
-                  if data.has_key?('imageurl') and data['imageurl'].present?
-                    xml.image {
-                      xml.url data['imageurl']
-                    }
-                  end
-                  if data.has_key?("genre") and data['genre'].present?
-                    xml.intersection data['genre']
-                  end
-                  if data.has_key?("subgenre") and data['subgenre'].present?
-                    xml.subintersection data['subgenre']
-                  end
-                  if data.has_key?("external_identifier") and data["external_identifier"].present?
-                    puts "external_identifier=#{data["external_identifier"]}"
-                    xml.external_identifier data["external_identifier"]
-                  end
-                rescue => e
-                  d.destroy
+                data = d.data_json["data"]
+                xml.link data["url"]
+                xml.title data['headline']
+                xml.description data['summary']
+                if data.has_key?("byline") and data["byline"]
+                  xml.author {
+                    xml.name data["byline"]
+                  }
+                end
+                if data['publishedat'].present?
+                  xml.pubDate Date.parse(data['publishedat']).strftime("%a, %e %b %Y %H:%M:%S %z")
+                end
+                if data.has_key?('imageurl') and data['imageurl'].present?
+                  xml.image {
+                    xml.url data['imageurl']
+                  }
+                end
+                if data.has_key?("genre") and data['genre'].present?
+                  xml.intersection data['genre']
+                end
+                if data.has_key?("subgenre") and data['subgenre'].present?
+                  xml.subintersection data['subgenre']
+                end
+                if data.has_key?("external_identifier") and data["external_identifier"].present?
+                  xml.external_identifier data["external_identifier"]
                 end
               }
             end
