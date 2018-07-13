@@ -114,6 +114,13 @@ namespace :json_schema do
       end
     end
   end
+  
+  task pop_site_id_in_template_page: :environment do
+      TemplatePage.find_each do |template_page|
+        template_page.update_columns(site_id: 185, is_public: true)
+      end
+  end
+  
   # to populate site_id in TemplateDatum, TemplateField
   task pop_site_id: :environment do
     TemplateDatum.find_each do |template_datum|

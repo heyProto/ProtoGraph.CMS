@@ -30,6 +30,7 @@
 #  updated_by           :integer
 #  created_at           :datetime         not null
 #  updated_at           :datetime         not null
+#  sort_order           :integer
 #
 
 class TemplateField < ApplicationRecord

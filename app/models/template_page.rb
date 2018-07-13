@@ -24,6 +24,8 @@
 #  updated_by          :integer
 #  created_at          :datetime         not null
 #  updated_at          :datetime         not null
+#  site_id             :integer
+#  is_system           :boolean          default(FALSE)
 #
 
 class TemplatePage < ApplicationRecord

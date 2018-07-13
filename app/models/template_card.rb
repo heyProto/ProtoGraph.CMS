@@ -33,6 +33,7 @@
 #  sort_order           :integer
 #  is_editable          :boolean          default(TRUE)
 #  site_id              :integer
+#  is_system            :boolean          default(FALSE)
 #
 
 class TemplateCard < ApplicationRecord

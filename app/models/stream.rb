@@ -20,17 +20,14 @@
 #  offset                 :integer
 #  is_grouped_data_stream :boolean          default(FALSE)
 #  data_group_key         :string(255)
-#  filter_query           :text
-#  data_group_value       :string(255)
-#  site_id                :integer
 #  include_data           :boolean          default(FALSE)
+#  order_by_type          :string(255)
+#  site_id                :integer
 #  is_automated_stream    :boolean          default(FALSE)
 #  col_name               :string(255)
 #  col_id                 :integer
-#  order_by_type          :string(255)
 #  is_open                :boolean
 #
-
 
 class Stream < ApplicationRecord
     #CONSTANTS

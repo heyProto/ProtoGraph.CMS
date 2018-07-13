@@ -54,6 +54,8 @@
 #  reported_from_city               :string(255)
 #  hide_byline                      :boolean          default(FALSE)
 #  landing_card_id                  :integer
+#  format                           :string
+#  importance                       :string           default("low")
 #
 
 class Page < ApplicationRecord

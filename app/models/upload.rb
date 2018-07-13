@@ -12,7 +12,7 @@
 #  updated_by       :integer
 #  upload_errors    :text
 #  filtering_errors :text
-#  upload_status    :string(255)      default("waiting")
+#  upload_status    :string(255)
 #  total_rows       :integer
 #  rows_uploaded    :integer
 #  site_id          :integer

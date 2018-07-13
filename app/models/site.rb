@@ -80,6 +80,7 @@ class Site < ApplicationRecord
     has_many :images, dependent: :destroy
     has_many :streams, dependent: :destroy
     has_many :template_data
+    has_many :template_pages
 
     #ACCESSORS
     accepts_nested_attributes_for :logo_image, :favicon
