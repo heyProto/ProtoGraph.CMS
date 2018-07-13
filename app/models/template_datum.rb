@@ -11,8 +11,8 @@
 #  publish_count :integer
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
-#  s3_identifier :string(255)
 #  status        :string(255)
+#  s3_identifier :string(255)
 #  created_by    :integer
 #  updated_by    :integer
 #  site_id       :integer

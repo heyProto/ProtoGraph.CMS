@@ -10,7 +10,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
+<<<<<<< HEAD
 ActiveRecord::Schema.define(version: 20180712012658) do
+=======
+ActiveRecord::Schema.define(version: 20180713074456) do
+>>>>>>> d4aa248acb25c12ea7046f8f750fd4d18c5cf301
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -204,8 +208,15 @@ ActiveRecord::Schema.define(version: 20180712012658) do
     t.string "reported_from_city", limit: 255
     t.boolean "hide_byline", default: false
     t.bigint "landing_card_id"
+<<<<<<< HEAD
     t.string "format"
     t.string "importance", default: "low"
+=======
+    t.string "external_identifier"
+    t.string "format"
+    t.string "importance", default: "low"
+    t.string "html_key"
+>>>>>>> d4aa248acb25c12ea7046f8f750fd4d18c5cf301
   end
 
   create_table "permission_invites", force: :cascade do |t|
@@ -429,6 +440,7 @@ ActiveRecord::Schema.define(version: 20180712012658) do
     t.bigint "sort_order"
     t.boolean "is_editable", default: true
     t.bigint "site_id"
+    t.boolean "is_system", default: false
     t.index ["site_id"], name: "index_template_cards_on_site_id"
     t.index ["slug"], name: "idx_80932_index_template_cards_on_slug", unique: true
   end
@@ -505,6 +517,11 @@ ActiveRecord::Schema.define(version: 20180712012658) do
     t.bigint "updated_by"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+<<<<<<< HEAD
+=======
+    t.integer "site_id"
+    t.boolean "is_system", default: false
+>>>>>>> d4aa248acb25c12ea7046f8f750fd4d18c5cf301
   end
 
   create_table "uploads", force: :cascade do |t|
@@ -611,6 +628,10 @@ ActiveRecord::Schema.define(version: 20180712012658) do
     t.bigint "ref_category_vertical_id"
     t.datetime "published_at"
     t.json "data_json"
+<<<<<<< HEAD
+=======
+    t.string "external_identifier"
+>>>>>>> d4aa248acb25c12ea7046f8f750fd4d18c5cf301
     t.string "format"
     t.string "importance", default: "low"
     t.index ["slug"], name: "idx_81001_index_view_casts_on_slug", unique: true

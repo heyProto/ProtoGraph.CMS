@@ -3,6 +3,8 @@ class StreamUpdateWorker
   sidekiq_options :backtrace => true
 
   def perform(view_cast_id)
+    puts "coming here"
+    puts "============"
     view_cast = ViewCast.find(view_cast_id)
     site = view_cast.site
     site.stream.publish_cards

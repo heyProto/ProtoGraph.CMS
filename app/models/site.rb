@@ -23,6 +23,7 @@
 #  client_token                :string(255)
 #  access_token                :string(255)
 #  client_secret               :string(255)
+#  g_a_tracking_id             :string(255)
 #  favicon_id                  :integer
 #  logo_image_id               :integer
 #  g_a_tracking_id             :string(255)

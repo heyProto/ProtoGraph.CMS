@@ -13,6 +13,7 @@ class Api::V1::DatacastsController < ApiController
             view_cast.sub_intersection = @site.ref_categories.where(genre: "sub intersection").where(name: datacast_params['data']["subgenre"]).first
             view_cast.format = datacast_params['data']["format"] if datacast_params['data']["format"].present?
             view_cast.importance = datacast_params['data']["importance"] if datacast_params['data']["importance"].present?
+            view_cast.external_identifier = datacast_params['data']["external_identifier"] if datacast_params['data']["external_identifier"].present?
         end
         if ['toStory', 'toCluster'].include?(view_cast.template_card.name)
             view_cast.series = @folder.vertical
@@ -26,7 +27,6 @@ class Api::V1::DatacastsController < ApiController
             payload["schema_url"] = view_cast.template_datum.schema_json
             payload["bucket_name"] = @site.cdn_bucket
             r = Api::ProtoGraph::Datacast.create(payload)
-            puts "response=#{r}"
             if r.has_key?("errorMessage")
                 view_cast.destroy
                 render json: {error_message: r['errorMessage']}, status: 422
@@ -50,6 +50,7 @@ class Api::V1::DatacastsController < ApiController
             view_cast.by_line = datacast_params['data']["by_line"]
             view_cast.intersection = @site.ref_categories.where(genre: "intersection").where(name: datacast_params['data']["genre"]).first
             view_cast.sub_intersection = @site.ref_categories.where(genre: "sub intersection").where(name: datacast_params['data']["subgenre"]).first
+            view_cast.external_identifier = datacast_params['data']["external_identifier"] if datacast_params['data']["external_identifier"].present?
             datacast_params['data']['series'] = @folder.vertical.name
             view_cast.format = datacast_params['data']["format"] if datacast_params['data']["format"].present?
             view_cast.importance = datacast_params['data']["importance"] if datacast_params['data']["importance"].present?
