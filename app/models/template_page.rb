@@ -4,7 +4,6 @@
 #
 #  id                  :integer          not null, primary key
 #  name                :string(255)
-#  description         :text
 #  global_slug         :text
 #  is_current_version  :boolean
 #  slug                :string(255)
@@ -12,12 +11,7 @@
 #  previous_version_id :integer
 #  version_genre       :string(255)
 #  version             :string(255)
-#  change_log          :text
 #  status              :string(255)
-#  publish_count       :integer
-#  is_public           :boolean
-#  git_url             :string(255)
-#  git_branch          :string(255)
 #  git_repo_name       :string(255)
 #  s3_identifier       :string(255)
 #  created_by          :integer
@@ -25,7 +19,7 @@
 #  created_at          :datetime         not null
 #  updated_at          :datetime         not null
 #  site_id             :integer
-#  is_system           :boolean          default(FALSE)
+#  template_app_id     :integer
 #
 
 class TemplatePage < ApplicationRecord
@@ -42,6 +36,7 @@ class TemplatePage < ApplicationRecord
     include AssociableBySi
     include Versionable
     #ASSOCIATIONS
+    belongs_to :template_app
     has_many :pages
 
     #ACCESSORS
@@ -69,7 +64,6 @@ class TemplatePage < ApplicationRecord
     end
 
      def before_create_set
-        self.publish_count = 0
         self.global_slug = self.name.parameterize
         self.s3_identifier = SecureRandom.hex(6) if self.s3_identifier.blank?
         true

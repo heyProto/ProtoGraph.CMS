@@ -2,20 +2,19 @@
 #
 # Table name: template_data
 #
-#  id            :integer          not null, primary key
-#  name          :string(255)
-#  global_slug   :string(255)
-#  slug          :string(255)
-#  version       :string(255)
-#  change_log    :text
-#  publish_count :integer
-#  created_at    :datetime         not null
-#  updated_at    :datetime         not null
-#  status        :string(255)
-#  s3_identifier :string(255)
-#  created_by    :integer
-#  updated_by    :integer
-#  site_id       :integer
+#  id              :integer          not null, primary key
+#  name            :string(255)
+#  global_slug     :string(255)
+#  slug            :string(255)
+#  version         :string(255)
+#  created_at      :datetime         not null
+#  updated_at      :datetime         not null
+#  status          :string(255)
+#  s3_identifier   :string(255)
+#  created_by      :integer
+#  updated_by      :integer
+#  site_id         :integer
+#  template_app_id :integer
 #
 
 #TODO AMIT - Handle created_by, updated_by - RP added retrospectively. Need migration of old rows and BAU handling.
@@ -34,7 +33,8 @@ class TemplateDatum < ApplicationRecord
   include AssociableBy
   include Versionable
   #ASSOCIATIONS
-  belongs_to :site  
+  belongs_to :template_app
+  belongs_to :site
   has_many :template_cards
   has_many :template_fields
   has_many :view_casts, through: :template_cards
@@ -81,7 +81,6 @@ class TemplateDatum < ApplicationRecord
         a = TemplateDatum.create(name: params["name"], version: params["version"], status: params["status"], change_log: params["change_log"])
         return [a, true]
       else
-        return [a, false] if a.publish_count > 0
         a.update_attributes(status: params["status"], change_log: params["change_log"])
         return [a, true]
       end
@@ -242,7 +241,6 @@ class TemplateDatum < ApplicationRecord
   end
 
   def before_create_set
-    self.publish_count = 0
     self.global_slug = self.name.parameterize
     self.s3_identifier = SecureRandom.hex(6) if self.s3_identifier.blank?
     true

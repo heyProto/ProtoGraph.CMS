@@ -153,10 +153,7 @@ class ViewCast < ApplicationRecord
     end
 
     def after_create_set
-        template_card = self.template_card
-        template_card.update_attributes(publish_count: (template_card.publish_count.to_i + 1))
-        template_datum = self.template_datum
-        template_datum.update_attributes(publish_count: (template_datum.publish_count.to_i + 1))
+        #Update Template Card and Template Datum
     end
 
     def before_destroy_set
@@ -167,6 +164,5 @@ class ViewCast < ApplicationRecord
             Api::ProtoGraph::Datacast.delete(payload)
         rescue => e
         end
-        # self.template_card.update_column(:publish_count, (self.template_card.publish_count.to_i - 1))
     end
 end
