@@ -117,14 +117,14 @@ class Page < ApplicationRecord
 
   def html_key_old
     if template_page.name == 'Homepage: Vertical'
-      "#{self.series.slug}"
+      "#{self.series.slug}.html"
     else
-      "stories/#{self.slug}"
+      "stories/#{self.slug}.html"
     end
   end
 
   def html_url
-    "#{self.site.cdn_endpoint}/#{html_key}.html"
+    "#{self.site.cdn_endpoint}/#{html_key}"
   end
 
   def series_7c_stream
