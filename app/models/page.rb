@@ -94,6 +94,7 @@ class Page < ApplicationRecord
   validates :headline, presence: true, length: { in: 5..90 }
   validates :one_line_concept, presence: true, length: { in: 5..90 }, allow_blank: true
   validates :summary, length: { in: 50..220 }, allow_blank: true
+  validates :html_key,  format: {with: /\A[^\s!#$%^&*()（）=+;:'"\[\]\{\}|\\@#<>?,]+\z/ }, length: { in: 9..255 }
 
   #CALLBACKS
   before_create :before_create_set
@@ -114,7 +115,7 @@ class Page < ApplicationRecord
     self.english_headline = self.headline if (self.site.is_english and self.english_headline.blank?)
   end
 
-  def html_key
+  def html_key_old
     if template_page.name == 'Homepage: Vertical'
       "#{self.series.slug}"
     else
@@ -654,6 +655,7 @@ class Page < ApplicationRecord
     self.is_sponsored = false                         if self.is_sponsored.blank?
     self.status = 'draft'                             if self.status.blank?
     self.cover_image_alignment = "horizontal"         if self.cover_image_alignment.blank?
+    self.html_key = self.html_key_old
     true
   end
 

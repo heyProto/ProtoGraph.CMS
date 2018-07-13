@@ -9,10 +9,12 @@
                     <h3>Package the story before publishing it</h3>
                     <br/>
                     <%= f.input :headline, required: true, minlength: 10 , maxlength: 90, hint: "Minimum length: 50 chars. Maximum length: 90 chars.", placeholder: "Title", label: "Headline", autofocus: true %>
-                    <% if !@site.is_english or 1 == 1 %>
+                    <% unless @site.is_english %>
                         <%= f.input :english_headline, required: true, minlength: 10 , maxlength: 90, hint: "This is used for url management.", label: "Write the headline in English" %>
                     <% end %>
+                    <%= f.input :html_key, required: true, maxlength: 255, label: "Endpoint",hint: "You cannot use special characters like  ' ', @, #, $ in the endpoint. Only characters, numbers, /, ., -, _ are allowed. " %>
                     <%= f.input :summary, minlength: 50 , maxlength: 220, hint: "Minimum length: 50 chars. Maximum length: 200 chars." %>
+
                     <%= f.input :published_at, as: :datetime %>
                     <%= f.input :hide_byline, as: :boolean, label: "&nbsp; Remove byline from the cover".html_safe %>
                     <br/>

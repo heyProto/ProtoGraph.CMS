@@ -10,23 +10,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180710052405) do
+ActiveRecord::Schema.define(version: 20180713074456) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
-
-  create_table "activities", force: :cascade do |t|
-    t.bigint "user_id"
-    t.string "action", limit: 255
-    t.bigint "trackable_id"
-    t.string "trackable_type", limit: 255
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.bigint "folder_id"
-    t.bigint "site_id"
-    t.bigint "created_by"
-    t.bigint "updated_by"
-  end
 
   create_table "ad_integrations", force: :cascade do |t|
     t.bigint "site_id"
@@ -42,25 +29,6 @@ ActiveRecord::Schema.define(version: 20180710052405) do
     t.bigint "updated_by"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-  end
-
-  create_table "authentications", force: :cascade do |t|
-    t.string "provider", limit: 255
-    t.string "uid", limit: 255
-    t.text "info"
-    t.string "name", limit: 255
-    t.string "email", limit: 255
-    t.string "access_token", limit: 255
-    t.string "access_token_secret", limit: 255
-    t.string "refresh_token", limit: 255
-    t.datetime "token_expires_at"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.bigint "user_id"
-    t.bigint "site_id"
-    t.bigint "created_by"
-    t.bigint "updated_by"
-    t.index ["user_id"], name: "idx_80727_index_authentications_on_user_id"
   end
 
   create_table "colour_swatches", force: :cascade do |t|
@@ -237,6 +205,9 @@ ActiveRecord::Schema.define(version: 20180710052405) do
     t.boolean "hide_byline", default: false
     t.bigint "landing_card_id"
     t.string "external_identifier"
+    t.string "format"
+    t.string "importance", default: "low"
+    t.string "html_key"
   end
 
   create_table "permission_invites", force: :cascade do |t|
@@ -323,16 +294,6 @@ ActiveRecord::Schema.define(version: 20180710052405) do
     t.boolean "show_by_publisher_in_header", default: true
   end
 
-  create_table "ref_link_sources", force: :cascade do |t|
-    t.string "name", limit: 255
-    t.text "url"
-    t.text "favicon_url"
-    t.bigint "created_by"
-    t.bigint "updated_by"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
   create_table "sessions", force: :cascade do |t|
     t.string "session_id", limit: 255, null: false
     t.text "data"
@@ -378,10 +339,7 @@ ActiveRecord::Schema.define(version: 20180710052405) do
     t.string "g_a_tracking_id", limit: 255
     t.bigint "favicon_id"
     t.bigint "logo_image_id"
-    t.string "sign_up_mode", limit: 255
-    t.string "default_role", limit: 255
     t.string "story_card_style", limit: 255
-    t.string "email_domain", limit: 255
     t.string "header_background_color", limit: 255
     t.text "header_url"
     t.string "header_positioning", limit: 255
@@ -442,25 +400,6 @@ ActiveRecord::Schema.define(version: 20180710052405) do
     t.index "to_tsvector('simple'::regconfig, description)", name: "idx_80902_index_streams_on_description", using: :gin
   end
 
-  create_table "taggings", force: :cascade do |t|
-    t.bigint "tag_id"
-    t.string "taggable_type", limit: 255
-    t.bigint "taggable_id"
-    t.string "tagger_type", limit: 255
-    t.bigint "tagger_id"
-    t.string "context", limit: 128
-    t.datetime "created_at"
-    t.index ["context"], name: "idx_80923_index_taggings_on_context"
-    t.index ["tag_id", "taggable_id", "taggable_type", "context", "tagger_id", "tagger_type"], name: "idx_80923_taggings_idx", unique: true
-    t.index ["tag_id"], name: "idx_80923_index_taggings_on_tag_id"
-    t.index ["taggable_id", "taggable_type", "context"], name: "idx_80923_index_taggings_on_taggable_id_and_taggable_type_and_c"
-    t.index ["taggable_id", "taggable_type", "tagger_id", "context"], name: "idx_80923_taggings_idy"
-    t.index ["taggable_id"], name: "idx_80923_index_taggings_on_taggable_id"
-    t.index ["taggable_type"], name: "idx_80923_index_taggings_on_taggable_type"
-    t.index ["tagger_id", "tagger_type"], name: "idx_80923_index_taggings_on_tagger_id_and_tagger_type"
-    t.index ["tagger_id"], name: "idx_80923_index_taggings_on_tagger_id"
-  end
-
   create_table "template_cards", force: :cascade do |t|
     t.string "name", limit: 255
     t.string "elevator_pitch", limit: 255
@@ -492,6 +431,7 @@ ActiveRecord::Schema.define(version: 20180710052405) do
     t.bigint "sort_order"
     t.boolean "is_editable", default: true
     t.bigint "site_id"
+    t.boolean "is_system", default: false
     t.index ["site_id"], name: "index_template_cards_on_site_id"
     t.index ["slug"], name: "idx_80932_index_template_cards_on_slug", unique: true
   end
@@ -509,7 +449,41 @@ ActiveRecord::Schema.define(version: 20180710052405) do
     t.string "s3_identifier", limit: 255
     t.bigint "created_by"
     t.bigint "updated_by"
+    t.integer "site_id"
     t.index ["slug"], name: "idx_80945_index_template_data_on_slug", unique: true
+  end
+
+  create_table "template_fields", force: :cascade do |t|
+    t.bigint "site_id"
+    t.bigint "template_datum_id"
+    t.string "key_name"
+    t.string "name"
+    t.string "data_type"
+    t.text "description"
+    t.text "help"
+    t.boolean "is_entry_title"
+    t.string "genre_html"
+    t.boolean "is_required", default: false
+    t.string "default_value"
+    t.text "inclusion_list", array: true
+    t.text "inclusion_list_names", array: true
+    t.decimal "min"
+    t.decimal "max"
+    t.decimal "multiple_of"
+    t.boolean "ex_min"
+    t.boolean "ex_max"
+    t.text "format"
+    t.string "format_regex"
+    t.integer "length_minimum"
+    t.integer "length_maximum"
+    t.string "slug"
+    t.integer "created_by"
+    t.integer "updated_by"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "sort_order"
+    t.index ["site_id"], name: "index_template_fields_on_site_id"
+    t.index ["template_datum_id"], name: "index_template_fields_on_template_datum_id"
   end
 
   create_table "template_pages", force: :cascade do |t|
@@ -534,6 +508,8 @@ ActiveRecord::Schema.define(version: 20180710052405) do
     t.bigint "updated_by"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "site_id"
+    t.boolean "is_system", default: false
   end
 
   create_table "uploads", force: :cascade do |t|
@@ -641,10 +617,14 @@ ActiveRecord::Schema.define(version: 20180710052405) do
     t.datetime "published_at"
     t.json "data_json"
     t.string "external_identifier"
+    t.string "format"
+    t.string "importance", default: "low"
     t.index ["slug"], name: "idx_81001_index_view_casts_on_slug", unique: true
   end
 
   add_foreign_key "image_variations", "sites"
   add_foreign_key "images", "sites"
   add_foreign_key "template_cards", "sites"
+  add_foreign_key "template_fields", "sites"
+  add_foreign_key "template_fields", "template_data"
 end
