@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
 
+  resources :template_apps
   require 'sidekiq/web'
   mount Sidekiq::Web => '/sidekiq'
 

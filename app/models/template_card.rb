@@ -4,8 +4,6 @@
 #
 #  id                   :integer          not null, primary key
 #  name                 :string(255)
-#  elevator_pitch       :string(255)
-#  description          :text
 #  global_slug          :string(255)
 #  is_current_version   :boolean
 #  slug                 :string(255)
@@ -13,11 +11,7 @@
 #  previous_version_id  :integer
 #  version_genre        :string(255)
 #  version              :string(255)
-#  change_log           :text
 #  status               :string(255)
-#  publish_count        :integer
-#  is_public            :boolean
-#  git_url              :text
 #  git_branch           :string(255)
 #  created_by           :integer
 #  updated_by           :integer
@@ -33,7 +27,7 @@
 #  sort_order           :integer
 #  is_editable          :boolean          default(TRUE)
 #  site_id              :integer
-#  is_system            :boolean          default(FALSE)
+#  template_app_id      :integer
 #
 
 class TemplateCard < ApplicationRecord
@@ -55,6 +49,7 @@ class TemplateCard < ApplicationRecord
     include AssociableBySi
     include Versionable
     #ASSOCIATIONS
+    belongs_to :template_app
     belongs_to :template_datum
     has_many :view_casts
     has_many :uploads
@@ -207,7 +202,6 @@ class TemplateCard < ApplicationRecord
 
     def before_create_set
         self.status = "Draft"
-        self.publish_count = 0
         self.s3_identifier = SecureRandom.hex(6) if self.s3_identifier.blank?
         if self.previous_version_id.blank?
             self.global_slug = self.name.parameterize

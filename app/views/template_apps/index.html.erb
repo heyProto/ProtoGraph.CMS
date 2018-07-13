@@ -1,0 +1,45 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Template Apps</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Genre</th>
+      <th>Pitch</th>
+      <th>Description</th>
+      <th>Is public</th>
+      <th>Installs</th>
+      <th>Views</th>
+      <th>Created by</th>
+      <th>Updated by</th>
+      <th>Change log</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @template_apps.each do |template_app| %>
+      <tr>
+        <td><%= template_app.name %></td>
+        <td><%= template_app.genre %></td>
+        <td><%= template_app.pitch %></td>
+        <td><%= template_app.description %></td>
+        <td><%= template_app.is_public %></td>
+        <td><%= template_app.installs %></td>
+        <td><%= template_app.views %></td>
+        <td><%= template_app.created_by %></td>
+        <td><%= template_app.updated_by %></td>
+        <td><%= template_app.change_log %></td>
+        <td><%= link_to 'Show', template_app %></td>
+        <td><%= link_to 'Edit', edit_template_app_path(template_app) %></td>
+        <td><%= link_to 'Destroy', template_app, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Template App', new_template_app_path %>

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180713074456) do
+ActiveRecord::Schema.define(version: 20180713131147) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -204,9 +204,9 @@ ActiveRecord::Schema.define(version: 20180713074456) do
     t.string "reported_from_city", limit: 255
     t.boolean "hide_byline", default: false
     t.bigint "landing_card_id"
+    t.string "external_identifier"
     t.string "format"
     t.string "importance", default: "low"
-    t.string "external_identifier"
     t.string "html_key"
   end
 
@@ -400,10 +400,28 @@ ActiveRecord::Schema.define(version: 20180713074456) do
     t.index "to_tsvector('simple'::regconfig, description)", name: "idx_80902_index_streams_on_description", using: :gin
   end
 
+  create_table "template_apps", force: :cascade do |t|
+    t.integer "site_id"
+    t.string "name"
+    t.string "genre"
+    t.string "pitch"
+    t.text "description"
+    t.boolean "is_public"
+    t.integer "installs"
+    t.bigint "views"
+    t.text "change_log"
+    t.text "git_url"
+    t.boolean "is_system_installed"
+    t.integer "created_by"
+    t.integer "updated_by"
+    t.boolean "is_backward_compatible", default: false
+    t.integer "publish_count"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "template_cards", force: :cascade do |t|
     t.string "name", limit: 255
-    t.string "elevator_pitch", limit: 255
-    t.text "description"
     t.string "global_slug", limit: 255
     t.boolean "is_current_version"
     t.string "slug", limit: 255
@@ -411,11 +429,7 @@ ActiveRecord::Schema.define(version: 20180713074456) do
     t.bigint "previous_version_id"
     t.string "version_genre", limit: 255
     t.string "version", limit: 255
-    t.text "change_log"
     t.string "status", limit: 255
-    t.bigint "publish_count"
-    t.boolean "is_public"
-    t.text "git_url"
     t.string "git_branch", limit: 255
     t.bigint "created_by"
     t.bigint "updated_by"
@@ -431,7 +445,7 @@ ActiveRecord::Schema.define(version: 20180713074456) do
     t.bigint "sort_order"
     t.boolean "is_editable", default: true
     t.bigint "site_id"
-    t.boolean "is_system", default: false
+    t.integer "template_app_id"
     t.index ["site_id"], name: "index_template_cards_on_site_id"
     t.index ["slug"], name: "idx_80932_index_template_cards_on_slug", unique: true
   end
@@ -441,8 +455,6 @@ ActiveRecord::Schema.define(version: 20180713074456) do
     t.string "global_slug", limit: 255
     t.string "slug", limit: 255
     t.string "version", limit: 255
-    t.text "change_log"
-    t.bigint "publish_count"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "status", limit: 255
@@ -450,6 +462,7 @@ ActiveRecord::Schema.define(version: 20180713074456) do
     t.bigint "created_by"
     t.bigint "updated_by"
     t.integer "site_id"
+    t.integer "template_app_id"
     t.index ["slug"], name: "idx_80945_index_template_data_on_slug", unique: true
   end
 
@@ -488,7 +501,6 @@ ActiveRecord::Schema.define(version: 20180713074456) do
 
   create_table "template_pages", force: :cascade do |t|
     t.string "name", limit: 255
-    t.text "description"
     t.text "global_slug"
     t.boolean "is_current_version"
     t.string "slug", limit: 255
@@ -496,12 +508,7 @@ ActiveRecord::Schema.define(version: 20180713074456) do
     t.bigint "previous_version_id"
     t.string "version_genre", limit: 255
     t.string "version", limit: 255
-    t.text "change_log"
     t.string "status", limit: 255
-    t.bigint "publish_count"
-    t.boolean "is_public"
-    t.string "git_url", limit: 255
-    t.string "git_branch", limit: 255
     t.string "git_repo_name", limit: 255
     t.string "s3_identifier", limit: 255
     t.bigint "created_by"
@@ -509,7 +516,7 @@ ActiveRecord::Schema.define(version: 20180713074456) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "site_id"
-    t.boolean "is_system", default: false
+    t.integer "template_app_id"
   end
 
   create_table "uploads", force: :cascade do |t|
@@ -616,9 +623,9 @@ ActiveRecord::Schema.define(version: 20180713074456) do
     t.bigint "ref_category_vertical_id"
     t.datetime "published_at"
     t.json "data_json"
+    t.string "external_identifier"
     t.string "format"
     t.string "importance", default: "low"
-    t.string "external_identifier"
     t.index ["slug"], name: "idx_81001_index_view_casts_on_slug", unique: true
   end
 

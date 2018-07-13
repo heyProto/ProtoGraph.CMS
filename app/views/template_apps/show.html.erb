@@ -1,0 +1,54 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @template_app.name %>
+</p>
+
+<p>
+  <strong>Genre:</strong>
+  <%= @template_app.genre %>
+</p>
+
+<p>
+  <strong>Pitch:</strong>
+  <%= @template_app.pitch %>
+</p>
+
+<p>
+  <strong>Description:</strong>
+  <%= @template_app.description %>
+</p>
+
+<p>
+  <strong>Is public:</strong>
+  <%= @template_app.is_public %>
+</p>
+
+<p>
+  <strong>Installs:</strong>
+  <%= @template_app.installs %>
+</p>
+
+<p>
+  <strong>Views:</strong>
+  <%= @template_app.views %>
+</p>
+
+<p>
+  <strong>Created by:</strong>
+  <%= @template_app.created_by %>
+</p>
+
+<p>
+  <strong>Updated by:</strong>
+  <%= @template_app.updated_by %>
+</p>
+
+<p>
+  <strong>Change log:</strong>
+  <%= @template_app.change_log %>
+</p>
+
+<%= link_to 'Edit', edit_template_app_path(@template_app) %> |
+<%= link_to 'Back', template_apps_path %>
