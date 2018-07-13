@@ -57,6 +57,7 @@
 #  format                           :string
 #  importance                       :string           default("low")
 #  external_identifier              :string
+#  html_key                         :string
 #
 
 class Page < ApplicationRecord
