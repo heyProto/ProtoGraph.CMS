@@ -1,11 +1,11 @@
-# == Schema rnformation
+# == Schema Information
 #
 # Table name: streams
 #
 #  id                     :integer          not null, primary key
 #  title                  :string(255)
 #  slug                   :string(255)
-#  description            :text(65535)
+#  description            :text
 #  folder_id              :integer
 #  datacast_identifier    :string(255)
 #  created_by             :integer
@@ -20,14 +20,12 @@
 #  offset                 :integer
 #  is_grouped_data_stream :boolean          default(FALSE)
 #  data_group_key         :string(255)
-#  filter_query           :text(65535)
-#  data_group_value       :string(255)
-#  site_id                :integer
 #  include_data           :boolean          default(FALSE)
+#  order_by_type          :string(255)
+#  site_id                :integer
 #  is_automated_stream    :boolean          default(FALSE)
 #  col_name               :string(255)
 #  col_id                 :integer
-#  order_by_type          :string(255)
 #  is_open                :boolean
 #
 
@@ -299,6 +297,12 @@ class Stream < ApplicationRecord
                 end
                 if data.has_key?("external_identifier") and data["external_identifier"].present?
                   xml.external_identifier data["external_identifier"]
+                end
+                if data.has_key?("format") and data['format'].present?
+                    xml.format data['format']
+                end
+                if data.has_key?("importance") and data['importance'].present?
+                    xml.importance data['importance']
                 end
               }
             end

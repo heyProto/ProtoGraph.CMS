@@ -1,162 +1,126 @@
-<div class="jumbotroz">
-    <div class="row">
-        <div class="card-tags-series-name">
-            <%= folder_name_(@folder)%>
-        </div>
-        <h1>    
-            Stories
-        </h1>
-        <nav class="nav" style="position: absolute; top: 10px;right: 30px; float: right; margin-left: auto;">
-            <% if !@folder.is_trash %>
-                <form class="form-inline my-2 my-lg-0"><li style="list-style-type: none;"><%= render partial: "stories/new" %></li></form>
-            <% end %>
-        </nav>
-    </div>
-</div>
+<h1>
+    <%= folder_name_(@folder)%>
+    <% if !@folder.is_trash %>
+        <span class="small thin"><%= link_to "Edit this workspace", edit_site_folder_path(@site, @folder) %></span>
+    <% end %>
+    <% if !@folder.is_trash %>
+        <span style="float: right;">
+            <form class="form-inline my-2 my-lg-0"><li style="list-style-type: none;"><%= render partial: "stories/new" %></li></form>
+        </span>
+    <% end %>
+</h1>
 <br/>
-<br/>
-
-    <div class="row">
-        <div class="col-sm-4" style="padding-left: 0px;">
-            <div style="width: 300px;">            
-                <div class="protograph-filters-header" style="margin-bottom: 10px;">
-                    FILTERS
+<div class="row">
+    <div class="col-sm-12">
+            <div class="protograph-page-tabs">
+                <div class="single-tab">
+                    <%= link_to "Cards", site_folder_view_casts_path(@site, @folder), "data-turbolinks" => "false" %>
                 </div>
-                <div class="protograph-filters-tabs-container">
-                    <ul class="nav nav-tabs" id="myTab" role="tablist">
-                      <li class="nav-item">
-                        <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Workspaces</a>
-                      </li>
-                      <li class="nav-item">
-                        <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Filter within Workspace</a>
-                      </li>
-                    </ul>
-                </div>
+                <% if @folder.is_for_stories %>
+                  <% if @folder.vertical.present? %>
+                    <div class="single-tab active-tab">
+                        <%= link_to "Stories", site_stories_path(@site,folder_id: @folder.id), "data-turbolinks" => "false" %>
+                    </div>
+                  <% end %>
+                <% end %>
+            </div>
             
-                <div class="tab-content" id="myTabContent">
-                  <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-                      <br/>
-                      <ul class="list-group">
-                        <% @all_workspaces.each do |folder| %>
-                            <a href="<%= site_folder_path(@site, folder) %>">
-                                <li class="<%= (@folder.present? and @folder.id.present? and @folder.id == folder.id) ? "list-group-item active" : "list-group-item" %>">
-                                    <%= folder_name_(folder).html_safe %>
-                                    <span class="spanadd">(<%= folder.view_casts.count + folder.pages.count %>)</span>
-                                </li>
-                            </a>
+            <% if @pages.first.blank? %>
+                <div class="col-sm-16">
+                    <div class="blankslate blankslate-spacious">
+                        <% if @folder.is_trash %>
+                            <h3>There are no stories in the recycle bin.</h3>
+                        <% else %>
+                            <h3>No stories created yet.</h3>
+                            <p>Use the [+ Add a story] button on the top right or <%= link_to "Reset", site_folder_stories_path(@site, @folder) %>.</p>
                         <% end %>
-                      </ul>
-                  </div>
-                  <div class="tab-pane show" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-                      <br/><br/>
+                    </div>
+                </div>
+            <% else %>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th style="border: 0px;"><%= sort_link(@q, :view_cast_id, '#') %>
+                            </th>
+                            <th style="border: 0px;">Editorial
+                            </th>
+                            <th style="border: 0px;">
+                            </th>
+                            <th style="border: 0px;">Headline
+                            </th>
+                            <th style="border: 0px;">Byline
+                            </th>
+                            <th style="border: 0px;"><%= sort_link(@q, :published_at) %>
+                            </th>
+                            <th style="border: 0px;"><%= sort_link(@q, :updated_at) %>
+                            </th>
+                        </tr>
+                    </thead>
+
+                    <% @pages.each do |d| %>
+                        <tbody>
+
+                                <tr>
+                                    <td class="hint">
+                                        <% if d.view_cast.present? %>
+                                            #<%= d.view_cast.id.to_s %>
+                                        <% end %>
+                                    </td>
+                                    <td class="hint">
+                                		<% if d.intersection.present? %>
+                                            <%= d.intersection.name %>
+                                        <% end %>
+                                        <% if d.sub_intersection.present? %>
+                                                /
+                                                <%= d.sub_intersection.name %>
+                                        <% end %>
+                                    </td>
+                                    <td><div class="status-signal <%= d.status == 'draft' ? "status-red" : "status-green" %>"></div>
+                                    </td>
+                                    <td>
+                                        <%= link_to truncate(d.headline, length: 45, ommission: ".."), edit_write_site_story_path(@site, d, folder_id: d.folder_id), "data-turbolinks"=> false %>
+                                    </td>
+                                    <td>
+                                        <% if d.byline.present? %>
+                                            <%= d.byline.name %>
+                                        <% end %>
+                                    </td>
+                                    <td class="hint"><%= time_ago_in_words(d.published_at) %>
+                                    </td>
+                                    <td class="hint"><%= image_tag avatar_url(d.updator.email), width: "16px", height: "16px" %> <%= time_ago_in_words(d.updated_at) %>
+                                    </td>
+                                </tr>
+                            <% end %>
+                        </tbody>
+                </table>
+                <%= paginate @pages, theme: 'twitter-bootstrap-4', pagination_class: "pagination-sm" %>
+            <% end %>
+    </div>
+    <div class="col-sm-4" style="padding-left: 6.25%; padding-right: 0px; padding-top: 70px;">
+
+            <% if @pages.present? %>
                       <%= search_form_for @q, url: site_folder_stories_path(@site, @folder) do |f| %>
                           <%= f.label :english_headline_cont %>
                           <%= f.search_field :english_headline_or_headline_cont, :class => "form-control" %>
                           <br/>
                           <%= f.label :ref_category_intersection_id_eq, "Intersection" %>
                           <%= f.select :ref_category_intersection_id_eq, options_from_collection_for_select(@ref_intersections, :id, :name, @q.ref_category_intersection_id_eq), { :include_blank => true }, :class => "form-control" %>
-                          <br/>
-                          <%= f.label :ref_category_sub_intersection_id_eq, "Sub Intersection" %>
-                          <%= f.select :ref_category_sub_intersection_id_eq, options_from_collection_for_select(@ref_sub_intersections, :id, :name, @q.ref_category_sub_intersection_id_eq), { :include_blank => true }, :class => "form-control" %>
+                          <% if @ref_sub_intersections.present? %>
+                              <br/>
+                              <%= f.label :ref_category_sub_intersection_id_eq, "Trend" %>
+                              <%= f.select :ref_category_sub_intersection_id_eq, options_from_collection_for_select(@ref_sub_intersections, :id, :name, @q.ref_category_sub_intersection_id_eq), { :include_blank => true }, :class => "form-control" %>
+                          <% end %>
                           <br/>
                           <%= f.label :byline_id_eq, "Byline" %>
                           <%= f.select :byline_id_eq, options_from_collection_for_select(@bylines, :id, :name, @q.byline_id_eq), { :include_blank => true }, :class => "form-control" %>
                           <br/>
-                          <%= f.submit "Search", :class => "btn btn-sm btn-secondary" %>
+                          <%= f.submit "Search", class: "btn btn-sm btn-dark" %>
                           &nbsp;&nbsp;&nbsp;&nbsp;
                           |&nbsp;&nbsp;&nbsp;&nbsp;
                           <%= link_to "Reset", site_folder_stories_path(@site, @folder) %>
                       <% end %>
-                  </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-sm-12">
-                <div class="protograph-page-tabs">
-                    <div class="single-tab">
-                        <%= link_to "Cards", site_folder_view_casts_path(@site, @folder), "data-turbolinks" => "false" %>
-                    </div>
-                    <% if @folder.is_for_stories %>
-                      <% if @folder.vertical.present? %>
-                        <div class="single-tab active-tab">
-                            <%= link_to "Stories", site_stories_path(@site,folder_id: @folder.id), "data-turbolinks" => "false" %>
-                        </div>
-                      <% end %>
-                    <% end %>
-                </div>
-                
-                <% if @pages.first.blank? %>
-                    <div class="col-sm-16">
-                        <div class="blankslate blankslate-spacious">
-                            <% if @folder.is_trash %>
-                                <h3>There are no stories in the recycle bin.</h3>
-                            <% else %>
-                                <h3>No stories created yet.</h3>
-                                <p>Use the [+ Add a story] button on the top right or <%= link_to "Reset", site_folder_stories_path(@site, @folder) %>.</p>
-                            <% end %>
-                        </div>
-                    </div>
-                <% else %>
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th style="border: 0px;"><%= sort_link(@q, :view_cast_id, '#') %>
-                                </th>
-                                <th style="border: 0px;">Editorial
-                                </th>
-                                <th style="border: 0px;">
-                                </th>
-                                <th style="border: 0px;">Headline
-                                </th>
-                                <th style="border: 0px;">Byline
-                                </th>
-                                <th style="border: 0px;"><%= sort_link(@q, :published_at) %>
-                                </th>
-                                <th style="border: 0px;"><%= sort_link(@q, :updated_at) %>
-                                </th>
-                            </tr>
-                        </thead>
-
-                        <% @pages.each do |d| %>
-                            <tbody>
-
-                                    <tr>
-                                        <td class="hint">
-                                            <% if d.view_cast.present? %>
-                                                #<%= d.view_cast.id.to_s %>
-                                            <% end %>
-                                        </td>
-                                        <td class="hint">
-                                    		<% if d.intersection.present? %>
-                                                <%= d.intersection.name %>
-                                            <% end %>
-                                            <% if d.sub_intersection.present? %>
-                                                    /
-                                                    <%= d.sub_intersection.name %>
-                                            <% end %>
-                                        </td>
-                                        <td><div class="status-signal <%= d.status == 'draft' ? "status-red" : "status-green" %>"></div>
-                                        </td>
-                                        <td>
-                                            <%= link_to truncate(d.headline, length: 45, ommission: ".."), edit_write_site_story_path(@site, d, folder_id: d.folder_id), "data-turbolinks"=> false %>
-                                        </td>
-                                        <td>
-                                            <% if d.byline.present? %>
-                                                <%= d.byline.name %>
-                                            <% end %>
-                                        </td>
-                                        <td class="hint"><%= time_ago_in_words(d.published_at) %>
-                                        </td>
-                                        <td class="hint"><%= image_tag avatar_url(d.updator.email), width: "16px", height: "16px" %> <%= time_ago_in_words(d.updated_at) %>
-                                        </td>
-                                    </tr>
-                                <% end %>
-                            </tbody>
-
-                    </table>
-                    <%= paginate @pages, theme: 'twitter-bootstrap-4', pagination_class: "pagination-sm" %>
-                <% end %>
-        </div>
-        
+            <% end %>
     </div>
+    
+</div>
     

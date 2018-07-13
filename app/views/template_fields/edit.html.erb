@@ -1,0 +1,142 @@
+<%= render partial: "template_data/header" %>
+<div style="margin-left: auto; margin-right: auto; width: 540px;">
+    <p><%= link_to "< All schemas", site_template_data_path(@site)%>
+    <h1><%= link_to @template_datum.name, site_template_datum_path(@site, @template_datum) %> / <%= @template_field.name %></h1>
+    <br/>
+    <%= simple_form_for([@site, @template_datum, @template_field]) do |f| %>
+        <h2>What is this field about?</h2>
+        <p>Data Type is <b><%= @template_field.data_type %></b> and Key Name is <b><%= @template_field.key_name %></b></p>
+        <%= f.input :name, required: true %>
+        <%= f.input :description %>
+        <%= f.input :is_entry_title, as: :boolean, label: "&nbsp; This field represents the Record title".html_safe %>
+        <%= f.input :default_value %>
+        <h2>Appearance</h2>
+        <div class="input-format">
+          <%= f.input :format, collection: [] %>
+        </div>
+        <%= f.input :help %>
+        <%= f.input :sort_order %>
+        <h2>Validations</h2>
+        <%= f.input :is_required, as: :boolean, label: "&nbsp; Required field".html_safe, hint: "You won't be able to publish an entry if this field is empty" %>
+        <%= f.input :inclusion_list, as: :array %>
+        <button type="button" id="new-inc-list-field" class="btn btn-xs">+</button>
+        <%= f.input :inclusion_list_names, as: :array %>
+        <button type="button" id="new-inc-list-names-field" class="btn btn-xs">+</button>
+        <div class="inputs-num">
+          <%= f.input :min %>
+          <%= f.input :max %>
+          <%= f.input :multiple_of %>
+          <%= f.input :ex_min %>
+          <%= f.input :ex_max %>
+        </div>
+    
+        <div class="input-format-regex">
+          <%= f.input :format_regex %>
+        </div>
+        <div class="inputs-str-len">
+          <%= f.input :length_minimum %>
+          <%= f.input :length_maximum %>
+        </div>
+        <br/><br/><br/>
+        <%= f.button :submit, value: "Update", class: "btn btn-sm btn-secondary" %>
+  <% end %>
+</div>
+<script>
+  $(document).ready(function () {
+
+    var formats = {
+      "short_text": {
+        "": "",
+        "url": "URL",
+        "colour": "Color",
+        "username": "Username",
+        "email": "Email",
+        "password": "Password",
+        "ipv4": "IP Address Version 4",
+        "ipv6": "IP Address Version 6",
+        "uuid": "Universal Unique Identifier(UUID)"
+      },
+      "boolean": {
+        "": "",
+        "yes/no": "Yes/No",
+        "y/n": "Y/N",
+        "true/false": "True/False",
+        "1/0": "1/0"
+      },
+      "temporal": {
+        "": "",
+        "dd-mm-yyyy": "DD-MM-YYYY",
+        "dd-mmm-yyyy": "DD-MMM-YYYY",
+        "yyyy-mm-dd": "YYYY-MM-DD",
+        "mm-dd-yyyy": "MM-DD-YYYY",
+
+        "dd/mm/yyyy": "DD/MM/YYYY",
+        "dd/mmm/yyyy": "DD/MMM/YYYY",
+        "yyyy/mm/dd": "YYYY/MM/DD",
+        "mm/dd/yyyy": "MM/DD/YYYY",
+
+        "hh:mm:ss": "hh:mm:ss",
+        "hh:mm": "hh:mm"
+      }
+    };
+
+    function update_template_field_form(data_type) {
+      if (["integer", "decimal"].includes(data_type)) {
+        $(".inputs-num").show();
+        $(".input-format, .input-format-regex, .inputs-str-len").hide();
+      } else if (["short_text", "long_text", "temporal"].includes(data_type)) {
+        $(".input-format, .input-format-regex, .inputs-str-len").show();
+        $(".inputs-num").hide();
+        if (["short_text", "temporal"].includes(data_type)) {
+          $(".input-format, .input-format-regex").show();
+        } else if (data_type == "long_text") {
+          $(".input-format").hide();
+          $(".input-format-regex").show();
+        }
+      } else if (["array"].includes(data_type)) {
+        $(".inputs-num, .input-format, .input-format-regex, .inputs-str-len").hide();
+      } else if (data_type == "boolean") {
+        $(".inputs-num, .input-format-regex, .inputs-str-len").hide();
+        $(".input-format").show();
+      } else {
+        $(".inputs-num, .input-format, .input-format-regex, .inputs-str-len").hide();
+      }
+    }
+
+    function update_dropdown_format(data_type) {
+      var format = formats[data_type];
+      $("#template_field_format").empty();
+      var tf_format = "<%= @template_field.format %>";
+      console.log("tf_format", tf_format);
+      for (var key in format) {
+        if (tf_format == key) {
+          $("#template_field_format").append(`<option value=${key} selected="selected">${format[key]}</option>`);
+        } else {
+          $("#template_field_format").append(`<option value=${key}>${format[key]}</option>`);
+        }
+      }
+    }
+
+    update_dropdown_format("<%= @template_field.data_type %>");
+    update_template_field_form("<%= @template_field.data_type %>");
+
+    // update dropdown format
+    $(".template_field_data_type > select").change(function () {
+      var data_type = $(this).val();
+      update_template_field_form(data_type);
+      update_dropdown_format(data_type);
+    });
+
+    // add new enum field
+    var inc_list_field = '<input class="text optional form-control" name="template_field[inclusion_list][]" id="template_field_" type="text">';
+    $("#new-inc-list-field").click(function () {
+      $("input[name='template_field[inclusion_list][]']:last").after(inc_list_field);
+    });
+
+    var inc_list_names_field = '<input class="text optional form-control" name="template_field[inclusion_list_name][]" id="template_field_" type="text">';
+    $("#new-inc-list-names-field").click(function () {
+      $("input[name='template_field[inclusion_list_names][]']:last").after(inc_list_names_field);
+    });
+  });
+</script>
+

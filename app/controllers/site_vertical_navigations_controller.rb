@@ -7,7 +7,7 @@ class SiteVerticalNavigationsController < ApplicationController
     @site_vertical_navigations_header = @ref_category.navigations.where(menu: "Vertical Header")
     @site_vertical_navigations_footer = @ref_category.navigations.where(menu: "Vertical Footer")
     @site_vertical_navigation = SiteVerticalNavigation.new
-
+    
   end
 
   def create

@@ -1,22 +1,7 @@
-<%= render partial: "sites/header" %>
-<div class="row">
-    <div class="col-sm-16">
-        <%= render partial: "admins/header" %>
-    </div>
-</div>
+<%= render partial: "ref_categories/header" %>
 <div class="row">
   <div class="col-sm-13">
     <div style="margin-left: auto; margin-right: auto; width: 540px;" class='table-responsive'>
-      <% if action_name != "sections" %>
-          <ul class="nav nav-tabs" style="font-size: 12px;">
-            <li class="nav-item"><%= link_to "Intersections", intersections_site_path(@site), class: (action_name == "intersections") ? "nav-link active" : "nav-link" %>
-            <li class="nav-item"><%= link_to "Sub Intersections", sub_intersections_site_path(@site), class: (action_name == "sub_intersections") ? "nav-link active" : "nav-link" %>
-          </ul>
-      <% else %>
-          <h2>Sections</h2>
-      <% end %>
-      <br/>
-      <br/>
       <% if @data.first.blank? %>
         <div class="hint">No rows yet</div>
       <% else %>
@@ -57,7 +42,7 @@
                   <%= image_tag avatar_url(ref_category.updator.email), class: "rounded" %> <%= time_ago_in_words ref_category.updated_at %>
                 </td>
                 <!-- <td> -->
-                  <%#= link_to "Edit", (ref_category.genre == "series") ? distribute_account_site_page_path(@account, @site, ref_category.vertical_page) :edit_account_site_ref_category_path(@account, @site, ref_category) %>
+                  <%#= link_to "Edit", (ref_category.genre == "series") ? distribute_site_page_path(@site, ref_category.vertical_page) :edit_site_ref_category_path(@site, ref_category) %>
                 <!-- </td> -->
                 <!-- <td>
 
@@ -97,7 +82,7 @@
           <% unless @site.is_english %>
             <%= f.input :english_name, required: true, minlength: 3 , maxlength: 15, hint: "This is used for url management." %>
           <% end %>
-          <%= f.input :name_html, as: :text, label: "Brand the vertical", hint: "Use HTML (span tag) to add CSS. Note, the length of the series cannot be more than 15 characters.", required: true, minlength: 3 , maxlength: 50 %>
+          <%= f.input :name_html, as: :text, label: "Brand the subsite", hint: "Use HTML (span tag) to add CSS. Note, the length of the series cannot be more than 15 characters.", required: true, minlength: 3 , maxlength: 50 %>
         </div>
         <div class="form-actions">
             <%= f.button :submit, value: "Add a section", class: "btn btn-sm btn-secondary" %>

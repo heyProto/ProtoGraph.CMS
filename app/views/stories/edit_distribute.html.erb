@@ -5,51 +5,12 @@
             <%= simple_form_for(@page, url: site_page_path(@site), method: :put, html: {id: "proto_app_package_form"}) do |f| %>
                 <%= f.error_notification %>
                 <div class="form-inputs">
-                    <br/>
-                    <h3>Package the story before publishing it</h3>
-                    <br/>
-                    <%= f.input :ref_category_intersection_id, collection: @ref_category_intersection, label: "Intersection" %>
-                    <%= f.input :ref_category_sub_intersection_id, collection: @ref_category_sub_intersection, label: "Sub intersection" %>
-                    <%= f.input :headline, required: true, minlength: 10 , maxlength: 90, hint: "Minimum length: 50 chars. Maximum length: 90 chars.", placeholder: "Title", label: "Headline", autofocus: true %>
-                    <% if !@site.is_english %>
-                        <%= f.input :english_headline, required: true, minlength: 10 , maxlength: 90, hint: "This is used for url management.", label: "Write the headline in English" %>
-                    <% end %>
-                    <%= f.input :html_key, required: true, maxlength: 255, label: "Endpoint",hint: "You cannot use special characters like  ' ', @, #, $ in the endpoint. Only characters, numbers, /, ., -, _ are allowed. " %>
-                    <%= f.input :summary, minlength: 50 , maxlength: 220, hint: "Minimum length: 50 chars. Maximum length: 200 chars.", input_html: {id: "proto_app_page_summary"} %>
-                    <%= f.input :byline_id, collection: @site.all_members, required: true, label: "Byline Stream", input_html: {style: "width: 100%;"} %>
-                    <%= f.input :published_at, as: :datetime %>
-                    <%= f.input :hide_byline, as: :boolean, label: "&nbsp; Remove byline from the cover".html_safe %>
+                    <%= render partial: "pages/distribute", locals: {f: f} %>
                     <br/>
                     <hr/>
-                    <h3>Cover Image</h3>
+                    <h3>Story related</h3>
                     <br/>
-                    <% if @page.cover_image_id.blank? %>
-                        <%= f.fields_for :cover_image do |cover_image| %>
-                            <%= cover_image.input :image, label: false, placeholder: "Upload cover image", input_html: {style: "width: 100%; background: lightgray; min-height: 200px; cursor: pointer; padding: 100px 0px;", onchange: "readURL(this);"}%>
-                            <%= cover_image.hidden_field :site_id, value: @site.id %>
-                            <%= cover_image.hidden_field :is_cover, value: true %>
-                            <%= cover_image.hidden_field :created_by, value: current_user.id %>
-                            <%= cover_image.hidden_field :updated_by, value: current_user.id %>
-                        <% end %>
-                    <% else %>
-                        <%= image_tag(@page.cover_image_url,style: 'width: 100%', class: "img-fluid") %>
-                        <br/>
-                        <%= link_to "Remove", remove_cover_image_site_page_path(@site, @page), method: :put%>
-                        <br/>
-                    <% end %>
-                    <%= f.input :cover_image_alignment, collection: @cover_image_alignment, required: true %>
-                    <br/>
-                    <hr/>
-                    <h3>Where</h3>
-                    <%= f.input :reported_from_country, as: :country, include_blank: true %>
-                    <%= f.input :reported_from_state, as: :string %>
-                    <%= f.input :reported_from_district, as: :string %>
-                    <%= f.input :reported_from_city, as: :string %>
-                    <br/>
-                    <hr/>
-                    <h3>Media</h3>
-                    <br/>
-                    <div class="row" style="font-size: 12px; margin-left: 5px;">
+                    <div class="row" style="margin-left: 5px;">
                         <div class="form-check form-check-inline">
                             <%= image_tag "glyphicons-139-picture.png", class: @page.has_image_other_than_cover ? nil : "disabled", class:"glyphicons-img", inner_class:"glyphicons-img", size: "14" %>
 
@@ -70,18 +31,18 @@
                             <%= best_in_place @page, :has_data, as: :checkbox, collection: {false: "No", true: "Yes"}, url: site_page_path(@site, @page), class:"form-check-label", inner_class:"form-check-label"  %>
                         </div>
                     </div>
-
-
-
                     <br/>
-                    <hr/>
-                    <h3>Prepare for Distribution</h3>
-                    <br/>
-                    <%= f.input :external_identifier, label: "External Identifier" %>
-                    <%= f.input :share_text_facebook, label: "Share text for Facebook",input_html: {id: "proto_app_page_fb_text", is_edited: (@page.summary == @page.share_text_facebook) ? false : true, og_value: @page.share_text_facebook } %>
-                    <%= f.input :share_text_twitter, label: "Share text for Twitter",input_html: {id: "proto_app_page_tw_text", is_edited: (@page.summary == @page.share_text_twitter) ? false : true, og_value: @page.share_text_twitter } %>
-                    <%= f.input :meta_keywords, label: "Meta keywords for SEO", maxlength: 255 %>
-                    <%= f.input :meta_description, input_html: {id: "proto_app_page_meta_desc", is_edited: (@page.summary == @page.meta_description) ? false : true, og_value: @page.meta_description }, label: "Meta Description for SEO" %>
+                    <%= f.input :byline_id, collection: @site.all_members, required: true, label: "Byline Stream", input_html: {style: "width: 100%;"} %>
+                    <% if @ref_category_intersection.first.present? %>
+                        <%= f.input :ref_category_intersection_id, collection: @ref_category_intersection, label: "Intersection" %>
+                    <% end %>
+                    <% if @ref_category_sub_intersection.first.present? %>
+                        <%= f.input :ref_category_sub_intersection_id, collection: @ref_category_sub_intersection, label: "Trend" %>
+                    <% end %>
+                    <%= f.input :reported_from_country, as: :country, include_blank: true %>
+                    <%= f.input :reported_from_state, as: :string %>
+                    <%= f.input :reported_from_district, as: :string %>
+                    <%= f.input :reported_from_city, as: :string %>
                 </div>
                 <div class="form-actions">
                   <% if @page.status == 'draft' %>
@@ -103,59 +64,3 @@
 <br/>
 <br/>
 <br/>
-<script>
-    $(document).on("turbolinks:load", function(){
-        var form = $("#proto_app_package_form"),
-            summary = $("#proto_app_page_summary"),
-            meta_description = $("#proto_app_page_meta_desc"),
-            fb_text = $("#proto_app_page_fb_text"),
-            tw_text = $("#proto_app_page_tw_text"),
-            is_text_edited = [meta_description.attr("is_edited"), fb_text.attr("is_edited"), tw_text.attr("is_edited")];
-
-        if (!meta_description.val().length && (is_text_edited[0] === "false")) {
-            meta_description.val(summary.val());
-        }
-
-        if (!fb_text.val().length  && (is_text_edited[1] === "false")) {
-            fb_text.val(summary.val());
-        }
-
-        if (!tw_text.val().length  && (is_text_edited[2] === "false")) {
-            tw_text.val(summary.val());
-        }
-
-        summary.on('blur', function () {
-            var is_edited = [meta_description.attr("is_edited"), fb_text.attr("is_edited"), tw_text.attr("is_edited")];
-            if (is_edited[0] === "false") {
-                meta_description.val(summary.val());
-            }
-
-            if (is_edited[1] === "false") {
-                fb_text.val(summary.val());
-            }
-
-            if (is_edited[2] === "false") {
-                tw_text.val(summary.val());
-            }
-        });
-
-        function onKeyUpHandler(event) {
-            var $this = $(this),
-                is_edited = $this.attr("is_edited"),
-                val = $this.val(),
-                og_value = $this.attr("og_value");
-
-            if (is_edited === "false") {
-                $this.attr("is_edited", true);
-            }
-
-            if (val === og_value) {
-                $this.attr("is_edited", false);
-            }
-        }
-
-        meta_description.on('keyup', onKeyUpHandler);
-        fb_text.on('keyup', onKeyUpHandler);
-        tw_text.on('keyup', onKeyUpHandler);
-    });
-</script>

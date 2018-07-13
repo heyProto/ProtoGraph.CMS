@@ -8,7 +8,6 @@ class Api::V1::StreamsController < ApiController
     @stream.updator = @user
     @stream.creator = @user
     if @stream.save
-      track_activity(@stream)
       unless @stream.cards.count == 0
         StreamPublisher.perform_async(@stream.id)
       end
@@ -24,7 +23,6 @@ class Api::V1::StreamsController < ApiController
       unless @stream.cards.count == 0
         StreamPublisher.perform_async(@stream.id)
       end
-      track_activity(@stream)
       render json: {stream: @stream.as_json, redirect_path: site_stream_path(@site, @stream, folder_id: @folder.id), message: "Stream updated successfully"}, status: 200
     else
       render json: {errors: @stream.errors.as_json}, status: 422

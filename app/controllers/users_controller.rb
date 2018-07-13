@@ -3,10 +3,7 @@ class UsersController < ApplicationController
 
     def edit
       @user = current_user
-      @sites_owned = Site.where(id: current_user.permissions.where(ref_role_slug: "owner", permissible_type: "Site").pluck(:permissible_id).uniq)
-      @sites_member = Site.where(id: current_user.permissions.where(permissible_type: "Site").where.not(ref_role_slug: "owner"))
       @new_site = Site.new
-
     end
 
     def update

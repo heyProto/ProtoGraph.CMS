@@ -26,10 +26,7 @@
 #  g_a_tracking_id             :string(255)
 #  favicon_id                  :integer
 #  logo_image_id               :integer
-#  sign_up_mode                :string(255)
-#  default_role                :string(255)
 #  story_card_style            :string(255)
-#  email_domain                :string(255)
 #  header_background_color     :string(255)
 #  header_url                  :text
 #  header_positioning          :string(255)
@@ -53,7 +50,6 @@
 
 class Site < ApplicationRecord
     #CONSTANTS
-    SIGN_UP_MODES = ["Any email from your domain", "Invitation only"]
     #CUSTOM TABLES
     #GEMS
     before_validation :set_english_name
@@ -65,7 +61,7 @@ class Site < ApplicationRecord
     #ASSOCIATIONS
     # has_many :folders
     # has_many :streams
-    # has_many :activities
+    # 
     has_many :ref_categories
     has_many :verticals, ->{where(genre: 'series')}, class_name: "RefCategory"
     # has_many :view_casts
@@ -81,9 +77,10 @@ class Site < ApplicationRecord
     has_many :view_casts, dependent: :destroy
     has_many :folders, dependent: :destroy
     has_many :uploads, dependent: :destroy
-    has_many :activities, dependent: :destroy
     has_many :images, dependent: :destroy
     has_many :streams, dependent: :destroy
+    has_many :template_data
+    has_many :template_pages
 
     #ACCESSORS
     accepts_nested_attributes_for :logo_image, :favicon
@@ -118,10 +115,6 @@ class Site < ApplicationRecord
         else
             TemplateCard.where("site_id = ? OR is_public = true", self.id)
         end
-    end
-
-    def template_data
-        TemplateDatum.where("site_id = ? OR is_public = true", self.id)
     end
 
     def is_english
@@ -258,7 +251,6 @@ class Site < ApplicationRecord
         self.client_token = ENV['AWS_ACCESS_KEY_ID']
         self.client_secret = ENV['AWS_SECRET_ACCESS_KEY']
         self.story_card_style = 'Clear: Color'
-        self.default_role = 'writer'
         self.primary_language = "English" if self.primary_language.nil?
         self.header_background_color = '#FFFFFF'
         self.header_positioning = "left"

@@ -43,7 +43,7 @@ class Image < ApplicationRecord
   has_one :image_3c, -> {where(mode: "3c")}, class_name: "ImageVariation", foreign_key: "image_id"
   has_one :image_2c, -> {where(mode: "2c")}, class_name: "ImageVariation", foreign_key: "image_id"
 
-  has_many :activities
+  
   has_many :colour_swatches, dependent: :destroy
   #ACCESSORS
   attr_accessor :crop_x, :crop_y, :crop_w, :crop_h, :image_w, :image_h, :instant_output

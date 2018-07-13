@@ -1,0 +1,109 @@
+<%= render partial: "template_data/header" %>
+<div style="margin-left: auto; margin-right: auto; width: 540px;">
+    <p><%= link_to "< All content types", site_template_data_path(@site)%>
+    <h1><%= link_to @template_datum.name, site_template_datum_path(@site, @template_datum) %> / New field</h1>
+    <br/>
+  <%= simple_form_for([@site, @template_datum, @template_field]) do |f| %>
+    <%= f.hidden_field :created_by, value: current_user.id %>
+    <%= f.hidden_field :template_datum_id, value: @template_datum.id %>
+    <%= f.input :data_type, collection: @data_types, required: true %>
+    <div class="input-format">
+      <%= f.input :format, collection: [] %>
+    </div>
+    <%= f.input :name, required: true, hint: "It will appear in the card editor" %>
+    <%= f.input :key_name, required: true, hint: "It will appear in the API responses" %>
+    <%= f.input :sort_order %>
+    <%= f.button :submit, value: "Create", class: "btn btn-sm btn-secondary" %>
+    &nbsp;
+    | 
+    &nbsp;
+    <%= link_to "Nevermind", site_template_datum_path(@site, @template_datum) %>
+  <% end %>
+</div>
+<script>
+  $(document).ready(function () {
+
+    var formats = {
+      "short_text": {
+        "": "",
+        "url": "URL",
+        "colour": "Color",
+        "username": "Username",
+        "email": "Email",
+        "password": "Password",
+        "ipv4": "IP Address Version 4",
+        "ipv6": "IP Address Version 6",
+        "uuid": "Universal Unique Identifier(UUID)"
+      },
+      "boolean": {
+        "": "",
+        "yes/no": "Yes/No",
+        "y/n": "Y/N",
+        "true/false": "True/False",
+        "1/0": "1/0"
+      },
+      "temporal": {
+        "": "",
+        "dd-mm-yyyy": "DD-MM-YYYY",
+        "dd-mmm-yyyy": "DD-MMM-YYYY",
+        "yyyy-mm-dd": "YYYY-MM-DD",
+        "mm-dd-yyyy": "MM-DD-YYYY",
+
+        "dd/mm/yyyy": "DD/MM/YYYY",
+        "dd/mmm/yyyy": "DD/MMM/YYYY",
+        "yyyy/mm/dd": "YYYY/MM/DD",
+        "mm/dd/yyyy": "MM/DD/YYYY",
+
+        "hh:mm:ss": "hh:mm:ss",
+        "hh:mm": "hh:mm"
+      }
+    };
+
+    function update_template_field_form(data_type) {
+      if (["integer", "decimal"].includes(data_type)) {
+        $(".inputs-num").show();
+        $(".input-format, .input-format-regex, .inputs-str-len").hide();
+      } else if (["short_text", "long_text", "temporal"].includes(data_type)) {
+        $(".input-format, .input-format-regex, .inputs-str-len").show();
+        $(".inputs-num").hide();
+        if (["short_text", "temporal"].includes(data_type)) {
+          $(".input-format, .input-format-regex").show();
+        } else if (data_type == "long_text") {
+          $(".input-format").hide();
+          $(".input-format-regex").show();
+        }
+      } else if (["array"].includes(data_type)) {
+        $(".inputs-num, .input-format, .input-format-regex, .inputs-str-len").hide();
+      } else if (data_type == "boolean") {
+        $(".inputs-num, .input-format-regex, .inputs-str-len").hide();
+        $(".input-format").show();
+      } else {
+        $(".inputs-num, .input-format, .input-format-regex, .inputs-str-len").hide();
+      }
+    }
+
+    function update_dropdown_format(data_type) {
+      var format = formats[data_type];
+      console.log("format", format);
+      $("#template_field_format").empty();
+      var tf_format = "<%= @template_field.format %>";
+      console.log("tf_format", tf_format);
+      for (var key in format) {
+        if (tf_format == key) {
+          $("#template_field_format").append(`<option value=${key} selected="selected">${format[key]}</option>`);
+        } else {
+          $("#template_field_format").append(`<option value=${key}>${format[key]}</option>`);
+        }
+      }
+    }
+    update_template_field_form($(".template_field_data_type > select").val());
+    update_dropdown_format($(".template_field_data_type > select").val());
+
+    // update dropdown format
+    $(".template_field_data_type > select").change(function () {
+      var data_type = $(this).val();
+      update_template_field_form(data_type);
+      update_dropdown_format(data_type);
+    });
+  });
+</script>

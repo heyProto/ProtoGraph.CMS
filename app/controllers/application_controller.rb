@@ -66,16 +66,6 @@ class ApplicationController < ActionController::Base
     redirect_to root_url, notice: "Permission denied" and return
   end
 
-  def track_activity(trackable, action = params[:action])
-    if @site.present?
-      if @folder.present?
-          current_user.activities.create!(action: action, trackable: trackable, folder_id: @folder.id, site_id: @site.id)
-      else
-          current_user.activities.create!(action: action, trackable: trackable, site_id: @site.id)
-      end
-    end
-  end
-
   def user_activity
     current_user.try :touch
   end
@@ -83,6 +73,7 @@ class ApplicationController < ActionController::Base
   private
 
   def sudo
+    puts "params #{params}"
     if params[:site_id].present?
       @site = Site.friendly.find(params[:site_id])
       if params[:folder_id].present?
@@ -93,9 +84,9 @@ class ApplicationController < ActionController::Base
     elsif (controller_name == "sites" or controller_name == 'ref_categories') and params[:id].present?
       @site = Site.friendly.find(params[:id])
     end
+    puts "application_controller:site=#{@site}"
     if user_signed_in?
-      @sites = current_user.sites
-      if @sites.count == 0 and !(controller_name == 'sites' and ['new', 'create'].include?(action_name)) and !devise_controller?
+      if current_user.sites.count == 0 and !(controller_name == 'sites' and ['new', 'create'].include?(action_name)) and !devise_controller?
         redirect_to new_site_path, notice: t("ac.mandatory") and return
       end
       @on_site_page = (@site.present? and @site.id.present?)
@@ -108,7 +99,9 @@ class ApplicationController < ActionController::Base
           #@folders = @permission_role.can_see_all_folders ? @site.folders.active : current_user.folders(@site).active
           @role = @permission.ref_role_slug
           @all_workspaces = @permission_role.can_see_all_folders ? @site.folders.active : current_user.folders(@site).active
+          @all_workspaces_count = @all_workspaces.count
           @all_verticals = @site.ref_categories.where(genre: "series").order(:name)
+          @all_vertical_count = @all_verticals.count
         end
       end
     end

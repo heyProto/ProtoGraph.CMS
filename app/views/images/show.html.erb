@@ -1,17 +1,12 @@
-<div class="jumbotroz">
-    <div class="row">
-        <div class="card-tags-series-name">
-            Manage Assets
-        </div>
-        <h1>    
-            <%= link_to "< Back to images", site_images_path(@site), "data-turbolinks"=> false %>
-        </h1>
-        <nav class="nav" style="position: absolute; top: 10px;right: 30px; float: right; margin-left: auto;">
-          <%= link_to '+ Upload an image', "#",id: "upload_image_button", "data-toggle" => "modal", "data-target" => "#fileUploadModal", class: "nav-item" %>
-        </nav>
-    </div>
-</div>
+<h1>
+    <%= link_to "< Back to images", site_images_path(@site), "data-turbolinks"=> false %>
+    <span style="float: right;">
+        <%= link_to '+ Upload an image', "#",id: "upload_image_button", "data-toggle" => "modal", "data-target" => "#fileUploadModal", class: "btn btn-sm btn-dark" %>
+    </span>
+</h1>
 <br/>
+<br/><br/>
+
 <% w = @image.image_width %>
 <% h = @image.image_height %>
 

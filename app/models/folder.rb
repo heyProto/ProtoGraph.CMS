@@ -30,7 +30,7 @@ class Folder < ApplicationRecord
     #ASSOCIATIONS
     has_many :streams, dependent: :destroy
     has_many :uploads, dependent: :destroy
-    has_many :activities
+    
     has_many :uploads, dependent: :destroy
     has_many :pages
     has_many :permissions, ->{where(status: "Active", permissible_type: 'Folder')}, foreign_key: "permissible_id", dependent: :destroy
@@ -53,6 +53,7 @@ class Folder < ApplicationRecord
     
     #SCOPE
     scope :active, -> { where("is_archived IS NULL OR is_archived = false")}
+    scope :inactive, -> { where("is_archived = true")}
     
     #OTHER
     def should_generate_new_friendly_id?

@@ -1,0 +1,18 @@
+<%= render partial: "template_data/header" %>
+<div style="margin-left: auto; margin-right: auto; width: 540px;">
+    <% @template_pages.each do |template_page| %>
+        <h3>
+            <%= link_to template_page.name, site_template_page_path(@site, template_page) %>
+            <span class="thin" style="font-size: 14px;">
+                by <%= template_page.site.name %>
+            </span>
+        </h3>
+        <p style="text-align: right; color: gray;">
+           <span class="hint" style="float: left;">
+               Updated <%= time_ago_in_words template_page.updated_at %> ago <%= (" by " + template_page.updator.name) if template_page.updator.present? %>
+           </span>
+           <%= template_page.pages.count %> times 
+        </p>
+        <hr/>
+    <% end %>
+</div>

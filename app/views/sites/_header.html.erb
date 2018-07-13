@@ -1,22 +1,12 @@
-<div class="jumbotroz">
-    <div class="row">
-        <div class="card-tags-series-name">
-            Adminland
-        </div>
-        <h1>    
-            <% if action_name == "edit" and controller_name == "sites" %>
-                Site settings
-            <% elsif action_name == "integrations" and controller_name == "sites" %>
-                Integrations
-            <% elsif controller_name == "admins" or controller_name == "permission_invites" %>
-                Manage team
-            <% elsif controller_name == "ref_categories" %>
-                Editorial planning
-            <% elsif controller_name == "folders" %>
-                Workspaces
-            <% end %>
-        </h1>
+<div class="protograph-page-tabs">
+    <div class="<%= !(action_name == 'edit' and controller_name == 'sites') ? "single-tab" : "single-tab active-tab" %>">
+        <%= link_to "Site settings", edit_site_path(@site),"data-turbolinks" => "false" %>
+    </div>
+    <div class="<%= !(action_name == 'integrations' and controller_name == 'sites') ? "single-tab" : "single-tab active-tab" %>">
+        <%= link_to "Integrations", integrations_site_path(@site),"data-turbolinks" => "false" %>
+    </div>
+    <div class="<%= !(controller_name == 'admins' or controller_name == 'permission_invites') ? "single-tab" : "single-tab active-tab" %>">
+        <%= link_to "Manage team", site_permission_invites_path(@site),"data-turbolinks" => "false" %>
     </div>
 </div>
-<br/>
 <br/>

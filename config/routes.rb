@@ -3,34 +3,14 @@ Rails.application.routes.draw do
   require 'sidekiq/web'
   mount Sidekiq::Web => '/sidekiq'
 
-  resources :activities
-  devise_for :users, controllers: {
-               registrations: 'user/registrations',
-               sessions: 'user/sessions',
-               passwords: 'user/passwords',
-               confirmations: 'user/confirmations',
-               omniauth_callbacks: "user/omniauth_callbacks"
-             } do
+  devise_for :users, controllers: {registrations: 'user/registrations'} do
     get 'sign_out', to: 'devise/sessions#destroy'
-  end
-
-  namespace :admin do
-    get "user-sessions", to: "user_sessions#index", as: :user_sessions
   end
 
   resources :users do
       resources :user_emails, only: [:index, :create, :destroy]
       get '/user_emails/confirmation', to: "user_emails#confirmation", as: "email_confirmation"
   end
-
-  resources :ref_link_sources do
-    post "publish", on: :collection
-  end
-
-  get "/auth/:provider", to: lambda{ |env| [404, {}, ["Not Found"]] }, as: :oauth
-  get '/auth/:provider/callback', to: 'authentications#create'
-  get '/auth/failure', to: 'authentications#failure'
-  get "/planned-homepage", to: "static_pages#index2"
 
   namespace :api do
     namespace :v1 do
@@ -63,22 +43,20 @@ Rails.application.routes.draw do
     end
   end
   resources :sites do
+    resources :template_data, only: [:index, :show] do
+      resources :template_fields do
+        get "move_up", on: :member
+        get "move_down", on: :member
+      end
+    end
+    resources :template_cards
+    resources :template_pages
     resources :permissions do
       get "change_owner_role", on: :member
       put "change_role", on: :member
     end
     resources :permission_invites
-    resources :admins, only: [] do
-      get "site_owners", on: :collection
-    end
     get "remove_favicon", "remove_logo", "integrations", on: :member
-    resources :admins, only: [] do
-      get "access_security", on: :collection
-    end
-    resources :permissions do
-      put "change_role", on: :member
-    end
-    resources :permission_invites
     resources :ref_categories do
       get 'landing_card', on: :member
       resources :feeds do
@@ -121,14 +99,11 @@ Rails.application.routes.draw do
       end
     end
     resources :page_streams, only: [:update]
-    resources :authentications
-
     resources :images, only: [:index, :create, :show]
     resources :image_variations, only: [:create, :show] do
       post :download, on: :member
     end
   end
-
-  get '/auth/:provider/callback', to: 'authentications#create'
+  
   root 'static_pages#index'
 end
