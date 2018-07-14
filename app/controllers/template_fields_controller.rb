@@ -7,7 +7,6 @@ class TemplateFieldsController < ApplicationController
     @template_field = TemplateField.new
     @data_types = @@data_types
     @sort_order_max = @template_datum.template_fields.count+1
-    puts "max=#{@sort_order_max}"
   end
 
   def create
@@ -27,7 +26,6 @@ class TemplateFieldsController < ApplicationController
   end
 
   def update
-    puts "params #{params}, #{template_field_params}"
     @template_field = TemplateField.friendly.find(params[:id])
     if @template_field.update(template_field_params)
       redirect_to site_template_datum_path(@site, @template_field.template_datum), notice: "Field Updated Successfully"
@@ -65,15 +63,7 @@ class TemplateFieldsController < ApplicationController
     @template_datum = TemplateDatum.friendly.find(params[:template_datum_id])
     @template_field = TemplateField.friendly.find(params[:id])
     if @template_field.sort_order != @template_datum.template_fields.count
-      if @template_field.sort_order == 1
-        @template_field = TemplateField.where(template_datum_id: @template_field.template_datum_id).where("sort_order = ?", 2).where.not(id: @template_field.id).first
-        @template_field.sort_order = 1
-      elsif @template_field.sort_order == @template_datum.template_fields.count - 1
-        @template_field = TemplateField.where(template_datum_id: @template_field.template_datum_id).where("sort_order = ?", @template_datum.template_fields.count).where.not(id: @template_field.id).first 
-        @template_field.sort_order = @template_datum.template_fields.count - 1
-      else
-        @template_field.sort_order += 1
-      end  
+      @template_field.sort_order += 1
       if @template_field.save
         redirect_to site_template_datum_path(@site, @template_datum), notice: "Field moved down successfully"
       else

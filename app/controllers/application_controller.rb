@@ -73,7 +73,6 @@ class ApplicationController < ActionController::Base
   private
 
   def sudo
-    puts "params #{params}"
     if params[:site_id].present?
       @site = Site.friendly.find(params[:site_id])
       if params[:folder_id].present?
@@ -84,7 +83,6 @@ class ApplicationController < ActionController::Base
     elsif (controller_name == "sites" or controller_name == 'ref_categories') and params[:id].present?
       @site = Site.friendly.find(params[:id])
     end
-    puts "application_controller:site=#{@site}"
     if user_signed_in?
       if current_user.sites.count == 0 and !(controller_name == 'sites' and ['new', 'create'].include?(action_name)) and !devise_controller?
         redirect_to new_site_path, notice: t("ac.mandatory") and return

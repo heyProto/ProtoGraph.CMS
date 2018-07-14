@@ -20,11 +20,9 @@ class ImagesController < ApplicationController
 
     respond_to do |format|
       if @image.save!
-        'image saved'
         format.json { render json: {success: true, data: @image}, status: 200 }
         format.html { redirect_to site_images_path(@site), notice: 'Image will be added shortly.' }
       else
-        puts 'image not saved'
         format.json { render json: {success: false, errors: @image.errors.full_messages }, status: 400 }
         format.html { redirect_to site_images_path(@site), alert: @image.errors.full_messages }
       end
