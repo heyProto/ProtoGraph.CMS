@@ -59,12 +59,8 @@ class Site < ApplicationRecord
     include Propagatable
     include AssociableBySi
     #ASSOCIATIONS
-    # has_many :folders
-    # has_many :streams
-    # 
     has_many :ref_categories
     has_many :verticals, ->{where(genre: 'series')}, class_name: "RefCategory"
-    # has_many :view_casts
     has_many :pages
     has_one :stream, primary_key: "stream_id", foreign_key: "id"
     belongs_to :logo_image, class_name: "Image", foreign_key: "logo_image_id", primary_key: "id", optional: true
@@ -72,6 +68,7 @@ class Site < ApplicationRecord
     has_many :permissions, ->{where(status: "Active", permissible_type: 'Site')}, foreign_key: "permissible_id", dependent: :destroy
     has_many :users, through: :permissions
     has_many :permission_invites, ->{where(permissible_type: 'Site')}, foreign_key: "permissible_id", dependent: :destroy
+    has_many :template_apps, dependent: :destroy
 
     # newly added
     has_many :view_casts, dependent: :destroy
@@ -306,7 +303,7 @@ class Site < ApplicationRecord
     def after_save_set
         PublishSiteJson.perform_async(self.id)
     end
-
+      
     def after_update_publish_site_pages
         if self.saved_change_to_is_lazy_loading_activated? or self.saved_change_to_comscore_code? or self.saved_change_to_gtm_id?
             self.pages.each do |p|

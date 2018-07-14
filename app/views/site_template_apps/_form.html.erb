@@ -1,0 +1,14 @@
+<%= simple_form_for(@site_template_app) do |f| %>
+  <%= f.error_notification %>
+
+  <div class="form-inputs">
+    <%= f.input :site_id %>
+    <%= f.input :template_app_id %>
+    <%= f.input :created_by %>
+    <%= f.input :updated_by %>
+  </div>
+
+  <div class="form-actions">
+    <%= f.button :submit %>
+  </div>
+<% end %>

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180713131147) do
+ActiveRecord::Schema.define(version: 20180714031613) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -204,10 +204,10 @@ ActiveRecord::Schema.define(version: 20180713131147) do
     t.string "reported_from_city", limit: 255
     t.boolean "hide_byline", default: false
     t.bigint "landing_card_id"
-    t.string "format"
-    t.string "importance", default: "low"
     t.string "external_identifier"
     t.string "html_key"
+    t.string "format"
+    t.string "importance", default: "low"
   end
 
   create_table "permission_invites", force: :cascade do |t|
@@ -297,6 +297,18 @@ ActiveRecord::Schema.define(version: 20180713131147) do
   create_table "sessions", force: :cascade do |t|
     t.string "session_id", limit: 255, null: false
     t.text "data"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "site_template_apps", force: :cascade do |t|
+    t.integer "site_id"
+    t.integer "template_app_id"
+    t.string "status"
+    t.datetime "invited_at"
+    t.integer "invited_by"
+    t.integer "created_by"
+    t.integer "updated_by"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -403,6 +415,7 @@ ActiveRecord::Schema.define(version: 20180713131147) do
   create_table "template_apps", force: :cascade do |t|
     t.integer "site_id"
     t.string "name"
+    t.string "slug"
     t.string "genre"
     t.string "pitch"
     t.text "description"
@@ -623,9 +636,9 @@ ActiveRecord::Schema.define(version: 20180713131147) do
     t.bigint "ref_category_vertical_id"
     t.datetime "published_at"
     t.json "data_json"
+    t.string "external_identifier"
     t.string "format"
     t.string "importance", default: "low"
-    t.string "external_identifier"
     t.index ["slug"], name: "idx_81001_index_view_casts_on_slug", unique: true
   end
 

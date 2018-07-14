@@ -1,0 +1,33 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Site Template Apps</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Site</th>
+      <th>Template app</th>
+      <th>Created by</th>
+      <th>Updated by</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @site_template_apps.each do |site_template_app| %>
+      <tr>
+        <td><%= site_template_app.site_id %></td>
+        <td><%= site_template_app.template_app_id %></td>
+        <td><%= site_template_app.created_by %></td>
+        <td><%= site_template_app.updated_by %></td>
+        <td><%= link_to 'Show', site_template_app %></td>
+        <td><%= link_to 'Edit', edit_site_template_app_path(site_template_app) %></td>
+        <td><%= link_to 'Destroy', site_template_app, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Site Template App', new_site_template_app_path %>

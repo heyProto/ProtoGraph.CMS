@@ -29,6 +29,7 @@ class CreateTemplateApps < ActiveRecord::Migration[5.1]
       t = TemplateApp.create({
         site_id: d.site_id,
         name: d.name,
+        slug: d.slug,
         pitch: d.elevator_pitch,
         description: d.description,
         git_url: d.git_url,
@@ -48,6 +49,7 @@ class CreateTemplateApps < ActiveRecord::Migration[5.1]
       t = TemplateApp.create({
         site_id: d.site_id,
         name: d.name,
+        slug: d.slug,
         created_by: d.created_by,
         updated_by: d.updated_by,
         change_log: d.change_log,
@@ -61,6 +63,7 @@ class CreateTemplateApps < ActiveRecord::Migration[5.1]
       t = TemplateApp.create({
         site_id: d.site_id,
         name: d.name,
+        slug: d.slug,
         description: d.description,
         git_url: d.git_url,
         is_system_installed: d.is_system,
