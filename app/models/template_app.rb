@@ -28,7 +28,7 @@ class TemplateApp < ApplicationRecord
     #GEMS
     extend FriendlyId
     friendly_id :name, use: :slugged
-    
+
     #CONCERNS
     include AssociableBySi
     #ASSOCIATIONS
