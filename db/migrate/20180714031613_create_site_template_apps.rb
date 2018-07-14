@@ -4,7 +4,7 @@ class CreateSiteTemplateApps < ActiveRecord::Migration[5.1]
       t.integer :site_id
       t.integer :template_app_id
       t.string :status
-      t.datetime :invited_at
+      t.datetime :invited_at      
       t.integer :invited_by
       t.integer :created_by
       t.integer :updated_by

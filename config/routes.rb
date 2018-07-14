@@ -43,15 +43,15 @@ Rails.application.routes.draw do
     end
   end
     
+  get "sites/:site_id/apps", to: "template_apps#index", as: :apps_site
+  
   resources :sites do
     #app store --- 
-    get "apps", to: "template_apps#index", on: :member, as: :apps
-    get "apps/:template_app_id", to: "template_apps#show", on: :member, as: :app
+    resources :template_apps, only: [:edit, :update]
     resources :site_template_apps, only: [:index, :destroy, :install] do
       post "invite", on: :member
       get "accept", on: :member
     end
-    resources :template_apps, only: [:edit, :update]
     resources :template_data, only: [:show] do
       resources :template_fields do
         get "move_up", on: :member
