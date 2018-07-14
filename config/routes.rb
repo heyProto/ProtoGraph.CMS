@@ -47,7 +47,7 @@ Rails.application.routes.draw do
     #app store --- 
     get "apps", to: "template_apps#index", on: :member, as: :apps
     get "apps/:template_app_id", to: "template_apps#show", on: :member, as: :app
-    resources :site_template_apps, only: [:destroy] do
+    resources :site_template_apps, only: [:index, :destroy, :install] do
       post "invite", on: :member
       get "accept", on: :member
     end
