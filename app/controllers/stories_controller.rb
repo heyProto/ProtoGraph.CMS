@@ -1,3 +1,7 @@
+require 'json'
+require 'net/http'
+require 'open-uri'
+
 class StoriesController < ApplicationController
   before_action :authenticate_user!
   before_action :set_page, only: [:edit_write, :edit_assemble, :edit_distribute, :edit_ads]
@@ -6,7 +10,6 @@ class StoriesController < ApplicationController
   def index
     if params[:page].present? and params[:page].class != String
       p_params = page_params
-      puts "p_params=#{p_params}"
       @page = Page.new(p_params)
       if p_params["ref_category_series_id"].blank?
         redirect_to site_stories_path(@site, folder_id: @page.folder_id), alert: 'You must associate a vertical with workspace'
@@ -19,11 +22,11 @@ class StoriesController < ApplicationController
         @page.created_by = current_user.id
         @page.updated_by = current_user.id
         @page.collaborator_lists = ["#{current_user.id}"] if ["contributor", "writer"].include?(@permission_role.slug)
-        if @page.save
+        if @page.save!
           redirect_to site_stories_path(@site, folder_id: @page.folder_id), notice: 'Page was successfully created.'
         else
           flash.now.alert = @page.errors.full_messages
-          redirect_to site_stories_path(@site, folder_id: @page.folder_id)
+          redirect_to site_stories_path(@site, folder_id: @page.folder_id), alert: 'Error creating page'
         end
       end
     else
@@ -109,6 +112,21 @@ class StoriesController < ApplicationController
     @ad_integration = AdIntegration.new
   end
 
+  def import_story
+    p_params = page_params
+    @page = Page.new(p_params)
+    @page.created_by = current_user.id
+    @page.updated_by = current_user.id
+    @page.headline = "Headline"
+    # @page.html_key = "default_html_key"
+    @page.published_at = DateTime.now
+    if @page.save!
+      redirect_to site_stories_path(@site, folder_id: @page.folder_id), notice: "Story will be imported shortly"
+    else
+      redirect_to site_stories_path(@site, folder_id: @page.folder_id), alert: "Error importing story"
+    end
+  end
+
 
   private
 
@@ -117,7 +135,7 @@ class StoriesController < ApplicationController
     end
 
     def page_params
-      params.require(:page).permit(:id, :site_id, :folder_id, :headline, :meta_keywords, :meta_description, :summary, :template_page_id, :byline_id, :one_line_concept,
+      params.require(:page).permit(:id, :site_id, :folder_id, :import_url, :headline, :meta_keywords, :meta_description, :summary, :template_page_id, :byline_id, :one_line_concept,
                                    :cover_image_url, :cover_image_url_7_column, :cover_image_url_facebook, :cover_image_url_square, :cover_image_alignment, :content,
                                    :is_sponsored, :is_interactive, :has_data, :has_image_other_than_cover, :has_audio, :has_video, :status, :published_at, :url,
                                    :ref_category_series_id, :ref_category_intersection_id, :ref_category_sub_intersection_id, :view_cast_id, :page_object_url, :created_by,:html_key,

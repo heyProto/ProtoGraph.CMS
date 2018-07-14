@@ -20,9 +20,7 @@ class PagesController < ApplicationController
   end
 
   def edit
-    puts 'pages# edit'
     if @page.template_page.name == "article"
-      puts 'pages# redirect to edite write site story'
       redirect_to edit_write_site_story_path(@site, @page, folder_id: @page.folder_id)
     else
 
@@ -33,7 +31,6 @@ class PagesController < ApplicationController
       end
       if @page.template_page.name == "Homepage: Vertical"
         @streams = @page.streams
-        puts 'pages# homepage:vertical'
         @page_stream_16 = @page.streams.where(title: "#{@page.id}_Section_16c_Hero").first
         @page_stream_07 = @page.streams.where(title: "#{@page.id}_Section_7c").first
         @page_stream_04 = @page.streams.where(title: "#{@page.id}_Section_4c").first
@@ -72,7 +69,6 @@ class PagesController < ApplicationController
         format.json { respond_with_bip(@page) }
         format.html {
           if @page.template_page.name == "article" and from_page == "edit_write"
-            puts 'pages# redirect to edit assemble'
             redirect_to edit_assemble_site_story_path(@site, @page, folder_id: @page.folder_id)
           else
             if @page.template_page.name == "article"
@@ -144,7 +140,7 @@ class PagesController < ApplicationController
   end
 
     def page_params
-      params.require(:page).permit(:id, :site_id, :folder_id, :headline, :meta_keywords, :meta_description, :summary, :template_page_id, :byline_id, :one_line_concept, :hide_byline,
+      params.require(:page).permit(:id, :site_id, :folder_id, :folder_id, :headline, :meta_keywords, :meta_description, :summary, :template_page_id, :byline_id, :one_line_concept, :hide_byline,
                                     :reported_from_country, :reported_from_state, :reported_from_district, :reported_from_city,
                                    :cover_image_url, :cover_image_url_7_column, :cover_image_url_facebook, :cover_image_url_square, :cover_image_alignment, :content,
                                    :is_sponsored, :is_interactive, :has_data, :has_image_other_than_cover, :has_audio, :has_video, :status, :published_at, :url,

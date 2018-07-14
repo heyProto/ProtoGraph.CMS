@@ -7,6 +7,7 @@ class Api::V1::DatacastsController < ApiController
         view_cast.created_by = @user.id
         view_cast.updated_by = @user.id
         view_cast.collaborator_lists = ["#{current_user.id}"] if ["contributor", "writer"].include?(@permission_role.slug)
+        view_cast.data_json = datacast_params
         if view_cast.template_card.name == 'toStory'
             view_cast.by_line = datacast_params['data']["by_line"]
             view_cast.intersection = @site.ref_categories.where(genre: "intersection").where(name: datacast_params['data']["genre"]).first
@@ -67,6 +68,7 @@ class Api::V1::DatacastsController < ApiController
             updating_params = view_cast_params
             updating_params[:updated_by] = @user.id
             updating_params[:is_invalidating] = true
+            updating_params[:data_json] = datacast_params
             view_cast.update_attributes(updating_params)
             Api::ProtoGraph::CloudFront.invalidate(@site, ["/#{view_cast.datacast_identifier}/*"], 1)
             render json: {view_cast: view_cast.as_json(methods: [:remote_urls]), redirect_path: site_folder_view_cast_url(@site, @folder, view_cast) }, status: 200

@@ -100,6 +100,7 @@ Rails.application.routes.draw do
       get "edit/assemble", to: "stories#edit_assemble", on: :member
       get "edit/distribute", to: "stories#edit_distribute", on: :member
       get "edit/ads", to: "stories#edit_ads", on: :member
+      post "import", to: "stories#import_story", on: :collection
     end
     resources :streams do
       post :publish, on: :member

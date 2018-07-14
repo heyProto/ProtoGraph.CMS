@@ -93,7 +93,6 @@ class TemplateCard < ApplicationRecord
         self.is_public              = p.is_public
         self.version_series         = self.version.to_s.to_version.to_a[0]
         self.description            = p.description
-        self.elevator_pitch         = p.elevator_pitch
     end
 
     def can_make_public?
@@ -108,7 +107,6 @@ class TemplateCard < ApplicationRecord
     end
 
     def site_slug
-        puts self.site.inspect
         self.site.slug
     end
 

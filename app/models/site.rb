@@ -110,7 +110,7 @@ class Site < ApplicationRecord
         if self.name == 'pykih'
             TemplateCard.all
         else
-            TemplateCard.where("site_id = ? OR is_public = true", self.id)
+            TemplateCard.where("site_id = ?", self.id)
         end
     end
 
