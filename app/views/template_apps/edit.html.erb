@@ -1,6 +1,26 @@
 <h1>Editing Template App</h1>
 
-<%= render 'form', template_app: @template_app %>
+<%= simple_form_for(@template_app) do |f| %>
+  <%= f.error_notification %>
+
+  <div class="form-inputs">
+    <%= f.input :name %>
+    <%= f.input :genre %>
+    <%= f.input :pitch %>
+    <%= f.input :description %>
+    <%= f.input :is_public %>
+    <%= f.input :installs %>
+    <%= f.input :views %>
+    <%= f.input :created_by %>
+    <%= f.input :updated_by %>
+    <%= f.input :change_log %>
+  </div>
+
+  <div class="form-actions">
+    <%= f.button :submit %>
+  </div>
+<% end %>
+
 
 <%= link_to 'Show', @template_app %> |
 <%= link_to 'Back', template_apps_path %>

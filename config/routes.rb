@@ -1,6 +1,5 @@
 Rails.application.routes.draw do
 
-  resources :template_apps
   require 'sidekiq/web'
   mount Sidekiq::Web => '/sidekiq'
 
@@ -43,15 +42,24 @@ Rails.application.routes.draw do
       resources :template_data, only: [:create]
     end
   end
+    
   resources :sites do
-    resources :template_data, only: [:index, :show] do
+    #app store --- 
+    get "apps", to: "template_apps#index", on: :member, as: :apps
+    get "apps/:template_app_id", to: "template_apps#show", on: :member, as: :app
+    resources :site_template_apps, only: [:destroy] do
+      post "invite", on: :member
+      get "accept", on: :member
+    end
+    resources :template_apps, only: [:edit, :update]
+    resources :template_data, only: [:show] do
       resources :template_fields do
         get "move_up", on: :member
         get "move_down", on: :member
       end
     end
-    resources :template_cards
-    resources :template_pages
+    #app store --- 
+    
     resources :permissions do
       get "change_owner_role", on: :member
       put "change_role", on: :member
