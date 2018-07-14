@@ -9,7 +9,6 @@ class RefCategoriesController < ApplicationController
   end
 
   def sections
-    puts "site=#{@site}"
     @genre = "series"
     @data = @site.ref_categories.where(genre: "series").order(:name)
     @instance = RefCategory.new

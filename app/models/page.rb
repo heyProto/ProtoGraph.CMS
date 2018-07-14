@@ -8,7 +8,7 @@
 #  headline                         :string(255)
 #  meta_keywords                    :string(255)
 #  meta_description                 :text
-#  summary                          :text
+#  summarbefy                          :text
 #  cover_image_url_facebook         :text
 #  cover_image_url_square           :text
 #  cover_image_alignment            :string(255)
@@ -90,14 +90,14 @@ class Page < ApplicationRecord
   has_many :ad_integrations
 
   #ACCESSORS
-  attr_accessor :collaborator_lists, :publish, :from_api, :prepare_cards_for_assembling, :from_page, :skip_invalidation
+  attr_accessor :collaborator_lists, :publish, :from_api, :prepare_cards_for_assembling, :from_page, :skip_invalidation, :import_url
   accepts_nested_attributes_for :cover_image
 
   #VALIDATIONS
   validates :headline, presence: true, length: { in: 5..90 }
   validates :one_line_concept, presence: true, length: { in: 5..90 }, allow_blank: true
   validates :summary, length: { in: 50..220 }, allow_blank: true
-  validates :html_key,  format: {with: /\A[^\s!#$%^&*()（）=+;:'"\[\]\{\}|\\@#<>?,]+\z/ }, length: { in: 9..255 }
+  validates :html_key,  format: {with: /\A[^\s!#$%^&*()（）=+;:'"\[\]\{\}|\\@#<>?,]+\z/ }, length: { in: 5..255 }, on: :update
 
   #CALLBACKS
   before_create :before_create_set
@@ -730,6 +730,9 @@ class Page < ApplicationRecord
               a = user.create_permission("Page", self.id, "contributor")
           end
           self.permissions.where(permissible_id: (prev_collaborator_ids - self.collaborator_lists.map{|a| a.to_i})).update_all(status: 'Deactivated')
+      end
+      if self.import_url.present?
+        ArticleFetchWorker.perform_async(import_url, self.site.id, self.id)
       end
     end
 

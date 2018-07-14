@@ -170,7 +170,6 @@ class TemplateDatum < ApplicationRecord
   end
 
   def upload_to_s3
-    puts "upload to s3"
     begin
       new_schema_json = self.get_schema_json
       url = self.schema_json
