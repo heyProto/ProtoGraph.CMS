@@ -4,6 +4,7 @@ require 'open-uri'
 namespace :json_schema do
   desc "TODO"
   task mig_template_datum: :environment do
+    TemplateField.destroy_all
     TemplateDatum.find_each do |td|
       url = td.files[:schema]
       puts "url=#{url}"
@@ -15,9 +16,11 @@ namespace :json_schema do
         if schema["properties"]["data"].key?("required")
           fields_req = schema["properties"]["data"]["required"]
         end
-
+        sort_order = 1
         fields.each do |key, val|
           @template_field = TemplateField.new
+          @template_field.sort_order = sort_order
+          sort_order += 1
           @template_field.template_datum_id = td.id
           field_key = key
           @template_field.key_name = field_key
@@ -114,13 +117,7 @@ namespace :json_schema do
       end
     end
   end
-  
-  task pop_site_id_in_template_page: :environment do
-      TemplatePage.find_each do |template_page|
-        template_page.update_columns(site_id: 185)
-      end
-  end
-  
+
   # to populate site_id in TemplateDatum, TemplateField
   task pop_site_id: :environment do
     TemplateDatum.find_each do |template_datum|
@@ -137,6 +134,13 @@ namespace :json_schema do
       else
         puts "#{template_datum.id}-#{template_datum.name} have '0' template cards, So site_id not set"
       end
+    end
+  end
+
+  # to populate site_id in TemplatePage
+  task pop_site_id_in_template_page: :environment do
+    TemplatePage.find_each do |template_page|
+      template_page.update_columns(site_id: 185)
     end
   end
 end

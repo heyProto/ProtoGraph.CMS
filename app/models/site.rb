@@ -110,7 +110,7 @@ class Site < ApplicationRecord
         if self.name == 'pykih'
             TemplateCard.all
         else
-            TemplateCard.where("site_id = ?", self.id)
+            TemplateCard.where("site_id = ?", self.id).or(TemplateCard.where(template_app_id: TemplateApp.where(genre: 'card').where(is_public: true).pluck(:id)))
         end
     end
 
@@ -303,7 +303,7 @@ class Site < ApplicationRecord
     def after_save_set
         PublishSiteJson.perform_async(self.id)
     end
-      
+
     def after_update_publish_site_pages
         if self.saved_change_to_is_lazy_loading_activated? or self.saved_change_to_comscore_code? or self.saved_change_to_gtm_id?
             self.pages.each do |p|
