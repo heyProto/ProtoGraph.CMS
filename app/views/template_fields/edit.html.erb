@@ -1,9 +1,16 @@
 <div style="margin-left: auto; margin-right: auto; width: 540px;">
     <p>
-        <%= link_to "< Apps by #{@site.name}", apps_site_path(@site)%>
+        <%= link_to "Apps by #{@site.name}", apps_site_path(@site)%>
+        &nbsp;
+        /
+        &nbsp;
+        <%= link_to @template_datum.name, site_template_datum_path(@site, @template_datum) %>
+        <% if !@template_datum.template_app.is_public %>
+            &nbsp;
+            <%= image_tag "lock.png", height: "15px;"%>
+        <% end %>
     </p>
     <h1>
-        <span class="thin"><%= link_to @template_datum.name, site_template_datum_path(@site, @template_datum) %> /</span>
         <%= @template_field.name %>
         <span style="float: right;"><span class="badge badge-primary" style="background: #9D42A3; font-size: 12px;">Schema</span></span>
     </h1>       
