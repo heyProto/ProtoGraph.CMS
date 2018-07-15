@@ -7,7 +7,6 @@
         <% end %>
         <span style="float: right;"><span class="badge badge-primary" style="background: #9D42A3; font-size: 12px;">Schema</span></span>
     </h1>
-    <br/>
     <nav>
       <div class="nav nav-tabs" id="nav-tab" role="tablist">
         <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Fields (<%= @template_datum.template_fields.count%>)</a>
@@ -16,14 +15,13 @@
       </div>
     </nav>
     <br/>
-    <div class="tab-content" id="nav-tabContent">   
+    <div class="tab-content" id="nav-tabContent">
       <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
           <br/>
           <table class="table ">  
           <tbody>
           <% @template_fields.each_with_index do |template_field, i| %>
             <tr>
-              <td><%= template_field.sort_order %></td>
               <td>
                   <% if template_field.data_type == "short_text" %>  
                       <%= image_tag "svg/short_text.svg", width: "24px", title: "Short Text" %>
@@ -67,9 +65,11 @@
               <td><%= %w(short_text long_text temporal).include?(template_field.data_type) ? template_field.format_regex : "NA" %></td>
               <td><%= %w(short_text long_text temporal).include?(template_field.data_type) ? template_field.length_minimum : "NA" %></td>
               <td><%= %w(short_text long_text temporal).include?(template_field.data_type) ? template_field.length_maximum : "NA" %></td>-->  
-            <td><%= link_to "&#8593;".html_safe, move_up_site_template_datum_template_field_path(@site, @template_datum, template_field) if i != 0 %></td>
-            <td><%= link_to "&#8595;".html_safe, move_down_site_template_datum_template_field_path(@site, @template_datum, template_field) if i != @template_fields.count - 1 %></td>
-            <td><%= link_to "x", site_template_datum_template_field_path(@site, @template_datum, template_field), method: :delete %></td>
+            <% if user_signed_in? %>
+                <td><%= link_to "&#8593;".html_safe, move_up_site_template_datum_template_field_path(@site, @template_datum, template_field) if i != 0 %></td>
+                <td><%= link_to "&#8595;".html_safe, move_down_site_template_datum_template_field_path(@site, @template_datum, template_field) if i != @template_fields.count - 1 %></td>
+                <td><%= link_to "x", site_template_datum_template_field_path(@site, @template_datum, template_field), method: :delete %></td>
+            <% end %>
           </tr>
         <% end %>
         </tbody>

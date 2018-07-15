@@ -43,7 +43,7 @@ Rails.application.routes.draw do
     end
   end
     
-  get "sites/:site_id/apps", to: "template_apps#index", as: :apps_site
+  get ":site_id/apps", to: "template_apps#index", as: :apps_site
   
   resources :sites do
     #app store --- 
