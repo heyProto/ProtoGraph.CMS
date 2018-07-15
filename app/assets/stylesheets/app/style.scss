@@ -1,11 +1,11 @@
 body{font-size: 14px; font-family: 'cabin, Open Sans', sans-serif;}
-a{color: #1b6ac9;}
+a{color: #286EFA;}
 h1{font-size: 2em; line-height: 40px; font-weight: 800;}
 h2{font-size: 1.5em; line-height: 30px; font-weight: 800;}
 h3{font-size: 1.2em; line-height: 20px; font-weight: 800;}
 h4{font-size: 1em; line-height: 20px; font-weight: 800;}
 input[type="submit"], input[type="submit"]:hover{
-    background: rgb(0, 123, 255);
+    background: #286EFA;
     color: white;
     height: 40px;
     border: none;
@@ -162,8 +162,8 @@ ul.list-group > a > li.list-group-item.active, ul.list-group > a > li.list-group
         text-transform: uppercase;
     }
     .single-tab.active-tab{
-        color: #2780e8;
-        border-color: #2780e8;
+        color: #286EFA;
+        border-color: #286EFA;
     }
 }
 
