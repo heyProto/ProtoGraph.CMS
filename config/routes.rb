@@ -44,6 +44,8 @@ Rails.application.routes.draw do
   end
     
   get ":site_id/apps", to: "template_apps#index", as: :apps_site
+  get ":site_id/apps/d/:template_datum_id", to: "template_data#show", as: :site_template_datum
+  get ":site_id/apps/d/:template_datum_id/:id", to: "template_fields#edit", as: :edit_site_template_datum_template_field
   
   resources :sites do
     #app store --- 
@@ -52,7 +54,7 @@ Rails.application.routes.draw do
       post "invite", on: :member
       get "accept", on: :member
     end
-    resources :template_data, only: [:show] do
+    resources :template_data, only: [] do
       resources :template_fields do
         get "move_up", on: :member
         get "move_down", on: :member
