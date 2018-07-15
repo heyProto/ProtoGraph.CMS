@@ -1,6 +1,13 @@
-<%= render partial: "template_data/header" %>
 <div style="margin-left: auto; margin-right: auto; width: 540px;">
-    <h1><%= @template_datum.name %></h1><br/>
+    <p><%= link_to "Apps by #{@site.name}", apps_site_path(@site)%></p>
+    <h1>
+        <%= @template_datum.name %> 
+        <% if !@template_datum.template_app.is_public %>
+            <%= image_tag "lock.png", height: "15px;"%>
+        <% end %>
+        <span style="float: right;"><span class="badge badge-primary" style="background: #9D42A3; font-size: 12px;">Schema</span></span>
+    </h1>
+    <br/>
     <nav>
       <div class="nav nav-tabs" id="nav-tab" role="tablist">
         <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Fields</a>

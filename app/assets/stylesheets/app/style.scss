@@ -13,6 +13,15 @@ input[type="submit"], input[type="submit"]:hover{
     border-radius: 0.3em;
 }
 
+.app-card{
+    border-bottom: 1px solid #FAFAFA;
+    padding: 20px 0px 20px 0px;
+}
+
+.app-card:hover{
+    background: #FAFAFA;
+}
+
 .small.thin{font-size: 15px;}
 
 .active > .nav-link{color: black; font-weight: 600 !important;}

@@ -117,7 +117,7 @@ namespace :json_schema do
   
   task pop_site_id_in_template_page: :environment do
       TemplatePage.find_each do |template_page|
-        template_page.update_columns(site_id: 185, is_public: true)
+        template_page.update_columns(site_id: 185)
       end
   end
   

@@ -5,7 +5,8 @@ class TemplateAppsController < ApplicationController
   before_action :set_template_app, only: [:show, :edit, :update, :destroy]
 
   def index
-    @template_apps = @site.template_apps
+    @q = @site.template_apps.ransack(params[:q])
+    @template_apps = @q.result.page(params[:page])
   end
 
   def show

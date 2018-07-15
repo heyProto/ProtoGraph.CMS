@@ -32,6 +32,20 @@ class TemplateApp < ApplicationRecord
     #CONCERNS
     include AssociableBySi
     #ASSOCIATIONS
+    has_one :template_datum
+    has_one :template_card
+    has_one :template_page
+    
+    def template
+      if self.genre == "card"
+        return self.template_card
+      elsif self.genre == "datum"
+        return self.template_datum
+      elsif self.genre == "page"
+        return self.template_page
+      end
+    end
+    
     #ACCESSORS
     #VALIDATIONS
     #CALLBACKS
