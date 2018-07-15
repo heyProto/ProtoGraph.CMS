@@ -10,13 +10,15 @@
     <br/>
     <nav>
       <div class="nav nav-tabs" id="nav-tab" role="tablist">
-        <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Fields</a>
+        <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Fields (<%= @template_datum.template_fields.count%>)</a>
+        <a class="nav-item nav-link" id="nav-cards-tab" data-toggle="tab" href="#nav-cards" role="tab" aria-controls="nav-cards" aria-selected="false">Cards using this Schema (<%= @template_datum.template_cards.count%>)</a>
         <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">JSON</a>
       </div>
     </nav>
-    <br/><br/>
-    <div class="tab-content" id="nav-tabContent">
+    <br/>
+    <div class="tab-content" id="nav-tabContent">   
       <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+          <br/>
           <table class="table ">  
           <tbody>
           <% @template_fields.each_with_index do |template_field, i| %>
@@ -71,11 +73,18 @@
           </tr>
         <% end %>
         </tbody>
-      </table>
+      </table></div>
+      <div class="tab-pane fade" id="nav-cards" role="tabpanel" aria-labelledby="nav-cards-tab">
+          <% @template_datum.template_cards.each do |card| %>
+              <% app = card.template_app %>
+              <%= render partial: "template_apps/row", locals: {app: app} %>
+          <% end %>
+      </div>
+      <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+          <br/>
+          <%= image_tag("glyphicons-511-duplicate.png", class: "copy-to-clipboard") %>
+          <pre id="json-schema"><%= @json_schema %></pre>
     </div>
-    <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
-      <%= image_tag("glyphicons-511-duplicate.png", class: "copy-to-clipboard") %>
-      <pre id="json-schema"><%= @json_schema %></pre>
     </div>
   </div>
 

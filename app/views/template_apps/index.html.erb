@@ -16,38 +16,6 @@
     
     <hr/>
     <% @template_apps.each do |app| %>
-        <div class="app-card">
-            <h2>
-                <% if app.genre == "card" %>
-                    <%= link_to app.name, nil    %>
-                <% elsif app.genre == "datum" %>
-                    <%= link_to app.name, site_template_datum_path(@site, app.template)    %>
-                <% elsif app.genre == "page" %>
-                    <%= link_to app.name, nil    %>
-                <% end %>
-                <% if !app.is_public %>
-                    &nbsp;
-                    <%= image_tag "lock.png", height: "15px;"%>
-                <% end %>
-            </h2>
-            <p><%= app.pitch %></p>
-            <p>
-                <% if app.genre == "card" %>
-                    <span style="background: #FDBD00; width: 20px; height: 16px; color: #FDBD00;">..</span> 
-                    <%= app.genre.titleize %>
-                <% elsif app.genre == "datum" %>
-                    <span style="background: #9D42A3; width: 20px; height: 16px; color: #9D42A3;">..</span> 
-                    Schema
-                <% elsif app.genre == "page" %>
-                    <span style="background: #ED4040; width: 20px; height: 16px; color: #ED4040;">..</span> 
-                    <%= app.genre.titleize %>
-                <% end %>
-                &nbsp;
-                <span class="hint">
-                Updated 
-                <%= time_ago_in_words app.template.updated_at %> 
-                </span>
-            </p>
-        </div>
+        <%= render partial: "template_apps/row", locals: {app: app} %>
     <% end %>
 </div>
