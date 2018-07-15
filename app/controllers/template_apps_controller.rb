@@ -16,6 +16,7 @@ class TemplateAppsController < ApplicationController
   end
 
   def update
+    @template_app.updated_by = current_user.id
     if @template_app.update(template_app_params)
       redirect_to @template_app, notice: 'Template app was successfully updated.'
     else
@@ -26,7 +27,7 @@ class TemplateAppsController < ApplicationController
   private
 
     def set_template_app
-      @template_app = TemplateApp.find(params[:id])
+      @template_app = TemplateApp.friendly.find(params[:id])
     end
 
     def template_app_params

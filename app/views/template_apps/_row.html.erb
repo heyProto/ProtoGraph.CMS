@@ -16,6 +16,10 @@
             <%= image_tag "lock.png", height: "15px;"%>
         <% end %>
     </h2>
+    <% if app.genre == "card" %>
+        <% td = app.template.template_datum %>
+        <p class="hint" style="margin-bottom: 5px;">Uses <%= link_to td.site.name + " / " + td.template_app.name, site_template_datum_path(@site, td) %> schema</p>
+    <% end %>
     <p><%= app.pitch %></p>
     <p>
         <% if app.genre == "card" %>
@@ -26,7 +30,7 @@
             <span class="badge badge-primary" style="background: #ED4040;">Page</span> 
         <% end %>
         <% if app.genre == "datum" or app.genre == "card" %>
-            &nbsp;
+            &nbsp;  
             <%= app.template.view_casts.count %>
             stories
         <% end %>
@@ -35,8 +39,7 @@
             <%= app.template.template_fields.count %>
             fields
             &nbsp;
-            <%= app.template.template_cards.count %>
-            cards
+            <%= link_to "#{app.template.template_cards.count.to_s} cards", site_template_datum_path(@site, app.template) + "#nav-cards" %>
         <% end %>
         <span class="hint" style="float: right;">
             &nbsp;

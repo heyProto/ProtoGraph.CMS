@@ -1,26 +1,33 @@
-<h1>Editing Template App</h1>
+<div style="margin-left: auto; margin-right: auto; width: 540px;">
+    <p><%= link_to "Apps by #{@site.name}", apps_site_path(@site)%></p>
+    <h1>
+        <%= @template_app.name %>
+        <% if !@template_app.is_public %>
+            <%= image_tag "lock.png", height: "15px;"%>
+        <% end %>
+        <% if @template_app.genre == "card" %>
+            <span style="float: right;"><span class="badge badge-primary" style="background: #FDBD00; font-size: 12px;">Card</span></span>
+        <% elsif @template_app.genre == "datum" %>
+            <span style="float: right;"><span class="badge badge-primary" style="background: #9D42A3; font-size: 12px;">Schema</span></span>
+        <% elsif @template_app.genre == "page" %>
+            <span style="float: right;"><span class="badge badge-primary" style="background: #ED4040; font-size: 12px;">Page</span></span>
+        <% end %>
+    </h1>
+    <br/>
+    <%= simple_form_for(@template_app, url: site_template_app_path(@site, @template_app), method: :put) do |f| %>
+      <%= f.error_notification %>
 
-<%= simple_form_for(@template_app) do |f| %>
-  <%= f.error_notification %>
+      <div class="form-inputs">
+        <%= f.input :pitch %>
+        <%= f.input :is_public, label: "&nbsp; Is this a public app?".html_safe %>
+      </div>
 
-  <div class="form-inputs">
-    <%= f.input :name %>
-    <%= f.input :genre %>
-    <%= f.input :pitch %>
-    <%= f.input :description %>
-    <%= f.input :is_public %>
-    <%= f.input :installs %>
-    <%= f.input :views %>
-    <%= f.input :created_by %>
-    <%= f.input :updated_by %>
-    <%= f.input :change_log %>
-  </div>
-
-  <div class="form-actions">
-    <%= f.button :submit %>
-  </div>
-<% end %>
-
-
-<%= link_to 'Show', @template_app %> |
-<%= link_to 'Back', template_apps_path %>
+      <div class="form-actions">
+        <%= f.button :submit, "Save" %>
+        &nbsp;&nbsp;
+        |
+        &nbsp;&nbsp;
+        <%= link_to "Nevermind", apps_site_path(@site)%>
+      </div>
+    <% end %>
+</div>

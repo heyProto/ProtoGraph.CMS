@@ -14,6 +14,11 @@
         <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">JSON</a>
       </div>
     </nav>
+    <% if current_user.is_admin_from_pykih and user_signed_in? %>
+        <div style="text-align: right;">
+            <%= link_to "Edit", edit_site_template_app_path(@site, @template_datum.template_app) %>
+        </div>
+    <% end %>
     <br/>
     <div class="tab-content" id="nav-tabContent">
       <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
@@ -95,6 +100,18 @@
 
 <script>
   $(document).ready(function(){
+      
+      // Javascript to enable link to tab
+      var url = document.location.toString();
+      if (url.match('#')) {
+          $('.nav-tabs a[href="#' + url.split('#')[1] + '"]').tab('show');
+      } 
+
+      // Change hash for page-reload
+      $('.nav-tabs a').on('shown.bs.tab', function (e) {
+          window.location.hash = e.target.hash;
+      })
+      
     function copyToClipboard(containerid) {
       if (document.selection) {
         var range = document.body.createTextRange();
