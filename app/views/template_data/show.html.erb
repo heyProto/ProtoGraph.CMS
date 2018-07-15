@@ -14,13 +14,15 @@
         <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">JSON</a>
       </div>
     </nav>
-    <% if current_user.is_admin_from_pykih and user_signed_in? %>
+    <% if user_signed_in? and current_user.is_admin_from_pykih %>
         <div style="text-align: right;">
             <%= link_to "Edit", edit_site_template_app_path(@site, @template_datum.template_app) %>
         </div>
     <% end %>
     <br/>
-    <p class="lead"><%= @template_datum.template_app.pitch %></p>
+    <% if @template_datum.template_app.blank? %>
+        <p class="lead"><%= @template_datum.template_app.pitch %></p>
+    <% end %>
     <div class="tab-content" id="nav-tabContent">
       <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
           <br/>
