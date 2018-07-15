@@ -1,9 +1,5 @@
 <div class="app-card">
     <h2>
-        <span class="thin">
-            <%= link_to app.site.name, apps_site_path(@site) %>
-            /
-        </span>
         <% if app.genre == "card" %>
             <%= link_to app.name, nil %>
         <% elsif app.genre == "datum" %>
@@ -11,7 +7,12 @@
         <% elsif app.genre == "page" %>
             <%= link_to app.name, nil %>
         <% end %>
+        <span class="thin" style="font-size: 12px">
+            by
+            <%= link_to app.site.name, apps_site_path(@site) %>
+        </span>
         <% if !app.is_public %>
+            &nbsp;
             <%= image_tag "lock.png", height: "15px;"%>
         <% end %>
     </h2>
