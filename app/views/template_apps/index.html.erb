@@ -18,4 +18,6 @@
     <% @template_apps.each do |app| %>
         <%= render partial: "template_apps/row", locals: {app: app} %>
     <% end %>
+    <br/>
+    <%= paginate @template_apps, theme: 'twitter-bootstrap-4', pagination_class: "pagination-sm" %>
 </div>

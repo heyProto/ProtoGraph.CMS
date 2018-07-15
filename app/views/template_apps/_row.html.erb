@@ -1,32 +1,34 @@
 <div class="app-card">
     <h2>
+        <span class="thin">
+            <%= link_to app.site.name, apps_site_path(@site) %>
+            /
+        </span>
         <% if app.genre == "card" %>
-            <%= link_to app.name, nil    %>
+            <%= link_to app.name, nil %>
         <% elsif app.genre == "datum" %>
             <%= link_to app.name, site_template_datum_path(@site, app.template)    %>
         <% elsif app.genre == "page" %>
-            <%= link_to app.name, nil    %>
+            <%= link_to app.name, nil %>
         <% end %>
         <% if !app.is_public %>
-            &nbsp;
             <%= image_tag "lock.png", height: "15px;"%>
         <% end %>
     </h2>
     <p><%= app.pitch %></p>
     <p>
         <% if app.genre == "card" %>
-            <span style="background: #FDBD00; width: 20px; height: 16px; color: #FDBD00;">..</span> 
-            <%= app.genre.titleize %>
+            <span class="badge badge-primary" style="background: #FDBD00;">Card</span>
         <% elsif app.genre == "datum" %>
-            <span style="background: #9D42A3; width: 20px; height: 16px; color: #9D42A3;">..</span> 
-            Schema
+            <span class="badge badge-primary" style="background: #9D42A3;">Schema</span> 
         <% elsif app.genre == "page" %>
-            <span style="background: #ED4040; width: 20px; height: 16px; color: #ED4040;">..</span> 
-            <%= app.genre.titleize %>
-        <% end %>                
-        &nbsp;
-        <%= app.template.view_casts.count %>
-        stories
+            <span class="badge badge-primary" style="background: #ED4040;">Page</span> 
+        <% end %>
+        <% if app.genre == "datum" or app.genre == "card" %>
+            &nbsp;
+            <%= app.template.view_casts.count %>
+            stories
+        <% end %>
         <% if app.genre == "datum" %>
             &nbsp;
             <%= app.template.template_fields.count %>

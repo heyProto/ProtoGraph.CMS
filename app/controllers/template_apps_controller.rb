@@ -6,7 +6,7 @@ class TemplateAppsController < ApplicationController
 
   def index
     @q = @site.template_apps.ransack(params[:q])
-    @template_apps = @q.result.page(params[:page])
+    @template_apps = @q.result.page(params[:page]).per(10)
   end
 
   def show
