@@ -1,18 +1,4 @@
 <div style="margin-left: auto; margin-right: auto; width: 540px;">
-    <hr class="hr-text" data-content="Sites">
-    <h1>
-        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color: black !important;"><%= truncate @site.domain, length: 40, ommission: ".." %></a>
-        <% if @sites.count > 1 %>
-            <div class="dropdown">
-                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                    <% @sites.each do |s| %>
-                        <%= link_to "#{s.domain}", site_path(s), class: "dropdown-item"%>
-                    <% end %>
-                </div>
-            </div >
-        <% end %>
-    </h1>
-    <br/>
     <hr class="hr-text" data-content="Subsites">
     <div class="small thin" style="text-align: right;">
         <%= link_to "New subsite", sections_site_path(@site),"data-turbolinks" => "false" %>

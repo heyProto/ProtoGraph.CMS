@@ -1,20 +1,35 @@
-<%= render partial: "template_data/header" %>
 <div style="margin-left: auto; margin-right: auto; width: 540px;">
-    <h1><%= @template_datum.name %></h1><br/>
+    <p><%= link_to "Apps by #{@site.name}", apps_site_path(@site)%></p>
+    <h1>
+        <%= @template_datum.name %> 
+        <% if !@template_datum.template_app.is_public %>
+            <%= image_tag "lock.png", height: "15px;"%>
+        <% end %>
+        <span style="float: right;"><span class="badge badge-primary" style="background: #9D42A3; font-size: 12px;">Schema</span></span>
+    </h1>
     <nav>
       <div class="nav nav-tabs" id="nav-tab" role="tablist">
-        <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Fields</a>
+        <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Fields (<%= @template_datum.template_fields.count%>)</a>
+        <a class="nav-item nav-link" id="nav-cards-tab" data-toggle="tab" href="#nav-cards" role="tab" aria-controls="nav-cards" aria-selected="false">Cards using this Schema (<%= @template_datum.template_cards.count%>)</a>
         <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">JSON</a>
       </div>
     </nav>
-    <br/><br/>
+    <% if user_signed_in? and current_user.is_admin_from_pykih %>
+        <div style="text-align: right;">
+            <%= link_to "Edit", edit_site_template_app_path(@site, @template_datum.template_app) %>
+        </div>
+    <% end %>
+    <br/>
+    <% if @template_datum.template_app.blank? %>
+        <p class="lead"><%= @template_datum.template_app.pitch %></p>
+    <% end %>
     <div class="tab-content" id="nav-tabContent">
       <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+          <br/>
           <table class="table ">  
           <tbody>
           <% @template_fields.each_with_index do |template_field, i| %>
             <tr>
-              <td><%= template_field.sort_order %></td>
               <td>
                   <% if template_field.data_type == "short_text" %>  
                       <%= image_tag "svg/short_text.svg", width: "24px", title: "Short Text" %>
@@ -58,17 +73,26 @@
               <td><%= %w(short_text long_text temporal).include?(template_field.data_type) ? template_field.format_regex : "NA" %></td>
               <td><%= %w(short_text long_text temporal).include?(template_field.data_type) ? template_field.length_minimum : "NA" %></td>
               <td><%= %w(short_text long_text temporal).include?(template_field.data_type) ? template_field.length_maximum : "NA" %></td>-->  
-            <td><%= link_to "&#8593;".html_safe, move_up_site_template_datum_template_field_path(@site, @template_datum, template_field) if i != 0 %></td>
-            <td><%= link_to "&#8595;".html_safe, move_down_site_template_datum_template_field_path(@site, @template_datum, template_field) if i != @template_fields.count - 1 %></td>
-            <td><%= link_to "x", site_template_datum_template_field_path(@site, @template_datum, template_field), method: :delete %></td>
+            <% if user_signed_in? %>
+                <td><%= link_to "&#8593;".html_safe, move_up_site_template_datum_template_field_path(@site, @template_datum, template_field) if i != 0 %></td>
+                <td><%= link_to "&#8595;".html_safe, move_down_site_template_datum_template_field_path(@site, @template_datum, template_field) if i != @template_fields.count - 1 %></td>
+                <td><%= link_to "x", site_template_datum_template_field_path(@site, @template_datum, template_field), method: :delete %></td>
+            <% end %>
           </tr>
         <% end %>
         </tbody>
-      </table>
+      </table></div>
+      <div class="tab-pane fade" id="nav-cards" role="tabpanel" aria-labelledby="nav-cards-tab">
+          <% @template_datum.template_cards.each do |card| %>
+              <% app = card.template_app %>
+              <%= render partial: "template_apps/row", locals: {app: app} %>
+          <% end %>
+      </div>
+      <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+          <br/>
+          <%= image_tag("glyphicons-511-duplicate.png", class: "copy-to-clipboard") %>
+          <pre id="json-schema"><%= @json_schema %></pre>
     </div>
-    <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
-      <%= image_tag("glyphicons-511-duplicate.png", class: "copy-to-clipboard") %>
-      <pre id="json-schema"><%= @json_schema %></pre>
     </div>
   </div>
 
@@ -79,6 +103,18 @@
 
 <script>
   $(document).ready(function(){
+      
+      // Javascript to enable link to tab
+      var url = document.location.toString();
+      if (url.match('#')) {
+          $('.nav-tabs a[href="#' + url.split('#')[1] + '"]').tab('show');
+      } 
+
+      // Change hash for page-reload
+      $('.nav-tabs a').on('shown.bs.tab', function (e) {
+          window.location.hash = e.target.hash;
+      })
+      
     function copyToClipboard(containerid) {
       if (document.selection) {
         var range = document.body.createTextRange();

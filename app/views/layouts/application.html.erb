@@ -25,7 +25,20 @@
                       &nbsp;
                       |
                       &nbsp; 
-                      <%= link_to @site.domain, site_path(@site), style: "color: lightgray; font-size: 1rem !important;" %>
+                      <% if controller_name == "sites" and action_name == "show" %>
+                          <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color: #286EFA !important;"><%= truncate @site.domain, length: 40, ommission: ".." %></a>
+                          <% if @sites.count > 1 %>
+                              <div class="dropdown">
+                                  <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                      <% @sites.each do |s| %>
+                                          <%= link_to "#{s.domain}", site_path(s), class: "dropdown-item"%>
+                                      <% end %>
+                                  </div>
+                              </div >
+                          <% end %>
+                      <% else %>
+                          <%= link_to @site.domain, site_path(@site), style: "color: lightgray; font-size: 1rem !important;" %>
+                      <% end %>
                   </span>
               <% else %>
                   <%= link_to image_tag("proto-dark.png", style: "height: 20px;"), root_url %>
@@ -44,7 +57,7 @@
                       </div>
                     </li>
                     <% if current_user.is_admin_from_pykih %>
-                        <li class="nav-item"><%=link_to "App Store", apps_site_path(@site), "data-turbolinks" => "false", class: "nav-link" %></li>
+                        <li class="nav-item"><%=link_to "My Apps", apps_site_path(@site), "data-turbolinks" => "false", class: "nav-link" %></li>
                     <% end %>
                     <li class="nav-item"><%= link_to "Adminland", edit_site_path(@site), class: "nav-link"%></li>
                 <% end %>

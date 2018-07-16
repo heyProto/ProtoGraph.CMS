@@ -1,0 +1,23 @@
+<div style="margin-left: auto; margin-right: auto; width: 540px;">
+    <h1>
+        Apps
+        <% if @site.logo_image.present? %>
+            <span style="float: right;">
+                <%= image_tag @site.logo_image.image_url, height: "24px;", style: "vertical-align: middle;" %>
+            </span>
+        <% end %>
+    </h1>
+    <%= search_form_for @q, url: apps_site_path(@site) do |f| %>
+      <%= f.text_field :name_or_pitch_or_description_cont, placeholder: "Search apps" %>
+      <%= f.select :genre_eq, [["Card", "card"], ["Schema", "datum"], ["Page", "page"]], include_blank: "Type: All" %>
+      <%= f.select :is_public_eq, [["Open & free", true], ["Private", false]], include_blank: "Availability: All", style: "height: 30px; font-size: 16px;" %>
+      <%= f.submit %>
+    <% end %>
+    
+    <hr/>
+    <% @template_apps.each do |app| %>
+        <%= render partial: "template_apps/row", locals: {app: app} %>
+    <% end %>
+    <br/>
+    <%= paginate @template_apps, theme: 'twitter-bootstrap-4', pagination_class: "pagination-sm" %>
+</div>

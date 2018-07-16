@@ -117,6 +117,7 @@ namespace :json_schema do
       end
     end
   end
+
   # to populate site_id in TemplateDatum, TemplateField
   task pop_site_id: :environment do
     TemplateDatum.find_each do |template_datum|
