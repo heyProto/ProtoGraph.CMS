@@ -17,6 +17,7 @@
     window.siteSlug  = "<%= @site.slug %>";
     window.folderSlug = "<%= @folder.slug %>";
     window.site_config_url = "<%= "#{@site.header_json_url}?no-cache=#{Time.now.to_s}" %>";
+    window.ref_link_sources_url = "#{BASE_URL}/Assets/ref_link_sources.json";
     <% if @intersections.present? %>
         window.intersection_names = <%= @intersections.to_json.html_safe %>;
     <% end %>
