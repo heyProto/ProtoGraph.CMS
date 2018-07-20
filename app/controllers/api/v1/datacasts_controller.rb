@@ -68,7 +68,7 @@ class Api::V1::DatacastsController < ApiController
             updating_params = view_cast_params
             updating_params[:updated_by] = @user.id
             updating_params[:is_invalidating] = true
-            updating_params[:data_json] = datacast_params
+            updating_params[:data_json] = JSON.parse(datacast_params.to_json)
             view_cast.update_attributes(updating_params)
             Api::ProtoGraph::CloudFront.invalidate(@site, ["/#{view_cast.datacast_identifier}/*"], 1)
             render json: {view_cast: view_cast.as_json(methods: [:remote_urls]), redirect_path: site_folder_view_cast_url(@site, @folder, view_cast) }, status: 200

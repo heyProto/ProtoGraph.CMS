@@ -126,7 +126,7 @@ class ViewCast < ApplicationRecord
         if self.folder.present? and self.series.blank? and self.folder.vertical.present?
             self.series = self.folder.vertical
         end
-        if self.optionalconfigjson.present?
+        unless self.optionalconfigjson.nil?
             key = "#{self.datacast_identifier}/view_cast.json"
             encoded_file = Base64.encode64(self.optionalconfigjson)
             content_type = "application/json"
