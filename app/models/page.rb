@@ -271,10 +271,14 @@ class Page < ApplicationRecord
         "is_lazy_loading_activated": site.is_lazy_loading_activated,
         "comscore_code": site.comscore_code,
         "gtm_id": site.gtm_id,
-        "is_ad_enabled": site.enable_ads
+        "is_ad_enabled": site.enable_ads,
+        "cdn_endpoint": site.cdn_endpoint
       },
       "streams": streams,
       "page": page,
+      "page_url": self.html_url,
+      "page_imageurl": self.cover_image_url.present? ? self.cover_image_url.to_s : "",
+      "page_author": (self.byline.present? and self.byline.username.present?) ? self.byline.username : "",
       "ref_category_object": {"name": "#{self.series.name}", "name_html": "#{self.series.name_html}"},
       "vertical_header_json_url": "#{self.series.vertical_header_url}",
       "homepage_header_json_url": "#{self.site.homepage_header_url}",
