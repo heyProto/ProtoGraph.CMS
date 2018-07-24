@@ -251,7 +251,7 @@ class Page < ApplicationRecord
     end
 
     page = self.as_json(methods: [:html_key,:cover_image_url,:cover_image_url_7_column], include: [:ad_integrations])
-    page['layout'] = self.template_page.as_json
+    page['layout'] = self.template_page.as_json(methods: [:template_page_bucket, :template_page_endpoint])
     navigation_json = self.get_navigation_json if self.template_page.is_article_page?
 
     json = {

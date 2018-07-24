@@ -205,9 +205,9 @@ class Site < ApplicationRecord
             sitemaps_host: self.cdn_endpoint,
             public_path: "tmp/#{self.cdn_bucket}/"
         }) do
-            site.pages.where(status: "published").each do |page|
-                add "#{page.html_key}.html"
-            end
+        site.pages.where(status: "published").each do |page|
+            add "#{page.html_key}"
+        end
         end
         SitemapGenerator::Sitemap.ping_search_engines
     end

@@ -49,6 +49,14 @@ class TemplatePage < ApplicationRecord
     #SCOPE
     #OTHER
 
+    def template_page_bucket
+        ENV['AWS_S3_BUCKET']
+    end
+
+    def template_page_endpoint
+        "#{self.s3_identifier}/index.ejs"
+    end
+
     def is_article_page?
         self.name == "article"
     end
