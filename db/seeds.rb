@@ -244,3 +244,75 @@ TemplatePage.create({
                         created_by: 2,
                         updated_by: 2
                     })
+
+
+
+
+#========= New Version ==========#
+
+tapp_footer = TemplateApp.create({
+    site_id: pykih_site.id,
+    name: "Footer",
+    genre: "datum",
+    pitch: "",
+    description: "",
+    is_public: true,
+    change_log: "",
+    git_url: "git@bitbucket.org:pykih_/protograph.schemas.git",
+    is_system_installed: true,
+    is_backward_compatible: true,
+})
+
+
+t_footer = TemplateDatum.create({name: "ProtoGraph.Card.toFooter", version: "0.0.1", s3_identifier: "0082ce83c98144f9990c", template_app_id: tapp_footer.id, site_id: pykih_site.id})
+
+
+tapp_footer_card = TemplateApp.create({
+    site_id: pykih_site.id,
+    name: "Footer",
+    genre: "card",
+    pitch: "",
+    description: "",
+    is_public: true,
+    change_log: "",
+    git_url: "git@bitbucket.org:pykih_/footer.git",
+    is_system_installed: true,
+    is_backward_compatible: true,
+})
+
+TemplateCard.create({name: "Footer", git_branch: "master", git_repo_name: "ProtoGraph.Card.toLCWHero", status: "published", site_id: pykih_site.id, created_by: user_id, updated_by: user_id, template_datum_id: t_footer.id, s3_identifier: "fa446ad88c6fd390e79b", has_multiple_uploads: false, is_editable: true, allowed_views: ["col16","col4"], template_app_id: tapp_footer_card.id})
+
+
+
+tapp_coverstory = TemplateApp.create({
+    site_id: pykih_site.id,
+    name: "toCoverStory",
+    genre: "datum",
+    pitch: "",
+    description: "",
+    is_public: true,
+    change_log: "",
+    git_url: "git@bitbucket.org:pykih_/protograph.schemas.git",
+    is_system_installed: true,
+    is_backward_compatible: true,
+})
+
+
+
+t_cstory = TemplateDatum.create({name: "ProtoGraph.Card.toCoverStory", version: "0.0.1", s3_identifier: "79fa50d0df6bc3b7adb1", template_app_id: tapp_coverstory.id, site_id: pykih_site.id})
+
+tapp_coverstory_card = TemplateApp.create({
+    site_id: pykih_site.id,
+    name: "toCoverStory",
+    genre: "card",
+    pitch: "",
+    description: "",
+    is_public: true,
+    change_log: "",
+    git_url: "git@bitbucket.org:pykih_/tocoverstory.git",
+    is_system_installed: true,
+    is_backward_compatible: true,
+})
+
+
+TemplateCard.create({name: "toCoverStory", git_branch: "master", git_repo_name: "ProtoGraph.Card.toCoverStory", status: "published", site_id: pykih_site.id, created_by: user_id, updated_by: user_id, template_datum_id: t_cstory.id, s3_identifier: "fe91c98819d83e422f2c ",has_multiple_uploads: false, is_editable: true, allowed_views: ["col16","col4"], template_app_id: tapp_coverstory_card.id})

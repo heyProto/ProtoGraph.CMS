@@ -16,7 +16,7 @@ class Api::V1::TemplateCardsController < ApiController
     def show
         @template_card = @site.template_cards.friendly.find(params[:id])
         if @template_card.present?
-            render json: {template_card: @template_card.as_json(only: [:site_id, :id, :slug, :global_slug,:name, :elevator_pitch, :description, :template_datum_id, :git_repo_name, :is_public], methods: [:site_slug, :files, :versions])}
+            render json: {template_card: @template_card.as_json(only: [:site_id, :id, :slug, :global_slug,:name, :elevator_pitch, :description, :template_datum_id, :git_repo_name], methods: [:site_slug, :files, :versions])}
         else
             return_render_card_not_found
         end

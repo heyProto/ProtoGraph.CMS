@@ -90,7 +90,6 @@ class TemplateCard < ApplicationRecord
         self.name                   = p.name
         self.global_slug            = p.global_slug
         self.is_current_version     = false
-        self.is_public              = p.is_public
         self.version_series         = self.version.to_s.to_version.to_a[0]
         self.description            = p.description
     end
@@ -208,7 +207,6 @@ class TemplateCard < ApplicationRecord
             self.previous_version_id = nil
             self.version_genre = "major"
             self.version = "0.0.1"
-            self.is_public = false unless self.is_public.present?
         end
         true
     end

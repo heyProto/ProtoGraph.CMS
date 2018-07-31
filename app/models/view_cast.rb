@@ -139,7 +139,7 @@ class ViewCast < ApplicationRecord
 
     def after_save_set
         # Update the streams
-        StreamUpdateWorker.perform_async(self.id)
+        StreamUpdateWorker.perform_async(self.id) if Rails.env.production?
         if self.collaborator_lists.present?
             self.collaborator_lists = self.collaborator_lists.reject(&:empty?)
             prev_collaborator_ids = self.permissions.pluck(:user_id)

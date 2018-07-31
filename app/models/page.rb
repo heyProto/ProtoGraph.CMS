@@ -8,7 +8,7 @@
 #  headline                         :string(255)
 #  meta_keywords                    :string(255)
 #  meta_description                 :text
-#  summarbefy                          :text
+#  summary                          :text
 #  cover_image_url_facebook         :text
 #  cover_image_url_square           :text
 #  cover_image_alignment            :string(255)
@@ -690,9 +690,9 @@ class Page < ApplicationRecord
     streams = []
     case self.template_page.name
     when 'Homepage: Vertical'
-      streams = [["Section_16c_Hero", "Hero"], ["Section_7c", "Read"], ["Section_4c", "Join"], ["Section_3c", "Scan"], ["Section_2c", "Talk"], ["Section_credits", "Credits"], ["Section_cta", "CTA"]]
+      streams = [["Section_16c_Hero", "Hero"], ["Section_7c", "Read"], ["Section_4c", "Join"], ["Section_3c", "Scan"], ["Section_2c", "Talk"], ["Section_credits", "Credits"], ["Section_cta", "CTA"], ["Section_footer", "Footer"]]
     when 'article'
-      streams = [["Story_16c_Hero", "Hero"], ["Story_Narrative", "Narrative"], ["Story_Related", "Related"]]
+      streams = [["Story_16c_Hero", "Hero"], ["Story_Narrative", "Narrative"], ["Story_Related", "Related"], ["Story_footer", "Footer"]]
     when 'data grid'
       streams = [["Data_16c_Hero", "Hero"], ["Data_Grid", "#{self.id}_Section_data"]]
     else
