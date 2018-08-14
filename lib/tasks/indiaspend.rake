@@ -1,7 +1,6 @@
 namespace :indiaspend do
     task load_hate_crime_cards: :environment do
-        indiaspend_account = Rails.env.development? ? Account.friendly.find('pykih') : Account.friendly.find('indiaspend')
-        indiaspend_site = indiaspend_account.site
+        indiaspend_site = Rails.env.development? ? Site.friendly.find('pyktest') : Account.friendly.find('indiaspend')
         current_user = User.find(2)
         template_card = TemplateCard.where(name: 'toIndiaSpendCard').first
         all_crimes = JSON.parse(File.read("#{Rails.root.to_s}/ref/indiaspend/hatecrime.json"))
@@ -10,12 +9,14 @@ namespace :indiaspend do
             name = "#{d['date']} - #{d['district']}, #{d['state']}"
             data = {}
             data["data"] = d
+            data["data"]['year'] = d['year'].to_s
+            data["data"]['no_of_victims_killed'] = d['no_of_victims_killed'].to_s
+            data["data"]['no_of_victims_injured'] = d['no_of_victims_injured'].to_s
             payload = {}
             payload["payload"] = data.to_json
             payload["source"]  = "form"
             card = ViewCast.create({
                 site_id: indiaspend_site.id,
-                account_id: indiaspend_account.id,
                 name: name,
                 seo_blockquote: "",
                 folder_id: folder.id,
@@ -24,7 +25,8 @@ namespace :indiaspend do
                 template_datum_id:  template_card.template_datum_id,
                 created_by: current_user.id,
                 updated_by: current_user.id,
-                optionalConfigJSON: {}
+                optionalconfigjson: {},
+                data_json: data
             })
 
             payload["api_slug"] = card.datacast_identifier

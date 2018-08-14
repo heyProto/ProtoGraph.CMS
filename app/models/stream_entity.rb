@@ -52,8 +52,10 @@ class StreamEntity < ApplicationRecord
 
     def before_destroy_set
         self.stream.update_card_count
-        self.stream.pages.each do |p|
-            PagePublisher.perform_async(p.id)
+        if Rails.env.production? and ENV['SKIP_INVALIDATION'] != "true"
+            self.stream.pages.each do |p|
+                PagePublisher.perform_async(p.id)
+            end
         end
     end
 

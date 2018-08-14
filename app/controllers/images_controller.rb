@@ -10,7 +10,7 @@ class ImagesController < ApplicationController
       @images = @site.images.where.not(thumbnail_width: nil, thumbnail_height: nil, image_width: nil, image_height: nil).order("created_at desc").page params[:page]
     end
     @new_image = Image.new
-    
+
   end
 
   def create
@@ -19,7 +19,7 @@ class ImagesController < ApplicationController
     @image = Image.new(options)
 
     respond_to do |format|
-      if @image.save!
+      if @image.save
         format.json { render json: {success: true, data: @image}, status: 200 }
         format.html { redirect_to site_images_path(@site), notice: 'Image will be added shortly.' }
       else

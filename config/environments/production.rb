@@ -107,7 +107,7 @@ Rails.application.configure do
     :deliver_with => :deliver,
     :email_prefix => "[PRODUCTION] ",
     :sender_address => %{"protograph notifier" <protograph@pykih.com>},
-    :exception_recipients => %w{ritvvij.parrikh@pykih.com, ab@pykih.com, aashutosh.bhatt@pykih.com mmb@pykih.com dhara.shah@pykih.com}
+    :exception_recipients => %w{ab@pro.to, r@pro.to, nasr@pro.to, mojo@pro.to, nidhi@pro.to, shivangi@pro.to}
   }
 
 
