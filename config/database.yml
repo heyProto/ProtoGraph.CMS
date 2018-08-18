@@ -1,18 +1,18 @@
-# development:
-#   adapter: postgresql
-#   database: pykih_publishing_dev
-#   username: pykih_db_user
-#   password: pykih123
-#   host: 206.189.132.139
-#   port: 5432
-
 development:
   adapter: postgresql
-  database: pykih_publishing_dev2
-  username: developer
-  password: developer
-  host: localhost
+  database: pykih_publishing_dev
+  username: pykih_db_user
+  password: pykih123
+  host: 206.189.132.139
   port: 5432
+
+# development:
+#   adapter: postgresql
+#   database: pykih_publishing_dev2
+#   username: developer
+#   password: developer
+#   host: localhost
+#   port: 5432
 
 staging:
   adapter: mysql2

@@ -29,9 +29,9 @@
 #  ref_category_vertical_id         :integer
 #  published_at                     :datetime
 #  data_json                        :json
+#  external_identifier              :string
 #  format                           :string
 #  importance                       :string           default("low")
-#  external_identifier              :string
 #
 
 class ViewCast < ApplicationRecord

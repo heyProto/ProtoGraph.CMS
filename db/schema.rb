@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180714111601) do
+ActiveRecord::Schema.define(version: 20180818121012) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -205,9 +205,11 @@ ActiveRecord::Schema.define(version: 20180714111601) do
     t.boolean "hide_byline", default: false
     t.bigint "landing_card_id"
     t.string "external_identifier"
+    t.string "html_key"
     t.string "format"
     t.string "importance", default: "low"
-    t.string "html_key"
+    t.integer "cover_story_id"
+    t.integer "image_narrative_id"
   end
 
   create_table "permission_invites", force: :cascade do |t|

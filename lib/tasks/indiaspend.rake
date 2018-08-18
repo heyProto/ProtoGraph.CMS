@@ -1,6 +1,6 @@
 namespace :indiaspend do
     task load_hate_crime_cards: :environment do
-        indiaspend_site = Rails.env.development? ? Site.friendly.find('pyktest') : Account.friendly.find('indiaspend')
+        indiaspend_site = Rails.env.development? ? Site.friendly.find('pyktest') : Site.friendly.find('indiaspend')
         current_user = User.find(2)
         template_card = TemplateCard.where(name: 'toIndiaSpendCard').first
         all_crimes = JSON.parse(File.read("#{Rails.root.to_s}/ref/indiaspend/hatecrime.json"))

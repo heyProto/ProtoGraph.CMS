@@ -54,7 +54,7 @@ class TemplatePage < ApplicationRecord
     end
 
     def template_page_endpoint
-        "#{self.s3_identifier}/index.ejs"
+        "#{self.s3_identifier}/index.html.ejs"
     end
 
     def is_article_page?
