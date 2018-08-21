@@ -191,39 +191,43 @@ class Site < ApplicationRecord
     # It is more efficient to break down sitemap to smaller chunks and compiling a sitemap index file and submitting a index file instead of individual sitemap files.
 
     def publish_sitemap
-        require 'aws-sdk'
-        SitemapGenerator::Sitemap.verbose = true
-        SitemapGenerator::Sitemap.adapter = SitemapGenerator::AwsSdkAdapter.new(self.cdn_bucket,
-            aws_access_key_id: ENV['AWS_ACCESS_KEY_ID'],
-            aws_secret_access_key: ENV['AWS_SECRET_ACCESS_KEY'],
-            aws_region: 'ap-south-1'
-        )
+        unless ENV["SKIP_INVALIDATION"] == 'true'
+            require 'aws-sdk'
+            SitemapGenerator::Sitemap.verbose = true
+            SitemapGenerator::Sitemap.adapter = SitemapGenerator::AwsSdkAdapter.new(self.cdn_bucket,
+                aws_access_key_id: ENV['AWS_ACCESS_KEY_ID'],
+                aws_secret_access_key: ENV['AWS_SECRET_ACCESS_KEY'],
+                aws_region: 'ap-south-1'
+            )
 
-        site = self
-        SitemapGenerator::Sitemap.create({
-            default_host: self.cdn_endpoint,
-            sitemaps_host: self.cdn_endpoint,
-            public_path: "tmp/#{self.cdn_bucket}/"
-        }) do
-        site.pages.where(status: "published").each do |page|
-            add "#{page.html_key}"
+            site = self
+            SitemapGenerator::Sitemap.create({
+                default_host: self.cdn_endpoint,
+                sitemaps_host: self.cdn_endpoint,
+                public_path: "tmp/#{self.cdn_bucket}/"
+            }) do
+            site.pages.where(status: "published").each do |page|
+                add "#{page.html_key}"
+            end
+            end
+            SitemapGenerator::Sitemap.ping_search_engines
         end
-        end
-        SitemapGenerator::Sitemap.ping_search_engines
     end
 
     # If we have more than one sitemap, we can create a list one below the other.
     def publish_robot_txt
-        robot_txt = ""
-        robot_txt += "User-agent: *\n"
-        robot_txt += "Allow: /\n"
-        robot_txt += "Sitemap: #{self.cdn_endpoint}/#{self.sitemap_key}\n"
+        unless ENV['SKIP_INVALIDATION'] == 'true'
+            robot_txt = ""
+            robot_txt += "User-agent: *\n"
+            robot_txt += "Allow: /\n"
+            robot_txt += "Sitemap: #{self.cdn_endpoint}/#{self.sitemap_key}\n"
 
-        key = "#{self.robot_txt_key}"
-        encoded_file = Base64.encode64(robot_txt)
-        content_type = "plain/text"
-        resp = Api::ProtoGraph::Utility.upload_to_cdn(encoded_file, key, content_type, self.cdn_bucket)
-        Api::ProtoGraph::CloudFront.invalidate(self, ["/#{key}"], 1)
+            key = "#{self.robot_txt_key}"
+            encoded_file = Base64.encode64(robot_txt)
+            content_type = "plain/text"
+            resp = Api::ProtoGraph::Utility.upload_to_cdn(encoded_file, key, content_type, self.cdn_bucket)
+            Api::ProtoGraph::CloudFront.invalidate(self, ["/#{key}"], 1)
+        end
     end
 
 
@@ -307,9 +311,11 @@ class Site < ApplicationRecord
     end
 
     def after_update_publish_site_pages
-        if self.saved_change_to_is_lazy_loading_activated? or self.saved_change_to_comscore_code? or self.saved_change_to_gtm_id?
-            self.pages.each do |p|
-                PagePublisher.perform_async(p.id)
+        unless ENV['SKIP_INVALIDATION'] == 'true'
+            if self.saved_change_to_is_lazy_loading_activated? or self.saved_change_to_comscore_code? or self.saved_change_to_gtm_id?
+                self.pages.each do |p|
+                    PagePublisher.perform_async(p.id)
+                end
             end
         end
     end
