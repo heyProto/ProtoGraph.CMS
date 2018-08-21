@@ -73,6 +73,7 @@ class StreamEntity < ApplicationRecord
         if stream.title.split[1] != "Section"
             if self.sort_order.blank?
                 if self.stream.title == "#{self.page_id}_Story_Narrative"
+                    # Don't do anything here if the card is coverstory and sort_order is -1
                     last_view_cast = stream.view_cast_ids.order(sort_order: :desc).last
                     self.sort_order = last_view_cast.present? ? last_view_cast.sort_order.to_i + 1 : 1
                 else

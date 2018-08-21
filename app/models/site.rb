@@ -301,7 +301,9 @@ class Site < ApplicationRecord
     end
 
     def after_save_set
-        PublishSiteJson.perform_async(self.id)
+        if Rails.env.production? and ENV['SKIP_INVALIDATION'] != 'true'
+            PublishSiteJson.perform_async(self.id)
+        end
     end
 
     def after_update_publish_site_pages
