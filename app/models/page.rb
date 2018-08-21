@@ -619,7 +619,6 @@ class Page < ApplicationRecord
           self.update_column(:image_narrative_id, image_narrative.id)
         end
       end
-
       Api::ProtoGraph::CloudFront.invalidate(self.site, ["/#{view_cast.datacast_identifier}/*", "/#{cover_story_card.datacast_identifier}/*","/#{image_narrative.datacast_identifier}/*"], 3)
     end
     true

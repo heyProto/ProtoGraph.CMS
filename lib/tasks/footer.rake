@@ -8,7 +8,7 @@ namespace :footer do
                     site_id: a.site_id,
                     folder_id: a.folder_id,
                     created_by: a.created_by,
-                    updated_by: a.updated_by,a
+                    updated_by: a.updated_by,
                     title: "#{a.id}_#{s.first}",
                     description: "#{a.id}-#{s.first} stream #{a.summary}"
                 })
