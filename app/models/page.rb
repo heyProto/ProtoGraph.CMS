@@ -275,7 +275,6 @@ class Page < ApplicationRecord
       h['datacast_identifier'] = k['datacast_identifier']
       h['url'] = "#{self.site.cdn_endpoint}/#{k['datacast_identifier']}/index.json"
       h['name_of_stream'] = e.name_of_stream
-      h['ads'] = e.ad_integration_json
       h
     end
 
@@ -303,6 +302,7 @@ class Page < ApplicationRecord
         "is_ad_enabled": site.enable_ads,
         "cdn_endpoint": site.cdn_endpoint
       },
+      "streams": streams,
       "page": page,
       "page_url": self.html_url,
       "page_imageurl": self.cover_image_url.present? ? self.cover_image_url.to_s : "",
