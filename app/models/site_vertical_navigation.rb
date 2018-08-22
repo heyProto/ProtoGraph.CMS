@@ -39,7 +39,7 @@ class SiteVerticalNavigation < ApplicationRecord
   #OTHER
   #PRIVATE
   def update_site_navigations
-    navigation_json = {"Header": [], "Footer": []}
+    navigation_json = {"Header"=>[], "Footer"=>[]}
     if self.ref_category.navigations.count > 0
       self.ref_category.navigations.each do |nav|
         if nav.menu == 'Vertical Header'
