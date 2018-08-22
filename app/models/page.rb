@@ -470,6 +470,7 @@ class Page < ApplicationRecord
   def create_story_card
     if self.status != 'draft'
       site = self.site
+      invalidation_array = []
       payload_json = create_datacast_json
       # Creating Story Card
       if self.view_cast.present?
@@ -521,6 +522,8 @@ class Page < ApplicationRecord
         self.update_column(:view_cast_id, view_cast.id)
       end
 
+      invalidation_array << "/#{view_cast.datacast_identifier}/*"
+
       #Creating CoverStory Card
       if self.cover_story.present?
         cover_story_card = self.cover_story
@@ -570,6 +573,8 @@ class Page < ApplicationRecord
         r = Api::ProtoGraph::Datacast.create(payload)
         self.update_column(:cover_story_id, cover_story_card.id)
       end
+
+      invalidation_array << "/#{cover_story_card.datacast_identifier}/*"
       #Creating ImageNarrative Card
       if self.cover_image.present?
         narrative_json = create_image_narrative_data_json
@@ -620,8 +625,9 @@ class Page < ApplicationRecord
           r = Api::ProtoGraph::Datacast.create(payload)
           self.update_column(:image_narrative_id, image_narrative.id)
         end
+        invalidation_array << "/#{image_narrative.datacast_identifier}/*"
       end
-      Api::ProtoGraph::CloudFront.invalidate(self.site, ["/#{view_cast.datacast_identifier}/*", "/#{cover_story_card.datacast_identifier}/*","/#{image_narrative.datacast_identifier}/*"], 3)
+      Api::ProtoGraph::CloudFront.invalidate(self.site, invalidation_array, invalidation_array.count)
     end
     true
   end
