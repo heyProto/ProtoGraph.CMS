@@ -39,20 +39,21 @@ class SiteVerticalNavigation < ApplicationRecord
   #OTHER
   #PRIVATE
   def update_site_navigations
-    Thread.new do
-      navigation_json = []
-      if self.ref_category.navigations.count > 0
-        self.ref_category.navigations.each do |nav|
-          navigation_json << {"name": nav.name, "url": nav.url, "new_window": nav.launch_in_new_window, "menu": nav.menu}
+    navigation_json = {"Header": [], "Footer": []}
+    if self.ref_category.navigations.count > 0
+      self.ref_category.navigations.each do |nav|
+        if nav.menu == 'Vertical Header'
+          navigation_json["Header"] << {"name": nav.name, "url": nav.url, "new_window": nav.launch_in_new_window, "menu": nav.menu}
+        else
+          navigation_json["Footer"] << {"name": nav.name, "url": nav.url, "new_window": nav.launch_in_new_window, "menu": nav.menu}
         end
       end
-      key = self.ref_category.vertical_header_key
-      encoded_file = Base64.encode64(navigation_json.to_json)
-      content_type = "application/json"
-      resp = Api::ProtoGraph::Utility.upload_to_cdn(encoded_file, key, content_type, self.site.cdn_bucket)
-      Api::ProtoGraph::CloudFront.invalidate(self.site, ["/#{key}"], 1)
-      ActiveRecord::Base.connection.close
     end
+    key = self.ref_category.vertical_header_key
+    encoded_file = Base64.encode64(navigation_json.to_json)
+    content_type = "application/json"
+    resp = Api::ProtoGraph::Utility.upload_to_cdn(encoded_file, key, content_type, self.site.cdn_bucket)
+    Api::ProtoGraph::CloudFront.invalidate(self.site, ["/#{key}"], 1)
   end
 
   private
