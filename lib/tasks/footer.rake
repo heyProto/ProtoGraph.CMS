@@ -1,6 +1,5 @@
 namespace :footer do
     task load: :environment do
-        streams = [[, "Footer"]]
         Page.all.each do |a|
             puts a.id
             puts "============="
