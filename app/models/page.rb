@@ -242,27 +242,29 @@ class Page < ApplicationRecord
       hero_stream.publish_cards
       hero_stream.publish_rss
     end
-    narrative_stream = self.streams.where(title: "#{self.id}_Story_Narrative").first
-    if self.template_page.name == 'article' and self.cover_image.present? and self.image_narrative.present?
-      if narrative_stream.stream_entities.where(entity_value: "#{self.image_narrative_id}", entity_type: "view_cast_id").count == 0
-        StreamEntity.create({
-          "entity_value": "#{self.image_narrative_id}",
-          "entity_type": "view_cast_id",
-          "stream_id": narrative_stream.id,
-          "is_excluded": false,
-          "sort_order": -1
-        })
-        narrative_stream.reload
-        narrative_stream.publish_cards
-        narrative_stream.publish_rss
-      end
-    else
-      image_narrative_entities = narrative_stream.stream_entities.where(sort_order: -1)
-      if image_narrative_entities.count > 0
-        image_narrative_entities.delete_all
-        narrative_stream.reload
-        narrative_stream.publish_cards
-        narrative_stream.publish_rss
+    if self.template_page.name == 'article'
+      narrative_stream = self.streams.where(title: "#{self.id}_Story_Narrative").first
+      if self.cover_image.present? and self.image_narrative.present?
+        if narrative_stream.stream_entities.where(entity_value: "#{self.image_narrative_id}", entity_type: "view_cast_id").count == 0
+          StreamEntity.create({
+            "entity_value": "#{self.image_narrative_id}",
+            "entity_type": "view_cast_id",
+            "stream_id": narrative_stream.id,
+            "is_excluded": false,
+            "sort_order": -1
+          })
+          narrative_stream.reload
+          narrative_stream.publish_cards
+          narrative_stream.publish_rss
+        end
+      else
+        image_narrative_entities = narrative_stream.stream_entities.where(sort_order: -1)
+        if image_narrative_entities.count > 0
+          image_narrative_entities.delete_all
+          narrative_stream.reload
+          narrative_stream.publish_cards
+          narrative_stream.publish_rss
+        end
       end
     end
     streams = self.page_streams.includes(:stream).map do |e|
