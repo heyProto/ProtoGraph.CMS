@@ -74,10 +74,10 @@ class Api::ProtoGraph
                 else
                     params = {"invalidation_items": items, quantity: quantity, distribution_id: ENV['AWS_CDN_ID'], source: "CloudFront", credentials: {'aws_access_key_id': ENV['AWS_ACCESS_KEY_ID'], 'aws_secret_access_key': ENV['AWS_SECRET_ACCESS_KEY']}}
                 end
-                unless ENV['SKIP_INVALIDATION'] == "true"
-                    response = RestClient.post(url , params.to_json,{content_type: :json, accept: :json, "x-api-key": ENV['AWS_API_KEY']})
-                    return JSON.parse(response.body)
-                else
+                # unless ENV['SKIP_INVALIDATION'] == "true"
+                #     response = RestClient.post(url , params.to_json,{content_type: :json, accept: :json, "x-api-key": ENV['AWS_API_KEY']})
+                #     return JSON.parse(response.body)
+                # else
                     return []
                 end
             end
