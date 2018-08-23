@@ -79,7 +79,7 @@ class Api::ProtoGraph
                 #     return JSON.parse(response.body)
                 # else
                     return []
-                end
+                # end
             end
         end
 
