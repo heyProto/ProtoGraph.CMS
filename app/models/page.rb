@@ -486,7 +486,8 @@ class Page < ApplicationRecord
           updated_by: self.updated_by,
           byline_id: self.byline_id,
           published_at: self.published_at,
-          data_json: payload_json
+          data_json: payload_json,
+          external_identifier: self.external_identifier
         })
       else
         view_cast = ViewCast.create({
@@ -506,7 +507,8 @@ class Page < ApplicationRecord
           byline_id: self.byline_id,
           ref_category_vertical_id: self.ref_category_series_id,
           published_at: self.published_at,
-          data_json: payload_json
+          data_json: payload_json,
+          external_identifier: self.external_identifier
         })
       end
       payload = {}
@@ -538,7 +540,8 @@ class Page < ApplicationRecord
           updated_by: self.updated_by,
           byline_id: self.byline_id,
           published_at: self.published_at,
-          data_json: payload_json
+          data_json: payload_json,
+          external_identifier: self.external_identifier
         })
       else
         cover_story_card = ViewCast.create({
@@ -558,7 +561,8 @@ class Page < ApplicationRecord
           byline_id: self.byline_id,
           ref_category_vertical_id: self.ref_category_series_id,
           published_at: self.published_at,
-          data_json: payload_json
+          data_json: payload_json,
+          external_identifier: self.external_identifier
         })
       end
       payload = {}

@@ -61,6 +61,7 @@ class ViewCast < ApplicationRecord
 
     #CALLBACKS
     before_create :before_create_set
+    after_commit :after_commit_set
     after_create :after_create_set
     before_save :before_save_set
     after_save :after_save_set
@@ -138,8 +139,6 @@ class ViewCast < ApplicationRecord
     end
 
     def after_save_set
-        # Update the streams
-        StreamUpdateWorker.perform_async(self.id) if Rails.env.production?
         if self.collaborator_lists.present?
             self.collaborator_lists = self.collaborator_lists.reject(&:empty?)
             prev_collaborator_ids = self.permissions.pluck(:user_id)
@@ -150,6 +149,10 @@ class ViewCast < ApplicationRecord
             self.permissions.where(permissible_id: (prev_collaborator_ids - self.collaborator_lists.map{|a| a.to_i})).update_all(status: 'Deactivated')
         end
         self.update_column(:published_at, self.updated_at) if ["toStory", "toCluster"].exclude?(self.template_card.name)
+    end
+
+    def after_commit_set
+        StreamUpdateWorker.perform_async(self.id) if Rails.env.production?
     end
 
     def after_create_set
