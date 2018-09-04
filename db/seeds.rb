@@ -258,7 +258,7 @@ tapp_footer = TemplateApp.create({
     description: "",
     is_public: true,
     change_log: "",
-    git_url: "git@bitbucket.org:pykih_/protograph.schemas.git",
+    git_url: "git@bitbucket.org:heyProto/protograph.schemas.git",
     is_system_installed: true,
     is_backward_compatible: true,
 })
@@ -275,7 +275,7 @@ tapp_footer_card = TemplateApp.create({
     description: "",
     is_public: true,
     change_log: "",
-    git_url: "git@bitbucket.org:pykih_/footer.git",
+    git_url: "git@bitbucket.org:heyProto/footer.git",
     is_system_installed: true,
     is_backward_compatible: true,
 })
@@ -292,7 +292,7 @@ tapp_coverstory = TemplateApp.create({
     description: "",
     is_public: true,
     change_log: "",
-    git_url: "git@bitbucket.org:pykih_/protograph.schemas.git",
+    git_url: "git@bitbucket.org:heyProto/protograph.schemas.git",
     is_system_installed: true,
     is_backward_compatible: true,
 })
@@ -309,10 +309,44 @@ tapp_coverstory_card = TemplateApp.create({
     description: "",
     is_public: true,
     change_log: "",
-    git_url: "git@bitbucket.org:pykih_/tocoverstory.git",
+    git_url: "git@bitbucket.org:heyProto/tocoverstory.git",
     is_system_installed: true,
     is_backward_compatible: true,
 })
 
 
 TemplateCard.create({name: "toCoverStory", git_branch: "master", git_repo_name: "ProtoGraph.Card.toCoverStory", status: "published", site_id: pykih_site.id, created_by: user_id, updated_by: user_id, template_datum_id: t_cstory.id, s3_identifier: "fe91c98819d83e422f2c ",has_multiple_uploads: false, is_editable: true, allowed_views: ["col16","col4"], template_app_id: tapp_coverstory_card.id})
+
+# FactChecker Header Card
+
+#========= New Version ==========#
+
+tapp_factchecker_header = TemplateApp.create({
+    site_id: pykih_site.id,
+    name: "FactCheckerHeader",
+    genre: "datum",
+    pitch: "",
+    description: "",
+    is_public: true,
+    change_log: "",
+    git_url: "git@bitbucket.org:heyProto/protograph.schemas.git",
+    is_system_installed: true,
+    is_backward_compatible: true,
+})
+
+t_factchecker_header = TemplateDatum.create({name: "ProtoGraph.Card.FactCheckerHeader", version: "0.0.1", s3_identifier: "0de591f58cc968cb063e", template_app_id: tapp_factchecker_header.id, site_id: pykih_site.id})
+
+tapp_factchecker_header_card = TemplateApp.create({
+    site_id: pykih_site.id,
+    name: "FactCheckerHeader",
+    genre: "card",
+    pitch: "",
+    description: "",
+    is_public: true,
+    change_log: "",
+    git_url: "git@bitbucket.org:heyProto/factcheckerheader.git",
+    is_system_installed: true,
+    is_backward_compatible: true,
+})
+
+TemplateCard.create({name: "FactCheckerHeader", git_branch: "master", git_repo_name: "ProtoGraph.Card.FactCheckerHeader", status: "published", site_id: pykih_site.id, created_by: user_id, updated_by: user_id, template_datum_id: t_factchecker_header.id, s3_identifier: "786b8a918de9dc171ca6", has_multiple_uploads: false, is_editable: true, allowed_views: ["col16","col4"], template_app_id: tapp_factchecker_header_card.id})

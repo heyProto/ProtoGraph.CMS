@@ -5,7 +5,7 @@ git_source(:bitbucket) do |repo_name|
   "https://bitbucket.org/#{repo_name}"
 end
 
-ruby "2.3.3"
+ruby "2.5.1"
 
 #RAILS
 gem 'rails', '~> 5.1.1'
@@ -31,7 +31,7 @@ gem "intercom-rails"
 gem 'ransack'
 
 #AUTHENTICATION
-gem 'devise'
+gem 'devise', '>=4.4.0'
 gem 'activerecord-session_store'
 
 
@@ -45,9 +45,9 @@ gem 'jbuilder', '~> 2.5'
 gem 'rack-cors', :require => 'rack/cors'
 gem 'whenever'
 
-gem 'rmagick'
+#sgem 'rmagick'
 gem 'carrierwave'
-gem 'ntc', bitbucket: "pykih_/name-that-colour", require: false
+gem 'ntc', bitbucket: "heyProto/name-that-colour", require: false
 
 #Encryption
 #gem "attr_encrypted", "~> 3.0.0"
