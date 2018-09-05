@@ -7,7 +7,7 @@
 <div class="row">
     <div class="col-sm-4">
         <br/>
-        <br/>       
+        <br/>
         <h3 style="padding-left: 15px;">All stories and cards</h3>
         <div style="background: #E8E8E8; width: 230px; height: 100%;">
             <% @all_cards.each do |d| %>
@@ -93,7 +93,7 @@
                               </div>
                               <div class="due-on">
                                 <%= time_ago_in_words(d.published_at) %>
-                              </div>        
+                              </div>
                             </div>
                           </div>
                           <div class="call-to-action">
@@ -170,7 +170,7 @@
                       </div>
                       <div class="due-on">
                         <%= time_ago_in_words(d.published_at) %>
-                      </div>        
+                      </div>
                     </div>
                   </div>
                   <div class="call-to-action">
@@ -238,7 +238,7 @@
 
 <script type="text/javascript">
   $(document).on("turbolinks:load",function() {
-    $('.action-move-to .list-group li').off('click')
+    $('.action-move-to .list-group li').off('click');
     $('.action-move-to .list-group li').on('click', function(){
       $("#new_stream_entity").attr("action", this.dataset.pageStreamUrl);
       $("#stream_view_cast_id").val($(this).parents('.card-as-a-todo').data().viewCastId);
