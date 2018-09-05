@@ -45,7 +45,7 @@ gem 'jbuilder', '~> 2.5'
 gem 'rack-cors', :require => 'rack/cors'
 gem 'whenever'
 
-#sgem 'rmagick'
+gem 'rmagick'
 gem 'carrierwave'
 gem 'ntc', bitbucket: "heyProto/name-that-colour", require: false
 
