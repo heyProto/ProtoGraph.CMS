@@ -357,7 +357,6 @@ class Page < ApplicationRecord
     encoded_file = Base64.encode64(json.to_json)
     content_type = "application/json"
     resp = Api::ProtoGraph::Utility.upload_to_cdn(encoded_file, key, content_type, self.site.cdn_bucket)
-    response = Api::ProtoGraph::Page.create_or_update_page(self.datacast_identifier, self.template_page.s3_identifier, self.site.cdn_bucket, ENV['AWS_S3_ENDPOINT'])
     if Rails.env.production?
       site.publish_sitemap
       site.publish_robot_txt

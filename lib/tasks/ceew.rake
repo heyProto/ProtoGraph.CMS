@@ -306,9 +306,9 @@ namespace :ceew_districts do
                 ],
                 "Water Availability Index" => [
                     "scarcity_index_score_value",
-                    "scarcity_index_score_score"
+                    "scarcity_index_score_percentile"
                 ],
-                "Crop revenue per holding (INR)" => ["crop_revenue_value", "crop_revenue_score"],
+                "Crop revenue per holding (INR)" => ["crop_revenue_value", "crop_revenue_percentile"],
                 "Medium and long-term institutional credit disbursed in a year (in INR Crore)": [
                     "institutional_credit_disbursed_value",
                     "institutional_credit_disbursed_percentile"
@@ -331,7 +331,7 @@ namespace :ceew_districts do
             "Solar based water as a service" => {
                 "Water Availability Index" => [
                     "scarcity_index_score_value",
-                    "scarcity_index_score_score"
+                    "scarcity_index_score_percentile"
                 ],
                 "Proportion of small and marginal cultivators" => [
                     "cultivators_proportion_value",
@@ -349,7 +349,7 @@ namespace :ceew_districts do
                 ],
                 "Water Availability Index" => [
                     "scarcity_index_score_value",
-                    "scarcity_index_score_score"
+                    "scarcity_index_score_percentile"
                 ],
                 "Proportion of marginal cultivators" => [
                     "marginal_cultivators_proportion_value",
