@@ -64,6 +64,7 @@
           <%= f.input :header_positioning, collection: [["Left", "left"], ["Center", "center"]], label: "Position", include_blank: false %>
           <%= f.input :header_url, as: :string, label: "Jump to this URL on click of logo in header" %>
           <%= f.input :tooltip_on_logo_in_masthead, as: :string, label: "On hover of logo in mast head, show this tooltip", hint: "Typically used for set expectation that on clicking the logo you head back to our parent site."%>
+          <%= f.input :show_by_site_name, as: :boolean, label: "&nbsp; Display site name in header".html_safe %>
           <br/>
           <%= f.button :submit, "Save", class: "btn btn-sm btn-primary" %>
         <% end %>

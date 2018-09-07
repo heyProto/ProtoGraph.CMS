@@ -300,7 +300,8 @@ class Page < ApplicationRecord
         "comscore_code": site.comscore_code,
         "gtm_id": site.gtm_id,
         "is_ad_enabled": site.enable_ads,
-        "cdn_endpoint": site.cdn_endpoint
+        "cdn_endpoint": site.cdn_endpoint,
+        "show_by_site_name": site.show_by_site_name
       },
       "streams": streams,
       "page": page,

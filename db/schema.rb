@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180818121012) do
+ActiveRecord::Schema.define(version: 20180907065422) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -371,6 +371,7 @@ ActiveRecord::Schema.define(version: 20180818121012) do
     t.boolean "enable_ads", default: false
     t.boolean "show_proto_logo", default: true
     t.string "tooltip_on_logo_in_masthead", limit: 255
+    t.boolean "show_by_site_name"
   end
 
   create_table "stream_entities", force: :cascade do |t|

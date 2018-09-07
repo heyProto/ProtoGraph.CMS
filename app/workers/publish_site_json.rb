@@ -19,7 +19,8 @@ class PublishSiteJson
         "story_card_style": "#{site.story_card_style}",
         "story_card_flip": site.story_card_flip,
         "favicon_url": "#{site.favicon.present? ? site.favicon.image_url : ""}",
-        "show_proto_logo": site.show_proto_logo
+        "show_proto_logo": site.show_proto_logo,
+        "show_by_site_name": site.show_by_site_name
     }
     key = "#{site.header_json_key}"
     encoded_file = Base64.encode64(header_json.to_json)
