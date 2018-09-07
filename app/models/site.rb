@@ -44,6 +44,7 @@
 #  enable_ads                  :boolean          default(FALSE)
 #  show_proto_logo             :boolean          default(TRUE)
 #  tooltip_on_logo_in_masthead :string(255)
+#  show_by_site_name           :boolean
 #
 
 #TODO AMIT - Handle created_by, updated_by - RP added retrospectively. Need migration of old rows and BAU handling.
