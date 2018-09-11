@@ -1,6 +1,6 @@
-namespace :indiaspend do
+namespace :factchecker do
     task load_hate_crime_cards: :environment do
-        indiaspend_site = Rails.env.development? ? Site.friendly.find('pyktest') : Site.friendly.find('indiaspend')
+        indiaspend_site = Rails.env.development? ? Site.friendly.find('pyktest') : Site.friendly.find('factchecker')
         current_user = User.find(2)
         template_card = TemplateCard.where(name: 'toIndiaSpendCard').first
         all_crimes = JSON.parse(File.read("#{Rails.root.to_s}/ref/indiaspend/hatecrime.json"))
@@ -12,6 +12,8 @@ namespace :indiaspend do
             data["data"]['year'] = d['year'].to_s
             data["data"]['no_of_victims_killed'] = d['no_of_victims_killed'].to_s
             data["data"]['no_of_victims_injured'] = d['no_of_victims_injured'].to_s
+            assault_type = d['type_of_assault'].split(",")
+            data['data']['type_of_assault'] = assault_type.map{|d| d.strip}
             payload = {}
             payload["payload"] = data.to_json
             payload["source"]  = "form"
