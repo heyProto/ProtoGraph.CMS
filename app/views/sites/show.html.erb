@@ -9,13 +9,13 @@
                 <tr>
                     <td style="border: 0px;">
                         <% if v.vertical_page.present? %>
-                            <%= link_to v.name, edit_site_page_path(@site, v, folder_id: nil), "data-turbolinks"=> false %>
+                            <%= link_to v.name, edit_site_page_path(@site, v.vertical_page, folder_id: nil), "data-turbolinks"=> false %>
                         <% else %>
                             <spans style: "color: black;"><%= v.name %></span>
                         <% end %>
                     </td>
                 </tr>
-            <% end %>   
+            <% end %>
         </tbody>
     </table>
     <hr class="hr-text" data-content="Workspaces (grouped by subsites)">
@@ -36,25 +36,25 @@
                         </td>
                         <td style=" color: lightgray; text-align: right; border: 0px;">
                                 (
-                                <%= f.view_casts.count %> cards 
+                                <%= f.view_casts.count %> cards
                                 <% if f.is_for_stories %>
                                     and <%= f.pages.count %> stories
                                 <% end %>
                                 )
                         </td>
                     </tr>
-                <% end %>   
+                <% end %>
             </tbody>
         </table>
         <br/>
     <% end %>
     <hr class="hr-text" data-content="Workspaces (other)">
     <br/>
-    
-    
-    
-    
-    
+
+
+
+
+
     <h3>
         Uncategorized
         <span class="small thin" style="float: right;">
@@ -70,13 +70,13 @@
                     </td>
                     <td style=" color: lightgray; text-align: right; border: 0px;">
                             (
-                            <%= f.view_casts.count %> cards 
+                            <%= f.view_casts.count %> cards
                             <% if f.is_for_stories %>
                                 and <%= f.pages.count %> stories
                             <% end %>
                             )
                     </td>
-    
+
                 </tr>
             <% end %>
         </tbody>
@@ -93,13 +93,13 @@
                         </td>
                         <td style=" color: lightgray; text-align: right; border: 0px;">
                                 (
-                                <%= f.view_casts.count %> cards 
+                                <%= f.view_casts.count %> cards
                                 <% if f.is_for_stories %>
                                     and <%= f.pages.count %> stories
                                 <% end %>
                                 )
                         </td>
-    
+
                     </tr>
                 <% end %>
             </tbody>
