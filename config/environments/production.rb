@@ -88,7 +88,7 @@ Rails.application.configure do
 
   FROM_EMAIL = "Protograph Internals <dev.pykih@gmail.com>"
   config.active_record.dump_schema_after_migration = false
-  BASE_URL = "https://protograph.pykih.com"
+  BASE_URL = "https://platform.pro.to"
   AWS_API_DATACAST_URL = "https://d9y49oyask.execute-api.ap-south-1.amazonaws.com/production"
 
   config.action_mailer.default_url_options = { host: BASE_URL }
