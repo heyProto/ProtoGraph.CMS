@@ -462,7 +462,7 @@ class Page < ApplicationRecord
         push_page_object_to_s3
       else
         # push_page_object_to_s3
-        PagePublisher.perform_async(self.id)
+        PagePublisher.perform_at(10.seconds.from_now, self.id)
       end
     end
   end

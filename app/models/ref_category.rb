@@ -176,7 +176,7 @@ class RefCategory < ApplicationRecord
             #Update the site vertical json
             update_site_verticals
             key = self.vertical_header_key
-            encoded_file = Base64.encode64([].to_json)
+            encoded_file = Base64.encode64({"Header"=>[], "Footer"=>[]}.to_json)
             content_type = "application/json"
             resp = Api::ProtoGraph::Utility.upload_to_cdn(encoded_file, key, content_type, self.site.cdn_bucket)
         end
