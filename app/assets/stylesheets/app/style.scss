@@ -1,4 +1,20 @@
-body{font-size: 14px; font-family: 'cabin, Open Sans', sans-serif;}
+@font-face {
+  font-family: AvenirLTStd-Book;
+  src: url("https://cdn.protograph.pykih.com/lib/AvenirLTStd-Book.otf") format("opentype");
+}
+
+@font-face {
+  font-family: AvenirLTStd-Medium;
+  src: url("https://cdn.protograph.pykih.com/lib/AvenirLTStd-Medium.otf") format("opentype");
+}
+
+@font-face {
+  font-family: Avenir-Bold;
+  src: url("https://cdn.protograph.pykih.com/lib/AEH.ttf") format("opentype");
+}
+
+
+body{font-size: 14px; font-family: 'AvenirLTStd-Medium, Open Sans', sans-serif;}
 a{color: #286EFA;}
 h1{font-size: 2em; line-height: 40px; font-weight: 800;}
 h2{font-size: 1.5em; line-height: 30px; font-weight: 800;}
@@ -536,4 +552,166 @@ ul.pagination.pagination-sm > li.page-item.active > a.page-link{
 
 .card-as-a-todo:hover {
     background: #EEEEEE;
+}
+
+
+// sign in page styling ====================
+
+.signin-page{
+    display: inline-block;
+    font-family: 'AvenirLTStd-Book';
+    line-height: 22px;
+    font-size: 14px;
+    width: 100%;
+    color: #999;
+    h1{
+        font-family: 'AvenirLTStd-Book';
+        color: #333;
+        font-size: 24px;
+        margin-top: 172px;
+        .proto-name{
+            font-size: 72px;
+            margin-top: 16px;
+            color: #333;
+            font-family: 'Avenir-bold';
+        }
+    }
+    .container{
+        display: inline-block;
+        padding: 0px !important;
+        .page-content{
+            width: 300px;
+            display: inline-block;
+            float: left;
+            h1{
+                font-family: 'Avenir-bold';
+                color: #333;
+                margin-bottom: 10px;
+                line-height: 36px;
+                margin-top: 0px;
+            }
+        }
+
+        .demo-area{
+            width: 600px;
+            display: inline-block;
+            float: left;
+            margin: 0px 40px;
+            box-sizing: border-box;
+            position: relative;
+            height: 395px;
+            box-shadow: 0 20px 20px rgba(0,0,0,.08);
+            // border: 1px solid rgba(0,0,0,.08);
+
+            .mockup-image{
+
+            }
+            .demo-image{
+                position: absolute;
+                // left: 40px;
+                top: 20px;
+            }
+        }
+
+        .login-area{
+            width: 270px;
+            display: inline-block;
+            float: right;
+            position: fixed;
+            // top: 155px;
+            background: #fafafa;
+            height: 100vh;
+            top: 0px;
+            padding-top:200px;
+            // padding: 10px;
+        }
+    }
+}
+
+
+// Examples horizontal strip styling =================
+
+.example-slide{
+    width: 940px;
+    overflow-x: scroll;
+    background: #fafafa;
+    min-height: 100px;
+    display: inline-block;
+    box-sizing: border-box;
+    padding: 15px 20px;
+    border: 1px solid #fafafa;
+}
+
+.examples-scroll-area{
+    width: 1600px;
+    min-height: 100px;
+    display: inline-block;
+}
+
+.example-links{
+    margin-right: 20px;
+    float: left;
+}
+
+.example-card{
+    background: white;
+    height: 350px;
+    display: inline-block;
+    float: left;
+    position: relative;
+    width: 250px;
+    border-radius: 4px;
+    overflow: hidden;
+    transition: 0.2s ease-in-out;
+    box-shadow: 0px 2px 5px lightgrey;
+}
+
+.example-card:last-child{
+    margin-right: 0px;
+}
+
+.project-image{
+    width: 250px;
+    height: 150px;
+    background: #efefef;
+    margin-bottom: 16px;
+}
+
+.project-name{
+    font-size: 16px;
+    font-family: 'Avenir-bold';
+    margin-bottom: 8px;
+    padding: 0px 15px;
+    font-weight: bold;
+    color: #333;
+}
+
+.project-one-liner{
+    font-size: 14px;
+    line-height: 22px;
+    font-family: 'AvenirLTStd-Book';
+    margin-bottom: 24px;
+    padding: 0px 15px;
+    color: #666;
+}
+
+.publisher-logo{
+    text-align: right;
+    padding: 0px 15px;
+    margin-bottom: 16px;
+    position: absolute;
+    bottom: 0px;
+    right: 0px;
+}
+
+.example-links:last-child{
+    margin-right: 0px;
+}
+
+.example-card:hover{
+    box-shadow: 0px 10px 25px lightgrey;
+}
+
+.example-card:hover .project-name{
+    text-decoration: underline;
 }

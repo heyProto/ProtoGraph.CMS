@@ -1,27 +1,263 @@
 <br/>
 <br/>
-<br/>
-<br/>
-    <div style="margin-left: auto; margin-right: auto; width: 300px;">
-        <%= simple_form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
-          <%= f.error_notification %>
-          <%= f.input :email, autofocus: true, placeholder: 'Email', required: true %>
-          <%= f.input :password, autocomplete: "off", placeholder: 'Password', required: true  %>
-          <% if devise_mapping.rememberable? -%>
-            <div class="field">
-              <div class="ui checkbox">
-                <%= f.input :remember_me, as: :boolean, boolean_style: :inline, label: "&nbsp; Remember me".html_safe  %>
-              </div>
+    <div class="signin-page">
+        <h1>
+            Welcome To<br>
+            <div class="proto-name">PROTO CMS</div>
+        </h1>
+        <br>
+        <p>You can launch <a href="#structured-journalism">structured journalism</a> projects and/or create <a href="#micro-sites">micro-sites</a> for specific themes.</p>
+
+        <br><br><br><br><br><br><br><br><br>
+        <div class="container">
+            <div class="page-content">
+                <h1 id="structured-journalism">Structured journalism</h1>
+                <p>Use Proto to store events in a database. Enable users to find trends and patterns.</p>
+                <p>
+                    Structured Journalism requires publishers to store individual events or statements (example - incidents of crime, political fact check, movie reviews, etc.) in database. Readers can then slice and dice this data to find insights and patterns.
+                </p>
             </div>
-          <% end %>
-          <%= f.button :submit, value: "Sign into Proto Platform", class: "btn btn-outline" %>
-        <% end %>
+            <div class="demo-area">
+                <img class="mockup-image" src="https://cdn.protograph.pykih.com/Assets/example-slides-images/mac-mockup.png" width="600px">
+                <img class="demo-image" src="https://cdn.protograph.pykih.com/Assets/example-slides-images/data-grid-demo.gif" width="600px">
+            </div>
+            <div class="login-area">
+                <div style="margin-left: auto; margin-right: auto; width: 250px;">
+                    <%= simple_form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+                      <%= f.error_notification %>
+                      <%= f.input :email, autofocus: true, placeholder: 'Email', required: true %>
+                      <%= f.input :password, autocomplete: "off", placeholder: 'Password', required: true  %>
+                      <% if devise_mapping.rememberable? -%>
+                        <div class="field">
+                          <div class="ui checkbox">
+                            <%= f.input :remember_me, as: :boolean, boolean_style: :inline, label: "&nbsp; Remember me".html_safe  %>
+                          </div>
+                        </div>
+                      <% end %>
+                      <%= f.button :submit, value: "Sign into Proto Platform", class: "btn btn-outline" %>
+                    <% end %>
+                </div>
+                <div style="margin-left: auto; margin-right: auto; width: 250px;">
+                    <br/>
+                    <br/>
+                    <%= link_to "Sign up for free", new_registration_path(resource_name) %><br />
+                    <%= link_to "I cannot access my account", new_password_path(resource_name) %><br />
+                    <%= link_to "Didn't receive confirmation token?", new_confirmation_path(resource_name) %><br />
+                    
+                </div>
+            </div>
+        </div>
+
+        <br><br><br>
+
+        <h3>Our work</h3>
+        <div class="example-slide">
+            <div class="examples-scroll-area">
+                <a href="https://p.jagran.com/" target="new" class="example-links">
+                    <div class="example-card">
+                        <div class="project-image">
+                            <img src="https://cdn.protograph.pykih.com/Assets/example-slides-images/jal-jagran.png" width="100%">
+                        </div>
+                        <div class="project-name">Jal Jagran</div>
+                        <div class="project-one-liner">
+                            A data-driven effort to understand what is the status of ground water in different states of the country.
+                        </div>
+                        <div class="publisher-logo">
+                            <img src="https://cdn.protograph.pykih.com/Assets/example-slides-images/jagran.png" height="20px">
+                        </div>
+                    </div>
+                </a>
+
+                <a href="https://cdn.protograph.pykih.com/nl-silenced/index.html" target="new" class="example-links">
+                    <div class="example-card">
+                        <div class="project-image">
+                            <img src="https://cdn.protograph.pykih.com/Assets/example-slides-images/silenced.png" width="100%">
+                        </div>
+                        <div class="project-name">Silenced</div>
+                        <div class="project-one-liner">
+                            An ongoing, crowdsourced effort to keep a record of journalists killed in the line of duty across India.
+                        </div>
+                        <div class="publisher-logo">
+                            <img src="https://cdn.protograph.pykih.com/Assets/example-slides-images/newslaundry.png" height="20px">
+                        </div>
+                    </div>
+                </a>
+
+                <a href="https://portal.ceew.in/" target="new" class="example-links">
+                    <div class="example-card">
+                        <div class="project-image">
+                            <img src="https://cdn.protograph.pykih.com/Assets/example-slides-images/solar-pump.png" width="100%">
+                        </div>
+                        <div class="project-name">Solar Pump Tool</div>
+                        <div class="project-one-liner">
+                            A decision support tool for evaluating the potential of solar-powered irrigation in India.
+                        </div>
+                        <div class="publisher-logo">
+                            <img src="https://cdn.protograph.pykih.com/Assets/example-slides-images/ceew.png" height="20px">
+                        </div>
+                    </div>
+                </a>
+
+                <a href="https://data.responsiblebiz.org/stories/india-responsible-business-index-44.html" target="new" class="example-links">
+                    <div class="example-card">
+                        <div class="project-image">
+                            <img src="https://cdn.protograph.pykih.com/Assets/example-slides-images/oxfam-cover.png" width="100%">
+                        </div>
+                        <div class="project-name">#RESPONSIBLEBIZ</div>
+                        <div class="project-one-liner">
+                            A platform which promotes data driven dialogue and action on responsible business practices of Indian companies.
+                        </div>
+                        <div class="publisher-logo">
+                            <img src="https://cdn.protograph.pykih.com/Assets/example-slides-images/oxfam.png" height="20px">
+                        </div>
+                    </div>
+                </a>
+
+                <a href="https://landconflictwatch.pro.to/" target="new" class="example-links">
+                    <div class="example-card">
+                        <div class="project-image">
+                            <img src="https://cdn.protograph.pykih.com/Assets/example-slides-images/lcw-cover.png" width="100%">
+                        </div>
+                        <div class="project-name">Land Conflict Watch</div>
+                        <div class="project-one-liner">
+                            A research-based data journalism project that maps and analyzes ongoing land conflicts in India.
+                        </div>
+                        <div class="publisher-logo">
+                            <img src="https://cdn.protograph.pykih.com/Assets/example-slides-images/lcw-logo.png" height="20px">
+                        </div>
+                    </div>
+                </a>
+
+                <a href="https://p.factchecker.in/" target="new" class="example-links">
+                    <div class="example-card">
+                        <div class="project-image">
+                            <img src="https://cdn.protograph.pykih.com/Assets/example-slides-images/hate-crime-cover.png" width="100%">
+                        </div>
+                        <div class="project-name">Hate Crime Watch</div>
+                        <div class="project-one-liner">
+                            Gathering evidence regarding the nature, extent and gravity of religion-based hate violence.
+                        </div>
+                        <div class="publisher-logo">
+                            <img src="https://cdn.protograph.pykih.com/Assets/example-slides-images/fact-checker.png" height="20px">
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+
+        <br><br><br><br><br><br><br><br><br>
+
+        <div class="container">
+            <div class="page-content">
+                <h1 id="micro-sites">Create micro-sites</h1>
+                <p>Use Proto to launch verticals around themes with aggregation, curation and originals.</p>
+                <p>
+                    This will allow you to build a body of work (and thus credibility) around specific themes that your readers care about. Publishers are using Verticals as a sandbox environment to try out new themes.
+                </p>
+                <br>
+            </div>
+            <div class="demo-area">
+                <img class="mockup-image" src="https://cdn.protograph.pykih.com/Assets/example-slides-images/mac-mockup.png" width="600px">
+                <img class="demo-image" src="https://cdn.protograph.pykih.com/Assets/example-slides-images/home-article-demo.gif" width="600px">
+            </div>
+        </div>
+
+        <br><br><br>
+
+        <h3>Our work</h3>
+        <div class="example-slide">
+            <div class="examples-scroll-area">
+                <a href="https://p.thewire.in/" target="new" class="example-links">
+                    <div class="example-card">
+                        <div class="project-image">
+                            <img src="https://cdn.protograph.pykih.com/Assets/example-slides-images/manual-scavenger.png" width="100%">
+                        </div>
+                        <div class="project-name">#GRIT</div>
+                        <div class="project-one-liner">
+                            The manual scavenger is inextricably tied to the brutal realities and stubborn inequities of caste.
+                        </div>
+                        <div class="publisher-logo">
+                            <img src="https://cdn.protograph.pykih.com/Assets/example-slides-images/thewire.png" height="20px">
+                        </div>
+                    </div>
+                </a>
+                <a href="https://p.jagran.com/" target="new" class="example-links">
+                    <div class="example-card">
+                        <div class="project-image">
+                            <img src="https://cdn.protograph.pykih.com/Assets/example-slides-images/jal-jagran.png" width="100%">
+                        </div>
+                        <div class="project-name">Jal Jagran</div>
+                        <div class="project-one-liner">
+                            A data-driven effort to understand what is the status of ground water in different states of the country.
+                        </div>
+                        <div class="publisher-logo">
+                            <img src="https://cdn.protograph.pykih.com/Assets/example-slides-images/jagran.png" height="20px">
+                        </div>
+                    </div>
+                </a>
+
+                <a href=https://cdn.protograph.pykih.com/nl-silenced/index.html" target="new" class="example-links">
+                    <div class="example-card">
+                        <div class="project-image">
+                            <img src="https://cdn.protograph.pykih.com/Assets/example-slides-images/silenced.png" width="100%">
+                        </div>
+                        <div class="project-name">Silenced</div>
+                        <div class="project-one-liner">
+                            An ongoing, crowdsourced effort to keep a record of journalists killed in the line of duty across India.
+                        </div>
+                        <div class="publisher-logo">
+                            <img src="https://cdn.protograph.pykih.com/Assets/example-slides-images/newslaundry.png" height="20px">
+                        </div>
+                    </div>
+                </a>
+
+                <a href="https://p.deccanherald.com/focusbengaluru.html" target="new" class="example-links">
+                    <div class="example-card">
+                        <div class="project-image">
+                            <img src="https://cdn.protograph.pykih.com/Assets/example-slides-images/focus-bengaluru.png" width="100%">
+                        </div>
+                        <div class="project-name">#FocusBengaluru</div>
+                        <div class="project-one-liner">
+                            
+                        </div>
+                        <div class="publisher-logo">
+                            <img src="https://cdn.protograph.pykih.com/Assets/example-slides-images/dh.png" height="20px">
+                        </div>
+                    </div>
+                </a>
+
+                <a href="https://p.prajavani.net/naari-patha.html" target="new" class="example-links">
+                    <div class="example-card">
+                        <div class="project-image">
+                            <img src="https://cdn.protograph.pykih.com/Assets/example-slides-images/prajavani-cover.png" width="100%">
+                        </div>
+                        <div class="project-name">Naripatha</div>
+                        <div class="project-one-liner">
+                            
+                        </div>
+                        <div class="publisher-logo">
+                            <img src="https://cdn.protograph.pykih.com/Assets/example-slides-images/prajavani.png" height="20px">
+                        </div>
+                    </div>
+                </a>
+
+                <a href="https://portal.ceew.in/" target="new" class="example-links">
+                    <div class="example-card">
+                        <div class="project-image">
+                            <img src="https://cdn.protograph.pykih.com/Assets/example-slides-images/solar-pump.png" width="100%">
+                        </div>
+                        <div class="project-name">Solar Pump Tool</div>
+                        <div class="project-one-liner">
+                            A decision support tool for evaluating the potential of solar-powered irrigation in India.
+                        </div>
+                        <div class="publisher-logo">
+                            <img src="https://cdn.protograph.pykih.com/Assets/example-slides-images/ceew.png" height="20px">
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <br><br><br><br><br><br><br><br><br>
     </div>
-    <div style="margin-left: auto; margin-right: auto; width: 300px;">
-        <br/>
-        <br/>
-        <%= link_to "Sign up for free", new_registration_path(resource_name) %><br />
-        <%= link_to "I cannot access my account", new_password_path(resource_name) %><br />
-        <%= link_to "Didn't receive confirmation token?", new_confirmation_path(resource_name) %><br />
-        
-    </div>
+
+    
