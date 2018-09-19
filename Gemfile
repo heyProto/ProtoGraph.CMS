@@ -5,7 +5,7 @@ git_source(:bitbucket) do |repo_name|
   "https://bitbucket.org/#{repo_name}"
 end
 
-ruby "2.3.3"
+ruby "2.5.1"
 
 #RAILS
 gem 'rails', '~> 5.1.1'
