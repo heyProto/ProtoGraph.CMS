@@ -318,9 +318,6 @@ tapp_coverstory_card = TemplateApp.create({
 TemplateCard.create({name: "toCoverStory", git_branch: "master", git_repo_name: "ProtoGraph.Card.toCoverStory", status: "published", site_id: pykih_site.id, created_by: user_id, updated_by: user_id, template_datum_id: t_cstory.id, s3_identifier: "fe91c98819d83e422f2c ",has_multiple_uploads: false, is_editable: true, allowed_views: ["col16","col4"], template_app_id: tapp_coverstory_card.id})
 
 # FactChecker Header Card
-
-#========= New Version ==========#
-
 tapp_factchecker_header = TemplateApp.create({
     site_id: pykih_site.id,
     name: "FactCheckerHeader",
@@ -350,3 +347,65 @@ tapp_factchecker_header_card = TemplateApp.create({
 })
 
 TemplateCard.create({name: "FactCheckerHeader", git_branch: "master", git_repo_name: "ProtoGraph.Card.FactCheckerHeader", status: "published", site_id: pykih_site.id, created_by: user_id, updated_by: user_id, template_datum_id: t_factchecker_header.id, s3_identifier: "786b8a918de9dc171ca6", has_multiple_uploads: false, is_editable: true, allowed_views: ["col16","col4"], template_app_id: tapp_factchecker_header_card.id})
+
+# Header Card
+tapp_header = TemplateApp.create({
+    site_id: pykih_site.id,
+    name: "Header",
+    genre: "datum",
+    pitch: "",
+    description: "",
+    is_public: true,
+    change_log: "",
+    git_url: "git@bitbucket.org:heyProto/protograph.schemas.git",
+    is_system_installed: true,
+    is_backward_compatible: true,
+})
+
+t_header = TemplateDatum.create({name: "ProtoGraph.Card.toHeader", version: "0.0.1", s3_identifier: "42f4dc7c665cc0b6d803", template_app_id: tapp_header.id, site_id: pykih_site.id})
+
+tapp_header_card = TemplateApp.create({
+    site_id: pykih_site.id,
+    name: "Header",
+    genre: "card",
+    pitch: "",
+    description: "",
+    is_public: true,
+    change_log: "",
+    git_url: "git@bitbucket.org:heyProto/protograph.cards.toheader.git",
+    is_system_installed: true,
+    is_backward_compatible: true,
+})
+
+TemplateCard.create({name: "Header", git_branch: "master", git_repo_name: "ProtoGraph.Card.toHeader", status: "published", site_id: pykih_site.id, created_by: user_id, updated_by: user_id, template_datum_id: t_header.id, s3_identifier: "911359e9dad3e71f4274", has_multiple_uploads: false, is_editable: true, allowed_views: ["col16","col4"], template_app_id: tapp_header_card.id})
+
+# DTE Modal Card
+tapp_dte_modal = TemplateApp.create({
+    site_id: pykih_site.id,
+    name: "DteCourtCase",
+    genre: "datum",
+    pitch: "",
+    description: "",
+    is_public: true,
+    change_log: "",
+    git_url: "git@bitbucket.org:heyProto/protograph.schemas.git",
+    is_system_installed: true,
+    is_backward_compatible: true,
+})
+
+t_dte_modal = TemplateDatum.create({name: "ProtoGraph.Card.toDteCourtCase", version: "0.0.1", s3_identifier: "25c75ebc0843b743b646", template_app_id: tapp_dte_modal.id, site_id: pykih_site.id})
+
+tapp_dte_modal_card = TemplateApp.create({
+    site_id: pykih_site.id,
+    name: "DteCourtCase",
+    genre: "card",
+    pitch: "",
+    description: "",
+    is_public: true,
+    change_log: "",
+    git_url: "git@bitbucket.org:heyProto/protograph.cards.todtecourtcase.git",
+    is_system_installed: true,
+    is_backward_compatible: true,
+})
+
+TemplateCard.create({name: "DteCourtCase", git_branch: "master", git_repo_name: "ProtoGraph.Card.toDteCourtCase", status: "published", site_id: pykih_site.id, created_by: user_id, updated_by: user_id, template_datum_id: t_dte_modal.id, s3_identifier: "572ec58c71b757b1cae8", has_multiple_uploads: false, is_editable: true, allowed_views: ["col7","col4"], template_app_id: tapp_dte_modal_card.id})
