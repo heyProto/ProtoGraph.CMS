@@ -42,13 +42,13 @@ Rails.application.routes.draw do
       resources :template_data, only: [:create]
     end
   end
-    
+
   get ":site_id/apps", to: "template_apps#index", as: :apps_site
   get ":site_id/apps/d/:template_datum_id", to: "template_data#show", as: :site_template_datum
   get ":site_id/apps/d/:template_datum_id/:id", to: "template_fields#edit", as: :edit_site_template_datum_template_field
-  
+
   resources :sites do
-    #app store --- 
+    #app store ---
     resources :template_apps, only: [:edit, :update]
     resources :site_template_apps, only: [:index, :destroy, :install] do
       post "invite", on: :member
@@ -60,8 +60,8 @@ Rails.application.routes.draw do
         get "move_down", on: :member
       end
     end
-    #app store --- 
-    
+    #app store ---
+
     resources :permissions do
       get "change_owner_role", on: :member
       put "change_role", on: :member
@@ -116,6 +116,11 @@ Rails.application.routes.draw do
       post :download, on: :member
     end
   end
-  
+
+  namespace :admin do
+    resources "template_pages"
+  end
+
+
   root 'static_pages#index'
 end

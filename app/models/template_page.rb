@@ -40,11 +40,13 @@ class TemplatePage < ApplicationRecord
     has_many :pages
 
     #ACCESSORS
+    attr_accessor :is_public, :genre, :pitch, :is_system_installed
     #VALIDATIONS
     validates :name, presence: true
 
     #CALLBACKS
     before_create :before_create_set
+    after_commit :after_commit_set
 
     #SCOPE
     #OTHER
@@ -71,10 +73,13 @@ class TemplatePage < ApplicationRecord
         slug.blank? || name_changed?
     end
 
-     def before_create_set
+    def before_create_set
         self.global_slug = self.name.parameterize
-        self.s3_identifier = SecureRandom.hex(6) if self.s3_identifier.blank?
+        self.s3_identifier = SecureRandom.hex(10) if self.s3_identifier.blank?
         true
+    end
+
+    def after_commit_set
     end
 
 end
