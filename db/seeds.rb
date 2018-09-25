@@ -246,9 +246,34 @@ TemplatePage.create({
                     })
 
 
-
-
 #========= New Version ==========#
+
+tpage_dte_grid = TemplateApp.create({
+    site_id: pykih_site.id,
+    name: "DTE: data grid",
+    genre: "page",
+    pitch: "",
+    description: "",
+    is_public: true,
+    change_log: "",
+    git_url: "git@bitbucket.org:heyProto/cse-dte.git",
+    is_system_installed: true,
+    is_backward_compatible: true,
+})
+
+
+TemplatePage.create({
+    site_id: pykih_site.id,
+    name: "DTE: data grid",
+    git_repo_name: "",
+    status: "published",
+    is_public: true,
+    s3_identifier: "ea63a56d0734b717fc8d",
+    created_by: user_id,
+    updated_by: user_id,
+    template_app_id: tpage_dte_grid.id
+})
+
 
 tapp_footer = TemplateApp.create({
     site_id: pykih_site.id,
