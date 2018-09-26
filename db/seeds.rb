@@ -434,3 +434,33 @@ tapp_dte_modal_card = TemplateApp.create({
 })
 
 TemplateCard.create({name: "DteCourtCase", git_branch: "master", git_repo_name: "ProtoGraph.Card.toDteCourtCase", status: "published", site_id: pykih_site.id, created_by: user_id, updated_by: user_id, template_datum_id: t_dte_modal.id, s3_identifier: "572ec58c71b757b1cae8", has_multiple_uploads: false, is_editable: true, allowed_views: ["col7","col4"], template_app_id: tapp_dte_modal_card.id})
+
+
+# Home page
+
+
+tpage_proto_public = TemplateApp.create({
+    site_id: pykih_site.id,
+    name: "Proto: Public Landing",
+    genre: "page",
+    pitch: "",
+    description: "",
+    is_public: true,
+    change_log: "",
+    git_url: "git@bitbucket.org:heyProto/public-website.git",
+    is_system_installed: true,
+    is_backward_compatible: true,
+})
+
+
+TemplatePage.create({
+    site_id: pykih_site.id,
+    name: "DTE: data grid",
+    git_repo_name: "",
+    status: "published",
+    is_public: true,
+    s3_identifier: "28cea69cc6e27466d535",
+    created_by: user_id,
+    updated_by: user_id,
+    template_app_id: tpage_proto_public.id
+})
