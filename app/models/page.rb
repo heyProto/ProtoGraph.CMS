@@ -674,7 +674,7 @@ class Page < ApplicationRecord
   def create_image_narrative_data_json
     data = {"data" => {
       "img_url": "#{cover_image_url}",
-      "title": "#{self.headline}"
+      "caption": "#{self.headline}"
     }}
     data
   end
