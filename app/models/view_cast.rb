@@ -64,7 +64,7 @@ class ViewCast < ApplicationRecord
     after_save :after_save_set
     after_create :after_create_set
     before_save :before_save_set
-    after_save :after_save_set
+    after_commit :after_commit_set
     before_destroy :before_destroy_set
 
     #SCOPE
@@ -151,7 +151,7 @@ class ViewCast < ApplicationRecord
         self.update_column(:published_at, self.updated_at) if ["toStory", "toCluster"].exclude?(self.template_card.name)
     end
 
-    def after_save_set
+    def after_commit_set
         StreamUpdateWorker.perform_async(self.id) if Rails.env.production?
     end
 

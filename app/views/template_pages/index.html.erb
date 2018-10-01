@@ -1,0 +1,23 @@
+<div style="margin-left: auto; margin-right: auto; width: 540px;">
+    <h1 style='display: inline; float: left'>Template Pages</h1>
+    <%= link_to 'Add', new_template_page_path, style: 'display: inline; float: right' %>
+    <div style='clear:both'></div>
+    <br/>
+    <br/>
+    <table class='table table-expanded'>
+        <tbody>
+            <% @template_pages.each do |template_page| %>
+                <tr>
+                    <td>
+                      <%= template_page.name%>
+                      <p class="hint"><%= template_page.s3_identifier %></p>
+                    </td>
+                    <td style='text-align: right'>
+                        <%= link_to 'Edit Files', template_page, method: :delete, data: { confirm: 'Are you sure?' } %>
+                    </td>
+                </tr>
+                <% end %>
+        </tbody>
+    </table>
+    <%= paginate @template_pages, theme: 'twitter-bootstrap-4', pagination_class: "pagination-sm" %>
+</div>

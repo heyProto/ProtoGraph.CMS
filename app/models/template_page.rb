@@ -38,6 +38,7 @@ class TemplatePage < ApplicationRecord
     #ASSOCIATIONS
     belongs_to :template_app
     has_many :pages
+    accepts_nested_attributes_for :template_app
 
     #ACCESSORS
     attr_accessor :is_public, :genre, :pitch, :is_system_installed

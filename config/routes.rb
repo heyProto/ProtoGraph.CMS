@@ -1,8 +1,5 @@
 Rails.application.routes.draw do
 
-  require 'sidekiq/web'
-  mount Sidekiq::Web => '/sidekiq'
-
   devise_for :users, controllers: {registrations: 'user/registrations'} do
     get 'sign_out', to: 'devise/sessions#destroy'
   end
@@ -117,8 +114,8 @@ Rails.application.routes.draw do
     end
   end
 
-  namespace :admin do
-    resources "template_pages"
+  scope :admin do
+    resources "template_pages", only: [:index, :create, :update, :edit, :destroy]
   end
 
 

@@ -18,9 +18,9 @@ class Api::V1::DatacastsController < ApiController
         end
         if ['toStory', 'toCluster'].include?(view_cast.template_card.name)
             view_cast.series = @folder.vertical
-            view_cast.published_at = Date.parse(datacast_params['data'][TemplateCard::PUBLISHED_COLUMN_MAP[view_cast.template_card.name]])
             datacast_params['data']['series'] = @folder.vertical.name
         end
+        view_cast.published_at = Date.parse(datacast_params['data'][TemplateCard::PUBLISHED_COLUMN_MAP[view_cast.template_card.name]] || Date.today.to_s)
         payload["payload"] = datacast_params.to_json
         payload["source"]  = params[:source] || "form"
         if view_cast.save
@@ -58,8 +58,8 @@ class Api::V1::DatacastsController < ApiController
         end
         if ['toStory', 'toCluster'].include?(view_cast.template_card.name)
             view_cast.series = @folder.vertical
-            view_cast.published_at = Date.parse(datacast_params['data'][TemplateCard::PUBLISHED_COLUMN_MAP[view_cast.template_card.name]])
         end
+        view_cast.published_at = Date.parse(datacast_params['data'][TemplateCard::PUBLISHED_COLUMN_MAP[view_cast.template_card.name]])
         payload["bucket_name"] = @site.cdn_bucket
         r = Api::ProtoGraph::Datacast.update(payload)
         if r.has_key?("errorMessage")

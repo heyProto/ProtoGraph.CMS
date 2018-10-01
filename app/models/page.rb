@@ -204,11 +204,11 @@ class Page < ApplicationRecord
     major_stream_blockquotes = {}
     case self.template_page.name
     when 'Homepage: Vertical'
-      major_streams = ["#{self.id}_Section_16c_Hero", "#{self.id}_Section_7c", "#{self.id}_Section_4c" , "#{self.id}_Section_3c", "#{self.id}_Section_2c", "#{self.id}_Section_credits", "#{self.id}_Section_cta"]
+      major_streams = ["#{self.id}_Section_16c_Hero", "#{self.id}_Section_7c", "#{self.id}_Section_4c" , "#{self.id}_Section_3c", "#{self.id}_Section_2c", "#{self.id}_Section_credits", "#{self.id}_Section_cta", "#{self.id}_Section_footer"]
     when 'article'
-      major_streams = ["#{self.id}_Story_16c_Hero", "#{self.id}_Story_Narrative", "#{self.id}_Story_Related"]
+      major_streams = ["#{self.id}_Story_16c_Hero", "#{self.id}_Story_Narrative", "#{self.id}_Story_Related", "#{self.id}_Story_footer"]
     else
-      major_streams = ["#{self.id}_Data_credits"]
+      major_streams = ["#{self.id}_Data_credits", "#{self.id}_Data_footer"]
     end
 
     self.streams.each do |stream|
@@ -580,7 +580,7 @@ class Page < ApplicationRecord
 
       invalidation_array << "/#{cover_story_card.datacast_identifier}/*"
       #Creating ImageNarrative Card
-      if self.cover_image.present?
+      if self.image_narrative_id.present?
         narrative_json = create_image_narrative_data_json
         if self.image_narrative.present?
           image_narrative = self.image_narrative
@@ -654,7 +654,7 @@ class Page < ApplicationRecord
     data["data"]["imageurl"] = self.cover_image_url.to_s if self.cover_image_url.present?
     data["data"]["col7imageurl"] = self.cover_image_url_7_column.to_s if self.cover_image_url_7_column.present?
     data["data"]["focus"] = (self.cover_image_alignment == "horizontal") ? "h" : "v"
-    data["data"]["country"] = "India"
+    data["data"]["country"] = ""
     data["data"]["state"] = ""
     data["data"]["city"] = ""
     data["data"]["sponsored"] = self.is_sponsored.to_s if self.is_sponsored.present?
@@ -673,7 +673,8 @@ class Page < ApplicationRecord
 
   def create_image_narrative_data_json
     data = {"data" => {
-      "img_url": "#{cover_image_url}"
+      "img_url": "#{cover_image_url}",
+      "title": "#{self.headline}"
     }}
     data
   end
@@ -838,10 +839,8 @@ class Page < ApplicationRecord
       streams = [["Section_16c_Hero", "Hero"], ["Section_7c", "Read"], ["Section_4c", "Join"], ["Section_3c", "Scan"], ["Section_2c", "Talk"], ["Section_credits", "Credits"], ["Section_cta", "CTA"], ["Section_footer", "Footer"]]
     when 'article'
       streams = [["Story_16c_Hero", "Hero"], ["Story_Narrative", "Narrative"], ["Story_Related", "Related"], ["Story_footer", "Footer"]]
-    when 'data grid'
-      streams = [["Data_16c_Hero", "Hero"], ["Data_Grid", "#{self.id}_Section_data"]]
     else
-      streams = [["Data_16c_Hero", "Hero"], ["Data_Grid", "#{self.id}_Section_data"], ["Data_credits", "Credits"]]
+      streams = [["Data_16c_Hero", "Hero"], ["Data_Grid", "#{self.id}_Data_data"], ["Data_credits", "Credits"], ["Data_footer", "Footer"]]
     end
     streams.each do |s|
       stream = Stream.create!({

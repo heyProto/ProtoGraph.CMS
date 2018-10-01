@@ -39,6 +39,7 @@
 <%= f.input :share_text_twitter, label: "Share text for Twitter",input_html: {id: "proto_app_page_tw_text", is_edited: (@page.summary == @page.share_text_twitter) ? false : true, og_value: @page.share_text_twitter } %>
 <%= f.input :meta_keywords, label: "Meta keywords for SEO", maxlength: 255 %>
 <%= f.input :meta_description, input_html: {id: "proto_app_page_meta_desc", is_edited: (@page.summary == @page.meta_description) ? false : true, og_value: @page.meta_description }, label: "Meta Description for SEO" %>
+<%= f.input :from_page, as: :hidden, input_html: {value: "page_distribute"}%>
 
 
 <script>
