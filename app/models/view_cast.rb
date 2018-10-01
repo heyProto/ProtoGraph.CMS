@@ -148,7 +148,7 @@ class ViewCast < ApplicationRecord
             end
             self.permissions.where(permissible_id: (prev_collaborator_ids - self.collaborator_lists.map{|a| a.to_i})).update_all(status: 'Deactivated')
         end
-        self.update_column(:published_at, self.updated_at) if ["toStory", "toCluster"].exclude?(self.template_card.name)
+        #self.update_column(:published_at, self.updated_at) if ["toStory", "toCluster"].exclude?(self.template_card.name)
     end
 
     def after_commit_set
