@@ -775,7 +775,7 @@ class Page < ApplicationRecord
       payload["schema_url"] = to_para_schema.schema_json
       payload["source"] = "form"
       payload["bucket_name"] = site.cdn_bucket
-      r = Api::ProtoGraph::Datacast.create(payload)
+      Api::ProtoGraph::Datacast.create(payload)
       view_cast_lists << view_cast.id
     end
     view_cast_lists += narrative_stream.view_cast_ids.pluck(:entity_value)

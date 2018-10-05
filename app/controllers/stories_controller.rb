@@ -22,7 +22,7 @@ class StoriesController < ApplicationController
         @page.created_by = current_user.id
         @page.updated_by = current_user.id
         @page.collaborator_lists = ["#{current_user.id}"] if ["contributor", "writer"].include?(@permission_role.slug)
-        if @page.save!
+        if @page.save
           redirect_to site_stories_path(@site, folder_id: @page.folder_id), notice: 'Page was successfully created.'
         else
           flash.now.alert = @page.errors.full_messages
@@ -44,7 +44,6 @@ class StoriesController < ApplicationController
       @ref_sub_intersection = RefCategory.where(site_id: @site.id, genre: "sub intersection", is_disabled: [false, nil]).order(:name).map {|r| ["#{r.name}", r.id]}
       @ref_sub_intersections = RefCategory.where(site_id: @site.id, genre: "sub intersection", is_disabled: [false, nil]).order(:name)
       @article = TemplatePage.where(name: "article").first
-
     end
   end
 
