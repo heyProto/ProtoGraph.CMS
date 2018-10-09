@@ -59,7 +59,7 @@ class Api::V1::DatacastsController < ApiController
         if ['toStory', 'toCluster'].include?(view_cast.template_card.name)
             view_cast.series = @folder.vertical
         end
-        view_cast.published_at = Date.parse(datacast_params['data'][TemplateCard::PUBLISHED_COLUMN_MAP[view_cast.template_card.name]])
+        view_cast.published_at = Date.parse(datacast_params['data'][TemplateCard::PUBLISHED_COLUMN_MAP[view_cast.template_card.name]] || Date.today.to_s)
         payload["bucket_name"] = @site.cdn_bucket
         r = Api::ProtoGraph::Datacast.update(payload)
         if r.has_key?("errorMessage")
