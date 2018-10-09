@@ -24,7 +24,7 @@
                   <span style="color: lightgray; font-size: 1rem !important;">
                       &nbsp;
                       |
-                      &nbsp; 
+                      &nbsp;
                       <% if controller_name == "sites" and action_name == "show" %>
                           <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color: #286EFA !important;"><%= truncate @site.domain, length: 40, ommission: ".." %></a>
                           <% if @sites.count > 1 %>
@@ -42,7 +42,7 @@
                   </span>
               <% else %>
                   <%= link_to image_tag("proto-dark.png", style: "height: 20px;"), root_url %>
-              <% end %>           
+              <% end %>
           </span>
           <ul class="navbar-nav">
             <% if user_signed_in? %>
@@ -53,7 +53,7 @@
                         Assets
                       </a>
                       <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <%= link_to "Images", site_images_path(@site), "data-turbolinks"=> false, class: "dropdown-item" %> 
+                        <%= link_to "Images", site_images_path(@site), "data-turbolinks"=> false, class: "dropdown-item" %>
                       </div>
                     </li>
                     <% if current_user.is_admin_from_pykih %>
@@ -92,5 +92,34 @@
     var notice = <%= config.to_json.html_safe %>;
     if (notice.notify) generate_notify(notice);
   </script>
+
+  <script>
+    "use strict";
+
+    !function() {
+      var t = window.driftt = window.drift = window.driftt || [];
+      if (!t.init) {
+        if (t.invoked) return void (window.console && console.error && console.error("Drift snippet included twice."));
+        t.invoked = !0, t.methods = [ "identify", "config", "track", "reset", "debug", "show", "ping", "page", "hide", "off", "on" ],
+        t.factory = function(e) {
+          return function() {
+            var n = Array.prototype.slice.call(arguments);
+            return n.unshift(e), t.push(n), t;
+          };
+        }, t.methods.forEach(function(e) {
+          t[e] = t.factory(e);
+        }), t.load = function(t) {
+          var e = 3e5, n = Math.ceil(new Date() / e) * e, o = document.createElement("script");
+          o.type = "text/javascript", o.async = !0, o.crossorigin = "anonymous", o.src = "https://js.driftt.com/include/" + n + "/" + t + ".js";
+          var i = document.getElementsByTagName("script")[0];
+          i.parentNode.insertBefore(o, i);
+        };
+      }
+    }();
+    drift.SNIPPET_VERSION = '0.3.1';
+    drift.load('v924r82wb58n');
+    </script>
+
+
 </body>
 </html>
