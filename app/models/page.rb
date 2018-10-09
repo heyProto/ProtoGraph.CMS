@@ -98,8 +98,8 @@ class Page < ApplicationRecord
   accepts_nested_attributes_for :cover_image
 
   #VALIDATIONS
-  validates :headline, presence: true, length: { in: 5..90 }
-  validates :one_line_concept, presence: true, length: { in: 5..90 }, allow_blank: true
+  validates :headline, presence: true, length: { in: 4..90 }
+  validates :one_line_concept, presence: true, length: { in: 4..90 }, allow_blank: true
   validates :summary, length: { in: 50..220 }, allow_blank: true
   validates :html_key,  format: {with: /\A[^\s!#$%^&*()（）=+;:'"\[\]\{\}|\\@#<>?,]+\z/ }, length: { in: 5..255 }, on: :update
 
