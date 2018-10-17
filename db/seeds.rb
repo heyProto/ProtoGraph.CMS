@@ -274,6 +274,110 @@ TemplatePage.create({
     template_app_id: tpage_dte_grid.id
 })
 
+tpage_proto_team = TemplateApp.create({
+    site_id: pykih_site.id,
+    name: "Proto: team grid",
+    genre: "page",
+    pitch: "",
+    description: "",
+    is_public: true,
+    change_log: "",
+    git_url: "git@bitbucket.org:heyProto/proto-public-team.git",
+    is_system_installed: true,
+    is_backward_compatible: true,
+})
+
+
+TemplatePage.create({
+    site_id: pykih_site.id,
+    name: "Proto: team grid",
+    git_repo_name: "",
+    status: "published",
+    is_public: true,
+    s3_identifier: "d6b2b19c6788c6465011",
+    created_by: user_id,
+    updated_by: user_id,
+    template_app_id: tpage_proto_team.id
+})
+
+tpage_proto_partner = TemplateApp.create({
+    site_id: pykih_site.id,
+    name: "Proto: partner grid",
+    genre: "page",
+    pitch: "",
+    description: "",
+    is_public: true,
+    change_log: "",
+    git_url: "git@bitbucket.org:heyProto/proto-public-partner.git",
+    is_system_installed: true,
+    is_backward_compatible: true,
+})
+
+
+TemplatePage.create({
+    site_id: pykih_site.id,
+    name: "Proto: partner grid",
+    git_repo_name: "",
+    status: "published",
+    is_public: true,
+    s3_identifier: "37cda85b8a50637fd5d7",
+    created_by: user_id,
+    updated_by: user_id,
+    template_app_id: tpage_proto_partner.id
+})
+
+tpage_proto_format = TemplateApp.create({
+    site_id: pykih_site.id,
+    name: "Proto: format grid",
+    genre: "page",
+    pitch: "",
+    description: "",
+    is_public: true,
+    change_log: "",
+    git_url: "git@bitbucket.org:heyProto/proto-public-format.git",
+    is_system_installed: true,
+    is_backward_compatible: true,
+})
+
+
+TemplatePage.create({
+    site_id: pykih_site.id,
+    name: "Proto: format grid",
+    git_repo_name: "",
+    status: "published",
+    is_public: true,
+    s3_identifier: "7613998bc8dd2fc20f94",
+    created_by: user_id,
+    updated_by: user_id,
+    template_app_id: tpage_proto_format.id
+})
+
+tpage_metoo_grid = TemplateApp.create({
+    site_id: pykih_site.id,
+    name: "Metoo: data grid",
+    genre: "page",
+    pitch: "",
+    description: "",
+    is_public: true,
+    change_log: "",
+    git_url: "git@bitbucket.org:heyProto/metoo.git",
+    is_system_installed: true,
+    is_backward_compatible: true,
+})
+
+
+TemplatePage.create({
+    site_id: pykih_site.id,
+    name: "Metoo: data grid",
+    git_repo_name: "",
+    status: "published",
+    is_public: true,
+    s3_identifier: "77fd88bf8fff7450b485",
+    created_by: user_id,
+    updated_by: user_id,
+    template_app_id: tpage_metoo_grid.id
+})
+
 
 tapp_footer = TemplateApp.create({
     site_id: pykih_site.id,
