@@ -539,6 +539,39 @@ tapp_dte_modal_card = TemplateApp.create({
 
 TemplateCard.create({name: "DteCourtCase", git_branch: "master", git_repo_name: "ProtoGraph.Card.toDteCourtCase", status: "published", site_id: pykih_site.id, created_by: user_id, updated_by: user_id, template_datum_id: t_dte_modal.id, s3_identifier: "572ec58c71b757b1cae8", has_multiple_uploads: false, is_editable: true, allowed_views: ["col7","col4"], template_app_id: tapp_dte_modal_card.id})
 
+# MeToo Card
+tapp_metoo = TemplateApp.create({
+    site_id: pykih_site.id,
+    name: "ToRecordMeToo",
+    genre: "datum",
+    pitch: "",
+    description: "",
+    is_public: false,
+    change_log: "",
+    git_url: "git@bitbucket.org:heyProto/protograph.schemas.git",
+    is_system_installed: true,
+    is_backward_compatible: true,
+})
+
+
+t_metoo = TemplateDatum.create({name: "ProtoGraph.Card.torecordmetoo", version: "0.0.1", s3_identifier: "2de38f040e0c87eb9d0d", template_app_id: tapp_metoo.id, site_id: pykih_site.id})
+
+
+tapp_metoo_card = TemplateApp.create({
+    site_id: pykih_site.id,
+    name: "ToRecordMeToo",
+    genre: "card",
+    pitch: "",
+    description: "",
+    is_public: false,
+    change_log: "",
+    git_url: "git@bitbucket.org:heyProto/torecordmetoo.git",
+    is_system_installed: true,
+    is_backward_compatible: true,
+})
+
+TemplateCard.create({name: "ToRecordMeToo", git_branch: "master", git_repo_name: "ProtoGraph.Card.torecordmetoo", status: "published", site_id: pykih_site.id, created_by: user_id, updated_by: user_id, template_datum_id: t_metoo.id, s3_identifier: "93470692abafeef5473d", has_multiple_uploads: false, is_editable: true, allowed_views: ["col16","col4"], template_app_id: tapp_metoo_card.id})
+
 
 # Home page
 
