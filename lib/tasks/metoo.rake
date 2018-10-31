@@ -1,6 +1,6 @@
 namespace :spotlight do
     task load_metoo_cards: :environment do
-        project_site = Rails.env.development? ? Site.friendly.find('pyktest') : Site.friendly.find('projects')
+        project_site = Rails.env.development? ? Site.friendly.find('pyktest') : Site.friendly.find('firstpost')
         current_user = User.find(2)
         template_card = TemplateCard.where(name: 'ToRecordMeToo').first
         all_crimes = JSON.parse(File.read("#{Rails.root.to_s}/ref/spotlight/metoo.json"))
@@ -9,7 +9,7 @@ namespace :spotlight do
             name = "#{d['accused_name']} - #{d['complainant_name']}"
             data = {}
             data["data"] = d
-            data["data"]['created_at'] = DateTime.strptime(d['created_at'], '%d/%m/%Y %H:%M:%S')
+            data["data"]['created_at'] = DateTime.strptime(d['created_at'], '%d/%m/%Y %H:%M:%S').to_s
             payload = {}
             payload["payload"] = data.to_json
             payload["source"]  = "form"
