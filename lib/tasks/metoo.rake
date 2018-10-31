@@ -6,21 +6,10 @@ namespace :spotlight do
         all_crimes = JSON.parse(File.read("#{Rails.root.to_s}/ref/spotlight/metoo.json"))
         folder = Rails.env.development? ? Folder.friendly.find('metoo') : Folder.friendly.find('database')
         all_crimes.each do |d|
-            name = "#{d['created_at']} - #{d['accused_name']} - #{d['complainant_name']}"
+            name = "#{d['accused_name']} - #{d['complainant_name']}"
             data = {}
             data["data"] = d
-            data["data"]['source_url'] = d['source_url']
-            data["data"]['text'] = d['text']
             data["data"]['created_at'] = DateTime.strptime(d['created_at'], '%d/%m/%Y %H:%M:%S')
-            data['data']['source_platform'] = d['source_platform']
-            data['data']['accused_name'] = d['accused_name']
-            data['data']['accused_org'] = d['accused_org']
-            data['data']['accused_handle'] = d['accused_handle']
-            data['data']['complainant_name'] = d['complainant_name']
-            data['data']['complainant_handle'] = d['complainant_handle']
-            data['data']['industry'] = d['industry']
-            data['data']['context'] = d['context']
-            data['data']['nautre'] = d['nature']
             payload = {}
             payload["payload"] = data.to_json
             payload["source"]  = "form"
