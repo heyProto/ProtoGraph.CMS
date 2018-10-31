@@ -570,7 +570,7 @@ tapp_metoo_card = TemplateApp.create({
     is_backward_compatible: true,
 })
 
-TemplateCard.create({name: "ToRecordMeToo", git_branch: "master", git_repo_name: "ProtoGraph.Card.torecordmetoo", status: "published", site_id: pykih_site.id, created_by: user_id, updated_by: user_id, template_datum_id: t_metoo.id, s3_identifier: "93470692abafeef5473d", has_multiple_uploads: false, is_editable: true, allowed_views: ["col16","col4"], template_app_id: tapp_metoo_card.id})
+TemplateCard.create({name: "ToRecordMeToo", git_branch: "master", git_repo_name: "ProtoGraph.Card.toRecordMeToo", status: "published", site_id: pykih_site.id, created_by: user_id, updated_by: user_id, template_datum_id: t_metoo.id, s3_identifier: "93470692abafeef5473d", has_multiple_uploads: false, is_editable: true, allowed_views: ["col16","col4"], template_app_id: tapp_metoo_card.id})
 
 
 # Home page
