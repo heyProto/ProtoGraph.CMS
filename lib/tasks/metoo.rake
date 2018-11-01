@@ -9,7 +9,7 @@ namespace :spotlight do
             name = "#{d['accused_name']} - #{d['complainant_name']}"
             data = {}
             data["data"] = d
-            data["data"]['created_at'] = DateTime.strptime(d['created_at'], '%d/%m/%Y %H:%M:%S').to_s
+            # data["data"]['created_at'] = DateTime.strptime(d['created_at'], '%d/%m/%Y %H:%M:%S').to_s
             payload = {}
             payload["payload"] = data.to_json
             payload["source"]  = "form"
