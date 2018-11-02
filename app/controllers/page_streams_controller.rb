@@ -2,7 +2,7 @@ class PageStreamsController < ApplicationController
   before_action :set_page_stream, only: [:update]
 
   def update
-    @page_stream.updated_by = current_user.id
+    # @page_stream.updated_by = current_user.id
     respond_to do |format|
       if @page_stream.update_attributes(page_stream_params)
         format.json { respond_with_bip(@page_stream) }
