@@ -8,14 +8,14 @@ namespace :util do
         
         current_cards = Stream.find(args[:stream_id]).cards.where(:template_card_id => args[:template_card_id])
         csv_string = CSV.open("file.csv", "wb") do |csv|
-            csv << current_cards.first.data_json['data'].keys
+            csv << current_cards.first.data_json['data'].keys.unshift('id')
             current_cards.each do |card|
                 
                 json_value = card.data_json['data']
 
                 puts json_value.values
 
-                csv << json_value.values
+                csv << json_value.values.unshift(card.id)
             end
         end
     end
