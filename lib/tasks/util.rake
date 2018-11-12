@@ -6,8 +6,7 @@ namespace :util do
     task :convert_cards, [:stream_id, :template_card_id] => [:environment] do |task, args|
         puts args[:stream_id], args[:template_card_id]
         
-        current_stream = Stream.find(args[:stream_id])
-        current_cards = current_stream.where(:template_card_id => args[:template_card_id])
+        current_cards = Stream.find(args[:stream_id]).where(:template_card_id => args[:template_card_id])
         csv_string = CSV.open("file.csv", "wb") do |csv|
             csv << current_cards.first.data_json['data'].keys
             current_cards.each do |card|
