@@ -580,7 +580,7 @@ class Page < ApplicationRecord
 
       invalidation_array << "/#{cover_story_card.datacast_identifier}/*"
       #Creating ImageNarrative Card
-      if self.image_narrative_id.present?
+      if self.cover_image_id.present?
         narrative_json = create_image_narrative_data_json
         if self.image_narrative.present?
           image_narrative = self.image_narrative
