@@ -86,20 +86,22 @@ Rails.application.configure do
     config.logger    = ActiveSupport::TaggedLogging.new(logger)
   end
 
-  FROM_EMAIL = "Protograph Internals <dev.pykih@gmail.com>"
+  FROM_EMAIL = "Protograph Internals <ab@pro.to>"
   config.active_record.dump_schema_after_migration = false
   BASE_URL = "https://platform.pro.to"
   AWS_API_DATACAST_URL = "https://d9y49oyask.execute-api.ap-south-1.amazonaws.com/production"
 
   config.action_mailer.default_url_options = { host: BASE_URL }
+  config.action_mailer.raise_delivery_errors = false
+  config.action_mailer.default_url_options = { host: "http://localhost:3000", port: 3000 }
+  #pub.pykih.com.smtp
   config.action_mailer.smtp_settings = {
-    address:              'smtp.gmail.com',
+    address:              'email-smtp.us-east-1.amazonaws.com',
     port:                 587,
-    domain:               'gmail.com',
-    user_name:            'dev.pykih@gmail.com',
-    password:             'indianmonsoon1234801',
-    authentication:       :plain,
-    enable_starttls_auto: true
+    user_name:            'AKIAIXC74YSZAIP3K5QA',
+    password:             'An8+nvo66UmJoOhqLvz50q+slGCe/w3gUjbbkinJdWUV',
+    authentication:       :login,
+    :enable_starttls_auto => true
   }
 
   Rails.application.config.middleware.use ExceptionNotification::Rack,

@@ -36,28 +36,27 @@ Rails.application.configure do
   # }
 
   # Don't care if the mailer can't send.
-  config.action_mailer.raise_delivery_errors = false
+  config.action_mailer.raise_delivery_errors = true
   config.action_mailer.default_url_options = { host: "http://localhost:3000", port: 3000 }
   #pub.pykih.com.smtp
-  # config.action_mailer.smtp_settings = {
-  #   address:              'email-smtp.us-east-1.amazonaws.com',
-  #   port:                 587,
-  #   user_name:            'AKIAJZRSAGVH74K7IJVQ',
-  #   password:             'AgeS1uzDGw4Bl1GuO3O6hqW4d0ehP/3XiYAAJcj4oVx5',
-  #   authentication:       :login,
-  #   :enable_starttls_auto => true
-  # }
-
-  FROM_EMAIL = "Protograph Internals <dev.pykih@gmail.com>"
   config.action_mailer.smtp_settings = {
-    address:              'smtp.gmail.com',
+    address:              'email-smtp.us-east-1.amazonaws.com',
     port:                 587,
-    domain:               'gmail.com',
-    user_name:            'dev.pykih@gmail.com',
-    password:             'indianmonsoon1234801',
-    authentication:       :plain,
-    enable_starttls_auto: true
+    user_name:            'AKIAIXC74YSZAIP3K5QA',
+    password:             'An8+nvo66UmJoOhqLvz50q+slGCe/w3gUjbbkinJdWUV',
+    authentication:       :login,
+    :enable_starttls_auto => true
   }
+
+  FROM_EMAIL = "Protograph Internals <info@pro.to>"
+  # config.action_mailer.smtp_settings = {
+  #   address:              "<%=  ENV['SES_ADDRESS'] %>",
+  #   port:                 587,
+  #   user_name:            "<%=  ENV['SES_USERNAME'] %>",
+  #   password:             "<%=  ENV['SES_PASSWORD'] %>",
+  #   authentication:       :login,
+  #   enable_starttls_auto: true
+  # }
 
   config.action_mailer.perform_caching = false
   config.action_mailer.perform_deliveries = true

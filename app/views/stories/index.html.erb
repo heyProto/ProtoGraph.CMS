@@ -1,5 +1,5 @@
 <h1>
-    <%= folder_name_(@folder)%>
+    <%= link_to folder_name_(@folder), site_stories_path(@site, folder_id: @folder.id), "data-turbolinks"=> false %>
     <% if !@folder.is_trash %>
         <span class="small thin"><%= link_to "Edit this workspace", edit_site_folder_path(@site, @folder) %></span>
     <% end %>
@@ -24,7 +24,7 @@
                   <% end %>
                 <% end %>
             </div>
-            
+
             <% if @pages.first.blank? %>
                 <div class="col-sm-16">
                     <div class="blankslate blankslate-spacious">
@@ -121,6 +121,6 @@
                       <% end %>
             <% end %>
     </div>
-    
+
 </div>
-    
+

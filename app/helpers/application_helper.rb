@@ -2,7 +2,7 @@ module ApplicationHelper
   def is_admins_controller
     params[:controller].split("/")[0] == "admin"
   end
-  
+
   def folder_name_(f)
     if f.vertical.present?
       return f.vertical.name + ": " + f.name.titleize
@@ -10,7 +10,7 @@ module ApplicationHelper
       return f.name.titleize
     end
   end
-  
+
   def folder_name_trunc_(f)
     if f.vertical.present?
         if f.vertical.name_html.present?
@@ -22,7 +22,7 @@ module ApplicationHelper
         return f.name.titleize
     end
   end
-  
+
   def page_status(p)
     case p.status
       when "Draft: Planning"
@@ -43,5 +43,5 @@ module ApplicationHelper
         return "<span class='badge badge-secondary article-status-published--public'>#{p.status}</span>"
     end
   end
-    
+
 end

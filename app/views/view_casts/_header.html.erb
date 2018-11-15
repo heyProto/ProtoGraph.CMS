@@ -1,5 +1,5 @@
 <h1>
-    <%= folder_name_(@folder)%>
+    <%= link_to folder_name_(@folder), site_folder_view_casts_path(@site, @folder) %>
     <% if !@folder.is_trash %>
         <span class="small thin"><%= link_to "Edit this workspace", edit_site_folder_path(@site, @folder) %></span>
     <% end %>
