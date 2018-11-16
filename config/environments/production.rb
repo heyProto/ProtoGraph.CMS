@@ -93,7 +93,6 @@ Rails.application.configure do
 
   config.action_mailer.default_url_options = { host: BASE_URL }
   config.action_mailer.raise_delivery_errors = false
-  config.action_mailer.default_url_options = { host: "http://localhost:3000", port: 3000 }
   #pub.pykih.com.smtp
   config.action_mailer.smtp_settings = {
     address:              'email-smtp.us-east-1.amazonaws.com',
