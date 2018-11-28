@@ -81,7 +81,26 @@ class RefCategory < ApplicationRecord
         else
             ViewCast.where(template_card_id: TemplateCard.where(name: "toStory").pluck(:id)).where(ref_category_sub_intersection_id: self.id)
         end
+    end
 
+    def cards_as_json
+        view_casts = site.view_casts.select(:name, :id, :folder_id, :template_card_id, :datacast_identifier, :site_id).includes(:folder, :template_card).where.not(template_card_id: TemplateCard.where(name: ["toCoverImage", "toCoverStory", "Footer", "Header", "toParagraph"]).pluck(:id)).where.not(folder_id: site.folders.where(is_trash: true).pluck(:id)).order([updated_at: :desc, created_at: :desc])
+        json_data = []
+
+        view_casts.each do |d|
+            obj = {}
+            obj["folder_name"] = d.folder.name
+            obj['template_card_name'] = d.template_card.name
+            obj['template_card_id'] = d.template_card_id
+            obj['id'] = d.id
+            obj["datacast_identifier"] = d.datacast_identifier
+            obj["name"] = d.name
+            obj['iframe_url'] = d.template_card.index_html + "?view_cast_id=#{d.datacast_identifier}" + "&base_url= #{d.site.cdn_endpoint}"
+
+            json_data << obj
+        end
+
+        json_data
     end
 
     def vertical_header_key

@@ -22,6 +22,9 @@ Rails.application.routes.draw do
           resources :streams, only: [:create, :update]
           post "/streams/:id/publish", to: "streams#publish", as: :publish_stream
         end
+        resources :verticals, only: [] do
+          get "view_casts", on: :member
+        end
       end
 
       # resources :folders, only: [] do

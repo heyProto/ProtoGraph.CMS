@@ -48,7 +48,7 @@ Rails.application.configure do
     :enable_starttls_auto => true
   }
 
-  FROM_EMAIL = "Protograph Internals <info@pro.to>"
+  FROM_EMAIL = "Protograph Internals <ab@pro.to>"
   # config.action_mailer.smtp_settings = {
   #   address:              "<%=  ENV['SES_ADDRESS'] %>",
   #   port:                 587,
