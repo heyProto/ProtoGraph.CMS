@@ -5,7 +5,7 @@ git_source(:bitbucket) do |repo_name|
   "https://bitbucket.org/#{repo_name}"
 end
 
-ruby "2.3.3"
+ruby "2.5.1"
 
 #RAILS
 gem 'rails', '~> 5.1.1'
@@ -36,6 +36,7 @@ gem 'activerecord-session_store'
 
 
 #VIEWS
+gem 'webpacker'
 gem 'simple_form', '~> 3.2', '>= 3.2.1'
 gem 'sass-rails', '~> 5.0'
 gem 'uglifier', '>= 1.3.0'
@@ -45,7 +46,7 @@ gem 'jbuilder', '~> 2.5'
 gem 'rack-cors', :require => 'rack/cors'
 gem 'whenever'
 
-gem 'rmagick'
+#gem 'rmagick'
 gem 'carrierwave'
 gem 'ntc', bitbucket: "heyProto/name-that-colour", require: false
 
