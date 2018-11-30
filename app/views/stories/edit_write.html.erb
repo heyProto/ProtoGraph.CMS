@@ -1,4 +1,9 @@
 <%= render partial: "stories/stories_header" %>
+<%= javascript_pack_tag 'editor' %>
+<%= content_tag :div,
+  id: "story-editor",
+  cards: @cards.to_json do %>
+<% end %>
 <div class="row">
     <div class="col-sm-16">
         <div style="margin-left: auto; margin-right: auto; width: 540px;">
