@@ -15,17 +15,49 @@ class Api::V1::PagesController < ApiController
   end
 
   def update
-    if @page.update_attributes(page_params)
-      render json: {page: @page.as_json(methods: [:html_url]), message: "Page updated successfully"}, status: 200
-    else
-       render json: {errors: @page.errors.as_json}, status: 422
+    respond_to do |format|
+      format.json { respond_with_bip(@page) }
+      format.html {        
+        # render json: {page: @page.as_json(methods: [:html_url]), message: "Page editted successfully"}, status: 200
+        redirect_to edit_write_site_story_path(@site, @page, folder_id: @page.folder_id), alert: 'Reached API' and return
+      }
     end
+    # @page.updated_by = current_user.id
+
+    # p_params = page_params
+    # if params[:commit] == 'Publish'
+    #   p_params["status"] = 'published'
+    # end
+
+    # # removes cover image if it is not specified (?)
+    # if p_params.has_key?('cover_image_attributes') and !p_params['cover_image_attributes'].has_key?("image")
+    #   p_params.delete('cover_image_attributes')
+    # end
+
+    # # perform updates
+    # if @page.update_attributes(page_params)
+    #   format.json { respond_with_bip(@page) }
+    #   format.html {
+    #     redirect_to edit_assemble_site_story_path(@site, @page, folder_id: @page.folder_id)
+    #   }
+    # else
+    #   format.json { respond_with_bip(@page) }
+    #   format.html {
+    #     @page.publish = @page.status == 'published'
+    #     if @page.status != "draft"
+    #       if @page.template_page.name == "article"
+    #         redirect_to edit_write_site_story_path(@site, @page, folder_id: @page.folder_id), alert: @page.errors.full_messages
+    #         return
+    #       end
+    #     end
+    #   }
+    # end
   end
 
   private
 
   def set_page
-    @page = Page.find(params[:id])
+    @page = Page.friendly.find(params[:id])
   end
 
   def page_params
