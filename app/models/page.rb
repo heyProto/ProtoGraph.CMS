@@ -749,6 +749,7 @@ class Page < ApplicationRecord
   def create_paragraph_card
     to_para_card = TemplateCard.where(name: 'toParagraph').first
     to_para_schema = TemplateDatum.where(name: 'toParagraph').first
+    #nidhi to code
     all_paras = collect_all_paras
     narrative_stream = streams.where("title LIKE ?", "%Narrative").first
     view_cast_lists = []

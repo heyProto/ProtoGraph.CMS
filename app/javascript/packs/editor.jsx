@@ -240,7 +240,7 @@ class StoryEditor extends Component {
         this.props.action_url,
         { cards },
         {
-          headers: { 'Access-Token': this.props.user_token }
+          headers: { 'Access-Token': this.props.user_token, "Accept": "application/json" }
         }
       )
       .then(function (response) {
