@@ -30,7 +30,7 @@ vendor
 
 # Ignore RubyMine IDE files
 .idea
-.idea/* 
+.idea/*
 
 # Emacs temporary files.
 \#*\#
@@ -41,7 +41,6 @@ auto-save-list
 tramp
 .\#*
 *~/public/packs
-public/packs
 /public/packs-test
 /node_modules
 yarn-debug.log*
