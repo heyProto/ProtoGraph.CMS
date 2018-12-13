@@ -16,23 +16,33 @@ class Api::V1::PagesController < ApiController
 
   def update
     # params -> page{content[{data, card-id, template-id, htmlString}]}
-    # @page.updated_by = current_user.id
+    @page.updated_by = @user.id
     p_params = page_params
     respond_to do |format|
-      if @page.update_attributes(page_params)
+      modified_attributes = @page.changed - ["content", "updated_by", "updated_at"]
+      if(modified_attributes.any?)
         format.json {
-          render json: {redirect_url: edit_write_site_story_url(@site, @page, folder_id: @page.folder_id) }, status: 200
-        }
-        format.html {
-          redirect_to edit_write_site_story_path(@site, @page, folder_id: @page.folder_id), notice: 'Page editted successfully' and return
-        }
+            render json: {error: "Attempted to update illegal attributes: " << modified_attributes.to_s }, status: 500
+          }
+          format.html {
+            redirect_to edit_write_site_story_path(@site, @page, folder_id: @page.folder_id), alert: "Attempted to update illegal attributes: " << modified_attributes.to_s and return
+          }
       else
-        format.json {
-          render json: {error: @page.errors.full_messages }, status: 500
-        }
-        format.html {
-          redirect_to edit_write_site_story_path(@site, @page, folder_id: @page.folder_id), alert: @page.errors.full_messages and return
-        }
+        if @page.update_attributes(page_params)
+          format.json {
+            render json: {redirect_url: edit_write_site_story_url(@site, @page, folder_id: @page.folder_id) }, status: 200
+          }
+          format.html {
+            redirect_to edit_write_site_story_path(@site, @page, folder_id: @page.folder_id), notice: 'Page editted successfully' and return
+          }
+        else
+          format.json {
+            render json: {error: @page.errors.full_messages }, status: 500
+          }
+          format.html {
+            redirect_to edit_write_site_story_path(@site, @page, folder_id: @page.folder_id), alert: @page.errors.full_messages and return
+          }
+        end
       end
     end
     # @page.updated_by = current_user.id

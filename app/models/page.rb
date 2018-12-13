@@ -748,6 +748,7 @@ class Page < ApplicationRecord
   end
 
   def assemble_cards
+    puts self.changed
     to_para_card = TemplateCard.where(name: 'toParagraph').first
     to_para_schema = TemplateDatum.where(name: 'toParagraph').first
     page_content = []
@@ -792,18 +793,18 @@ class Page < ApplicationRecord
           })
         end
 
-        # payload = {}
-        # payload["payload"] = payload_json.to_json
-        # payload["api_slug"] = view_cast.datacast_identifier
-        # payload["schema_url"] = to_para_schema.schema_json
-        # payload["source"] = "form"
-        # payload["bucket_name"] = site.cdn_bucket
+        payload = {}
+        payload["payload"] = payload_json.to_json
+        payload["api_slug"] = view_cast.datacast_identifier
+        payload["schema_url"] = to_para_schema.schema_json
+        payload["source"] = "form"
+        payload["bucket_name"] = site.cdn_bucket
 
-        # if card["data-card-id"].blank? || view_cast.blank?
-        #   Api::ProtoGraph::Datacast.create(payload)  
-        # else
-        #   Api::ProtoGraph::Datacast.update(payload)
-        # end
+        if card["data-card-id"].blank? || view_cast.blank?
+          Api::ProtoGraph::Datacast.create(payload)  
+        else
+          Api::ProtoGraph::Datacast.update(payload)
+        end
 
         # updating page content
         card["data"][0]["attrs"]["data-template-id"] = to_para_card.id
