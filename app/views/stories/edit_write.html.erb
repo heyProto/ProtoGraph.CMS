@@ -1,38 +1,16 @@
 <%= render partial: "stories/stories_header" %>
 <%= javascript_pack_tag 'editor' %>
-<%= content_tag :div,
-  id: "story-editor",
-  cards: @cards.to_json do %>
-<% end %>
 <div class="row">
-    <div class="col-sm-16">
-        <div style="margin-left: auto; margin-right: auto; width: 540px;">
-            <%= simple_form_for(@page, url: site_page_path(@site), method: :put) do |f| %>
-                <%= f.error_notification %>
-                <div class="form-inputs">
-                    <%= f.input :content, as: :text, required: true, minlength: 100, input_html: {rows: 30, style: "border: 0px; padding-left: 0px;", class: "editable"}, label: false, placeholder: "Tell your story...", autofocus: true %>
-                    <%= f.hidden_field :from_page, value: "edit_write" %>
-                </div>
-              <div class="form-actions">
-                <%= f.hidden_field :prepare_cards_for_assembling, value: true %>
-                <%= f.button :submit, "Save as Cards", class: "btn btn-lg btn-success" %>
-                &nbsp
-                <span id='autosave_text' class="hint-text"></span>
-
-              </div>
-            <% end %>
-            <br/><br/><br/><hr/>
-            <h3>Help</h3>
-            <p>You can only write text on this page. Select text to change formatting, add headers, or create links.</p>
-            <%= image_tag "formatting.gif", class: "img-fluid", style: "margin: 0px 0px 10px 30px; width: 70%;" %>
-            <p>ProtoTYPE is constantly auto-saving. When ready to publish, press 'Save as Cards' button. ProtoTYPE then creates cards of all text between H2 headers.</p>
-            <p>To add images, videos or any other cards to your story, head over to the <b>Assemble tab</b>.</p>
-            <p>To add headline, cover image, SEO tags, social share messages, etc. head over to the <b>Package tab</b>.</p>
-            <br/><br/><br/>
-        </div>
-    </div>
+  <div class="col-sm-16">
+    <%= content_tag :div,
+      id: "story-editor",
+      cards: @page.content, 
+      user_token: current_user.access_token, 
+      action_url: api_v1_site_folder_page_path(@site, @folder, @page), 
+      cards_url: view_casts_api_v1_site_vertical_path(@site, @folder.vertical) do %>
+    <% end %>
+  </div>
 </div>
-
 <script type="text/javascript">
     function setEndOfContenteditable(contentEditableElement) {
       var range,selection;
@@ -52,42 +30,6 @@
       }
     }
     $(document).on("turbolinks:load", function(){
-        var editor = new MediumEditor('.editable', {
-          placeholder: {
-            text: "Tell your story...",
-            hideOnClick: false
-          },
-          toolbar: {
-            buttons: ['bold', "italic", 'h2', 'h3', 'quote', 'anchor', 'unorderedlist', 'orderedlist']
-          },
-          targetBlank: true
-        });
-        setEndOfContenteditable(document.querySelector('.editable.medium-editor-element'))
-        let anchor = document.getElementsByClassName('medium-editor-action-anchor')[0];
-        if(anchor){
-          anchor.innerHTML = "<img src=\"https://cdn.protograph.pykih.com/Assets/compose-card/link.png\" class=\"link-image\"/ height=15>"
-        }
-        var saveInterval = setInterval(function(){
-            $("#autosave_text").text("Saving...");
-            var data = $('form.simple_form.edit_page:first').serializeArray().reduce(
-              function(obj, item) {
-                if (['page[prepare_cards_for_assembling]', 'page[from_page]'].indexOf(item.name) < 0) {
-                  obj[item.name] = item.value;
-                }
-                return obj;
-            }, {});
-            $.ajax({
-              type: "PUT",
-              beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
-              url: $('form.simple_form.edit_page:first').attr('action'),
-              data: data,
-              dataType: "json",
-              success: function(data) {
-                setTimeout(function(){
-                  $("#autosave_text").text("All changes saved");
-                }, 1000);
-              }
-            });
-        }, 30000);
+        setEndOfContenteditable(document.querySelector('.proto-editor'))
     })
 </script>

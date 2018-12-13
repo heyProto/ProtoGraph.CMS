@@ -344,11 +344,12 @@ class Stream < ApplicationRecord
     if self.view_cast_id_list.present?
       self.view_cast_id_list = self.view_cast_id_list.first.split(",") # Because of the type of input we are getting
       self.view_cast_id_list = self.view_cast_id_list.reject(&:empty?)
-      prev_view_cast_ids = self.view_cast_ids.pluck(:entity_value)
+      # prev_view_cast_ids = self.view_cast_ids.pluck(:entity_value)
+      self.view_cast_ids.delete_all
       self.view_cast_id_list.each do |f|
         self.view_cast_ids.create({entity_type: "view_cast_id",entity_value: f})
       end
-      self.view_cast_ids.where(entity_value: (prev_view_cast_ids - self.view_cast_id_list)).delete_all
+      # self.view_cast_ids.where(entity_value: (prev_view_cast_ids - self.view_cast_id_list)).delete_all
     end
     #Creating Excluded viewcast entities from view_cast_id
     if self.excluded_view_cast_id_list.present?
@@ -381,9 +382,9 @@ class Stream < ApplicationRecord
       self.permissions.where(permissible_id: (prev_collaborator_ids - self.collaborator_lists.map{|a| a.to_i})).update_all(status: 'Deactivated')
     end
 
-    self.pages.each do |p|
-      PagePublisher.perform_async(p.id)
-    end
+    # self.pages.each do |p|
+    #   PagePublisher.perform_async(p.id)
+    # end
   end
 
   def before_destroy_set

@@ -3,11 +3,12 @@
   "private": true,
   "dependencies": {
     "@rails/webpacker": "3.5",
+    "axios": "^0.18.0",
     "babel-preset-react": "^6.24.1",
     "prop-types": "^15.6.2",
+    "proto-editor": "git+ssh://git@bitbucket.org/heyProto/proto-editor.git",
     "react": "^16.6.3",
-    "react-dom": "^16.6.3",
-    "proto-editor": "git+ssh://git@bitbucket.org/heyProto/proto-editor.git"
+    "react-dom": "^16.6.3"
   },
   "devDependencies": {
     "webpack-dev-server": "2.11.2"

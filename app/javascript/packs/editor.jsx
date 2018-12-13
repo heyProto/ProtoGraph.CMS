@@ -2,10 +2,11 @@
 // like app/views/layouts/application.html.erb. All it does is render <div>Hello React</div> at the bottom
 // of the page.
 
-import React, {Component} from 'react';
-import ReactDOM from 'react-dom';
-import PropTypes from 'prop-types';
-import { Editor } from 'proto-editor';
+import React, { Component } from "react";
+import ReactDOM from "react-dom";
+import PropTypes from "prop-types";
+import axios from "axios";
+import { Editor } from "proto-editor";
 
 class StoryEditor extends Component {
   constructor(props) {
@@ -15,16 +16,59 @@ class StoryEditor extends Component {
 
   handleSubmit(cards) {
     console.log(cards);
+    console.log(this.props.action_url);
+    axios
+      .put(
+        this.props.action_url,
+        {
+          page: {
+            content: JSON.stringify(cards),
+            prepare_cards_for_assembling: "true",
+          },
+        },
+        {
+          headers: {
+            "Access-Token": this.props.user_token,
+            Accept: "application/json",
+          },
+        }
+      )
+      .then(function(response) {
+        console.log(response);
+      })
+      .catch(function(err) {
+        console.log(err);
+      });
   }
 
   render() {
-    return <Editor cards={this.props.cards} onSubmit={this.handleSubmit} />;
+    return (
+      <Editor
+        cards={this.props.cards}
+        cards_request={{
+          url: this.props.cards_url,
+          token: this.props.user_token,
+        }}
+        onSubmit={this.handleSubmit}
+      />
+    );
   }
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-  const node = document.getElementById('story-editor');
-  const cards = JSON.parse(node.getAttribute('data-cards'));
+document.addEventListener("DOMContentLoaded", () => {
+  const node = document.getElementById("story-editor");
+  const cards = node.getAttribute("cards") ? JSON.parse(node.getAttribute("cards")) : null;
+  const user_token = node.getAttribute("user_token");
+  const action_url = node.getAttribute("action_url");
+  const cards_url = node.getAttribute("cards_url");
 
-  ReactDOM.render(<StoryEditor cards={cards} />, node);
+  ReactDOM.render(
+    <StoryEditor
+      cards={cards}
+      user_token={user_token}
+      action_url={action_url}
+      cards_url={cards_url}
+    />,
+    node
+  );
 });
