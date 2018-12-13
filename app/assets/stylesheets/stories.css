@@ -28,6 +28,12 @@
   src: local('Quattrocento Bold'), local('Quattrocento-Bold'), url(https://fonts.gstatic.com/s/quattrocento/v9/OZpbg_xvsDZQL_LKIF7q4jP_eE3vcKnd.ttf) format('truetype');
 }
 
+#story-editor {
+  width: 540px;
+  margin: auto;
+}
+
+/* 
 .medium-editor-element{
   overflow:hidden;
 }
@@ -86,4 +92,4 @@
 .medium-editor-placeholder:after {
   left: 0px !important;
   top: 5px !important;
-}
+} */

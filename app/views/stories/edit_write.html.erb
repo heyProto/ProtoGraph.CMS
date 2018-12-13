@@ -1,13 +1,16 @@
 <%= render partial: "stories/stories_header" %>
 <%= javascript_pack_tag 'editor' %>
-<%= content_tag :div,
-  id: "story-editor",
-  cards: @page.content, 
-  user_token: current_user.access_token, 
-  action_url: api_v1_site_folder_page_path(@site, @folder, @page), 
-  cards_url: view_casts_api_v1_site_vertical_path(@site, @folder.vertical) do %>
-<% end %>
-
+<div class="row">
+  <div class="col-sm-16">
+    <%= content_tag :div,
+      id: "story-editor",
+      cards: @page.content, 
+      user_token: current_user.access_token, 
+      action_url: api_v1_site_folder_page_path(@site, @folder, @page), 
+      cards_url: view_casts_api_v1_site_vertical_path(@site, @folder.vertical) do %>
+    <% end %>
+  </div>
+</div>
 <script type="text/javascript">
     function setEndOfContenteditable(contentEditableElement) {
       var range,selection;
