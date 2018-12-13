@@ -30,17 +30,17 @@
   resolved "https://registry.yarnpkg.com/@fortawesome/fontawesome-common-types/-/fontawesome-common-types-0.1.7.tgz#4336c4b06d0b5608ff1215464b66fcf9f4795284"
   integrity sha512-ego8jRVSHfq/iq4KRZJKQeUAdi3ZjGNrqw4oPN3fNdvTBnLCSntwVCnc37bsAJP9UB8MhrTfPnZYxkv2vpS4pg==
 
-"@fortawesome/fontawesome-common-types@^0.2.9":
-  version "0.2.9"
-  resolved "https://registry.yarnpkg.com/@fortawesome/fontawesome-common-types/-/fontawesome-common-types-0.2.9.tgz#f307509ec8ac542965ae1ef96a9be0ebea837949"
-  integrity sha512-tLNNifyheh8mmgzOgxl2XSe03usa1UMTZNLDre6gxvqgIwCDi8Wya2D1MMMry/nc7vsqWf33KEF6L+ULtXZk2A==
+"@fortawesome/fontawesome-common-types@^0.2.10":
+  version "0.2.10"
+  resolved "https://registry.yarnpkg.com/@fortawesome/fontawesome-common-types/-/fontawesome-common-types-0.2.10.tgz#ae0e6858daf6f9ff1e2396f9fbea87b244628343"
+  integrity sha512-FbrzSgFDzoC6Dm8w7gCWxgdffFbYV7O/4THOtYDQEplZVOpYIA3vjgnxCXApY49YaIQ91mxIGROS3d7wS+fO3A==
 
 "@fortawesome/fontawesome-svg-core@^1.2.8":
-  version "1.2.9"
-  resolved "https://registry.yarnpkg.com/@fortawesome/fontawesome-svg-core/-/fontawesome-svg-core-1.2.9.tgz#73fd513e219e7e781a3a06221691f42a8f2ab065"
-  integrity sha512-XErESbPjLQ9t9t0oCTwSKX2rZCqjVm3MRETErbA7lPszt3Sx/4d2oBQZ/oIsVr5O97ev0ECshpxrjEjsl/CjmA==
+  version "1.2.10"
+  resolved "https://registry.yarnpkg.com/@fortawesome/fontawesome-svg-core/-/fontawesome-svg-core-1.2.10.tgz#235f82b209f36c94792a79b9aea127dfa29651c9"
+  integrity sha512-x9rYQ4jPVWnXgsle/MzaV2qDwNfc1Gm5DB0T76WOp4RDZ/esjEE0OvKtMa2qFvG1NqYbelgN4gChA+ttAqPtaw==
   dependencies:
-    "@fortawesome/fontawesome-common-types" "^0.2.9"
+    "@fortawesome/fontawesome-common-types" "^0.2.10"
 
 "@fortawesome/fontawesome@^1.1.8":
   version "1.1.8"
@@ -50,11 +50,11 @@
     "@fortawesome/fontawesome-common-types" "^0.1.7"
 
 "@fortawesome/free-solid-svg-icons@^5.5.0":
-  version "5.6.0"
-  resolved "https://registry.yarnpkg.com/@fortawesome/free-solid-svg-icons/-/free-solid-svg-icons-5.6.0.tgz#f041f477bd2c34f0817d123eeea2a8fdade04a25"
-  integrity sha512-kbkOtjNAxE5iuRAXPzSHMMTPWFEiLWJqu/nhHQoQcZS5JcIvthDB2VeXZqyo4An2o6Ny7j9vZ0KnECRtxhokHw==
+  version "5.6.1"
+  resolved "https://registry.yarnpkg.com/@fortawesome/free-solid-svg-icons/-/free-solid-svg-icons-5.6.1.tgz#5f6888639c8564a7ba98f4f295807ca5bc250e2c"
+  integrity sha512-J5es6So1zoT234XkYVkuDtHKeeNe7gvTM9VHdEwG8wSKwSIbdMixoNAMBbL88haGUolj0YjEmZwov4NMTx3Srw==
   dependencies:
-    "@fortawesome/fontawesome-common-types" "^0.2.9"
+    "@fortawesome/fontawesome-common-types" "^0.2.10"
 
 "@fortawesome/react-fontawesome@^0.1.3":
   version "0.1.3"
@@ -5517,7 +5517,7 @@ prosemirror-view@^1.0.0, prosemirror-view@^1.1.0, prosemirror-view@^1.6.5:
 
 "proto-editor@git+ssh://git@bitbucket.org/heyProto/proto-editor.git":
   version "1.0.0"
-  resolved "git+ssh://git@bitbucket.org/heyProto/proto-editor.git#94d8694f0a1c309209f1392ab8486a7870f57841"
+  resolved "git+ssh://git@bitbucket.org/heyProto/proto-editor.git#ce911b7fb01d9eb019aaa1debad2ce520ef0b90f"
   dependencies:
     "@firebase/app" "^0.3.4"
     "@fortawesome/fontawesome" "^1.1.8"
