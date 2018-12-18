@@ -74,7 +74,7 @@ class User < ApplicationRecord
     end
 
     def is_admin_from_pykih
-        ["ritvvij.parrikh@pykih.com", "rp@pykih.com", "ab@pykih.com", "dhara.shah@pykih.com"].include?(self.email)
+        ["r@pro.to", "ab@pro.to", "nidhi@pro.to", "nasr@pro.to"].include?(self.email)
     end
 
     def create_permission(permissible_type, permissible_id, r, is_hidden=false)
