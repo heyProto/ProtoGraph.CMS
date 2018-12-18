@@ -5515,9 +5515,9 @@ prosemirror-view@^1.0.0, prosemirror-view@^1.1.0, prosemirror-view@^1.6.5:
     prosemirror-state "^1.0.0"
     prosemirror-transform "^1.1.0"
 
-"proto-editor@git+ssh://git@bitbucket.org/heyProto/proto-editor.git":
+"proto-editor@git+ssh://git@bitbucket.org/heyProto/proto-editor.git#v0.1.2":
   version "1.0.0"
-  resolved "git+ssh://git@bitbucket.org/heyProto/proto-editor.git#ce911b7fb01d9eb019aaa1debad2ce520ef0b90f"
+  resolved "git+ssh://git@bitbucket.org/heyProto/proto-editor.git#95292f3f485ca2b0c83bb2e805b7f37fb85b7c07"
   dependencies:
     "@firebase/app" "^0.3.4"
     "@fortawesome/fontawesome" "^1.1.8"

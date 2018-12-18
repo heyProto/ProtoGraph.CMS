@@ -15,8 +15,6 @@ class StoryEditor extends Component {
   }
 
   handleSubmit(cards) {
-    console.log(cards);
-    console.log(this.props.action_url);
     axios
       .put(
         this.props.action_url,
@@ -34,7 +32,7 @@ class StoryEditor extends Component {
         }
       )
       .then(function(response) {
-        console.log(response);
+        window.location.href = response.data.redirect_url;
       })
       .catch(function(err) {
         console.log(err);
@@ -57,7 +55,9 @@ class StoryEditor extends Component {
 
 document.addEventListener("DOMContentLoaded", () => {
   const node = document.getElementById("story-editor");
-  const cards = node.getAttribute("cards") ? JSON.parse(node.getAttribute("cards")) : null;
+  const cards = node.getAttribute("cards")
+    ? JSON.parse(node.getAttribute("cards"))
+    : null;
   const user_token = node.getAttribute("user_token");
   const action_url = node.getAttribute("action_url");
   const cards_url = node.getAttribute("cards_url");

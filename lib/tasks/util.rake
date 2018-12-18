@@ -1,7 +1,9 @@
 require 'csv'
 require 'json'
 
+# TemplateCard.all.pluck(:id, :name)
 
+# rake util:convert_cards[4755,46]
 namespace :util do
     task :convert_cards, [:stream_id, :template_card_id] => [:environment] do |task, args|
         puts args[:stream_id], args[:template_card_id]
