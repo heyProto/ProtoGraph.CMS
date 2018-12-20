@@ -1,10 +1,10 @@
 namespace :factchecker do
     task load_hate_crime_cards: :environment do
-        indiaspend_site = Rails.env.development? ? Site.friendly.find('pyktest') : Site.friendly.find('factchecker')
+        indiaspend_site = Rails.env.development? ? Site.friendly.find('pyktest') : Site.friendly.find('hate-crime-watch-hindi')
         current_user = User.find(2)
         template_card = TemplateCard.where(name: 'toIndiaSpendCard').first
         all_crimes = JSON.parse(File.read("#{Rails.root.to_s}/ref/indiaspend/hatecrime-hindi.json"))
-        folder = Rails.env.development? ? Folder.friendly.find('indiaspend') : Folder.friendly.find('cards')
+        folder = Rails.env.development? ? Folder.friendly.find('indiaspend') : Folder.friendly.find('cards-6699e2ec-eab1-4432-8386-8102da756ce3')
         all_crimes.each do |d|
             name = "#{d['date']} - #{d['district']}, #{d['state']}"
             data = {}
