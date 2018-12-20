@@ -3,7 +3,7 @@ namespace :factchecker do
         indiaspend_site = Rails.env.development? ? Site.friendly.find('pyktest') : Site.friendly.find('factchecker')
         current_user = User.find(2)
         template_card = TemplateCard.where(name: 'toIndiaSpendCard').first
-        all_crimes = JSON.parse(File.read("#{Rails.root.to_s}/ref/indiaspend/hatecrime.json"))
+        all_crimes = JSON.parse(File.read("#{Rails.root.to_s}/ref/indiaspend/hatecrime-hindi.json"))
         folder = Rails.env.development? ? Folder.friendly.find('indiaspend') : Folder.friendly.find('cards')
         all_crimes.each do |d|
             name = "#{d['date']} - #{d['district']}, #{d['state']}"

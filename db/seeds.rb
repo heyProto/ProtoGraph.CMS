@@ -379,6 +379,37 @@ TemplatePage.create({
 })
 
 
+tpage_hatecrimehindi_grid = TemplateApp.create({
+    site_id: pykih_site.id,
+    name: "HateCrime Hindi: data grid",
+    genre: "page",
+    pitch: "",
+    description: "",
+    is_public: true,
+    change_log: "",
+    git_url: "git@bitbucket.org:heyProto/hatecrime-hindi.git",
+    is_system_installed: true,
+    is_backward_compatible: true,
+})
+
+
+TemplatePage.create({
+    site_id: pykih_site.id,
+    name: "HateCrime Hindi: data grid",
+    git_repo_name: "",
+    status: "published",
+    is_public: true,
+    s3_identifier: "5d7e4639af0405cd45ba",
+    created_by: user_id,
+    updated_by: user_id,
+    template_app_id: tpage_hatecrimehindi_grid.id
+})
+
+# -----------------------------------------------------------------------------------------------
+# CARDS
+# -----------------------------------------------------------------------------------------------
+
+
 tapp_footer = TemplateApp.create({
     site_id: pykih_site.id,
     name: "Footer",
