@@ -43,7 +43,7 @@ class Image < ApplicationRecord
   has_one :image_3c, -> {where(mode: "3c")}, class_name: "ImageVariation", foreign_key: "image_id"
   has_one :image_2c, -> {where(mode: "2c")}, class_name: "ImageVariation", foreign_key: "image_id"
 
-  
+
   has_many :colour_swatches, dependent: :destroy
   #ACCESSORS
   attr_accessor :crop_x, :crop_y, :crop_w, :crop_h, :image_w, :image_h, :instant_output
@@ -62,13 +62,13 @@ class Image < ApplicationRecord
   #OTHER
 
   def check_dimensions_for_logo
-    if !image_cache.nil? and image.height < 50
+    if !image_cache.nil? and image_height < 50
       errors.add :image, "The minimum height of the logo should be 50."
     end
   end
 
   def check_dimensions_for_favicon
-    if !image_cache.nil? and image.height < 100 and (image.height / image.width != 1)
+    if !image_cache.nil? and image_height < 100 and (image_height / image_width != 1)
       errors.add :image, "Favicon can be square and the maximum height should be 100."
     end
   end
