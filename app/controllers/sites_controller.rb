@@ -60,12 +60,10 @@ class SitesController < ApplicationController
       @site.build_logo_image
     end
     @is_admin = true
-    
   end
 
   def integrations
     @is_admin = true
-    
   end
 
   def update
@@ -91,6 +89,11 @@ class SitesController < ApplicationController
         render :edit
       end
     end
+  end
+
+  def fetch_new_data
+    LcwDataUpdateWorker.perform_at(10.seconds.from_now)
+    redirect_back fallback_location: site_path(@site), notice: "The data will be updated shortly."
   end
 
   private

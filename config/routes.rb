@@ -48,6 +48,7 @@ Rails.application.routes.draw do
   get ":site_id/apps/d/:template_datum_id/:id", to: "template_fields#edit", as: :edit_site_template_datum_template_field
 
   resources :sites do
+    post "fetch_new_data", on: :member
     #app store ---
     resources :template_apps, only: [:edit, :update]
     resources :site_template_apps, only: [:index, :destroy, :install] do
