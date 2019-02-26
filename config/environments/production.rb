@@ -96,15 +96,6 @@ config.webpacker.check_yarn_integrity = false
 
   config.action_mailer.default_url_options = { host: BASE_URL }
   config.action_mailer.raise_delivery_errors = false
-  #pub.pykih.com.smtp
-  # config.action_mailer.smtp_settings = {
-  #   address:              ENV[]
-  #   port:                 587,
-  #   user_name:            'AKIAIXC74YSZAIP3K5QA',
-  #   password:             'An8+nvo66UmJoOhqLvz50q+slGCe/w3gUjbbkinJdWUV',
-  #   authentication:       :login,
-  #   :enable_starttls_auto => true
-  # }
 
   config.action_mailer.smtp_settings = {
     address:              "<%=  ENV['NOTIFICATION_EMAIL_ADDRESS'] %>",
