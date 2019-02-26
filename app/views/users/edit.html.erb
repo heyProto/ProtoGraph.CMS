@@ -2,28 +2,21 @@
     <h1>Tell your colleagues who are you?</h1>
     <div style="margin-top: 20px;">
         <%= image_tag avatar_url(current_user.email, 100), class: "rounded" %>
-        <br/>
-        <p class="hint">To change the profile image, register with <a href="http://gravatar.com/" target="_blank">gravatar.com</a> with email ID <%= current_user.email %> and upload a square image there (Twitter DP).</p>
+        <br />
+        <p class="hint">To change the profile image, register with <a href="http://gravatar.com/" target="_blank">gravatar.com</a> with email ID
+            <%= current_user.email %> and upload a square image there (Twitter DP).</p>
         <%= simple_form_for(@user, html: { method: :put }) do |f| %>
-          <%= f.error_notification %>
-          <%= f.input :name %>
-          <%= f.input :email, label: "Primary Email ID" %>
-          <%= f.input :bio, input_html: {maxlength: 160}, hint: "Maximum 160 characters" %>
-          <%= f.input :website, as: :url, input_html: {rows: 1}, label: "Website URL" %>
-          <%= f.input :facebook, as: :url, input_html: {rows: 1}, label: "Facebook Profile URL" %>
-          <%= f.input :twitter, as: :url, input_html: {rows: 1}, label: "Twitter Profile URL" %>
-          <%= f.input :linkedin, as: :url, input_html: {rows: 1}, label: "LinkedIn Profile URL" %>
-          <%= f.input :phone %>
-          <%= f.button :submit, value: "Save", class: "btn btn-light" %>
+        <%= f.error_notification %>
+        <%= f.input :name %>
+        <%= f.input :email, label: "Primary Email ID" %>
+        <%= f.input :bio, input_html: {maxlength: 160}, hint: "Maximum 160 characters" %>
+        <%= f.input :website, as: :url, input_html: {rows: 1}, label: "Website URL" %>
+        <%= f.input :facebook, as: :url, input_html: {rows: 1}, label: "Facebook Profile URL" %>
+        <%= f.input :twitter, as: :url, input_html: {rows: 1}, label: "Twitter Profile URL" %>
+        <%= f.input :linkedin, as: :url, input_html: {rows: 1}, label: "LinkedIn Profile URL" %>
+        <%= f.input :phone %>
+        <%= f.button :submit, value: "Save", class: "btn btn-light" %>
         <% end %>
-        <br/>
+        <br />
     </div>
-    <% if current_user.is_admin_from_pykih %>
-        <br/><br/>
-      <%= simple_form_for @new_site do |f| %>
-        <%= f.input :name, id: :account_username, hint:     "<span style='color: red'>Choose wisely. You cannot change it later.</span>".html_safe %>
-        <%= f.input :domain, required: true %>
-        <%= f.submit "Add a new Site" %>
-      <% end %>
-    <% end %>
 </div>

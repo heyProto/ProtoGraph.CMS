@@ -48,7 +48,6 @@ gem 'whenever'
 
 #gem 'rmagick'
 gem 'carrierwave'
-gem 'ntc', bitbucket: "heyProto/name-that-colour", require: false
 
 #Encryption
 #gem "attr_encrypted", "~> 3.0.0"

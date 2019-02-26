@@ -101,7 +101,8 @@ class Site < ApplicationRecord
 
     def cdn_bucket
         if Rails.env.production?
-            "site-#{self.slug.gsub("_", "")}-#{self.id}"
+            #"site-#{self.slug.gsub("_", "")}-#{self.id}"
+            ENV["CDN_BUCKET"]
         else
             "dev.cdn.protograph"
         end

@@ -89,21 +89,21 @@ config.webpacker.check_yarn_integrity = false
     config.logger    = ActiveSupport::TaggedLogging.new(logger)
   end
 
-  FROM_EMAIL = "Protograph Internals <ab@pro.to>"
+  FROM_EMAIL = ENV["FROM_EMAIL"]
   config.active_record.dump_schema_after_migration = false
-  BASE_URL = "https://platform.pro.to"
-  AWS_API_DATACAST_URL = "https://d9y49oyask.execute-api.ap-south-1.amazonaws.com/production"
+  BASE_URL = ENV["BASE_URL"]
+  AWS_API_DATACAST_URL = ENV["AWS_API_DATACAST_URL"]
 
   config.action_mailer.default_url_options = { host: BASE_URL }
   config.action_mailer.raise_delivery_errors = false
-  #pub.pykih.com.smtp
+
   config.action_mailer.smtp_settings = {
-    address:              'email-smtp.us-east-1.amazonaws.com',
+    address:              "<%=  ENV['NOTIFICATION_EMAIL_ADDRESS'] %>",
     port:                 587,
-    user_name:            'AKIAIXC74YSZAIP3K5QA',
-    password:             'An8+nvo66UmJoOhqLvz50q+slGCe/w3gUjbbkinJdWUV',
+    user_name:            "<%=  ENV['NOTIFICATION_EMAIL_ID'] %>",
+    password:             "<%=  ENV['NOTIFICATION_EMAIL_PASSWORD'] %>",
     authentication:       :login,
-    :enable_starttls_auto => true
+    enable_starttls_auto: true
   }
 
   Rails.application.config.middleware.use ExceptionNotification::Rack,
