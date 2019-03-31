@@ -1,6 +1,6 @@
 Rails.application.configure do
   # Verifies that versions and hashed value of the package contents in the project's package.json
-config.webpacker.check_yarn_integrity = false
+  config.webpacker.check_yarn_integrity = false
 
   # Settings specified here will take precedence over those in config/application.rb.
 
@@ -89,10 +89,10 @@ config.webpacker.check_yarn_integrity = false
     config.logger    = ActiveSupport::TaggedLogging.new(logger)
   end
 
-  FROM_EMAIL = ENV["FROM_EMAIL"]
+  FROM_EMAIL = "PROTO platform"
   config.active_record.dump_schema_after_migration = false
-  BASE_URL = ENV["BASE_URL"]
-  AWS_API_DATACAST_URL = ENV["AWS_API_DATACAST_URL"]
+  BASE_URL = "https://platform.pro.to"
+  AWS_API_DATACAST_URL = "https://d9y49oyask.execute-api.ap-south-1.amazonaws.com/production"
 
   config.action_mailer.default_url_options = { host: BASE_URL }
   config.action_mailer.raise_delivery_errors = false
