@@ -261,7 +261,6 @@ tpage_dte_grid = TemplateApp.create({
     is_backward_compatible: true,
 })
 
-
 TemplatePage.create({
     site_id: pykih_site.id,
     name: "DTE: data grid",
@@ -404,6 +403,59 @@ TemplatePage.create({
     updated_by: user_id,
     template_app_id: tpage_hatecrimehindi_grid.id
 })
+
+# PROTO Home page
+tpage_proto_public = TemplateApp.create({
+    site_id: pykih_site.id,
+    name: "Proto: Public Landing",
+    genre: "page",
+    pitch: "",
+    description: "",
+    is_public: true,
+    change_log: "",
+    git_url: "git@bitbucket.org:heyProto/public-website.git",
+    is_system_installed: true,
+    is_backward_compatible: true,
+})
+
+
+TemplatePage.create({
+    site_id: pykih_site.id,
+    name: "DTE: data grid",
+    git_repo_name: "",
+    status: "published",
+    is_public: true,
+    s3_identifier: "28cea69cc6e27466d535",
+    created_by: user_id,
+    updated_by: user_id,
+    template_app_id: tpage_proto_public.id
+})
+
+tpage_oxfam_grid = TemplateApp.create({
+    site_id: pykih_site.id,
+    name: "Oxfam: data grid",
+    genre: "page",
+    pitch: "",
+    description: "",
+    is_public: true,
+    change_log: "",
+    git_url: "git@bitbucket.org:heyProto/oxfam-grid.git",
+    is_system_installed: true,
+    is_backward_compatible: true,
+})
+
+TemplatePage.create({
+    site_id: pykih_site.id,
+    name: "Oxfam: data grid",
+    git_repo_name: "",
+    status: "published",
+    is_public: true,
+    s3_identifier: "dfd8a041d1daa9be3f0a",
+    created_by: user_id,
+    updated_by: user_id,
+    template_app_id: tpage_oxfam_grid.id
+})
+
 
 # -----------------------------------------------------------------------------------------------
 # CARDS
@@ -604,31 +656,36 @@ tapp_metoo_card = TemplateApp.create({
 TemplateCard.create({name: "ToRecordMeToo", git_branch: "master", git_repo_name: "ProtoGraph.Card.toRecordMeToo", status: "published", site_id: pykih_site.id, created_by: user_id, updated_by: user_id, template_datum_id: t_metoo.id, s3_identifier: "93470692abafeef5473d", has_multiple_uploads: false, is_editable: true, allowed_views: ["col16","col4"], template_app_id: tapp_metoo_card.id})
 
 
-# Home page
-
-
-tpage_proto_public = TemplateApp.create({
+# Oxfam CTA Card
+tapp_oxfam_cta = TemplateApp.create({
     site_id: pykih_site.id,
-    name: "Proto: Public Landing",
-    genre: "page",
+    name: "ToOxfamCTA",
+    genre: "datum",
     pitch: "",
     description: "",
-    is_public: true,
+    is_public: false,
     change_log: "",
-    git_url: "git@bitbucket.org:heyProto/public-website.git",
+    git_url: "git@bitbucket.org:heyProto/protograph.schemas.git",
     is_system_installed: true,
     is_backward_compatible: true,
 })
 
 
-TemplatePage.create({
+t_oxfam_cta = TemplateDatum.create({name: "ProtoGraph.Card.ToOxfamCTA", version: "0.0.1", s3_identifier: "2f59e63fc5d2a6e719c2", template_app_id: tapp_oxfam_cta.id, site_id: pykih_site.id})
+
+
+tapp_oxfam_cta_card = TemplateApp.create({
     site_id: pykih_site.id,
-    name: "DTE: data grid",
-    git_repo_name: "",
-    status: "published",
-    is_public: true,
-    s3_identifier: "28cea69cc6e27466d535",
-    created_by: user_id,
-    updated_by: user_id,
-    template_app_id: tpage_proto_public.id
+    name: "ToOxfamCTA",
+    genre: "card",
+    pitch: "",
+    description: "",
+    is_public: false,
+    change_log: "",
+    git_url: "git@bitbucket.org:heyProto/protograph.card.responsiblebiz-cta.git",
+    is_system_installed: true,
+    is_backward_compatible: true,
 })
+
+TemplateCard.create({name: "ToOxfamCTA", git_branch: "master", git_repo_name: "ProtoGraph.Card.ToOxfamCTA", status: "published", site_id: pykih_site.id, created_by: user_id, updated_by: user_id, template_datum_id: t_oxfam_cta.id, s3_identifier: "7f012abd6ba431f90d1e", has_multiple_uploads: false, is_editable: true, allowed_views: ["col16","col4"], template_app_id: tapp_oxfam_cta_card.id})
+
