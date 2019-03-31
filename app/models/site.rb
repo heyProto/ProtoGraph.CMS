@@ -101,8 +101,7 @@ class Site < ApplicationRecord
 
     def cdn_bucket
         if Rails.env.production?
-            #"site-#{self.slug.gsub("_", "")}-#{self.id}"
-            ENV["CDN_BUCKET"]
+            "site-#{self.slug.gsub("_", "")}-#{self.id}"
         else
             "dev.cdn.protograph"
         end
@@ -206,7 +205,7 @@ class Site < ApplicationRecord
             SitemapGenerator::Sitemap.create({
                 default_host: self.cdn_endpoint,
                 sitemaps_host: self.cdn_endpoint,
-                public_path: "tmp/#{self.cdn_bucket}/"
+                public_path: "tmp/#{self.cdn_bucket}/",
             }) do
             site.pages.where(status: "published").each do |page|
                 add "#{page.html_key}"
