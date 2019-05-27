@@ -88,6 +88,7 @@ config.webpacker.check_yarn_integrity = true
 
   # Use an evented file watcher to asynchronously detect changes in source code,
   # routes, locales, etc. This feature depends on the listen gem.
+  AWS_API_DATACAST_URL="https://d9y49oyask.execute-api.ap-south-1.amazonaws.com/development"
   config.file_watcher = ActiveSupport::EventedFileUpdateChecker
 
   SitemapGenerator::Sitemap.search_engines = {

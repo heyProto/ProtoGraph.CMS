@@ -456,6 +456,30 @@ TemplatePage.create({
     template_app_id: tpage_oxfam_grid.id
 })
 
+tpage_oxfam_map = TemplateApp.create({
+    site_id: pykih_site.id,
+    name: "Oxfam: Map",
+    genre: "page",
+    pitch: "",
+    description: "",
+    is_public: true,
+    change_log: "",
+    git_url: "git@bitbucket.org:heyProto/itsector-grid.git",
+    is_system_installed: true,
+    is_backward_compatible: true,
+})
+
+TemplatePage.create({
+    site_id: pykih_site.id,
+    name: "Oxfam: Map",
+    git_repo_name: "",
+    status: "published",
+    is_public: true,
+    s3_identifier: "69869f9d017573b26162",
+    created_by: user_id,
+    updated_by: user_id,
+    template_app_id: tpage_oxfam_map.id
+})
 
 # -----------------------------------------------------------------------------------------------
 # CARDS
@@ -689,3 +713,27 @@ tapp_oxfam_cta_card = TemplateApp.create({
 
 TemplateCard.create({name: "ToOxfamCTA", git_branch: "master", git_repo_name: "ProtoGraph.Card.ToOxfamCTA", status: "published", site_id: pykih_site.id, created_by: user_id, updated_by: user_id, template_datum_id: t_oxfam_cta.id, s3_identifier: "7f012abd6ba431f90d1e", has_multiple_uploads: false, is_editable: true, allowed_views: ["col16","col4"], template_app_id: tapp_oxfam_cta_card.id})
 
+tpage_compendium = TemplateApp.create({
+    site_id: pykih_site.id,
+    name: "compendium",
+    genre: "page",
+    pitch: "",
+    description: "",
+    is_public: true,
+    change_log: "",
+    git_url: "git@bitbucket.org:heyProto/jaljagran-4.git",
+    is_system_installed: true,
+    is_backward_compatible: true,
+})
+
+TemplatePage.create({
+    site_id: pykih_site.id,
+    name: "compendium",
+    git_repo_name: "",
+    status: "published",
+    is_public: true,
+    s3_identifier: "a81b1a9aad3aefa4e700",
+    created_by: user_id,
+    updated_by: user_id,
+    template_app_id: tpage_compendium.id
+})

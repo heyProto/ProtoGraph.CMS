@@ -3,15 +3,12 @@
 <p><%= link_to "< " + folder_name_(@folder), site_stories_path(@site, folder_id: @folder.id), "data-turbolinks"=> false %></p>
 <h1><%= @page.headline %></h1>
 <div class="protograph-page-tabs">
-    <div class="<%= action_name != 'edit_write' ? "single-tab" : "single-tab active-tab" %>">
-        <%= link_to "Write", edit_write_site_story_path(@site, @page, folder_id: @page.folder_id), "data-turbolinks" => "false" %>
-    </div>
-    <div class="<%= action_name != 'edit_assemble' ? "single-tab" : "single-tab active-tab" %>">
-        <%= link_to "Layout", edit_assemble_site_story_path(@site, @page, folder_id: @page.folder_id), "data-turbolinks" => "false" %>
-    </div>
-    <% if @site.enable_ads %>
-        <div class="<%= action_name != 'ads' ? "single-tab" : "single-tab active-tab" %>">
-            <%= link_to "Ads", edit_ads_site_story_path(@site, @page, folder_id: @page.folder_id),"data-turbolinks" => "false" %>
+    <% if ["article", 'compendium'].include?(@page.template_page.name) %>
+        <div class="<%= action_name != 'edit_write' ? "single-tab" : "single-tab active-tab" %>">
+            <%= link_to "Write", edit_write_site_story_path(@site, @page, folder_id: @page.folder_id), "data-turbolinks" => "false" %>
+        </div>
+        <div class="<%= action_name != 'edit_assemble' ? "single-tab" : "single-tab active-tab" %>">
+            <%= link_to "Layout", edit_assemble_site_story_path(@site, @page, folder_id: @page.folder_id), "data-turbolinks" => "false" %>
         </div>
     <% end %>
     <div class="<%= action_name != 'edit_distribute' ? "single-tab" : "single-tab active-tab" %>">

@@ -98,10 +98,10 @@ Rails.application.configure do
   config.action_mailer.raise_delivery_errors = false
 
   config.action_mailer.smtp_settings = {
-    address:              "<%=  ENV['NOTIFICATION_EMAIL_ADDRESS'] %>",
+    address:              ENV['NOTIFICATION_EMAIL_ADDRESS'],
     port:                 587,
-    user_name:            "<%=  ENV['NOTIFICATION_EMAIL_ID'] %>",
-    password:             "<%=  ENV['NOTIFICATION_EMAIL_PASSWORD'] %>",
+    user_name:            ENV['NOTIFICATION_EMAIL_ID'],
+    password:             ENV['NOTIFICATION_EMAIL_PASSWORD'],
     authentication:       :login,
     enable_starttls_auto: true
   }

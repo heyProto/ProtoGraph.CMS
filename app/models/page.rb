@@ -208,6 +208,8 @@ class Page < ApplicationRecord
       major_streams = ["#{self.id}_Section_16c_Hero", "#{self.id}_Section_7c", "#{self.id}_Section_4c" , "#{self.id}_Section_3c", "#{self.id}_Section_2c", "#{self.id}_Section_credits", "#{self.id}_Section_cta", "#{self.id}_Section_footer"]
     when 'article'
       major_streams = ["#{self.id}_Story_16c_Hero", "#{self.id}_Story_Narrative", "#{self.id}_Story_Related", "#{self.id}_Story_footer"]
+    when 'compendium'
+      major_streams = ["#{self.id}_Story_16c_Hero", "#{self.id}_Story_Narrative", "#{self.id}_Story_Related", "#{self.id}_Story_footer"]
     else
       major_streams = ["#{self.id}_Data_credits", "#{self.id}_Data_footer"]
     end
@@ -234,7 +236,7 @@ class Page < ApplicationRecord
     hero_stream = self.streams.where(title: ["#{self.id}_Story_16c_Hero", "#{self.id}_Data_16c_Hero"]).first # "#{self.id}_Section_16c_Hero",
     if hero_stream.present? and hero_stream.cards.count == 0
       StreamEntity.create({
-        "entity_value": "#{self.cover_story_id}",
+        "entity_value": "#{self.template_page.name == "compendium" ? self.view_cast_id : self.cover_story_id}",
         "entity_type": "view_cast_id",
         "stream_id": hero_stream.id,
         "is_excluded": false
@@ -358,7 +360,7 @@ class Page < ApplicationRecord
     key = "#{self.html_key}"
     encoded_file = Base64.encode64(json.to_json)
     content_type = "application/json"
-    resp = Api::ProtoGraph::Utility.upload_to_cdn(encoded_file, key, content_type, self.site.cdn_bucket)
+    Api::ProtoGraph::Utility.upload_to_cdn(encoded_file, key, content_type, self.site.cdn_bucket)
     if Rails.env.production?
       site.publish_sitemap
       site.publish_robot_txt
@@ -752,7 +754,7 @@ class Page < ApplicationRecord
     to_para_card = TemplateCard.where(name: 'toParagraph').first
     to_para_schema = TemplateDatum.where(name: 'toParagraph').first
     page_content = []
-    
+
     # variables to manipulate stream
     narrative_stream = streams.where("title LIKE ?", "%Narrative").first
     view_cast_lists = []
@@ -765,7 +767,7 @@ class Page < ApplicationRecord
         title = Page.get_title(para)
         section = Page.get_section(para)
         payload_json = {"data": {"text": para, "section": section}}
-        
+
         # if ViewCast does not exist, create a new one
         if card["data-card-id"].blank? || view_cast.blank?
           view_cast = ViewCast.create({
@@ -801,7 +803,7 @@ class Page < ApplicationRecord
         payload["bucket_name"] = site.cdn_bucket
 
         if card["data-card-id"].blank? || view_cast.blank?
-          Api::ProtoGraph::Datacast.create(payload)  
+          Api::ProtoGraph::Datacast.create(payload)
         else
           Api::ProtoGraph::Datacast.update(payload)
         end
@@ -809,12 +811,12 @@ class Page < ApplicationRecord
         # updating page content
         card["data"][0]["attrs"]["data-template-id"] = to_para_card.id
         card["data"][0]["attrs"]["data-card-id"] = view_cast.id
-        
+
       end
       # if the card is an embed, we can directly add the relevant info to page content and stream
       page_content << card["data"]
       view_cast_lists << view_cast.id
-           
+
     end
 
     # deleting entities from stream
@@ -822,7 +824,7 @@ class Page < ApplicationRecord
     # recreating stream entities
     narrative_stream.update(view_cast_id_list: [view_cast_lists.reverse.join(",")])
     # StreamPublisher.perform_async(narrative_stream.id)
-    
+
     self.content = page_content.flatten.to_json
   end
 
@@ -922,6 +924,8 @@ class Page < ApplicationRecord
     when 'Homepage: Vertical'
       streams = [["Section_16c_Hero", "Hero"], ["Section_7c", "Read"], ["Section_4c", "Join"], ["Section_3c", "Scan"], ["Section_2c", "Talk"], ["Section_credits", "Credits"], ["Section_cta", "CTA"], ["Section_footer", "Footer"]]
     when 'article'
+      streams = [["Story_16c_Hero", "Hero"], ["Story_Narrative", "Narrative"], ["Story_Related", "Related"], ["Story_footer", "Footer"]]
+    when 'compendium'
       streams = [["Story_16c_Hero", "Hero"], ["Story_Narrative", "Narrative"], ["Story_Related", "Related"], ["Story_footer", "Footer"]]
     else
       streams = [["Data_16c_Hero", "Hero"], ["Data_Grid", "#{self.id}_Data_data"], ["Data_credits", "Credits"], ["Data_footer", "Footer"]]
