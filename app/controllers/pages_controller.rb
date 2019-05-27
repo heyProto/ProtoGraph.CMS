@@ -120,7 +120,7 @@ class PagesController < ApplicationController
                 @stream_entity = StreamEntity.new
                 render :action => "edit", alert: @page.errors.full_messages
               end
-            elsif @page.template_page.name == "article"
+            else
               redirect_to edit_write_site_story_path(@site, @page, folder_id: @page.folder_id), alert: @page.errors.full_messages
               return
             end
