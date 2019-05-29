@@ -148,7 +148,7 @@ class PagesController < ApplicationController
   end
 
     def page_params
-      params.require(:page).permit(:id, :site_id, :folder_id, :folder_id, :headline, :meta_keywords, :meta_description, :summary, :template_page_id, :byline_id, :one_line_concept, :hide_byline,
+      params.require(:page).permit(:id,  :ga_code, :site_id, :folder_id, :folder_id, :headline, :meta_keywords, :meta_description, :summary, :template_page_id, :byline_id, :one_line_concept, :hide_byline,
                                     :reported_from_country, :reported_from_state, :reported_from_district, :reported_from_city,
                                    :cover_image_url, :cover_image_url_7_column, :cover_image_url_facebook, :cover_image_url_square, :cover_image_alignment, :content,
                                    :is_sponsored, :is_interactive, :has_data, :has_image_other_than_cover, :has_audio, :has_video, :status, :published_at, :url, :html_key,

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181001104229) do
+ActiveRecord::Schema.define(version: 20190529085545) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -294,6 +294,7 @@ ActiveRecord::Schema.define(version: 20181001104229) do
     t.text "description"
     t.text "keywords"
     t.boolean "show_by_publisher_in_header", default: true
+    t.string "g_a_tracking_id"
   end
 
   create_table "sessions", force: :cascade do |t|

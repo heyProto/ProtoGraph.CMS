@@ -21,6 +21,7 @@
 #  description                 :text
 #  keywords                    :text
 #  show_by_publisher_in_header :boolean          default(TRUE)
+#  g_a_tracking_id             :string
 #
 
 class RefCategory < ApplicationRecord

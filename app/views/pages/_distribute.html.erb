@@ -34,6 +34,9 @@
 <hr/>
 <h3>Prepare for Distribution</h3>
 <br/>
+<% if @page.template_page.name == "Homepage: Vertical" %>
+    <%=  f.input :ga_code, label: "GA code", input_html: {value: @page.series.g_a_tracking_id}  %>
+<% end %>
 <%= f.input :external_identifier, label: "External Identifier"%>
 <%= f.input :share_text_facebook, label: "Share text for Facebook",input_html: {id: "proto_app_page_fb_text", is_edited: (@page.summary == @page.share_text_facebook) ? false : true, og_value: @page.share_text_facebook } %>
 <%= f.input :share_text_twitter, label: "Share text for Twitter",input_html: {id: "proto_app_page_tw_text", is_edited: (@page.summary == @page.share_text_twitter) ? false : true, og_value: @page.share_text_twitter } %>

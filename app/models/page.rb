@@ -94,7 +94,7 @@ class Page < ApplicationRecord
   has_many :ad_integrations
 
   #ACCESSORS
-  attr_accessor :collaborator_lists, :publish, :from_api, :prepare_cards_for_assembling, :from_page, :skip_invalidation, :import_url
+  attr_accessor :collaborator_lists, :publish, :from_api, :prepare_cards_for_assembling, :from_page, :skip_invalidation, :import_url, :ga_code
   accepts_nested_attributes_for :cover_image
 
   #VALIDATIONS
@@ -295,7 +295,7 @@ class Page < ApplicationRecord
         "reverse_font_colour": site.reverse_font_colour,
         "logo_url": site.logo_image.present? ? site.logo_image.image_url : "",
         "favicon_url": site.favicon.present? ? site.favicon.image_url : "",
-        "ga_code": site.g_a_tracking_id,
+        "ga_code": series.g_a_tracking_id,
         "story_card_style": site.story_card_style,
         "primary_language": site.primary_language,
         "seo_name": site.seo_name,
@@ -956,7 +956,7 @@ class Page < ApplicationRecord
   def after_save_set
       if self.template_page.name == 'Homepage: Vertical' and self.series.present?
         self.series.update_site_verticals
-        self.series.update_columns(description: self.meta_description, keywords: self.meta_keywords)
+        self.series.update_columns(description: self.meta_description, keywords: self.meta_keywords, g_a_tracking_id: self.ga_code)
       end
       if self.collaborator_lists.present?
           self.collaborator_lists = self.collaborator_lists.reject(&:empty?)
