@@ -78,14 +78,14 @@
                                     <td><div class="status-signal <%= d.status == 'draft' ? "status-red" : "status-green" %>"></div>
                                     </td>
                                     <td>
-                                        <%= link_to truncate(d.headline, length: 45, ommission: ".."), edit_write_site_story_path(@site, d, folder_id: d.folder_id), "data-turbolinks"=> false %>
+                                        <%= link_to truncate(d.headline, length: 45, ommission: ".."), (['article', 'compendium'].include?(d.template_page.name) ?  edit_write_site_story_path(@site, d, folder_id: d.folder_id) : edit_distribute_site_story_path(@site, d, folder_id: d.folder_id)), "data-turbolinks"=> false %>
                                     </td>
                                     <td>
                                         <% if d.byline.present? %>
                                             <%= d.byline.name %>
                                         <% end %>
                                     </td>
-                                    <td class="hint"><%= time_ago_in_words(d.published_at) %>
+                                    <td class="hint"><%= d.published_at.nil? ? "" :  time_ago_in_words(d.published_at) %>
                                     </td>
                                     <td class="hint"><%= image_tag avatar_url(d.updator.email), width: "16px", height: "16px" %> <%= time_ago_in_words(d.updated_at) %>
                                     </td>
