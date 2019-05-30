@@ -42,14 +42,6 @@ config.webpacker.check_yarn_integrity = true
   config.action_mailer.raise_delivery_errors = true
   config.action_mailer.default_url_options = { host: "http://localhost:3000", port: 3000 }
   #pub.pykih.com.smtp
-  config.action_mailer.smtp_settings = {
-    address:              'email-smtp.us-east-1.amazonaws.com',
-    port:                 587,
-    user_name:            'AKIAIXC74YSZAIP3K5QA',
-    password:             'An8+nvo66UmJoOhqLvz50q+slGCe/w3gUjbbkinJdWUV',
-    authentication:       :login,
-    :enable_starttls_auto => true
-  }
 
   FROM_EMAIL = "Protograph Internals <ab@pro.to>"
   # config.action_mailer.smtp_settings = {
