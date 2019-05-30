@@ -100,6 +100,7 @@ class Site < ApplicationRecord
     #OTHER
 
     def cdn_bucket
+        return ENV["CDN_BUCKET"] if ENV["CDN_BUCKET"].present?
         if Rails.env.production?
             "site-#{self.slug.gsub("_", "")}-#{self.id}"
         else
@@ -108,11 +109,7 @@ class Site < ApplicationRecord
     end
 
     def template_cards
-        if self.name == 'pykih'
-            TemplateCard.all
-        else
-            TemplateCard.where("site_id = ?", self.id).or(TemplateCard.where(template_app_id: TemplateApp.where(genre: 'card').where(is_public: true).pluck(:id)))
-        end
+        TemplateCard.where("site_id = ?", self.id).or(TemplateCard.where(template_app_id: TemplateApp.where(genre: 'card').where(is_public: true).pluck(:id)))
     end
 
     def is_english
@@ -192,43 +189,38 @@ class Site < ApplicationRecord
     # It is more efficient to break down sitemap to smaller chunks and compiling a sitemap index file and submitting a index file instead of individual sitemap files.
 
     def publish_sitemap
-        unless ENV["SKIP_INVALIDATION"] == 'true'
-            require 'aws-sdk'
-            SitemapGenerator::Sitemap.verbose = true
-            SitemapGenerator::Sitemap.adapter = SitemapGenerator::AwsSdkAdapter.new(self.cdn_bucket,
-                aws_access_key_id: ENV['AWS_ACCESS_KEY_ID'],
-                aws_secret_access_key: ENV['AWS_SECRET_ACCESS_KEY'],
-                aws_region: 'ap-south-1'
-            )
-
-            site = self
-            SitemapGenerator::Sitemap.create({
-                default_host: self.cdn_endpoint,
-                sitemaps_host: self.cdn_endpoint,
-                public_path: "tmp/#{self.cdn_bucket}/",
-            }) do
-            site.pages.where(status: "published").each do |page|
-                add "#{page.html_key}"
-            end
-            end
-            SitemapGenerator::Sitemap.ping_search_engines
+        require 'aws-sdk'
+        SitemapGenerator::Sitemap.verbose = true
+        SitemapGenerator::Sitemap.adapter = SitemapGenerator::AwsSdkAdapter.new(self.cdn_bucket,
+            aws_access_key_id: ENV['AWS_ACCESS_KEY_ID'],
+            aws_secret_access_key: ENV['AWS_SECRET_ACCESS_KEY'],
+            aws_region: 'ap-south-1'
+        )
+        site = self
+        b = SitemapGenerator::Sitemap.create({
+            default_host: self.cdn_endpoint,
+            sitemaps_host: self.cdn_endpoint,
+            public_path: "tmp/#{self.cdn_bucket}/",
+        }) do
+        site.pages.where(status: "published").each do |page|
+            add "#{page.html_key}"
         end
+        end
+        SitemapGenerator::Sitemap.ping_search_engines
     end
 
     # If we have more than one sitemap, we can create a list one below the other.
     def publish_robot_txt
-        unless ENV['SKIP_INVALIDATION'] == 'true'
-            robot_txt = ""
-            robot_txt += "User-agent: *\n"
-            robot_txt += "Allow: /\n"
-            robot_txt += "Sitemap: #{self.cdn_endpoint}/#{self.sitemap_key}\n"
+        robot_txt = ""
+        robot_txt += "User-agent: *\n"
+        robot_txt += "Allow: /\n"
+        robot_txt += "Sitemap: #{self.cdn_endpoint}/#{self.sitemap_key}\n"
 
-            key = "#{self.robot_txt_key}"
-            encoded_file = Base64.encode64(robot_txt)
-            content_type = "plain/text"
-            resp = Api::ProtoGraph::Utility.upload_to_cdn(encoded_file, key, content_type, self.cdn_bucket)
-            Api::ProtoGraph::CloudFront.invalidate(self, ["/#{key}"], 1)
-        end
+        key = "#{self.robot_txt_key}"
+        encoded_file = Base64.encode64(robot_txt)
+        content_type = "plain/text"
+        resp = Api::ProtoGraph::Utility.upload_to_cdn(encoded_file, key, content_type, self.cdn_bucket)
+        Api::ProtoGraph::CloudFront.invalidate(self, ["/#{key}"], 1)
     end
 
 
