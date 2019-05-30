@@ -148,6 +148,10 @@ class ViewCast < ApplicationRecord
             end
             self.permissions.where(permissible_id: (prev_collaborator_ids - self.collaborator_lists.map{|a| a.to_i})).update_all(status: 'Deactivated')
         end
+        if self.template_card.name == "toIndiaSpendCard"
+            s = Stream.find(4755)
+            s.publish_cards
+        end
         #self.update_column(:published_at, self.updated_at) if ["toStory", "toCluster"].exclude?(self.template_card.name)
     end
 
