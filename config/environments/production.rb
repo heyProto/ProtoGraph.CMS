@@ -92,7 +92,7 @@ Rails.application.configure do
   FROM_EMAIL = "PROTO platform"
   config.active_record.dump_schema_after_migration = false
   BASE_URL = ENV["BASE_URL"]
-  AWS_API_DATACAST_URL = "https://d9y49oyask.execute-api.ap-south-1.amazonaws.com/production"
+  AWS_API_DATACAST_URL = ENV["AWS_API_DATACAST_URL"]
 
   config.action_mailer.default_url_options = { host: BASE_URL }
   config.action_mailer.raise_delivery_errors = false
