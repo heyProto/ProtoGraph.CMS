@@ -73,6 +73,8 @@ class Image < ApplicationRecord
   end
 
   def as_json(options = {})
+    puts self.attributes
+    puts "------"
     {
       id: self.id,
       redirect_to: Rails.application.routes.url_helpers.site_image_path(self.site, self, folder_id: options[:folder_id]),
@@ -82,8 +84,8 @@ class Image < ApplicationRecord
       image_url: self.image_url,
       image_height: self.image_height,
       image_width: self.image_width,
-      aspectWidth: self.image_width / self.image_width.gcd(self.image_height),
-      aspectHeight: self.image_height / self.image_width.gcd(self.image_height)
+      aspectWidth: self.image_width.to_i / self.image_height.to_i,
+      aspectHeight: self.image_height.to_i / self.image_height.to_i)
     }
   end
 
@@ -96,7 +98,7 @@ class Image < ApplicationRecord
 
   def create_image_version
     # self.image.crop
-    self.image.recreate_versions! if instant_output === "true"
+    self.image.recreate_versions! if instant_output == "true"
 
     options = {
       image_id: self.id,
