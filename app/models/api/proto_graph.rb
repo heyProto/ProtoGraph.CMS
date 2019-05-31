@@ -85,24 +85,6 @@ class Api::ProtoGraph
 
     end
 
-    class Page
-        class << self
-            def create_or_update_page(page_s3, template_page_s3, bucket_name, aws_s3_endpoint)
-                url = "#{AWS_API_DATACAST_URL}/pages"
-                response = RestClient.post(url , {
-                    page_s3: page_s3,
-                    template_page_s3: template_page_s3,
-                    bucket_name: bucket_name,
-                    aws_s3_endpoint: aws_s3_endpoint
-                }.to_json, {
-                    content_type: :json,
-                    accept: :json,
-                    "x-api-key": ENV['AWS_API_KEY']
-                })
-                return JSON.parse(response.body)
-            end
-        end
-    end
 
     class Site
         class << self
