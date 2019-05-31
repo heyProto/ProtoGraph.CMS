@@ -73,8 +73,6 @@ class Image < ApplicationRecord
   end
 
   def as_json(options = {})
-    puts self.attributes
-    puts "------"
     {
       id: self.id,
       redirect_to: Rails.application.routes.url_helpers.site_image_path(self.site, self, folder_id: options[:folder_id]),
@@ -85,7 +83,7 @@ class Image < ApplicationRecord
       image_height: self.image_height,
       image_width: self.image_width,
       aspectWidth: self.image_width.to_i / self.image_height.to_i,
-      aspectHeight: self.image_height.to_i / self.image_height.to_i)
+      aspectHeight: self.image_height.to_i / self.image_height.to_i
     }
   end
 
