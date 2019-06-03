@@ -43,7 +43,7 @@ config.webpacker.check_yarn_integrity = true
   config.action_mailer.default_url_options = { host: "http://localhost:3000", port: 3000 }
   #pub.pykih.com.smtp
 
-  FROM_EMAIL = "Protograph Internals <ab@pro.to>"
+  FROM_EMAIL = "Protograph Internals <nidhi@pro.to>"
   # config.action_mailer.smtp_settings = {
   #   address:              "<%=  ENV['SES_ADDRESS'] %>",
   #   port:                 587,
