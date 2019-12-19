@@ -714,7 +714,7 @@ GEM
     public_suffix (3.0.0)
     puma (3.9.1)
     puma (3.9.1-java)
-    rack (2.0.3)
+    rack (2.0.8)
     rack-cors (0.4.1)
     rack-protection (1.5.3)
       rack
