@@ -136,9 +136,33 @@ class PagesController < ApplicationController
   end
 
   def destroy
+
     f = @page.folder_id
-    @page.destroy
-    redirect_to site_pages_path(@site, folder_id: f), notice: 'Page was successfully destroyed.'
+    @page.folder = @site.folders.find_by(name: "Trash")
+    if @page.is_published
+      Api::ProtoGraph::Utility.remove_from_cdn("#{@page.html_key}", @page.site.cdn_bucket)
+    end
+    if @page.save
+      if @page.view_cast_id.present?
+        @view_cast = @page.view_cast 
+        @view_cast.updator = current_user
+          @view_cast.folder = @site.folders.find_by(name: "Trash")
+          if @view_cast.save
+              StreamEntity.view_casts.where(entity_value: @view_cast.id.to_s).each do |d|
+                  d.destroy
+                  StreamPublisher.perform_async(d.stream_id)
+              end
+              # redirect_to site_folder_view_casts_path(@site, @folder), notice: "Card was deleted successfully"
+              redirect_to site_stories_path(@site, folder_id: f), notice: 'Page was successfully destroyed.' and return
+          else
+            redirect_to site_page_path(@site, @page), alert: "Card could not be deleted" and return
+          end
+        end
+        redirect_to site_stories_path(@site, folder_id: f), notice: 'Page was successfully destroyed.'
+      else
+        redirect_to site_page_path(@site, @page), alert: 'Page could not be deleted.'
+      end
+    # @page.destroy
   end
 
   private

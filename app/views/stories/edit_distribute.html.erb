@@ -55,6 +55,10 @@
                     &nbsp;&nbsp;|&nbsp;&nbsp;
                     #<span class='card-id'><%= @page.view_cast_id %></span>
                   <% end %>
+                  <div style="float: right">
+                    <% unless @folder.is_trash %><%= link_to "Delete the Story", site_page_path(@site, @page), method: :delete, "data-turbolinks"=> false, data: {confirm: "Are you sure you want to delete this story"} %>
+                    <% end %>
+                </div>
                 </div>
             <% end %>
         </div>
