@@ -49,7 +49,7 @@ class PermissionInvitesController < ApplicationController
           @permission_invite.destroy
         end
         unless @permission_invite.do_not_email_user
-          PermissionInvites.invite(current_user, @site, @permission_invite.email).deliver
+          PermissionInvites.invite(@permission_invite.name, @site, @permission_invite.email).deliver
         else
           if @permission_invite.create_user
             notice = t("permission_invite.noinvite")

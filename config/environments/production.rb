@@ -95,7 +95,7 @@ Rails.application.configure do
   AWS_API_DATACAST_URL = ENV["AWS_API_DATACAST_URL"]
 
   config.action_mailer.default_url_options = { host: BASE_URL }
-  config.action_mailer.raise_delivery_errors = false
+  config.action_mailer.raise_delivery_errors = true
 
   config.action_mailer.smtp_settings = {
     address:              ENV['NOTIFICATION_EMAIL_ADDRESS'],
