@@ -98,7 +98,7 @@ class FeedLink < ApplicationRecord
 
     parsed_link = URI.parse(self.link)
     link = "#{parsed_link.scheme}://#{parsed_link.host}"
-    data["data"]["links"][0]["favicon_url"] = "https://cdn.protograph.pykih.com/lib/toCluster_default_favicon.png"
+    data["data"]["links"][0]["favicon_url"] = "https://utils.pro.to/lib/toCluster_default_favicon.png"
     data["data"]["links"][0]["publication_name"] = parsed_link.host
     data
   end

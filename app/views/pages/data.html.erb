@@ -5,12 +5,12 @@
         <meta charset="utf-8">
         <title><%= page.headline %></title>
         <link href="https://fonts.googleapis.com/css?family=Bitter:400,700|Cabin:400,400i,500,700" rel="stylesheet">
-        <link rel="stylesheet" type="text/css" href="https://cdn.protograph.pykih.com/lib/proto-app-lib.min.css">
+        <link rel="stylesheet" type="text/css" href="https://utils.pro.to/lib/proto-app-lib.min.css">
         <link rel="stylesheet" type="text/css" href="<%= ENV['AWS_S3_ENDPOINT'] %>/template-page/proto-app-style.min.css">
         <link rel="stylesheet" type="text/css" href="<%= ENV['AWS_S3_ENDPOINT'] %>/template-page/proto-app-grid.min.css">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-        <script src="https://cdn.protograph.pykih.com/lib/protoGraph.min.js"></script>
+        <script src="https://utils.pro.to/lib/protoGraph.min.js"></script>
         <% if site['favicon_url'].present? %>
             <link rel="icon" type="image/png" href="<%= site['favicon_url'] %>">
         <% end %>
@@ -91,8 +91,8 @@
             ProtoGraph.streams = <%= streams_mapping.to_json %>;
             ProtoGraph.colors = <%= site.to_json %>;
         </script>
-        <script type="text/javascript" src="https://cdn.protograph.pykih.com/lib/proto-app-lib.min.js"></script>
-        <script src="https://cdn.protograph.pykih.com/lib/protoGraph.min.js"></script>
+        <script type="text/javascript" src="https://utils.pro.to/lib/proto-app-lib.min.js"></script>
+        <script src="https://utils.pro.to/lib/protoGraph.min.js"></script>
         <script type="text/javascript" src="<%= ENV['AWS_S3_ENDPOINT'] %>/template-page/proto-app-grid.min.js"></script>
     </body>
 

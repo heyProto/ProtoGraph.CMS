@@ -1,8 +1,8 @@
 development:
   adapter: postgresql
   database: pykih_publishing_dev
-  username: developer
-  password: developer
+  username: cms_dev
+  password: cms_dev
   host: localhost
   port: 5432
 

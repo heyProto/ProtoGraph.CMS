@@ -51,7 +51,7 @@ class TemplateDatum < ApplicationRecord
   #TODO: Write a background job to connect to the git repo and the git branch, and upload the file from /build/#version_no./ folder
 
   def cdn_bucket
-    Rails.env.production? ? "cdn.protograph" : "dev.cdn.protograph"
+    Rails.env.production? ? "utils.protograph" : "dev.cdn.protograph"
   end
 
   def slug_candidates

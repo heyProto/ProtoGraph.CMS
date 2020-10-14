@@ -38,7 +38,7 @@ class AddPublishedAtToTheView < ActiveRecord::Migration[5.1]
                             se.sort_order,
                             vc.published_at,
                             concat(s_1.cdn_endpoint, '/', vc.datacast_identifier, '/data.json') AS data_url,
-                            concat('https://cdn.protograph.pykih.com', '/', tc.s3_identifier, '/index.html?view_cast_id=', vc.datacast_identifier, '&base_url=', s_1.cdn_endpoint) AS iframe_url
+                            concat('https://utils.pro.to', '/', tc.s3_identifier, '/index.html?view_cast_id=', vc.datacast_identifier, '&base_url=', s_1.cdn_endpoint) AS iframe_url
                            FROM view_casts vc
                              LEFT JOIN sites s_1 ON vc.site_id = s_1.id
                              LEFT JOIN template_cards tc ON vc.template_card_id = tc.id
